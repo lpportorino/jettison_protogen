@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 293 messages, 27 enums, 894 fields
+**Statistics:** 293 messages, 31 enums, 894 fields
 
 ## Messages by Package
 
@@ -461,6 +461,9 @@ consumers, not two copies of one fact.
 
 ## Enums
 
+- [[proto/ser.JonGuiDataCV.AutofocusState|AutofocusState]]
+- [[proto/ser.JonGuiDataCV.CvBridgeExitReason|CvBridgeExitReason]]
+- [[proto/ser.JonGuiDataCV.CvBridgeStatus|CvBridgeStatus]]
 - [[proto/ser.DetectionStatus|DetectionStatus]] — Detector-agnostic inference status codes reported by the object detection pipeline. Indicates whether the most recent inference cycle completed successfully or identifies the specific failure mode. Used as the `status` field in [[proto/ser.ObjectDetectionsDay]] and [[proto/ser.ObjectDetectionsHeat]] to communicate pipeline health. A status other than OK means the `detections` array should be considered empty or stale.
 - [[proto/ser.JonGuiDataAccumulatorStateIdx|JonGuiDataAccumulatorStateIdx]] — Represents the charge state index of an internal battery (accumulator) with 11 discrete states ranging from empty to full, plus a charging state. Used in the battery indicator UI component with color-coded visual feedback (red=empty, orange=low, yellow=medium, green=good/full, blue=charging).
 - [[proto/ser.JonGuiDataClientApp|JonGuiDataClientApp]] — Identifies the type of client application connecting to the system, enabling the server to differentiate between different UI implementations. Defines four application types: BROWSER_UI (web interface), BROWSER_MAP (map view), DESKTOP_NATIVE (desktop app), and MOBILE_NATIVE (mobile app).
@@ -486,6 +489,7 @@ consumers, not two copies of one fact.
 - [[proto/ser.JonGuiDatatLrfLaserPointerModes|JonGuiDatatLrfLaserPointerModes]] — Controls the laser rangefinder's target designator pointer, supporting three operational states: disabled (OFF), and two active modes (ON_1 and ON_2) for different targeting scenarios. The pointer_mode field in JonGuiDataLrf tracks the current state of the LRF laser designator output.
 - [[proto/ser.SamTrackingState|SamTrackingState]]
 - [[proto/ser.SamTrackingStatus|SamTrackingStatus]]
+- [[proto/ser.JonGuiDataTrackedObject.TrackingState|TrackingState]]
 - [[proto/ser.TrinityRangeSource|TrinityRangeSource]] — How `TrinityTracking.position_z_m` was obtained.
 
 Not cosmetic. Monocular range from the board's apparent size degrades with the square of range

@@ -274,44 +274,26 @@
             :required (boolean (get validate-opts "required" false))
             :fields (mapv #(get % "number") oneof-fields)}))))))
 
-(defn- build-message-id
-  "Build full message ID from package and nested path."
+(defn- qualified-id
+  "The fully-qualified id of a declaration: its package, the message path it is
+   nested in, and its own name, joined by dots.
+
+   ONE BUILDER FOR MESSAGES AND ENUMS. They are declared in the same scopes and
+   are referenced through the same normalized dotted path, so two builders is
+   two chances to disagree about one fact — and the enum half DID disagree: it
+   concatenated with a literal dot, so a file declaring no package produced an
+   id with a LEADING dot, which no `:type-ref` can ever match because
+   `normalize-type-ref` strips exactly that dot. Dropping the blank segments is
+   what makes the two answers the same answer."
   [package parent-path nm]
-  (let [path-parts (if parent-path
-                     [package parent-path nm]
-                     [package nm])]
-    (str/join "." (remove str/blank? path-parts))))
+  (str/join "." (remove str/blank? [package parent-path nm])))
 
-(defn- parse-message
-  "Parse a message descriptor recursively, handling nested types."
-  [msg-desc package source parent-path]
-  (let [nm (get msg-desc "name")
-        current-path (if parent-path
-                       (str parent-path "." nm)
-                       nm)
-        id (build-message-id package parent-path nm)
-
-        ;; Parse this message
-        message {:id id
-                 :name nm
-                 :package (if parent-path
-                            (str package "." parent-path)
-                            package)
-                 :source source
-                 ;; Include all fields (oneof fields are referenced by number in oneofs)
-                 :fields (mapv parse-field (get msg-desc "field" []))}
-
-        message (if-let [oneofs (parse-oneofs msg-desc)]
-                  (assoc message :oneofs (vec oneofs))
-                  message)
-
-        ;; Parse nested messages
-        nested-msgs (for [nested (get msg-desc "nestedType" [])
-                         ;; Skip map entry types
-                          :when (not (get-in nested ["options" "mapEntry"]))]
-                      (parse-message nested package source current-path))]
-
-    (cons message (mapcat identity nested-msgs))))
+(defn- declaring-scope
+  "The package a declaration nested at `parent-path` records — the scope it is
+   declared in, which for a nested declaration is its enclosing message rather
+   than the file package."
+  [package parent-path]
+  (qualified-id package parent-path nil))
 
 (defn- parse-enum-value
   "Parse an enum value descriptor."
@@ -320,13 +302,54 @@
    :name (get value-desc "name")})
 
 (defn- parse-enum
-  "Parse an enum descriptor."
-  [enum-desc package source]
-  {:id (str package "." (get enum-desc "name"))
+  "Parse an enum descriptor declared at `parent-path` inside `package` (nil
+   `parent-path` for a file-level enum)."
+  [enum-desc package source parent-path]
+  {:id (qualified-id package parent-path (get enum-desc "name"))
    :name (get enum-desc "name")
-   :package package
+   :package (declaring-scope package parent-path)
    :source source
    :values (mapv parse-enum-value (get enum-desc "value" []))})
+
+(defn- parse-message
+  "Parse a message descriptor recursively, returning `{:messages [...] :enums
+   [...]}` — this message and everything declared INSIDE it, at any depth.
+
+   ENUMS COME BACK FROM HERE, not from the file level alone. Message parsing
+   always recursed; enum parsing was applied to the file's own `enumType` only,
+   so an enum declared inside a message was dropped while every field naming it
+   survived — a reference resolving to nothing, which a consumer can only
+   refuse. Following the same recursion is what makes the two halves agree."
+  [msg-desc package source parent-path]
+  (let [nm (get msg-desc "name")
+        current-path (if parent-path
+                       (str parent-path "." nm)
+                       nm)
+
+        ;; Parse this message
+        message {:id (qualified-id package parent-path nm)
+                 :name nm
+                 :package (declaring-scope package parent-path)
+                 :source source
+                 ;; Include all fields (oneof fields are referenced by number in oneofs)
+                 :fields (mapv parse-field (get msg-desc "field" []))}
+
+        message (if-let [oneofs (parse-oneofs msg-desc)]
+                  (assoc message :oneofs (vec oneofs))
+                  message)
+
+        ;; Enums declared in THIS message's scope
+        own-enums (map #(parse-enum % package source current-path)
+                       (get msg-desc "enumType" []))
+
+        ;; Parse nested messages
+        nested (for [child (get msg-desc "nestedType" [])
+                     ;; Skip map entry types
+                     :when (not (get-in child ["options" "mapEntry"]))]
+                 (parse-message child package source current-path))]
+
+    {:messages (cons message (mapcat :messages nested))
+     :enums (concat own-enums (mapcat :enums nested))}))
 
 (defn- parse-file
   "Parse a single proto file from the descriptor set."
@@ -334,15 +357,16 @@
   (let [source (get file-desc "name")
         package (get file-desc "package" "")
 
-        ;; Parse top-level messages (recursively handles nested types)
-        messages (mapcat #(parse-message % package source nil)
-                         (get file-desc "messageType" []))
+        ;; Messages, recursively, each carrying the enums declared inside it
+        parsed (map #(parse-message % package source nil)
+                    (get file-desc "messageType" []))
 
-        ;; Parse enums (top-level only, nested are handled with their parent)
-        enums (map #(parse-enum % package source)
-                   (get file-desc "enumType" []))]
+        ;; File-level enums, plus every enum a message declared
+        enums (concat (map #(parse-enum % package source nil)
+                           (get file-desc "enumType" []))
+                      (mapcat :enums parsed))]
 
-    {:messages messages
+    {:messages (mapcat :messages parsed)
      :enums enums}))
 
 (defn- filter-project-files

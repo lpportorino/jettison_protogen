@@ -1,6 +1,7 @@
 (ns protodoc.parse-test
   "Tests for JSON descriptor parsing."
   (:require [clojure.data.json :as json]
+            [clojure.edn :as edn]
             [clojure.string :as str]
             [clojure.test :refer [deftest testing is]]
             [protodoc.parse :as parse]))
@@ -462,6 +463,128 @@
           (is (= 100 (:max-items (:constraints field)))))
         (finally
           (.delete temp-file))))))
+
+;; ============================================================================
+;; Nested enums — an enum declared inside a message is still an enum
+;; ============================================================================
+
+(deftest parse-nested-enum-test
+  (testing "an enum declared inside a message reaches the database"
+    ;; Message parsing already recurses; enum parsing did not, so an enum
+    ;; declared inside a message was dropped while the fields naming it
+    ;; survived — leaving a :type-ref resolving to nothing.
+    (let [descriptor {"file"
+                      [{"name" "jon_shared_test.proto"
+                        "package" "test"
+                        "messageType"
+                        [{"name" "Tracked"
+                          "field" [{"name" "state" "number" 1 "type" "TYPE_ENUM"
+                                    "typeName" ".test.Tracked.TrackingState"}]
+                          "enumType"
+                          [{"name" "TrackingState"
+                            "value" [{"name" "IDLE" "number" 0}
+                                     {"name" "LOCKED" "number" 1}]}]}]}]}
+          temp-file (java.io.File/createTempFile "nested-enum" ".json")]
+      (try
+        (spit temp-file (json/write-str descriptor))
+        (let [db (parse/parse-descriptor-file (.getPath temp-file))
+              enum (get-in db [:enums "test.Tracked.TrackingState"])
+              field (first (:fields (get-in db [:messages "test.Tracked"])))]
+          (is (some? enum) "the nested enum is absent from the database")
+          (is (= "TrackingState" (:name enum)))
+          ;; The package mirrors what a nested MESSAGE gets: the declaring
+          ;; scope, not the file package.
+          (is (= "test.Tracked" (:package enum)))
+          (is (= "jon_shared_test.proto" (:source enum)))
+          (is (= [{:number 0 :name "IDLE"} {:number 1 :name "LOCKED"}]
+                 (:values enum)))
+          ;; The point of the whole fix: the reference now resolves.
+          (is (contains? (:enums db) (:type-ref field))
+              "the field's :type-ref still resolves to nothing"))
+        (finally
+          (.delete temp-file))))))
+
+(deftest parse-deeply-nested-enum-test
+  (testing "an enum two message levels down reaches the database"
+    ;; Enum recursion must follow message recursion all the way rather than
+    ;; stopping one level in, which is a shape a single-level fix would pass.
+    (let [descriptor {"file"
+                      [{"name" "jon_shared_test.proto"
+                        "package" "test"
+                        "messageType"
+                        [{"name" "Level1"
+                          "enumType" [{"name" "OuterEnum"
+                                       "value" [{"name" "A" "number" 0}]}]
+                          "nestedType"
+                          [{"name" "Level2"
+                            "field" [{"name" "e" "number" 1 "type" "TYPE_ENUM"
+                                      "typeName" ".test.Level1.Level2.InnerEnum"}]
+                            "enumType" [{"name" "InnerEnum"
+                                         "value" [{"name" "B" "number" 0}]}]}]}]}]}
+          temp-file (java.io.File/createTempFile "deep-enum" ".json")]
+      (try
+        (spit temp-file (json/write-str descriptor))
+        (let [db (parse/parse-descriptor-file (.getPath temp-file))
+              field (first (:fields (get-in db [:messages "test.Level1.Level2"])))]
+          (is (contains? (:enums db) "test.Level1.OuterEnum"))
+          (is (contains? (:enums db) "test.Level1.Level2.InnerEnum"))
+          (is (= "test.Level1.Level2"
+                 (:package (get-in db [:enums "test.Level1.Level2.InnerEnum"]))))
+          (is (contains? (:enums db) (:type-ref field))))
+        (finally
+          (.delete temp-file))))))
+
+(deftest parse-enum-in-package-less-file-test
+  (testing "a file declaring no package yields an unprefixed enum id"
+    ;; The id was built by string concatenation with a dot, so an empty package
+    ;; produced a leading dot — an id no `:type-ref` can ever match, since
+    ;; references are normalized by STRIPPING that dot. Message ids already
+    ;; dropped the blank segment; enum ids now use the same builder.
+    (let [descriptor {"file"
+                      [{"name" "jon_shared_test.proto"
+                        "messageType"
+                        [{"name" "Holder"
+                          "field" [{"name" "e" "number" 1 "type" "TYPE_ENUM"
+                                    "typeName" ".Standalone"}]}]
+                        "enumType" [{"name" "Standalone"
+                                     "value" [{"name" "X" "number" 0}]}]}]}
+          temp-file (java.io.File/createTempFile "no-package-enum" ".json")]
+      (try
+        (spit temp-file (json/write-str descriptor))
+        (let [db (parse/parse-descriptor-file (.getPath temp-file))
+              field (first (:fields (get-in db [:messages "Holder"])))]
+          (is (contains? (:enums db) "Standalone"))
+          (is (contains? (:enums db) (:type-ref field))))
+        (finally
+          (.delete temp-file))))))
+
+(deftest committed-database-has-no-dangling-type-ref-test
+  (testing "every :type-ref in the committed proto-db resolves to a message or enum"
+    ;; The committed database is the artifact every consumer reads, so this
+    ;; asserts the property THERE rather than only on a synthetic descriptor.
+    ;; A missing file is a FAILURE, never a skip: a pass over an absent
+    ;; database is indistinguishable from a pass over a clean one.
+    (let [db-file (java.io.File. "../proto-db.edn")]
+      (is (java.io.File/.isFile db-file)
+          "../proto-db.edn is not readable from the test's working directory")
+      (when (java.io.File/.isFile db-file)
+        (let [db (edn/read-string (slurp db-file))
+              known (into (set (keys (:messages db))) (keys (:enums db)))
+              dangling (for [[id msg] (:messages db)
+                             field (:fields msg)
+                             :let [type-ref (:type-ref field)]
+                             :when (and type-ref (not (contains? known type-ref)))]
+                         (str id "." (:name field) " -> " type-ref))]
+          ;; NON-VACUITY: a clean verdict over zero references reads exactly
+          ;; like a clean verdict over all of them.
+          (is (pos? (count (for [[_ msg] (:messages db)
+                                 field (:fields msg)
+                                 :when (:type-ref field)]
+                             field)))
+              "the database carries no :type-ref at all — this check saw nothing")
+          (is (empty? dangling)
+              (str (count dangling) " field(s) name a type the database does not "
+                   "carry: " (vec (sort dangling)))))))))
 
 ;; ============================================================================
 ;; Scalar type mapping — one keyword per WIRE ENCODING
