@@ -52,8 +52,25 @@ message VideoMeta {
   uint32 frame_count = 6;
   uint32 duration_ms = 7;
 
+  // 8-11 held width, height, dsi and timescale until those four MOVED UP to
+  // VideoMetaResponse, where one copy is shared by every video in a response.
+  // Held rather than freed because the move kept their names, their types and
+  // their meaning and changed only the owning message: a peer built before it
+  // still emits real width/height/dsi/timescale bytes at these tags. Three of
+  // the four are plain varints, so a new uint32 issued 8, 9 or 11 would absorb
+  // such a payload without a single framing complaint.
+  reserved 8, 9, 10, 11;
+
   // Sample table for frame-accurate seeking and playback
   SampleTable sample_table = 12;
+
+  // 20-27 held the mini-quality block — has_mini, mini_frame_count,
+  // mini_duration_ms, mini_width, mini_height, mini_dsi, mini_timescale and
+  // mini_sample_table — dropped when this message became the shape for the
+  // preview endpoint as well as the full-quality one, which removed the need
+  // for a second in-message copy of the preview metadata. Freed by the same
+  // change as 8-11 above and held for the same reason.
+  reserved 20 to 27;
 }
 
 // MP4 sample table data extracted from MOOV
