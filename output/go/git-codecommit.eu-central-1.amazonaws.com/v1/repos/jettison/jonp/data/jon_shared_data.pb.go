@@ -272,7 +272,7 @@ var File_jon_shared_data_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_proto_rawDesc = "" +
 	"\n" +
-	"\x15jon_shared_data.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\x1a\x1ajon_shared_data_time.proto\x1a\x1cjon_shared_data_system.proto\x1a\x19jon_shared_data_lrf.proto\x1a\x19jon_shared_data_gps.proto\x1a\x1djon_shared_data_compass.proto\x1a)jon_shared_data_compass_calibration.proto\x1a\x1cjon_shared_data_rotary.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1djon_shared_data_rec_osd.proto\x1a'jon_shared_data_actual_space_time.proto\x1a\x1bjon_shared_data_power.proto\x1a\x18jon_shared_data_cv.proto\x1a\x19jon_shared_data_pmu.proto\x1a\x1cjon_shared_data_heater.proto\"\xab\v\n" +
+	"\x15jon_shared_data.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\x1a\x1ajon_shared_data_time.proto\x1a\x1cjon_shared_data_system.proto\x1a\x19jon_shared_data_lrf.proto\x1a\x19jon_shared_data_gps.proto\x1a\x1djon_shared_data_compass.proto\x1a)jon_shared_data_compass_calibration.proto\x1a\x1cjon_shared_data_rotary.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1djon_shared_data_rec_osd.proto\x1a'jon_shared_data_actual_space_time.proto\x1a\x1bjon_shared_data_power.proto\x1a\x18jon_shared_data_cv.proto\x1a\x19jon_shared_data_pmu.proto\x1a\x1cjon_shared_data_heater.proto\"\xb1\v\n" +
 	"\vJonGUIState\x128\n" +
 	"\x10protocol_version\x18\x01 \x01(\rB\r\xbaH\n" +
 	"*\b\x18\xff\xff\xff\xff\a \x00R\x0fprotocolVersion\x12@\n" +
@@ -303,7 +303,7 @@ const file_jon_shared_data_proto_rawDesc = "" +
 	"\x03pmu\x18\x1c \x01(\v2\x12.ser.JonGuiDataPMUB\x06\xbaH\x03\xc8\x01\x01R\x03pmu\x12-\n" +
 	"\x06heater\x18\x1d \x01(\v2\x15.ser.JonGuiDataHeaterR\x06heaterJ\x04\b\t\x10\n" +
 	"J\x04\b\n" +
-	"\x10\vJ\x04\b\v\x10\fJ\x04\b\f\x10\rB\x90\x01\n" +
+	"\x10\vJ\x04\b\v\x10\fJ\x04\b\f\x10\rJ\x04\b\x18\x10\x19B\x90\x01\n" +
 	"\acom.serB\x12JonSharedDataProtoP\x01ZEgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (

@@ -161,7 +161,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_2eproto[] ABSL_ATTRIBUT
     "to\032\'jon_shared_data_actual_space_time.pr"
     "oto\032\033jon_shared_data_power.proto\032\030jon_sh"
     "ared_data_cv.proto\032\031jon_shared_data_pmu."
-    "proto\032\034jon_shared_data_heater.proto\"\210\t\n\013"
+    "proto\032\034jon_shared_data_heater.proto\"\216\t\n\013"
     "JonGUIState\022\'\n\020protocol_version\030\001 \001(\rB\r\272"
     "H\n*\010\030\377\377\377\377\007 \000\022)\n\030system_monotonic_time_us"
     "\030\002 \001(\004B\007\272H\0042\002(\000\022<\n\014state_source\030\003 \001(\0162\032."
@@ -190,9 +190,10 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_2eproto[] ABSL_ATTRIBUT
     "JonGuiDataPowerB\006\272H\003\310\001\001\022\035\n\002cv\030\033 \001(\0132\021.se"
     "r.JonGuiDataCV\022\'\n\003pmu\030\034 \001(\0132\022.ser.JonGui"
     "DataPMUB\006\272H\003\310\001\001\022%\n\006heater\030\035 \001(\0132\025.ser.Jo"
-    "nGuiDataHeaterJ\004\010\t\020\nJ\004\010\n\020\013J\004\010\013\020\014J\004\010\014\020\rBG"
-    "ZEgit-codecommit.eu-central-1.amazonaws."
-    "com/v1/repos/jettison/jonp/datab\006proto3"
+    "nGuiDataHeaterJ\004\010\t\020\nJ\004\010\n\020\013J\004\010\013\020\014J\004\010\014\020\rJ\004"
+    "\010\030\020\031BGZEgit-codecommit.eu-central-1.amaz"
+    "onaws.com/v1/repos/jettison/jonp/datab\006p"
+    "roto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_2eproto_deps[17] =
     {
@@ -218,7 +219,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_2eproto = {
     false,
     false,
-    1799,
+    1805,
     descriptor_table_protodef_jon_5fshared_5fdata_2eproto,
     "jon_shared_data.proto",
     &descriptor_table_jon_5fshared_5fdata_2eproto_once,

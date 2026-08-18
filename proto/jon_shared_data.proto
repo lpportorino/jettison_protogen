@@ -54,6 +54,15 @@ message JonGUIState {
   JonGuiDataCameraHeat camera_heat = 21 [(buf.validate.field).required = true];
   JonGuiDataCompassCalibration compass_calibration = 22 [(buf.validate.field).required = true];
   JonGuiDataRecOsd rec_osd = 23 [(buf.validate.field).required = true];
+
+  // 24 held `JonGuiDataDayCamGlassHeater day_cam_glass_heater`, a REQUIRED
+  // top-level field of this message, until the DayCamGlassHeater module was
+  // superseded by Heater and removed. It is reserved rather than left free
+  // because it is not an unused number: it was required, so every state payload
+  // a peer built before that removal emits still carries this tag, and a new
+  // field issued 24 would silently inherit those bytes.
+  reserved 24;
+
   JonGuiDataActualSpaceTime actual_space_time = 25 [(buf.validate.field).required = true];
   JonGuiDataPower power = 26 [(buf.validate.field).required = true];
   JonGuiDataCV cv = 27;
