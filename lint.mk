@@ -308,7 +308,8 @@ export LINT_SH_DISCOVERY_ERR
 	install-hooks hooks-status audit-clj-paths wire-contract docs-lint \
 	lint-no-host-paths lint-no-host-paths-test lint-ns-size lint-clj-gate-test \
 	lint-fn-size lint-docstrings lint-spec-shape lint-spec-presence \
-	lint-file-size lint-file-size-test wasm-provenance-test wire-contract-codec-test
+	lint-file-size lint-file-size-test wasm-provenance-test wire-contract-codec-test \
+	lint-c-tidy lint-c-tidy-test
 
 ## install-hooks: point git at .githooks (arms the pre-push gate)
 # Idempotent — re-running is a no-op. Deliberately NOT armed automatically on
@@ -352,14 +353,23 @@ hooks-status:
 #                  ALONE, which made it "the one lane a green local push has
 #                  genuinely not run"; that is no longer true where docker is
 #                  present, and the hook says out loud when it is not.
+#   lint-c-tidy-test  its CANARY, omitted for the same mechanical reason and
+#                  wired in the same docker-gated block, canary first. Note the
+#                  OPPOSITE call made for wire-contract-codec-test below, which
+#                  DOES ride this aggregate: that is the same argument, not a
+#                  different one — a canary rides `lint` when it needs nothing
+#                  the other lanes need, and this one needs exactly the pinned
+#                  toolchain its gate needs.
 #   wire-contract  a different KIND of gate — a generated artifact contradicting
 #                  a hand-written contract, see below — deliberately kept out of
 #                  `lint` so a green `lint` keeps meaning "formatting and lint
 #                  over hand-authored code".
 #   docs-lint      proto-aware in the same way, and separate for the same reason.
-# So the HOOK's gate set is strictly wider than this target, by those three
-# lanes. Read the hook for what a push actually runs; this list is what `lint`
-# means, which is a narrower question.
+# So the HOOK's gate set is strictly wider than this target, by the lanes listed
+# above. NO COUNT IS GIVEN: this sentence said "those three" and went stale the
+# moment a fourth was added to the list it points at. Read the hook for what a
+# push actually runs; this list is what `lint` means, which is a narrower
+# question.
 # WHAT A GREEN `lint` COVERS is the prerequisite line below, read directly. No
 # count is given here on purpose: this comment claimed "four" for as long as it
 # took someone to add a fifth, and a stale tally beside a live list is worse than
@@ -1196,6 +1206,45 @@ lint-c-tidy:
 # cheaper than the risk it removes.
 	@$(MAKE) -C renderer -f wasm.mk compile-db
 	@cd renderer && $(RUN_CLANG_TIDY) -clang-tidy-binary $(CLANG_TIDY) -p . -quiet -j $(NPROC)
+
+## lint-c-tidy-test: the canary for lint-c-tidy's SIX-AXIS SIZE CHECK
+# WHAT IT PROVES. `readability-function-size` is one check with six thresholds,
+# so a red naming it attributes nothing to any one axis. The suite tightens ONE
+# axis to 1, relaxes the other five to 9999, and requires the lane to refuse with
+# THAT axis's own note while all five neighbours stay silent — for every axis,
+# not one. It then relaxes all six together and requires the lane GREEN, which is
+# what rules out a lane that refuses everything, and runs the tracked config
+# unmutated, which is the other direction the aggregate would otherwise never
+# see. That mutation shape is not invented here: it is the experiment the six
+# thresholds were originally MEASURED with, kept runnable instead of surviving
+# only as a hand-executed sequence in a commit message.
+#
+# HERMETIC. The lane hardcodes `cd renderer` and regenerates the compile database
+# from that directory's own variables, so it cannot be pointed at a config
+# elsewhere — but it CAN be pointed at a copy of the tree, which is what the
+# suite does. Nothing tracked is written, and the suite byte-compares
+# renderer/.clang-tidy at the end rather than claiming it in prose.
+#
+# NOT IN THE `lint` AGGREGATE, for the SAME mechanical reason lint-c-tidy is not:
+# it needs run-clang-tidy from the pinned WASI-SDK, and `lint` is invoked BARE by
+# the hook, so folding it in would hard-fail every push from a machine without
+# the image. Note this is the OPPOSITE conclusion to wire-contract-codec-test,
+# which rides `lint` even though its own gate does not — and it is the same
+# argument, not a different one: that canary needs nothing the other lanes need,
+# and this one needs exactly what its gate needs. It is wired beside the gate in
+# .githooks/pre-push's docker-gated block instead, canary FIRST, in the same
+# container invocation.
+#
+# THE CI HALF IS OWED. A hook-only gate is armed for whoever armed the hook and
+# nobody else (`.claude/rules/gate-enforcement.md` §6 wants both). The CI home is
+# the renderer job that already runs `lint-c-tidy` in the pinned image.
+#
+# IT COSTS WHAT THE GATE COSTS, times eight — one lane run per axis, plus the
+# relaxed control and the baseline. Measured at roughly 6 s per run on a 32-core
+# host. Run the suite alone to read its output cleanly; the cases are sequential
+# and each prints its own line.
+lint-c-tidy-test:
+	@bash tools/lint/test/c_tidy_size_test.sh
 
 ## fmt-fix: rewrite formatting in place (both languages)
 fmt-fix: fmt-clj-fix fmt-c-fix

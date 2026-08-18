@@ -58,9 +58,11 @@ the renderer battery instead.
 Two things about that table are worth carrying forward rather than rediscovering.
 **The C lane has no DEGRADED tier and cannot have one** — clang-tidy takes one
 threshold set per run — so it meets two of `gate-enforcement.md` §1's three
-conditions and the third is a standing, disclosed exception. And **`lint-c-tidy`
-has no runnable canary suite** — only a hand-executed proof recorded in its commit
-message. That is a gap, not a decision.
+conditions and the third is a standing, disclosed exception. And **its size check
+now has a runnable canary** — `lint-c-tidy-test`, which drives each of the six
+axes to 1 against the other five relaxed and requires the lane to refuse with
+that axis's own note, neighbours silent. It used to have only a hand-executed
+proof recorded in a commit message, which was a gap rather than a decision.
 The gap that sat beside it is CLOSED: it used to be in neither the `lint`
 aggregate nor the hook, so a C size regression landed locally green and reddened
 only in CI. `.githooks/pre-push` now calls it separately and docker-gated. It
@@ -493,14 +495,14 @@ a consumer, not from this repo.
 
 ## Open defects, carried forward
 
-- **`lint-c-tidy` has no canary suite.** The C size check's proof exists only as a
-  hand-executed sequence in its commit message. `gate-enforcement.md` §2 wants it in
-  a runnable suite; the mutation shape is known (set one axis to 1 and the rest to
-  9999, require a FAIL naming that axis, plus a control proving the neighbours
-  stayed quiet). The wiring half of this defect is closed — the pre-push hook now
-  calls the lane, docker-gated — which makes the missing canary the sharper of the
-  two rather than the lesser: a lane that now runs on every push is a lane whose
-  ability to fail nobody has demonstrated.
+- **`lint-c-tidy-test` is armed in the hook and NOT in CI.** The suite exists and
+  runs beside the lane in the push hook's docker-gated block, so the size check's
+  ability to fail is now demonstrated on every push that has docker — the gap that
+  used to sit here, where the proof existed only as a hand-executed sequence in a
+  commit message, is closed. What is still owed is the other half of
+  `gate-enforcement.md` §6: a hook-only gate is armed for whoever armed the hook
+  and nobody else. Its CI home is the renderer job that already runs `lint-c-tidy`
+  in the pinned image, and adding it there is one step in an existing job.
 - **The C provenance comment in `renderer/.clang-tidy` attributes all six measured
   maxima to one function, and at least one attribution is wrong** — the named
   function spans far fewer lines than the recorded figure. The THRESHOLDS are

@@ -155,22 +155,45 @@ fi
 # NO DOCKER IS A DECLINE, NOT A SKIP: it prints what did not run and says so,
 # because a hook that stayed silent would let the reader believe the C was
 # judged. CI still runs it authoritatively either way.
+#
+# THE CANARY RIDES THE SAME INVOCATION, and runs FIRST. It needs exactly what
+# the gate needs — the pinned run-clang-tidy and a compile database — so it is
+# out of `lint` for the same mechanical reason and cannot be wired anywhere the
+# gate is not. One container start covers both; make runs the two targets in the
+# order given and names the failing one in its own `*** [lint.mk:N: <target>]`
+# line, so a red stays attributable.
+#
+# WHY BEFORE rather than after: the six size thresholds are a check whose green
+# is uninformative on its own. If the canary is red, the gate's green below says
+# nothing, and reading them in that order is what makes that obvious.
 if command -v docker >/dev/null 2>&1; then
-  if ! tools/uber.sh 'make -f lint.mk lint-c-tidy'; then
+  if ! tools/uber.sh 'make -f lint.mk lint-c-tidy-test lint-c-tidy'; then
     cat >&2 <<'EOF'
 
-[pre-push] BLOCKED — clang-tidy findings in hand-authored C.
+[pre-push] BLOCKED — the clang-tidy lane or its canary refused. Read the
+`*** [lint.mk:N: <target>] Error` line above for which.
 
-  see the findings :  tools/uber.sh 'make -f lint.mk lint-c-tidy'
+  lint-c-tidy       clang-tidy findings in hand-authored C.
+                    see them :  tools/uber.sh 'make -f lint.mk lint-c-tidy'
 
-WarningsAsErrors is '*' by design (renderer/.clang-tidy). A finding is FIXED or
-the RULE is declined in that config with its reasoning — never a per-site
-NOLINT, which is a silenced symptom rather than a decision on the record.
+                    WarningsAsErrors is '*' by design (renderer/.clang-tidy). A
+                    finding is FIXED or the RULE is declined in that config with
+                    its reasoning — never a per-site NOLINT, which is a silenced
+                    symptom rather than a decision on the record.
+
+  lint-c-tidy-test  the SIX-AXIS SIZE CHECK can no longer be shown to fail, or a
+                    size ceiling was RAISED.
+                    see it   :  tools/uber.sh 'make -f lint.mk lint-c-tidy-test'
+
+                    A green lane means nothing while this is red — that is the
+                    whole reason the canary exists. A raised ceiling is a gate
+                    bypass in source form; ceilings here move DOWN only.
 EOF
     exit 1
   fi
 else
   printf '\033[33m[pre-push]\033[0m no docker — clang-tidy NOT RUN over hand-authored C (CI will run it)\n' >&2
+  printf '\033[33m[pre-push]\033[0m no docker — its size-check canary NOT RUN either\n' >&2
 fi
 
 # The one PROTO-AWARE check in this hook. It is called separately rather than
