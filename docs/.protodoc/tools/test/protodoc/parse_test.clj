@@ -194,7 +194,7 @@
           (.delete temp-file))))))
 
 (deftest filter-project-files-test
-  (testing "Processes jon_shared_* and opaque/* files, excludes others"
+  (testing "Processes jon_shared_*, opaque/* and ui/* files, excludes others"
     (let [descriptor {"file"
                       [{"name" "jon_shared_cmd.proto"
                         "package" "cmd"
@@ -207,17 +207,26 @@
                         "messageType" [{"name" "Test3" "field" []}]}
                        {"name" "opaque/object_detection.proto"
                         "package" "ser"
-                        "messageType" [{"name" "ObjectDetection" "field" []}]}]}
+                        "messageType" [{"name" "ObjectDetection" "field" []}]}
+                       {"name" "ui/ui_ast.proto"
+                        "package" "ui"
+                        "messageType" [{"name" "Node" "field" []}]}
+                       {"name" "google/protobuf/timestamp.proto"
+                        "package" "google.protobuf"
+                        "messageType" [{"name" "Timestamp" "field" []}]}]}
           temp-file (java.io.File/createTempFile "filter" ".json")]
       (try
         (spit temp-file (json/write-str descriptor))
         (let [db (parse/parse-descriptor-file (.getPath temp-file))]
-          ;; Should have Test1, Test3, and ObjectDetection, not Test2
-          (is (= 3 (count (:messages db))))
+          ;; Should have Test1, Test3, ObjectDetection and Node — not Test2,
+          ;; and not the imported well-known type.
+          (is (= 4 (count (:messages db))))
           (is (contains? (:messages db) "cmd.Test1"))
           (is (contains? (:messages db) "ser.Test3"))
           (is (contains? (:messages db) "ser.ObjectDetection"))
-          (is (not (contains? (:messages db) "other.Test2"))))
+          (is (contains? (:messages db) "ui.Node"))
+          (is (not (contains? (:messages db) "other.Test2")))
+          (is (not (contains? (:messages db) "google.protobuf.Timestamp"))))
         (finally
           (.delete temp-file))))))
 
@@ -802,3 +811,81 @@
          (parse-one-field "top-ignore"
                           {"name" "a" "number" 1 "type" "TYPE_STRING"
                            "options" {"[buf.validate.field]" {"ignore" "IGNORE_ALWAYS"}}})))))
+
+;; ============================================================================
+;; Map fields — recorded as a MAP, not as the entry message they encode to
+;; ============================================================================
+
+(defn- map-field-descriptor
+  "A one-message descriptor whose message holds a `map<key, value>` field and
+   the synthetic entry type protoc generates for it."
+  [key-type value-type value-type-name]
+  {"file"
+   [{"name" "jon_shared_test.proto"
+     "package" "test"
+     "messageType"
+     [{"name" "Holder"
+       "field" [{"name" "tags" "number" 1 "type" "TYPE_MESSAGE"
+                 "typeName" ".test.Holder.TagsEntry"
+                 "label" "LABEL_REPEATED"}]
+       "nestedType"
+       [{"name" "TagsEntry"
+         "options" {"mapEntry" true}
+         "field" (cond-> [{"name" "key" "number" 1 "type" key-type}
+                          (cond-> {"name" "value" "number" 2 "type" value-type}
+                            value-type-name (assoc "typeName" value-type-name))]
+                   true vec)}]}]}]})
+
+(deftest map-field-records-the-map-test
+  (testing "a map field records its key and value types and names no entry message"
+    (let [temp-file (java.io.File/createTempFile "map-field" ".json")]
+      (try
+        (spit temp-file (json/write-str (map-field-descriptor "TYPE_STRING" "TYPE_STRING" nil)))
+        (let [db (parse/parse-descriptor-file (.getPath temp-file))
+              field (first (:fields (get-in db [:messages "test.Holder"])))]
+          (is (= :map (:type field)))
+          (is (= :string (:key-type field)))
+          (is (= :string (:value-type field)))
+          ;; The entry message is not a type anyone writes, so naming it would
+          ;; be a reference the database cannot resolve.
+          (is (nil? (:type-ref field)))
+          (is (not (contains? (:messages db) "test.Holder.TagsEntry")))
+          ;; LABEL_REPEATED is how the entry list is encoded, not a second
+          ;; dimension a consumer re-emits.
+          (is (nil? (:repeated field))))
+        (finally
+          (.delete temp-file))))))
+
+(deftest map-value-that-is-a-message-keeps-its-reference-test
+  (testing "a message-valued map records the value's reference"
+    (let [temp-file (java.io.File/createTempFile "map-msg-value" ".json")]
+      (try
+        (spit temp-file (json/write-str
+                         (map-field-descriptor "TYPE_STRING" "TYPE_MESSAGE" ".test.Other")))
+        (let [db (parse/parse-descriptor-file (.getPath temp-file))
+              field (first (:fields (get-in db [:messages "test.Holder"])))]
+          (is (= :map (:type field)))
+          (is (= :message (:value-type field)))
+          (is (= "test.Other" (:value-type-ref field))))
+        (finally
+          (.delete temp-file))))))
+
+(deftest committed-database-map-fields-resolve-test
+  (testing "every :map field in the committed database says what it holds"
+    ;; The companion of the dangling-:type-ref check above: a map recorded as an
+    ;; ordinary message field is exactly how a reference to nothing gets into
+    ;; the database, so this asserts the shape that replaced it.
+    (let [db-file (java.io.File. "../proto-db.edn")]
+      (is (java.io.File/.isFile db-file))
+      (when (java.io.File/.isFile db-file)
+        (let [db (edn/read-string (slurp db-file))
+              maps (for [[id msg] (:messages db)
+                         field (:fields msg)
+                         :when (= :map (:type field))]
+                     [(str id "." (:name field)) field])]
+          (is (pos? (count maps))
+              "the database carries no map field at all — this check saw nothing")
+          (doseq [[where field] maps]
+            (is (some? (:key-type field)) where)
+            (is (some? (:value-type field)) where)
+            (is (nil? (:type-ref field)) where)))))))

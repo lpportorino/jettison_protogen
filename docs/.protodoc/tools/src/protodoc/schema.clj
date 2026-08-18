@@ -279,7 +279,7 @@
 (def FieldType
   [:enum :uint32 :int32 :uint64 :int64 :double :float
    :fixed32 :fixed64 :sfixed32 :sfixed64 :sint32 :sint64
-   :bool :string :bytes :enum :message :group])
+   :bool :string :bytes :enum :message :group :map])
 
 ;; Field within a message
 (def Field
@@ -288,6 +288,12 @@
    [:name :string]
    [:type FieldType]
    [:type-ref {:optional true} :string]      ; For enum/message refs
+   ;; A :map field records what it HOLDS instead of naming the synthetic entry
+   ;; message the descriptor encodes it as — that entry is not a type anyone
+   ;; writes, and naming it would be a reference the database cannot resolve.
+   [:key-type {:optional true} FieldType]
+   [:value-type {:optional true} FieldType]
+   [:value-type-ref {:optional true} :string] ; When the map's value is a message or enum
    [:repeated {:optional true} boolean?]
    [:constraints {:optional true} Constraints]
    [:description {:optional true} :string]   ; User documentation

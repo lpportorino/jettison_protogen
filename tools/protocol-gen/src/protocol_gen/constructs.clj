@@ -172,8 +172,11 @@
        :detail (str "type " t " has no emission; the emittable set is "
                     (pr-str (vec (sort db/known-types)))
                     ". :unknown is the producer's fallback for a descriptor type "
-                    "it cannot map, and :group is a proto2 delimited field, which "
-                    "proto3 cannot express at all")}
+                    "it cannot map, :group is a proto2 delimited field, which "
+                    "proto3 cannot express at all, and :map is a field this "
+                    "generator has no syntax for — the producer records the key "
+                    "and value types, and emitting them would mean writing a "
+                    "map<> declaration nothing here builds")}
 
       (and (contains? db/referring-types t) (nil? type-ref))
       {:reason :missing-type-ref
@@ -185,8 +188,7 @@
       {:reason :unresolved-type-ref
        :subject subject
        :detail (str ":type-ref " type-ref " names neither a message nor an enum in "
-                    "the database — a map field's entry message and a nested "
-                    "enum both land here, because the producer drops both")})))
+                    "the database")})))
 
 (m/=> type-refusal
       [:=> [:cat db/database [:string {:min 1}] db/field] [:maybe refusal]])

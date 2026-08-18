@@ -80,11 +80,21 @@
         (str/join ", " parts)))))
 
 (defn- format-type
-  "Format field type with optional reference link."
-  [{:keys [type-ref repeated], ftype :type}]
-  (let [base-type (if type-ref
-                    (str "[[proto/" type-ref "]]")
-                    (name ftype))]
+  "Format field type with optional reference link.
+
+   A `:map` prints what it HOLDS — `map<key, value>` — because the database
+   records a map as a map rather than as the synthetic entry message the
+   descriptor encodes it as. Printing the entry would give the reader a link to
+   a page that does not exist, which is what naming an unresolvable type looks
+   like on a rendered page."
+  [{:keys [type-ref repeated key-type value-type value-type-ref], ftype :type}]
+  (let [link (fn [t id] (if id (str "[[proto/" id "]]") (name t)))
+        base-type (cond
+                    (= :map ftype)
+                    (str "map<" (name key-type) ", " (link value-type value-type-ref) ">")
+
+                    type-ref (str "[[proto/" type-ref "]]")
+                    :else (name ftype))]
     (if repeated
       (str "repeated " base-type)
       base-type)))

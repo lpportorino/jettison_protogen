@@ -323,19 +323,48 @@
       (when (seq result)
         result))))
 
+(defn- entry-field
+  "The field of a map-entry descriptor carrying wire number `n`, as
+   `{:type … :type-ref …}`.
+
+   BY NUMBER, never by position: protoc pins a map entry's key to 1 and its
+   value to 2, and a lookup by position would agree with that only for as long
+   as nothing reordered the descriptor."
+  [entry-desc n]
+  (let [fld (first (filter #(= n (get % "number")) (get entry-desc "field" [])))
+        t (get type-mapping (get fld "type") :unknown)]
+    (cond-> {:type t}
+      (contains? types-with-type-ref t)
+      (assoc :type-ref (normalize-type-ref (get fld "typeName"))))))
+
 (defn- parse-field
-  "Parse a field descriptor into our schema format."
-  [field-desc]
-  (let [base {:number (get field-desc "number")
+  "Parse a field descriptor into our schema format.
+
+   A MAP FIELD IS RECORDED AS A MAP, and that is what `map-entries` is for. Its
+   descriptor type is `TYPE_MESSAGE` naming the synthetic entry, so recording it
+   as an ordinary message field leaves a `:type-ref` pointing at a message this
+   database deliberately does not carry — a reference that resolves to nothing,
+   which a consumer can only read as a broken database rather than as the map it
+   actually is. `:map` says what the field IS, and its key and value types say
+   what it holds."
+  [field-desc map-entries]
+  (let [type-ref (normalize-type-ref (get field-desc "typeName"))
+        entry (get map-entries type-ref)
+        base {:number (get field-desc "number")
               :name (get field-desc "name")
-              :type (get type-mapping (get field-desc "type") :unknown)}]
+              :type (if entry :map (get type-mapping (get field-desc "type") :unknown))}]
     (cond-> base
+      ;; A map field carries its key and value types instead of a reference
+      entry
+      (merge entry)
+
       ;; Add type reference for every type whose real type is NAMED
       (contains? types-with-type-ref (:type base))
-      (assoc :type-ref (normalize-type-ref (get field-desc "typeName")))
+      (assoc :type-ref type-ref)
 
-      ;; Mark repeated fields
-      (= "LABEL_REPEATED" (get field-desc "label"))
+      ;; Mark repeated fields — a map is NOT one. Its LABEL_REPEATED is how the
+      ;; entry list is encoded, not a second dimension a consumer re-emits.
+      (and (not entry) (= "LABEL_REPEATED" (get field-desc "label")))
       (assoc :repeated true)
 
       ;; Add constraints if present
@@ -379,6 +408,31 @@
   [package parent-path]
   (qualified-id package parent-path nil))
 
+(defn- map-entry-index
+  "The map-entry types `msg-desc` declares, as `entry-id -> {:key-type …
+   :value-type … :value-type-ref …}`.
+
+   A `map<K, V>` field is encoded as a REPEATED MESSAGE whose type is a
+   synthetic entry declared inside the same message, and that entry is not a
+   type anyone writes or reads — which is why it is not recorded as a message
+   of its own. Resolving it HERE is what lets the field record the map itself
+   (see `parse-field`), instead of naming a message the database withholds."
+  [package parent-path msg-desc]
+  (into {}
+        (for [child (get msg-desc "nestedType" [])
+              :when (get-in child ["options" "mapEntry"])
+              :let [k (entry-field child 1)
+                    v (entry-field child 2)]]
+          (do
+            (when (:type-ref k)
+              (throw (ex-info (str "Map key names a referred type: " (:type-ref k))
+                              {:type :unsupported-map-key
+                               :entry (get child "name")
+                               :key-type (:type k)})))
+            [(qualified-id package parent-path (get child "name"))
+             (cond-> {:key-type (:type k) :value-type (:type v)}
+               (:type-ref v) (assoc :value-type-ref (:type-ref v)))]))))
+
 (defn- parse-enum-value
   "Parse an enum value descriptor."
   [value-desc]
@@ -410,13 +464,17 @@
                        (str parent-path "." nm)
                        nm)
 
+        ;; The map entries THIS message declares, resolved once: a map field
+        ;; names one of them, and the entry is nested in the declaring message.
+        map-entries (map-entry-index package current-path msg-desc)
+
         ;; Parse this message
         message {:id (qualified-id package parent-path nm)
                  :name nm
                  :package (declaring-scope package parent-path)
                  :source source
                  ;; Include all fields (oneof fields are referenced by number in oneofs)
-                 :fields (mapv parse-field (get msg-desc "field" []))}
+                 :fields (mapv #(parse-field % map-entries) (get msg-desc "field" []))}
 
         message (if-let [oneofs (parse-oneofs msg-desc)]
                   (assoc message :oneofs (vec oneofs))
@@ -428,7 +486,10 @@
 
         ;; Parse nested messages
         nested (for [child (get msg-desc "nestedType" [])
-                     ;; Skip map entry types
+                     ;; A map entry is not a message anyone declares or reads:
+                     ;; `map-entry-index` has already folded its key and value
+                     ;; types into the field that names it, so recording it here
+                     ;; would publish a page for a type the source never wrote.
                      :when (not (get-in child ["options" "mapEntry"]))]
                  (parse-message child package source current-path))]
 
@@ -454,12 +515,25 @@
      :enums enums}))
 
 (defn- filter-project-files
-  "Filter to jon_shared_* and opaque/* proto files."
+  "Filter to this repository's own proto files: the `jon_shared_*` device
+   families, and the `opaque/` and `ui/` directories.
+
+   A POSITIVE ALLOWLIST, KEYED ON THE DESCRIPTOR FILE NAME. A descriptor set
+   carries every import — the well-known types and the validation schema among
+   them — and documenting those would describe protobuf rather than this
+   repository.
+
+   THE KEY IS THE FILE NAME AND NOT THE PACKAGE, which the `opaque/` entry
+   already required: every file there declares `package ser`, the same package
+   the `jon_shared_data_*` family uses, so a package test could not tell the
+   directory apart from the family it sits beside. A directory prefix admits
+   whatever that directory grows, which is the property both entries want."
   [files]
   (filter (fn [file]
             (let [nm (get file "name" "")]
               (or (str/starts-with? nm "jon_shared_")
-                  (str/starts-with? nm "opaque/"))))
+                  (str/starts-with? nm "opaque/")
+                  (str/starts-with? nm "ui/"))))
           files))
 
 (defn parse-descriptor-file

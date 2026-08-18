@@ -467,10 +467,12 @@
     ;; agree would not have caught the day they stopped.
     (is (= parse/element-rule-sets
            (into #{} (map name) (rest schema/ElementRuleSet)))))
-  (testing "and they are the field types that have a protovalidate rule set"
+  (testing "and they are the field types that have a scalar protovalidate rule set"
     ;; `:message` and `:group` have none, so an element of either carries no
-    ;; rules to record.
-    (is (= (into #{} (remove #{:message :group}) (rest schema/FieldType))
+    ;; rules to record. `:map` is excluded for the reason `repeated` is: its
+    ;; rule set judges a COLLECTION, and an element of a list is never itself
+    ;; one.
+    (is (= (into #{} (remove #{:message :group :map}) (rest schema/FieldType))
            (set (rest schema/ElementRuleSet))))))
 
 (deftest constraints-element-rules-test

@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 293 messages, 31 enums, 894 fields
+**Statistics:** 345 messages, 66 enums, 1136 fields
 
 ## Messages by Package
 
@@ -458,13 +458,88 @@ richer value and nothing about it is superseded. The two are different contracts
 consumers, not two copies of one fact.
 
 
+### ui
+
+- [[proto/ui.ArcProps|ArcProps]]
+- [[proto/ui.BarProps|BarProps]]
+- [[proto/ui.ButtonMatrixProps|ButtonMatrixProps]]
+- [[proto/ui.ButtonProps|ButtonProps]]
+- [[proto/ui.ChartProps|ChartProps]]
+- [[proto/ui.ChartSeries|ChartSeries]]
+- [[proto/ui.CheckboxProps|CheckboxProps]]
+- [[proto/ui.CmdSpec|CmdSpec]]
+- [[proto/ui.Color|Color]]
+- [[proto/ui.ColorBinding|ColorBinding]]
+- [[proto/ui.CursorRequest|CursorRequest]]
+- [[proto/ui.DropdownProps|DropdownProps]]
+- [[proto/ui.EventBinding|EventBinding]]
+- [[proto/ui.FieldPatch|FieldPatch]]
+- [[proto/ui.GestureSpec|GestureSpec]]
+- [[proto/ui.HostProxyProps|HostProxyProps]]
+- [[proto/ui.HostToWasm|HostToWasm]]
+- [[proto/ui.HoverState|HoverState]]
+- [[proto/ui.ImageProps|ImageProps]]
+- [[proto/ui.LabelProps|LabelProps]]
+- [[proto/ui.Layout|Layout]]
+- [[proto/ui.LedProps|LedProps]]
+- [[proto/ui.Lifecycle|Lifecycle]]
+- [[proto/ui.LineProps|LineProps]]
+- [[proto/ui.ObjProps|ObjProps]]
+- [[proto/ui.Point|Point]]
+- [[proto/ui.PointerEvent|PointerEvent]]
+- [[proto/ui.RollerProps|RollerProps]]
+- [[proto/ui.ScaleProps|ScaleProps]]
+- [[proto/ui.ScaleSection|ScaleSection]]
+- [[proto/ui.Screen|Screen]]
+- [[proto/ui.ScreenPatch|ScreenPatch]]
+- [[proto/ui.ShadowBundle|ShadowBundle]]
+- [[proto/ui.SliderProps|SliderProps]]
+- [[proto/ui.SpinboxProps|SpinboxProps]]
+- [[proto/ui.SpinnerProps|SpinnerProps]]
+- [[proto/ui.StateUpdate|StateUpdate]]
+- [[proto/ui.StyleGroup|StyleGroup]]
+- [[proto/ui.StyleProperty|StyleProperty]]
+- [[proto/ui.StyleVariant|StyleVariant]]
+- [[proto/ui.SubjectDeclaration|SubjectDeclaration]]
+- [[proto/ui.SubjectValue|SubjectValue]]
+- [[proto/ui.SwitchProps|SwitchProps]]
+- [[proto/ui.TableProps|TableProps]]
+- [[proto/ui.TabviewProps|TabviewProps]]
+- [[proto/ui.TargetBox|TargetBox]]
+- [[proto/ui.TargetOverlayProps|TargetOverlayProps]]
+- [[proto/ui.TextareaProps|TextareaProps]]
+- [[proto/ui.TreePatchOp|TreePatchOp]]
+- [[proto/ui.VisibilityBinding|VisibilityBinding]]
+- [[proto/ui.WasmToHost|WasmToHost]]
+- [[proto/ui.WidgetNode|WidgetNode]]
+
+
 
 ## Enums
 
+- [[proto/ui.Align|Align]]
+- [[proto/ui.ArcMode|ArcMode]]
 - [[proto/ser.JonGuiDataCV.AutofocusState|AutofocusState]]
+- [[proto/ui.BarMode|BarMode]]
+- [[proto/ui.BaseDir|BaseDir]]
+- [[proto/ui.BlendMode|BlendMode]]
+- [[proto/ui.BorderSide|BorderSide]]
+- [[proto/ui.ChartAxis|ChartAxis]]
+- [[proto/ui.ChartType|ChartType]]
+- [[proto/ui.CompareOp|CompareOp]]
+- [[proto/ui.CursorType|CursorType]]
 - [[proto/ser.JonGuiDataCV.CvBridgeExitReason|CvBridgeExitReason]]
 - [[proto/ser.JonGuiDataCV.CvBridgeStatus|CvBridgeStatus]]
 - [[proto/ser.DetectionStatus|DetectionStatus]] — Detector-agnostic inference status codes reported by the object detection pipeline. Indicates whether the most recent inference cycle completed successfully or identifies the specific failure mode. Used as the `status` field in [[proto/ser.ObjectDetectionsDay]] and [[proto/ser.ObjectDetectionsHeat]] to communicate pipeline health. A status other than OK means the `detections` array should be considered empty or stale.
+- [[proto/ui.Dir|Dir]]
+- [[proto/ui.EventTrigger|EventTrigger]]
+- [[proto/ui.FlexAlign|FlexAlign]]
+- [[proto/ui.FlexFlow|FlexFlow]]
+- [[proto/ui.GestureDeltaSign|GestureDeltaSign]]
+- [[proto/ui.GestureKind|GestureKind]]
+- [[proto/ui.GradDir|GradDir]]
+- [[proto/ui.GridAlign|GridAlign]]
+- [[proto/ui.InputSchemaVersion|InputSchemaVersion]]
 - [[proto/ser.JonGuiDataAccumulatorStateIdx|JonGuiDataAccumulatorStateIdx]] — Represents the charge state index of an internal battery (accumulator) with 11 discrete states ranging from empty to full, plus a charging state. Used in the battery indicator UI component with color-coded visual feedback (red=empty, orange=low, yellow=medium, green=good/full, blue=charging).
 - [[proto/ser.JonGuiDataClientApp|JonGuiDataClientApp]] — Identifies the type of client application connecting to the system, enabling the server to differentiate between different UI implementations. Defines four application types: BROWSER_UI (web interface), BROWSER_MAP (map view), DESKTOP_NATIVE (desktop app), and MOBILE_NATIVE (mobile app).
 - [[proto/ser.JonGuiDataClientType|JonGuiDataClientType]] — Categorizes different types of clients connecting to the system based on their connection method: internal computer vision systems (INTERNAL_CV), local network access (LOCAL_NETWORK), certificate-protected secured connections (CERTIFICATE_PROTECTED), and LIRA device interfaces (LIRA).
@@ -487,8 +562,23 @@ consumers, not two copies of one fact.
 - [[proto/ser.JonGuiDataVideoChannelHeatAGCModes|JonGuiDataVideoChannelHeatAGCModes]] — Defines three Automatic Gain Control (AGC) modes for thermal camera operation: Mode 1 (mixed AGC), Mode 2 (auto AGC 1), and Mode 3 (auto AGC 2) that adjust image brightness and contrast for optimal thermal imaging visibility. Used throughout the system to configure thermal camera settings via the HeatCamera.SetAGC command.
 - [[proto/ser.JonGuiDataVideoChannelHeatFilters|JonGuiDataVideoChannelHeatFilters]] — Specifies thermal camera display color schemes with four filter modes: Hot White (hottest objects rendered in white), Hot Black (hottest objects rendered in black), Sepia (warm tone colorization), and Sepia Inverse (inverted warm tone colorization). Applied via HeatCamera.SetFilters to control how thermal image data is visualized in real-time.
 - [[proto/ser.JonGuiDatatLrfLaserPointerModes|JonGuiDatatLrfLaserPointerModes]] — Controls the laser rangefinder's target designator pointer, supporting three operational states: disabled (OFF), and two active modes (ON_1 and ON_2) for different targeting scenarios. The pointer_mode field in JonGuiDataLrf tracks the current state of the LRF laser designator output.
+- [[proto/ui.LabelLongMode|LabelLongMode]]
+- [[proto/ui.NdcYSense|NdcYSense]]
+- [[proto/ui.PatchEncoding|PatchEncoding]]
+- [[proto/ui.PatchKind|PatchKind]]
+- [[proto/ui.PatchOpKind|PatchOpKind]]
+- [[proto/ui.PointerKind|PointerKind]]
+- [[proto/ui.PointerPhase|PointerPhase]]
+- [[proto/ui.ProxyMode|ProxyMode]]
+- [[proto/ui.RollerMode|RollerMode]]
 - [[proto/ser.SamTrackingState|SamTrackingState]]
 - [[proto/ser.SamTrackingStatus|SamTrackingStatus]]
+- [[proto/ui.ScaleMode|ScaleMode]]
+- [[proto/ui.StylePropertyType|StylePropertyType]]
+- [[proto/ui.SubjectType|SubjectType]]
+- [[proto/ui.TextAlign|TextAlign]]
+- [[proto/ui.TextDecor|TextDecor]]
+- [[proto/ui.ThemeMode|ThemeMode]]
 - [[proto/ser.JonGuiDataTrackedObject.TrackingState|TrackingState]]
 - [[proto/ser.TrinityRangeSource|TrinityRangeSource]] — How `TrinityTracking.position_z_m` was obtained.
 
@@ -514,4 +604,5 @@ no opaque payload to decode: `LOCKED`, `SEARCHING`, `DEGRADED` and `BOARD_MISMAT
 there and `IDLE` is `false`. It exists for the toggle affordance and is not a substitute — this
 enum remains the authoritative value for anything that must distinguish a lock from a search, a
 degraded solve, or a board mismatch.
+- [[proto/ui.WidgetType|WidgetType]]
 
