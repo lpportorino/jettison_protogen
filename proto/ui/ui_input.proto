@@ -130,6 +130,18 @@ message Lifecycle {
 // migration branch, no version-sniffing. {gte:1} rejects the proto3 default 0.
 message HostToWasm {
   uint32 version = 1 [(buf.validate.field).uint32 = {gte: 1, lte: 255}];
+
+  // 4 held `Lifecycle lifecycle` in the oneof below until the recognition
+  // rework moved that arm down to 3, displacing `GestureCommand gesture` which
+  // the same change deleted. So 3 now carries a different meaning than it once
+  // did — already landed, not fixable here — and 4 is simply free. It is
+  // reserved because both shapes shipped in generated bindings, so a host built
+  // before the rework can still emit a length-delimited Lifecycle at 4; a new
+  // submessage issued there would decode `theme`/`focused`/`visible` bytes as
+  // its own fields. A oneof cannot carry a reserved statement, so the number is
+  // retired at message level, which covers the oneof's numbers too.
+  reserved 4;
+
   oneof event {
     option (buf.validate.oneof).required = true;
     PointerEvent pointer = 2;

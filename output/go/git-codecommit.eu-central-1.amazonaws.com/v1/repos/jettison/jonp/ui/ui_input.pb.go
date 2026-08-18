@@ -752,14 +752,14 @@ const file_ui_ui_input_proto_rawDesc = "" +
 	"\x05theme\x18\x01 \x01(\x0e2\r.ui.ThemeModeB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x05theme\x12\x18\n" +
 	"\afocused\x18\x02 \x01(\bR\afocused\x12\x18\n" +
-	"\avisible\x18\x03 \x01(\bR\avisible\"\x9f\x01\n" +
+	"\avisible\x18\x03 \x01(\bR\avisible\"\xa5\x01\n" +
 	"\n" +
 	"HostToWasm\x12$\n" +
 	"\aversion\x18\x01 \x01(\rB\n" +
 	"\xbaH\a*\x05\x18\xff\x01(\x01R\aversion\x12,\n" +
 	"\apointer\x18\x02 \x01(\v2\x10.ui.PointerEventH\x00R\apointer\x12-\n" +
 	"\tlifecycle\x18\x03 \x01(\v2\r.ui.LifecycleH\x00R\tlifecycleB\x0e\n" +
-	"\x05event\x12\x05\xbaH\x02\b\x01\"O\n" +
+	"\x05event\x12\x05\xbaH\x02\b\x01J\x04\b\x04\x10\x05\"O\n" +
 	"\n" +
 	"HoverState\x12\x1f\n" +
 	"\vhovered_uid\x18\x01 \x01(\rR\n" +

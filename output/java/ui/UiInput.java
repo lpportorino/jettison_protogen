@@ -5336,35 +5336,35 @@ public final class UiInput {
       "\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?" +
       ")\000\000\000\000\000\000\360\277\022\022\n\nevent_time\030\006 \001(\004\"W\n\tLifecyc" +
       "le\022(\n\005theme\030\001 \001(\0162\r.ui.ThemeModeB\n\272H\007\202\001\004" +
-      "\020\001 \000\022\017\n\007focused\030\002 \001(\010\022\017\n\007visible\030\003 \001(\010\"\202" +
+      "\020\001 \000\022\017\n\007focused\030\002 \001(\010\022\017\n\007visible\030\003 \001(\010\"\210" +
       "\001\n\nHostToWasm\022\033\n\007version\030\001 \001(\rB\n\272H\007*\005\030\377\001" +
       "(\001\022#\n\007pointer\030\002 \001(\0132\020.ui.PointerEventH\000\022" +
       "\"\n\tlifecycle\030\003 \001(\0132\r.ui.LifecycleH\000B\016\n\005e" +
-      "vent\022\005\272H\002\010\001\"6\n\nHoverState\022\023\n\013hovered_uid" +
-      "\030\001 \001(\r\022\023\n\013interactive\030\002 \001(\010\";\n\rCursorReq" +
-      "uest\022*\n\006cursor\030\001 \001(\0162\016.ui.CursorTypeB\n\272H" +
-      "\007\202\001\004\020\001 \000\"\200\001\n\nWasmToHost\022\033\n\007version\030\001 \001(\r" +
-      "B\n\272H\007*\005\030\377\001(\001\022\037\n\005hover\030\002 \001(\0132\016.ui.HoverSt" +
-      "ateH\000\022#\n\006cursor\030\003 \001(\0132\021.ui.CursorRequest" +
-      "H\000B\017\n\006report\022\005\272H\002\010\001*W\n\022InputSchemaVersio" +
-      "n\022$\n INPUT_SCHEMA_VERSION_UNSPECIFIED\020\000\022" +
-      "\033\n\027INPUT_SCHEMA_VERSION_V1\020\001*\215\001\n\014Pointer" +
-      "Phase\022\035\n\031POINTER_PHASE_UNSPECIFIED\020\000\022\026\n\022" +
-      "POINTER_PHASE_DOWN\020\001\022\026\n\022POINTER_PHASE_MO" +
-      "VE\020\002\022\024\n\020POINTER_PHASE_UP\020\003\022\030\n\024POINTER_PH" +
-      "ASE_CANCEL\020\004*q\n\013PointerKind\022\034\n\030POINTER_K" +
-      "IND_UNSPECIFIED\020\000\022\026\n\022POINTER_KIND_MOUSE\020" +
-      "\001\022\026\n\022POINTER_KIND_TOUCH\020\002\022\024\n\020POINTER_KIN" +
-      "D_PEN\020\003*R\n\tThemeMode\022\032\n\026THEME_MODE_UNSPE" +
-      "CIFIED\020\000\022\024\n\020THEME_MODE_LIGHT\020\001\022\023\n\017THEME_" +
-      "MODE_DARK\020\002*\274\001\n\nCursorType\022\033\n\027CURSOR_TYP" +
-      "E_UNSPECIFIED\020\000\022\027\n\023CURSOR_TYPE_DEFAULT\020\001" +
-      "\022\027\n\023CURSOR_TYPE_POINTER\020\002\022\024\n\020CURSOR_TYPE" +
-      "_TEXT\020\003\022\024\n\020CURSOR_TYPE_GRAB\020\004\022\026\n\022CURSOR_" +
-      "TYPE_RESIZE\020\005\022\033\n\027CURSOR_TYPE_NOT_ALLOWED" +
-      "\020\006BEZCgit-codecommit.eu-central-1.amazon" +
-      "aws.com/v1/repos/jettison/jonp/uib\006proto" +
-      "3"
+      "vent\022\005\272H\002\010\001J\004\010\004\020\005\"6\n\nHoverState\022\023\n\013hover" +
+      "ed_uid\030\001 \001(\r\022\023\n\013interactive\030\002 \001(\010\";\n\rCur" +
+      "sorRequest\022*\n\006cursor\030\001 \001(\0162\016.ui.CursorTy" +
+      "peB\n\272H\007\202\001\004\020\001 \000\"\200\001\n\nWasmToHost\022\033\n\007version" +
+      "\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\037\n\005hover\030\002 \001(\0132\016.ui.H" +
+      "overStateH\000\022#\n\006cursor\030\003 \001(\0132\021.ui.CursorR" +
+      "equestH\000B\017\n\006report\022\005\272H\002\010\001*W\n\022InputSchema" +
+      "Version\022$\n INPUT_SCHEMA_VERSION_UNSPECIF" +
+      "IED\020\000\022\033\n\027INPUT_SCHEMA_VERSION_V1\020\001*\215\001\n\014P" +
+      "ointerPhase\022\035\n\031POINTER_PHASE_UNSPECIFIED" +
+      "\020\000\022\026\n\022POINTER_PHASE_DOWN\020\001\022\026\n\022POINTER_PH" +
+      "ASE_MOVE\020\002\022\024\n\020POINTER_PHASE_UP\020\003\022\030\n\024POIN" +
+      "TER_PHASE_CANCEL\020\004*q\n\013PointerKind\022\034\n\030POI" +
+      "NTER_KIND_UNSPECIFIED\020\000\022\026\n\022POINTER_KIND_" +
+      "MOUSE\020\001\022\026\n\022POINTER_KIND_TOUCH\020\002\022\024\n\020POINT" +
+      "ER_KIND_PEN\020\003*R\n\tThemeMode\022\032\n\026THEME_MODE" +
+      "_UNSPECIFIED\020\000\022\024\n\020THEME_MODE_LIGHT\020\001\022\023\n\017" +
+      "THEME_MODE_DARK\020\002*\274\001\n\nCursorType\022\033\n\027CURS" +
+      "OR_TYPE_UNSPECIFIED\020\000\022\027\n\023CURSOR_TYPE_DEF" +
+      "AULT\020\001\022\027\n\023CURSOR_TYPE_POINTER\020\002\022\024\n\020CURSO" +
+      "R_TYPE_TEXT\020\003\022\024\n\020CURSOR_TYPE_GRAB\020\004\022\026\n\022C" +
+      "URSOR_TYPE_RESIZE\020\005\022\033\n\027CURSOR_TYPE_NOT_A" +
+      "LLOWED\020\006BEZCgit-codecommit.eu-central-1." +
+      "amazonaws.com/v1/repos/jettison/jonp/uib" +
+      "\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

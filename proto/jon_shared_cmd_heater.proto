@@ -49,6 +49,15 @@ message DisableAutomaticControl {}
 message AutomaticControlChannelParams {
   // Target temperature in Celsius (persisted via manifold state storage)
   float target_temperature = 1 [(buf.validate.field).float = {gte: 0, lte: 60}];
+
+  // 2, 3, 4 held the per-channel PID gains kp, ki and kd — three `float` fields
+  // constrained `gte: 0` — until they were removed as dead, the gains being
+  // loaded from configuration rather than carried on a command. They are
+  // reserved rather than left free because they shipped in generated bindings
+  // before that removal, so a peer built against those still encodes all three;
+  // a new field issued 2, 3 or 4 would take fixed-width 32-bit gain bytes and
+  // read them as whatever it declares.
+  reserved 2, 3, 4;
 }
 
 // SetAutomaticControlParams configures automatic regulation parameters for all channels

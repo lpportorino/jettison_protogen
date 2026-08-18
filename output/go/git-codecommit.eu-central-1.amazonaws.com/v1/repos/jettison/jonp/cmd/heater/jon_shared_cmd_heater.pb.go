@@ -608,11 +608,11 @@ const file_jon_shared_cmd_heater_proto_rawDesc = "" +
 	"tempError2\"\v\n" +
 	"\tGetStatus\"\x18\n" +
 	"\x16EnableAutomaticControl\"\x19\n" +
-	"\x17DisableAutomaticControl\"_\n" +
+	"\x17DisableAutomaticControl\"q\n" +
 	"\x1dAutomaticControlChannelParams\x12>\n" +
 	"\x12target_temperature\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
 	"\n" +
-	"\x1d\x00\x00pB-\x00\x00\x00\x00R\x11targetTemperature\"\xf3\x01\n" +
+	"\x1d\x00\x00pB-\x00\x00\x00\x00R\x11targetTemperatureJ\x04\b\x02\x10\x03J\x04\b\x03\x10\x04J\x04\b\x04\x10\x05\"\xf3\x01\n" +
 	"\x19SetAutomaticControlParams\x12F\n" +
 	"\tchannel_0\x18\x01 \x01(\v2).cmd.Heater.AutomaticControlChannelParamsR\bchannel0\x12F\n" +
 	"\tchannel_1\x18\x02 \x01(\v2).cmd.Heater.AutomaticControlChannelParamsR\bchannel1\x12F\n" +

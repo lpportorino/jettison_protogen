@@ -9484,29 +9484,29 @@ public final class JonVideoMeta {
       "\006errors\030\002 \003(\0132\025.jon.video.VideoError\022\023\n\013" +
       "total_count\030\003 \001(\r\022\r\n\005width\030\n \001(\r\022\016\n\006heig" +
       "ht\030\013 \001(\r\022\013\n\003dsi\030\014 \001(\014\022\021\n\ttimescale\030\r \001(\r" +
-      "\"\341\001\n\tVideoMeta\022\014\n\004uuid\030\001 \001(\t\022\022\n\nsession_" +
+      "\"\347\001\n\tVideoMeta\022\014\n\004uuid\030\001 \001(\t\022\022\n\nsession_" +
       "id\030\002 \001(\005\022\021\n\ttimestamp\030\003 \001(\004\022\024\n\014storage_p" +
       "ath\030\004 \001(\t\022\023\n\013source_type\030\005 \001(\t\022\023\n\013frame_" +
       "count\030\006 \001(\r\022\023\n\013duration_ms\030\007 \001(\r\022,\n\014samp" +
       "le_table\030\014 \001(\0132\026.jon.video.SampleTableJ\004" +
-      "\010\010\020\tJ\004\010\t\020\nJ\004\010\n\020\013J\004\010\013\020\014J\004\010\024\020\034\"\231\001\n\013SampleT" +
-      "able\022\024\n\014sample_sizes\030\001 \003(\r\022\025\n\rchunk_offs" +
-      "ets\030\002 \003(\004\022\024\n\014sample_times\030\003 \003(\r\022\024\n\014sync_" +
-      "samples\030\004 \003(\r\0221\n\017sample_to_chunk\030\005 \003(\0132\030" +
-      ".jon.video.SampleToChunk\"a\n\rSampleToChun" +
-      "k\022\023\n\013first_chunk\030\001 \001(\r\022\031\n\021samples_per_ch" +
-      "unk\030\002 \001(\r\022 \n\030sample_description_index\030\003 " +
-      "\001(\r\"v\n\nVideoError\022\014\n\004uuid\030\001 \001(\t\022\024\n\014stora" +
-      "ge_path\030\002 \001(\t\022-\n\nerror_type\030\003 \001(\0162\031.jon." +
-      "video.VideoErrorType\022\025\n\rerror_message\030\004 " +
-      "\001(\t*\331\001\n\016VideoErrorType\022 \n\034VIDEO_ERROR_TY" +
-      "PE_UNSPECIFIED\020\000\022#\n\037VIDEO_ERROR_TYPE_FIL" +
-      "E_NOT_FOUND\020\001\022\037\n\033VIDEO_ERROR_TYPE_EMPTY_" +
-      "FILE\020\002\022\034\n\030VIDEO_ERROR_TYPE_NO_MOOV\020\003\022!\n\035" +
-      "VIDEO_ERROR_TYPE_INVALID_MOOV\020\004\022\036\n\032VIDEO" +
-      "_ERROR_TYPE_TRUNCATED\020\005BHZFgit-codecommi" +
-      "t.eu-central-1.amazonaws.com/v1/repos/je" +
-      "ttison/jonp/videob\006proto3"
+      "\010\010\020\tJ\004\010\t\020\nJ\004\010\n\020\013J\004\010\013\020\014J\004\010\r\020\016J\004\010\024\020\034\"\231\001\n\013S" +
+      "ampleTable\022\024\n\014sample_sizes\030\001 \003(\r\022\025\n\rchun" +
+      "k_offsets\030\002 \003(\004\022\024\n\014sample_times\030\003 \003(\r\022\024\n" +
+      "\014sync_samples\030\004 \003(\r\0221\n\017sample_to_chunk\030\005" +
+      " \003(\0132\030.jon.video.SampleToChunk\"a\n\rSample" +
+      "ToChunk\022\023\n\013first_chunk\030\001 \001(\r\022\031\n\021samples_" +
+      "per_chunk\030\002 \001(\r\022 \n\030sample_description_in" +
+      "dex\030\003 \001(\r\"v\n\nVideoError\022\014\n\004uuid\030\001 \001(\t\022\024\n" +
+      "\014storage_path\030\002 \001(\t\022-\n\nerror_type\030\003 \001(\0162" +
+      "\031.jon.video.VideoErrorType\022\025\n\rerror_mess" +
+      "age\030\004 \001(\t*\331\001\n\016VideoErrorType\022 \n\034VIDEO_ER" +
+      "ROR_TYPE_UNSPECIFIED\020\000\022#\n\037VIDEO_ERROR_TY" +
+      "PE_FILE_NOT_FOUND\020\001\022\037\n\033VIDEO_ERROR_TYPE_" +
+      "EMPTY_FILE\020\002\022\034\n\030VIDEO_ERROR_TYPE_NO_MOOV" +
+      "\020\003\022!\n\035VIDEO_ERROR_TYPE_INVALID_MOOV\020\004\022\036\n" +
+      "\032VIDEO_ERROR_TYPE_TRUNCATED\020\005BHZFgit-cod" +
+      "ecommit.eu-central-1.amazonaws.com/v1/re" +
+      "pos/jettison/jonp/videob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

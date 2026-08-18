@@ -58,4 +58,21 @@ message CANFrameBatch {
 // Connection confirmation message sent when WebSocket connects
 message CANStreamConnected {
   repeated string streams = 1;  // Discovered CAN stream IDs (e.g., "0x304", "0x510")
+
+  // 2 held `CANStreamFilter filters` — a submessage carrying device and
+  // direction filters plus a batching interval — until this message was deleted
+  // in a simplification and re-added, in the same series, with field 1 alone.
+  // The delete-and-re-add is exactly what left 2 re-assignable: the number
+  // never appeared in a reserved statement, while the filter submessage had
+  // already shipped in generated bindings, so a peer built against those still
+  // emits length-delimited filter bytes at this tag and a new submessage or
+  // string issued 2 would absorb them without a framing complaint.
+  //
+  // Field 1 is a separate, ALREADY-LANDED case and is recorded rather than
+  // fixed: it held `string status` before the re-add gave it
+  // `repeated string streams`. Both are length-delimited, so an old
+  // `status = "..."` decodes as a one-element `streams`. Nothing can be
+  // reserved there — the number is in use — and renumbering it now would break
+  // the peers built since.
+  reserved 2;
 }

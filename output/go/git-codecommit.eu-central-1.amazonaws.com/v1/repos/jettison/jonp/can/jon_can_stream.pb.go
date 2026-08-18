@@ -308,9 +308,9 @@ const file_jon_can_stream_proto_rawDesc = "" +
 	"\x05seq64\x18\b \x01(\x04R\x05seq64\x12\x14\n" +
 	"\x05drops\x18\t \x01(\x04R\x05drops\":\n" +
 	"\rCANFrameBatch\x12)\n" +
-	"\x06frames\x18\x01 \x03(\v2\x11.jon.can.CANFrameR\x06frames\".\n" +
+	"\x06frames\x18\x01 \x03(\v2\x11.jon.can.CANFrameR\x06frames\"4\n" +
 	"\x12CANStreamConnected\x12\x18\n" +
-	"\astreams\x18\x01 \x03(\tR\astreams*t\n" +
+	"\astreams\x18\x01 \x03(\tR\astreamsJ\x04\b\x02\x10\x03*t\n" +
 	"\fCANDirection\x12\x1d\n" +
 	"\x19CAN_DIRECTION_UNSPECIFIED\x10\x00\x12\x14\n" +
 	"\x10CAN_DIRECTION_TX\x10\x01\x12\x14\n" +

@@ -865,7 +865,7 @@ var File_jon_shared_cmd_lrf_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_lrf_proto_rawDesc = "" +
 	"\n" +
-	"\x18jon_shared_cmd_lrf.proto\x12\acmd.Lrf\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x96\a\n" +
+	"\x18jon_shared_cmd_lrf.proto\x12\acmd.Lrf\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xa2\a\n" +
 	"\x04Root\x12,\n" +
 	"\ameasure\x18\x01 \x01(\v2\x10.cmd.Lrf.MeasureH\x00R\ameasure\x12*\n" +
 	"\ascan_on\x18\x02 \x01(\v2\x0f.cmd.Lrf.ScanOnH\x00R\x06scanOn\x12-\n" +
@@ -885,7 +885,7 @@ const file_jon_shared_cmd_lrf_proto_rawDesc = "" +
 	"\trefine_on\x18\x0e \x01(\v2\x11.cmd.Lrf.RefineOnH\x00R\brefineOn\x123\n" +
 	"\n" +
 	"refine_off\x18\x0f \x01(\v2\x12.cmd.Lrf.RefineOffH\x00R\trefineOffB\f\n" +
-	"\x03cmd\x12\x05\xbaH\x02\b\x01\"\n" +
+	"\x03cmd\x12\x05\xbaH\x02\b\x01J\x04\b\x10\x10\x11J\x04\b\x11\x10\x12\"\n" +
 	"\n" +
 	"\bGetMeteo\"\a\n" +
 	"\x05Start\"\x06\n" +

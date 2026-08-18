@@ -64,6 +64,15 @@ message VideoMeta {
   // Sample table for frame-accurate seeking and playback
   SampleTable sample_table = 12;
 
+  // 13 held `string filename`, added for direct URL construction and reverted
+  // two commits later. It is reserved for the same reason as 8-11 and 20-27
+  // above, and it was missed when those were added: the field shipped in
+  // generated bindings before the revert, so a peer that built against that
+  // window still emits filename bytes at this tag, and 13 is length-delimited —
+  // a new string, bytes or submessage issued here would decode them cleanly and
+  // read a filename as its own value.
+  reserved 13;
+
   // 20-27 held the mini-quality block — has_mini, mini_frame_count,
   // mini_duration_ms, mini_width, mini_height, mini_dsi, mini_timescale and
   // mini_sample_table — dropped when this message became the shape for the

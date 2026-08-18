@@ -722,7 +722,7 @@ const file_jon_video_meta_proto_rawDesc = "" +
 	" \x01(\rR\x05width\x12\x16\n" +
 	"\x06height\x18\v \x01(\rR\x06height\x12\x10\n" +
 	"\x03dsi\x18\f \x01(\fR\x03dsi\x12\x1c\n" +
-	"\ttimescale\x18\r \x01(\rR\ttimescale\"\xbb\x02\n" +
+	"\ttimescale\x18\r \x01(\rR\ttimescale\"\xc1\x02\n" +
 	"\tVideoMeta\x12\x12\n" +
 	"\x04uuid\x18\x01 \x01(\tR\x04uuid\x12\x1d\n" +
 	"\n" +
@@ -737,7 +737,7 @@ const file_jon_video_meta_proto_rawDesc = "" +
 	"durationMs\x129\n" +
 	"\fsample_table\x18\f \x01(\v2\x16.jon.video.SampleTableR\vsampleTableJ\x04\b\b\x10\tJ\x04\b\t\x10\n" +
 	"J\x04\b\n" +
-	"\x10\vJ\x04\b\v\x10\fJ\x04\b\x14\x10\x1c\"\xdd\x01\n" +
+	"\x10\vJ\x04\b\v\x10\fJ\x04\b\r\x10\x0eJ\x04\b\x14\x10\x1c\"\xdd\x01\n" +
 	"\vSampleTable\x12!\n" +
 	"\fsample_sizes\x18\x01 \x03(\rR\vsampleSizes\x12#\n" +
 	"\rchunk_offsets\x18\x02 \x03(\x04R\fchunkOffsets\x12!\n" +

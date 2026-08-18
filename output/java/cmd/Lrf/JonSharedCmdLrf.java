@@ -9337,7 +9337,7 @@ public final class JonSharedCmdLrf {
     java.lang.String[] descriptorData = {
       "\n\030jon_shared_cmd_lrf.proto\022\007cmd.Lrf\032\033buf" +
       "/validate/validate.proto\032\033jon_shared_dat" +
-      "a_types.proto\"\321\005\n\004Root\022#\n\007measure\030\001 \001(\0132" +
+      "a_types.proto\"\335\005\n\004Root\022#\n\007measure\030\001 \001(\0132" +
       "\020.cmd.Lrf.MeasureH\000\022\"\n\007scan_on\030\002 \001(\0132\017.c" +
       "md.Lrf.ScanOnH\000\022$\n\010scan_off\030\003 \001(\0132\020.cmd." +
       "Lrf.ScanOffH\000\022\037\n\005start\030\004 \001(\0132\016.cmd.Lrf.S" +
@@ -9355,16 +9355,16 @@ public final class JonSharedCmdLrf {
       "\000\022&\n\tget_meteo\030\r \001(\0132\021.cmd.Lrf.GetMeteoH" +
       "\000\022&\n\trefine_on\030\016 \001(\0132\021.cmd.Lrf.RefineOnH" +
       "\000\022(\n\nrefine_off\030\017 \001(\0132\022.cmd.Lrf.RefineOf" +
-      "fH\000B\014\n\003cmd\022\005\272H\002\010\001\"\n\n\010GetMeteo\"\007\n\005Start\"\006" +
-      "\n\004Stop\"\t\n\007Measure\"\010\n\006ScanOn\"\t\n\007ScanOff\"\013" +
-      "\n\tRefineOff\"\n\n\010RefineOn\"\025\n\023TargetDesigna" +
-      "torOff\"\031\n\027TargetDesignatorOnModeA\"\031\n\027Tar" +
-      "getDesignatorOnModeB\"\017\n\rEnableFogMode\"\020\n" +
-      "\016DisableFogMode\"D\n\013SetScanMode\0225\n\004mode\030\001" +
-      " \001(\0162\033.ser.JonGuiDataLrfScanModesB\n\272H\007\202\001" +
-      "\004\020\001 \000\"\014\n\nNewSessionBJZHgit-codecommit.eu" +
-      "-central-1.amazonaws.com/v1/repos/jettis" +
-      "on/jonp/cmd/lrfb\006proto3"
+      "fH\000B\014\n\003cmd\022\005\272H\002\010\001J\004\010\020\020\021J\004\010\021\020\022\"\n\n\010GetMete" +
+      "o\"\007\n\005Start\"\006\n\004Stop\"\t\n\007Measure\"\010\n\006ScanOn\"" +
+      "\t\n\007ScanOff\"\013\n\tRefineOff\"\n\n\010RefineOn\"\025\n\023T" +
+      "argetDesignatorOff\"\031\n\027TargetDesignatorOn" +
+      "ModeA\"\031\n\027TargetDesignatorOnModeB\"\017\n\rEnab" +
+      "leFogMode\"\020\n\016DisableFogMode\"D\n\013SetScanMo" +
+      "de\0225\n\004mode\030\001 \001(\0162\033.ser.JonGuiDataLrfScan" +
+      "ModesB\n\272H\007\202\001\004\020\001 \000\"\014\n\nNewSessionBJZHgit-c" +
+      "odecommit.eu-central-1.amazonaws.com/v1/" +
+      "repos/jettison/jonp/cmd/lrfb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

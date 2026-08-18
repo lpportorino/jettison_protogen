@@ -7,6 +7,16 @@ package cmd.Lrf;
 import "jon_shared_data_types.proto";
 
 message Root {
+  // 16 and 17 held ContinuousMeasureStart continuous_measure_start and
+  // ContinuousMeasureStop continuous_measure_stop in the cmd oneof below, until
+  // both were removed as unimplemented — ScanOn/ScanOff being the path that
+  // actually reaches the hardware. They are reserved rather than left free
+  // because both shipped in generated bindings first, so a peer built against
+  // those can still emit either tag. A oneof cannot carry a reserved statement,
+  // so the numbers are retired here at message level, which covers the whole
+  // message's number space including the oneof's.
+  reserved 16, 17;
+
   oneof cmd {
     option (buf.validate.oneof).required = true;
     Measure measure = 1;

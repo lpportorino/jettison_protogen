@@ -6212,16 +6212,16 @@ public final class JonSharedCmdHeater {
       "\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_error_2\030\006 \001(\002B\017\272" +
       "H\014\n\n\035\000\000 B-\000\000\000\000\"\013\n\tGetStatus\"\030\n\026EnableAut" +
       "omaticControl\"\031\n\027DisableAutomaticControl" +
-      "\"L\n\035AutomaticControlChannelParams\022+\n\022tar" +
-      "get_temperature\030\001 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\"\325" +
-      "\001\n\031SetAutomaticControlParams\022<\n\tchannel_" +
-      "0\030\001 \001(\0132).cmd.Heater.AutomaticControlCha" +
-      "nnelParams\022<\n\tchannel_1\030\002 \001(\0132).cmd.Heat" +
-      "er.AutomaticControlChannelParams\022<\n\tchan" +
-      "nel_2\030\003 \001(\0132).cmd.Heater.AutomaticContro" +
-      "lChannelParamsBMZKgit-codecommit.eu-cent" +
-      "ral-1.amazonaws.com/v1/repos/jettison/jo" +
-      "np/cmd/heaterb\006proto3"
+      "\"^\n\035AutomaticControlChannelParams\022+\n\022tar" +
+      "get_temperature\030\001 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000J\004" +
+      "\010\002\020\003J\004\010\003\020\004J\004\010\004\020\005\"\325\001\n\031SetAutomaticControl" +
+      "Params\022<\n\tchannel_0\030\001 \001(\0132).cmd.Heater.A" +
+      "utomaticControlChannelParams\022<\n\tchannel_" +
+      "1\030\002 \001(\0132).cmd.Heater.AutomaticControlCha" +
+      "nnelParams\022<\n\tchannel_2\030\003 \001(\0132).cmd.Heat" +
+      "er.AutomaticControlChannelParamsBMZKgit-" +
+      "codecommit.eu-central-1.amazonaws.com/v1" +
+      "/repos/jettison/jonp/cmd/heaterb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

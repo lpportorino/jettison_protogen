@@ -2929,13 +2929,13 @@ public final class JonCanStream {
       "\005 \001(\014B\007\272H\004z\002\030@\022\"\n\003dir\030\006 \001(\0162\025.jon.can.CA" +
       "NDirection\022\021\n\tkernel_ns\030\007 \001(\004\022\r\n\005seq64\030\010" +
       " \001(\004\022\r\n\005drops\030\t \001(\004\"2\n\rCANFrameBatch\022!\n\006" +
-      "frames\030\001 \003(\0132\021.jon.can.CANFrame\"%\n\022CANSt" +
-      "reamConnected\022\017\n\007streams\030\001 \003(\t*t\n\014CANDir" +
-      "ection\022\035\n\031CAN_DIRECTION_UNSPECIFIED\020\000\022\024\n" +
-      "\020CAN_DIRECTION_TX\020\001\022\024\n\020CAN_DIRECTION_RX\020" +
-      "\002\022\031\n\025CAN_DIRECTION_UNKNOWN\020\003BFZDgit-code" +
-      "commit.eu-central-1.amazonaws.com/v1/rep" +
-      "os/jettison/jonp/canb\006proto3"
+      "frames\030\001 \003(\0132\021.jon.can.CANFrame\"+\n\022CANSt" +
+      "reamConnected\022\017\n\007streams\030\001 \003(\tJ\004\010\002\020\003*t\n\014" +
+      "CANDirection\022\035\n\031CAN_DIRECTION_UNSPECIFIE" +
+      "D\020\000\022\024\n\020CAN_DIRECTION_TX\020\001\022\024\n\020CAN_DIRECTI" +
+      "ON_RX\020\002\022\031\n\025CAN_DIRECTION_UNKNOWN\020\003BFZDgi" +
+      "t-codecommit.eu-central-1.amazonaws.com/" +
+      "v1/repos/jettison/jonp/canb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
