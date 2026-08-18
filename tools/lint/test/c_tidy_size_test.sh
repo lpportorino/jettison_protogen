@@ -18,12 +18,14 @@
 # which can come back empty.
 #
 # SCOPE, STATED SO A GREEN IS NOT READ AS MORE THAN IT IS. This suite covers the
-# six size axes ONLY. The rest of the check set that lane enables — bugprone,
-# cert, the four clang-analyzer sub-namespaces, performance, concurrency, misc —
-# is NOT driven here, and a green below says nothing about whether any of those
-# can still refuse. What it does say is that the lane reaches the analysis, that
-# the size check is live, and that each of the six axes is read from the config
-# and reported on its own.
+# six size axes, plus the lane's NON-VACUITY FLOOR — the guard that refuses an
+# empty compilation database. The rest of the check set that lane enables —
+# bugprone, cert, the four clang-analyzer sub-namespaces, performance,
+# concurrency, misc — is NOT driven here, and a green below says nothing about
+# whether any of those can still refuse. What it does say is that the lane
+# reaches the analysis, that it refuses to report on nothing, that the size check
+# is live, and that each of the six axes is read from the config and reported on
+# its own.
 #
 # WHAT EACH CASE PROVES, and it is more than that the lane went red:
 #
@@ -78,7 +80,7 @@
 # original is byte-compared at the end against a pristine copy taken at the
 # start, so the claim is asserted rather than asserted-in-prose.
 #
-# COST, MEASURED rather than estimated. Eight lane runs, each regenerating the
+# COST, MEASURED rather than estimated. Nine lane runs, each regenerating the
 # compile database and analysing the whole hand-authored C set: roughly 6 s per
 # run on a 32-core host, so about 50 s for the suite, plus one tree copy. The
 # figure that matters to a person waiting on a push is the pair — canary then
@@ -407,6 +409,52 @@ $RUN_OUT"
 		fi
 	fi
 fi
+
+# ---------------------------------------------------------------------------
+banner 'an EMPTY compilation database is refused, not reported on'
+
+# THE ONE CASE HERE THAT IS NOT A SIZE AXIS, and the one whose subject is the
+# lane's pass value equalling its nothing-ran value: run-clang-tidy over an empty
+# database analyses nothing and exits 0, so without the lane's floor a broken
+# discovery would print a green having read no C at all. The floor is in the
+# lane; this proves it can fire.
+#
+# IT REACHES INTO renderer/wasm.mk, which this suite does not own, because
+# TIDY_SRCS is where the database's contents come from and there is no other way
+# to empty it — the lane regenerates the database on every run by design, so
+# overwriting the file would be undone before clang-tidy saw it. The mutation is
+# applied to the COPY. If that declaration is renamed, `mutate_file` refuses and
+# this case says the mutation did not land, which is the loud outcome rather than
+# a silent pass.
+reset_cfg
+DB_SRC="$TREE/renderer/wasm.mk"
+if ! mutate_file "$DB_SRC" \
+	'TIDY_SRCS := $(COMMON_APP_SRCS) $(STUB_SRCS) src/renderer.c src/reference_ui.c' \
+	'TIDY_SRCS :='; then
+	bad 'empty database: the mutation did not land — nothing was proven. TIDY_SRCS
+  in renderer/wasm.mk is what this case empties; if it was renamed, re-anchor
+  this case on the new declaration'
+else
+	run_lane
+	if [ "$RUN_RC" -eq 0 ]; then
+		bad "empty database: the lane exited 0 over a database naming ZERO files —
+  that is a green tick over zero coverage, which is what the floor exists to
+  refuse (gate-enforcement.md §3)"
+	elif ! contains "$RUN_OUT" 'the compilation database names ZERO files'; then
+		bad "empty database: the lane refused, but not with its own floor message —
+  an unattributed red here is indistinguishable from clang-tidy failing for some
+  unrelated reason. It said:
+$RUN_OUT"
+	elif contains "$RUN_OUT" 'Running clang-tidy in'; then
+		bad 'empty database: the floor fired but clang-tidy ran anyway — the guard is
+  not standing between the database and the analysis'
+	else
+		ok 'an empty compilation database is refused by name, before clang-tidy runs'
+	fi
+fi
+# The mutation is confined to the copy, and every case above has already run;
+# restore it anyway so a later case added below cannot inherit an empty database.
+cp -a -- "$ROOT/renderer/wasm.mk" "$DB_SRC"
 
 # ---------------------------------------------------------------------------
 banner 'THE SIX CEILINGS ARE PINNED to literals — they move DOWN only'

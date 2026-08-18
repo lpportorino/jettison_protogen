@@ -1205,6 +1205,33 @@ lint-c-tidy:
 # first place. Regeneration is a few make-variable expansions into a JSON file —
 # cheaper than the risk it removes.
 	@$(MAKE) -C renderer -f wasm.mk compile-db
+# NON-VACUITY FLOOR, and it guards a state this lane REACHES rather than a
+# hypothetical one. run-clang-tidy over an EMPTY compilation database analyses
+# nothing and exits 0, so the lane's pass value equals its nothing-ran value —
+# a green tick over zero coverage, which `.claude/rules/gate-enforcement.md` §3
+# refuses. Measured, by emptying TIDY_SRCS in a throw-away copy of the tree:
+# the lane printed `[compile-db] 0 entries`, analysed 0 files and exited 0.
+# The database is the lane's DISCOVERY, so the lane is where it is floored;
+# `compile-db` in renderer/wasm.mk is a producer and has other callers.
+# grep exits 1 for "no match", which is a COUNT of zero and not an error; only
+# rc > 1 is a failure to read the file at all, and the two are separated so a
+# broken database cannot be reported as an empty one.
+	@entries=$$(grep -c '"file":' renderer/compile_commands.json); rc=$$?; \
+	if [ $$rc -gt 1 ]; then \
+		printf '\033[31m[lint-c-tidy] FAIL\033[0m — cannot read renderer/compile_commands.json (grep exit %s).\n' "$$rc" >&2; \
+		printf '  The database is regenerated immediately above, so this is a broken\n' >&2; \
+		printf '  emit rather than a stale file — read the compile-db output above.\n' >&2; \
+		exit 1; \
+	fi; \
+	if [ "$$entries" -lt 1 ]; then \
+		printf '\033[31m[lint-c-tidy] FAIL\033[0m — the compilation database names ZERO files.\n' >&2; \
+		printf '  This repo has hand-authored C, so an empty database means DISCOVERY\n' >&2; \
+		printf '  broke, not that there is nothing to analyse. clang-tidy would exit 0\n' >&2; \
+		printf '  over it and this lane would report a green having read nothing.\n' >&2; \
+		printf '  TIDY_SRCS in renderer/wasm.mk is what the database is emitted from.\n' >&2; \
+		exit 1; \
+	fi; \
+	printf '\033[32m[lint-c-tidy]\033[0m %s translation unit(s) to analyse\n' "$$entries"
 	@cd renderer && $(RUN_CLANG_TIDY) -clang-tidy-binary $(CLANG_TIDY) -p . -quiet -j $(NPROC)
 
 ## lint-c-tidy-test: the canary for lint-c-tidy's SIX-AXIS SIZE CHECK
@@ -1239,10 +1266,14 @@ lint-c-tidy:
 # nobody else (`.claude/rules/gate-enforcement.md` §6 wants both). The CI home is
 # the renderer job that already runs `lint-c-tidy` in the pinned image.
 #
-# IT COSTS WHAT THE GATE COSTS, times eight — one lane run per axis, plus the
-# relaxed control and the baseline. Measured at roughly 6 s per run on a 32-core
-# host. Run the suite alone to read its output cleanly; the cases are sequential
-# and each prints its own line.
+# ITS SCOPE IS WIDER THAN ITS NAME by one case: it also drives the lane's
+# non-vacuity floor, because an empty compilation database is the other way this
+# lane can report a green over C it never read.
+#
+# IT COSTS WHAT THE GATE COSTS, times nine — one lane run per axis, plus the
+# relaxed control, the baseline, and the empty-database case. Measured at roughly
+# 6 s per run on a 32-core host. Run the suite alone to read its output cleanly;
+# the cases are sequential and each prints its own line.
 lint-c-tidy-test:
 	@bash tools/lint/test/c_tidy_size_test.sh
 
