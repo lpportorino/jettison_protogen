@@ -25,7 +25,7 @@
              :constraints {:defined-only true}}
             {:number 20 :name "stale" :type :bool}
             {:number 25 :name "history" :type :int32 :repeated true
-             :constraints {:max-items 8}}]}
+             :constraints {:max-items 8 :items {:int32 {:gte 0}}}}]}
 
   "pgfix.Command"
   {:id "pgfix.Command"

@@ -84,14 +84,31 @@
    one identifier; dots separate, never lead or trail."
   [:re #"^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)*$"])
 
+(def constraint-scalar
+  "One validation-constraint value where the constraint judges a value
+   directly: a bound, a length, a pattern, a flag, or a vector of any of those
+   (`in`, `not_in`, `example`)."
+  [:or number? :string :boolean [:vector [:or number? :string]]])
+
 (def constraint-value
-  "One validation-constraint value as a database records it: a bound, a length,
-   a pattern, a flag, or a vector of any of those (`in`, `not_in`, `example`).
+  "One validation-constraint value as a database records it — either a scalar,
+   or the ELEMENT RULES a repeated field's `:items` carries.
+
+   THE NESTED ARM IS A LOAD-TIME NECESSITY, not a convenience. A repeated
+   field may declare rules that judge each ELEMENT rather than the list, and
+   the producer records them as `{rule-set {constraint value}}` — the rule set
+   kept rather than folded onto the field's own type, so a consumer can tell a
+   truthful re-emission from a silent substitution. A schema admitting only
+   scalars refuses such a database at LOAD, in a message no group projects,
+   which is precisely the corpus-wide failure this namespace's docstring says
+   the floor must not cause.
 
    OPEN BY VALUE, CLOSED BY KEY LATER. It names the value shapes rather than
-   `:any` so a reader learns what a constraint holds; which KEYS are legal is
-   `protocol-gen.constraints`' question, asked per granted field."
-  [:or number? :string :boolean [:vector [:or number? :string]]])
+   `:any` so a reader learns what a constraint holds; which KEYS are legal —
+   at either level — is `protocol-gen.constraints`' question, asked per granted
+   field."
+  [:or constraint-scalar
+   [:map-of :keyword [:map-of :keyword constraint-scalar]]])
 
 (def field
   "One field as the database records it.

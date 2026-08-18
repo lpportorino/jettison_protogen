@@ -707,3 +707,98 @@
               (is (re-find #"Update format-constraints" msg)))))
         (finally
           (.delete temp-file))))))
+
+;; ============================================================================
+;; Element-level repeated rules — `repeated.items` judges each ELEMENT
+;; ============================================================================
+
+(defn- parse-one-field
+  "Parse a one-message, one-field descriptor and return that field."
+  [prefix field-desc]
+  (let [descriptor {"file"
+                    [{"name" "jon_shared_test.proto"
+                      "package" "test"
+                      "messageType"
+                      [{"name" "Holder" "field" [field-desc]}]}]}
+        temp-file (java.io.File/createTempFile prefix ".json")]
+    (try
+      (spit temp-file (json/write-str descriptor))
+      (let [db (parse/parse-descriptor-file (.getPath temp-file))]
+        (first (:fields (get-in db [:messages "test.Holder"]))))
+      (finally
+        (.delete temp-file)))))
+
+(defn- repeated-string-field
+  "A repeated string field carrying `repeated-rules` as its buf.validate rules."
+  [repeated-rules]
+  {"name" "tab_names"
+   "number" 1
+   "type" "TYPE_STRING"
+   "label" "LABEL_REPEATED"
+   "options" {"[buf.validate.field]" {"repeated" repeated-rules}}})
+
+(deftest parse-repeated-items-element-rules-test
+  (testing "repeated.items parses into :items, keyed by the rule set it names"
+    (let [field (parse-one-field
+                 "repeated-items"
+                 (repeated-string-field {"maxItems" "8"
+                                         "items" {"string" {"maxLen" "31"}}}))]
+      ;; The list-level bound and the element-level bound are DIFFERENT facts
+      ;; about the same field and both survive.
+      (is (= 8 (:max-items (:constraints field))))
+      (is (= {:string {:max-len 31}} (:items (:constraints field)))))))
+
+(deftest parse-repeated-items-keeps-the-rule-set-name-test
+  (testing "the element rule set is recorded rather than folded onto the field type"
+    ;; A database that dropped the rule set could not tell a truthful
+    ;; re-emission from a silent substitution of one type's rules for another's.
+    (let [field (parse-one-field
+                 "repeated-items-enum"
+                 {"name" "modes"
+                  "number" 1
+                  "type" "TYPE_ENUM"
+                  "typeName" ".test.Mode"
+                  "label" "LABEL_REPEATED"
+                  "options" {"[buf.validate.field]"
+                             {"repeated" {"items" {"enum" {"definedOnly" true}}}}}})]
+      (is (= {:enum {:defined-only true}} (:items (:constraints field)))))))
+
+(deftest element-rule-set-that-cannot-judge-one-value-is-refused-test
+  (testing "`repeated` is refused as an element rule set"
+    ;; Its constraint keys ARE registered, so admitting the set name would let
+    ;; `items: {repeated: …}` parse into a rule nothing here can express.
+    (is (thrown-with-msg?
+         clojure.lang.ExceptionInfo
+         #"Unknown buf.validate element rule set: repeated"
+         (parse-one-field "items-repeated"
+                          (repeated-string-field {"items" {"repeated" {"maxItems" "2"}}})))))
+  (testing "a FieldRules key that is not a rule set at all is refused"
+    (is (thrown-with-msg?
+         clojure.lang.ExceptionInfo
+         #"Unknown buf.validate element rule set: required"
+         (parse-one-field "items-required"
+                          (repeated-string-field {"items" {"required" true}}))))))
+
+(deftest unknown-element-constraint-is-refused-test
+  (testing "an unregistered constraint inside items throws like any other"
+    (is (thrown-with-msg?
+         clojure.lang.ExceptionInfo
+         #"Unknown buf.validate constraint: :string/noSuchRule"
+         (parse-one-field "items-unknown"
+                          (repeated-string-field {"items" {"string" {"noSuchRule" 1}}})))))
+  (testing "and the refusal says it was nested rather than top-level"
+    (try
+      (parse-one-field "items-unknown-data"
+                       (repeated-string-field {"items" {"string" {"noSuchRule" 1}}}))
+      (is false "Should have thrown")
+      (catch clojure.lang.ExceptionInfo e
+        (is (= [:items] (:path (ex-data e))))))))
+
+(deftest a-field-rules-key-this-database-does-not-record-is-refused-test
+  (testing "a non-rule-set FieldRules key is a refusal, never a silent drop"
+    (is (thrown-with-msg?
+         clojure.lang.ExceptionInfo
+         #"Unknown buf.validate constraint: :ignore"
+         (parse-one-field "top-ignore"
+                          {"name" "a" "number" 1 "type" "TYPE_STRING"
+                           "options" {"[buf.validate.field]" {"ignore" "IGNORE_ALWAYS"}}})))))

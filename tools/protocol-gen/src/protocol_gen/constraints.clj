@@ -25,7 +25,16 @@
    belongs to `string` rules on a string and to `bytes` rules on bytes, and
    `min_items` belongs to `repeated` rules whatever the element is — so a
    constraint that cannot apply to a field's type is a refusal rather than
-   something to emit into the nearest plausible rule set."
+   something to emit into the nearest plausible rule set.
+
+   TWO LEVELS, AND THE SECOND IS WHERE A SUBSTITUTION HIDES. A repeated field's
+   `items` block carries the rules that judge each ELEMENT, and the database
+   records the rule set they were declared under rather than folding it onto the
+   field's type. Re-spelling them as the field's own type would compile — protoc
+   does not check that a rule set matches the field it annotates — and the
+   runtime would then judge the value under rules the source never wrote. So the
+   declared rule set is COMPARED against the field's own and a disagreement is a
+   refusal, which is the one outcome that cannot ship a wrong schema quietly."
   (:require [clojure.string :as str]
             [malli.core :as m]
             [protocol-gen.constructs :as constructs]
@@ -71,7 +80,9 @@
    spelling this repository's own protos already use. `:applies` is either a
    set of field types, `:repeated` (the rule set that judges the LIST rather
    than the element), or `:top-level` (an option on the field itself rather
-   than inside a rule set). `:vector?` marks a repeated rule value."
+   than inside a rule set). `:vector?` marks a repeated rule value, and
+   `:nested?` marks the one whose value is a whole rule set of its own rather
+   than a literal."
   {:gt {:spelling "gt" :applies numeric-types}
    :gte {:spelling "gte" :applies numeric-types}
    :lt {:spelling "lt" :applies numeric-types}
@@ -86,6 +97,7 @@
    :not-in {:spelling "not_in" :applies #{:enum} :vector? true}
    :min-items {:spelling "min_items" :applies :repeated}
    :max-items {:spelling "max_items" :applies :repeated}
+   :items {:spelling "items" :applies :repeated :nested? true}
    :required {:spelling "required" :applies :top-level}})
 
 (defn- literal
@@ -125,6 +137,60 @@
                           (str "constraint " k " does not apply to a " (:type fld) " field; it "
                                "applies to " (pr-str (vec (sort applies))))))))
 
+(defn- element-block
+  "The `items: {<rule set>: {…}}` text for one repeated field's element rules.
+
+   FOUR REFUSALS, and each names a way an element rule could be emitted wrongly
+   rather than not at all:
+
+   - the field's type has no protovalidate rule set, so its elements cannot
+     carry rules to begin with;
+   - the block names more than one rule set. protovalidate's `items` is one
+     `FieldRules` whose type arm is a ONEOF, so a second set is not expressible
+     rather than merely unusual, and picking one would be a guess;
+   - the declared rule set is not the field's own. This is the substitution the
+     namespace docstring is about: protoc compiles the disagreement, so nothing
+     downstream would report it;
+   - a constraint inside the block does not judge a single value of that type —
+     `max_items` judges the list, `required` is a field option. `bucket-of`
+     answers both questions at once, so the element level and the field level
+     cannot drift apart in what they consider applicable."
+  [subject fld items]
+  (let [expected (or (get rules-name (:type fld))
+                     (constructs/refuse!
+                      :constraint-type-mismatch subject
+                      (str "field type " (:type fld) " has no protovalidate rule set, so "
+                           "its elements carry no rules")))]
+    (when-not (= 1 (count items))
+      (constructs/refuse!
+       :constraint-type-mismatch subject
+       (str "element rules name " (count items) " rule sets; protovalidate carries "
+            "exactly one, the element type's")))
+    (let [[rule-set rules] (first items)]
+      (when-not (= (name rule-set) expected)
+        (constructs/refuse!
+         :constraint-type-mismatch subject
+         (str "element rules are declared under " (name rule-set) " and this field's "
+              "elements are " expected)))
+      (doseq [[k _] rules]
+        (when-not (= expected (bucket-of subject fld k))
+          (constructs/refuse!
+           :constraint-type-mismatch subject
+           (str "constraint " k " does not judge a single " expected " value"))))
+      (str "items: {" (name rule-set) ": {"
+           (str/join ", "
+                     (for [[k v] (sort-by (comp :spelling constraint-table key) rules)]
+                       (str (:spelling (constraint-table k)) ": " (literal v))))
+           "}}"))))
+
+(defn- rule-member
+  "One `name: value` member of an emitted rule set. The nested one carries a
+   rule set rather than a literal, so it is rendered rather than printed."
+  [subject fld k v]
+  (if (:nested? (constraint-table k))
+    (element-block subject fld v)
+    (str (:spelling (constraint-table k)) ": " (literal v))))
+
 (defn field-options
   "The option strings for one projected field, sorted so two runs over the same
    input emit byte-identical text.
@@ -145,7 +211,7 @@
           (str "(buf.validate.field)." bucket " = {"
                (str/join ", "
                          (for [[k v] (sort-by (comp :spelling constraint-table key) entries)]
-                           (str (:spelling (constraint-table k)) ": " (literal v))))
+                           (rule-member subject fld k v)))
                "}")))))))
 
 (m/=> field-options

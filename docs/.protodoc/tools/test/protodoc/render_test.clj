@@ -221,3 +221,25 @@
       (is (not (str/includes? md "### Purpose")))
       (is (not (str/includes? md "### Related State")))
       (is (not (str/includes? md "### Preconditions"))))))
+
+;; ============================================================================
+;; Element rules render beside the list bound they sit inside
+;; ============================================================================
+
+(def repeated-element-rules-message
+  {:id "ui.TabviewProps"
+   :name "TabviewProps"
+   :package "ui"
+   :source "ui/ui_ast.proto"
+   :description "Tabview properties."
+   :fields [{:number 1 :name "tab_names" :type :string :repeated true
+             :constraints {:max-items 8 :items {:string {:max-len 31}}}
+             :description "One name per tab."}]})
+
+(deftest render-element-rules-test
+  (testing "the element rules reach the page rather than being silently dropped"
+    ;; A rendered constraint cell that showed only the list bound would say the
+    ;; field's elements are unbounded, which is the opposite of what it declares.
+    (let [md (render/render-message repeated-element-rules-message)]
+      (is (str/includes? md "max-items: 8"))
+      (is (str/includes? md "each string: max-len: 31")))))

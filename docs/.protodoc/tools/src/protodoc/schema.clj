@@ -23,7 +23,22 @@
 
 ;; Constraint schema for buf.validate rules
 ;; Note: Not closed to allow future buf.validate extensions
-(def Constraints
+
+;; The rule sets that may judge ONE VALUE, and therefore the ones a repeated
+;; field's element rules may name. `protodoc.parse/element-rule-sets` owns the
+;; set and its reasoning; this is the keyword mirror of it, and
+;; `protodoc.schema-test` asserts the two agree rather than trusting this
+;; comment. It is exactly `FieldType` minus `:message` and `:group`, which have
+;; no protovalidate rule set at all.
+(def ElementRuleSet
+  [:enum :bool :bytes :double :enum :fixed32 :fixed64 :float :int32 :int64
+   :sfixed32 :sfixed64 :sint32 :sint64 :string :uint32 :uint64])
+
+;; The constraints that judge ONE VALUE: a bound, a length, a pattern, a
+;; membership. They appear both on a scalar field and, for a repeated field,
+;; inside the element rules — which is why they are named once here rather than
+;; written out twice.
+(def ValueConstraints
   [:map
    [:gt {:optional true} number?]
    [:gte {:optional true} number?]
@@ -31,15 +46,25 @@
    [:lte {:optional true} number?]
    [:min-len {:optional true} int?]
    [:max-len {:optional true} int?]
-   [:min-items {:optional true} int?]
-   [:max-items {:optional true} int?]
    [:defined-only {:optional true} boolean?]
    [:not-in {:optional true} [:vector int?]]
    [:in {:optional true} [:vector :string]]
-   [:required {:optional true} boolean?]
    [:pattern {:optional true} :string]
    [:email {:optional true} boolean?]
    [:example {:optional true} [:vector number?]]])
+
+;; Everything a FIELD's constraints may carry: the value-level keys above, the
+;; two that bound the LIST, the field-level `:required`, and `:items` — the
+;; element rules a repeated field declares, keyed by the protovalidate rule set
+;; that declared them. The rule set is KEPT rather than folded onto the field's
+;; own type: a database that dropped it could not tell a truthful re-emission
+;; from a silent substitution of one type's rules for another's.
+(def Constraints
+  (into ValueConstraints
+        [[:min-items {:optional true} int?]
+         [:max-items {:optional true} int?]
+         [:required {:optional true} boolean?]
+         [:items {:optional true} [:map-of ElementRuleSet ValueConstraints]]]))
 
 ;; ============================================================================
 ;; Platform-Agnostic Interaction Metadata

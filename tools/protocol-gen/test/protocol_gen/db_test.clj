@@ -48,3 +48,17 @@
     (testing "position 0 holds number 7, so a positional lookup would disagree"
       (is (nil? (db/field-by-number msg 0)))
       (is (nil? (db/field-by-number msg 1))))))
+
+(deftest element-rules-are-a-database-constraint-value
+  ;; A repeated field's `:items` carries the rules that judge each ELEMENT,
+  ;; keyed by the protovalidate rule set that declared them. A loader that
+  ;; refused the nested map would fail on the whole corpus, in messages no
+  ;; group ever projects — the scope split this namespace's docstring draws.
+  (let [nested {:messages
+                {"p.M" {:id "p.M" :name "M"
+                        :fields [{:number 1 :name "tab_names" :type :string
+                                  :repeated true
+                                  :constraints {:max-items 8
+                                                :items {:string {:max-len 31}}}}]}}
+                :enums {}}]
+    (is (= nested (db/validate! nested "<inline>")))))

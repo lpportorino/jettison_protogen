@@ -63,6 +63,32 @@
    would leave a distinctly-recorded type nobody can resolve."
   #{:enum :message :group})
 
+(def element-rule-sets
+  "The buf.validate rule sets that may judge ONE VALUE, spelled the way the
+   descriptor spells them.
+
+   A repeated field's `repeated.items` carries a whole `FieldRules` judging each
+   ELEMENT rather than the list, and this set is what may legally appear inside
+   it. It is the descriptor's scalar and enum types and nothing else, and the
+   two absences are load-bearing for different reasons:
+
+   `repeated` and `map` are absent because an element of a list is never itself
+   a list or a map — and they are the pair whose omission actually bites, since
+   their constraint keys (`minItems`, `maxItems`) ARE registered. Admitting the
+   set name would let `items: {repeated: {max_items: 4}}` parse into a rule this
+   database cannot express and no consumer can emit, which is the silent
+   approximation this file refuses everywhere else.
+
+   `message` and `group` are absent because protovalidate declares no scalar
+   rule set for either, so an element of one carries nothing to record.
+
+   `protodoc.schema/ElementRuleSet` mirrors this set as keywords and
+   `protodoc.schema-test` asserts the two agree — a comment claiming they do
+   would not have caught the day they stopped."
+  #{"double" "float" "int32" "int64" "uint32" "uint64"
+    "sint32" "sint64" "fixed32" "fixed64" "sfixed32" "sfixed64"
+    "bool" "string" "bytes" "enum"})
+
 (defn- normalize-type-ref
   "Convert .pkg.Type to pkg.Type (remove leading dot)."
   [type-name]
@@ -109,8 +135,8 @@
     ;; Enum constraints
     :enum/definedOnly :enum/notIn
 
-    ;; Repeated constraints
-    :repeated/minItems :repeated/maxItems
+    ;; Repeated constraints — the list itself, and its ELEMENTS
+    :repeated/minItems :repeated/maxItems :repeated/items
 
     ;; General constraints
     :required})
@@ -183,61 +209,119 @@
 (defmethod parse-constraint :enum/definedOnly [_ _ v] {:defined-only (boolean v)})
 (defmethod parse-constraint :enum/notIn [_ _ v] {:not-in (vec v)})
 
-;; Repeated constraint handlers
+;; Repeated constraint handlers — the LIST's own bounds
 (defmethod parse-constraint :repeated/minItems [_ _ v] {:min-items (parse-number v)})
 (defmethod parse-constraint :repeated/maxItems [_ _ v] {:max-items (parse-number v)})
 
 ;; Required constraint handler (special case - appears at top level of validate object)
 (defmethod parse-constraint :required [_ _ v] {:required (boolean v)})
 
+(defn- unknown-constraint!
+  "Throw the refusal an unregistered dispatch key earns, naming the remedy at
+   every layer that has to learn a new constraint.
+
+   `path` is where the constraint was found: empty at the field's own rules,
+   `[:items]` inside a repeated field's element rules. It rides in the message
+   as well as the data because a reader who sees only the dispatch key will
+   look for the constraint at the top level and not find it."
+  [dispatch-key type-key constraint-key value path]
+  (throw (ex-info
+          (str "Unknown buf.validate constraint: " dispatch-key
+               (when (seq path)
+                 (str " (inside repeated." (str/join "." (map name path)) ")"))
+               "\n"
+               "  Available constraints in registry:\n"
+               "    " (str/join "\n    " (sort constraint-registry)) "\n\n"
+               "  To add support:\n"
+               "    1. Add " dispatch-key " to constraint-registry\n"
+               "    2. Add handler: (defmethod parse-constraint " dispatch-key " [_ _ v] ...)\n"
+               "    3. Update Constraints schema in schema.clj\n"
+               "    4. Update format-constraints in render.clj")
+          {:type :unknown-constraint
+           :constraint dispatch-key
+           :type-key type-key
+           :constraint-key constraint-key
+           :value value
+           :path path})))
+
+(defn- parse-rule-set
+  "Parse one type-scoped rules block — the `{constraint-key value}` map that
+   sits under `type-key` — into the flat constraint map this database records.
+
+   EXHAUSTIVE: a dispatch key the registry does not carry is a refusal, never a
+   drop. A dropped constraint leaves a database claiming a field is less
+   constrained than its source says, and nothing downstream can tell that from
+   a field that was never constrained at all."
+  [type-key rules path]
+  (reduce-kv
+   (fn [acc constraint-key value]
+     (let [dispatch-key (keyword (str type-key "/" constraint-key))]
+       (when-not (contains? constraint-registry dispatch-key)
+         (unknown-constraint! dispatch-key type-key constraint-key value path))
+       (merge acc (parse-constraint type-key constraint-key value))))
+   {} rules))
+
+(defn- parse-element-rules
+  "Parse a repeated field's `items` block — one protovalidate `FieldRules`
+   judging each ELEMENT rather than the list — into `{rule-set constraints}`.
+
+   THE RULE SET IS KEPT, NOT FOLDED ONTO THE FIELD'S OWN TYPE. Recording only
+   the element constraints would leave a database that cannot tell a truthful
+   re-emission from a silent substitution: protoc compiles `repeated string x =
+   1 [(buf.validate.field).repeated = {items: {int32: {gte: 1}}}]` without
+   complaint, and a consumer re-spelling those rules as the field's own type
+   would emit a schema the source never declared. Keeping the name is what lets
+   the consumer refuse it knowingly.
+
+   A key that is not an element rule set is refused rather than dropped —
+   including `repeated`, whose constraint keys are registered and which would
+   therefore parse into a rule nothing here can express (see
+   `element-rule-sets`)."
+  [items]
+  (reduce-kv
+   (fn [acc rule-set rules]
+     (when-not (contains? element-rule-sets rule-set)
+       (throw (ex-info
+               (str "Unknown buf.validate element rule set: " rule-set "\n"
+                    "  A repeated field's items block carries the rules that judge ONE\n"
+                    "  element. The rule sets that can do that are:\n"
+                    "    " (str/join ", " (sort element-rule-sets)) "\n\n"
+                    "  `repeated` and `map` are absent because an element is never itself a\n"
+                    "  list or a map; `message` and `group` have no protovalidate rule set.")
+               {:type :unknown-element-rule-set
+                :rule-set rule-set
+                :value rules
+                :path [:items]})))
+     (assoc acc (keyword rule-set) (parse-rule-set rule-set rules [:items])))
+   {} items))
+
+;; Element-level repeated handler — the nested FieldRules judging each item
+(defmethod parse-constraint :repeated/items [_ _ v] {:items (parse-element-rules v)})
+
 (defn- parse-buf-validate-constraints
   "Extract constraints from buf.validate.field options with exhaustive checking.
-   Throws ex-info if an unknown constraint type is encountered."
+   Throws ex-info if an unknown constraint type is encountered.
+
+   TWO SHAPES SIT SIDE BY SIDE IN `FieldRules` and both are handled here rather
+   than by a special case downstream: a type-scoped RULE SET, whose value is a
+   map of constraint keys, and a DIRECT key such as `required`, whose value is a
+   scalar. Anything else — `ignore`, `cel` — is refused by the registry check
+   rather than dropped, which is what the map/non-map split buys: it used to
+   throw a ClassCastException on a non-map value, which named neither the key
+   nor the remedy."
   [options]
   (when-let [validate (get options "[buf.validate.field]")]
-    (let [constraints (volatile! (transient {}))]
-
-      ;; Process all type-level constraints (numeric, string, bytes, enum, repeated)
-      (doseq [type-key (keys validate)
-              :when (not= type-key "required") ;; Handle required separately below
-              :let [rules (get validate type-key)]]
-        ;; Process each constraint within this type
-        (doseq [constraint-key (keys rules)]
-          (let [dispatch-key (keyword (str type-key "/" constraint-key))
-                value (get rules constraint-key)]
-
-            ;; Check if handler exists in registry
-            (when-not (contains? constraint-registry dispatch-key)
-              (throw (ex-info
-                      (str "Unknown buf.validate constraint: " dispatch-key "\n"
-                           "  Available constraints in registry:\n"
-                           "    " (str/join "\n    " (sort constraint-registry)) "\n\n"
-                           "  To add support:\n"
-                           "    1. Add " dispatch-key " to constraint-registry\n"
-                           "    2. Add handler: (defmethod parse-constraint " dispatch-key " [_ _ v] ...)\n"
-                           "    3. Update Constraints schema in schema.clj\n"
-                           "    4. Update format-constraints in render.clj")
-                      {:type :unknown-constraint
-                       :constraint dispatch-key
-                       :type-key type-key
-                       :constraint-key constraint-key
-                       :value value})))
-
-            ;; Parse using multimethod and merge result
-            (let [result (parse-constraint type-key constraint-key value)]
-              (doseq [[k v] result]
-                (vswap! constraints assoc! k v))))))
-
-      ;; Handle 'required' constraint (top-level in validate object)
-      (when (contains? validate "required")
-        (let [result (parse-constraint "required" nil (get validate "required"))]
-          (doseq [[k v] result]
-            (vswap! constraints assoc! k v))))
-
-      ;; Return persistent map if non-empty
-      (let [result (persistent! @constraints)]
-        (when (seq result)
-          result)))))
+    (let [result (reduce-kv
+                  (fn [acc k v]
+                    (if (map? v)
+                      (merge acc (parse-rule-set k v []))
+                      (let [dispatch-key (keyword k)]
+                        (when-not (contains? constraint-registry dispatch-key)
+                          (unknown-constraint! dispatch-key k nil v []))
+                        (merge acc (parse-constraint k nil v)))))
+                  {} validate)]
+      (when (seq result)
+        result))))
 
 (defn- parse-field
   "Parse a field descriptor into our schema format."

@@ -4,6 +4,7 @@
             [clojure.test.check :as tc]
             [clojure.test.check.properties :as prop]
             [malli.generator :as mg]
+            [protodoc.parse :as parse]
             [protodoc.schema :as schema]))
 
 (deftest field-schema-test
@@ -455,3 +456,35 @@
                                       :unit "%"
                                       :precision 0
                                       :display-format "{value * 100}%"}}))))
+
+;; ============================================================================
+;; Element rules — the ELEMENT vocabulary a repeated field's :items carries
+;; ============================================================================
+
+(deftest element-rule-set-enum-agrees-with-the-parser-test
+  (testing "the schema's element rule sets are the parser's, spelled as keywords"
+    ;; `protodoc.parse/element-rule-sets` owns the set; a comment saying the two
+    ;; agree would not have caught the day they stopped.
+    (is (= parse/element-rule-sets
+           (into #{} (map name) (rest schema/ElementRuleSet)))))
+  (testing "and they are the field types that have a protovalidate rule set"
+    ;; `:message` and `:group` have none, so an element of either carries no
+    ;; rules to record.
+    (is (= (into #{} (remove #{:message :group}) (rest schema/FieldType))
+           (set (rest schema/ElementRuleSet))))))
+
+(deftest constraints-element-rules-test
+  (testing "a list bound and its element rules validate together"
+    (is (schema/valid? schema/Constraints
+                       {:max-items 8 :items {:string {:max-len 31}}})))
+
+  (testing "a non-map :items is refused rather than tolerated as an open-map extra"
+    (is (not (schema/valid? schema/Constraints {:items 31}))))
+
+  (testing "a rule set no single element can carry is refused"
+    (is (not (schema/valid? schema/Constraints {:items {:repeated {:max-items 2}}}))))
+
+  (testing "the whole Field still validates with element rules on it"
+    (is (schema/valid? schema/Field
+                       {:number 1 :name "tab_names" :type :string :repeated true
+                        :constraints {:max-items 8 :items {:string {:max-len 31}}}}))))

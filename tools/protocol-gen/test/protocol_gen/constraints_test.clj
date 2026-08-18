@@ -78,3 +78,45 @@
   (is (= [] (opts {:number 1 :name "a" :type :bool})))
   (is (= [] (constraints/imports-for false)))
   (is (= ["buf/validate/validate.proto"] (constraints/imports-for true))))
+
+(deftest element-rules-emit-inside-the-repeated-rule-set
+  ;; `max_items` judges the LIST and the `items` block judges each ELEMENT; both
+  ;; live in the same emitted rule set and neither may swallow the other.
+  (is (= ["(buf.validate.field).repeated = {items: {string: {max_len: 31}}, max_items: 8}"]
+         (opts {:number 1 :name "a" :type :string :repeated true
+                :constraints {:max-items 8 :items {:string {:max-len 31}}}}))))
+
+(deftest element-rules-on-a-non-list-field-are-refused
+  (is (thrown-with-msg?
+       clojure.lang.ExceptionInfo #"constraint-type-mismatch"
+       (opts {:number 1 :name "a" :type :string
+              :constraints {:items {:string {:max-len 31}}}}))))
+
+(deftest element-rules-declared-under-another-types-rule-set-are-refused
+  ;; Re-spelling them as the field's own type would substitute one type's rules
+  ;; for another's: protoc accepts the result and the runtime then judges the
+  ;; value under rules the source never declared.
+  (is (thrown-with-msg?
+       clojure.lang.ExceptionInfo #"constraint-type-mismatch"
+       (opts {:number 1 :name "a" :type :string :repeated true
+              :constraints {:items {:int32 {:gte 1}}}}))))
+
+(deftest element-rules-naming-more-than-one-rule-set-are-refused
+  ;; protovalidate's `items` is one FieldRules, whose type arm is a oneof, so a
+  ;; second rule set is not expressible rather than merely unusual.
+  (is (thrown-with-msg?
+       clojure.lang.ExceptionInfo #"constraint-type-mismatch"
+       (opts {:number 1 :name "a" :type :string :repeated true
+              :constraints {:items {:string {:max-len 31} :bytes {:max-len 31}}}}))))
+
+(deftest an-element-constraint-that-judges-the-list-is-refused
+  (is (thrown-with-msg?
+       clojure.lang.ExceptionInfo #"constraint-type-mismatch"
+       (opts {:number 1 :name "a" :type :string :repeated true
+              :constraints {:items {:string {:max-items 2}}}}))))
+
+(deftest an-unrecognised-element-constraint-is-refused-rather-than-dropped
+  (is (thrown-with-msg?
+       clojure.lang.ExceptionInfo #"unknown-constraint"
+       (opts {:number 1 :name "a" :type :string :repeated true
+              :constraints {:items {:string {:no-such-rule 1}}}}))))

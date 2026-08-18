@@ -9,52 +9,73 @@
 ;; Configure Selmer to use our templates directory
 (selmer/set-resource-path! (io/resource "templates"))
 
+(defn- flat-constraint-parts
+  "The human-readable pieces for the FLAT constraint keys — every key except
+   `:items`, which nests.
+
+   Shared with a repeated field's element rules, which carry a SUBSET of this
+   vocabulary: an element is never itself a list, so the list bounds cannot
+   appear there. Sharing it is what makes a bound read the same whether it
+   applies to the field or to each of its items."
+  [constraints]
+  (cond-> []
+    (:gt constraints)
+    (conj (str "> " (:gt constraints)))
+
+    (:gte constraints)
+    (conj (str ">= " (:gte constraints)))
+
+    (:lt constraints)
+    (conj (str "< " (:lt constraints)))
+
+    (:lte constraints)
+    (conj (str "<= " (:lte constraints)))
+
+    (:min-len constraints)
+    (conj (str "min-len: " (:min-len constraints)))
+
+    (:max-len constraints)
+    (conj (str "max-len: " (:max-len constraints)))
+
+    (:min-items constraints)
+    (conj (str "min-items: " (:min-items constraints)))
+
+    (:max-items constraints)
+    (conj (str "max-items: " (:max-items constraints)))
+
+    (:pattern constraints)
+    (conj (str "pattern: " (:pattern constraints)))
+
+    (:in constraints)
+    (conj (str "in: [" (str/join ", " (:in constraints)) "]"))
+
+    (:email constraints)
+    (conj "valid email")
+
+    (:defined-only constraints)
+    (conj "defined enum value only")
+
+    (:not-in constraints)
+    (conj (str "not in: " (str/join ", " (:not-in constraints))))
+
+    (:required constraints)
+    (conj "required")))
+
 (defn- format-constraints
-  "Format constraints map as human-readable string."
+  "Format constraints map as human-readable string.
+
+   A repeated field's element rules render AFTER the field's own, prefixed with
+   the rule set they were declared under: `max-items: 8, each string: max-len:
+   31` says the list holds at most eight names and each name at most 31
+   characters. Dropping them would render a bound on the list as if it were the
+   whole contract, which is the opposite of what the field declares."
   [constraints]
   (when constraints
-    (let [parts (cond-> []
-                  (:gt constraints)
-                  (conj (str "> " (:gt constraints)))
-
-                  (:gte constraints)
-                  (conj (str ">= " (:gte constraints)))
-
-                  (:lt constraints)
-                  (conj (str "< " (:lt constraints)))
-
-                  (:lte constraints)
-                  (conj (str "<= " (:lte constraints)))
-
-                  (:min-len constraints)
-                  (conj (str "min-len: " (:min-len constraints)))
-
-                  (:max-len constraints)
-                  (conj (str "max-len: " (:max-len constraints)))
-
-                  (:min-items constraints)
-                  (conj (str "min-items: " (:min-items constraints)))
-
-                  (:max-items constraints)
-                  (conj (str "max-items: " (:max-items constraints)))
-
-                  (:pattern constraints)
-                  (conj (str "pattern: " (:pattern constraints)))
-
-                  (:in constraints)
-                  (conj (str "in: [" (str/join ", " (:in constraints)) "]"))
-
-                  (:email constraints)
-                  (conj "valid email")
-
-                  (:defined-only constraints)
-                  (conj "defined enum value only")
-
-                  (:not-in constraints)
-                  (conj (str "not in: " (str/join ", " (:not-in constraints))))
-
-                  (:required constraints)
-                  (conj "required"))]
+    (let [parts (cond-> (flat-constraint-parts constraints)
+                  (:items constraints)
+                  (into (for [[rule-set rules] (sort-by key (:items constraints))]
+                          (str "each " (name rule-set) ": "
+                               (str/join ", " (flat-constraint-parts rules))))))]
       (when (seq parts)
         (str/join ", " parts)))))
 

@@ -36,7 +36,16 @@ message Reading {
   }];
   Mode mode = 14 [(buf.validate.field).enum = {defined_only: true}];
   bool stale = 20;
-  repeated int32 history = 25 [(buf.validate.field).repeated = {max_items: 8}];
+  // The list bound and the ELEMENT bound together: `max_items` judges the list,
+  // `items` carries a whole rule set judging each element. The pair is here so
+  // the canary compiles an emitted nested block rather than only asserting the
+  // text a unit test built.
+  repeated int32 history = 25 [(buf.validate.field).repeated = {
+    max_items: 8,
+    items: {
+      int32: {gte: 0}
+    }
+  }];
 }
 
 message Command {
