@@ -242,6 +242,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
     kAccumulatorStateFieldNumber = 24,
     kExtBatCapacityFieldNumber = 25,
     kExtBatStatusFieldNumber = 26,
+    kTotalOperatingHoursFieldNumber = 27,
   };
   // double cpu_temperature = 1 [(.buf.validate.field) = {
   void clear_cpu_temperature() ;
@@ -503,12 +504,22 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
   void _internal_set_ext_bat_status(::ser::JonGuiDataExtBatStatus value);
 
   public:
+  // int64 total_operating_hours = 27 [(.buf.validate.field) = {
+  void clear_total_operating_hours() ;
+  ::int64_t total_operating_hours() const;
+  void set_total_operating_hours(::int64_t value);
+
+  private:
+  ::int64_t _internal_total_operating_hours() const;
+  void _internal_set_total_operating_hours(::int64_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataSystem)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 26, 0,
+      5, 27, 0,
       0, 2>
       _table_;
 
@@ -552,6 +563,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
     int accumulator_state_;
     ::int32_t ext_bat_capacity_;
     int ext_bat_status_;
+    ::int64_t total_operating_hours_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1145,6 +1157,28 @@ inline ::ser::JonGuiDataExtBatStatus JonGuiDataSystem::_internal_ext_bat_status(
 inline void JonGuiDataSystem::_internal_set_ext_bat_status(::ser::JonGuiDataExtBatStatus value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.ext_bat_status_ = value;
+}
+
+// int64 total_operating_hours = 27 [(.buf.validate.field) = {
+inline void JonGuiDataSystem::clear_total_operating_hours() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.total_operating_hours_ = ::int64_t{0};
+}
+inline ::int64_t JonGuiDataSystem::total_operating_hours() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataSystem.total_operating_hours)
+  return _internal_total_operating_hours();
+}
+inline void JonGuiDataSystem::set_total_operating_hours(::int64_t value) {
+  _internal_set_total_operating_hours(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataSystem.total_operating_hours)
+}
+inline ::int64_t JonGuiDataSystem::_internal_total_operating_hours() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.total_operating_hours_;
+}
+inline void JonGuiDataSystem::_internal_set_total_operating_hours(::int64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.total_operating_hours_ = value;
 }
 
 #ifdef __GNUC__

@@ -490,6 +490,33 @@ public object JonGuiDataSystemKt {
     public fun clearExtBatStatus() {
       _builder.clearExtBatStatus()
     }
+
+    /**
+     * ```
+     * Device-lifetime operational hours (software hour meter: cumulative
+     * OS-powered time, persisted on the device, survives factory deploy).
+     * ```
+     *
+     * `int64 total_operating_hours = 27 [(.buf.validate.field) = { ... }`
+     */
+    public var totalOperatingHours: kotlin.Long
+      @JvmName("getTotalOperatingHours")
+      get() = _builder.totalOperatingHours
+      @JvmName("setTotalOperatingHours")
+      set(value) {
+        _builder.totalOperatingHours = value
+      }
+    /**
+     * ```
+     * Device-lifetime operational hours (software hour meter: cumulative
+     * OS-powered time, persisted on the device, survives factory deploy).
+     * ```
+     *
+     * `int64 total_operating_hours = 27 [(.buf.validate.field) = { ... }`
+     */
+    public fun clearTotalOperatingHours() {
+      _builder.clearTotalOperatingHours()
+    }
   }
 }
 @kotlin.jvm.JvmSynthetic

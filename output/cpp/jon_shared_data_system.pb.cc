@@ -54,6 +54,7 @@ inline constexpr JonGuiDataSystem::Impl_::Impl_(
         accumulator_state_{static_cast< ::ser::JonGuiDataAccumulatorStateIdx >(0)},
         ext_bat_capacity_{0},
         ext_bat_status_{static_cast< ::ser::JonGuiDataExtBatStatus >(0)},
+        total_operating_hours_{::int64_t{0}},
         _cached_size_{0} {}
 
 template <typename>
@@ -117,6 +118,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataSystem, _impl_.accumulator_state_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataSystem, _impl_.ext_bat_capacity_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataSystem, _impl_.ext_bat_status_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataSystem, _impl_.total_operating_hours_),
 };
 
 static const ::_pbi::MigrationSchema
@@ -130,7 +132,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fsystem_2eproto[] ABSL
     protodesc_cold) = {
     "\n\034jon_shared_data_system.proto\022\003ser\032\033buf"
     "/validate/validate.proto\032\033jon_shared_dat"
-    "a_types.proto\"\367\010\n\020JonGuiDataSystem\022K\n\017cp"
+    "a_types.proto\"\247\t\n\020JonGuiDataSystem\022K\n\017cp"
     "u_temperature\030\001 \001(\001B2\272H/\022-\031\000\000\000\000\000\300b@)ffff"
     "f\022q\300I\000\000\000\000\000\2009@I\000\000\000\000\000\000N@I\000\000\000\000\000 T@\022K\n\017gpu_t"
     "emperature\030\002 \001(\001B2\272H/\022-\031\000\000\000\000\000\300b@)fffff\022q"
@@ -158,10 +160,11 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fsystem_2eproto[] ABSL
     "cumulator_state\030\030 \001(\0162\".ser.JonGuiDataAc"
     "cumulatorStateIdxB\n\272H\007\202\001\004\020\001 \000\022#\n\020ext_bat"
     "_capacity\030\031 \001(\005B\t\272H\006\032\004\030d(\000\0223\n\016ext_bat_st"
-    "atus\030\032 \001(\0162\033.ser.JonGuiDataExtBatStatusB"
-    "NZLgit-codecommit.eu-central-1.amazonaws"
-    ".com/v1/repos/jettison/jonp/data/systemb"
-    "\006proto3"
+    "atus\030\032 \001(\0162\033.ser.JonGuiDataExtBatStatus\022"
+    ".\n\025total_operating_hours\030\033 \001(\003B\017\272H\014\"\n(\000H"
+    "\000H\232\002H\366mBNZLgit-codecommit.eu-central-1.a"
+    "mazonaws.com/v1/repos/jettison/jonp/data"
+    "/systemb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fsystem_2eproto_deps[2] =
     {
@@ -172,7 +175,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fsystem_2eproto_o
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fsystem_2eproto = {
     false,
     false,
-    1327,
+    1375,
     descriptor_table_protodef_jon_5fshared_5fdata_5fsystem_2eproto,
     "jon_shared_data_system.proto",
     &descriptor_table_jon_5fshared_5fdata_5fsystem_2eproto_once,
@@ -216,9 +219,9 @@ inline void JonGuiDataSystem::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, cpu_temperature_),
            0,
-           offsetof(Impl_, ext_bat_status_) -
+           offsetof(Impl_, total_operating_hours_) -
                offsetof(Impl_, cpu_temperature_) +
-               sizeof(Impl_::ext_bat_status_));
+               sizeof(Impl_::total_operating_hours_));
 }
 JonGuiDataSystem::~JonGuiDataSystem() {
   // @@protoc_insertion_point(destructor:ser.JonGuiDataSystem)
@@ -267,15 +270,15 @@ const ::google::protobuf::internal::ClassData* JonGuiDataSystem::GetClassData() 
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<5, 26, 0, 0, 2> JonGuiDataSystem::_table_ = {
+const ::_pbi::TcParseTable<5, 27, 0, 0, 2> JonGuiDataSystem::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    26, 248,  // max_field_number, fast_idx_mask
+    27, 248,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4227858432,  // skipmap
+    4160749568,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    26,  // num_field_entries
+    27,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -364,7 +367,9 @@ const ::_pbi::TcParseTable<5, 26, 0, 0, 2> JonGuiDataSystem::_table_ = {
     // .ser.JonGuiDataExtBatStatus ext_bat_status = 26;
     {::_pbi::TcParser::FastV32S2,
      {464, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.ext_bat_status_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // int64 total_operating_hours = 27 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastV64S2,
+     {472, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.total_operating_hours_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -450,6 +455,9 @@ const ::_pbi::TcParseTable<5, 26, 0, 0, 2> JonGuiDataSystem::_table_ = {
     // .ser.JonGuiDataExtBatStatus ext_bat_status = 26;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.ext_bat_status_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
+    // int64 total_operating_hours = 27 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.total_operating_hours_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
   }},
   // no aux_entries
   {{
@@ -464,8 +472,8 @@ PROTOBUF_NOINLINE void JonGuiDataSystem::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.cpu_temperature_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.ext_bat_status_) -
-      reinterpret_cast<char*>(&_impl_.cpu_temperature_)) + sizeof(_impl_.ext_bat_status_));
+      reinterpret_cast<char*>(&_impl_.total_operating_hours_) -
+      reinterpret_cast<char*>(&_impl_.cpu_temperature_)) + sizeof(_impl_.total_operating_hours_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -666,6 +674,13 @@ PROTOBUF_NOINLINE void JonGuiDataSystem::Clear() {
                 26, this_._internal_ext_bat_status(), target);
           }
 
+          // int64 total_operating_hours = 27 [(.buf.validate.field) = {
+          if (this_._internal_total_operating_hours() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteInt64ToArray(
+                27, this_._internal_total_operating_hours(), target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -806,6 +821,11 @@ PROTOBUF_NOINLINE void JonGuiDataSystem::Clear() {
               total_size += 2 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_ext_bat_status());
             }
+            // int64 total_operating_hours = 27 [(.buf.validate.field) = {
+            if (this_._internal_total_operating_hours() != 0) {
+              total_size += 2 + ::_pbi::WireFormatLite::Int64Size(
+                                              this_._internal_total_operating_hours());
+            }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
                                                      &this_._impl_._cached_size_);
@@ -897,6 +917,9 @@ void JonGuiDataSystem::MergeImpl(::google::protobuf::MessageLite& to_msg, const 
   if (from._internal_ext_bat_status() != 0) {
     _this->_impl_.ext_bat_status_ = from._impl_.ext_bat_status_;
   }
+  if (from._internal_total_operating_hours() != 0) {
+    _this->_impl_.total_operating_hours_ = from._impl_.total_operating_hours_;
+  }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -912,8 +935,8 @@ void JonGuiDataSystem::InternalSwap(JonGuiDataSystem* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.ext_bat_status_)
-      + sizeof(JonGuiDataSystem::_impl_.ext_bat_status_)
+      PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.total_operating_hours_)
+      + sizeof(JonGuiDataSystem::_impl_.total_operating_hours_)
       - PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cpu_temperature_)>(
           reinterpret_cast<char*>(&_impl_.cpu_temperature_),
           reinterpret_cast<char*>(&other->_impl_.cpu_temperature_));

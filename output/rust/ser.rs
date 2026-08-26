@@ -1423,6 +1423,10 @@ pub struct JonGuiDataSystem {
     pub ext_bat_capacity: i32,
     #[prost(enumeration = "JonGuiDataExtBatStatus", tag = "26")]
     pub ext_bat_status: i32,
+    /// Device-lifetime operational hours (software hour meter: cumulative
+    /// OS-powered time, persisted on the device, survives factory deploy).
+    #[prost(int64, tag = "27")]
+    pub total_operating_hours: i64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataLrf {

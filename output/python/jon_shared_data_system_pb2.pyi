@@ -6,7 +6,7 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class JonGuiDataSystem(_message.Message):
-    __slots__ = ("cpu_temperature", "gpu_temperature", "gpu_load", "cpu_load", "power_consumption", "loc", "cur_video_rec_dir_year", "cur_video_rec_dir_month", "cur_video_rec_dir_day", "cur_video_rec_dir_hour", "cur_video_rec_dir_minute", "cur_video_rec_dir_second", "rec_enabled", "important_rec_enabled", "low_disk_space", "no_disk_space", "disk_space", "tracking", "vampire_mode", "stabilization_mode", "geodesic_mode", "cv_dumping", "recognition_mode", "accumulator_state", "ext_bat_capacity", "ext_bat_status")
+    __slots__ = ("cpu_temperature", "gpu_temperature", "gpu_load", "cpu_load", "power_consumption", "loc", "cur_video_rec_dir_year", "cur_video_rec_dir_month", "cur_video_rec_dir_day", "cur_video_rec_dir_hour", "cur_video_rec_dir_minute", "cur_video_rec_dir_second", "rec_enabled", "important_rec_enabled", "low_disk_space", "no_disk_space", "disk_space", "tracking", "vampire_mode", "stabilization_mode", "geodesic_mode", "cv_dumping", "recognition_mode", "accumulator_state", "ext_bat_capacity", "ext_bat_status", "total_operating_hours")
     CPU_TEMPERATURE_FIELD_NUMBER: _ClassVar[int]
     GPU_TEMPERATURE_FIELD_NUMBER: _ClassVar[int]
     GPU_LOAD_FIELD_NUMBER: _ClassVar[int]
@@ -33,6 +33,7 @@ class JonGuiDataSystem(_message.Message):
     ACCUMULATOR_STATE_FIELD_NUMBER: _ClassVar[int]
     EXT_BAT_CAPACITY_FIELD_NUMBER: _ClassVar[int]
     EXT_BAT_STATUS_FIELD_NUMBER: _ClassVar[int]
+    TOTAL_OPERATING_HOURS_FIELD_NUMBER: _ClassVar[int]
     cpu_temperature: float
     gpu_temperature: float
     gpu_load: float
@@ -59,4 +60,5 @@ class JonGuiDataSystem(_message.Message):
     accumulator_state: _jon_shared_data_types_pb2.JonGuiDataAccumulatorStateIdx
     ext_bat_capacity: int
     ext_bat_status: _jon_shared_data_types_pb2.JonGuiDataExtBatStatus
-    def __init__(self, cpu_temperature: _Optional[float] = ..., gpu_temperature: _Optional[float] = ..., gpu_load: _Optional[float] = ..., cpu_load: _Optional[float] = ..., power_consumption: _Optional[float] = ..., loc: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataSystemLocalizations, str]] = ..., cur_video_rec_dir_year: _Optional[int] = ..., cur_video_rec_dir_month: _Optional[int] = ..., cur_video_rec_dir_day: _Optional[int] = ..., cur_video_rec_dir_hour: _Optional[int] = ..., cur_video_rec_dir_minute: _Optional[int] = ..., cur_video_rec_dir_second: _Optional[int] = ..., rec_enabled: bool = ..., important_rec_enabled: bool = ..., low_disk_space: bool = ..., no_disk_space: bool = ..., disk_space: _Optional[int] = ..., tracking: bool = ..., vampire_mode: bool = ..., stabilization_mode: bool = ..., geodesic_mode: bool = ..., cv_dumping: bool = ..., recognition_mode: bool = ..., accumulator_state: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataAccumulatorStateIdx, str]] = ..., ext_bat_capacity: _Optional[int] = ..., ext_bat_status: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataExtBatStatus, str]] = ...) -> None: ...
+    total_operating_hours: int
+    def __init__(self, cpu_temperature: _Optional[float] = ..., gpu_temperature: _Optional[float] = ..., gpu_load: _Optional[float] = ..., cpu_load: _Optional[float] = ..., power_consumption: _Optional[float] = ..., loc: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataSystemLocalizations, str]] = ..., cur_video_rec_dir_year: _Optional[int] = ..., cur_video_rec_dir_month: _Optional[int] = ..., cur_video_rec_dir_day: _Optional[int] = ..., cur_video_rec_dir_hour: _Optional[int] = ..., cur_video_rec_dir_minute: _Optional[int] = ..., cur_video_rec_dir_second: _Optional[int] = ..., rec_enabled: bool = ..., important_rec_enabled: bool = ..., low_disk_space: bool = ..., no_disk_space: bool = ..., disk_space: _Optional[int] = ..., tracking: bool = ..., vampire_mode: bool = ..., stabilization_mode: bool = ..., geodesic_mode: bool = ..., cv_dumping: bool = ..., recognition_mode: bool = ..., accumulator_state: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataAccumulatorStateIdx, str]] = ..., ext_bat_capacity: _Optional[int] = ..., ext_bat_status: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataExtBatStatus, str]] = ..., total_operating_hours: _Optional[int] = ...) -> None: ...

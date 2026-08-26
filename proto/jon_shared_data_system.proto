@@ -77,4 +77,10 @@ message JonGuiDataSystem {
     lte: 100
   }];
   JonGuiDataExtBatStatus ext_bat_status = 26;
+  // Device-lifetime operational hours (software hour meter: cumulative
+  // OS-powered time, persisted on the device, survives factory deploy).
+  int64 total_operating_hours = 27 [(buf.validate.field).int64 = {
+    gte: 0,
+    example: [0, 282, 14070]
+  }];
 }

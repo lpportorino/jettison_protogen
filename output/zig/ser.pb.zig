@@ -1314,6 +1314,7 @@ pub const JonGuiDataSystem = struct {
     accumulator_state: JonGuiDataAccumulatorStateIdx = @enumFromInt(0),
     ext_bat_capacity: i32 = 0,
     ext_bat_status: JonGuiDataExtBatStatus = @enumFromInt(0),
+    total_operating_hours: i64 = 0,
 
     pub const _desc_table = .{
         .cpu_temperature = fd(1, .{ .scalar = .double }),
@@ -1342,6 +1343,7 @@ pub const JonGuiDataSystem = struct {
         .accumulator_state = fd(24, .@"enum"),
         .ext_bat_capacity = fd(25, .{ .scalar = .int32 }),
         .ext_bat_status = fd(26, .@"enum"),
+        .total_operating_hours = fd(27, .{ .scalar = .int64 }),
     };
 
     /// Encodes the message to the writer

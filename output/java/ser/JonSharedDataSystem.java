@@ -199,6 +199,17 @@ public final class JonSharedDataSystem {
      * @return The extBatStatus.
      */
     ser.JonSharedDataTypes.JonGuiDataExtBatStatus getExtBatStatus();
+
+    /**
+     * <pre>
+     * Device-lifetime operational hours (software hour meter: cumulative
+     * OS-powered time, persisted on the device, survives factory deploy).
+     * </pre>
+     *
+     * <code>int64 total_operating_hours = 27 [(.buf.validate.field) = { ... }</code>
+     * @return The totalOperatingHours.
+     */
+    long getTotalOperatingHours();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataSystem}
@@ -547,6 +558,22 @@ public final class JonSharedDataSystem {
       return result == null ? ser.JonSharedDataTypes.JonGuiDataExtBatStatus.UNRECOGNIZED : result;
     }
 
+    public static final int TOTAL_OPERATING_HOURS_FIELD_NUMBER = 27;
+    private long totalOperatingHours_ = 0L;
+    /**
+     * <pre>
+     * Device-lifetime operational hours (software hour meter: cumulative
+     * OS-powered time, persisted on the device, survives factory deploy).
+     * </pre>
+     *
+     * <code>int64 total_operating_hours = 27 [(.buf.validate.field) = { ... }</code>
+     * @return The totalOperatingHours.
+     */
+    @java.lang.Override
+    public long getTotalOperatingHours() {
+      return totalOperatingHours_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -638,6 +665,9 @@ public final class JonSharedDataSystem {
       }
       if (extBatStatus_ != ser.JonSharedDataTypes.JonGuiDataExtBatStatus.JON_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED.getNumber()) {
         output.writeEnum(26, extBatStatus_);
+      }
+      if (totalOperatingHours_ != 0L) {
+        output.writeInt64(27, totalOperatingHours_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -752,6 +782,10 @@ public final class JonSharedDataSystem {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(26, extBatStatus_);
       }
+      if (totalOperatingHours_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(27, totalOperatingHours_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -821,6 +855,8 @@ public final class JonSharedDataSystem {
       if (getExtBatCapacity()
           != other.getExtBatCapacity()) return false;
       if (extBatStatus_ != other.extBatStatus_) return false;
+      if (getTotalOperatingHours()
+          != other.getTotalOperatingHours()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -899,6 +935,9 @@ public final class JonSharedDataSystem {
       hash = (53 * hash) + getExtBatCapacity();
       hash = (37 * hash) + EXT_BAT_STATUS_FIELD_NUMBER;
       hash = (53 * hash) + extBatStatus_;
+      hash = (37 * hash) + TOTAL_OPERATING_HOURS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTotalOperatingHours());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1056,6 +1095,7 @@ public final class JonSharedDataSystem {
         accumulatorState_ = 0;
         extBatCapacity_ = 0;
         extBatStatus_ = 0;
+        totalOperatingHours_ = 0L;
         return this;
       }
 
@@ -1167,6 +1207,9 @@ public final class JonSharedDataSystem {
         if (((from_bitField0_ & 0x02000000) != 0)) {
           result.extBatStatus_ = extBatStatus_;
         }
+        if (((from_bitField0_ & 0x04000000) != 0)) {
+          result.totalOperatingHours_ = totalOperatingHours_;
+        }
       }
 
       @java.lang.Override
@@ -1258,6 +1301,9 @@ public final class JonSharedDataSystem {
         }
         if (other.extBatStatus_ != 0) {
           setExtBatStatusValue(other.getExtBatStatusValue());
+        }
+        if (other.getTotalOperatingHours() != 0L) {
+          setTotalOperatingHours(other.getTotalOperatingHours());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1415,6 +1461,11 @@ public final class JonSharedDataSystem {
                 bitField0_ |= 0x02000000;
                 break;
               } // case 208
+              case 216: {
+                totalOperatingHours_ = input.readInt64();
+                bitField0_ |= 0x04000000;
+                break;
+              } // case 216
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -2327,6 +2378,53 @@ public final class JonSharedDataSystem {
         return this;
       }
 
+      private long totalOperatingHours_ ;
+      /**
+       * <pre>
+       * Device-lifetime operational hours (software hour meter: cumulative
+       * OS-powered time, persisted on the device, survives factory deploy).
+       * </pre>
+       *
+       * <code>int64 total_operating_hours = 27 [(.buf.validate.field) = { ... }</code>
+       * @return The totalOperatingHours.
+       */
+      @java.lang.Override
+      public long getTotalOperatingHours() {
+        return totalOperatingHours_;
+      }
+      /**
+       * <pre>
+       * Device-lifetime operational hours (software hour meter: cumulative
+       * OS-powered time, persisted on the device, survives factory deploy).
+       * </pre>
+       *
+       * <code>int64 total_operating_hours = 27 [(.buf.validate.field) = { ... }</code>
+       * @param value The totalOperatingHours to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTotalOperatingHours(long value) {
+
+        totalOperatingHours_ = value;
+        bitField0_ |= 0x04000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Device-lifetime operational hours (software hour meter: cumulative
+       * OS-powered time, persisted on the device, survives factory deploy).
+       * </pre>
+       *
+       * <code>int64 total_operating_hours = 27 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTotalOperatingHours() {
+        bitField0_ = (bitField0_ & ~0x04000000);
+        totalOperatingHours_ = 0L;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataSystem)
     }
 
@@ -2394,7 +2492,7 @@ public final class JonSharedDataSystem {
     java.lang.String[] descriptorData = {
       "\n\034jon_shared_data_system.proto\022\003ser\032\033buf" +
       "/validate/validate.proto\032\033jon_shared_dat" +
-      "a_types.proto\"\367\010\n\020JonGuiDataSystem\022K\n\017cp" +
+      "a_types.proto\"\247\t\n\020JonGuiDataSystem\022K\n\017cp" +
       "u_temperature\030\001 \001(\001B2\272H/\022-\031\000\000\000\000\000\300b@)ffff" +
       "f\022q\300I\000\000\000\000\000\2009@I\000\000\000\000\000\000N@I\000\000\000\000\000 T@\022K\n\017gpu_t" +
       "emperature\030\002 \001(\001B2\272H/\022-\031\000\000\000\000\000\300b@)fffff\022q" +
@@ -2422,10 +2520,11 @@ public final class JonSharedDataSystem {
       "cumulator_state\030\030 \001(\0162\".ser.JonGuiDataAc" +
       "cumulatorStateIdxB\n\272H\007\202\001\004\020\001 \000\022#\n\020ext_bat" +
       "_capacity\030\031 \001(\005B\t\272H\006\032\004\030d(\000\0223\n\016ext_bat_st" +
-      "atus\030\032 \001(\0162\033.ser.JonGuiDataExtBatStatusB" +
-      "NZLgit-codecommit.eu-central-1.amazonaws" +
-      ".com/v1/repos/jettison/jonp/data/systemb" +
-      "\006proto3"
+      "atus\030\032 \001(\0162\033.ser.JonGuiDataExtBatStatus\022" +
+      ".\n\025total_operating_hours\030\033 \001(\003B\017\272H\014\"\n(\000H" +
+      "\000H\232\002H\366mBNZLgit-codecommit.eu-central-1.a" +
+      "mazonaws.com/v1/repos/jettison/jonp/data" +
+      "/systemb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2438,7 +2537,7 @@ public final class JonSharedDataSystem {
     internal_static_ser_JonGuiDataSystem_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataSystem_descriptor,
-        new java.lang.String[] { "CpuTemperature", "GpuTemperature", "GpuLoad", "CpuLoad", "PowerConsumption", "Loc", "CurVideoRecDirYear", "CurVideoRecDirMonth", "CurVideoRecDirDay", "CurVideoRecDirHour", "CurVideoRecDirMinute", "CurVideoRecDirSecond", "RecEnabled", "ImportantRecEnabled", "LowDiskSpace", "NoDiskSpace", "DiskSpace", "Tracking", "VampireMode", "StabilizationMode", "GeodesicMode", "CvDumping", "RecognitionMode", "AccumulatorState", "ExtBatCapacity", "ExtBatStatus", });
+        new java.lang.String[] { "CpuTemperature", "GpuTemperature", "GpuLoad", "CpuLoad", "PowerConsumption", "Loc", "CurVideoRecDirYear", "CurVideoRecDirMonth", "CurVideoRecDirDay", "CurVideoRecDirHour", "CurVideoRecDirMinute", "CurVideoRecDirSecond", "RecEnabled", "ImportantRecEnabled", "LowDiskSpace", "NoDiskSpace", "DiskSpace", "Tracking", "VampireMode", "StabilizationMode", "GeodesicMode", "CvDumping", "RecognitionMode", "AccumulatorState", "ExtBatCapacity", "ExtBatStatus", "TotalOperatingHours", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();
