@@ -168,6 +168,13 @@
 ;; they just wrote. That confusion is the reason to close the type rather than
 ;; an argument against it: as a bare string the wrong codepoint would have
 ;; entered the corpus silently and reached every consumer of the manifests.
+;;
+;; `h` IS A DURATION-FAMILY SYMBOL, beside `ns`/`μs`/`ms`/`s`, for hour-valued
+;; state such as a device hour meter. It is a recorded decision, not a drift:
+;; the clock-stepping pair `minutes`/`months` keeps its words per the rule
+;; above, and the hour-stepping command declares no unit today — if it ever
+;; does, that is the moment to weigh `h` against the pair, not to add a
+;; second spelling silently.
 (def Unit
   [:enum
    ;; Angle and temperature
@@ -177,7 +184,7 @@
    ;; Length
    "m"
    ;; Time
-   "ns" "μs" "ms" "s" "minutes" "months"
+   "ns" "μs" "ms" "s" "h" "minutes" "months"
    ;; Electrical
    "V" "A" "mA" "W" "mW"
    ;; Imaging

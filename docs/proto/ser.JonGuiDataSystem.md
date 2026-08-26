@@ -43,6 +43,7 @@ Captures comprehensive device telemetry including hardware metrics (CPU/GPU temp
 | 24 | accumulator_state | [[proto/ser.JonGuiDataAccumulatorStateIdx]] | defined enum value only, not in: 0 |
 | 25 | ext_bat_capacity | int32 | >= 0, <= 100 |
 | 26 | ext_bat_status | [[proto/ser.JonGuiDataExtBatStatus]] | - |
+| 27 | total_operating_hours | int64 | >= 0 |
 
 
 
@@ -295,6 +296,19 @@ Percentage value (0-100)
 - **Unit:** %
 - **Precision:** 0
 - **Display Format:** `{value}%`
+
+
+### total_operating_hours (#27)
+
+Device-lifetime operational hours: a software hour meter of cumulative OS-powered time, persisted on the device and surviving a factory deploy. Whole hours.
+
+
+#### Metadata
+
+- **Semantic Type:** :duration
+- **Unit:** h
+- **Precision:** 0
+- **Display Format:** `{value} h`
 
 
 
