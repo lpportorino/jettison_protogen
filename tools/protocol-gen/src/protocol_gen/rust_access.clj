@@ -36,11 +36,19 @@
 
    THE ONE INPUT CLASS THIS EMISSION CANNOT EXPRESS, stated rather than
    approximated. A variant is the message's emitted `.proto` name VERBATIM, so
-   a message whose emitted name happens to be a word Rust reserves — every one
-   of them is lowercase ASCII, and an emitted name is a source id with its dots
-   turned into underscores — produces a module that does not compile. It is
-   caught loudly, by rustc: the canary compiles every emitted module, and a
-   consumer's own build compiles theirs. It is deliberately NOT caught by a
+   a message whose emitted name is a word Rust reserves produces a module that
+   does not compile.
+
+   REACHING IT NEEDS A PROTO FILE WITH NO PACKAGE, because an emitted name is a
+   source id with its dots turned into underscores and a packaged message
+   therefore carries its package as a prefix. AND THE CASE NOT TO REASON AWAY
+   IS `Self`: reading Rust's reserved words as lowercase ASCII makes this look
+   unreachable, and that reading is wrong — `Self` is reserved, it cannot even
+   be spelled as a raw identifier, and it is a perfectly ordinary proto message
+   name.
+
+   It is caught loudly, by rustc: the canary compiles every emitted module, and
+   a consumer's own build compiles theirs. It is deliberately NOT caught by a
    hand-kept list of Rust's reserved words here, because such a list is a copy
    of an external fact that rots silently in the direction of a MISSING word,
    and a silent rot is worse than a compile error that names the identifier."

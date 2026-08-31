@@ -79,21 +79,31 @@
     (testing "CONTROL: the probe collects literals at all, so the set is a measurement"
       (is (seq literals)))))
 
-(deftest a-message-granted-to-nobody-has-no-variant
+(deftest the-enum-carries-exactly-the-granted-messages
   ;; The property that makes the enum worth having over a string-keyed table:
-  ;; an ungranted message is a compile error at the consumer, not a lookup that
-  ;; returns nothing.
-  (let [module (rust-access/module group)]
-    (is (not (str/includes? module "Secret")))
-    (testing "CONTROL: a granted message does appear, so the absence probe can see one"
-      (is (str/includes? module "p_Stop")))))
-
-(deftest the-emission-is-sorted-so-two-runs-write-identical-bytes
+  ;; an ungranted message has no variant, so naming one is a compile error at
+  ;; the consumer rather than a lookup that returns nothing.
+  ;;
+  ;; ASSERTED AS AN EQUALITY OVER THE VARIANT SET, not as the absence of a name
+  ;; nothing granted. A probe for a name the input never carried — "Secret",
+  ;; say — cannot go red under ANY emitter mutation, because no function of
+  ;; this group can produce it; its pass value and its nothing-ran value are the
+  ;; same. An equality reds on a dropped variant AND on an added one.
   (let [module (rust-access/module group)
-        variants (map second (re-seq #"Message::(p_\w+),\n" module))]
-    (is (= module (rust-access/module group)))
-    (testing "and the MESSAGES table is in source-id order, not in grant order"
-      (is (= ["p_Reading" "p_SetMode" "p_Stop"] variants)))))
+        block (second (re-find #"(?s)pub enum Message \{\n(.*?)\n\}" module))
+        variants (map second (re-seq #"(?m)^    (p_\w+),$" block))]
+    (is (= ["p_Reading" "p_SetMode" "p_Stop"] variants))))
+
+(deftest the-messages-table-is-in-source-id-order-not-grant-order
+  ;; The grants in `group` are written Stop, Reading, SetMode on purpose, so a
+  ;; renderer that emitted them in projection order fails this.
+  ;;
+  ;; THE TWO-RUN BYTE CLAIM IS NOT MADE HERE. Calling a pure function twice on
+  ;; one immutable value in one JVM has no non-determinism to catch, so such an
+  ;; assertion could not go red; the claim that two RUNS write identical bytes
+  ;; is the canary's, which diffs the files two separate processes wrote.
+  (let [variants (map second (re-seq #"Message::(p_\w+),\n" (rust-access/module group)))]
+    (is (= ["p_Reading" "p_SetMode" "p_Stop"] variants))))
 
 (deftest the-module-says-it-is-generated
   (let [module (rust-access/module group)]
@@ -105,11 +115,17 @@
     (is (str/includes? module "pub const GROUP: &str = \"operator\";"))
     (is (str/includes? module "pub const PACKAGE: &str = \"p.operator\";"))))
 
-(deftest a-group-that-granted-nothing-emits-a-module-that-still-compiles
+(deftest a-group-that-granted-nothing-emits-the-uninhabited-shapes
   ;; Unreachable through the policy schema, which requires at least one grant,
   ;; and reachable through this function, which takes a projection. `match self
   ;; {}` with no arms is how Rust spells a match on an uninhabited type — an
   ;; empty `match self { }` body with the usual arms would not compile.
+  ;;
+  ;; THE NAME SAYS SHAPES AND NOT `COMPILES`, DELIBERATELY. Nothing committed
+  ;; compiles a zero-message module: no policy can produce one, so the canary
+  ;; cannot reach the case, and this suite has no Rust toolchain. That the
+  ;; shape does compile was observed while authoring and is NOT committed
+  ;; evidence — an authoring-side observation is the floor, not the finish.
   (let [module (rust-access/module {:id :empty :package "p.e" :messages [] :enums []})]
     (is (str/includes? module "pub enum Message {\n}"))
     (is (str/includes? module "match self {}"))

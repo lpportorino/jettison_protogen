@@ -396,7 +396,7 @@
    "rust-access" check-rust-access})
 
 (defn -main
-  "Judge an emitted artefact against its source. Two modes:
+  "Judge an emitted artefact against its source. Three modes:
 
      emitted    --descriptor --files --policy --db --minted --registry --mirror
                 What the generator wrote, against the inputs it was given.

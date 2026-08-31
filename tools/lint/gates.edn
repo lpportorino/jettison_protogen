@@ -207,12 +207,19 @@
  ;;   protocol-gen.constraints         2/ 4 specced
  ;;   protocol-gen.policy              3/ 4 specced
  ;;   protocol-gen.mirror              1/ 3 specced
+ ;;   protocol-gen.rust-access         3/ 8 specced
  ;;     The second practising root's remaining project, on the same terms as the
  ;;     five above: measured with this check's own reader, `protocol-gen.emit` is
- ;;     the only namespace of the ten at 100% and is the only one enrolled. The
+ ;;     the only namespace of that root at 100% and is the only one enrolled. The
  ;;     fractions are recorded so the distance is visible rather than implied —
  ;;     re-derive them rather than trusting them, since a spec written tomorrow
  ;;     moves one and nothing here updates it.
+ ;;
+ ;;     A CARDINAL STOOD HERE — "the only namespace of the ten" — and it rotted
+ ;;     the first time that root grew a namespace, which is exactly the drift the
+ ;;     paragraph above tells you to guard against. It is deleted rather than
+ ;;     corrected to eleven; the roster itself is the enumeration, and
+ ;;     `ls tools/protocol-gen/src/protocol_gen/*.clj` is the derivation.
  ;;   protocol-gen.verify              0/16 specced
  ;;     The generator's independent oracle, on its own source root. Same terms
  ;;     again — it practises no arrow specs today, so it is enrolled the day it

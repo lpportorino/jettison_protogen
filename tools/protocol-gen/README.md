@@ -223,12 +223,25 @@ this cannot express — a message whose emitted name is a word Rust reserves —
 named in the namespace docstring and is caught by rustc rather than by a
 hand-kept copy of Rust's keyword list, which would rot silently.
 
-Measured at the pinned toolchain's Rust: each emitted module compiles as a
-library under `rustc --edition 2021 -D warnings`, and is already
-`rustfmt --check` canonical. The compile is asserted by the canary; the
-formatting is not, because `rustfmt` is outside the image's minimal rustup
-profile and a gate that skipped when its tool was absent would be worse than no
-gate.
+Each emitted module compiles as a library under
+`rustc --edition 2021 --crate-type lib -D warnings`, warning-free, and the
+canary asserts it.
+
+**IT IS NOT `rustfmt` CANONICAL, and that is deliberate rather than a gap.** An
+earlier version of this paragraph claimed it was, on the strength of ONE module
+that happened to pass — a false generalisation, and the measurement that
+retires it is worth keeping: rustfmt collapses `pub const MESSAGES: […]` onto
+one line whenever the collapsed form fits the line width, and it collapses
+`pub enum Message {}` when the enum is empty. So whether a module is canonical
+depends on how long its message NAMES are, not on anything the emitter decides.
+Emitting the canonical form would mean reimplementing rustfmt's width
+heuristics here — a copy of another tool's layout rule, which rots the next
+time that tool changes its mind.
+
+A consumer running `cargo fmt --check` over a tree containing a generated
+module should exclude it, as it would for any generated code. Nothing is lost:
+the property that matters is byte-identical re-emission, which the canary does
+assert, across two runs and over every artefact the run writes.
 
 ## What the mirror carries that a `.proto` cannot
 
@@ -251,7 +264,8 @@ a group cannot send what its schema cannot express, and that is the mechanism.
 
 `fixtures/` holds data this repository owns — a fixture proto, the descriptor
 database it describes, a mint, its registry, a two-group policy, a single-group
-policy carrying every access DIRECTION, and the inputs the refusal cases need. They live inside this tool's own directory: generation
+policy carrying every access DIRECTION, and the inputs the refusal cases need.
+They live inside this tool's own directory: generation
 walks the proto source tree at the repository root, so nothing here is an input
 to a shipped generation leg and nothing here reaches a published binding
 repository.
@@ -308,11 +322,14 @@ container.
 depend on it — that each emitted access module is valid, warning-free Rust, and
 that the direction its API ANSWERS is the direction the policy granted — are
 not true without it, which is the test `.claude/rules/gate-enforcement.md` §4
-sets. It is in the toolchain image; the pin is in `Dockerfile.base`. `rustfmt`
-is deliberately NOT used: the emitted text is `rustfmt --check` canonical
-today, but rustfmt is outside the image's minimal rustup profile, so a case
-asserting it would have to skip when its tool was absent — and a skipping gate
-is the defect this suite exists to catch, wearing a green.
+sets. It is in the toolchain image; the pin is in `Dockerfile.base`.
+
+`rustfmt` is deliberately NOT used, for TWO reasons and not one. It is outside
+the image's minimal rustup profile, so a case asserting it would have to skip
+when its tool was absent — and a skipping gate is the defect this suite exists
+to catch, wearing a green. And the emitted text is not rustfmt-canonical
+anyway; the section above carries the measurement and why chasing it would be
+wrong.
 
 ## How this tree is gated
 
