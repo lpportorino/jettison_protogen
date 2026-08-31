@@ -213,10 +213,12 @@ descriptor database by construction, so a per-field access surface would claim
 a distinction its input cannot supply.
 
 **Each variant is the message's `.proto` name VERBATIM** — `pgfix_Command`, not
-`PgfixCommand`. A camel-cased second name would be a second home for a fact the
-`.proto` emission already owns, and the flattening that produces those names is
-not injective under case folding, so the two could disagree. The module carries
-`#[allow(non_camel_case_types)]` for exactly that reason. The one input class
+`PgfixCommand`. A camel-cased variant would be a SECOND name for a message the
+`.proto` emission has already named, and camel-casing is not injective:
+`pgfix_command` and `pgfix_Command` are two distinct `.proto` names — distinct
+enough that the projection's own collision check passes them — that collide on
+one variant. The module carries `#[allow(non_camel_case_types)]` for exactly
+that reason. The one input class
 this cannot express — a message whose emitted name is a word Rust reserves — is
 named in the namespace docstring and is caught by rustc rather than by a
 hand-kept copy of Rust's keyword list, which would rot silently.
