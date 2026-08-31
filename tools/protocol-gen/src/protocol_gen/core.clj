@@ -11,8 +11,9 @@
 
      generate --db <path> --minted <path> --registry <path> --policy <path>
               --out <dir>
-       Emit one `.proto` per group PLUS the permission mirror, both derived
-       from the same projection in the same run so the two cannot disagree.
+       Emit one `.proto` per group, one Rust ACCESS MODULE per group, and the
+       permission mirror — all three derived from the same projection in the
+       same run, so no two of them can disagree.
        Every path is named; nothing is defaulted.
 
      reconcile --minted <path> --registry <path>
@@ -39,7 +40,8 @@
             [protocol-gen.numbering :as numbering]
             [protocol-gen.policy :as policy]
             [protocol-gen.projection :as projection]
-            [protocol-gen.render :as render]))
+            [protocol-gen.render :as render]
+            [protocol-gen.rust-access :as rust-access]))
 
 (set! *warn-on-reflection* true)
 
@@ -140,9 +142,34 @@
                   (reduce + 0 (map (comp count :fields) (:messages file))) " field(s)"))
     g))
 
+(defn- write-rust-access!
+  "Emit one group's Rust ACCESS MODULE into `out-dir`, from the SAME projected
+   group `write-group!` just wrote the `.proto` from.
+
+   IT TAKES THE PROJECTION, NEVER THE EMITTED TEXT. Deriving the access facts
+   by reading back a file this run wrote would make the module a second opinion
+   about the first, and the two would disagree the first time either was wrong.
+
+   Prints the message count so a run that emitted an EMPTY module is
+   distinguishable from one that emitted a full one — the two are otherwise one
+   line of output apart."
+  [out-dir g]
+  (let [path (str out-dir "/" (name (:id g)) ".rs")]
+    (io/make-parents path)
+    (spit path (rust-access/module g))
+    (println (str "protocol-gen: " path " — "
+                  (count (:messages g)) " granted message(s)"))
+    g))
+
 (defn generate!
   "Project the database and the minted messages through the policy, then emit
-   one `.proto` per group and one permission mirror beside them.
+   one `.proto` per group, one Rust access module per group, and one permission
+   mirror beside them.
+
+   THE THREE ARTEFACTS ARE ONE VALUE SEEN THREE WAYS. `groups` is projected
+   once and each writer is handed it; none of them reads what another wrote, so
+   there is nothing for two of them to disagree about that the third could be
+   right about.
 
    THE ORDER IS THE CONTRACT. Mints are numbered from the registry FIRST, so a
    run against an incomplete registry dies before it writes anything; the
@@ -159,6 +186,7 @@
         groups (projection/project database (numbering/apply-numbering registry mints) p)
         mirror-path (str out-dir "/permissions.edn")]
     (run! #(write-group! out-dir %) groups)
+    (run! #(write-rust-access! out-dir %) groups)
     (io/make-parents mirror-path)
     (spit mirror-path (with-out-str (pp/pprint (mirror/mirror groups))))
     (println (str "protocol-gen: " mirror-path " — " (count groups) " group(s)")))

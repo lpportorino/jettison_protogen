@@ -3,8 +3,9 @@
 A general-purpose generator. Its input is a **descriptor database** (proto
 descriptors already parsed into EDN), a declarative **access policy**, a set of
 **locally-minted** messages, and an assign-once **field-number registry**. Its
-output is one `.proto` file per access group plus a machine-readable
-**permission mirror**, both written from the same value in the same run.
+output is one `.proto` file per access group, one **Rust access module** per
+group, and a machine-readable **permission mirror** — all three written from
+the same value in the same run.
 
 The per-group projection is one PROPERTY of that generator, not its purpose. A
 group's emitted schema simply does not NAME what the policy did not grant, so a
@@ -43,8 +44,8 @@ oracle reds.
 ```text
 descriptor database ─┐
 locally-minted msgs ─┼─► numbering ─► projection ─► render ─► emit ─► .proto
-field-number registry┘                    │                        └► mirror
-access policy ───────────────────────────┘
+field-number registry┘                    │                        ├► mirror
+access policy ───────────────────────────┘                        └► .rs
 ```
 
 | namespace | what it owns |
@@ -58,6 +59,7 @@ access policy ──────────────────────
 | `src/protocol_gen/render.clj` | the one place a type reference becomes a name |
 | `src/protocol_gen/emit.clj` | resolved projection to `.proto` text |
 | `src/protocol_gen/mirror.clj` | the permission mirror |
+| `src/protocol_gen/rust_access.clj` | the per-group Rust ACCESS module |
 | `src/protocol_gen/core.clj` | the command line |
 | `verify/protocol_gen/verify.clj` | the INDEPENDENT oracle (its own source root) |
 
@@ -173,12 +175,68 @@ So the honest scope of a green run is "nothing in class 1 or 2", never "the
 emitted schema is wire-identical to the source". A generator cannot refuse what
 it cannot see; what it can do is refuse to pretend otherwise.
 
+## The Rust access module — the same fact, as a type
+
+Beside each group's `<group>.proto` the generator writes `<group>.rs`: the
+DIRECTION half of that group's grants, as a closed Rust surface.
+
+```rust
+pub const GROUP: &str;              // the group's policy id
+pub const PACKAGE: &str;            // the package its .proto declares
+pub enum Access { Read, Write, ReadWrite }
+impl Access { pub const fn may_read(self) -> bool; pub const fn may_write(self) -> bool; }
+pub enum Message { /* one variant per granted message, and nothing else */ }
+impl Message {
+    pub const fn source_id(self) -> &'static str;   // the id the policy grants it by
+    pub const fn proto_name(self) -> &'static str;  // its name in this group's .proto
+    pub const fn access(self) -> Access;
+}
+pub const MESSAGES: [Message; N];   // every granted message, in source-id order
+```
+
+**IT IS NOT A MESSAGE EMITTER, and building one is the mistake this file
+exists to head off.** The shapes already reach Rust through the group's
+`.proto` and a consumer's prost pipeline, where a message the policy withheld
+is simply not in the generated module — so a forbidden message is ALREADY a
+compile error there. A second emitter for those shapes would give one wire
+contract two sources. What a `.proto` structurally cannot carry is direction,
+and that is the whole of what this module adds.
+
+**Why a type rather than the mirror, which already carries the same fact.** The
+mirror is EDN: a consumer parses it at run time, and a typo in the key it looks
+under is a nil rather than a compile error. Here `may this group send message
+X?` is `Message::X.access().may_write()` — the compiler answers, and a message
+the group was not granted has no variant to name.
+
+**Message level and no lower.** proto3 field presence is absent from the
+descriptor database by construction, so a per-field access surface would claim
+a distinction its input cannot supply.
+
+**Each variant is the message's `.proto` name VERBATIM** — `pgfix_Command`, not
+`PgfixCommand`. A camel-cased second name would be a second home for a fact the
+`.proto` emission already owns, and the flattening that produces those names is
+not injective under case folding, so the two could disagree. The module carries
+`#[allow(non_camel_case_types)]` for exactly that reason. The one input class
+this cannot express — a message whose emitted name is a word Rust reserves — is
+named in the namespace docstring and is caught by rustc rather than by a
+hand-kept copy of Rust's keyword list, which would rot silently.
+
+Measured at the pinned toolchain's Rust: each emitted module compiles as a
+library under `rustc --edition 2021 -D warnings`, and is already
+`rustfmt --check` canonical. The compile is asserted by the canary; the
+formatting is not, because `rustfmt` is outside the image's minimal rustup
+profile and a gate that skipped when its tool was absent would be worse than no
+gate.
+
 ## What the mirror carries that a `.proto` cannot
 
 Two facts, and both matter to a consumer:
 
 - **direction** — whether a group may READ a message or SEND it. Proto describes
-  a shape, not who may send it, so the emitted schema is identical either way;
+  a shape, not who may send it, so the emitted schema is identical either way.
+  The Rust access module above carries this same fact as a TYPE; the two are
+  rendered from one projection in one run, so they are one fact seen twice
+  rather than two claims that could disagree;
 - **provenance** — the text says a field is number 7 and cannot say whether 7
   came from a descriptor or from the registry.
 
@@ -248,10 +306,24 @@ this tool's OWN `deps.edn` aliases, `protocol-gen-test` and
 namespaces and covers one.** `docstrings` and `spec-shape` read enrolled ROOTS
 from `tools/lint/gates.edn` and `tools/protocol-gen/src` is enrolled in both.
 `spec-presence` enrols NAMESPACES, not roots, and its list only ever holds
-namespaces measured at 100% presence — of this tree's ten, only
-`protocol-gen.emit` is, so only it is enrolled. The other nine are named in
+namespaces measured at 100% presence — `protocol-gen.emit` is the only one of
+this tree's that is, so it is the only one enrolled. The rest are named in
 `tools/lint/gates.edn` with their measured fractions; the way to enrol one is to
 write its missing specs.
+
+A COUNT OF THEM USED TO STAND HERE — "of this tree's ten" — and it rotted the
+first time this tree grew a namespace, which is exactly the drift
+`.claude/rules/claude-md-policy.md` bans. Derive it instead; the gate takes
+paths, so this tree reports its own:
+
+```sh
+clojure -M:lint-gate --check spec-presence tools/protocol-gen/src
+```
+
+`protocol-gen.rust-access` is the newest of the unenrolled, and is deliberately
+the same shape `protocol-gen.mirror` is: its public entry point carries an
+`m/=>` and its private renderers do not. Enrolling it means writing those, not
+widening the list.
 
 **`tools/protocol-gen/verify` is enrolled nowhere.** It is not a scope decision:
 three of its sixteen functions carry no docstring and it practises no arrow
