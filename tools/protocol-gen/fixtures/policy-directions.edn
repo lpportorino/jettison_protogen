@@ -1,0 +1,32 @@
+;; A fixture ACCESS POLICY whose only job is to carry EVERY DIRECTION A GRANT
+;; CAN HOLD, in one group.
+;;
+;; `fixtures/policy.edn` cannot do this job and should not be widened to: its
+;; two groups are `#{:read}` and `#{:write}` respectively, and the asymmetry
+;; BETWEEN them is what several of the canary's existing cases are about. The
+;; combination it has no instance of is `#{:read :write}` — so a Rust access
+;; module emitted from it exercises two of the three `Access` variants and
+;; leaves the third rendered by nothing.
+;;
+;; A variant no input reaches is a rendering nobody has watched happen, and it
+;; is exactly the place a wrong direction would hide: the two single-direction
+;; cases can be right while the combined one is fabricated, dropped, or folded
+;; onto one of the others, and every other check would stay green.
+;;
+;; One group, three grants, three directions:
+;;
+;;   * `pgfix.Reading`  read only  — the group receives it and never sends it.
+;;   * `pgfix.Stop`     write only — the group sends it and never receives it.
+;;   * `pgfix.SetMode`  BOTH       — the combination policy.edn has none of.
+;;
+;; The field sets are deliberately narrow. Nothing here is about fields; a
+;; smaller projection is a smaller emitted module, which is a smaller thing for
+;; a case to read.
+{:version 1
+ :groups
+ [{:id :operator
+   :package "pgfix.operator"
+   :grants [{:message "pgfix.Reading" :access #{:read} :fields #{"value"}}
+            {:message "pgfix.Stop" :access #{:write} :fields :all}
+            {:message "pgfix.SetMode" :access #{:read :write} :fields #{"mode"}}]
+   :enums ["pgfix.Mode"]}]}

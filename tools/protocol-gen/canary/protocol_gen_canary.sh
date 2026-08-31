@@ -48,6 +48,26 @@
 #     naming a field TWO oneofs claim. Each is proven by neutering its own
 #     clause, and each is the OTHER's neighbouring control on that same mutant
 #     — so neither red can be a mutation that broke the pass as a whole.
+#   * A WRONG ACCESS DIRECTION IN THE EMITTED RUST. Two mutations, because the
+#     two halves fail in different places. Flipping read to write is caught on
+#     the two-group policy; FOLDING the read-and-write grant onto one direction
+#     is INVISIBLE there — that policy grants no message both ways — and is
+#     caught only on the directions policy, whose clean run on that same mutant
+#     is asserted so the fixture is shown to be load-bearing rather than
+#     decorative. A wrong direction still COMPILES, which is asserted too: that
+#     is exactly why an oracle is needed and a rustc run is not enough.
+#   * AN EMITTED RUST MODULE THAT IS NOT WARNING-FREE. Dropping the attribute
+#     the module carries for its verbatim variant names leaves valid Rust and
+#     reintroduces a lint, which -D warnings turns into an error — so the two
+#     halves of "valid, warning-free Rust" are separated rather than conflated.
+#
+# THE RUST SIDE IS JUDGED THROUGH rustc, NOT THROUGH A REGEX. Each emitted
+# access module is compiled twice — alone as a library under -D warnings, then
+# with a harness this script writes that walks its `MESSAGES` and prints what
+# `may_read()` and `may_write()` answer. The oracle judges that dump against
+# the POLICY. So what is compared is what a consumer's own call would return,
+# and a module rustc cannot compile is a FAULT rather than a comparison that
+# silently found nothing.
 #
 # THE ORACLE IS ALWAYS THE REAL TREE'S. A mutation is applied to a COPY of the
 # generator, and the verifier that judges its output is the one under
@@ -68,12 +88,13 @@ EMITTED_FILES="sensor-reader.proto,commander.proto"
 # A MISSING TOOL IS A HARD FAILURE WITH AN INSTALL HINT, never a skip: a canary
 # that passed because its toolchain was absent is the defect it exists to catch,
 # wearing a green.
-for tool in clojure protoc; do
+for tool in clojure protoc rustc; do
 	command -v "$tool" > /dev/null 2>&1 || {
 		printf '\033[31mFAIL\033[0m — %s is not on PATH.\n' "$tool" >&2
-		printf '  This suite compiles emitted protos and runs the generator, so it\n' >&2
-		printf '  cannot report anything without both. Install it, or run inside the\n' >&2
-		printf '  toolchain container.\n' >&2
+		printf '  This suite compiles emitted protos, compiles and RUNS the emitted\n' >&2
+		printf '  Rust access modules, and drives the generator — so it cannot report\n' >&2
+		printf '  anything without all three. Install it, or run inside the toolchain\n' >&2
+		printf '  container, whose Rust pin is in Dockerfile.base.\n' >&2
 		exit 3
 	}
 done
@@ -146,6 +167,89 @@ generate() {
 # in the block, in a different block, or free.
 oneof_block() {
 	sed -n "/^  oneof $2 {/,/^  }/p" "$1"
+}
+
+# rust_access_dumps <out-dir> <work-dir> <group>… — what the emitted Rust access
+# modules ANSWER, as a tab-separated dump the oracle judges.
+#
+# TWO rustc INVOCATIONS PER GROUP, PROVING TWO DIFFERENT THINGS. The first
+# compiles the module ALONE as a library under -D warnings: that is the whole
+# of the claim "the emitted text is valid Rust", and it is taken with nothing
+# else in the crate that could carry the error. The second builds a HARNESS
+# that walks `MESSAGES` and prints what the module's own public API answers —
+# so what the oracle judges has been through the Rust compiler and through the
+# calls a consumer would make, never through a regex over the text.
+#
+# THE HARNESS IS WRITTEN HERE, NOT BY THE GENERATOR, and it names no expected
+# value: it prints `GROUP`, `source_id()`, `may_read()` and `may_write()` and
+# stops. It reads the two PREDICATES rather than the `Access` variant, because
+# the predicates are the consumer-facing surface — a mutation that flips,
+# drops or fabricates a direction has to move one of them to matter.
+#
+# IT ALWAYS RETURNS 0 AND REPORTS THROUGH `RSA_RC`. This suite runs under
+# `set -e`, so a helper returning non-zero outside a condition ABORTS the run —
+# and an aborted run prints no FAIL line at all, which is the one outcome a
+# canary must never produce. Measured: a bare `return` here ended the suite mid
+# section with rc 1 and nothing named.
+RSA_RC=0
+RSA_OUT=""
+RSA_DUMP=""
+rust_access_dumps() {
+	local out="$1" work="$2"
+	shift 2
+	mkdir -p "$work"
+	RSA_DUMP="$work/access.tsv"
+	: > "$RSA_DUMP"
+	local group
+	for group in "$@"; do
+		set +e
+		RSA_OUT="$(rustc --edition 2021 --crate-type lib --emit=metadata -D warnings \
+			-o "$work/$group.rmeta" "$out/$group.rs" 2>&1)"
+		RSA_RC=$?
+		set -e
+		[ "$RSA_RC" -eq 0 ] || return 0
+		# `<<-` strips leading TABS only, so the tabs indent the heredoc and the
+		# SPACES survive into the Rust source.
+		cat > "$work/$group-harness.rs" <<-RSEOF
+			#[allow(dead_code)]
+			#[path = "$out/$group.rs"]
+			mod m;
+
+			fn main() {
+			    for msg in m::MESSAGES.iter().copied() {
+			        println!(
+			            "{}\t{}\t{}\t{}",
+			            m::GROUP,
+			            msg.source_id(),
+			            msg.access().may_read(),
+			            msg.access().may_write()
+			        );
+			    }
+			}
+		RSEOF
+		set +e
+		RSA_OUT="$(rustc --edition 2021 -o "$work/$group-harness" \
+			"$work/$group-harness.rs" 2>&1)"
+		RSA_RC=$?
+		set -e
+		[ "$RSA_RC" -eq 0 ] || return 0
+		set +e
+		RSA_OUT="$("$work/$group-harness" 2>&1 >> "$RSA_DUMP")"
+		RSA_RC=$?
+		set -e
+		[ "$RSA_RC" -eq 0 ] || return 0
+	done
+}
+
+# verify_access <dump> <policy> — judge a dump against the policy that granted
+# it, with the REAL tree's oracle. Bare, so its own status is read.
+VA_RC=0
+VA_OUT=""
+verify_access() {
+	set +e
+	VA_OUT="$(cd "$PG" && clojure -M:verify rust-access --dump "$1" --policy "$2" 2>&1)"
+	VA_RC=$?
+	set -e
 }
 
 # verify <out-dir> [file-list] — compile the emitted protos and judge them with
@@ -277,8 +381,10 @@ section "DETERMINISM — two runs over one input write identical bytes"
 AGAIN="$WORK/again"
 generate "$PG" "$AGAIN" fixtures/policy.edn fixtures/db.edn
 if diff -r -q "$BASE/sensor-reader.proto" "$AGAIN/sensor-reader.proto" > /dev/null 2>&1 &&
-	diff -q "$BASE/permissions.edn" "$AGAIN/permissions.edn" > /dev/null 2>&1; then
-	ok "the schema and the mirror are byte-identical across runs"
+	diff -q "$BASE/permissions.edn" "$AGAIN/permissions.edn" > /dev/null 2>&1 &&
+	diff -q "$BASE/sensor-reader.rs" "$AGAIN/sensor-reader.rs" > /dev/null 2>&1 &&
+	diff -q "$BASE/commander.rs" "$AGAIN/commander.rs" > /dev/null 2>&1; then
+	ok "the schema, the mirror and both access modules are byte-identical across runs"
 else
 	bad "the generator is not deterministic"
 fi
@@ -655,6 +761,243 @@ if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "Field not in the field-number reg
 	ok "an unpinned field REFUSES the run rather than being numbered"
 else
 	bad "an unpinned field did not stop the run (rc=$GEN_RC): $GEN_OUT"
+fi
+
+section "RUST ACCESS — the direction a .proto cannot carry, compiled and asked"
+# The emitted Rust access module is the only artefact of this run that a
+# consumer can ask a DIRECTION of at compile time. Everything in this section
+# and the two mutations after it is about that fact and nothing else.
+RSBASE="$WORK/rs-base"
+rust_access_dumps "$BASE" "$RSBASE" sensor-reader commander
+if [ "$RSA_RC" -eq 0 ]; then
+	ok "each emitted module compiles warning-free as a library, and its API answers"
+else
+	bad "the emitted Rust did not compile or did not run (rc=$RSA_RC): $RSA_OUT"
+fi
+verify_access "$RSA_DUMP" "$PG/fixtures/policy.edn"
+if [ "$VA_RC" -eq 0 ]; then
+	ok "every direction the modules answer agrees with the policy that granted it"
+else
+	bad "the baseline access dump disagreed with the policy (rc=$VA_RC): $VA_OUT"
+fi
+# NON-VACUITY: a clean verdict over zero grants reads exactly like a clean
+# verdict over the real ones.
+if contains "$VA_OUT" "— 0 granted"; then
+	bad "the access oracle checked ZERO grants — a green over nothing"
+else
+	ok "the access oracle reports a non-zero grant count"
+fi
+
+section "RUST ACCESS — every direction a grant can hold, rendered"
+# fixtures/policy.edn has no `#{:read :write}` grant — its two groups are read
+# and write respectively, and that asymmetry is what several cases above are
+# about. fixtures/policy-directions.edn exists for the combination it has none
+# of, and MUTATION 11 below is what proves the fixture is load-bearing rather
+# than decorative.
+DIRS="$WORK/dirs"
+generate "$PG" "$DIRS" fixtures/policy-directions.edn fixtures/db.edn
+if [ "$GEN_RC" -eq 0 ]; then
+	ok "the directions policy generates"
+else
+	bad "the directions policy failed to generate (rc=$GEN_RC): $GEN_OUT"
+fi
+RSDIRS="$WORK/rs-dirs"
+rust_access_dumps "$DIRS" "$RSDIRS" operator
+if [ "$RSA_RC" -eq 0 ]; then
+	ok "its module compiles warning-free as a library, and its API answers"
+else
+	bad "the directions module did not compile or did not run (rc=$RSA_RC): $RSA_OUT"
+fi
+DIRS_DUMP="$(cat "$RSA_DUMP")"
+if contains "$DIRS_DUMP" "$(printf 'operator\tpgfix.Reading\ttrue\tfalse')" &&
+	contains "$DIRS_DUMP" "$(printf 'operator\tpgfix.Stop\tfalse\ttrue')" &&
+	contains "$DIRS_DUMP" "$(printf 'operator\tpgfix.SetMode\ttrue\ttrue')"; then
+	ok "read-only, write-only and BOTH each answer their own pair of predicates"
+else
+	bad "a direction did not reach the compiled module: $DIRS_DUMP"
+fi
+verify_access "$RSA_DUMP" "$PG/fixtures/policy-directions.edn"
+if [ "$VA_RC" -eq 0 ]; then
+	ok "and all three agree with the policy that granted them"
+else
+	bad "the directions dump disagreed with its policy (rc=$VA_RC): $VA_OUT"
+fi
+DIRS_DUMP_FILE="$RSA_DUMP"
+
+section "MUTATION 10 — a FLIPPED direction is caught"
+# The mutation is in the RENDERING, which is where the brief for this artefact
+# puts it: the projection is untouched, so the `.proto` and the permission
+# mirror are byte-identical to the real tree's and only the Rust moves.
+M10="$WORK/m10"
+copy_tool "$M10"
+mutate_file "$M10/src/protocol_gen/rust_access.clj" \
+	'{#{:read} "Read"' \
+	'{#{:read} "Write"' \
+	|| bad "mutation 10 did not land"
+generate "$M10" "$WORK/m10-out" fixtures/policy.edn fixtures/db.edn
+if [ "$GEN_RC" -eq 0 ]; then
+	ok "the mutant still GENERATES — the red below is a verdict, not a crash"
+else
+	bad "the mutant failed to generate (rc=$GEN_RC): $GEN_OUT"
+fi
+rust_access_dumps "$WORK/m10-out" "$WORK/rs-m10" sensor-reader commander
+if [ "$RSA_RC" -eq 0 ]; then
+	ok "MUTANT: a wrong direction still COMPILES — which is why an oracle is needed"
+else
+	bad "the mutant module did not compile (rc=$RSA_RC), so the red below is about rustc: $RSA_OUT"
+fi
+verify_access "$RSA_DUMP" "$PG/fixtures/policy.edn"
+if [ "$VA_RC" -eq 1 ] &&
+	contains "$VA_OUT" "policy grants read=true write=false, the emitted module answers read=false write=true"; then
+	ok "a flipped direction is REFUSED, naming the grant and both answers"
+else
+	bad "a flipped direction was not caught (rc=$VA_RC): $VA_OUT"
+fi
+# CONTROL: the `.proto` and the mirror are UNAFFECTED on this same mutant, so
+# the red above is attributable to the Rust rendering and to nothing else.
+verify "$WORK/m10-out"
+if [ "$VER_RC" -eq 0 ]; then
+	ok "CONTROL: the proto-and-mirror oracle calls that mutant CLEAN"
+else
+	bad "the mutant moved the schema or the mirror too (rc=$VER_RC): $VER_OUT"
+fi
+# THE NEIGHBOUR, on that same mutant: a clause with nothing to do with
+# rendering must still refuse, or the case above could be satisfied by a
+# mutation that broke the pass as a whole.
+generate "$M10" "$WORK/m10-neighbour" fixtures/refusal-policy-typo.edn fixtures/refusal-db.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "field-not-in-message"; then
+	ok "CONTROL: on that same mutant a NEIGHBOURING clause still refuses"
+else
+	bad "the neighbour stopped refusing too — mutation 10 broke more than its clause: $GEN_OUT"
+fi
+
+section "MUTATION 11 — the BOTH direction folded onto one is caught"
+# The half fixtures/policy.edn structurally cannot see, and the reason
+# fixtures/policy-directions.edn exists. Rendering `#{:read :write}` as `Write`
+# loses `may_read` for every message granted both ways — and the two-group
+# policy grants none, so it stays CLEAN on that mutant. That clean run is
+# asserted rather than assumed: it is what makes the directions fixture
+# load-bearing rather than decorative.
+M11="$WORK/m11"
+copy_tool "$M11"
+mutate_file "$M11/src/protocol_gen/rust_access.clj" \
+	'#{:read :write} "ReadWrite"}' \
+	'#{:read :write} "Write"}' \
+	|| bad "mutation 11 did not land"
+generate "$M11" "$WORK/m11-out" fixtures/policy.edn fixtures/db.edn
+if [ "$GEN_RC" -eq 0 ]; then
+	ok "the mutant still GENERATES — the red below is a verdict, not a crash"
+else
+	bad "the mutant failed to generate (rc=$GEN_RC): $GEN_OUT"
+fi
+rust_access_dumps "$WORK/m11-out" "$WORK/rs-m11" sensor-reader commander
+verify_access "$RSA_DUMP" "$PG/fixtures/policy.edn"
+if [ "$RSA_RC" -eq 0 ] && [ "$VA_RC" -eq 0 ]; then
+	ok "MUTANT: the two-group policy is CLEAN — it grants no message BOTH ways"
+else
+	bad "the two-group policy reddened (rc=$VA_RC), so mutation 11 no longer shows what the directions fixture buys: $VA_OUT"
+fi
+generate "$M11" "$WORK/m11-dirs" fixtures/policy-directions.edn fixtures/db.edn
+rust_access_dumps "$WORK/m11-dirs" "$WORK/rs-m11-dirs" operator
+if [ "$RSA_RC" -eq 0 ]; then
+	ok "MUTANT: the directions module still compiles — the fold is not a syntax error"
+else
+	bad "the mutant directions module did not compile (rc=$RSA_RC): $RSA_OUT"
+fi
+verify_access "$RSA_DUMP" "$PG/fixtures/policy-directions.edn"
+if [ "$VA_RC" -eq 1 ] &&
+	contains "$VA_OUT" "policy grants read=true write=true, the emitted module answers read=false write=true"; then
+	ok "a dropped half of a BOTH grant is REFUSED, naming what was lost"
+else
+	bad "the folded direction was not caught (rc=$VA_RC): $VA_OUT"
+fi
+# THE NEIGHBOUR, again on that same mutant.
+generate "$M11" "$WORK/m11-neighbour" fixtures/refusal-policy-typo.edn fixtures/refusal-db.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "field-not-in-message"; then
+	ok "CONTROL: on that same mutant a NEIGHBOURING clause still refuses"
+else
+	bad "the neighbour stopped refusing too — mutation 11 broke more than its clause: $GEN_OUT"
+fi
+
+section "MUTATION 12 — the WARNING-FREE claim, proven able to fail"
+# The library compile above is a claim in its own right — "the emitted text is
+# valid Rust, with no warning" — and a claim nobody has watched fail is not
+# evidence. Dropping the attribute the module carries for its verbatim variant
+# names leaves the text perfectly valid and reintroduces a warning, which
+# -D warnings turns into an error. So this mutation separates the two halves of
+# that claim rather than merely breaking the file.
+M12="$WORK/m12"
+copy_tool "$M12"
+mutate_file "$M12/src/protocol_gen/rust_access.clj" \
+	'"#[allow(non_camel_case_types)]\n"' \
+	'""' \
+	|| bad "mutation 12 did not land"
+generate "$M12" "$WORK/m12-out" fixtures/policy.edn fixtures/db.edn
+if [ "$GEN_RC" -eq 0 ]; then
+	ok "the mutant still GENERATES — the red below is a verdict, not a crash"
+else
+	bad "the mutant failed to generate (rc=$GEN_RC): $GEN_OUT"
+fi
+rust_access_dumps "$WORK/m12-out" "$WORK/rs-m12" commander
+if [ "$RSA_RC" -ne 0 ] && contains "$RSA_OUT" "non_camel_case_types"; then
+	ok "MUTANT: the library compile REFUSES, naming the lint it was denied on"
+else
+	bad "the -D warnings leg did not refuse a warning (rc=$RSA_RC): $RSA_OUT"
+fi
+# CONTROL: the text is still VALID Rust — only the warning-free half moved. A
+# mutation that had produced a syntax error would satisfy the case above while
+# proving nothing about -D warnings.
+set +e
+M12_PLAIN="$(rustc --edition 2021 --crate-type lib --emit=metadata \
+	-o "$WORK/rs-m12/plain.rmeta" "$WORK/m12-out/commander.rs" 2>&1)"
+M12_PLAIN_RC=$?
+set -e
+if [ "$M12_PLAIN_RC" -eq 0 ]; then
+	ok "CONTROL: without -D warnings the same mutant module COMPILES"
+else
+	bad "the mutant is not valid Rust at all, so the case above is about syntax: $M12_PLAIN"
+fi
+# THE NEIGHBOUR, on that same mutant, as mutations 10 and 11 carry: a clause
+# with nothing to do with rendering must still refuse, or the red above could
+# be satisfied by a mutation that broke the pass as a whole.
+generate "$M12" "$WORK/m12-neighbour" fixtures/refusal-policy-typo.edn fixtures/refusal-db.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "field-not-in-message"; then
+	ok "CONTROL: on that same mutant a NEIGHBOURING clause still refuses"
+else
+	bad "the neighbour stopped refusing too — mutation 12 broke more than its clause: $GEN_OUT"
+fi
+
+section "RUST ACCESS — a grant the policy never made is caught the other way"
+# The inverse finding, taken WITHOUT a tool mutation: the oracle must refuse a
+# module answering for a message nothing granted, not merely one whose
+# direction moved. `pgfix.Secret` is granted to no group in any fixture policy.
+FAB="$WORK/fabricated.tsv"
+cp "$DIRS_DUMP_FILE" "$FAB"
+printf 'operator\tpgfix.Secret\tfalse\ttrue\n' >> "$FAB"
+verify_access "$FAB" "$PG/fixtures/policy-directions.edn"
+if [ "$VA_RC" -eq 1 ] && contains "$VA_OUT" "pgfix.Secret: answered by the emitted module and granted by nothing"; then
+	ok "a fabricated grant is REFUSED, naming the message no policy carries"
+else
+	bad "a fabricated grant was not caught (rc=$VA_RC): $VA_OUT"
+fi
+
+section "RUST ACCESS VACUITY — an empty or unreadable dump is a FAULT, not a pass"
+: > "$WORK/empty.tsv"
+verify_access "$WORK/empty.tsv" "$PG/fixtures/policy-directions.edn"
+if [ "$VA_RC" -eq 2 ] && contains "$VA_OUT" "CANNOT RUN"; then
+	ok "an empty dump is exit 2, not a clean verdict over nothing"
+else
+	bad "an empty dump did not report CANNOT RUN (rc=$VA_RC): $VA_OUT"
+fi
+# A SHAPE FAULT IS NOT A FINDING. A dump whose shape changed means the harness
+# or the module moved, and scoring that as a disagreement about ACCESS would
+# name the wrong defect — so it must be 2 rather than 1.
+printf 'operator\tpgfix.Reading\ttrue\n' > "$WORK/malformed.tsv"
+verify_access "$WORK/malformed.tsv" "$PG/fixtures/policy-directions.edn"
+if [ "$VA_RC" -eq 2 ] && contains "$VA_OUT" "CANNOT RUN"; then
+	ok "a dump line that is not four fields is exit 2, never a finding"
+else
+	bad "a malformed dump was scored as a verdict (rc=$VA_RC): $VA_OUT"
 fi
 
 section "VACUITY — the oracle refuses to judge an empty population"

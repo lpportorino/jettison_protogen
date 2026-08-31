@@ -18,6 +18,14 @@
    presence is checked by field number rather than by type, which needs no
    dependency on the validation schema at all.
 
+   THE SAME DISCIPLINE ON THE RUST SIDE, which has no descriptor to read. The
+   `rust-access` mode does not parse the emitted module either: it judges a
+   DUMP that a rustc-compiled harness produced by calling the module's own
+   public API. So a module rustc cannot compile, or one whose API no longer
+   answers, is a fault rather than a silently-empty comparison — and what is
+   judged is the ANSWER a consumer would get, not the text a regex could
+   misread.
+
    EXIT CODES SEPARATE A VERDICT FROM A FAULT: 0 clean, 1 findings, 2 the check
    could not run. A suite that accepted \"non-zero\" would take a stack trace as
    proof that a clause fired."
@@ -219,6 +227,69 @@
      (for [id (sort (remove (set (keys db-enums)) (keys (:enums actual))))]
        (str id ": enum in the compiled protos and not in the fixture database")))))
 
+(defn parse-access-dump
+  "The lines of a Rust access dump as `{[group source-id] {:read b :write b}}`.
+
+   THE DUMP IS WHAT THE EMITTED MODULE ANSWERED, not what it says. A canary
+   compiles each module with rustc together with a harness that walks
+   `MESSAGES` and prints `GROUP`, `source_id()`, `may_read()` and `may_write()`
+   for every one — so what reaches here has been through the Rust compiler and
+   the module's own public API, which is the same discipline this oracle
+   applies to a `.proto` by reading protoc's descriptor rather than the text.
+
+   A LINE IT CANNOT PARSE IS A FAULT, NOT A FINDING, and the caller exits 2 on
+   one: a dump whose shape changed means the harness or the module moved, and
+   scoring that as a disagreement about ACCESS would name the wrong defect."
+  [text]
+  (reduce
+   (fn [acc line]
+     (let [parts (str/split line #"\t")]
+       (when (not= 4 (count parts))
+         (throw (ex-info "access dump line is not four tab-separated fields"
+                         {:line line :fields (count parts)})))
+       (let [[group id read-s write-s] parts
+             flag (fn [v] (case v
+                            "true" true
+                            "false" false
+                            (throw (ex-info "access dump flag is not a Rust bool"
+                                            {:line line :value v}))))]
+         (assoc acc [group id] {:read (flag read-s) :write (flag write-s)}))))
+   {}
+   (remove str/blank? (str/split-lines text))))
+
+(defn expected-access
+  "What each group's Rust access module SHOULD answer, re-derived from the
+   POLICY ALONE, as `{[group source-id] {:read b :write b}}`.
+
+   THE POLICY ALONE IS SUFFICIENT AND THAT IS THE POINT. A grant's `:access`
+   IS the direction; nothing in the database, the mints or the registry bears
+   on it. So this derivation cannot be led astray by the same input that led
+   the generator astray, and it shares no code with the thing it judges."
+  [policy]
+  (into {}
+        (for [g (:groups policy)
+              grant (:grants g)]
+          [[(name (:id g)) (:message grant)]
+           {:read (contains? (:access grant) :read)
+            :write (contains? (:access grant) :write)}])))
+
+(defn access-findings
+  "Every disagreement between what the policy granted and what the emitted
+   Rust modules answered."
+  [expected actual]
+  (let [describe (fn [{may-read :read may-write :write}]
+                   (str "read=" may-read " write=" may-write))]
+    (concat
+     (for [[[group id] want] (sort-by key expected)
+           :let [got (get actual [group id])]
+           :when (not= want got)]
+       (if got
+         (str group "/" id ": policy grants " (describe want)
+              ", the emitted module answers " (describe got))
+         (str group "/" id ": granted, and the emitted module answers for no such message")))
+     (for [[group id] (sort (remove (set (keys expected)) (keys actual)))]
+       (str group "/" id ": answered by the emitted module and granted by nothing")))))
+
 (defn- die
   [code lines]
   (run! #(binding [*out* *err*] (println %)) lines)
@@ -286,9 +357,43 @@
                     " message(s), " checked " field(s), " (count (:enums database))
                     " enum(s) agreed between the fixture database and protoc")))))
 
+(defn- check-rust-access
+  "Judge the access facts the emitted Rust modules ANSWER against the policy
+   that granted them."
+  [{:keys [dump policy]}]
+  (doseq [[flag v] [["--dump" dump] ["--policy" policy]]]
+    (when-not v (die 2 [(str "verify rust-access: " flag " is required")])))
+  (when-not (java.io.File/.isFile (io/file dump))
+    (die 2 [(str "verify rust-access: dump not found: " dump)]))
+  (let [expected (expected-access (read-edn policy "policy"))
+        ;; THE READ IS INSIDE THE GUARD, not only the parse. An unreadable file
+        ;; and a malformed line are the same class — the check could not run —
+        ;; and letting one of them escape as an uncaught throw would report a
+        ;; FAULT with the exit code reserved for a FINDING.
+        actual (try (parse-access-dump (slurp dump))
+                    (catch Exception e
+                      (die 2 [(str "verify rust-access: CANNOT RUN — " (ex-message e)
+                                   " " (pr-str (ex-data e)))])))
+        found (access-findings expected actual)]
+    ;; NON-VACUITY FIRST, on BOTH sides and each on its own. A comparison over
+    ;; an empty population reports exactly what a clean one reports, and either
+    ;; side going dark alone is invisible to a union floor.
+    (when (or (empty? expected) (empty? actual))
+      (die 2 [(str "verify rust-access: CANNOT RUN — " (count expected)
+                   " granted message(s), " (count actual)
+                   " answered by the emitted module(s). An empty side means "
+                   "discovery broke, not that there is nothing to check.")]))
+    (if (seq found)
+      (die 1 (cons (str "verify rust-access: FAIL — " (count found) " finding(s):")
+                   (map #(str "  " %) found)))
+      (println (str "verify rust-access: clean — " (count expected)
+                    " granted message(s) agreed between the policy and the "
+                    "access direction each emitted Rust module answers")))))
+
 (def ^:private modes
   {"emitted" check-emitted
-   "fixture-db" check-fixture-db})
+   "fixture-db" check-fixture-db
+   "rust-access" check-rust-access})
 
 (defn -main
   "Judge an emitted artefact against its source. Two modes:
@@ -297,7 +402,11 @@
                 What the generator wrote, against the inputs it was given.
      fixture-db --descriptor --files --db
                 A hand-written descriptor database, against protoc's own
-                descriptor of the protos it claims to describe."
+                descriptor of the protos it claims to describe.
+     rust-access --dump --policy
+                The access DIRECTION each emitted Rust module answers — read
+                out of a rustc-compiled harness that calls the module's own
+                public API — against the policy that granted it."
   [& args]
   (let [[mode & rest-args] args
         handler (or (get modes mode)

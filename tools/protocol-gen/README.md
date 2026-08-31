@@ -248,8 +248,8 @@ a group cannot send what its schema cannot express, and that is the mechanism.
 ## The fixtures and the canary
 
 `fixtures/` holds data this repository owns — a fixture proto, the descriptor
-database it describes, a mint, its registry, a two-group policy, and the inputs
-the refusal cases need. They live inside this tool's own directory: generation
+database it describes, a mint, its registry, a two-group policy, a single-group
+policy carrying every access DIRECTION, and the inputs the refusal cases need. They live inside this tool's own directory: generation
 walks the proto source tree at the repository root, so nothing here is an input
 to a shipped generation leg and nothing here reaches a published binding
 repository.
@@ -266,14 +266,24 @@ One emitted file therefore carries all four combinations that matter: a
 descriptor message with a descriptor oneof, a minted message with a minted
 oneof, a descriptor enum, and a minted one.
 
+`fixtures/policy-directions.edn` covers the axis the two-group policy
+structurally cannot. Its groups are read-only and write-only respectively, and
+the asymmetry BETWEEN them is what several canary cases are about — so the
+combination it has no instance of is a grant that is BOTH. A single group with
+one grant of each direction supplies it, and a canary mutation folding
+read-and-write onto one direction shows what that buys: the two-group policy
+stays CLEAN on that mutant, and only the directions policy reds.
+
 `canary/protocol_gen_canary.sh` is not a demo. It drives the real generator in
 both directions and FAILS when the generator is broken, proving every failure it
 covers by MUTATION — a wrong field number, a dropped grant emitting a
 silently-allowed field, a construct that cannot be expressed being approximated
 instead of refused, and, on the minted side, a oneof flattened into free fields,
 a oneof losing its `required`, an enum that stops resolving, an enum renumbered
-by position, and each of the two minted-oneof refusals broken alone with the
-other as its neighbouring control. Read the list from the script's sections
+by position, each of the two minted-oneof refusals broken alone with the other
+as its neighbouring control, a flipped access direction, a read-and-write grant
+folded onto one direction, and an emitted Rust module that is no longer
+warning-free. Read the list from the script's sections
 rather than from a count here. Every case asserts an exact exit code and a
 substring naming the finding; every absence probe carries a control that makes
 it produce a hit; and each mutant is asserted still to RUN, so a red is a
@@ -287,9 +297,20 @@ that flattens a oneof into free fields, or renumbers an enum's members, is CLEAN
 by its verdict. Both are asserted clean on their mutants, so a later reader
 cannot mistake that blindness for coverage.
 
-It needs `clojure` and `protoc`, and HARD-FAILS when either is missing rather
-than skipping. protoc resolves the emitted files' validation import out of the
-committed descriptor set, so the suite needs no network and no container.
+It needs `clojure`, `protoc` and `rustc`, and HARD-FAILS when any is missing
+rather than skipping. protoc resolves the emitted files' validation import out
+of the committed descriptor set, so the suite needs no network and no
+container.
+
+**`rustc` is a REQUIREMENT and not a preference**, because the claims that
+depend on it — that each emitted access module is valid, warning-free Rust, and
+that the direction its API ANSWERS is the direction the policy granted — are
+not true without it, which is the test `.claude/rules/gate-enforcement.md` §4
+sets. It is in the toolchain image; the pin is in `Dockerfile.base`. `rustfmt`
+is deliberately NOT used: the emitted text is `rustfmt --check` canonical
+today, but rustfmt is outside the image's minimal rustup profile, so a case
+asserting it would have to skip when its tool was absent — and a skipping gate
+is the defect this suite exists to catch, wearing a green.
 
 ## How this tree is gated
 
