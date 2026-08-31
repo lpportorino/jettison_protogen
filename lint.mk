@@ -309,6 +309,7 @@ export LINT_SH_DISCOVERY_ERR
 	lint-no-host-paths lint-no-host-paths-test lint-ns-size lint-clj-gate-test \
 	lint-fn-size lint-docstrings lint-spec-shape lint-spec-presence \
 	lint-file-size lint-file-size-test wasm-provenance-test wire-contract-codec-test \
+	lint-cmd-no-any-bytes lint-cmd-no-any-bytes-test \
 	lint-c-tidy lint-c-tidy-test
 
 ## install-hooks: point git at .githooks (arms the pre-push gate)
@@ -411,7 +412,7 @@ hooks-status:
 lint:
 	@$(MAKE) --no-print-directory -f lint.mk -j$(NPROC) lint-lanes
 
-lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test leg-strictness-test wasm-provenance-test wire-contract-codec-test wire-contract-envelope-test fork-hazards protocol-gen-test protocol-gen-canary fmt-clj lint-clj fmt-c
+lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-cmd-no-any-bytes-test lint-cmd-no-any-bytes lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test leg-strictness-test wasm-provenance-test wire-contract-codec-test wire-contract-envelope-test fork-hazards protocol-gen-test protocol-gen-canary fmt-clj lint-clj fmt-c
 
 ## protocol-gen-test / protocol-gen-canary: the generator tool's two OWN lanes
 # Delegated to `Makefile` by SUB-MAKE, exactly as lint-md is delegated to
@@ -657,6 +658,37 @@ lint-file-size:
 
 lint-file-size-test:
 	@bash tools/lint/test/file_size_ceiling_test.sh
+
+## lint-cmd-no-any-bytes: no `google.protobuf.Any` and no `bytes` field in the command family
+# A command is validated against its schema before anything acts on it, and a
+# `bytes` field or a `google.protobuf.Any` admits a payload the schema cannot
+# describe — so the validation stops meaning anything about that field. Neither
+# construct appears in the command family today; this gate is what keeps that
+# true by enforcement rather than by luck.
+#
+# SCOPED BY PACKAGE, NOT BY PATH, which is why it is not handed a *_PATHS
+# variable like the Clojure lanes. Its corpus is every `.proto` under proto/
+# whose package is `cmd` or a `cmd.<Subsystem>` child, derived on every run: a
+# hand-typed roster would silently stop covering the next command proto added,
+# and a path list would miss one added under an unconventional name. The script's
+# header carries the reproduction command.
+#
+# WHAT A GREEN HERE DOES NOT SAY, because the obvious reading is wrong: the
+# property is FILE-LOCAL, not reachability. `cmd.Root` reaches an opaque octet
+# run one hop away through a message in the STATE family, which is outside this
+# corpus by construction. That path is deliberate, so a reachability check would
+# land red on a designed feature — the scope is narrowed and the omission is
+# stated instead, per .claude/rules/gate-enforcement.md § A METRIC CEILING.
+#
+# The canary runs BEFORE the gate, same ordering argument as the leak ban and
+# the size ceiling: eight clauses here can each refuse, several of them on
+# overlapping inputs, so "it went red" says nothing about WHICH clause refused
+# until the suite has settled that by mutation.
+lint-cmd-no-any-bytes:
+	@bash tools/lint/cmd_no_any_bytes.sh
+
+lint-cmd-no-any-bytes-test:
+	@bash tools/lint/test/cmd_no_any_bytes_test.sh
 
 ## wire-contract: assert docs/INTERFACE-CONTRACTS.md against the descriptor set
 # DELIBERATELY NOT IN THE `lint` AGGREGATE. `lint` means "formatting and lint
