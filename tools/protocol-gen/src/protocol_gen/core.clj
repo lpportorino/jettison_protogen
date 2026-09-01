@@ -12,9 +12,10 @@
      generate --db <path> --minted <path> --registry <path> --policy <path>
               --out <dir>
        Emit one `.proto` per group, one Rust ACCESS MODULE per group, the flat
-       permission mirror, and the NESTED permission tree a byte-level scanner
-       walks — all derived from the same projection in the same run, so no two
-       of them can disagree.
+       permission mirror, the NESTED permission tree a byte-level scanner walks,
+       and the STATE SUBSYSTEM TABLE a read path narrows against — all derived
+       from the same projection in the same run, so no two of them can
+       disagree.
        Every path is named; nothing is defaulted.
 
      reconcile --minted <path> --registry <path>
@@ -43,7 +44,8 @@
             [protocol-gen.policy :as policy]
             [protocol-gen.projection :as projection]
             [protocol-gen.render :as render]
-            [protocol-gen.rust-access :as rust-access]))
+            [protocol-gen.rust-access :as rust-access]
+            [protocol-gen.state-table :as state-table]))
 
 (set! *warn-on-reflection* true)
 
@@ -190,10 +192,35 @@
                   (reduce + 0 (for [t built, r (:roots t)] (nodes r))) " node(s)")))
   nil)
 
+(defn- write-state-table!
+  "Emit the STATE SUBSYSTEM TABLE from the SAME projected groups, and the closed
+   set the policy declared them against.
+
+   THE UNIVERSE COMES FROM THE POLICY AND THE PERMITTED SET FROM THE PROJECTION,
+   and neither is a second source for the other. A group's list is an
+   authorisation fact and is carried in the projection with `:access`; the set it
+   is a subset of is a POLICY-level declaration that no single group can see, so
+   copying it into each projected group would be one fact with N homes.
+
+   Prints both counts, so a policy that declares no state axis is
+   distinguishable from one whose groups all receive nothing — the two emit
+   different files and would otherwise read as one line of output."
+  [out-dir declared groups]
+  (let [path (str out-dir "/state_subsystems.rs")
+        rows (state-table/rows declared groups)]
+    (io/make-parents path)
+    (spit path (state-table/module declared rows))
+    (println (str "protocol-gen: " path " — " (count declared)
+                  " declared subsystem(s), "
+                  (reduce + 0 (for [r rows, e (:entries r) :when (:permitted e)] 1))
+                  " permitted across " (count rows) " group(s)")))
+  nil)
+
 (defn generate!
   "Project the database and the minted messages through the policy, then emit
    one `.proto` per group, one Rust access module per group, one flat
-   permission mirror and one nested permission tree beside them.
+   permission mirror, one nested permission tree and one state subsystem table
+   beside them.
 
    THE ARTEFACTS ARE ONE VALUE SEEN SEVERAL WAYS. `groups` is projected once
    and each writer is handed it; none of them reads what another wrote, so
@@ -221,7 +248,8 @@
     (io/make-parents mirror-path)
     (spit mirror-path (with-out-str (pp/pprint (mirror/mirror groups))))
     (println (str "protocol-gen: " mirror-path " — " (count groups) " group(s)"))
-    (write-permission-tree! out-dir trees))
+    (write-permission-tree! out-dir trees)
+    (write-state-table! out-dir (policy/declared-subsystems p) groups))
   nil)
 
 (m/=> generate! [:=> [:cat [:map-of :keyword [:string {:min 1}]]] :nil])

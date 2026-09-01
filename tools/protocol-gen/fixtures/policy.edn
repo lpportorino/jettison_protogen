@@ -22,14 +22,31 @@
 ;; against the universe buys.
 ;;
 ;; `pgfix.Secret` is granted to NEITHER, and appears in neither emitted file.
+;;
+;; THE STATE AXIS IS DELIBERATELY ASYMMETRIC TOO, and for the same reason the
+;; grants are. `:state-subsystems` at the top is the CLOSED SET, and the two
+;; groups sit at the two shapes worth telling apart:
+;;
+;;   * `sensor-reader` names a PROPER SUBSET — two of the three — so a table
+;;     that emitted only the permitted entries, or only the denied ones, would
+;;     be a different width and the difference is visible.
+;;   * `commander` OMITS the key entirely, which is the empty set: the shape a
+;;     group that receives no state at all takes. Its row set is not empty —
+;;     one row per declared subsystem, each `false` — because an empty row set
+;;     would read exactly like a table nobody filled in.
+;;
+;; The names are generic engineering words on purpose: this fixture describes
+;; the generator's behaviour and not any product's subsystems.
 {:version 1
+ :state-subsystems ["diagnostics" "telemetry" "thermal"]
  :groups
  [{:id :sensor-reader
    :package "pgfix.sensor"
    :grants [{:message "pgfix.Reading"
              :access #{:read}
              :fields #{"value" "mode" "history"}}]
-   :enums ["pgfix.Mode"]}
+   :enums ["pgfix.Mode"]
+   :state-subsystems ["telemetry" "thermal"]}
 
   {:id :commander
    :package "pgfix.commander"

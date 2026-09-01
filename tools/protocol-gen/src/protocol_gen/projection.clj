@@ -51,11 +51,20 @@
    [:oneofs [:vector db/oneof]]])
 
 (def projected-group
-  "One group's whole projection — the value both the `.proto` text and the
-   permission mirror are derived from, so the two cannot disagree."
+  "One group's whole projection — the value the `.proto` text, the permission
+   mirror, the access module, the permission tree and the state subsystem table
+   are all derived from, so no two of them can disagree.
+
+   `:state-subsystems` IS AN AUTHORISATION FACT LIKE `:access`, which is why it
+   is carried here rather than read back out of the policy by the emitter. It
+   resolves against nothing in the database — a state subsystem names a SOURCE
+   of state rather than a shape — so the policy's own declared set is what
+   `project` validates it against, one level up where the whole policy is in
+   hand."
   [:map {:closed true}
    [:id :keyword]
    [:package db/proto-qualified-name]
+   [:state-subsystems [:vector db/proto-identifier]]
    [:messages [:vector projected-message]]
    [:enums [:vector [:map {:closed true}
                      [:id db/proto-qualified-name]
@@ -228,10 +237,33 @@
     (assert-types-granted! (:id g) messages enums)
     (assert-names-distinct! (:id g) messages enums)
     (numbering/assert-stamped! messages)
-    {:id (:id g) :package (:package g) :messages messages :enums enums}))
+    {:id (:id g)
+     :package (:package g)
+     :state-subsystems (vec (sort (:state-subsystems g [])))
+     :messages messages
+     :enums enums}))
 
 (m/=> project-group
       [:=> [:cat db/database db/database policy/group] projected-group])
+
+(defn- assert-subsystems-declared!
+  "Refuse a group naming a state subsystem the policy's closed set does not
+   carry.
+
+   IT IS ASKED HERE AND NOT IN `project-group`, because the closed set is a
+   POLICY-level declaration and a single group cannot see it. Left unrefused, a
+   typo in a group's list would emit a table row nothing declared — or, worse
+   under a table that is total over the DECLARED set, no row at all, which reads
+   exactly like a group that deliberately receives nothing."
+  [p]
+  (let [declared (policy/declared-subsystems p)]
+    (doseq [g (:groups p)
+            :let [unknown (policy/undeclared-subsystems declared g)]
+            :when (seq unknown)]
+      (constructs/refuse! :state-subsystem-not-declared (str (:id g))
+                          (str "this group names state subsystem(s) the policy does not "
+                               "declare: " (pr-str unknown) "; the declared set is "
+                               (pr-str declared))))))
 
 (defn project
   "Every group's projection, in policy order. Refuses a duplicated group id —
@@ -241,6 +273,7 @@
   (when-let [dups (seq (policy/duplicate-group-ids p))]
     (constructs/refuse! :name-collision "policy/groups"
                         (str "these group ids are declared more than once: " (pr-str dups))))
+  (assert-subsystems-declared! p)
   (mapv #(project-group database minted %) (:groups p)))
 
 (m/=> project

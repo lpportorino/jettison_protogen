@@ -118,7 +118,8 @@
     :unnumbered-field
     :name-collision
     :permission-cycle
-    :grant-under-denial})
+    :grant-under-denial
+    :state-subsystem-not-declared})
 
 (def refusal
   "One refusal: which thing, why, and enough detail to fix it without reading

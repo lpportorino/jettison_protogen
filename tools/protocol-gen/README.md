@@ -4,8 +4,9 @@ A general-purpose generator. Its input is a **descriptor database** (proto
 descriptors already parsed into EDN), a declarative **access policy**, a set of
 **locally-minted** messages, and an assign-once **field-number registry**. Its
 output is one `.proto` file per access group, one **Rust access module** per
-group, a machine-readable **flat permission mirror**, and a **nested permission
-tree** in Rust — all written from the same value in the same run.
+group, a machine-readable **flat permission mirror**, a **nested permission tree** in
+Rust, and a **state subsystem table** — all written from the same value in the
+same run.
 
 The per-group projection is one PROPERTY of that generator, not its purpose. A
 group's emitted schema simply does not NAME what the policy did not grant, so a
@@ -46,7 +47,8 @@ descriptor database ─┐                                            ┌► .pr
 locally-minted msgs ─┼─► numbering ─► projection ─► render ─► emit┤
 field-number registry┘                    │                       └► mirror
 access policy ───────────────────────────┘                        ├► .rs
-                                          └──────────────────────►└► permission tree
+                                          │                       ├► permission tree
+                                          └──────────────────────►└► state table
 ```
 
 | namespace | what it owns |
@@ -61,6 +63,7 @@ access policy ──────────────────────
 | `src/protocol_gen/emit.clj` | resolved projection to `.proto` text |
 | `src/protocol_gen/mirror.clj` | the FLAT permission mirror |
 | `src/protocol_gen/permission_tree.clj` | the NESTED permission tree, in Rust |
+| `src/protocol_gen/state_table.clj` | the STATE SUBSYSTEM table, in Rust |
 | `src/protocol_gen/rust_access.clj` | the per-group Rust ACCESS module |
 | `src/protocol_gen/rust_lit.clj` | quoting a name into emitted Rust |
 | `src/protocol_gen/core.clj` | the command line |
@@ -355,6 +358,63 @@ what a defect in the expansion produces.
 below records. Two runs over one projection write identical bytes, which is the
 property that matters where a consumer freshness-gates the file.
 
+## The STATE SUBSYSTEM TABLE — the axis no descriptor database carries
+
+The run also writes `state_subsystems.rs`: which state subsystems each group
+may receive, as Rust data and nothing else.
+
+```rust
+pub static STATE_SUBSYSTEMS: &[&str] = &["diagnostics", "telemetry", "thermal"];
+
+pub static GROUP_STATE_SUBSYSTEMS: &[(&str, &[(&str, bool)])] = &[
+    ("commander",     &[("diagnostics", false), ("telemetry", false), ("thermal", false)]),
+    ("sensor-reader", &[("diagnostics", false), ("telemetry", true),  ("thermal", true)]),
+];
+```
+
+**WHY IT IS AN AXIS OF ITS OWN.** A grant names a MESSAGE and the projection
+resolves it against the descriptor database. A state subsystem names a SOURCE
+of state, which no descriptor database carries and nothing here can resolve —
+so the policy itself is the only thing that can say which subsystems exist.
+Neither the group's `.proto` nor its permission tree has anywhere to put that.
+
+**THE POLICY GRAMMAR WAS EXTENDED FOR IT, minimally.** `:state-subsystems` at
+the policy's top level is the CLOSED SET, optional and non-empty when present;
+`:state-subsystems` on a group is a subset of it, optional, where an omitted
+key means the empty set — the reading `:enums` already has. Both are checked
+for distinct entries at LOAD. A group naming an id the policy does not declare
+is refused `state-subsystem-not-declared`, at POLICY grain, because the
+declared set is a top-level fact no single group can see.
+
+**THE TOP-LEVEL DECLARATION IS WHAT MAKES TOTALITY POSSIBLE.** Without a set to
+be total OVER, *this group receives none* and *this policy has no state axis*
+emit the same nothing, and a subsystem dropped from a group is
+indistinguishable from one nobody has declared yet. With it, the table is the
+CROSS PRODUCT — one row per group per declared subsystem, each carrying a bool
+— so an absent row is not representable and **a group that receives nothing has
+a row per subsystem reading `false`** rather than no rows at all.
+
+**IT IS DATA AND NOTHING ELSE.** A read path narrows against this table; the
+narrowing is the consumer's, and a `const fn` doing it here would be a second
+home for that rule. So the emission is two `pub static`s of primitives, no
+items besides. The fragment names no crate, declares no type and assumes
+nothing is in scope, which is why it is a SEPARATE file from the permission
+tree — folding it in would add a third name that fragment's includer must
+supply, or force this axis into a permission vocabulary it does not have
+(`Inherit` means nothing about a subsystem).
+
+**A POLICY THAT DECLARES NO AXIS EMITS AN EMPTY UNIVERSE**, and therefore an
+empty row set under every group — the group tuples are still all there. That is
+the honest rendering, not a skipped file, and it is why the universe is emitted
+beside the rows: a consumer checks its length rather than reading a short table
+as a narrow one. The oracle refuses to JUDGE such a table (exit 2) rather than
+reporting it clean, so a vacuous one cannot pass for a narrow one here either.
+
+**WHAT THIS FORK DID NOT DECIDE.** The subsystem NAMES in `fixtures/policy.edn`
+are generic engineering words chosen to exercise the generator. Real policy
+content is authored elsewhere; nothing here claims to know what a deployment's
+subsystems are called.
+
 ## The fixtures and the canary
 
 `fixtures/` holds data this repository owns — a fixture proto, the descriptor
@@ -387,8 +447,9 @@ policy staying CLEAN on the same mutant, so the fixture is load-bearing rather
 than decorative.
 
 `fixtures/refusal-db-cycle.edn` plus `fixtures/refusal-policy-cycle.edn` reach
-the cycle refusal, and `fixtures/refusal-policy-group-name.edn` reaches the
-colliding-static one. Both are ordinary, legal policies — the first emits a
+the cycle refusal, `fixtures/refusal-policy-group-name.edn` reaches the
+colliding-static one, and `fixtures/refusal-policy-state.edn` reaches the
+undeclared-subsystem one. Both are ordinary, legal policies — the first emits a
 perfectly good `.proto` — so each is driven with a fixture rather than a
 mutation, and the mutation is what breaks its clause alone.
 
@@ -413,9 +474,11 @@ warning-free, a withheld message LEAKED into the access enum, a granted one
 DROPPED from it, a nested permission tree that lists only its GRANTS instead of
 every field the source declares, a tree that describes the interior of a
 DENIAL, each of the tree's two policy-reachable refusals broken alone with the
-other as its neighbouring control, and a fixture policy withholding a field
-that the emitted tree must then follow. Read the list from the script's sections
-rather than from a count here. Every case asserts an exact exit code and a
+other as its neighbouring control, a fixture policy withholding a field that
+the emitted tree must then follow, a state subsystem table carrying only its
+PERMITTED rows, and a fixture policy withholding a subsystem that the emitted
+table must then follow. Read the list from the script's sections rather than
+from a count here. Every case asserts an exact exit code and a
 substring naming the finding; every absence probe carries a control that makes
 it produce a hit; and each mutant is asserted still to RUN, so a red is a
 verdict rather than a crash.

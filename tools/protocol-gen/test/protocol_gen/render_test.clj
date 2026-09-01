@@ -7,6 +7,7 @@
 (def ^:private group
   {:id :g
    :package "p.g"
+   :state-subsystems []
    :messages
    [{:id "p.Cmd" :proto-name "p_Cmd" :origin :descriptor :access #{:write}
      :fields [{:number 2 :name "start" :type :message :type-ref "p.Start"

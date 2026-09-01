@@ -405,6 +405,69 @@
        (str (first k) "/" (second k)
             ": held by the emitted tree and described by nothing")))))
 
+(defn parse-state-dump
+  "The lines of a state-table dump as `{[group subsystem] permitted}`.
+
+   THE DUMP IS WHAT THE EMITTED STATICS HELD. A canary compiles the fragment
+   into a harness that walks `GROUP_STATE_SUBSYSTEMS` and prints one line per
+   entry, so what reaches here has been through rustc and through the same const
+   data a read path would narrow against.
+
+   A LINE IT CANNOT PARSE IS A FAULT, NOT A FINDING, for the reason the two
+   dumps beside it give."
+  [text]
+  (reduce
+   (fn [acc line]
+     (let [parts (str/split line #"\t")]
+       (when (not= 3 (count parts))
+         (throw (ex-info "state table dump line is not three tab-separated fields"
+                         {:line line :fields (count parts)})))
+       (let [[group subsystem permitted] parts]
+         (assoc acc [group subsystem]
+                (case permitted
+                  "true" true
+                  "false" false
+                  (throw (ex-info "state table dump flag is not a Rust bool"
+                                  {:line line :value permitted})))))))
+   {}
+   (remove str/blank? (str/split-lines text))))
+
+(defn expected-state-table
+  "What the emitted state table SHOULD hold, as `{[group subsystem] permitted}`,
+   re-derived from the POLICY ALONE.
+
+   THE POLICY ALONE IS SUFFICIENT AND THAT IS THE POINT — the same argument
+   `expected-access` makes. A state subsystem resolves against nothing in the
+   database, the mints or the registry, so this derivation cannot be led astray
+   by the input that led the generator astray.
+
+   IT IS THE CROSS PRODUCT, deliberately: every group against every DECLARED
+   subsystem. A derivation that produced only the permitted pairs could not tell
+   a table missing a denial from one that never had it."
+  [policy]
+  (let [declared (sort (:state-subsystems policy []))]
+    (into {}
+          (for [g (:groups policy)
+                s declared]
+            [[(name (:id g)) s]
+             (boolean (some #{s} (:state-subsystems g [])))]))))
+
+(defn state-findings
+  "Every disagreement between the table the policy describes and the table the
+   emitted statics held."
+  [expected actual]
+  (concat
+   (for [[[group s] want] (sort-by key expected)
+         :let [got (get actual [group s])]
+         :when (not= want got)]
+     (if (nil? got)
+       (str group "/" s ": the policy describes permitted=" want
+            ", and the emitted table carries no row for it")
+       (str group "/" s ": the policy describes permitted=" want
+            ", the emitted table holds permitted=" got)))
+   (for [[group s] (sort (remove (set (keys expected)) (keys actual)))]
+     (str group "/" s ": held by the emitted table and declared by nothing"))))
+
 (defn- die
   [code lines]
   (run! #(binding [*out* *err*] (println %)) lines)
@@ -541,11 +604,43 @@
                     " node(s) agreed between the inputs and the permission tree "
                     "each emitted static holds")))))
 
+(defn- check-state-table
+  "Judge the state subsystem table the emitted statics HELD against the policy
+   that declared it."
+  [{:keys [dump policy]}]
+  (doseq [[flag v] [["--dump" dump] ["--policy" policy]]]
+    (when-not v (die 2 [(str "verify state-table: " flag " is required")])))
+  (when-not (java.io.File/.isFile (io/file dump))
+    (die 2 [(str "verify state-table: dump not found: " dump)]))
+  (let [expected (expected-state-table (read-edn policy "policy"))
+        actual (try (parse-state-dump (slurp dump))
+                    (catch Exception e
+                      (die 2 [(str "verify state-table: CANNOT RUN — " (ex-message e)
+                                   " " (pr-str (ex-data e)))])))
+        found (state-findings expected actual)]
+    ;; NON-VACUITY FIRST, on BOTH sides and each on its own. A policy declaring
+    ;; no state axis emits an EMPTY table, which is the honest rendering of that
+    ;; policy and is also indistinguishable from a table that went dark — so it
+    ;; is a fault to judge rather than something to report clean.
+    (when (or (empty? expected) (empty? actual))
+      (die 2 [(str "verify state-table: CANNOT RUN — " (count expected)
+                   " described row(s), " (count actual)
+                   " held by the emitted table. An empty side means the policy "
+                   "declares no state axis, or discovery broke — neither is a "
+                   "clean verdict.")]))
+    (if (seq found)
+      (die 1 (cons (str "verify state-table: FAIL — " (count found) " finding(s):")
+                   (map #(str "  " %) found)))
+      (println (str "verify state-table: clean — " (count expected)
+                    " row(s) agreed between the policy and the state subsystem "
+                    "table the emitted statics hold")))))
+
 (def ^:private modes
   {"emitted" check-emitted
    "fixture-db" check-fixture-db
    "rust-access" check-rust-access
-   "permission-tree" check-permission-tree})
+   "permission-tree" check-permission-tree
+   "state-table" check-state-table})
 
 (defn -main
   "Judge an emitted artefact against its source. Three modes:
@@ -565,6 +660,12 @@
                 that produced it. Judges every node's tag, permission and
                 DIRECT CHILD COUNT, so a message described without a child per
                 field its source declares is a finding rather than a smaller
+                clean run.
+     state-table --dump --policy
+                The STATE SUBSYSTEM TABLE the emitted statics hold — read out of
+                a rustc-compiled harness that walks it — against the policy that
+                declared it. Judges the CROSS PRODUCT of groups and declared
+                subsystems, so a missing row is a finding rather than a narrower
                 clean run."
   [& args]
   (let [[mode & rest-args] args
