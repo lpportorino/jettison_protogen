@@ -1,0 +1,30 @@
+;; A fixture ACCESS POLICY whose only job is to carry a DENIED MESSAGE-TYPED
+;; FIELD — a field the grant's filter dropped whose type is a message with an
+;; interior of its own.
+;;
+;; `fixtures/policy.edn` cannot do this job and should not be widened to. Its
+;; withheld fields are all SCALARS (`sample_count`, `label`, `stale`), so a
+;; defect that made the permission tree describe the INTERIOR of a denial would
+;; emit nothing extra there: a scalar has no interior to describe, and the
+;; emitted bytes would be identical to a correct run. That is a mutation
+;; nothing could catch, which is the same shape `fixtures/policy-directions.edn`
+;; exists for on the access-direction axis.
+;;
+;; One group, two grants, and the asymmetry is the whole content:
+;;
+;;   * `pgfix.Command` is granted ONE of its three fields — `start` — so `stop`
+;;     and `set_mode` are DENIED, and `set_mode`'s type `pgfix.SetMode` carries
+;;     a field. A tree that recursed beneath a denial would grow a node there.
+;;   * `pgfix.Start` is granted whole because `start`'s type must be granted
+;;     for the projection's closure check to pass. It carries no fields, which
+;;     is deliberate: it keeps this fixture's tree small enough to read.
+;;
+;; `pgfix.SetMode` and `pgfix.Stop` are granted to NOBODY here, which is what
+;; makes the denial's interior a genuine non-disclosure rather than a
+;; repetition of something the group already holds.
+{:version 1
+ :groups
+ [{:id :relay
+   :package "pgfix.relay"
+   :grants [{:message "pgfix.Command" :access #{:write} :fields #{"start"}}
+            {:message "pgfix.Start" :access #{:write} :fields :all}]}]}

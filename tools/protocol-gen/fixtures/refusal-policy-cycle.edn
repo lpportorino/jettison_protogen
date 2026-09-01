@@ -1,0 +1,11 @@
+;; The policy that grants `refusal-db-cycle.edn`'s self-referential message.
+;;
+;; The grant is `:all`, so `next` is GRANTED and its type is the message it
+;; sits on — which is what makes the permission tree's expansion reach the
+;; message it started from. A grant that withheld `next` would deny it, a
+;; denial is terminal, and no cycle would arise.
+{:version 1
+ :groups
+ [{:id :walker
+   :package "cyc.walker"
+   :grants [{:message "cyc.Node" :access #{:read} :fields :all}]}]}

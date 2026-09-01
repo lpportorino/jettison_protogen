@@ -4,8 +4,8 @@ A general-purpose generator. Its input is a **descriptor database** (proto
 descriptors already parsed into EDN), a declarative **access policy**, a set of
 **locally-minted** messages, and an assign-once **field-number registry**. Its
 output is one `.proto` file per access group, one **Rust access module** per
-group, and a machine-readable **permission mirror** — all three written from
-the same value in the same run.
+group, a machine-readable **flat permission mirror**, and a **nested permission
+tree** in Rust — all written from the same value in the same run.
 
 The per-group projection is one PROPERTY of that generator, not its purpose. A
 group's emitted schema simply does not NAME what the policy did not grant, so a
@@ -42,10 +42,11 @@ oracle reds.
 ## The pipeline
 
 ```text
-descriptor database ─┐
-locally-minted msgs ─┼─► numbering ─► projection ─► render ─► emit ─► .proto
-field-number registry┘                    │                        ├► mirror
-access policy ───────────────────────────┘                        └► .rs
+descriptor database ─┐                                            ┌► .proto
+locally-minted msgs ─┼─► numbering ─► projection ─► render ─► emit┤
+field-number registry┘                    │                       └► mirror
+access policy ───────────────────────────┘                        ├► .rs
+                                          └──────────────────────►└► permission tree
 ```
 
 | namespace | what it owns |
@@ -58,8 +59,10 @@ access policy ──────────────────────
 | `src/protocol_gen/constraints.clj` | validation constraints back out as options |
 | `src/protocol_gen/render.clj` | the one place a type reference becomes a name |
 | `src/protocol_gen/emit.clj` | resolved projection to `.proto` text |
-| `src/protocol_gen/mirror.clj` | the permission mirror |
+| `src/protocol_gen/mirror.clj` | the FLAT permission mirror |
+| `src/protocol_gen/permission_tree.clj` | the NESTED permission tree, in Rust |
 | `src/protocol_gen/rust_access.clj` | the per-group Rust ACCESS module |
+| `src/protocol_gen/rust_lit.clj` | quoting a name into emitted Rust |
 | `src/protocol_gen/core.clj` | the command line |
 | `verify/protocol_gen/verify.clj` | the INDEPENDENT oracle (its own source root) |
 
@@ -263,6 +266,95 @@ for the mirror to be wrong about that the schema could be right about. The
 mirror is a record of what the generator was told, NOT an enforcement mechanism:
 a group cannot send what its schema cannot express, and that is the mechanism.
 
+## The NESTED permission tree — what a byte-level scanner walks
+
+Beside the flat mirror the generator writes ONE file for the whole run,
+`permission_tree.rs`: a `pub static` per group, plus the table that selects one.
+
+```rust
+pub static SENSOR_READER: &[PermissionNode] = &[
+    PermissionNode::new(0, "pgfix.Reading", Permission::Allow, &[
+        PermissionNode::new(3, "value", Permission::Inherit, &[]),
+        PermissionNode::new(9, "sample_count", Permission::Deny, &[]),
+        // … one child per field the SOURCE message declares …
+    ]),
+];
+
+pub static GROUPS: &[(&str, &[PermissionNode])] = &[
+    ("commander", COMMANDER),
+    ("sensor-reader", SENSOR_READER),
+];
+```
+
+**IT IS A FRAGMENT, NOT A MODULE.** It names no crate and declares no type: it
+assumes `Permission` and `PermissionNode` are already in scope and is meant to
+be `include!`d into a module that supplies them. `PermissionNode::new` is
+called in `static` position, so a consumer's constructor must be a `const fn`
+and every tree is plain const data — no runtime construction and no allocation.
+`Permission`'s variants are `Unspecified`, `Inherit`, `Allow` and `Deny`;
+`Unspecified` is the zero value a consumer needs so a default-constructed node
+is not silently a grant, and this generator never emits one.
+
+**WHY IT IS NOT THE FLAT MIRROR UNDER ANOTHER NAME**, which is the first thing
+to check before reading further. The flat mirror is a map of group → message →
+field → number and provenance. A scanner holding a position in a message and a
+tag it has just read needs the node for THAT tag under the node it is standing
+on, and a flat map has no *under*. The two also carry disjoint facts: the flat
+mirror carries NUMBER PROVENANCE and DIRECTION, which a scanner never consults,
+and carries no permission axis at all; the tree carries a permission per node
+and no provenance. Neither replaces the other, and the flat one is unchanged.
+
+**THE PERMISSION AXIS IS MESSAGE-GRAINED, because the policy is.** A grant
+names a message, a direction and a FIELD FILTER; no field carries a grant of
+its own. So a message root is `Allow`, a field the filter kept is `Inherit`,
+and a field the filter dropped is `Deny`. A root carries tag `0` — not a legal
+proto field number, so it cannot be confused with a field — and is selected by
+NAME; everything below a root is selected by TAG.
+
+**TOTALITY, and the exact form this shape can carry.** Every message node lists
+one child per field its SOURCE message declares, granted or not, so a scanner
+meeting a tag with no node knows the generator never described it rather than
+wondering whether a field was dropped. **EMPTY CHILDREN THEREFORE MEANS
+`DESCEND NO FURTHER`, which covers three cases and not one**: a scalar leaf, a
+message with no fields, and a denied node. A node carrying only `tag`, `name`,
+`permission` and `children` cannot tell those apart, and claiming that empty
+children means *scalar leaf* would be a claim the emitted data does not
+support — the fixture's own `pgfix.Start` is a granted message with no fields.
+
+**A DENIED NODE IS TERMINAL, and that bounds the one disclosure this artefact
+makes.** The tree names fields the group's `.proto` deliberately withholds —
+that is what makes totality checkable — but nothing below a denial is emitted,
+so it never names a field of a message the group holds no grant for, and never
+names a message id the group's `.proto` does not already carry.
+
+**THREE REFUSALS, and only two of them are reachable from a policy.**
+
+- `permission-cycle` — a granted message-typed field whose expansion reaches a
+  message already on its path. A static tree is finite and a cycle is not, so
+  describing it to some arbitrary depth would be a tree that silently stops
+  covering what it claims to cover. Without the clause the expansion runs out
+  of stack; the canary drives exactly that.
+- `name-collision` — two group ids that flatten onto one Rust static name
+  (`:relay-a` and `:relay_a` both give `RELAY_A`). Emitting them would define
+  one static twice, so a consumer's first symptom would name Rust rather than
+  the policy.
+- `grant-under-denial` — anything at all beneath a denied node. **NO POLICY CAN
+  REACH IT**, because the expansion makes a denial terminal by construction, so
+  it judges an empty population on every legal input. It is a defensive
+  invariant over the generator's own output, in the shape
+  `protocol-gen.numbering/assert-stamped!` already uses, and its ability to
+  fire is proven by mutation and by nothing else.
+
+**The predicate is `beneath a denial`, not `granted beneath a denial`**, and
+deliberately the stronger of the two: a denial is terminal, so a grant below it
+is unreachable AND a denial below it is an interior this generator undertook
+not to disclose. The narrow reading would pass the second, which is exactly
+what a defect in the expansion produces.
+
+**IT IS NOT `rustfmt` CANONICAL**, for the reason the access module's section
+below records. Two runs over one projection write identical bytes, which is the
+property that matters where a consumer freshness-gates the file.
+
 ## The fixtures and the canary
 
 `fixtures/` holds data this repository owns — a fixture proto, the descriptor
@@ -285,6 +377,21 @@ One emitted file therefore carries all four combinations that matter: a
 descriptor message with a descriptor oneof, a minted message with a minted
 oneof, a descriptor enum, and a minted one.
 
+`fixtures/policy-nested.edn` covers the axis BOTH of those structurally cannot:
+a DENIED field whose type is a message with an interior. Every field the
+two-group policy withholds is a scalar, so a defect that described the interior
+of a denial would emit nothing extra there and the bytes would be identical to
+a correct run. Its one group grants `pgfix.Command` a single field, which
+denies two message-typed siblings — and a canary mutation shows the two-group
+policy staying CLEAN on the same mutant, so the fixture is load-bearing rather
+than decorative.
+
+`fixtures/refusal-db-cycle.edn` plus `fixtures/refusal-policy-cycle.edn` reach
+the cycle refusal, and `fixtures/refusal-policy-group-name.edn` reaches the
+colliding-static one. Both are ordinary, legal policies — the first emits a
+perfectly good `.proto` — so each is driven with a fixture rather than a
+mutation, and the mutation is what breaks its clause alone.
+
 `fixtures/policy-directions.edn` covers the axis the two-group policy
 structurally cannot. Its groups are read-only and write-only respectively, and
 the asymmetry BETWEEN them is what several canary cases are about — so the
@@ -302,8 +409,12 @@ a oneof losing its `required`, an enum that stops resolving, an enum renumbered
 by position, each of the two minted-oneof refusals broken alone with the other
 as its neighbouring control, a flipped access direction, a read-and-write grant
 folded onto one direction, an emitted Rust module that is no longer
-warning-free, a withheld message LEAKED into the access enum, and a granted one
-DROPPED from it. Read the list from the script's sections
+warning-free, a withheld message LEAKED into the access enum, a granted one
+DROPPED from it, a nested permission tree that lists only its GRANTS instead of
+every field the source declares, a tree that describes the interior of a
+DENIAL, each of the tree's two policy-reachable refusals broken alone with the
+other as its neighbouring control, and a fixture policy withholding a field
+that the emitted tree must then follow. Read the list from the script's sections
 rather than from a count here. Every case asserts an exact exit code and a
 substring naming the finding; every absence probe carries a control that makes
 it produce a hit; and each mutant is asserted still to RUN, so a red is a
@@ -391,8 +502,16 @@ the same shape `protocol-gen.mirror` is: its public entry point carries an
 widening the list.
 
 **`tools/protocol-gen/verify` is enrolled nowhere.** It is not a scope decision:
-three of its sixteen functions carry no docstring and it practises no arrow
-specs, so it is enrolled in each gate the day it is clean for that gate.
+some of its functions carry no docstring — `die`, `parse-args` and `read-edn`
+are the ones — and it practises no arrow specs, so it is enrolled in each gate
+the day it is clean for that gate.
+
+A COUNT USED TO STAND HERE — "three of its sixteen" — and it rotted the first
+time this file grew a mode, which is exactly the drift the namespace tally
+above was already told not to repeat. The three NAMES survive the file growing
+and the number does not, so the names are what is written; the gate cannot
+report this root at all, since passing it an unenrolled path reports CANNOT RUN
+over the four roots it does judge.
 
 ## Reading order
 

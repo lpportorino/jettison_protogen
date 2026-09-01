@@ -54,7 +54,8 @@
    and a silent rot is worse than a compile error that names the identifier."
   (:require [clojure.string :as str]
             [malli.core :as m]
-            [protocol-gen.projection :as projection]))
+            [protocol-gen.projection :as projection]
+            [protocol-gen.rust-lit :as rust-lit]))
 
 (set! *warn-on-reflection* true)
 
@@ -217,19 +218,6 @@
        "    }\n"
        "}\n"))
 
-(defn- rust-string
-  "`s` as a Rust string literal.
-
-   Every value this namespace quotes is a proto identifier or a dotted path —
-   `protocol-gen.db`'s two name schemas admit neither a quote nor a backslash —
-   so escaping would be dead code. The assertion is here instead, because a
-   value that escaped those schemas must stop the run rather than be quoted
-   into emitted source."
-  [s]
-  (when (re-find #"[\"\\]" s)
-    (throw (ex-info "Name is not quotable into Rust source" {:name s})))
-  (str \" s \"))
-
 (defn module
   "The whole emitted Rust module for one projected group.
 
@@ -241,9 +229,9 @@
   (let [messages (granted-messages group)]
     (str banner
          "\n/// The access group this module describes, by its policy id.\n"
-         "pub const GROUP: &str = " (rust-string (name (:id group))) ";\n"
+         "pub const GROUP: &str = " (rust-lit/string-literal (name (:id group))) ";\n"
          "\n/// The proto package this group's `.proto` declares.\n"
-         "pub const PACKAGE: &str = " (rust-string (:package group)) ";\n"
+         "pub const PACKAGE: &str = " (rust-lit/string-literal (:package group)) ";\n"
          "\n" access-enum
          "\n" (message-enum messages)
          "\nimpl Message {\n"
@@ -252,14 +240,14 @@
                     :doc ["The message's id in the descriptor database or the mint"
                           "— the name the access policy grants it by."]
                     :messages messages
-                    :arm-value (comp rust-string :id)})
+                    :arm-value (comp rust-lit/string-literal :id)})
          "\n"
          (const-fn {:name-str "proto_name"
                     :return "&'static str"
                     :doc ["The message's name in this group's `.proto`, and so the"
                           "message a prost pipeline generates from it."]
                     :messages messages
-                    :arm-value (comp rust-string :proto-name)})
+                    :arm-value (comp rust-lit/string-literal :proto-name)})
          "\n"
          (const-fn {:name-str "access"
                     :return "Access"

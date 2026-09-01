@@ -1,0 +1,19 @@
+;; A descriptor database holding a SELF-REFERENTIAL message.
+;;
+;; It is perfectly legal proto and this generator emits its `.proto` without a
+;; word — a recursive message is an ordinary shape. What has no emission is a
+;; STATIC PERMISSION TREE over it: the tree is finite data, a cycle is not, and
+;; describing it to some arbitrary depth would be a tree that silently stops
+;; covering what it claims to cover. So `protocol-gen.permission-tree` refuses
+;; it by name, and this file plus `refusal-policy-cycle.edn` is what reaches
+;; that clause.
+{:messages
+ {"cyc.Node"
+  {:id "cyc.Node"
+   :name "Node"
+   :package "cyc"
+   :source "inline"
+   :fields [{:number 1 :name "label" :type :string}
+            {:number 2 :name "next" :type :message :type-ref "cyc.Node"}]}}
+
+ :enums {}}

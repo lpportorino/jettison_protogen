@@ -90,7 +90,17 @@
    number only in the stamping pass, which is therefore the first place a
    member naming nothing is detectable at all. `oneof-refusals` below judges
    the same class over a DATABASE message, where members already are numbers;
-   the two share the reason and not the clause."
+   the two share the reason and not the clause.
+
+   TWO OF THEM ARE RAISED BY AN EMITTER RATHER THAN BY A PASS OVER THE INPUT,
+   and the difference is worth knowing before hunting for a policy that reaches
+   them. `protocol-gen.permission-tree` raises `:permission-cycle`, which a
+   POLICY CAN REACH — a granted message whose field type is itself has no
+   finite static tree — and `:grant-under-denial`, which NO policy can reach,
+   because that namespace makes a denied node terminal by construction. The
+   second is a defensive invariant over the generator's own output, in the
+   shape `protocol-gen.numbering/assert-stamped!` already uses, and its ability
+   to fire is proven by mutation and by nothing else."
   #{:unknown-field-type
     :missing-type-ref
     :unresolved-type-ref
@@ -106,7 +116,9 @@
     :unknown-constraint
     :constraint-type-mismatch
     :unnumbered-field
-    :name-collision})
+    :name-collision
+    :permission-cycle
+    :grant-under-denial})
 
 (def refusal
   "One refusal: which thing, why, and enough detail to fix it without reading

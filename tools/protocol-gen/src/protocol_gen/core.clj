@@ -11,9 +11,10 @@
 
      generate --db <path> --minted <path> --registry <path> --policy <path>
               --out <dir>
-       Emit one `.proto` per group, one Rust ACCESS MODULE per group, and the
-       permission mirror — all three derived from the same projection in the
-       same run, so no two of them can disagree.
+       Emit one `.proto` per group, one Rust ACCESS MODULE per group, the flat
+       permission mirror, and the NESTED permission tree a byte-level scanner
+       walks — all derived from the same projection in the same run, so no two
+       of them can disagree.
        Every path is named; nothing is defaulted.
 
      reconcile --minted <path> --registry <path>
@@ -38,6 +39,7 @@
             [protocol-gen.emit :as emit]
             [protocol-gen.mirror :as mirror]
             [protocol-gen.numbering :as numbering]
+            [protocol-gen.permission-tree :as permission-tree]
             [protocol-gen.policy :as policy]
             [protocol-gen.projection :as projection]
             [protocol-gen.render :as render]
@@ -161,14 +163,41 @@
                   (count (:messages g)) " granted message(s)"))
     g))
 
+(defn- write-permission-tree!
+  "Emit the NESTED permission tree — every group's static, in one file — from
+   the SAME projected groups the other artefacts were written from.
+
+   ONE FILE RATHER THAN ONE PER GROUP, unlike the `.proto` and the access
+   module beside it, and the reason is the consumer rather than a convention: a
+   scanner selects a group's tree at run time from the connecting client's
+   identity, so it needs every tree plus the table that maps an id to one. A
+   file per group would make that table something the consumer assembles by
+   hand out of N includes.
+
+   IT TAKES THE TREES ALREADY BUILT, never the projection, and that is the
+   ORDER contract `generate!` states: building them is what refuses a cyclic
+   grant and a colliding static name, so it happens before any file appears
+   rather than after four of them do.
+
+   Prints the node count so an empty tree is distinguishable from a full one —
+   the two are otherwise one line of output apart."
+  [out-dir built]
+  (let [path (str out-dir "/permission_tree.rs")
+        nodes (fn nodes [n] (inc (reduce + 0 (map nodes (:children n)))))]
+    (io/make-parents path)
+    (spit path (permission-tree/module built))
+    (println (str "protocol-gen: " path " — " (count built) " group tree(s), "
+                  (reduce + 0 (for [t built, r (:roots t)] (nodes r))) " node(s)")))
+  nil)
+
 (defn generate!
   "Project the database and the minted messages through the policy, then emit
-   one `.proto` per group, one Rust access module per group, and one permission
-   mirror beside them.
+   one `.proto` per group, one Rust access module per group, one flat
+   permission mirror and one nested permission tree beside them.
 
-   THE THREE ARTEFACTS ARE ONE VALUE SEEN THREE WAYS. `groups` is projected
-   once and each writer is handed it; none of them reads what another wrote, so
-   there is nothing for two of them to disagree about that the third could be
+   THE ARTEFACTS ARE ONE VALUE SEEN SEVERAL WAYS. `groups` is projected once
+   and each writer is handed it; none of them reads what another wrote, so
+   there is nothing for two of them to disagree about that a third could be
    right about.
 
    THE ORDER IS THE CONTRACT. Mints are numbered from the registry FIRST, so a
@@ -183,13 +212,16 @@
         registry (numbering/load-registry (require-flag opts :registry "--registry"))
         p (policy/load-policy (require-flag opts :policy "--policy"))
         out-dir (require-flag opts :out "--out")
-        groups (projection/project database (numbering/apply-numbering registry mints) p)
+        minted (numbering/apply-numbering registry mints)
+        groups (projection/project database minted p)
+        trees (permission-tree/trees (projection/universe database minted) groups)
         mirror-path (str out-dir "/permissions.edn")]
     (run! #(write-group! out-dir %) groups)
     (run! #(write-rust-access! out-dir %) groups)
     (io/make-parents mirror-path)
     (spit mirror-path (with-out-str (pp/pprint (mirror/mirror groups))))
-    (println (str "protocol-gen: " mirror-path " — " (count groups) " group(s)")))
+    (println (str "protocol-gen: " mirror-path " — " (count groups) " group(s)"))
+    (write-permission-tree! out-dir trees))
   nil)
 
 (m/=> generate! [:=> [:cat [:map-of :keyword [:string {:min 1}]]] :nil])

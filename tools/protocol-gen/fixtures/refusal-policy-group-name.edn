@@ -1,0 +1,21 @@
+;; Two group ids that are DISTINCT everywhere except in Rust.
+;;
+;; `:relay-a` and `:relay_a` are different keywords, write different `.proto`
+;; files, and pass the policy's own duplicate-id check — but a Rust static name
+;; is derived by uppercasing and replacing what an identifier cannot carry, and
+;; both land on `RELAY_A`. Emitting them would put two `pub static RELAY_A`
+;; definitions in one file, so a consumer's first symptom would be rustc
+;; complaining about a duplicate rather than anything naming the policy.
+;;
+;; `protocol-gen.permission-tree/trees` refuses the pair by name instead, which
+;; is the same shape `protocol-gen.projection/assert-names-distinct!` already
+;; carries for two message ids that flatten onto one proto name.
+{:version 1
+ :groups
+ [{:id :relay-a
+   :package "pgfix.relay_dash"
+   :grants [{:message "pgfix.Stop" :access #{:write} :fields :all}]}
+
+  {:id :relay_a
+   :package "pgfix.relay_under"
+   :grants [{:message "pgfix.Stop" :access #{:write} :fields :all}]}]}

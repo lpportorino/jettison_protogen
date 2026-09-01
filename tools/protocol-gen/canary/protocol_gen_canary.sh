@@ -70,6 +70,26 @@
 #     neighbouring control stop compiling. So a case satisfied by any broken
 #     compile, and a control that would have compiled against anything, are
 #     both excluded.
+#   * A NESTED PERMISSION TREE THAT IS NOT TOTAL. The mutation drops the DENIED
+#     nodes, leaving a tree that lists only the grants — smaller, still valid
+#     Rust, and consistent with the group's `.proto`, which never named those
+#     fields either. Nothing else in the run moves, so the ORACLE catches it by
+#     re-deriving each node's DIRECT CHILD COUNT from the source message.
+#   * A TREE THAT DESCRIBES THE INTERIOR OF A DENIAL. The mutation drops the
+#     `granted?` conjunct so expansion descends beneath a denied field, and the
+#     generator's own invariant refuses. NO POLICY CAN REACH THAT REFUSAL — a
+#     denied node is terminal by construction — so a mutation is the only thing
+#     that can show it able to fire, which is the standing
+#     `protocol-gen.numbering/assert-stamped!` already has.
+#   * A CYCLIC GRANT, and a COLLIDING STATIC NAME. Both ARE policy-reachable, so
+#     both are driven with a fixture and each has its clause broken alone. The
+#     cycle mutant dies of a StackOverflowError rather than returning a verdict,
+#     which is precisely what the clause converts into a named refusal.
+#   * A TREE THAT DOES NOT FOLLOW THE POLICY. A tool mutation cannot ask that
+#     question, so the FIXTURE policy is mutated instead: one field is withheld,
+#     the emitted bytes must move, the tree must still DESCRIBE that field as
+#     denied, and the oracle must call the result clean against the mutated
+#     policy and RED against the real one.
 #
 # THE RUST SIDE IS JUDGED THROUGH rustc, NOT THROUGH A REGEX. Each emitted
 # access module is compiled twice — alone as a library under -D warnings, then
@@ -295,6 +315,164 @@ verify() {
 	set -e
 }
 
+# permission_tree_prelude <work-dir> <out-dir> — the harness half of the nested
+# permission mirror: the two type declarations the emitted fragment assumes are
+# in scope, then an `include!` of it.
+#
+# THE HARNESS DECLARES THE TYPES AND THE GENERATOR DOES NOT. That is the whole
+# contract the emitted file has — it names no crate and assumes exactly
+# `Permission` and `PermissionNode` — so the file is only judgeable against a
+# module that supplies them, and this is that module. What the compile proves is
+# therefore that the fragment is valid, const-evaluable Rust in the POSITION a
+# consumer includes it, which is the strongest statement available here: this
+# repository cannot see any consumer's real declaration.
+#
+# `Unspecified` IS DECLARED AND NEVER CONSTRUCTED, deliberately. It is the
+# enum's zero value, which a consumer needs so a default-constructed node is not
+# a grant; the generator emits no node carrying it, and `label` below matches it
+# so the variant name is still pinned by a compile.
+permission_tree_prelude() {
+	local work="$1" out="$2"
+	mkdir -p "$work"
+	# `<<-` strips leading TABS only, so the tabs indent the heredoc and the
+	# SPACES survive into the Rust source.
+	cat > "$work/prelude.rs" <<-PTPEOF
+		#[allow(dead_code)]
+		#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+		pub enum Permission {
+		    Unspecified,
+		    Inherit,
+		    Allow,
+		    Deny,
+		}
+
+		pub struct PermissionNode {
+		    pub tag: u32,
+		    pub name: &'static str,
+		    pub permission: Permission,
+		    pub children: &'static [PermissionNode],
+		}
+
+		impl PermissionNode {
+		    #[must_use]
+		    pub const fn new(
+		        tag: u32,
+		        name: &'static str,
+		        permission: Permission,
+		        children: &'static [PermissionNode],
+		    ) -> Self {
+		        Self { tag, name, permission, children }
+		    }
+		}
+
+		include!("$out/permission_tree.rs");
+	PTPEOF
+}
+
+# permission_tree_dump <out-dir> <work-dir> — what the emitted permission tree
+# HOLDS, as a tab-separated dump the oracle judges.
+#
+# TWO rustc INVOCATIONS, PROVING TWO DIFFERENT THINGS, the same split
+# `rust_access_dumps` makes. The first compiles the prelude-plus-fragment ALONE
+# as a library under -D warnings: that is the whole of "the emitted text is
+# valid, warning-free Rust, and every node is const-evaluable", taken with
+# nothing else in the crate that could carry the error. The second builds a
+# harness that walks every group through the emitted `GROUPS` table and prints
+# one line per node — so what the oracle judges has been through the Rust
+# compiler and through the same const data a scanner would read, never through a
+# regex over the text.
+#
+# THE HARNESS NAMES NO EXPECTED VALUE. It prints the group, the node's path, its
+# tag, its permission and its DIRECT CHILD COUNT, and stops. The child count is
+# what makes totality checkable at all: a message described without a child per
+# field its source declares is a smaller tree that is otherwise indistinguishable
+# from a correct one.
+#
+# IT ALWAYS RETURNS 0 AND REPORTS THROUGH `PTD_RC`, for the reason
+# `rust_access_dumps` records: this suite runs under `set -e`, so a helper
+# returning non-zero outside a condition ABORTS the run with no FAIL line at all.
+PTD_RC=0
+PTD_OUT=""
+PTD_DUMP=""
+permission_tree_dump() {
+	local out="$1" work="$2"
+	permission_tree_prelude "$work" "$out"
+	PTD_DUMP="$work/tree.tsv"
+	# TRUNCATED UP FRONT, so the file EXISTS even when a compile below returns
+	# early. Callers read it with `cat` under `set -e`, and a `cat` of an absent
+	# path ABORTS the whole suite — which prints no FAIL line at all, the one
+	# outcome a canary must never produce. Measured: with the tree emission
+	# removed from the generator, the suite died mid-section instead of
+	# reporting the reds it had already collected.
+	: > "$PTD_DUMP"
+	cp "$work/prelude.rs" "$work/lib.rs"
+	set +e
+	PTD_OUT="$(rustc --edition 2021 --crate-type lib --emit=metadata -D warnings \
+		-o "$work/lib.rmeta" "$work/lib.rs" 2>&1)"
+	PTD_RC=$?
+	set -e
+	[ "$PTD_RC" -eq 0 ] || return 0
+	cp "$work/prelude.rs" "$work/harness.rs"
+	cat >> "$work/harness.rs" <<-PTHEOF
+
+		fn label(p: Permission) -> &'static str {
+		    match p {
+		        Permission::Unspecified => "Unspecified",
+		        Permission::Inherit => "Inherit",
+		        Permission::Allow => "Allow",
+		        Permission::Deny => "Deny",
+		    }
+		}
+
+		fn walk(group: &str, prefix: &str, nodes: &'static [PermissionNode]) {
+		    for n in nodes {
+		        let path = if prefix.is_empty() {
+		            n.name.to_string()
+		        } else {
+		            format!("{prefix}>{}", n.name)
+		        };
+		        println!(
+		            "{group}\t{path}\t{}\t{}\t{}",
+		            n.tag,
+		            label(n.permission),
+		            n.children.len()
+		        );
+		        walk(group, &path, n.children);
+		    }
+		}
+
+		fn main() {
+		    for (group, nodes) in GROUPS.iter().copied() {
+		        walk(group, "", nodes);
+		    }
+		}
+	PTHEOF
+	set +e
+	PTD_OUT="$(rustc --edition 2021 -o "$work/harness" "$work/harness.rs" 2>&1)"
+	PTD_RC=$?
+	set -e
+	[ "$PTD_RC" -eq 0 ] || return 0
+	set +e
+	PTD_OUT="$("$work/harness" 2>&1 > "$PTD_DUMP")"
+	PTD_RC=$?
+	set -e
+}
+
+# verify_tree <dump> <policy> [db] — judge a permission-tree dump against the
+# inputs that produced it, with the REAL tree's oracle. Bare, so its own status
+# is read.
+VT_RC=0
+VT_OUT=""
+verify_tree() {
+	local database="${3:-fixtures/db.edn}"
+	set +e
+	VT_OUT="$(cd "$PG" && clojure -M:verify permission-tree --dump "$1" --policy "$2" \
+		--db "$database" --minted fixtures/minted.edn \
+		--registry fixtures/numbering-registry.edn 2>&1)"
+	VT_RC=$?
+	set -e
+}
+
 section "STRUCTURE — the oracle shares no code with the generator"
 # An oracle that imported the thing it judges could only ever agree with it.
 if command grep -qE '\[protocol-gen\.' "$PG/verify/protocol_gen/verify.clj"; then
@@ -399,8 +577,9 @@ generate "$PG" "$AGAIN" fixtures/policy.edn fixtures/db.edn
 if diff -r -q "$BASE/sensor-reader.proto" "$AGAIN/sensor-reader.proto" > /dev/null 2>&1 &&
 	diff -q "$BASE/permissions.edn" "$AGAIN/permissions.edn" > /dev/null 2>&1 &&
 	diff -q "$BASE/sensor-reader.rs" "$AGAIN/sensor-reader.rs" > /dev/null 2>&1 &&
-	diff -q "$BASE/commander.rs" "$AGAIN/commander.rs" > /dev/null 2>&1; then
-	ok "the schema, the mirror and both access modules are byte-identical across runs"
+	diff -q "$BASE/commander.rs" "$AGAIN/commander.rs" > /dev/null 2>&1 &&
+	diff -q "$BASE/permission_tree.rs" "$AGAIN/permission_tree.rs" > /dev/null 2>&1; then
+	ok "the schema, the mirror, both access modules and the permission tree are byte-identical across runs"
 else
 	bad "the generator is not deterministic"
 fi
@@ -1266,6 +1445,340 @@ if [ "$VA_RC" -eq 2 ] && contains "$VA_OUT" "CANNOT RUN"; then
 	ok "a dump line that is not four fields is exit 2, never a finding"
 else
 	bad "a malformed dump was scored as a verdict (rc=$VA_RC): $VA_OUT"
+fi
+
+section "PERMISSION TREE — the nested mirror a byte-level scanner walks"
+# The flat permission mirror cannot be walked tag by tag, so the generator emits
+# a second, NESTED one. Everything in this section and the five mutations after
+# it is about that artefact and nothing else.
+PTBASE="$WORK/pt-base"
+permission_tree_dump "$BASE" "$PTBASE"
+if [ "$PTD_RC" -eq 0 ]; then
+	ok "the emitted fragment compiles warning-free where the two types are in scope, and its data reads"
+else
+	bad "the emitted permission tree did not compile or did not run (rc=$PTD_RC): $PTD_OUT"
+fi
+verify_tree "$PTD_DUMP" "$PG/fixtures/policy.edn"
+if [ "$VT_RC" -eq 0 ]; then
+	ok "every node the emitted statics hold agrees with the inputs that produced them"
+else
+	bad "the baseline tree disagreed with its inputs (rc=$VT_RC): $VT_OUT"
+fi
+# NON-VACUITY: a clean verdict over zero nodes reads exactly like a clean verdict
+# over the real ones. THE `clean —` HALF IS LOAD-BEARING: a bare absence probe
+# for "0 node(s)" is also satisfied by a FAULT, whose output says neither, so its
+# pass value would equal its nothing-ran value — measured, on a run with the tree
+# emission removed, where this case passed while the case above it reddened.
+if contains "$VT_OUT" "clean — " && ! contains "$VT_OUT" "clean — 0 node(s)"; then
+	ok "the tree oracle reports a non-zero node count"
+else
+	bad "the tree oracle checked ZERO nodes, or did not report a count at all: $VT_OUT"
+fi
+TREE_DUMP="$(cat "$PTD_DUMP")"
+# TOTALITY, read off the dump rather than argued. `pgfix.Reading` declares six
+# fields and the policy grants three, so a tree that listed only the grants
+# would carry three children and look perfectly consistent with the group's
+# `.proto`. The child count is what makes the difference visible.
+if contains "$TREE_DUMP" "$(printf 'sensor-reader\tpgfix.Reading\t0\tAllow\t6')" &&
+	contains "$TREE_DUMP" "$(printf 'sensor-reader\tpgfix.Reading>value\t3\tInherit\t0')" &&
+	contains "$TREE_DUMP" "$(printf 'sensor-reader\tpgfix.Reading>label\t11\tDeny\t0')"; then
+	ok "a message node carries one child per field its SOURCE declares, granted and denied alike"
+else
+	bad "the tree is not total over the source message's fields: $TREE_DUMP"
+fi
+# THE DELIBERATE DISCLOSURE, asserted rather than left to the prose. The group's
+# `.proto` does not name the withheld field at all; the tree names it and denies
+# it, which is what a scanner needs to tell a denial from a field nobody added.
+if ! command grep -q 'label' "$BASE/sensor-reader.proto" &&
+	contains "$TREE_DUMP" "pgfix.Reading>label"; then
+	ok "a field the group's .proto withholds is NAMED in the tree, and DENIED there"
+else
+	bad "the tree and the schema disagree about naming the withheld field"
+fi
+# RECURSION: a granted message-typed field expands into its target's fields, and
+# the target is guaranteed present by the projection's own closure check.
+if contains "$TREE_DUMP" "$(printf 'commander\tpgfix.Command>set_mode\t8\tInherit\t1')" &&
+	contains "$TREE_DUMP" "$(printf 'commander\tpgfix.Command>set_mode>mode\t4\tInherit\t0')"; then
+	ok "a granted message-typed field expands into the fields of the message it names"
+else
+	bad "a granted message-typed field did not expand: $TREE_DUMP"
+fi
+
+section "PERMISSION TREE — a DENIED message-typed field is TERMINAL"
+# fixtures/policy.edn cannot carry this case: its withheld fields are all
+# scalars, so a tree that wrongly described the interior of a denial would emit
+# nothing extra there and the bytes would be identical to a correct run.
+# fixtures/policy-nested.edn exists for exactly that gap, and MUTATION 16 below
+# is what proves it load-bearing rather than decorative.
+NESTED="$WORK/nested"
+generate "$PG" "$NESTED" fixtures/policy-nested.edn fixtures/db.edn
+if [ "$GEN_RC" -eq 0 ]; then
+	ok "the nested policy generates"
+else
+	bad "the nested policy failed to generate (rc=$GEN_RC): $GEN_OUT"
+fi
+permission_tree_dump "$NESTED" "$WORK/pt-nested"
+if [ "$PTD_RC" -eq 0 ]; then
+	ok "its fragment compiles warning-free, and its data reads"
+else
+	bad "the nested fragment did not compile or did not run (rc=$PTD_RC): $PTD_OUT"
+fi
+NESTED_DUMP="$(cat "$PTD_DUMP")"
+if contains "$NESTED_DUMP" "$(printf 'relay\tpgfix.Command>set_mode\t8\tDeny\t0')" &&
+	! contains "$NESTED_DUMP" "set_mode>mode"; then
+	ok "a denied message-typed field is a LEAF — its interior is not described at all"
+else
+	bad "a denied message-typed field described its interior: $NESTED_DUMP"
+fi
+# THE CONTROL for that absence probe, and the strongest one available: the SAME
+# message-typed field, in the group that WAS granted it, does describe its
+# interior. So what suppresses the interior is the denial and not the emitter
+# failing to descend anywhere.
+if contains "$TREE_DUMP" "set_mode>mode"; then
+	ok "CONTROL: the identical field expands in the group whose policy GRANTED it"
+else
+	bad "the interior probe finds nothing even where the field is granted"
+fi
+verify_tree "$PTD_DUMP" "$PG/fixtures/policy-nested.edn"
+if [ "$VT_RC" -eq 0 ]; then
+	ok "and the nested tree agrees with the policy that produced it"
+else
+	bad "the nested tree disagreed with its policy (rc=$VT_RC): $VT_OUT"
+fi
+
+section "PERMISSION TREE REFUSALS — a cyclic grant and a colliding static name"
+# Both are policy-reachable, so both are driven with a fixture rather than with
+# a mutation, and each has its clause broken alone below.
+generate "$PG" "$WORK/cycle-out" fixtures/refusal-policy-cycle.edn fixtures/refusal-db-cycle.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "permission-cycle"; then
+	ok "a self-referential grant is REFUSED, by name"
+else
+	bad "a cyclic grant was not refused (rc=$GEN_RC): $GEN_OUT"
+fi
+# AND THE REFUSAL LEFT NOTHING BEHIND. The trees are built before any file is
+# written precisely so a refusal here cannot strand a partial output set, and a
+# partial set is indistinguishable from a policy that granted less.
+if [ ! -e "$WORK/cycle-out/walker.proto" ] && [ ! -e "$WORK/cycle-out/permissions.edn" ]; then
+	ok "the refusal wrote no partial output set"
+else
+	bad "the cyclic refusal left files behind: $(ls "$WORK/cycle-out")"
+fi
+generate "$PG" "$WORK/gname-out" fixtures/refusal-policy-group-name.edn fixtures/db.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "name-collision"; then
+	ok "two group ids that flatten onto one Rust static are REFUSED, by name"
+else
+	bad "a colliding static name was not refused (rc=$GEN_RC): $GEN_OUT"
+fi
+
+section "MUTATION 15 — a tree that lists only the GRANTED fields is caught"
+# TOTALITY is the property the consumer's undescribed-tag refusal rests on, and
+# a tree that dropped its denied nodes is the one defect that leaves every other
+# artefact of the run untouched: the `.proto` never named those fields anyway,
+# the flat mirror has no permission axis, and the fragment still compiles.
+M15="$WORK/m15"
+copy_tool "$M15"
+mutate_file "$M15/src/protocol_gen/permission_tree.clj" \
+	'          (sort-by :number (:fields src)))))' \
+	'          (sort-by :number (filterv #(contains? kept (:name %)) (:fields src))))))' \
+	|| bad "mutation 15 did not land"
+generate "$M15" "$WORK/m15-out" fixtures/policy.edn fixtures/db.edn
+if [ "$GEN_RC" -eq 0 ]; then
+	ok "the mutant still GENERATES — the red below is a verdict, not a crash"
+else
+	bad "the mutant failed to generate (rc=$GEN_RC): $GEN_OUT"
+fi
+permission_tree_dump "$WORK/m15-out" "$WORK/pt-m15"
+if [ "$PTD_RC" -eq 0 ]; then
+	ok "MUTANT: the smaller tree is still valid, warning-free Rust — nothing about its shape gives it away"
+else
+	bad "the mutant fragment did not compile (rc=$PTD_RC), so the red below is about rustc: $PTD_OUT"
+fi
+verify_tree "$PTD_DUMP" "$PG/fixtures/policy.edn"
+if [ "$VT_RC" -eq 1 ] &&
+	contains "$VT_OUT" "sensor-reader/pgfix.Reading>label: described by the policy, and the emitted tree has no such node" &&
+	contains "$VT_OUT" "children=6, the emitted tree holds tag=0 permission=Allow children=3"; then
+	ok "a tree missing its denied nodes is REFUSED, naming the node and the child count"
+else
+	bad "a non-total tree was not caught (rc=$VT_RC): $VT_OUT"
+fi
+# CONTROL: the `.proto` and the flat mirror are UNAFFECTED on this same mutant,
+# so the red above is attributable to the tree emission and to nothing else.
+verify "$WORK/m15-out"
+if [ "$VER_RC" -eq 0 ]; then
+	ok "CONTROL: the proto-and-mirror oracle calls that mutant CLEAN"
+else
+	bad "the mutant moved the schema or the mirror too (rc=$VER_RC): $VER_OUT"
+fi
+# THE NEIGHBOUR, on that same mutant.
+generate "$M15" "$WORK/m15-neighbour" fixtures/refusal-policy-typo.edn fixtures/refusal-db.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "field-not-in-message"; then
+	ok "CONTROL: on that same mutant a NEIGHBOURING clause still refuses"
+else
+	bad "the neighbour stopped refusing too — mutation 15 broke more than its clause: $GEN_OUT"
+fi
+
+section "MUTATION 16 — describing the interior of a DENIAL is caught"
+# The generator's own invariant, and the one refusal in this tool that NO policy
+# can reach: `expand` makes a denied node terminal by construction, so the check
+# judges an empty population on every legal input. That is exactly why its
+# ability to fire can only be shown by breaking the construction — the same
+# shape `protocol-gen.numbering/assert-stamped!` carries.
+M16="$WORK/m16"
+copy_tool "$M16"
+mutate_file "$M16/src/protocol_gen/permission_tree.clj" \
+	'                  descend? (and granted? (= :message (:type fld)))]' \
+	'                  descend? (= :message (:type fld))]' \
+	|| bad "mutation 16 did not land"
+generate "$M16" "$WORK/m16-out" fixtures/policy-nested.edn fixtures/db.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "grant-under-denial"; then
+	ok "MUTANT: a node beneath a denial REFUSES the run, by name"
+else
+	bad "describing a denial's interior was not refused (rc=$GEN_RC): $GEN_OUT"
+fi
+# AND THE TWO-GROUP POLICY IS CLEAN ON THAT SAME MUTANT, which is what makes
+# fixtures/policy-nested.edn load-bearing: every field policy.edn withholds is a
+# SCALAR, so descending beneath its denials reaches nothing and emits nothing.
+generate "$M16" "$WORK/m16-clean" fixtures/policy.edn fixtures/db.edn
+if [ "$GEN_RC" -eq 0 ]; then
+	ok "MUTANT: the two-group policy stays CLEAN — its denied fields have no interior to describe"
+else
+	bad "the two-group policy reddened (rc=$GEN_RC), so mutation 16 no longer shows what the nested fixture buys: $GEN_OUT"
+fi
+# THE NEIGHBOUR, on that same mutant.
+generate "$M16" "$WORK/m16-neighbour" fixtures/refusal-policy-typo.edn fixtures/refusal-db.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "field-not-in-message"; then
+	ok "CONTROL: on that same mutant a NEIGHBOURING clause still refuses"
+else
+	bad "the neighbour stopped refusing too — mutation 16 broke more than its clause: $GEN_OUT"
+fi
+
+section "MUTATION 17 — the cycle clause, broken alone"
+M17="$WORK/m17"
+copy_tool "$M17"
+mutate_file "$M17/src/protocol_gen/permission_tree.clj" \
+	'  (when (contains? seen msg-id)' \
+	'  (when (contains? #{} msg-id)' \
+	|| bad "mutation 17 did not land"
+generate "$M17" "$WORK/m17-out" fixtures/refusal-policy-cycle.edn fixtures/refusal-db-cycle.edn
+# THE MUTANT DIES RATHER THAN VERDICTS, and that is the point of the clause
+# rather than a defect in the case: a static tree over a cycle is infinite, so
+# without the check the expansion runs until the stack is gone. What the clause
+# buys is a NAMED refusal in place of a stack trace, so the assertion is that
+# the name is gone AND the crash is what replaced it.
+if [ "$GEN_RC" -ne 0 ] && ! contains "$GEN_OUT" "permission-cycle" &&
+	contains "$GEN_OUT" "StackOverflowError"; then
+	ok "MUTANT: the FINDING is gone and the expansion runs out of stack instead"
+else
+	bad "the mutant still named the clause, or died some other way (rc=$GEN_RC): $GEN_OUT"
+fi
+# THE NEIGHBOUR is the OTHER clause this namespace raises, on this same mutant.
+generate "$M17" "$WORK/m17-neighbour" fixtures/refusal-policy-group-name.edn fixtures/db.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "name-collision"; then
+	ok "CONTROL: the static-name clause still refuses on that same mutant"
+else
+	bad "the neighbouring clause stopped refusing too: $GEN_OUT"
+fi
+
+section "MUTATION 18 — the colliding-static clause, broken alone"
+M18="$WORK/m18"
+copy_tool "$M18"
+mutate_file "$M18/src/protocol_gen/permission_tree.clj" \
+	'            :when (> (count gs) 1)]' \
+	'            :when (> (count gs) 99)]' \
+	|| bad "mutation 18 did not land"
+generate "$M18" "$WORK/m18-out" fixtures/refusal-policy-group-name.edn fixtures/db.edn
+if [ "$GEN_RC" -eq 0 ] && ! contains "$GEN_OUT" "name-collision"; then
+	ok "MUTANT: the FINDING is gone and the run emits instead of refusing"
+else
+	bad "the mutant still named the clause (rc=$GEN_RC): $GEN_OUT"
+fi
+# AND THE APPROXIMATION IS SHOWN, not merely inferred: the emitted fragment now
+# defines one static twice, and rustc says so. This is what the refusal buys —
+# without it a consumer's first symptom names Rust rather than the policy.
+permission_tree_dump "$WORK/m18-out" "$WORK/pt-m18"
+if [ "$PTD_RC" -ne 0 ] && contains "$PTD_OUT" "E0428" && contains "$PTD_OUT" "RELAY_A"; then
+	ok "MUTANT: the emitted fragment defines RELAY_A twice and rustc REFUSES it, by error code"
+else
+	bad "the duplicate static did not reach rustc as a duplicate (rc=$PTD_RC): $PTD_OUT"
+fi
+# THE NEIGHBOUR, again the other clause this namespace raises.
+generate "$M18" "$WORK/m18-neighbour" fixtures/refusal-policy-cycle.edn fixtures/refusal-db-cycle.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "permission-cycle"; then
+	ok "CONTROL: the cycle clause still refuses on that same mutant"
+else
+	bad "the neighbouring clause stopped refusing too: $GEN_OUT"
+fi
+
+section "MUTATION 19 — a field withheld from a group's POLICY moves that group's tree"
+# The other direction, and it mutates the FIXTURE rather than the tool: the
+# question here is whether the emitted tree actually FOLLOWS the policy, which a
+# tool mutation cannot ask. `value` is dropped from the sensor-reader grant and
+# nothing else changes.
+M19="$WORK/m19"
+copy_tool "$M19"
+mutate_file "$M19/fixtures/policy.edn" \
+	'             :fields #{"value" "mode" "history"}}]' \
+	'             :fields #{"mode" "history"}}]' \
+	|| bad "mutation 19 did not land"
+generate "$M19" "$WORK/m19-out" fixtures/policy.edn fixtures/db.edn
+if [ "$GEN_RC" -eq 0 ]; then
+	ok "the mutant still GENERATES — what follows is a verdict, not a crash"
+else
+	bad "the mutant failed to generate (rc=$GEN_RC): $GEN_OUT"
+fi
+# BOTH FILES MUST EXIST FIRST. `diff` of two absent paths is non-zero too, so a
+# bare `! diff` here would report "the bytes moved" for a run that emitted
+# nothing at all — the pass value equalling the nothing-ran value.
+if [ -s "$BASE/permission_tree.rs" ] && [ -s "$WORK/m19-out/permission_tree.rs" ] &&
+	! diff -q "$BASE/permission_tree.rs" "$WORK/m19-out/permission_tree.rs" > /dev/null 2>&1; then
+	ok "MUTANT: withholding one field CHANGES the emitted tree's bytes"
+else
+	bad "withholding a field left the emitted tree byte-identical, or one of the two was never written"
+fi
+permission_tree_dump "$WORK/m19-out" "$WORK/pt-m19"
+M19_DUMP="$(cat "$PTD_DUMP")"
+if [ "$PTD_RC" -eq 0 ] &&
+	contains "$M19_DUMP" "$(printf 'sensor-reader\tpgfix.Reading>value\t3\tDeny\t0')"; then
+	ok "MUTANT: the withheld field is still DESCRIBED, and now DENIED — totality is what makes that visible"
+else
+	bad "the withheld field did not turn into a denial (rc=$PTD_RC): $M19_DUMP"
+fi
+# THE FIRST DIRECTION: judged against the policy that produced it, the mutant is
+# CLEAN. So the change is the policy taking effect, not the emitter corrupting
+# its output.
+verify_tree "$PTD_DUMP" "$M19/fixtures/policy.edn"
+if [ "$VT_RC" -eq 0 ]; then
+	ok "MUTANT: judged against its OWN policy the tree is clean — the move is a policy effect"
+else
+	bad "the mutant tree disagreed with the policy that produced it (rc=$VT_RC): $VT_OUT"
+fi
+# THE SECOND DIRECTION: judged against the REAL tree's policy it REDS, naming
+# the node and both permissions.
+verify_tree "$PTD_DUMP" "$PG/fixtures/policy.edn"
+if [ "$VT_RC" -eq 1 ] &&
+	contains "$VT_OUT" "sensor-reader/pgfix.Reading>value: the policy describes tag=3 permission=Inherit children=0, the emitted tree holds tag=3 permission=Deny children=0"; then
+	ok "and against the UNMUTATED policy it is REFUSED, naming the node and both permissions"
+else
+	bad "the moved permission was not caught (rc=$VT_RC): $VT_OUT"
+fi
+
+section "PERMISSION TREE VACUITY — an empty or unreadable dump is a FAULT, not a pass"
+: > "$WORK/empty-tree.tsv"
+verify_tree "$WORK/empty-tree.tsv" "$PG/fixtures/policy.edn"
+if [ "$VT_RC" -eq 2 ] && contains "$VT_OUT" "CANNOT RUN"; then
+	ok "an empty tree dump is exit 2, not a clean verdict over nothing"
+else
+	bad "an empty tree dump did not report CANNOT RUN (rc=$VT_RC): $VT_OUT"
+fi
+# A SHAPE FAULT IS NOT A FINDING, the same discipline the access dump carries: a
+# dump whose shape changed means the harness or the emission moved, and scoring
+# that as a disagreement about PERMISSION would name the wrong defect.
+printf 'sensor-reader\tpgfix.Reading\t0\tAllow\n' > "$WORK/malformed-tree.tsv"
+verify_tree "$WORK/malformed-tree.tsv" "$PG/fixtures/policy.edn"
+if [ "$VT_RC" -eq 2 ] && contains "$VT_OUT" "CANNOT RUN"; then
+	ok "a tree dump line that is not five fields is exit 2, never a finding"
+else
+	bad "a malformed tree dump was scored as a verdict (rc=$VT_RC): $VT_OUT"
 fi
 
 section "VACUITY — the oracle refuses to judge an empty population"

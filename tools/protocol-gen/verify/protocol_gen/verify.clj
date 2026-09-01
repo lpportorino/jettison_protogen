@@ -290,6 +290,121 @@
      (for [[group id] (sort (remove (set (keys expected)) (keys actual)))]
        (str group "/" id ": answered by the emitted module and granted by nothing")))))
 
+(defn parse-tree-dump
+  "The lines of a permission-tree dump as `{[group path] {:tag n :permission s
+   :children n}}`.
+
+   THE DUMP IS WHAT THE EMITTED STATIC HELD, not what its text says. A canary
+   compiles the emitted fragment into a harness that declares `Permission` and
+   `PermissionNode` itself, walks every group's tree through the `GROUPS` table
+   and prints one line per node — so what reaches here has been through rustc
+   and through the same const data a consumer's scanner would read.
+
+   A LINE IT CANNOT PARSE IS A FAULT, NOT A FINDING, for the reason
+   `parse-access-dump` gives: a dump whose shape changed means the harness or
+   the emission moved, and scoring that as a disagreement about PERMISSION
+   would name the wrong defect."
+  [text]
+  (reduce
+   (fn [acc line]
+     (let [parts (str/split line #"\t")]
+       (when (not= 5 (count parts))
+         (throw (ex-info "permission tree dump line is not five tab-separated fields"
+                         {:line line :fields (count parts)})))
+       (let [[group path tag perm children] parts
+             number (fn [v] (try (Long/parseLong v)
+                                 (catch NumberFormatException _
+                                   (throw (ex-info "permission tree dump field is not an integer"
+                                                   {:line line :value v})))))]
+         (assoc acc [group path]
+                {:tag (number tag) :permission perm :children (number children)}))))
+   {}
+   (remove str/blank? (str/split-lines text))))
+
+(defn- source-fields
+  "The fields message `id` declares, in NUMBER order, with a minted field's
+   number taken from the registry.
+
+   THE SOURCE AND NOT THE GRANT. A node's children are total over what the
+   message declares, so this deliberately ignores the policy — the policy
+   decides each field's PERMISSION one level up."
+  [database minted registry id]
+  (let [msg (or (get-in database [:messages id]) (get minted id))]
+    (when-not msg
+      (throw (ex-info "oracle: a tree names a message no input carries" {:message id})))
+    (sort-by :number
+             (for [f (:fields msg)]
+               (assoc f :number (or (:number f) (get-in registry [id (:name f)])))))))
+
+(defn- expected-children
+  "The nodes below message `id`, as `[path facts]` pairs, re-derived from the
+   source and the group's grants.
+
+   A SECOND IMPLEMENTATION OF THE TREE RULE, on purpose. `grants` maps a
+   message id to that grant's `:fields` — `:all` or a set of names — so a field
+   the filter kept INHERITS and every other field of the source is DENIED, and
+   a denied node is terminal. `seen` refuses a cycle rather than recursing for
+   ever; the generator refuses one too, so reaching this throw means the
+   generator emitted something it should have refused."
+  [database minted registry grants seen id prefix]
+  (when (contains? seen id)
+    (throw (ex-info "oracle: the emitted tree expands a cyclic message"
+                    {:message id :path (vec (sort seen))})))
+  (let [wanted (get grants id)
+        deeper (conj seen id)]
+    (mapcat
+     (fn [f]
+       (let [granted? (boolean (or (= :all wanted)
+                                   (and (set? wanted) (contains? wanted (:name f)))))
+             descend? (and granted? (= :message (:type f)))
+             path (str prefix ">" (:name f))]
+         (cons [path {:tag (:number f)
+                      :permission (if granted? "Inherit" "Deny")
+                      :children (if descend?
+                                  (count (source-fields database minted registry
+                                                        (:type-ref f)))
+                                  0)}]
+               (when descend?
+                 (expected-children database minted registry grants deeper
+                                    (:type-ref f) path)))))
+     (source-fields database minted registry id))))
+
+(defn- expected-tree
+  "What every group's emitted tree SHOULD hold, as `{[group path] facts}`,
+   re-derived from the policy, the database, the mints and the registry."
+  [policy database minted registry]
+  (into {}
+        (for [g (:groups policy)
+              :let [grants (into {} (map (juxt :message :fields)) (:grants g))]
+              grant (sort-by :message (:grants g))
+              :let [id (:message grant)
+                    kids (expected-children database minted registry grants #{} id id)]
+              [path facts] (cons [id {:tag 0
+                                      :permission "Allow"
+                                      :children (count (source-fields database minted
+                                                                      registry id))}]
+                                 kids)]
+          [[(name (:id g)) path] facts])))
+
+(defn tree-findings
+  "Every disagreement between the tree the inputs describe and the tree the
+   emitted statics held."
+  [expected actual]
+  (let [describe (fn [f] (str "tag=" (:tag f) " permission=" (:permission f)
+                              " children=" (:children f)))]
+    (concat
+     (for [[k want] (sort-by key expected)
+           :let [got (get actual k)]
+           :when (not= want got)]
+       (if got
+         (str (first k) "/" (second k) ": the policy describes " (describe want)
+              ", the emitted tree holds " (describe got))
+         (str (first k) "/" (second k)
+              ": described by the policy, and the emitted tree has no such node")))
+     (for [k (sort (remove (set (keys expected)) (keys actual)))]
+       (str (first k) "/" (second k)
+            ": held by the emitted tree and described by nothing")))))
+
 (defn- die
   [code lines]
   (run! #(binding [*out* *err*] (println %)) lines)
@@ -390,10 +505,47 @@
                     " granted message(s) agreed between the policy and the "
                     "access direction each emitted Rust module answers")))))
 
+(defn- check-permission-tree
+  "Judge the nested permission tree the emitted statics HELD against the
+   policy, the database, the mints and the registry that produced it."
+  [{:keys [dump policy db minted registry]}]
+  (doseq [[flag v] [["--dump" dump] ["--policy" policy] ["--db" db]
+                    ["--minted" minted] ["--registry" registry]]]
+    (when-not v (die 2 [(str "verify permission-tree: " flag " is required")])))
+  (when-not (java.io.File/.isFile (io/file dump))
+    (die 2 [(str "verify permission-tree: dump not found: " dump)]))
+  (let [expected (try (expected-tree (read-edn policy "policy") (read-edn db "database")
+                                     (read-edn minted "mints") (read-edn registry "registry"))
+                      (catch Exception e
+                        (die 2 [(str "verify permission-tree: CANNOT RUN — " (ex-message e)
+                                     " " (pr-str (ex-data e)))])))
+        ;; THE READ IS INSIDE THE GUARD, not only the parse — the reason
+        ;; `check-rust-access` gives: an unreadable file and a malformed line
+        ;; are both "the check could not run", and letting one escape would
+        ;; report a FAULT with the exit code reserved for a FINDING.
+        actual (try (parse-tree-dump (slurp dump))
+                    (catch Exception e
+                      (die 2 [(str "verify permission-tree: CANNOT RUN — " (ex-message e)
+                                   " " (pr-str (ex-data e)))])))
+        found (tree-findings expected actual)]
+    ;; NON-VACUITY FIRST, on BOTH sides and each on its own.
+    (when (or (empty? expected) (empty? actual))
+      (die 2 [(str "verify permission-tree: CANNOT RUN — " (count expected)
+                   " described node(s), " (count actual)
+                   " held by the emitted tree(s). An empty side means discovery "
+                   "broke, not that there is nothing to check.")]))
+    (if (seq found)
+      (die 1 (cons (str "verify permission-tree: FAIL — " (count found) " finding(s):")
+                   (map #(str "  " %) found)))
+      (println (str "verify permission-tree: clean — " (count expected)
+                    " node(s) agreed between the inputs and the permission tree "
+                    "each emitted static holds")))))
+
 (def ^:private modes
   {"emitted" check-emitted
    "fixture-db" check-fixture-db
-   "rust-access" check-rust-access})
+   "rust-access" check-rust-access
+   "permission-tree" check-permission-tree})
 
 (defn -main
   "Judge an emitted artefact against its source. Three modes:
@@ -406,7 +558,14 @@
      rust-access --dump --policy
                 The access DIRECTION each emitted Rust module answers — read
                 out of a rustc-compiled harness that calls the module's own
-                public API — against the policy that granted it."
+                public API — against the policy that granted it.
+     permission-tree --dump --policy --db --minted --registry
+                The NESTED permission tree each emitted static holds — read out
+                of a rustc-compiled harness that walks it — against the inputs
+                that produced it. Judges every node's tag, permission and
+                DIRECT CHILD COUNT, so a message described without a child per
+                field its source declares is a finding rather than a smaller
+                clean run."
   [& args]
   (let [[mode & rest-args] args
         handler (or (get modes mode)
