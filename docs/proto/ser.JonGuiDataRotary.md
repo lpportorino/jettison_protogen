@@ -199,7 +199,7 @@ Sun elevation in degrees
 
 ### current_scan_node (#17)
 
-Current draw in amperes
+The scan-pattern waypoint the platform is currently executing, as a full [[proto/ser.ScanNode]]: its zero-based index within the pattern, the day and thermal zoom table positions to hold there, the target azimuth and elevation, the linger time at the waypoint, and the speed to the next node. It is a composite message, not a measurement, and carries no unit of its own.
 
 
 ### is_started (#18)
