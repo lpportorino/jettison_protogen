@@ -681,7 +681,7 @@ lint-file-size-test:
 # stated instead, per .claude/rules/gate-enforcement.md § A METRIC CEILING.
 #
 # The canary runs BEFORE the gate, same ordering argument as the leak ban and
-# the size ceiling: eight clauses here can each refuse, several of them on
+# the size ceiling: the clauses here can each refuse, several of them on
 # overlapping inputs, so "it went red" says nothing about WHICH clause refused
 # until the suite has settled that by mutation.
 lint-cmd-no-any-bytes:
