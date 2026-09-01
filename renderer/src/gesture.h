@@ -11,10 +11,13 @@
  * This header used to claim byte-for-byte, which is a stronger promise than the
  * code keeps: the TIMESTAMP DOMAIN differs. `t_ms` reaches this FSM narrowed to
  * int32, and the double-tap elapsed is computed as an UNSIGNED modular delta,
- * where the reference uses a signed floating-point interval. The two agree on
- * every ordinary input and disagree on a backwards-stamped release — unsigned
- * arbitrates it to a tap, signed to a track. That is deliberate: the unsigned
- * subtraction is also what keeps the wrap well-defined rather than undefined.
+ * where the reference uses a signed floating-point interval — a plain signed
+ * subtraction of the two timestamps, confirmed by the same consumer-side read
+ * that settled the release path below. The two agree on every ordinary input
+ * and disagree on a backwards-stamped release, where the negative delta still
+ * satisfies the window: unsigned arbitrates it to a tap, signed to a track.
+ * That is deliberate: the unsigned subtraction is also what keeps the wrap
+ * well-defined rather than undefined.
  * `test_backwards_stamped_release_is_tap` in the wasm harness is the case, and
  * it fails if this is rewritten to a signed delta.
  *
@@ -24,13 +27,19 @@
  * this one additionally classifies a press whose FIRST past-threshold position
  * is the one the RELEASE carries, and reports pan-end for it.
  *
- * THAT THE REFERENCE DOES NOT IS INFERRED, NOT READ. The TypeScript recognizer
- * is not reachable from this repository, so nobody here has read it. The
- * inference is from the parity claim below: if the reference applied this test,
- * that claim was already false before this change. Note the parity claim has
- * itself been retracted once — see the byte-for-byte retraction above — so
- * treat the divergence as asserted on OUR side and unconfirmed on the other.
- * Anyone who can read the reference should confirm or correct this paragraph.
+ * THAT THE REFERENCE DOES NOT IS CONFIRMED, NOT INFERRED. The reference
+ * recognizer is still not reachable from this repository, so it was read on the
+ * consumer side by a maintainer who can reach it, and reported back. Two facts
+ * came back, and the second is the structural one. Its release handler routes a
+ * press1 release that never crossed movePx DURING MOVES straight to tap/track
+ * classification, applying no movement test to the release sample at all. And
+ * its classifier is handed only the release sample, the last-tap mark, the
+ * thresholds and the px->NDC converter — never the press ORIGIN — so it CANNOT
+ * apply the movePx test to the release position, whatever its handler wanted.
+ * This paragraph once hedged the divergence as "asserted on OUR side and
+ * unconfirmed on the other"; that hedge is retired. What survives is the
+ * standing invitation: a later read of the reference that contradicts either
+ * fact is a correction owed here, not a curiosity.
  *
  * It was taken without the reference changing because the disagreement is not
  * symmetric in consequence. On this renderer's surfaces a tap maps to a command

@@ -5028,12 +5028,16 @@ mod host_proxy {
     }
 }
 // ═══════════════════════════════════════════════════════════════════
-// Gesture FSM (R3) — the 27 ported gesture-core.test.ts cases, run 1:1
-// against src/gesture.c through the harness-only gesture_test_* exports.
-// These drive the pure FSM DIRECTLY (a separate recognizer from the one
-// the R4 pointer pipeline feeds), exercising the byte-for-byte port of
-// the TS GestureRecognizer without the table/hit-test routing. The
-// pointer_routing module below covers the R4 wiring.
+// Gesture FSM (R3) — the ported gesture-core cases PLUS the cases that
+// pin this port's own divergences, driven against src/gesture.c through
+// the harness-only gesture_test_* exports. These drive the pure FSM
+// DIRECTLY (a separate recognizer from the one the R4 pointer pipeline
+// feeds), without the table/hit-test routing. The module below is the
+// enumeration — no count is written here, because it would rot the next
+// time a case lands. The parity is NOT byte-for-byte and the carve-outs
+// have ONE home: read renderer/src/gesture.h's header before taking any
+// case here as a 1:1 mirror of the reference. The pointer_routing module
+// below covers the R4 wiring.
 // ═══════════════════════════════════════════════════════════════════
 mod gesture_recognition {
     use super::*;
