@@ -225,7 +225,10 @@ hand-kept copy of Rust's keyword list, which would rot silently.
 
 Each emitted module compiles as a library under
 `rustc --edition 2021 --crate-type lib -D warnings`, warning-free, and the
-canary asserts it.
+canary asserts it. It also asserts the CLOSED half of that enum's claim, which
+a green compile structurally cannot carry: a harness naming a message the
+policy withheld must be REJECTED by rustc, by error code and by the missing
+name, with a granted-message control beside it that compiles clean.
 
 **IT IS NOT `rustfmt` CANONICAL, and that is deliberate rather than a gap.** An
 earlier version of this paragraph claimed it was, on the strength of ONE module
@@ -298,12 +301,34 @@ instead of refused, and, on the minted side, a oneof flattened into free fields,
 a oneof losing its `required`, an enum that stops resolving, an enum renumbered
 by position, each of the two minted-oneof refusals broken alone with the other
 as its neighbouring control, a flipped access direction, a read-and-write grant
-folded onto one direction, and an emitted Rust module that is no longer
-warning-free. Read the list from the script's sections
+folded onto one direction, an emitted Rust module that is no longer
+warning-free, a withheld message LEAKED into the access enum, and a granted one
+DROPPED from it. Read the list from the script's sections
 rather than from a count here. Every case asserts an exact exit code and a
 substring naming the finding; every absence probe carries a control that makes
 it produce a hit; and each mutant is asserted still to RUN, so a red is a
 verdict rather than a crash.
+
+**The compile-fail cases prove a REFUSAL, and a refusal is the one claim a
+green compile cannot carry.** The access module's central promise is that a
+withheld message has no variant, so naming one cannot compile — and nothing
+establishes a compile error except a compile REQUIRED to fail. The hazard there
+is that such a case "passes" when compilation fails for ANY reason: a typo in
+the harness, a module it cannot find, an unrelated denied lint. So the
+assertion is the DIAGNOSTIC'S IDENTITY — rustc's own error code and the missing
+name in its output — never a bare non-zero exit, and three controls stand
+around it. The same harness shape naming a GRANTED message compiles. The
+IDENTICAL harness text compiles against the group the policy DID grant that
+message to, so what refuses is the grant and not the name. And a harness
+pointed at a module that does not exist fails with a DIFFERENT diagnostic, so a
+broken harness cannot read as a proven refusal. Two mutations drive the claim
+both ways: leaking an ungranted message into the enum makes the refusal
+disappear, and dropping a granted one makes the control stop compiling.
+
+The diagnostic text is MEASURED under the toolchain image's `rustc` pin and
+recorded in the script beside the cases. A later `rustc` that rewords it reds
+those cases while every control stays green — which is what tells a
+harness-maintenance fact from a policy regression.
 
 **Two of those cases assert what the ORACLE CANNOT SEE, and they are the reason
 the minted-construct cases read the emitted TEXT rather than the descriptor.**

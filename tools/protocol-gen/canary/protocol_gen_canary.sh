@@ -60,6 +60,16 @@
 #     the module carries for its verbatim variant names leaves valid Rust and
 #     reintroduces a lint, which -D warnings turns into an error — so the two
 #     halves of "valid, warning-free Rust" are separated rather than conflated.
+#   * A WITHHELD MESSAGE THAT CAN BE NAMED ANYWAY. The module's whole claim is
+#     that a message the policy withheld has no variant, so naming one cannot
+#     compile — and nothing proves a compile error except a compile REQUIRED to
+#     fail, asserted on the diagnostic's own error code and the missing name
+#     rather than on a bare non-zero exit. Two mutations, because the claim has
+#     two halves that fail in different places: LEAKING an ungranted message
+#     makes the refusal disappear, and DROPPING a granted one makes the
+#     neighbouring control stop compiling. So a case satisfied by any broken
+#     compile, and a control that would have compiled against anything, are
+#     both excluded.
 #
 # THE RUST SIDE IS JUDGED THROUGH rustc, NOT THROUGH A REGEX. Each emitted
 # access module is compiled twice — alone as a library under -D warnings, then
@@ -68,6 +78,12 @@
 # the POLICY. So what is compared is what a consumer's own call would return,
 # and a module rustc cannot compile is a FAULT rather than a comparison that
 # silently found nothing.
+#
+# A THIRD rustc SHAPE JOINS THOSE TWO, and it is the one whose claim is a
+# REFUSAL rather than a value: a harness that NAMES a `Message` variant and is
+# required to be REJECTED, by rustc's own error code and by the missing name.
+# It compiles to metadata and is never run, because the question is whether the
+# name resolves at all.
 #
 # THE ORACLE IS ALWAYS THE REAL TREE'S. A mutation is applied to a COPY of the
 # generator, and the verifier that judges its output is the one under
@@ -965,6 +981,258 @@ if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "field-not-in-message"; then
 	ok "CONTROL: on that same mutant a NEIGHBOURING clause still refuses"
 else
 	bad "the neighbour stopped refusing too — mutation 12 broke more than its clause: $GEN_OUT"
+fi
+
+# rust_names_message <module-file> <work-dir> <label> <variant> — compile a
+# throwaway harness that NAMES one `Message` variant of an emitted access
+# module, in the two positions a consumer writes one: a value expression and a
+# `match` arm. It asserts nothing; the caller reads the verdict.
+#
+# WHY BOTH POSITIONS IN ONE COMPILE. A consumer either holds a `Message` or
+# dispatches on one, and the two are resolved by different halves of rustc's
+# path machinery. Compiling them together costs one invocation and removes the
+# reading where a case proved only that a value expression refuses.
+#
+# METADATA ONLY, DELIBERATELY. Nothing here is RUN — the question is whether
+# the name resolves at all — so not linking removes the linker, and every
+# failure it could contribute, from a case whose whole content is a failure.
+# The flags are otherwise the ones `rust_access_dumps` compiles a module under.
+#
+# -D warnings IS DELIBERATELY ABSENT, and its absence is the point: this
+# helper's negative cases assert an ERROR, and a denied lint is an error too.
+# Under -D warnings a harness that merely warned would satisfy a case about a
+# withheld message, which is the attribution failure the whole section is
+# arranged against.
+#
+# IT ALWAYS RETURNS 0 AND REPORTS THROUGH `RNM_RC`, for the reason
+# `rust_access_dumps` records: this suite runs under `set -e`, so a helper
+# returning non-zero outside a condition ABORTS the run with no FAIL line —
+# and here the non-zero status is the ORDINARY outcome, not the exceptional
+# one.
+RNM_RC=0
+RNM_OUT=""
+rust_names_message() {
+	local module="$1" work="$2" label="$3" variant="$4"
+	mkdir -p "$work"
+	# `<<-` strips leading TABS only, so the tabs indent the heredoc and the
+	# SPACES survive into the Rust source.
+	cat > "$work/$label.rs" <<-RNMEOF
+		#[allow(dead_code)]
+		#[path = "$module"]
+		mod m;
+
+		#[allow(dead_code)]
+		fn hold_it() -> m::Message {
+		    m::Message::$variant
+		}
+
+		#[allow(dead_code)]
+		fn dispatch_on_it(msg: m::Message) -> bool {
+		    matches!(msg, m::Message::$variant)
+		}
+	RNMEOF
+	set +e
+	RNM_OUT="$(rustc --edition 2021 --crate-type lib --emit=metadata \
+		-o "$work/$label.rmeta" "$work/$label.rs" 2>&1)"
+	RNM_RC=$?
+	set -e
+}
+
+section "RUST ACCESS COMPILE-FAIL — a message the policy withheld cannot be NAMED"
+# The access module's central claim is that a withheld message is a COMPILE
+# ERROR rather than a lookup returning nothing, and nothing proves a compile
+# error except a compile that is REQUIRED to fail.
+#
+# THE PASS-VALUE HAZARD IS THE WHOLE OF THIS SECTION. A compile-fail case
+# "passes" when compilation fails for ANY reason — a typo in the harness, a
+# missing module, an unrelated lint — so every case below asserts the
+# DIAGNOSTIC'S IDENTITY (rustc's own error code and the missing name) and never
+# a bare non-zero, and three controls stand around it: one proving the harness
+# shape compiles at all, one proving the identical harness compiles against the
+# group the policy DID grant the message to, and one proving a harness that
+# cannot find its module fails with a DIFFERENT diagnostic.
+#
+# THE DIAGNOSTIC TEXT WAS MEASURED, not assumed: `error[E0599]: no variant,
+# associated function, or constant named `X` found for enum `Message` in the
+# current scope`, under rustc 1.97 — the toolchain image's pin, whose version
+# is in Dockerfile.base. A later rustc that rewords it fails these cases, and
+# that red is a HARNESS-MAINTENANCE fact rather than a policy regression: the
+# controls beside each case are what tell the two apart, because a reworded
+# diagnostic leaves every control exactly as green as it is now.
+CFWORK="$WORK/compile-fail"
+# THE CONTROL COMES FIRST. A harness shape that does not compile at all makes
+# every refusal below unattributable, so it is established before anything is
+# asked to fail.
+rust_names_message "$BASE/sensor-reader.rs" "$CFWORK" granted-reading pgfix_Reading
+if [ "$RNM_RC" -eq 0 ]; then
+	ok "CONTROL: the harness shape compiles when it names a GRANTED message"
+else
+	bad "CANNOT RUN — the harness shape does not compile even for a granted message (rc=$RNM_RC), so no refusal below is attributable: $RNM_OUT"
+fi
+# `pgfix.Stop` is granted to `commander` and withheld from `sensor-reader`, so
+# what refuses here is the POLICY BOUNDARY and not the message's absence from
+# the world: the message exists, is emitted, and has a variant one module over.
+rust_names_message "$BASE/sensor-reader.rs" "$CFWORK" withheld-stop pgfix_Stop
+if [ "$RNM_RC" -ne 0 ] && contains "$RNM_OUT" "error[E0599]" &&
+	contains "$RNM_OUT" "pgfix_Stop" &&
+	contains "$RNM_OUT" 'found for enum `Message`'; then
+	ok "a message granted to a SIBLING group is E0599, naming the variant and the enum"
+else
+	bad "naming a withheld message did not fail with the named diagnostic (rc=$RNM_RC): $RNM_OUT"
+fi
+# THE ADJACENCY CONTROL, and the strongest one available: the harness TEXT is
+# identical apart from which module it is compiled against, and the verdict
+# flips. So the refusal above is a fact about the grant, not about the name.
+rust_names_message "$BASE/commander.rs" "$CFWORK" granted-stop pgfix_Stop
+if [ "$RNM_RC" -eq 0 ]; then
+	ok "CONTROL: the identical harness COMPILES against the group that WAS granted it"
+else
+	bad "the harness naming a granted message failed against its own group (rc=$RNM_RC): $RNM_OUT"
+fi
+# The other withheld class: `pgfix.Secret` is granted to no group in any
+# fixture policy, so no module anywhere carries a variant for it.
+rust_names_message "$BASE/commander.rs" "$CFWORK" withheld-secret pgfix_Secret
+if [ "$RNM_RC" -ne 0 ] && contains "$RNM_OUT" "error[E0599]" &&
+	contains "$RNM_OUT" "pgfix_Secret" &&
+	contains "$RNM_OUT" 'found for enum `Message`'; then
+	ok "a message granted to NO group is E0599 too, naming that variant"
+else
+	bad "naming a message no policy grants did not fail with the named diagnostic (rc=$RNM_RC): $RNM_OUT"
+fi
+# THE BROKEN-HARNESS CONTROL. A compile-fail case whose assertion were merely
+# "rc is non-zero" would be satisfied by a harness that cannot find its module
+# at all — the exact reading this section exists to refuse. Driven, rather than
+# argued: the same builder is pointed at a module that does not exist, and the
+# E0599 assertion must NOT be satisfied. The wording rustc uses for it is
+# deliberately not asserted; what matters is that it is not the diagnostic the
+# cases above name.
+rust_names_message "$WORK/no-such-module.rs" "$CFWORK" broken-harness pgfix_Stop
+if [ "$RNM_RC" -ne 0 ] && ! contains "$RNM_OUT" "error[E0599]"; then
+	ok "CONTROL: a harness that cannot find its module fails for a DIFFERENT reason"
+else
+	bad "a harness with no module at all satisfied the E0599 assertion (rc=$RNM_RC): $RNM_OUT"
+fi
+
+section "MUTATION 13 — a WITHHELD message leaking into the enum is caught"
+# The regression the section above exists to catch, made real. `granted-messages`
+# is read by the Rust emission and by nothing else, so the `.proto` text and the
+# permission mirror are untouched and only the access module moves — the same
+# framing mutations 10 to 12 carry.
+#
+# `pgfix.Secret` is the message to leak, and NOT `pgfix.Stop`: a group already
+# granted `pgfix.Stop` would receive a SECOND variant of that name and its
+# module would fail to compile as a duplicate definition, which would satisfy
+# nothing here while looking like it had.
+M13="$WORK/m13"
+copy_tool "$M13"
+mutate_file "$M13/src/protocol_gen/rust_access.clj" \
+	'(vec (sort-by :id (:messages group)))' \
+	'(vec (sort-by :id (conj (:messages group) {:id "pgfix.Secret" :proto-name "pgfix_Secret" :origin :descriptor :access #{:write} :fields [] :oneofs []})))' \
+	|| bad "mutation 13 did not land"
+generate "$M13" "$WORK/m13-out" fixtures/policy.edn fixtures/db.edn
+if [ "$GEN_RC" -eq 0 ]; then
+	ok "the mutant still GENERATES — what follows is a verdict, not a crash"
+else
+	bad "the mutant failed to generate (rc=$GEN_RC): $GEN_OUT"
+fi
+# The leaked module is still VALID, WARNING-FREE Rust, which is the reason a
+# compile-fail case is needed at all: nothing about the file's shape gives the
+# leak away, and the library compile every other Rust case rests on stays green.
+set +e
+M13_LIB="$(rustc --edition 2021 --crate-type lib --emit=metadata -D warnings \
+	-o "$WORK/m13-lib.rmeta" "$WORK/m13-out/commander.rs" 2>&1)"
+M13_LIB_RC=$?
+set -e
+if [ "$M13_LIB_RC" -eq 0 ]; then
+	ok "MUTANT: the leaked module is still valid, warning-free Rust"
+else
+	bad "the leaked module does not compile, so this mutation is about syntax: $M13_LIB"
+fi
+rust_names_message "$WORK/m13-out/commander.rs" "$WORK/cf-m13" leaked-secret pgfix_Secret
+if [ "$RNM_RC" -eq 0 ]; then
+	ok "MUTANT: the withheld message becomes NAMEABLE — the compile-fail cases can go red"
+else
+	bad "the leak did not make the withheld message nameable, so the compile-fail cases above have not been shown able to fail (rc=$RNM_RC): $RNM_OUT"
+fi
+# AND THE ORACLE CATCHES THE SAME LEAK, from the other side. Two independent
+# mechanisms over one defect, which is what the fabricated-dump case further
+# down asserts without a mutation behind it.
+rust_access_dumps "$WORK/m13-out" "$WORK/rs-m13" commander
+verify_access "$RSA_DUMP" "$PG/fixtures/policy.edn"
+if [ "$RSA_RC" -eq 0 ] && [ "$VA_RC" -eq 1 ] &&
+	contains "$VA_OUT" "pgfix.Secret: answered by the emitted module and granted by nothing"; then
+	ok "MUTANT: the access oracle REFUSES the leak too, naming the ungranted message"
+else
+	bad "the leak reached the oracle unnoticed (rsa=$RSA_RC va=$VA_RC): $VA_OUT"
+fi
+# THE NEIGHBOUR, on that same mutant. It is owed by the ORACLE case above and
+# not by the nameability case: a red is what a mutation breaking the pass as a
+# whole would also produce, while a green is not.
+generate "$M13" "$WORK/m13-neighbour" fixtures/refusal-policy-typo.edn fixtures/refusal-db.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "field-not-in-message"; then
+	ok "CONTROL: on that same mutant a NEIGHBOURING clause still refuses"
+else
+	bad "the neighbour stopped refusing too — mutation 13 broke more than its clause: $GEN_OUT"
+fi
+
+section "MUTATION 14 — a GRANTED message dropped from the enum is caught"
+# The other direction, and what it buys is the CONTROL rather than the case: a
+# harness naming a granted message compiles, and that green is worth having
+# only if it is a fact about the emitted enum rather than about the harness.
+# Dropping the lowest-sorted granted message empties `sensor-reader`'s enum —
+# it holds exactly one — and the control must then stop compiling, naming the
+# variant it can no longer find.
+M14="$WORK/m14"
+copy_tool "$M14"
+mutate_file "$M14/src/protocol_gen/rust_access.clj" \
+	'(vec (sort-by :id (:messages group)))' \
+	'(vec (rest (sort-by :id (:messages group))))' \
+	|| bad "mutation 14 did not land"
+generate "$M14" "$WORK/m14-out" fixtures/policy.edn fixtures/db.edn
+if [ "$GEN_RC" -eq 0 ]; then
+	ok "the mutant still GENERATES — the red below is a verdict, not a crash"
+else
+	bad "the mutant failed to generate (rc=$GEN_RC): $GEN_OUT"
+fi
+# The emptied module is still valid, warning-free Rust — the emitter renders an
+# uninhabited `Message` deliberately — so the red below is about the missing
+# VARIANT and not about a file rustc could not read.
+set +e
+M14_LIB="$(rustc --edition 2021 --crate-type lib --emit=metadata -D warnings \
+	-o "$WORK/m14-lib.rmeta" "$WORK/m14-out/sensor-reader.rs" 2>&1)"
+M14_LIB_RC=$?
+set -e
+if [ "$M14_LIB_RC" -eq 0 ]; then
+	ok "MUTANT: the emptied module is still valid, warning-free Rust"
+else
+	bad "the emptied module does not compile, so the red below is about syntax: $M14_LIB"
+fi
+rust_names_message "$WORK/m14-out/sensor-reader.rs" "$WORK/cf-m14" dropped-reading pgfix_Reading
+if [ "$RNM_RC" -ne 0 ] && contains "$RNM_OUT" "error[E0599]" &&
+	contains "$RNM_OUT" "pgfix_Reading"; then
+	ok "MUTANT: the CONTROL stops compiling, naming the granted variant it lost"
+else
+	bad "a dropped grant left the control harness compiling, so its green proves nothing about the module (rc=$RNM_RC): $RNM_OUT"
+fi
+# AND THE ORACLE CATCHES THE SAME DROP, from the other side — the mirror of
+# mutation 13's oracle case, so neither direction of the claim rests on rustc
+# alone. Both groups are dumped: `sensor-reader`'s module is now EMPTY and
+# contributes nothing, so a single-group dump would be vacuous rather than
+# refused, and the vacuity case further down would be the thing that fired.
+rust_access_dumps "$WORK/m14-out" "$WORK/rs-m14" sensor-reader commander
+verify_access "$RSA_DUMP" "$PG/fixtures/policy.edn"
+if [ "$RSA_RC" -eq 0 ] && [ "$VA_RC" -eq 1 ] &&
+	contains "$VA_OUT" "sensor-reader/pgfix.Reading: granted, and the emitted module answers for no such message"; then
+	ok "MUTANT: the access oracle REFUSES the drop too, naming the grant nothing answers"
+else
+	bad "the dropped grant reached the oracle unnoticed (rsa=$RSA_RC va=$VA_RC): $VA_OUT"
+fi
+# THE NEIGHBOUR, on that same mutant, for the reason the cases above are REDS.
+generate "$M14" "$WORK/m14-neighbour" fixtures/refusal-policy-typo.edn fixtures/refusal-db.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "field-not-in-message"; then
+	ok "CONTROL: on that same mutant a NEIGHBOURING clause still refuses"
+else
+	bad "the neighbour stopped refusing too — mutation 14 broke more than its clause: $GEN_OUT"
 fi
 
 section "RUST ACCESS — a grant the policy never made is caught the other way"
