@@ -83,7 +83,11 @@ static bool load_resource_error = false;
  * and the wire says so rather than any one host: ui.StateUpdate.values is
  * FT_CALLBACK — unbounded, with nothing tying its contents to what a screen
  * declared — while Screen.subjects is capped at MAX_SUBJECTS, and a load
- * declaring more than that is refused (subject_overflow -> LOAD_ERR_DEFECTIVE).
+ * declaring more than that has the EXCESS DECLARATIONS DROPPED, not the load
+ * refused: subjects_decode_cb skips the overflowing bytes, the decode runs to
+ * completion, and the screen is PRESENTED with the load reporting
+ * LOAD_ERR_DEFECTIVE (subject_overflow; main.c tears down only on
+ * LOAD_ERR_ABORTED). The ceiling therefore holds by discarding.
  * A host projecting a wide state message therefore CANNOT avoid naming
  * subjects a given screen never declared: ser.JonGUIState alone reaches 379
  * distinct leaf scalar/enum paths, against a ceiling of 32 resolvable names per
