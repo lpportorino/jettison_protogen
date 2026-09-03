@@ -4,9 +4,24 @@ A general-purpose generator. Its input is a **descriptor database** (proto
 descriptors already parsed into EDN), a declarative **access policy**, a set of
 **locally-minted** messages, and an assign-once **field-number registry**. Its
 output is one `.proto` file per access group, one **Rust access module** per
-group, a machine-readable **flat permission mirror**, a **nested permission tree** in
-Rust, and a **state subsystem table** — all written from the same value in the
-same run.
+group, a machine-readable **permission transcript**, a **nested permission
+tree** in Rust, and a **state subsystem table** — all written from the same
+value in the same run.
+
+**TWO OF THOSE ARTEFACTS ARE EASILY CONFUSED, so they carry separate names.**
+The flat EDN file `permissions.edn` is the **permission transcript**: a record
+of what the generator was told. The nested Rust file `permission_tree.rs` is the
+**permission tree**, and it is the only artefact this generator also calls a
+**mirror** — the one a byte-level scanner walks. Two artefacts under one name
+leave a reader sent to "the permission mirror" unable to tell which is meant, so
+the word MIRROR is the tree's alone.
+
+**THE IDENTIFIERS DO NOT MATCH THAT SPLIT, and a reader meets the mismatch
+immediately.** `src/protocol_gen/mirror.clj` is the file that emits the
+TRANSCRIPT; the namespace `protocol-gen.mirror`, its public function and every
+emitted file name spell the word this prose reserves for the tree. They are not
+renamed here because a consumer references them, and moving them is a
+coordinated change on both sides rather than a prose edit.
 
 The per-group projection is one PROPERTY of that generator, not its purpose. A
 group's emitted schema simply does not NAME what the policy did not grant, so a
@@ -45,7 +60,7 @@ oracle reds.
 ```text
 descriptor database ─┐                                            ┌► .proto
 locally-minted msgs ─┼─► numbering ─► projection ─► render ─► emit┤
-field-number registry┘                    │                       └► mirror
+field-number registry┘                    │                       └► transcript
 access policy ───────────────────────────┘                        ├► .rs
                                           │                       ├► permission tree
                                           └──────────────────────►└► state table
@@ -61,7 +76,7 @@ access policy ──────────────────────
 | `src/protocol_gen/constraints.clj` | validation constraints back out as options |
 | `src/protocol_gen/render.clj` | the one place a type reference becomes a name |
 | `src/protocol_gen/emit.clj` | resolved projection to `.proto` text |
-| `src/protocol_gen/mirror.clj` | the FLAT permission mirror |
+| `src/protocol_gen/mirror.clj` | the flat permission TRANSCRIPT |
 | `src/protocol_gen/permission_tree.clj` | the NESTED permission tree, in Rust |
 | `src/protocol_gen/state_table.clj` | the STATE SUBSYSTEM table, in Rust |
 | `src/protocol_gen/rust_access.clj` | the per-group Rust ACCESS module |
@@ -209,11 +224,11 @@ compile error there. A second emitter for those shapes would give one wire
 contract two sources. What a `.proto` structurally cannot carry is direction,
 and that is the whole of what this module adds.
 
-**Why a type rather than the mirror, which already carries the same fact.** The
-mirror is EDN: a consumer parses it at run time, and a typo in the key it looks
-under is a nil rather than a compile error. Here `may this group send message
-X?` is `Message::X.access().may_write()` — the compiler answers, and a message
-the group was not granted has no variant to name.
+**Why a type rather than the transcript, which already carries the same fact.**
+The transcript is EDN: a consumer parses it at run time, and a typo in the key
+it looks under is a nil rather than a compile error. Here `may this group send
+message X?` is `Message::X.access().may_write()` — the compiler answers, and a
+message the group was not granted has no variant to name.
 
 **Message level and no lower.** proto3 field presence is absent from the
 descriptor database by construction, so a per-field access surface would claim
@@ -337,7 +352,7 @@ module should exclude it, as it would for any generated code. Nothing is lost:
 the property that matters is byte-identical re-emission, which the canary does
 assert, across two runs and over every artefact the run writes.
 
-## What the mirror carries that a `.proto` cannot
+## What the transcript carries that a `.proto` cannot
 
 Two facts, and both matter to a consumer:
 
@@ -350,13 +365,28 @@ Two facts, and both matter to a consumer:
   came from a descriptor or from the registry.
 
 Both artefacts are derived from one projection in one run, so there is nothing
-for the mirror to be wrong about that the schema could be right about. The
-mirror is a record of what the generator was told, NOT an enforcement mechanism:
-a group cannot send what its schema cannot express, and that is the mechanism.
+for the transcript to be wrong about that the schema could be right about. The
+transcript is a record of what the generator was told, NOT an enforcement
+mechanism: nothing at run time reads it and refuses a message.
+
+**AND THE SCHEMA IS NOT THE MECHANISM EITHER.** The reading to refuse is *a
+group cannot send what its schema cannot express, and THAT is the mechanism* —
+it is the obvious one to reach for, and it is false. A schema constrains what an
+HONEST client CONSTRUCTS. Bytes on the wire carry no trace of the generated code
+that produced them, so a peer that ignores its own schema, or was never built
+from one, is unconstrained by it — and a receiver that trusted the schema to
+have filtered its input would be enforcing nothing at all.
+
+Enforcement is a RECEIVE-side property, and what this generator contributes to
+it is the NESTED TREE below, not this file: a receiver walks encoded bytes tag
+by tag against that tree and refuses any tag the tree does not describe. That is
+why the tree is TOTAL over the fields a source message declares, and why an
+undescribed tag is a refusal there rather than a gap. The transcript is what
+lets a reviewer check that what the run emitted is what the policy said.
 
 ## The NESTED permission tree — what a byte-level scanner walks
 
-Beside the flat mirror the generator writes ONE file for the whole run,
+Beside the transcript the generator writes ONE file for the whole run,
 `permission_tree.rs`: a `pub static` per group, plus the table that selects one.
 
 ```rust
@@ -389,14 +419,15 @@ a leaf has nowhere to put a child.
 `Unspecified` is the zero value a consumer needs so a default-constructed node
 is not silently a grant, and this generator never emits one.
 
-**WHY IT IS NOT THE FLAT MIRROR UNDER ANOTHER NAME**, which is the first thing
-to check before reading further. The flat mirror is a map of group → message →
+**WHY IT IS NOT THE TRANSCRIPT UNDER ANOTHER NAME**, which is the first thing
+to check before reading further. The transcript is a map of group → message →
 field → number and provenance. A scanner holding a position in a message and a
 tag it has just read needs the node for THAT tag under the node it is standing
-on, and a flat map has no *under*. The two also carry disjoint facts: the flat
-mirror carries NUMBER PROVENANCE and DIRECTION, which a scanner never consults,
-and carries no permission axis at all; the tree carries a permission per node
-and no provenance. Neither replaces the other, and the flat one is unchanged.
+on, and a flat map has no *under*. The two also carry disjoint facts: the
+transcript carries NUMBER PROVENANCE and DIRECTION, which a scanner never
+consults, and carries no permission axis at all; the tree carries a permission
+per node and no provenance. Neither replaces the other, and the flat one is
+unchanged.
 
 **THE PERMISSION AXIS IS MESSAGE-GRAINED, because the policy is.** A grant
 names a message, a direction and a FIELD FILTER; no field carries a grant of
