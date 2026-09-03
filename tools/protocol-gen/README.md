@@ -189,6 +189,7 @@ DIRECTION half of that group's grants, as a closed Rust surface.
 ```rust
 pub const GROUP: &str;              // the group's policy id
 pub const PACKAGE: &str;            // the package its .proto declares
+pub const SCHEMA_VERSION: u32;      // a fingerprint of this group's projection
 pub enum Access { Read, Write, ReadWrite }
 impl Access { pub const fn may_read(self) -> bool; pub const fn may_write(self) -> bool; }
 pub enum Message { /* one variant per granted message, and nothing else */ }
@@ -217,6 +218,90 @@ the group was not granted has no variant to name.
 **Message level and no lower.** proto3 field presence is absent from the
 descriptor database by construction, so a per-field access surface would claim
 a distinction its input cannot supply.
+
+### `SCHEMA_VERSION` — the projection, as one comparable number
+
+A group's emitted schema is a PROJECTION, so two groups from one run hold two
+different decoders. `SCHEMA_VERSION` is a `u32` fingerprint of the projection
+that produced this module, for a transport that wants to compare it at a
+destination rather than hand one group's bytes to another group's decoder.
+
+**IT IS READ, NEVER JUDGED, BY WHATEVER CARRIES IT.** The generator's claim is
+exactly one: the number is a function of the projection. What a mismatch MEANS
+— refuse, log, renegotiate — is the reading side's rule and is asserted nowhere
+here. It is a hash and not an ordinal: newer is not larger, and two runs differ
+or they do not.
+
+**WHAT IT IS TAKEN OVER, and why the answer is neither `pr-str` nor a short
+list of names.** The input is every fact the projection DECLARES: the group id
+and package, the state subsystems, and per granted message its id, emitted
+name, origin, access, its fields' declared facts and its oneofs', and per
+granted enum its members'. `protocol-gen.db`'s field, oneof and enum-value
+schemas are OPEN on purpose, so a database may carry prose and interaction
+metadata this generator never reads — none of it reaches emitted text, so none
+of it is in the fingerprint, and those three key sets are DERIVED from their
+schemas rather than listed twice.
+
+**FOUR KEY SETS ARE NOT DERIVED, and saying only the sentence above would imply
+they were.** The group, message and enum levels, plus the two stamps the field
+set adds, are written out, because each key needs its own normalisation. Every
+one of them can legally gain a member and fall outside the fingerprint in
+silence, so each is defended by a test that derives BOTH sides — three from
+their schemas, including the anonymous closed map the group schema declares for
+an enum, and the stamps from a real projection diffed against its own input,
+since `db/field` is open and no closed projected-field schema exists to read.
+
+**THE FIELD AXIS IS THE ONE A NAME-ONLY FINGERPRINT WOULD MISS**, and it is the
+one that decides what a decoder can express: two groups granted the same
+messages under different field filters emit different `.proto` files and
+generate different Rust types, while every message id, emitted name and
+direction stays identical. A canary mutation withholds exactly one field from
+one group's grant and requires the fingerprint to move — and requires the OTHER
+group's not to.
+
+**THE BIAS RUNS ONE WAY, DELIBERATELY.** The group id and package are hashed in
+even though `GROUP` and `PACKAGE` carry them verbatim two lines above; that is
+not a second home for those facts, since nothing can read either back out of a
+hash. It is because over-covering costs a REFUSAL that a lockstep rebuild
+clears, and under-covering costs a silent ACCEPT — two projections that differ
+in a fact the fingerprint skipped would share a value, and a number that cannot
+tell two decoders apart is worse than no number.
+
+**ORDER AND ENCODING ARE IMPOSED, not inherited.** The projection lists
+messages and enums in the policy's GRANT order, and a message's fields in the
+source message's DECLARATION order — both authoring facts rather than facts
+about the group, since the emitter writes fields in NUMBER order — so all three
+are sorted here and a fingerprint that moved when an author reordered two
+grants would report a change nobody made. Rendering is a sorted,
+length-prefixed encoding written here rather than `pr-str`, whose map order is
+ITERATION order; the map sort is reached through a field's `:constraints`,
+which is carried from the database verbatim, and the length prefix is what
+keeps `["a" "b"]` and `["a,sb"]` from sharing a rendering. A real number is
+encoded from its IEEE bits rather than from `Double/toString`, whose output the
+JDK has already changed for some values. A value the encoder has no rendering
+for stops the run instead of falling back to `str`, which would fold an
+object's identity — and so the machine — into the number.
+
+**IT FINGERPRINTS THE PROJECTION AND NOT THE GENERATOR**, which is the residual
+worth knowing beside the collision odds below, because it runs in the
+silent-ACCEPT direction. Two peers whose policies agree but whose GENERATOR
+versions differ compute the same number while holding decoders this tool
+emitted differently — a change to how a type reference is rendered, or to which
+validation options are emitted, moves the `.proto` and the Rust generated from
+it without touching the projection. Folding an emitter version in would close
+it; this tool declares none, and inventing one is a release decision rather
+than something to bury in a hash.
+
+**COLLISIONS, stated rather than hidden.** Thirty-two bits is not
+collision-free and is not claimed to be. Over the handful of groups a policy
+declares, the chance that any two collide is about n(n-1)/2 in 2^32 — for four
+groups, six chances in four billion — and the cost of one is that the mismatch
+between exactly those two groups goes undetected, not that anything decodes
+wrongly. That is the trade a header-sized field buys; a policy at a scale where
+it stopped being negligible wants a wider field, not a cleverer hash. **Nothing
+here detects one**: the emitter sees one group at a time, and the run that
+emits every group — where a collision would be visible — has no pass that looks
+for it.
 
 **Each variant is the message's `.proto` name VERBATIM** — `pgfix_Command`, not
 `PgfixCommand`. A camel-cased variant would be a SECOND name for a message the
@@ -476,8 +561,12 @@ every field the source declares, a tree that describes the interior of a
 DENIAL, each of the tree's two policy-reachable refusals broken alone with the
 other as its neighbouring control, a fixture policy withholding a field that
 the emitted tree must then follow, a state subsystem table carrying only its
-PERMITTED rows, and a fixture policy withholding a subsystem that the emitted
-table must then follow. Read the list from the script's sections rather than
+PERMITTED rows, a fixture policy withholding a subsystem that the emitted
+table must then follow, a projection fingerprint that folds in an ENVIRONMENTAL
+term, one that collapses to a CONSTANT — each asserted CLEAN on the other's
+case, so neither reads as covering it — and a fixture policy withholding a
+FIELD that the fingerprint must then follow while the untouched group's stays
+put. Read the list from the script's sections rather than
 from a count here. Every case asserts an exact exit code and a
 substring naming the finding; every absence probe carries a control that makes
 it produce a hit; and each mutant is asserted still to RUN, so a red is a

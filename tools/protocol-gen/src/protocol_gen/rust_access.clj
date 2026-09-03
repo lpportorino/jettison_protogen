@@ -54,8 +54,11 @@
    and a silent rot is worse than a compile error that names the identifier."
   (:require [clojure.string :as str]
             [malli.core :as m]
+            [protocol-gen.db :as db]
             [protocol-gen.projection :as projection]
-            [protocol-gen.rust-lit :as rust-lit]))
+            [protocol-gen.rust-lit :as rust-lit])
+  (:import (java.nio.charset StandardCharsets)
+           (java.security MessageDigest)))
 
 (set! *warn-on-reflection* true)
 
@@ -119,6 +122,238 @@
 
 (m/=> granted-messages
       [:=> [:cat projection/projected-group] [:vector projection/projected-message]])
+
+(defn- declared-keys
+  "Every key `schema` DECLARES, as a set.
+
+   DERIVED RATHER THAN LISTED, because the three database schemas this reads
+   are deliberately OPEN — a database carries documentation and interaction
+   metadata this generator never looks at — so `what did the schema declare`
+   is the only question that separates a fact from an editorial note. A
+   hand-kept copy of the answer would silently stop covering a key the day one
+   is added, which is the direction that loses coverage without saying so."
+  [schema]
+  (into #{} (map key) (m/entries schema)))
+
+(def ^:private field-keys
+  "Every key of a PROJECTED field the fingerprint reads.
+
+   `protocol-gen.db/field`'s declared keys, plus the two
+   `protocol-gen.projection/project-field` stamps on: `:oneof`, which says
+   which oneof block the field is emitted inside, and `:number-source`, which
+   says whether its number came from a descriptor or from the registry. The
+   database declares neither because the database carries neither."
+  (into (declared-keys db/field) [:oneof :number-source]))
+
+(def ^:private oneof-keys
+  "Every key of a projected oneof the fingerprint reads."
+  (declared-keys db/oneof))
+
+(def ^:private enum-value-keys
+  "Every key of a projected enum member the fingerprint reads."
+  (declared-keys db/enum-value))
+
+(defn- fingerprint-input
+  "The value `schema-version` is a fingerprint OF: everything this group's
+   projection declares, in an order nothing environmental can move.
+
+   WHAT IS IN. Every key the projection's own schemas declare — the group id
+   and package, the state subsystems, and per granted message its id, emitted
+   name, origin, access and its fields' and oneofs' declared facts, and per
+   granted enum its members'. Total over the declared set, so no projected
+   fact can change without moving the value.
+
+   WHY THE GROUP ID AND PACKAGE ARE IN IT, though `GROUP` and `PACKAGE` carry
+   them verbatim a few lines above. They are not a second HOME for those
+   facts — nothing can read either back out of a hash. They are in because
+   over-covering costs a REFUSAL a rebuild clears, and under-covering costs a
+   silent ACCEPT: two groups whose projections differ only in a fact the
+   fingerprint skipped would share a value, and a value that cannot tell two
+   decoders apart is worse than no value at all. So the bias is deliberate and
+   runs one way.
+
+   WHAT IS OUT, and the one thing this value therefore does not promise.
+   `protocol-gen.db`'s field, oneof and enum-value schemas are OPEN on purpose,
+   so a database may carry prose and interaction metadata beside the facts.
+   None of it reaches emitted text, and an editorial edit upstream must not
+   move a constant a consumer compares at a routing boundary — so the
+   fingerprint reads the DECLARED keys and nothing else.
+
+   ORDER IS IMPOSED HERE, not inherited. The projection lists messages and
+   enums in the policy's GRANT order, which is an authoring convenience and not
+   a fact about the group — the same reason `granted-messages` sorts — and a
+   fingerprint that moved when a policy author reordered two grants would
+   report a change nobody made. The same holds one level down: a message's
+   FIELDS arrive in the source message's declaration order while the emitter
+   writes them in NUMBER order, so declaration order reaches no emitted byte
+   and must reach no fingerprint either.
+
+   FOUR KEY SETS HERE ARE WRITTEN OUT rather than derived — this level, the
+   message level, the enum level, and the two stamps `field-keys` adds — because
+   each key needs its own normalisation and a generic walk cannot supply that.
+   Note what the sentence does NOT claim: three of the four have a schema that
+   could have supplied the key NAMES (`projected-group`, `projected-message`,
+   and the anonymous closed map `projected-group` declares for an enum, which is
+   reachable through its children), and the fourth has none — `projected-message`
+   declares `:fields [:vector db/field]` and `db/field` is OPEN, so what
+   `projection/project-field` stamps is knowable only from that function.
+
+   THAT IS THE REAL GAP IN THE DERIVATION ARGUMENT ABOVE, and it runs in the
+   silent-ACCEPT direction: a key added to one of those schemas, or a third
+   stamp added by `project-field`, is legal and falls outside this map without
+   a word. All four are closed by tests that derive BOTH sides — the three from
+   their schemas, the stamps from a real projection diffed against its own
+   input — rather than by a comment, since a comment cannot notice."
+  [group]
+  {:id (:id group)
+   :package (:package group)
+   :state-subsystems (vec (sort (:state-subsystems group)))
+   :messages (mapv (fn [msg]
+                     {:id (:id msg)
+                      :proto-name (:proto-name msg)
+                      :origin (:origin msg)
+                      :access (:access msg)
+                      :fields (mapv #(select-keys % field-keys)
+                                    (sort-by :number (:fields msg)))
+                      :oneofs (mapv (fn [o]
+                                      (-> (select-keys o oneof-keys)
+                                          (assoc :fields (vec (sort (:fields o))))))
+                                    (sort-by :name (:oneofs msg)))})
+                   (sort-by :id (:messages group)))
+   :enums (mapv (fn [e]
+                  {:id (:id e)
+                   :proto-name (:proto-name e)
+                   :values (mapv #(select-keys % enum-value-keys)
+                                 (sort-by :number (:values e)))})
+                (sort-by :id (:enums group)))})
+
+(defn- canonical
+  "`x` rendered as text, in a form no two distinct values share and nothing
+   environmental can move.
+
+   NOT `pr-str`, and that is the whole reason this exists. A map printed by
+   `pr-str` comes out in ITERATION order — insertion order below nine keys,
+   hash order above — so two EQUAL maps built by different paths print
+   differently, and the fingerprint would move for a reason no policy author
+   could see or fix. Here a map is rendered in sorted-key order, sorted on the
+   RENDERING rather than on the value, so the ordering needs no comparator for
+   keywords-versus-strings.
+
+   THE MAP SORT IS REACHED, and it is worth knowing by what: a field's
+   `:constraints` map is carried through from the database VERBATIM, so its
+   insertion order is whatever the EDN file's author wrote. Two databases
+   stating one field's bounds in opposite orders are the same projection, and
+   must fingerprint the same.
+
+   THE SET SORT IS DEFENSIVE AND UNREACHABLE TODAY — said out loud rather than
+   left to look like coverage. `:access` is the only set that arrives here, and
+   two EQUAL Clojure hash sets iterate identically, so no input can distinguish
+   the sorted rendering from the unsorted one. It is kept for the reason
+   `protocol-gen.numbering/assert-stamped!` is kept: the clause states the
+   invariant the value depends on, and its ability to matter is provable by
+   mutation and by nothing else.
+
+   STRINGS AND KEYWORDS CARRY THEIR LENGTH so the rendering is injective.
+   Without it `[\"a\" \"b\"]` and `[\"a,sb\"]` both render `[sa,sb]` — the
+   separator is inside the second one's only element — so two different
+   projections would share a fingerprint. That is reachable rather than
+   theoretical: a validation constraint carries arbitrary STRINGS, so an author
+   chooses those bytes.
+
+   A DOUBLE IS RENDERED FROM ITS BITS, never from `Double/toString`. Validation
+   constraints carry real numbers, and the JDK has already changed what
+   `Double/toString` prints for some values — so a textual rendering would move
+   this constant on a toolchain bump with no policy change behind it. The IEEE
+   bit pattern cannot. Every other number falls to `pr-str`, which is exact for
+   a ratio or a big decimal. A `Float` would fall there too and carries the
+   same printing hazard a `Double` does; it is not excluded here because it
+   cannot arrive — `clojure.edn` reads a decimal literal as a `Double`.
+
+   IT THROWS on a type it has no rendering for rather than falling back to
+   `str`. A fallback would render an object's identity for anything unforeseen,
+   which is environmental — and reproducibility is the one property this value
+   must never quietly lose."
+  [x]
+  (cond
+    (nil? x) "n"
+    (boolean? x) (if x "t" "f")
+    (keyword? x) (let [s (str (symbol x))] (str "k" (count s) ":" s))
+    (string? x) (str "s" (count x) ":" x)
+    (integer? x) (str "i" x)
+    (double? x) (str "d" (Double/doubleToLongBits (double x)))
+    (number? x) (str "N" (pr-str x))
+    (map? x) (str "{"
+                  (str/join "," (map (fn [[k v]] (str (canonical k) "=" (canonical v)))
+                                     (sort-by (comp canonical key) x)))
+                  "}")
+    (set? x) (str "#{" (str/join "," (sort (map canonical x))) "}")
+    (sequential? x) (str "[" (str/join "," (map canonical x)) "]")
+    :else (throw (ex-info "No canonical rendering for this value"
+                          {:type (str (type x)) :value (pr-str x)}))))
+
+(defn- truncated-sha256
+  "The first four bytes of `s`'s SHA-256 digest, big-endian, as one number in
+   `0 .. 2^32-1`.
+
+   SHA-256 RATHER THAN A CLOJURE `hash`. `hash` is a property of a JVM runtime
+   and its collection implementations, not of the value's meaning, and nothing
+   promises it across versions; a digest over bytes this namespace rendered
+   itself is reproducible wherever the bytes are.
+
+   BIG-ENDIAN AND FOUR BYTES because the emitted constant is a `u32` — the
+   width a routing header can carry beside a message without paying for a
+   hash's full 32 bytes on every frame."
+  [s]
+  (let [digest (.digest (MessageDigest/getInstance "SHA-256")
+                        (.getBytes ^String s StandardCharsets/UTF_8))]
+    (reduce (fn [acc b] (+ (* acc 256) (bit-and (long b) 0xff)))
+            0
+            (take 4 digest))))
+
+(defn schema-version
+  "A `u32` fingerprint of `group`'s whole projection.
+
+   WHAT IT IS FOR. A group's emitted schema is a PROJECTION — it names only
+   what the policy granted — so two groups generated from one run hold two
+   different decoders. A transport that carries this number beside a message
+   can compare it at the destination and refuse a mismatch, instead of handing
+   group A's bytes to group B's decoder and reading whatever happens to line
+   up.
+
+   IT IS READ, NOT JUDGED, BY WHATEVER CARRIES IT. This generator says only
+   that the number is a function of the projection: equal projections give
+   equal numbers, and any declared difference gives a different one with the
+   probability below. What a mismatch MEANS — refuse, log, renegotiate — is the
+   consumer's rule, and nothing here asserts one.
+
+   COLLISIONS, stated rather than hidden. Thirty-two bits is not
+   collision-free and is not claimed to be: over the handful of groups a policy
+   declares the chance that any two share a value is about n(n-1)/2 in 2^32 —
+   for four groups, six chances in four billion — and a collision is not
+   silent damage but a mismatch that fails to be detected between exactly those
+   two groups. That is the trade a header-sized field buys, and a policy that
+   ever grew to a scale where it stopped being negligible would want a wider
+   field rather than a cleverer hash.
+
+   IT FINGERPRINTS THE PROJECTION AND NOT THE GENERATOR, which is the one
+   residual worth naming beside the collision odds, because it runs in the
+   SILENT-ACCEPT direction rather than the refusing one. Two peers whose
+   policies agree but whose GENERATOR versions differ compute the same number
+   while holding decoders this tool emitted differently — a change to how a
+   type reference is rendered, or to which validation options are emitted,
+   moves the `.proto` and the Rust it generates without touching the
+   projection. Folding an emitter version in would close it; this tool declares
+   none, and inventing one is a decision for whoever owns the release, not
+   something to bury in a hash.
+
+   NOTHING HERE DETECTS ONE. This function sees one group; the run that emits
+   every group is where a collision would be visible, and no pass there checks
+   for it today."
+  [group]
+  (truncated-sha256 (canonical (fingerprint-input group))))
+
+(m/=> schema-version
+      [:=> [:cat projection/projected-group] [:int {:min 0 :max 4294967295}]])
 
 (defn- doc-lines
   "A `///` doc comment, one emitted line per string in `texts`, each indented
@@ -232,6 +467,27 @@
          "pub const GROUP: &str = " (rust-lit/string-literal (name (:id group))) ";\n"
          "\n/// The proto package this group's `.proto` declares.\n"
          "pub const PACKAGE: &str = " (rust-lit/string-literal (:package group)) ";\n"
+         "\n/// A fingerprint of this group's whole projection — every fact the\n"
+         "/// projection declares, hashed in an order nothing environmental can move.\n"
+         "///\n"
+         "/// EQUAL PROJECTIONS GIVE EQUAL NUMBERS, and any declared difference gives a\n"
+         "/// different one: a message granted or withdrawn, a field filtered, a\n"
+         "/// direction re-granted, a number re-pinned. So a transport carrying it\n"
+         "/// beside a message can compare it at the destination rather than handing\n"
+         "/// one group's bytes to another group's decoder.\n"
+         "///\n"
+         "/// IT IS READ HERE, NEVER JUDGED. This module states only that the number is\n"
+         "/// a function of the projection; what a mismatch MEANS — refuse, log,\n"
+         "/// renegotiate — is the reading side's rule and is not asserted here.\n"
+         "///\n"
+         "/// IT IS NOT A VERSION YOU MAY ORDER OR INCREMENT. It is a hash: newer is\n"
+         "/// not larger, and two runs differ or they do not.\n"
+         "///\n"
+         "/// 32 bits is not collision-free and is not claimed to be. Over the handful\n"
+         "/// of groups a policy declares the odds that any two collide are about\n"
+         "/// n(n-1)/2 in 2^32; a collision costs the detection between exactly those\n"
+         "/// two groups and nothing else.\n"
+         "pub const SCHEMA_VERSION: u32 = " (schema-version group) ";\n"
          "\n" access-enum
          "\n" (message-enum messages)
          "\nimpl Message {\n"

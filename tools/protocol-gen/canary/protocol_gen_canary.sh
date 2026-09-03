@@ -97,6 +97,19 @@
 #     policy and requires the bytes to move, the row to survive reading `false`,
 #     and the oracle to split clean-against-the-mutant from red-against-the-real
 #     one.
+#   * A PROJECTION FINGERPRINT THAT STOPS BEING ONE. Three mutations, because
+#     the constant carries three properties that fail in three places and NO TWO
+#     OF THEM CATCH EACH OTHER — which is the whole reason they are separate
+#     cases rather than one. Folding an environmental term in breaks
+#     REPRODUCIBILITY while leaving two groups perfectly distinct; collapsing
+#     the value to a constant breaks DISTINCTNESS while staying perfectly
+#     reproducible; and each mutant is asserted CLEAN on the other's case, so
+#     neither case can be read as covering the other. The third mutates the
+#     FIXTURE policy instead of the tool — withholding one FIELD, which leaves
+#     every granted message id, name and direction untouched — because whether
+#     the value follows the POLICY is a question no tool mutation can ask, and
+#     the untouched group's fingerprint must stay put or the value is following
+#     the run rather than the group.
 #
 # THE RUST SIDE IS JUDGED THROUGH rustc, NOT THROUGH A REGEX. Each emitted
 # access module is compiled twice — alone as a library under -D warnings, then
@@ -210,6 +223,18 @@ generate() {
 # in the block, in a different block, or free.
 oneof_block() {
 	sed -n "/^  oneof $2 {/,/^  }/p" "$1"
+}
+
+# schema_version <module-file> — the u32 that module's SCHEMA_VERSION declares,
+# or the EMPTY STRING when it declares none.
+#
+# THE EMPTY CASE IS WHY EVERY CALLER GUARDS ON `-n` FIRST. Two modules carrying
+# no constant at all yield two equal empty strings, so a distinctness case
+# written without that guard reports a PASS for an emitter that stopped
+# emitting — the nothing-ran value equalling the pass value, one line lower
+# than usual.
+schema_version() {
+	sed -n 's/^pub const SCHEMA_VERSION: u32 = \([0-9][0-9]*\);$/\1/p' "$1"
 }
 
 # rust_access_dumps <out-dir> <work-dir> <group>… — what the emitted Rust access
@@ -2039,6 +2064,180 @@ if [ "$VS_RC" -eq 2 ] && contains "$VS_OUT" "CANNOT RUN"; then
 	ok "a state dump flag that is not a Rust bool is exit 2 too"
 else
 	bad "a non-bool state flag was scored as a verdict (rc=$VS_RC): $VS_OUT"
+fi
+
+section "SCHEMA VERSION — a fingerprint of the projection, in every emitted module"
+# The constant a routing header can carry beside a message, so a destination can
+# tell one group's projection from another's rather than decoding whatever lines
+# up. Three properties, and every case here is a COMPARISON: an assertion that
+# merely FOUND a number would be satisfied by a constant, which is exactly the
+# emitter mutation 23 below produces.
+SV_SENSOR="$(schema_version "$BASE/sensor-reader.rs")"
+SV_COMMANDER="$(schema_version "$BASE/commander.rs")"
+if [ -n "$SV_SENSOR" ] && [ -n "$SV_COMMANDER" ]; then
+	ok "every emitted module declares a SCHEMA_VERSION"
+else
+	bad "an emitted module carries no SCHEMA_VERSION (sensor='$SV_SENSOR' commander='$SV_COMMANDER')"
+fi
+# THE VALUE, not the syntax: rustc already accepted both modules above under
+# -D warnings, so a literal too wide for the `u32` it is typed as would have
+# reddened there. What is left to check here is that the TRUNCATION holds.
+if [ -n "$SV_SENSOR" ] && [ "$SV_SENSOR" -le 4294967295 ] &&
+	[ -n "$SV_COMMANDER" ] && [ "$SV_COMMANDER" -le 4294967295 ]; then
+	ok "both values sit inside the u32 range the constant is typed as"
+else
+	bad "a SCHEMA_VERSION is outside u32 (sensor='$SV_SENSOR' commander='$SV_COMMANDER')"
+fi
+# DISTINCTNESS, over two projections this fixture policy makes deliberately
+# asymmetric — different messages, different fields, different directions.
+if [ -n "$SV_SENSOR" ] && [ "$SV_SENSOR" != "$SV_COMMANDER" ]; then
+	ok "two groups whose projections differ fingerprint DIFFERENTLY"
+else
+	bad "the two groups share a fingerprint ('$SV_SENSOR'), so a misroute between them is undetectable"
+fi
+# REPRODUCIBILITY ACROSS PROCESSES — the claim the unit suite structurally
+# cannot make. Calling a pure function twice on one value in one JVM has no
+# non-determinism to catch; $AGAIN was written by a SECOND generator run in its
+# own JVM over the same inputs, which is where an environmental term shows.
+#
+# IT IS NOT THE ONLY CASE THAT WOULD CATCH ONE, and reading it as such is the
+# error MUTATION 22 below spells out: the DETERMINISM section already diffs both
+# emitted modules WHOLE across those same two runs. This narrows that verdict to
+# the constant, so a red here names the line rather than the file.
+AGAIN_SENSOR="$(schema_version "$AGAIN/sensor-reader.rs")"
+AGAIN_COMMANDER="$(schema_version "$AGAIN/commander.rs")"
+if [ -n "$SV_SENSOR" ] && [ -n "$AGAIN_SENSOR" ] &&
+	[ -n "$SV_COMMANDER" ] && [ -n "$AGAIN_COMMANDER" ] &&
+	[ "$SV_SENSOR" = "$AGAIN_SENSOR" ] &&
+	[ "$SV_COMMANDER" = "$AGAIN_COMMANDER" ]; then
+	ok "a second run in a second process fingerprints both groups identically"
+else
+	bad "the fingerprint moved between two runs over one input"
+fi
+
+section "MUTATION 22 — a fingerprint that reads anything ENVIRONMENTAL is caught"
+# The failure this constant cannot survive. A consumer freshness-gates the
+# emitted file, so a value that moves between two runs over one input reddens a
+# gate with no change behind it. The mutation folds in the one term that is
+# always environmental.
+#
+# WHAT THE CASE ABOVE ADDS IS ATTRIBUTION, NOT DETECTION — said precisely,
+# because the obvious stronger claim is false. The DETERMINISM section already
+# byte-compares both emitted modules across two generator processes, so it is
+# strictly broader and would red on this same mutant. What it cannot do is NAME
+# the constant: a whole-file diff says the bytes moved, and the reader is left
+# to find which line. So this mutation is expected to red BOTH, and the case
+# above earns its place by reporting the two values it compared.
+M22="$WORK/m22"
+copy_tool "$M22"
+mutate_file "$M22/src/protocol_gen/rust_access.clj" \
+	'(truncated-sha256 (canonical (fingerprint-input group)))' \
+	'(truncated-sha256 (str (canonical (fingerprint-input group)) (System/nanoTime)))' \
+	|| bad "mutation 22 did not land"
+generate "$M22" "$WORK/m22-a" fixtures/policy.edn fixtures/db.edn
+if [ "$GEN_RC" -eq 0 ]; then
+	ok "the mutant still GENERATES — the red below is a verdict, not a crash"
+else
+	bad "the mutant failed to generate (rc=$GEN_RC): $GEN_OUT"
+fi
+generate "$M22" "$WORK/m22-b" fixtures/policy.edn fixtures/db.edn
+M22_A="$(schema_version "$WORK/m22-a/sensor-reader.rs")"
+M22_B="$(schema_version "$WORK/m22-b/sensor-reader.rs")"
+if [ -n "$M22_A" ] && [ -n "$M22_B" ] && [ "$M22_A" != "$M22_B" ]; then
+	ok "MUTANT: two runs over one input now disagree — which is what the case above forbids"
+else
+	bad "the environmental mutation did not move the fingerprint, so the reproducibility case proves nothing ('$M22_A' vs '$M22_B')"
+fi
+# CONTROL: DISTINCTNESS survives this same mutant, so the two properties are two
+# cases rather than one asserted twice — and mutation 23 below is the other half
+# of that demonstration.
+M22_A_COMMANDER="$(schema_version "$WORK/m22-a/commander.rs")"
+if [ -n "$M22_A" ] && [ -n "$M22_A_COMMANDER" ] && [ "$M22_A" != "$M22_A_COMMANDER" ]; then
+	ok "CONTROL: the mutant's two groups still differ — reproducibility is its own property"
+else
+	bad "the mutant lost distinctness too, so the red above is not attributable"
+fi
+# THE NEIGHBOUR, on that same mutant: a clause with nothing to do with the
+# fingerprint must still refuse, or the case above could be satisfied by a
+# mutation that broke the pass as a whole.
+generate "$M22" "$WORK/m22-neighbour" fixtures/refusal-policy-typo.edn fixtures/refusal-db.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "field-not-in-message"; then
+	ok "CONTROL: on that same mutant a NEIGHBOURING clause still refuses"
+else
+	bad "the neighbour stopped refusing too — mutation 22 broke more than its clause: $GEN_OUT"
+fi
+
+section "MUTATION 23 — a CONSTANT fingerprint is caught, and reproducibility cannot see it"
+# The failure a reproducibility case is structurally BLIND to, which is why
+# distinctness is a case of its own: a constant is perfectly reproducible, and a
+# constant is exactly what this emitter degrades to the moment it stops reading
+# the projection.
+M23="$WORK/m23"
+copy_tool "$M23"
+mutate_file "$M23/src/protocol_gen/rust_access.clj" \
+	'(truncated-sha256 (canonical (fingerprint-input group)))' \
+	'(truncated-sha256 "one value for every group")' \
+	|| bad "mutation 23 did not land"
+generate "$M23" "$WORK/m23-a" fixtures/policy.edn fixtures/db.edn
+if [ "$GEN_RC" -eq 0 ]; then
+	ok "the mutant still GENERATES — the red below is a verdict, not a crash"
+else
+	bad "the mutant failed to generate (rc=$GEN_RC): $GEN_OUT"
+fi
+M23_SENSOR="$(schema_version "$WORK/m23-a/sensor-reader.rs")"
+M23_COMMANDER="$(schema_version "$WORK/m23-a/commander.rs")"
+if [ -n "$M23_SENSOR" ] && [ "$M23_SENSOR" = "$M23_COMMANDER" ]; then
+	ok "MUTANT: two different projections now share a fingerprint — which the case above forbids"
+else
+	bad "the constant mutation left the two groups distinct, so the distinctness case proves nothing ('$M23_SENSOR' vs '$M23_COMMANDER')"
+fi
+generate "$M23" "$WORK/m23-b" fixtures/policy.edn fixtures/db.edn
+M23_B_SENSOR="$(schema_version "$WORK/m23-b/sensor-reader.rs")"
+if [ -n "$M23_SENSOR" ] && [ -n "$M23_B_SENSOR" ] && [ "$M23_SENSOR" = "$M23_B_SENSOR" ]; then
+	ok "CONTROL: the mutant is still perfectly REPRODUCIBLE — which is why that case cannot stand in for this one"
+else
+	bad "the constant mutant was not reproducible either, so it does not demonstrate what it is here for"
+fi
+generate "$M23" "$WORK/m23-neighbour" fixtures/refusal-policy-typo.edn fixtures/refusal-db.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "field-not-in-message"; then
+	ok "CONTROL: on that same mutant a NEIGHBOURING clause still refuses"
+else
+	bad "the neighbour stopped refusing too — mutation 23 broke more than its clause: $GEN_OUT"
+fi
+
+section "MUTATION 24 — a field withheld from a group's POLICY moves that group's fingerprint"
+# The question a tool mutation cannot ask: does the fingerprint follow the
+# POLICY? `value` is dropped from the sensor-reader grant and nothing else
+# changes — so every granted MESSAGE id, emitted name and direction is exactly
+# what it was, and a fingerprint taken over those alone could not see it. The
+# group's `.proto` and its generated decoder both move; the constant must too,
+# or a stale client passes the comparison it exists to fail.
+M24="$WORK/m24"
+copy_tool "$M24"
+mutate_file "$M24/fixtures/policy.edn" \
+	'             :fields #{"value" "mode" "history"}}]' \
+	'             :fields #{"mode" "history"}}]' \
+	|| bad "mutation 24 did not land"
+generate "$M24" "$WORK/m24-out" fixtures/policy.edn fixtures/db.edn
+if [ "$GEN_RC" -eq 0 ]; then
+	ok "the mutant still GENERATES — what follows is a verdict, not a crash"
+else
+	bad "the mutant failed to generate (rc=$GEN_RC): $GEN_OUT"
+fi
+M24_SENSOR="$(schema_version "$WORK/m24-out/sensor-reader.rs")"
+M24_COMMANDER="$(schema_version "$WORK/m24-out/commander.rs")"
+if [ -n "$M24_SENSOR" ] && [ -n "$SV_SENSOR" ] && [ "$M24_SENSOR" != "$SV_SENSOR" ]; then
+	ok "MUTANT: withholding one FIELD moves that group's fingerprint, though its granted messages did not change"
+else
+	bad "a withheld field left the fingerprint where it was ('$M24_SENSOR' vs '$SV_SENSOR') — a stale client would not be caught"
+fi
+# ATTRIBUTION: the other group's projection did not change, so its fingerprint
+# must not have either — otherwise the value is following the RUN rather than
+# the group, and every group would move whenever any policy line did.
+if [ -n "$M24_COMMANDER" ] && [ -n "$SV_COMMANDER" ] && [ "$M24_COMMANDER" = "$SV_COMMANDER" ]; then
+	ok "and the untouched group's fingerprint is unchanged — the value follows the GROUP, not the run"
+else
+	bad "the untouched group's fingerprint moved too ('$M24_COMMANDER' vs '$SV_COMMANDER')"
 fi
 
 section "VACUITY — the oracle refuses to judge an empty population"
