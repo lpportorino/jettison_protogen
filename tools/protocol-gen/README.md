@@ -361,9 +361,9 @@ Beside the flat mirror the generator writes ONE file for the whole run,
 
 ```rust
 pub static SENSOR_READER: &[PermissionNode] = &[
-    PermissionNode::new(0, "pgfix.Reading", Permission::Allow, &[
-        PermissionNode::new(3, "value", Permission::Inherit, &[]),
-        PermissionNode::new(9, "sample_count", Permission::Deny, &[]),
+    PermissionNode::message(0, "pgfix.Reading", Permission::Allow, &[
+        PermissionNode::leaf(3, "value", Permission::Inherit),
+        PermissionNode::leaf(9, "sample_count", Permission::Deny),
         // … one child per field the SOURCE message declares …
     ]),
 ];
@@ -376,9 +376,15 @@ pub static GROUPS: &[(&str, &[PermissionNode])] = &[
 
 **IT IS A FRAGMENT, NOT A MODULE.** It names no crate and declares no type: it
 assumes `Permission` and `PermissionNode` are already in scope and is meant to
-be `include!`d into a module that supplies them. `PermissionNode::new` is
-called in `static` position, so a consumer's constructor must be a `const fn`
-and every tree is plain const data — no runtime construction and no allocation.
+be `include!`d into a module that supplies them. It builds every node through
+one of TWO constructors — `PermissionNode::message(tag, name, permission,
+children)` and `PermissionNode::leaf(tag, name, permission)` — called in
+`static` position, so both must be `const fn` and every tree is plain const
+data, with no runtime construction and no allocation. There is deliberately no
+third constructor and no general one taking a kind: a consumer that could build
+a node whose kind and children disagree is exactly the state the marker exists
+to make unrepresentable, and the arity does half that work at the type level —
+a leaf has nowhere to put a child.
 `Permission`'s variants are `Unspecified`, `Inherit`, `Allow` and `Deny`;
 `Unspecified` is the zero value a consumer needs so a default-constructed node
 is not silently a grant, and this generator never emits one.
@@ -402,12 +408,30 @@ NAME; everything below a root is selected by TAG.
 **TOTALITY, and the exact form this shape can carry.** Every message node lists
 one child per field its SOURCE message declares, granted or not, so a scanner
 meeting a tag with no node knows the generator never described it rather than
-wondering whether a field was dropped. **EMPTY CHILDREN THEREFORE MEANS
-`DESCEND NO FURTHER`, which covers three cases and not one**: a scalar leaf, a
-message with no fields, and a denied node. A node carrying only `tag`, `name`,
-`permission` and `children` cannot tell those apart, and claiming that empty
-children means *scalar leaf* would be a claim the emitted data does not
-support — the fixture's own `pgfix.Start` is a granted message with no fields.
+wondering whether a field was dropped.
+
+**EVERY NODE NAMES ITS KIND, and that is what makes totality ACTIONABLE.** An
+empty `message` node declares no fields, so every tag inside it is undescribed
+and a scanner must REFUSE it; only a `leaf` names bytes with no tags in them and
+may be stepped over. The children alone cannot state that difference — the
+fixture's own `pgfix.Start` is a granted message with no fields, and on child
+count it is identical to the scalar beside it, so a scanner reading the leaf
+rule for it would grant every tag a hostile peer smuggled inside, unread. The
+kind is derived from the database's own field type: a message-typed field is
+`message`, and a scalar, an enum, a string, bytes or any of those repeated is
+`leaf`. A proto MAP arrives as a repeated entry MESSAGE, so it takes `message`,
+which is correct — an entry has tagged key and value fields inside it. A DENIED
+node keeps the kind its source type has; denial is terminal through
+`Permission::Deny` and never through calling a message a leaf.
+
+**A FIELD TYPE THIS GENERATOR CANNOT NAME IS NOW REFUSED HERE TOO**, and it is
+the one behaviour change a policy author can meet. `protocol-gen.projection`
+already refuses an unnameable type on a GRANTED field; this tree names every
+field the source declares, so a DENIED field carrying `:group` or the producer's
+`:unknown` fallback reaches the tree having been judged by nothing, and it has no
+honest kind. It refuses `unknown-field-type`, naming the message and the field.
+Before the kind existed a node claimed nothing about its type and such a field
+emitted silently.
 
 **A DENIED NODE IS TERMINAL, and that bounds the one disclosure this artefact
 makes.** The tree names fields the group's `.proto` deliberately withholds —
@@ -415,13 +439,22 @@ that is what makes totality checkable — but nothing below a denial is emitted,
 so it never names a field of a message the group holds no grant for, and never
 names a message id the group's `.proto` does not already carry.
 
-**THREE REFUSALS, and only two of them are reachable from a policy.**
+**FOUR REFUSALS, and only three of them are reachable from a policy** — one of
+those three reachable from a DATABASE rather than from a policy at all.
 
 - `permission-cycle` — a granted message-typed field whose expansion reaches a
   message already on its path. A static tree is finite and a cycle is not, so
   describing it to some arbitrary depth would be a tree that silently stops
   covering what it claims to cover. Without the clause the expansion runs out
   of stack; the canary drives exactly that.
+- `unknown-field-type` — a field, GRANTED OR DENIED, whose type this generator
+  cannot name and which therefore has no kind. It is the one refusal here a
+  policy cannot cause on its own: the input that reaches it is a DATABASE
+  carrying `:group` or the producer's `:unknown` fallback on a field of a
+  message some group was granted. `protocol-gen.constructs` owns this reason and
+  raises it over granted fields one pass earlier; the tree raises the same
+  reason because it names denied fields too, and a guess about whether such a
+  field holds tagged bytes is exactly the claim the emitted data cannot support.
 - `name-collision` — two group ids that flatten onto one Rust static name
   (`:relay-a` and `:relay_a` both give `RELAY_A`). Emitting them would define
   one static twice, so a consumer's first symptom would name Rust rather than

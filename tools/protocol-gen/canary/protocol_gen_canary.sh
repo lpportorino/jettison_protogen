@@ -359,6 +359,13 @@ verify() {
 # consumer includes it, which is the strongest statement available here: this
 # repository cannot see any consumer's real declaration.
 #
+# TWO CONSTRUCTORS AND NO `new`, matching the fragment: `message` takes children
+# and `leaf` takes none. The ARITY is what makes the compile say something about
+# the kind marker at all — a leaf built here cannot be handed a child, so a
+# generator that emitted `leaf(tag, name, permission, &[])` would not compile,
+# and one that emitted `message(…)` for a scalar would still compile and is
+# caught by the emitted-text case in the section that drives this.
+#
 # `Unspecified` IS DECLARED AND NEVER CONSTRUCTED, deliberately. It is the
 # enum's zero value, which a consumer needs so a default-constructed node is not
 # a grant; the generator emits no node carrying it, and `label` below matches it
@@ -387,13 +394,18 @@ permission_tree_prelude() {
 
 		impl PermissionNode {
 		    #[must_use]
-		    pub const fn new(
+		    pub const fn message(
 		        tag: u32,
 		        name: &'static str,
 		        permission: Permission,
 		        children: &'static [PermissionNode],
 		    ) -> Self {
 		        Self { tag, name, permission, children }
+		    }
+
+		    #[must_use]
+		    pub const fn leaf(tag: u32, name: &'static str, permission: Permission) -> Self {
+		        Self { tag, name, permission, children: &[] }
 		    }
 		}
 
@@ -1604,6 +1616,40 @@ if contains "$TREE_DUMP" "$(printf 'commander\tpgfix.Command>set_mode\t8\tInheri
 else
 	bad "a granted message-typed field did not expand: $TREE_DUMP"
 fi
+# THE KIND MARKER, and it is read off the emitted TEXT rather than off the dump.
+# That is deliberate and it is the one thing in this section the harness cannot
+# supply: the dump prints what the const data HOLDS, while a node's kind is a
+# property of the CALL that built it. Giving the prelude's struct a kind field
+# would be this repository inventing a consumer's declaration, which the
+# prelude's own header says it must not do.
+#
+# `pgfix.Start` IS THE CASE THE MARKER EXISTS FOR. The policy grants it whole
+# and it declares NO fields, so its node carries no children and — on the const
+# data alone — is indistinguishable from the scalar beside it. One is a message
+# whose every interior tag is undescribed and must be refused; the other is
+# bytes a scanner may step over. The CONTROL below asserts that ambiguity is
+# real rather than argued.
+TREE_RS="$(cat "$BASE/permission_tree.rs")"
+if contains "$TREE_RS" 'PermissionNode::message(2, "start", Permission::Inherit, &[]),' &&
+	contains "$TREE_RS" 'PermissionNode::leaf(3, "value", Permission::Inherit),'; then
+	ok "a granted message declaring NO fields emits message, and a scalar emits leaf"
+else
+	bad "the kind marker is not in the emitted text: $TREE_RS"
+fi
+if contains "$TREE_DUMP" "$(printf 'commander\tpgfix.Command>start\t2\tInherit\t0')" &&
+	contains "$TREE_DUMP" "$(printf 'sensor-reader\tpgfix.Reading>value\t3\tInherit\t0')"; then
+	ok "CONTROL: both of those nodes hold ZERO children, so the marker is what separates them"
+else
+	bad "the two nodes the marker separates are not both in the dump: $TREE_DUMP"
+fi
+# NO NODE IS BUILT BY THE RETIRED SINGLE CONSTRUCTOR. There is no fallback and
+# no third arm, so a surviving `new` would mean some node's kind was never
+# decided at all.
+if ! contains "$TREE_RS" 'PermissionNode::new('; then
+	ok "no node is emitted through the retired single constructor"
+else
+	bad "the emitted tree still calls the retired constructor: $TREE_RS"
+fi
 
 section "PERMISSION TREE — a DENIED message-typed field is TERMINAL"
 # fixtures/policy.edn cannot carry this case: its withheld fields are all
@@ -1627,9 +1673,20 @@ fi
 NESTED_DUMP="$(cat "$PTD_DUMP")"
 if contains "$NESTED_DUMP" "$(printf 'relay\tpgfix.Command>set_mode\t8\tDeny\t0')" &&
 	! contains "$NESTED_DUMP" "set_mode>mode"; then
-	ok "a denied message-typed field is a LEAF — its interior is not described at all"
+	ok "a denied message-typed field carries NO children — its interior is not described at all"
 else
 	bad "a denied message-typed field described its interior: $NESTED_DUMP"
+fi
+# AND IT IS STILL A MESSAGE NODE. Denial is carried by `Permission::Deny`; a
+# generator that expressed it by calling the field a leaf instead would be
+# telling a scanner the field's bytes hold no tags, which is false of the source
+# and which every check above this line would pass over — the dump prints a zero
+# child count either way.
+NESTED_RS="$(cat "$NESTED/permission_tree.rs")"
+if contains "$NESTED_RS" 'PermissionNode::message(8, "set_mode", Permission::Deny, &[]),'; then
+	ok "a DENIED message-typed field keeps its SOURCE TYPE's kind, terminal through its PERMISSION"
+else
+	bad "a denied message-typed field lost its source type's kind: $NESTED_RS"
 fi
 # THE CONTROL for that absence probe, and the strongest one available: the SAME
 # message-typed field, in the group that WAS granted it, does describe its
@@ -1727,8 +1784,8 @@ section "MUTATION 16 — describing the interior of a DENIAL is caught"
 M16="$WORK/m16"
 copy_tool "$M16"
 mutate_file "$M16/src/protocol_gen/permission_tree.clj" \
-	'                  descend? (and granted? (= :message (:type fld)))]' \
-	'                  descend? (= :message (:type fld))]' \
+	'                  descend? (and granted? (= :message node-kind))]' \
+	'                  descend? (= :message node-kind)]' \
 	|| bad "mutation 16 did not land"
 generate "$M16" "$WORK/m16-out" fixtures/policy-nested.edn fixtures/db.edn
 if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "grant-under-denial"; then

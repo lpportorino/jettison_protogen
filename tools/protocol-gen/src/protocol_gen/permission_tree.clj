@@ -30,11 +30,18 @@
    tree emits for a message lists ONE CHILD PER FIELD THE SOURCE MESSAGE
    DECLARES — granted or not — so a scanner meeting a tag with no node knows
    the generator never described it, rather than wondering whether a field was
-   dropped. EMPTY CHILDREN THEREFORE MEANS `DESCEND NO FURTHER`, which covers
-   three cases and not one: a scalar leaf, a message with no fields, and a
-   denied node. A shape carrying only `tag`, `name`, `permission` and
-   `children` cannot tell those apart, and pretending otherwise would be a
-   claim the emitted data does not support.
+   dropped.
+
+   EVERY NODE CARRIES ITS SOURCE TYPE'S KIND, and that is what makes totality
+   ACTIONABLE rather than merely present. An EMPTY `:message` node declares no
+   fields, so every tag inside it is undescribed and a scanner must REFUSE it;
+   only a `:leaf` names bytes with no tags in them and may be stepped over. A
+   shape carrying children alone cannot state that difference: a granted
+   message that declares zero fields and a scalar are both `children = []`, and
+   a scanner reading the second rule for the first grants every tag a hostile
+   peer smuggles into it, unread. The kind is DERIVED from the database's own
+   field type and never inferred from the children, because the two are exactly
+   the facts that come apart here.
 
    THE PERMISSION AXIS IS MESSAGE-GRAINED, because the policy is. A grant names
    a message, a direction and a FIELD FILTER; no field carries a grant of its
@@ -74,17 +81,46 @@
    claiming a state the policy has no way to express."
   [:enum :allow :deny :inherit])
 
+(def kind
+  "What a node's SOURCE TYPE is, as far as a byte-level scanner is concerned.
+
+   TWO VALUES AND NOT THREE. The axis is `does this field's payload contain
+   tagged fields`, which is the only question a scanner asks of it, and every
+   proto type answers it one way or the other: a message does, everything else
+   — scalars, enums, strings, bytes, and any of those repeated — does not. A
+   third value naming, say, `enum` would be a distinction this artefact carries
+   and nothing reads.
+
+   IT IS NOT A RESTATEMENT OF `:children`. An empty `:message` and a `:leaf`
+   both carry no children and mean opposite things to a scanner, which is the
+   whole reason the key exists."
+  [:enum :message :leaf])
+
 (def node
-  "One tree node: the tag that selects it, the name it is known by, what the
-   group may do with it, and the nodes below it.
+  "One tree node: the tag that selects it, the name it is known by, the kind of
+   thing its source type is, what the group may do with it, and the nodes below
+   it.
 
    RECURSIVE BY REGISTRY rather than by a depth-limited copy, because the shape
-   genuinely is: a message-typed field's children are that message's fields."
-  [:schema {:registry {::node [:map {:closed true}
-                               [:tag [:int {:min 0}]]
-                               [:name [:string {:min 1}]]
-                               [:permission permission]
-                               [:children [:vector [:ref ::node]]]]}}
+   genuinely is: a message-typed field's children are that message's fields.
+
+   THE `:fn` CLAUSE FORBIDS THE ONE CONTRADICTION THE TWO KEYS CAN EXPRESS — a
+   `:leaf` carrying children. It is not reachable from `expand`, which descends
+   only where the kind is `:message`, and it is here for the reason
+   `assert-reachable!` below is: what it forbids is silent. `render-node` emits
+   a leaf as a three-argument call with nowhere to put a child, so a leaf that
+   carried any would have them DROPPED and the tree would quietly stop being
+   total — the one property a consumer's undescribed-tag refusal rests on."
+  [:schema {:registry {::node [:and
+                               [:map {:closed true}
+                                [:tag [:int {:min 0}]]
+                                [:name [:string {:min 1}]]
+                                [:kind kind]
+                                [:permission permission]
+                                [:children [:vector [:ref ::node]]]]
+                               [:fn {:error/message "a leaf node carries no children"}
+                                (fn [n] (or (= :message (:kind n))
+                                            (empty? (:children n))))]]}}
    ::node])
 
 (def group-tree
@@ -118,6 +154,69 @@
 
 (m/=> permission-variant [:=> [:cat permission] [:string {:min 1}]])
 
+(def node-kinds
+  "Each field type a database may carry, mapped to the kind of node a field of
+   that type becomes.
+
+   WRITTEN OUT RATHER THAN DERIVED from `protocol-gen.db/known-types`, and the
+   difference is the whole of `never defaulted`. A derivation — `:message` for
+   the one, `:leaf` for everything else — silently answers for a type nobody
+   here has considered, and the answer it gives is the DANGEROUS one: a scanner
+   steps over a leaf's bytes unread. Written out, a type added to the database's
+   known set matches no key, and `protocol-gen.permission-tree-test` compares
+   the two sets in BOTH directions, so the new type's kind is decided by a
+   person rather than inherited from a fallback.
+
+   REPEATED IS NOT A KIND. A repeated scalar is scalar bytes and a repeated
+   message is message bytes; the database records repetition separately, as
+   `:repeated`, and it does not change what a scanner meeting one tag has to do.
+   A proto MAP is the same fact once more: a descriptor models it as a repeated
+   entry MESSAGE, so it arrives here as `:message` and takes that kind, which is
+   correct — an entry has tagged key and value fields inside it."
+  {:message :message
+   :enum :leaf
+   :bool :leaf
+   :bytes :leaf
+   :double :leaf
+   :float :leaf
+   :int32 :leaf
+   :int64 :leaf
+   :string :leaf
+   :uint32 :leaf
+   :uint64 :leaf
+   :sint32 :leaf
+   :sint64 :leaf
+   :fixed32 :leaf
+   :fixed64 :leaf
+   :sfixed32 :leaf
+   :sfixed64 :leaf})
+
+(def node-constructors
+  "Each modelled kind, mapped to the Rust constructor that builds it.
+
+   TOTAL OVER `kind` ABOVE, which is closed — so these two are every value that
+   can arrive. They are the whole of what the emitted fragment assumes about
+   `PermissionNode` beyond the name itself, and there is deliberately no third:
+   a general constructor taking a kind would let a consumer build a node whose
+   kind and children disagree, which is the state this key exists to make
+   unrepresentable."
+  {:message "PermissionNode::message"
+   :leaf "PermissionNode::leaf"})
+
+(defn node-constructor
+  "The Rust constructor naming kind `k`, or a throw naming the value.
+
+   THROWS RATHER THAN DEFAULTING, for the reason `permission-variant` gives one
+   step up, and the cost here is the sharper of the two: a node rendered with
+   the wrong constructor tells a scanner to step over bytes it was supposed to
+   walk, which is the exact failure this marker was added to remove."
+  [k]
+  (or (get node-constructors k)
+      (throw (ex-info "Not a node kind this emitter can name"
+                      {:kind k :known (vec (sort (keys node-constructors)))}))))
+
+(m/=> node-constructor [:=> [:cat kind] [:string {:min 1}]])
+
 (defn static-name
   "The Rust static `id`'s tree is emitted under: the policy id uppercased, with
    every character Rust cannot carry in an identifier replaced by an
@@ -147,6 +246,33 @@
                           (str "the projection carries this message and neither the "
                                "database nor the minted declarations do"))))
 
+(defn- field-kind
+  "The kind of node the field `fld` of message `msg-id` becomes, or a refusal
+   naming the field and its type.
+
+   REACHABLE ONLY FROM HERE, and that is why this namespace judges the type at
+   all rather than leaning on `protocol-gen.constructs` the way every other pass
+   does. `protocol-gen.projection` runs the expressibility refusals over GRANTED
+   fields, so a type this generator cannot name reaches a refusal there whenever
+   a policy grants the field. This tree names every field the source declares,
+   granted or DENIED, so a denied field carrying `:group` or the producer's
+   `:unknown` fallback arrives here having been judged by nothing.
+
+   IT REFUSES RATHER THAN GUESSING, on the same ground `db/known-types` states:
+   an unmappable type is refused, never guessed at. The guess a fallback would
+   make is not neutral — `:leaf` claims the payload holds no tagged fields, and
+   proto2's `:group` is precisely a tagged interior wearing a different
+   encoding. Before this key existed a node claimed nothing about its type and
+   the question did not arise; carrying the kind is what makes an unnameable
+   type a thing this artefact has to have an honest answer for."
+  [msg-id fld]
+  (or (get node-kinds (:type fld))
+      (constructs/refuse! :unknown-field-type (str msg-id "." (:name fld))
+                          (str "this field's type is " (pr-str (:type fld))
+                               ", which this generator cannot name, so the tree cannot "
+                               "say whether a scanner may step over its bytes; the types "
+                               "it knows are " (pr-str (vec (sort (keys node-kinds))))))))
+
 (defn- expand
   "The children of message `msg-id`: one node per field the SOURCE declares, in
    NUMBER order.
@@ -173,9 +299,11 @@
         deeper (conj seen msg-id)]
     (mapv (fn [fld]
             (let [granted? (contains? kept (:name fld))
-                  descend? (and granted? (= :message (:type fld)))]
+                  node-kind (field-kind msg-id fld)
+                  descend? (and granted? (= :message node-kind))]
               {:tag (:number fld)
                :name (:name fld)
+               :kind node-kind
                :permission (if granted? :inherit :deny)
                :children (if descend?
                            (expand universe grants deeper (:type-ref fld))
@@ -187,12 +315,19 @@
 
    A root is `Allow` because a grant is what the policy states at message
    grain; the filter it carries is expressed one level down, by each field
-   being `Inherit` or `Deny`."
+   being `Inherit` or `Deny`.
+
+   EVERY ROOT IS A `:message` BY CONSTRUCTION — a root IS a granted message —
+   so the kind is stated here rather than derived from a field type there is
+   none of. A root that declares no fields is the case that matters and takes
+   the same kind as any other: an emitted root with empty children says `this
+   message declares nothing, so refuse every tag inside it`."
   [universe g]
   (let [grants (into {} (map (juxt :id identity)) (:messages g))]
     (mapv (fn [msg]
             {:tag message-root-tag
              :name (:id msg)
+             :kind :message
              :permission :allow
              :children (expand universe grants #{} (:id msg))})
           (sort-by :id (:messages g)))))
@@ -261,9 +396,10 @@
 (def banner
   "The header the emitted file carries.
 
-   It states the two names the file assumes are in scope, because that is the
-   contract a consumer has to satisfy before an `include!` of it will compile,
-   and it is not derivable from the file's own text."
+   It states the two names the file assumes are in scope and the two
+   constructors it calls on the second of them, because that is the contract a
+   consumer has to satisfy before an `include!` of it will compile, and it is
+   not derivable from the file's own text."
   (str "// GENERATED by protocol-gen — DO NOT EDIT.\n"
        "// Source of truth: the access policy named in this run's arguments,\n"
        "// projected in the same run and from the same value as each group's\n"
@@ -272,37 +408,50 @@
        "// IT IS A FRAGMENT, meant to be `include!`d into a module that already\n"
        "// declares `Permission` and `PermissionNode`. It names NO crate and\n"
        "// assumes exactly those two names and nothing else, so the module that\n"
-       "// includes it owns where they come from.\n"
+       "// includes it owns where they come from. It builds every node through\n"
+       "// `PermissionNode::message(tag, name, permission, children)` or\n"
+       "// `PermissionNode::leaf(tag, name, permission)`, in `static` position,\n"
+       "// so both must be `const fn`.\n"
        "//\n"
        "// EVERY MESSAGE NODE LISTS ONE CHILD PER FIELD ITS SOURCE DECLARES —\n"
        "// granted or denied — so a tag with no node here was never described.\n"
-       "// EMPTY CHILDREN MEANS `DESCEND NO FURTHER`: a scalar leaf, a message\n"
-       "// with no fields, or a denied node, which are not distinguishable in\n"
-       "// this shape and are not meant to be.\n"
+       "// AN EMPTY `message` NODE DECLARES NO FIELDS, so every tag inside it is\n"
+       "// undescribed and a scanner must REFUSE it; only a `leaf` names bytes\n"
+       "// with no tags in them and may be stepped over.\n"
        "//\n"
        "// A DENIED NODE IS TERMINAL. Nothing below one is emitted, so this file\n"
-       "// never names a field of a message its group holds no grant for.\n"))
+       "// never names a field of a message its group holds no grant for. Its\n"
+       "// kind still names its source type — denial is carried by\n"
+       "// `Permission::Deny` and never by calling a message a leaf.\n"))
 
 (defn- render-node
-  "One `PermissionNode::new(…)` call, indented by `indent` spaces, with its
-   children nested inside it.
+  "One `PermissionNode::message(…)` or `PermissionNode::leaf(…)` call, indented
+   by `indent` spaces, with any children nested inside it.
 
-   A LEAF RENDERS ON ONE LINE and a parent over several. The layout is a
-   function of the tree and of nothing else, so two runs over one projection
-   write identical bytes; it is deliberately NOT rustfmt-canonical, for the
-   reason the README records about the access module — chasing another tool's
-   width heuristics here would be a copy of a rule that rots when that tool
-   changes its mind."
+   THE CONSTRUCTOR COMES FROM THE KIND AND NOT FROM THE CHILDREN, which is the
+   whole point of the key: a message that declares no fields renders
+   `message(…, &[])` and a scalar renders `leaf(…)`, where one shape rendered
+   both identically before. A LEAF TAKES NO CHILDREN ARGUMENT — it is not
+   `&[]`, it is absent — so the two are told apart by arity as well as by name,
+   and a consumer cannot build a leaf that carries anything.
+
+   A NODE WITHOUT CHILDREN RENDERS ON ONE LINE and a parent over several. The
+   layout is a function of the tree and of nothing else, so two runs over one
+   projection write identical bytes; it is deliberately NOT rustfmt-canonical,
+   for the reason the README records about the access module — chasing another
+   tool's width heuristics here would be a copy of a rule that rots when that
+   tool changes its mind."
   [indent n]
   (let [pad (apply str (repeat indent \space))
-        head (str pad "PermissionNode::new(" (:tag n) ", "
+        head (str pad (node-constructor (:kind n)) "(" (:tag n) ", "
                   (rust-lit/string-literal (:name n)) ", "
-                  "Permission::" (permission-variant (:permission n)) ", ")]
-    (if (seq (:children n))
-      (str head "&[\n"
-           (str/join "\n" (map #(render-node (+ indent 4) %) (:children n)))
-           "\n" pad "]),")
-      (str head "&[]),"))))
+                  "Permission::" (permission-variant (:permission n)))]
+    (cond
+      (= :leaf (:kind n)) (str head "),")
+      (seq (:children n)) (str head ", &[\n"
+                               (str/join "\n" (map #(render-node (+ indent 4) %) (:children n)))
+                               "\n" pad "]),")
+      :else (str head ", &[]),"))))
 
 (defn- render-tree
   "One group's `pub static`, with its roots."
