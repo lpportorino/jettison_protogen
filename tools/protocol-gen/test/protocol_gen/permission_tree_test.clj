@@ -38,7 +38,15 @@
     ;; judges GRANTED fields, so the tree is the first pass that meets it.
     "p.Odd" {:id "p.Odd" :name "Odd"
              :fields [{:number 1 :name "ok" :type :bool}
-                      {:number 2 :name "leg" :type :group :type-ref "p.Detail"}]}}
+                      {:number 2 :name "leg" :type :group :type-ref "p.Detail"}]}
+    ;; A PROTO MAP, in the shape a database actually records one: `:type :map`
+    ;; carrying its key and value types, and NO `:type-ref` — so nothing names
+    ;; an entry message for a node to descend into. It is not a repeated entry
+    ;; MESSAGE here, which is the reading the tree's own docstring refuses.
+    "p.Mapped" {:id "p.Mapped" :name "Mapped"
+                :fields [{:number 1 :name "ok" :type :bool}
+                         {:number 5 :name "bindings" :type :map
+                          :key-type :string :value-type :string}]}}
    :enums {"p.Mode" {:id "p.Mode" :name "Mode"
                      :values [{:number 0 :name "MODE_UNSPECIFIED"}
                               {:number 1 :name "MODE_ON"}]}}})
@@ -187,6 +195,29 @@
   (is (thrown-with-msg?
        clojure.lang.ExceptionInfo #"unknown-field-type"
        (tree-of :g [{:message "p.Odd" :access #{:read} :fields #{"ok"}}]))))
+
+(deftest a-proto-MAP-field-is-REFUSED-and-never-taken-for-a-message
+  ;; THE READING THIS PINS DOWN is that a descriptor models a map as a repeated
+  ;; entry MESSAGE, so one arrives as `:message` and takes that kind. A database
+  ;; records `:type :map` with its key and value types and no `:type-ref`, so
+  ;; `node-kinds` names no kind for it — and the projection judges GRANTED fields
+  ;; only, so a DENIED map field reaches this tree having been judged by nothing,
+  ;; exactly as `:group` does one message above.
+  ;;
+  ;; THE REFUSAL IS THE HONEST ANSWER, not a gap: a map's payload holds the
+  ;; entry's tagged key and value, so a `:leaf` would tell a scanner to step over
+  ;; bytes it must walk, while a `:message` would claim children nothing here can
+  ;; build. Describing an entry's tags is work this generator has not done.
+  (let [thrown (try (tree-of :g [{:message "p.Mapped" :access #{:read}
+                                  :fields #{"ok"}}])
+                    nil
+                    (catch clojure.lang.ExceptionInfo e e))]
+    (is (some? thrown) "a map field must not build a tree node")
+    (is (= :unknown-field-type (:reason (ex-data thrown))))
+    (testing "and it NAMES the field, so an unrelated refusal cannot stand in"
+      (is (= "p.Mapped.bindings" (:subject (ex-data thrown)))))
+    (testing "which is what the deliberate absence of :map from the kinds buys"
+      (is (not (contains? permission-tree/node-kinds :map))))))
 
 (deftest a-kind-outside-the-closed-set-throws-rather-than-rendering
   ;; UNINSTRUMENTED, for the reason the permission case below records: the arrow

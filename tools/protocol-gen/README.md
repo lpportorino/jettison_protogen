@@ -152,19 +152,20 @@ a oneof naming a member the message does not carry; and — reachable only from 
 MINT, because protoc's own descriptors give each field one oneof index — a field
 claimed by two oneofs at once.
 
-The unresolvable-reference class is not hypothetical, and this repository's own
-committed database used to demonstrate it: every refusal `make
-protocol-gen-survey` reported was a field whose type is an enum declared INSIDE
-a message, because the producing parser walked nested messages while reading
-enums at file level only. It reads them at every level now, and that survey is
-clean. Read the count from a run rather than from a number here, which would rot
-on the next database.
+The unresolvable-reference class is not hypothetical. A field whose type is an
+enum declared INSIDE a message lands in it whenever the producing parser reads
+enums at file level only while walking nested messages; this repository's parser
+reads them at every level, and a survey of the committed database reports no
+refusal of that class. Read what a survey reports from a RUN rather than from a
+number here, which would rot on the next database.
 
-A clean survey there is a fact about THIS corpus, not a property of the check. A
-map field still lands in this class whenever one reaches the database, because
-the entry message is a nested type the parser deliberately drops; no map-typed
-field is inside the parser's current file filter, which is why the survey does
-not show one.
+**A SURVEY OF THE COMMITTED DATABASE IS NOT CLEAN, AND WHAT IT REFUSES IS MAP
+FIELDS.** The producing parser records a map as `:type :map` carrying its
+`:key-type` and `:value-type`, with no `:type-ref` — not as a repeated entry
+MESSAGE — and `:map` is outside `db/known-types`, so every map-typed field in the
+corpus is an `unknown-field-type` refusal. That is a fact about the corpus rather
+than a failure: a survey is a REPORT, and such a refusal becomes a failure only
+when a policy grants the field that carries it.
 
 **2. Detectable only against the policy.** A granted field whose type is a
 message or enum the policy did not also grant; a field name a grant asks for
@@ -450,19 +451,16 @@ count it is identical to the scalar beside it, so a scanner reading the leaf
 rule for it would grant every tag a hostile peer smuggled inside, unread. The
 kind is derived from the database's own field type: a message-typed field is
 `message`, and a scalar, an enum, a string, bytes or any of those repeated is
-`leaf`. A proto MAP arrives as a repeated entry MESSAGE, so it takes `message`,
-which is correct — an entry has tagged key and value fields inside it. A DENIED
-node keeps the kind its source type has; denial is terminal through
-`Permission::Deny` and never through calling a message a leaf.
+`leaf`. A proto MAP has NO kind and is REFUSED — the refusal list below carries
+why. A DENIED node keeps the kind its source type has; denial is terminal
+through `Permission::Deny` and never through calling a message a leaf.
 
-**A FIELD TYPE THIS GENERATOR CANNOT NAME IS NOW REFUSED HERE TOO**, and it is
-the one behaviour change a policy author can meet. `protocol-gen.projection`
-already refuses an unnameable type on a GRANTED field; this tree names every
-field the source declares, so a DENIED field carrying `:group` or the producer's
+**A FIELD TYPE THIS GENERATOR CANNOT NAME IS REFUSED HERE TOO**, and it is the
+one behaviour change a policy author can meet. `protocol-gen.projection` already
+refuses an unnameable type on a GRANTED field; this tree names every field the
+source declares, so a DENIED field carrying `:map`, `:group` or the producer's
 `:unknown` fallback reaches the tree having been judged by nothing, and it has no
 honest kind. It refuses `unknown-field-type`, naming the message and the field.
-Before the kind existed a node claimed nothing about its type and such a field
-emitted silently.
 
 **A DENIED NODE IS TERMINAL, and that bounds the one disclosure this artefact
 makes.** The tree names fields the group's `.proto` deliberately withholds —
@@ -481,11 +479,21 @@ those three reachable from a DATABASE rather than from a policy at all.
 - `unknown-field-type` — a field, GRANTED OR DENIED, whose type this generator
   cannot name and which therefore has no kind. It is the one refusal here a
   policy cannot cause on its own: the input that reaches it is a DATABASE
-  carrying `:group` or the producer's `:unknown` fallback on a field of a
-  message some group was granted. `protocol-gen.constructs` owns this reason and
-  raises it over granted fields one pass earlier; the tree raises the same
+  carrying `:map`, `:group` or the producer's `:unknown` fallback on a field of
+  a message some group was granted. `protocol-gen.constructs` owns this reason
+  and raises it over granted fields one pass earlier; the tree raises the same
   reason because it names denied fields too, and a guess about whether such a
   field holds tagged bytes is exactly the claim the emitted data cannot support.
+
+  **A MAP IS THE MEMBER OF THAT SET A READER IS LIKELIEST TO EXPECT SOMEWHERE
+  ELSE.** The reading to refuse is that a descriptor models a map as a repeated
+  entry MESSAGE, so one takes `message` and its entry's key and value are the
+  children. A database records `:type :map` with its key and value types and no
+  `:type-ref`, so nothing names an entry message to descend into. A map's
+  payload does hold tagged fields, so `leaf` would tell a scanner to step over
+  bytes it must walk; `message` would claim children this generator has nothing
+  to build. Describing an entry's key and value TAGS is work this generator has
+  not done, and the refusal names that where a kind would bury it.
 - `name-collision` — two group ids that flatten onto one Rust static name
   (`:relay-a` and `:relay_a` both give `RELAY_A`). Emitting them would define
   one static twice, so a consumer's first symptom would name Rust rather than

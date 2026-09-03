@@ -175,9 +175,23 @@
    REPEATED IS NOT A KIND. A repeated scalar is scalar bytes and a repeated
    message is message bytes; the database records repetition separately, as
    `:repeated`, and it does not change what a scanner meeting one tag has to do.
-   A proto MAP is the same fact once more: a descriptor models it as a repeated
-   entry MESSAGE, so it arrives here as `:message` and takes that kind, which is
-   correct — an entry has tagged key and value fields inside it."
+
+   A PROTO MAP IS NOT THAT FACT AGAIN, AND `:map` IS ABSENT HERE ON PURPOSE. The
+   reading to refuse is that a descriptor models a map as a repeated entry
+   MESSAGE, so one arrives here as `:message` and takes that kind. The databases
+   this generator reads record it otherwise: a map field carries `:type :map`
+   with `:key-type` and `:value-type` beside it and NO `:type-ref`, so nothing
+   names an entry message for a node to descend into. `db/known-types` excludes
+   `:map` for the same reason, so a GRANTED map field is refused a pass earlier
+   by `protocol-gen.constructs`; a DENIED one reaches `field-kind`, which refuses
+   `unknown-field-type`.
+
+   THAT REFUSAL IS THE ANSWER RATHER THAN A GAP. A map's payload DOES hold
+   tagged fields — an entry's key and value — so `:leaf` would be false, and a
+   scanner reading it would step over bytes it was supposed to walk. But
+   `:message` would claim children this generator has nothing to build, because
+   the entry's own tags are nowhere in the database. Describing them is work this
+   generator has not done, and a refusal names that where a kind would bury it."
   {:message :message
    :enum :leaf
    :bool :leaf
@@ -260,16 +274,18 @@
    does. `protocol-gen.projection` runs the expressibility refusals over GRANTED
    fields, so a type this generator cannot name reaches a refusal there whenever
    a policy grants the field. This tree names every field the source declares,
-   granted or DENIED, so a denied field carrying `:group` or the producer's
-   `:unknown` fallback arrives here having been judged by nothing.
+   granted or DENIED, so a denied field carrying `:map`, `:group` or the
+   producer's `:unknown` fallback arrives here having been judged by nothing.
 
    IT REFUSES RATHER THAN GUESSING, on the same ground `db/known-types` states:
    an unmappable type is refused, never guessed at. The guess a fallback would
-   make is not neutral — `:leaf` claims the payload holds no tagged fields, and
-   proto2's `:group` is precisely a tagged interior wearing a different
-   encoding. Before this key existed a node claimed nothing about its type and
-   the question did not arise; carrying the kind is what makes an unnameable
-   type a thing this artefact has to have an honest answer for."
+   make is not neutral — `:leaf` claims the payload holds no tagged fields, while
+   proto2's `:group` is precisely a tagged interior wearing a different encoding
+   and a proto MAP is a tagged entry this generator emits no children for
+   (`node-kinds` above carries the map case in full). Before this key existed a
+   node claimed nothing about its type and the question did not arise; carrying
+   the kind is what makes an unnameable type a thing this artefact has to have
+   an honest answer for."
   [msg-id fld]
   (or (get node-kinds (:type fld))
       (constructs/refuse! :unknown-field-type (str msg-id "." (:name fld))
