@@ -305,3 +305,21 @@ message JonGuiDataTrackedObject {
     not_in: [0]
   }];
 }
+// Which drive program (eutropia DriveHost) currently owns the rotary platform.
+enum JonGuiDataDriveProgram {
+  JON_GUI_DATA_DRIVE_PROGRAM_NONE = 0;
+  JON_GUI_DATA_DRIVE_PROGRAM_SCAN = 1;
+  JON_GUI_DATA_DRIVE_PROGRAM_POI = 2;
+  JON_GUI_DATA_DRIVE_PROGRAM_PARK = 3;
+}
+
+// Lifecycle state of the owning drive program.
+enum JonGuiDataDriveState {
+  JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED = 0;
+  JON_GUI_DATA_DRIVE_STATE_IDLE = 1;
+  JON_GUI_DATA_DRIVE_STATE_ARMED = 2;
+  JON_GUI_DATA_DRIVE_STATE_RUNNING = 3;
+  JON_GUI_DATA_DRIVE_STATE_PAUSED = 4;
+  JON_GUI_DATA_DRIVE_STATE_DONE = 5;
+  JON_GUI_DATA_DRIVE_STATE_FAULT = 6;
+}

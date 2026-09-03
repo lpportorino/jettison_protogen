@@ -283,37 +283,6 @@ struct SetAzimuthValueDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SetAzimuthValueDefaultTypeInternal _SetAzimuthValue_default_instance_;
-
-inline constexpr ScanUpdateNode::Impl_::Impl_(
-    ::_pbi::ConstantInitialized) noexcept
-      : index_{0},
-        dayzoomtablevalue_{0},
-        azimuth_{0},
-        elevation_{0},
-        linger_{0},
-        speed_{0},
-        heatzoomtablevalue_{0},
-        _cached_size_{0} {}
-
-template <typename>
-PROTOBUF_CONSTEXPR ScanUpdateNode::ScanUpdateNode(::_pbi::ConstantInitialized)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(_class_data_.base()),
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(),
-#endif  // PROTOBUF_CUSTOM_VTABLE
-      _impl_(::_pbi::ConstantInitialized()) {
-}
-struct ScanUpdateNodeDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ScanUpdateNodeDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ScanUpdateNodeDefaultTypeInternal() {}
-  union {
-    ScanUpdateNode _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ScanUpdateNodeDefaultTypeInternal _ScanUpdateNode_default_instance_;
               template <typename>
 PROTOBUF_CONSTEXPR ScanUnpause::ScanUnpause(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
@@ -465,62 +434,6 @@ struct ScanNextDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ScanNextDefaultTypeInternal _ScanNext_default_instance_;
-
-inline constexpr ScanDeleteNode::Impl_::Impl_(
-    ::_pbi::ConstantInitialized) noexcept
-      : index_{0},
-        _cached_size_{0} {}
-
-template <typename>
-PROTOBUF_CONSTEXPR ScanDeleteNode::ScanDeleteNode(::_pbi::ConstantInitialized)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(_class_data_.base()),
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(),
-#endif  // PROTOBUF_CUSTOM_VTABLE
-      _impl_(::_pbi::ConstantInitialized()) {
-}
-struct ScanDeleteNodeDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ScanDeleteNodeDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ScanDeleteNodeDefaultTypeInternal() {}
-  union {
-    ScanDeleteNode _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ScanDeleteNodeDefaultTypeInternal _ScanDeleteNode_default_instance_;
-
-inline constexpr ScanAddNode::Impl_::Impl_(
-    ::_pbi::ConstantInitialized) noexcept
-      : index_{0},
-        dayzoomtablevalue_{0},
-        azimuth_{0},
-        elevation_{0},
-        linger_{0},
-        speed_{0},
-        heatzoomtablevalue_{0},
-        _cached_size_{0} {}
-
-template <typename>
-PROTOBUF_CONSTEXPR ScanAddNode::ScanAddNode(::_pbi::ConstantInitialized)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(_class_data_.base()),
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(),
-#endif  // PROTOBUF_CUSTOM_VTABLE
-      _impl_(::_pbi::ConstantInitialized()) {
-}
-struct ScanAddNodeDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ScanAddNodeDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ScanAddNodeDefaultTypeInternal() {}
-  union {
-    ScanAddNode _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ScanAddNodeDefaultTypeInternal _ScanAddNode_default_instance_;
 
 inline constexpr RotateToNDC::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -789,6 +702,56 @@ struct RotateAzimuthDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RotateAzimuthDefaultTypeInternal _RotateAzimuth_default_instance_;
 
+inline constexpr PoiSaveCurrent::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : index_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR PoiSaveCurrent::PoiSaveCurrent(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct PoiSaveCurrentDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PoiSaveCurrentDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~PoiSaveCurrentDefaultTypeInternal() {}
+  union {
+    PoiSaveCurrent _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PoiSaveCurrentDefaultTypeInternal _PoiSaveCurrent_default_instance_;
+
+inline constexpr PoiLookAt::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : index_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR PoiLookAt::PoiLookAt(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct PoiLookAtDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PoiLookAtDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~PoiLookAtDefaultTypeInternal() {}
+  union {
+    PoiLookAt _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PoiLookAtDefaultTypeInternal _PoiLookAt_default_instance_;
+
 inline constexpr HaltWithNDC::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : x_{0},
@@ -1010,7 +973,6 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
@@ -1324,44 +1286,23 @@ const ::uint32_t
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::ScanSelectNode, _impl_.index_),
         ~0u,  // no _has_bits_
-        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::ScanDeleteNode, _internal_metadata_),
+        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::PoiLookAt, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
         ~0u,  // no _weak_field_map_
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::ScanDeleteNode, _impl_.index_),
+        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::PoiLookAt, _impl_.index_),
         ~0u,  // no _has_bits_
-        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::ScanUpdateNode, _internal_metadata_),
+        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::PoiSaveCurrent, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
         ~0u,  // no _weak_field_map_
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::ScanUpdateNode, _impl_.index_),
-        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::ScanUpdateNode, _impl_.dayzoomtablevalue_),
-        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::ScanUpdateNode, _impl_.heatzoomtablevalue_),
-        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::ScanUpdateNode, _impl_.azimuth_),
-        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::ScanUpdateNode, _impl_.elevation_),
-        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::ScanUpdateNode, _impl_.linger_),
-        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::ScanUpdateNode, _impl_.speed_),
-        ~0u,  // no _has_bits_
-        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::ScanAddNode, _internal_metadata_),
-        ~0u,  // no _extensions_
-        ~0u,  // no _oneof_case_
-        ~0u,  // no _weak_field_map_
-        ~0u,  // no _inlined_string_donated_
-        ~0u,  // no _split_
-        ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::ScanAddNode, _impl_.index_),
-        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::ScanAddNode, _impl_.dayzoomtablevalue_),
-        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::ScanAddNode, _impl_.heatzoomtablevalue_),
-        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::ScanAddNode, _impl_.azimuth_),
-        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::ScanAddNode, _impl_.elevation_),
-        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::ScanAddNode, _impl_.linger_),
-        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::ScanAddNode, _impl_.speed_),
+        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::PoiSaveCurrent, _impl_.index_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::Elevation, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -1439,46 +1380,45 @@ const ::uint32_t
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::cmd::RotaryPlatform::Root)},
-        {35, 45, -1, sizeof(::cmd::RotaryPlatform::Axis)},
-        {47, -1, -1, sizeof(::cmd::RotaryPlatform::SetMode)},
-        {56, -1, -1, sizeof(::cmd::RotaryPlatform::SetAzimuthValue)},
-        {66, -1, -1, sizeof(::cmd::RotaryPlatform::RotateAzimuthTo)},
-        {77, -1, -1, sizeof(::cmd::RotaryPlatform::RotateAzimuth)},
-        {87, -1, -1, sizeof(::cmd::RotaryPlatform::RotateElevation)},
-        {97, -1, -1, sizeof(::cmd::RotaryPlatform::SetElevationValue)},
-        {106, -1, -1, sizeof(::cmd::RotaryPlatform::RotateElevationTo)},
-        {116, -1, -1, sizeof(::cmd::RotaryPlatform::RotateElevationRelative)},
-        {127, -1, -1, sizeof(::cmd::RotaryPlatform::RotateElevationRelativeSet)},
-        {137, -1, -1, sizeof(::cmd::RotaryPlatform::RotateAzimuthRelative)},
-        {148, -1, -1, sizeof(::cmd::RotaryPlatform::RotateAzimuthRelativeSet)},
-        {158, -1, -1, sizeof(::cmd::RotaryPlatform::SetPlatformAzimuth)},
-        {167, -1, -1, sizeof(::cmd::RotaryPlatform::SetPlatformElevation)},
-        {176, -1, -1, sizeof(::cmd::RotaryPlatform::SetPlatformBank)},
-        {185, -1, -1, sizeof(::cmd::RotaryPlatform::GetMeteo)},
-        {193, -1, -1, sizeof(::cmd::RotaryPlatform::Azimuth)},
-        {208, -1, -1, sizeof(::cmd::RotaryPlatform::Start)},
-        {216, -1, -1, sizeof(::cmd::RotaryPlatform::Stop)},
-        {224, -1, -1, sizeof(::cmd::RotaryPlatform::Halt)},
-        {232, -1, -1, sizeof(::cmd::RotaryPlatform::Unpark)},
-        {240, -1, -1, sizeof(::cmd::RotaryPlatform::ScanStart)},
-        {248, -1, -1, sizeof(::cmd::RotaryPlatform::ScanStop)},
-        {256, -1, -1, sizeof(::cmd::RotaryPlatform::ScanPause)},
-        {264, -1, -1, sizeof(::cmd::RotaryPlatform::ScanUnpause)},
-        {272, -1, -1, sizeof(::cmd::RotaryPlatform::HaltAzimuth)},
-        {280, -1, -1, sizeof(::cmd::RotaryPlatform::HaltElevation)},
-        {288, -1, -1, sizeof(::cmd::RotaryPlatform::ScanPrev)},
-        {296, -1, -1, sizeof(::cmd::RotaryPlatform::ScanNext)},
-        {304, -1, -1, sizeof(::cmd::RotaryPlatform::ScanRefreshNodeList)},
-        {312, -1, -1, sizeof(::cmd::RotaryPlatform::ScanSelectNode)},
-        {321, -1, -1, sizeof(::cmd::RotaryPlatform::ScanDeleteNode)},
-        {330, -1, -1, sizeof(::cmd::RotaryPlatform::ScanUpdateNode)},
-        {345, -1, -1, sizeof(::cmd::RotaryPlatform::ScanAddNode)},
-        {360, -1, -1, sizeof(::cmd::RotaryPlatform::Elevation)},
-        {375, -1, -1, sizeof(::cmd::RotaryPlatform::setUseRotaryAsCompass)},
-        {384, -1, -1, sizeof(::cmd::RotaryPlatform::RotateToGPS)},
-        {395, -1, -1, sizeof(::cmd::RotaryPlatform::SetOriginGPS)},
-        {406, -1, -1, sizeof(::cmd::RotaryPlatform::RotateToNDC)},
-        {419, -1, -1, sizeof(::cmd::RotaryPlatform::HaltWithNDC)},
+        {34, 44, -1, sizeof(::cmd::RotaryPlatform::Axis)},
+        {46, -1, -1, sizeof(::cmd::RotaryPlatform::SetMode)},
+        {55, -1, -1, sizeof(::cmd::RotaryPlatform::SetAzimuthValue)},
+        {65, -1, -1, sizeof(::cmd::RotaryPlatform::RotateAzimuthTo)},
+        {76, -1, -1, sizeof(::cmd::RotaryPlatform::RotateAzimuth)},
+        {86, -1, -1, sizeof(::cmd::RotaryPlatform::RotateElevation)},
+        {96, -1, -1, sizeof(::cmd::RotaryPlatform::SetElevationValue)},
+        {105, -1, -1, sizeof(::cmd::RotaryPlatform::RotateElevationTo)},
+        {115, -1, -1, sizeof(::cmd::RotaryPlatform::RotateElevationRelative)},
+        {126, -1, -1, sizeof(::cmd::RotaryPlatform::RotateElevationRelativeSet)},
+        {136, -1, -1, sizeof(::cmd::RotaryPlatform::RotateAzimuthRelative)},
+        {147, -1, -1, sizeof(::cmd::RotaryPlatform::RotateAzimuthRelativeSet)},
+        {157, -1, -1, sizeof(::cmd::RotaryPlatform::SetPlatformAzimuth)},
+        {166, -1, -1, sizeof(::cmd::RotaryPlatform::SetPlatformElevation)},
+        {175, -1, -1, sizeof(::cmd::RotaryPlatform::SetPlatformBank)},
+        {184, -1, -1, sizeof(::cmd::RotaryPlatform::GetMeteo)},
+        {192, -1, -1, sizeof(::cmd::RotaryPlatform::Azimuth)},
+        {207, -1, -1, sizeof(::cmd::RotaryPlatform::Start)},
+        {215, -1, -1, sizeof(::cmd::RotaryPlatform::Stop)},
+        {223, -1, -1, sizeof(::cmd::RotaryPlatform::Halt)},
+        {231, -1, -1, sizeof(::cmd::RotaryPlatform::Unpark)},
+        {239, -1, -1, sizeof(::cmd::RotaryPlatform::ScanStart)},
+        {247, -1, -1, sizeof(::cmd::RotaryPlatform::ScanStop)},
+        {255, -1, -1, sizeof(::cmd::RotaryPlatform::ScanPause)},
+        {263, -1, -1, sizeof(::cmd::RotaryPlatform::ScanUnpause)},
+        {271, -1, -1, sizeof(::cmd::RotaryPlatform::HaltAzimuth)},
+        {279, -1, -1, sizeof(::cmd::RotaryPlatform::HaltElevation)},
+        {287, -1, -1, sizeof(::cmd::RotaryPlatform::ScanPrev)},
+        {295, -1, -1, sizeof(::cmd::RotaryPlatform::ScanNext)},
+        {303, -1, -1, sizeof(::cmd::RotaryPlatform::ScanRefreshNodeList)},
+        {311, -1, -1, sizeof(::cmd::RotaryPlatform::ScanSelectNode)},
+        {320, -1, -1, sizeof(::cmd::RotaryPlatform::PoiLookAt)},
+        {329, -1, -1, sizeof(::cmd::RotaryPlatform::PoiSaveCurrent)},
+        {338, -1, -1, sizeof(::cmd::RotaryPlatform::Elevation)},
+        {353, -1, -1, sizeof(::cmd::RotaryPlatform::setUseRotaryAsCompass)},
+        {362, -1, -1, sizeof(::cmd::RotaryPlatform::RotateToGPS)},
+        {373, -1, -1, sizeof(::cmd::RotaryPlatform::SetOriginGPS)},
+        {384, -1, -1, sizeof(::cmd::RotaryPlatform::RotateToNDC)},
+        {397, -1, -1, sizeof(::cmd::RotaryPlatform::HaltWithNDC)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::RotaryPlatform::_Root_default_instance_._instance,
@@ -1513,9 +1453,8 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::RotaryPlatform::_ScanNext_default_instance_._instance,
     &::cmd::RotaryPlatform::_ScanRefreshNodeList_default_instance_._instance,
     &::cmd::RotaryPlatform::_ScanSelectNode_default_instance_._instance,
-    &::cmd::RotaryPlatform::_ScanDeleteNode_default_instance_._instance,
-    &::cmd::RotaryPlatform::_ScanUpdateNode_default_instance_._instance,
-    &::cmd::RotaryPlatform::_ScanAddNode_default_instance_._instance,
+    &::cmd::RotaryPlatform::_PoiLookAt_default_instance_._instance,
+    &::cmd::RotaryPlatform::_PoiSaveCurrent_default_instance_._instance,
     &::cmd::RotaryPlatform::_Elevation_default_instance_._instance,
     &::cmd::RotaryPlatform::_setUseRotaryAsCompass_default_instance_._instance,
     &::cmd::RotaryPlatform::_RotateToGPS_default_instance_._instance,
@@ -1527,7 +1466,7 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5frotary_2eproto[] ABSL_
     protodesc_cold) = {
     "\n\033jon_shared_cmd_rotary.proto\022\022cmd.Rotar"
     "yPlatform\032\033buf/validate/validate.proto\032\033"
-    "jon_shared_data_types.proto\"\341\013\n\004Root\022*\n\005"
+    "jon_shared_data_types.proto\"\342\013\n\004Root\022*\n\005"
     "start\030\001 \001(\0132\031.cmd.RotaryPlatform.StartH\000"
     "\022(\n\004stop\030\002 \001(\0132\030.cmd.RotaryPlatform.Stop"
     "H\000\022(\n\004axis\030\003 \001(\0132\030.cmd.RotaryPlatform.Ax"
@@ -1557,116 +1496,103 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5frotary_2eproto[] ABSL_
     "m.ScanNextH\000\022I\n\026scan_refresh_node_list\030\024"
     " \001(\0132\'.cmd.RotaryPlatform.ScanRefreshNod"
     "eListH\000\022>\n\020scan_select_node\030\025 \001(\0132\".cmd."
-    "RotaryPlatform.ScanSelectNodeH\000\022>\n\020scan_"
-    "delete_node\030\026 \001(\0132\".cmd.RotaryPlatform.S"
-    "canDeleteNodeH\000\022>\n\020scan_update_node\030\027 \001("
-    "\0132\".cmd.RotaryPlatform.ScanUpdateNodeH\000\022"
-    "8\n\rscan_add_node\030\030 \001(\0132\037.cmd.RotaryPlatf"
-    "orm.ScanAddNodeH\000\0228\n\rhalt_with_ndc\030\031 \001(\013"
-    "2\037.cmd.RotaryPlatform.HaltWithNDCH\000\022,\n\006u"
-    "npark\030\032 \001(\0132\032.cmd.RotaryPlatform.UnparkH"
-    "\000B\014\n\003cmd\022\005\272H\002\010\001\"f\n\004Axis\022,\n\007azimuth\030\001 \001(\013"
-    "2\033.cmd.RotaryPlatform.Azimuth\0220\n\televati"
-    "on\030\002 \001(\0132\035.cmd.RotaryPlatform.Elevation\""
-    ">\n\007SetMode\0223\n\004mode\030\001 \001(\0162\031.ser.JonGuiDat"
-    "aRotaryModeB\n\272H\007\202\001\004\020\001 \000\"x\n\017SetAzimuthVal"
-    "ue\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000"
-    "\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGuiDataRo"
-    "taryDirectionB\n\272H\007\202\001\004\020\001 \000\"\247\001\n\017RotateAzim"
-    "uthTo\022-\n\014target_value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000"
-    "\200v@)\000\000\000\000\000\000\000\000\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000"
-    "\000\360\?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036.ser.Jo"
-    "nGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"v\n\rR"
-    "otateAzimuth\022&\n\005speed\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000"
-    "\000\360\?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser.Jo"
-    "nGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"x\n\017R"
-    "otateElevation\022&\n\005speed\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000"
-    "\000\000\000\360\?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser."
-    "JonGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\";\n"
-    "\021SetElevationValue\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022"
-    "\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\"j\n\021RotateElevationTo\022"
-    "-\n\014target_value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000"
-    "\000\000\000\200V\300\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000"
-    "\000\000\000\000\000\000\"\250\001\n\027RotateElevationRelative\022&\n\005va"
-    "lue\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022&\n\005sp"
-    "eed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\000\000\022=\n\tdi"
-    "rection\030\003 \001(\0162\036.ser.JonGuiDataRotaryDire"
-    "ctionB\n\272H\007\202\001\004\020\001 \000\"\203\001\n\032RotateElevationRel"
-    "ativeSet\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)"
-    "\000\000\000\000\000\200V\300\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGui"
-    "DataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"\246\001\n\025Rota"
-    "teAzimuthRelative\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\021"
-    "\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031"
-    "\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036.s"
-    "er.JonGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000"
-    "\"\201\001\n\030RotateAzimuthRelativeSet\022&\n\005value\030\001"
-    " \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022=\n\tdirecti"
-    "on\030\002 \001(\0162\036.ser.JonGuiDataRotaryDirection"
-    "B\n\272H\007\202\001\004\020\001 \000\"<\n\022SetPlatformAzimuth\022&\n\005va"
-    "lue\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\200v\300\">\n\024Se"
-    "tPlatformElevation\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022"
-    "\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\"9\n\017SetPlatformBank\022&\n"
-    "\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\"\n\n"
-    "\010GetMeteo\"\366\002\n\007Azimuth\0228\n\tset_value\030\001 \001(\013"
-    "2#.cmd.RotaryPlatform.SetAzimuthValueH\000\022"
-    "8\n\trotate_to\030\002 \001(\0132#.cmd.RotaryPlatform."
-    "RotateAzimuthToH\000\0223\n\006rotate\030\003 \001(\0132!.cmd."
-    "RotaryPlatform.RotateAzimuthH\000\022=\n\010relati"
-    "ve\030\004 \001(\0132).cmd.RotaryPlatform.RotateAzim"
-    "uthRelativeH\000\022D\n\014relative_set\030\005 \001(\0132,.cm"
-    "d.RotaryPlatform.RotateAzimuthRelativeSe"
-    "tH\000\022/\n\004halt\030\006 \001(\0132\037.cmd.RotaryPlatform.H"
-    "altAzimuthH\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004S"
-    "top\"\006\n\004Halt\"\010\n\006Unpark\"\013\n\tScanStart\"\n\n\010Sc"
-    "anStop\"\013\n\tScanPause\"\r\n\013ScanUnpause\"\r\n\013Ha"
-    "ltAzimuth\"\017\n\rHaltElevation\"\n\n\010ScanPrev\"\n"
-    "\n\010ScanNext\"\025\n\023ScanRefreshNodeList\"(\n\016Sca"
-    "nSelectNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\"(\n\016S"
-    "canDeleteNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\"\217\002"
-    "\n\016ScanUpdateNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000"
-    "\022\"\n\021DayZoomTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022"
-    "HeatZoomTableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azi"
-    "muth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\te"
-    "levation\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022"
-    "\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed"
-    "\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?!\000\000\000\000\000\000\000\000\"\214\002\n\013Scan"
-    "AddNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZo"
-    "omTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomT"
-    "ableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001("
-    "\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televation\030"
-    "\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger"
-    "\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272"
-    "H\024\022\022\031\000\000\000\000\000\000\360\?!\000\000\000\000\000\000\000\000\"\204\003\n\tElevation\022:\n\t"
-    "set_value\030\001 \001(\0132%.cmd.RotaryPlatform.Set"
-    "ElevationValueH\000\022:\n\trotate_to\030\002 \001(\0132%.cm"
-    "d.RotaryPlatform.RotateElevationToH\000\0225\n\006"
-    "rotate\030\003 \001(\0132#.cmd.RotaryPlatform.Rotate"
-    "ElevationH\000\022\?\n\010relative\030\004 \001(\0132+.cmd.Rota"
-    "ryPlatform.RotateElevationRelativeH\000\022F\n\014"
-    "relative_set\030\005 \001(\0132..cmd.RotaryPlatform."
-    "RotateElevationRelativeSetH\000\0221\n\004halt\030\006 \001"
-    "(\0132!.cmd.RotaryPlatform.HaltElevationH\000B"
-    "\014\n\003cmd\022\005\272H\002\010\001\"%\n\025setUseRotaryAsCompass\022\014"
-    "\n\004flag\030\001 \001(\010\"\217\001\n\013RotateToGPS\022)\n\010latitude"
-    "\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022*\n\tlongi"
-    "tude\030\002 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022)\n\010a"
-    "ltitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\"\220"
-    "\001\n\014SetOriginGPS\022)\n\010latitude\030\001 \001(\001B\027\272H\024\022\022"
-    "\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022*\n\tlongitude\030\002 \001(\001B\027\272"
-    "H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022)\n\010altitude\030\003 \001(\001"
-    "B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\"\267\001\n\013RotateToND"
-    "C\0228\n\007channel\030\001 \001(\0162\033.ser.JonGuiDataVideo"
-    "ChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\002 \001(\001B\027\272H\024\022\022\031\000\000"
-    "\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000"
-    "\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\004 \001(\004\022\022\n\nstate"
-    "_time\030\005 \001(\004\"\267\001\n\013HaltWithNDC\0228\n\007channel\030\001"
-    " \001(\0162\033.ser.JonGuiDataVideoChannelB\n\272H\007\202\001"
-    "\004\020\001 \000\022\"\n\001x\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360"
-    "\277\022\"\n\001y\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n"
-    "\nframe_time\030\004 \001(\004\022\022\n\nstate_time\030\005 \001(\004BMZ"
-    "Kgit-codecommit.eu-central-1.amazonaws.c"
-    "om/v1/repos/jettison/jonp/cmd/rotaryb\006pr"
-    "oto3"
+    "RotaryPlatform.ScanSelectNodeH\000\0228\n\rhalt_"
+    "with_ndc\030\031 \001(\0132\037.cmd.RotaryPlatform.Halt"
+    "WithNDCH\000\022,\n\006unpark\030\032 \001(\0132\032.cmd.RotaryPl"
+    "atform.UnparkH\000\0224\n\013poi_look_at\030\033 \001(\0132\035.c"
+    "md.RotaryPlatform.PoiLookAtH\000\022>\n\020poi_sav"
+    "e_current\030\034 \001(\0132\".cmd.RotaryPlatform.Poi"
+    "SaveCurrentH\000B\014\n\003cmd\022\005\272H\002\010\001J\004\010\026\020\027J\004\010\027\020\030J"
+    "\004\010\030\020\031R\020scan_delete_nodeR\020scan_update_nod"
+    "eR\rscan_add_node\"f\n\004Axis\022,\n\007azimuth\030\001 \001("
+    "\0132\033.cmd.RotaryPlatform.Azimuth\0220\n\televat"
+    "ion\030\002 \001(\0132\035.cmd.RotaryPlatform.Elevation"
+    "\">\n\007SetMode\0223\n\004mode\030\001 \001(\0162\031.ser.JonGuiDa"
+    "taRotaryModeB\n\272H\007\202\001\004\020\001 \000\"x\n\017SetAzimuthVa"
+    "lue\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000"
+    "\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGuiDataR"
+    "otaryDirectionB\n\272H\007\202\001\004\020\001 \000\"\247\001\n\017RotateAzi"
+    "muthTo\022-\n\014target_value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000"
+    "\000\200v@)\000\000\000\000\000\000\000\000\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000"
+    "\000\000\360\?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036.ser.J"
+    "onGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"v\n\r"
+    "RotateAzimuth\022&\n\005speed\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000"
+    "\000\000\360\?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser.J"
+    "onGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"x\n\017"
+    "RotateElevation\022&\n\005speed\030\001 \001(\001B\027\272H\024\022\022\031\000\000"
+    "\000\000\000\000\360\?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser"
+    ".JonGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\";"
+    "\n\021SetElevationValue\022&\n\005value\030\001 \001(\001B\027\272H\024\022"
+    "\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\"j\n\021RotateElevationTo"
+    "\022-\n\014target_value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000"
+    "\000\000\000\000\200V\300\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000"
+    "\000\000\000\000\000\000\000\"\250\001\n\027RotateElevationRelative\022&\n\005v"
+    "alue\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022&\n\005s"
+    "peed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\000\000\022=\n\td"
+    "irection\030\003 \001(\0162\036.ser.JonGuiDataRotaryDir"
+    "ectionB\n\272H\007\202\001\004\020\001 \000\"\203\001\n\032RotateElevationRe"
+    "lativeSet\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@"
+    ")\000\000\000\000\000\200V\300\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGu"
+    "iDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"\246\001\n\025Rot"
+    "ateAzimuthRelative\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022"
+    "\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022"
+    "\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036."
+    "ser.JonGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 "
+    "\000\"\201\001\n\030RotateAzimuthRelativeSet\022&\n\005value\030"
+    "\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022=\n\tdirect"
+    "ion\030\002 \001(\0162\036.ser.JonGuiDataRotaryDirectio"
+    "nB\n\272H\007\202\001\004\020\001 \000\"<\n\022SetPlatformAzimuth\022&\n\005v"
+    "alue\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\200v\300\">\n\024S"
+    "etPlatformElevation\022&\n\005value\030\001 \001(\001B\027\272H\024\022"
+    "\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\"9\n\017SetPlatformBank\022&"
+    "\n\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\"\n"
+    "\n\010GetMeteo\"\366\002\n\007Azimuth\0228\n\tset_value\030\001 \001("
+    "\0132#.cmd.RotaryPlatform.SetAzimuthValueH\000"
+    "\0228\n\trotate_to\030\002 \001(\0132#.cmd.RotaryPlatform"
+    ".RotateAzimuthToH\000\0223\n\006rotate\030\003 \001(\0132!.cmd"
+    ".RotaryPlatform.RotateAzimuthH\000\022=\n\010relat"
+    "ive\030\004 \001(\0132).cmd.RotaryPlatform.RotateAzi"
+    "muthRelativeH\000\022D\n\014relative_set\030\005 \001(\0132,.c"
+    "md.RotaryPlatform.RotateAzimuthRelativeS"
+    "etH\000\022/\n\004halt\030\006 \001(\0132\037.cmd.RotaryPlatform."
+    "HaltAzimuthH\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004"
+    "Stop\"\006\n\004Halt\"\010\n\006Unpark\"\013\n\tScanStart\"\n\n\010S"
+    "canStop\"\013\n\tScanPause\"\r\n\013ScanUnpause\"\r\n\013H"
+    "altAzimuth\"\017\n\rHaltElevation\"\n\n\010ScanPrev\""
+    "\n\n\010ScanNext\"\025\n\023ScanRefreshNodeList\"(\n\016Sc"
+    "anSelectNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\"%\n\t"
+    "PoiLookAt\022\030\n\005index\030\001 \001(\005B\t\272H\006\032\004\030\t(\000\"*\n\016P"
+    "oiSaveCurrent\022\030\n\005index\030\001 \001(\005B\t\272H\006\032\004\030\t(\000\""
+    "\204\003\n\tElevation\022:\n\tset_value\030\001 \001(\0132%.cmd.R"
+    "otaryPlatform.SetElevationValueH\000\022:\n\trot"
+    "ate_to\030\002 \001(\0132%.cmd.RotaryPlatform.Rotate"
+    "ElevationToH\000\0225\n\006rotate\030\003 \001(\0132#.cmd.Rota"
+    "ryPlatform.RotateElevationH\000\022\?\n\010relative"
+    "\030\004 \001(\0132+.cmd.RotaryPlatform.RotateElevat"
+    "ionRelativeH\000\022F\n\014relative_set\030\005 \001(\0132..cm"
+    "d.RotaryPlatform.RotateElevationRelative"
+    "SetH\000\0221\n\004halt\030\006 \001(\0132!.cmd.RotaryPlatform"
+    ".HaltElevationH\000B\014\n\003cmd\022\005\272H\002\010\001\"%\n\025setUse"
+    "RotaryAsCompass\022\014\n\004flag\030\001 \001(\010\"\217\001\n\013Rotate"
+    "ToGPS\022)\n\010latitude\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)"
+    "\000\000\000\000\000\200V\300\022*\n\tlongitude\030\002 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000"
+    "\200f@)\000\000\000\000\000\200f\300\022)\n\010altitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000"
+    "\000\000\000j\370@)\000\000\000\000\000\340z\300\"\220\001\n\014SetOriginGPS\022)\n\010lati"
+    "tude\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022*\n\tl"
+    "ongitude\030\002 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022"
+    ")\n\010altitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340"
+    "z\300\"\267\001\n\013RotateToNDC\0228\n\007channel\030\001 \001(\0162\033.se"
+    "r.JonGuiDataVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001"
+    "x\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 "
+    "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_ti"
+    "me\030\004 \001(\004\022\022\n\nstate_time\030\005 \001(\004\"\267\001\n\013HaltWit"
+    "hNDC\0228\n\007channel\030\001 \001(\0162\033.ser.JonGuiDataVi"
+    "deoChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\002 \001(\001B\027\272H\024\022\022"
+    "\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000"
+    "\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\004 \001(\004\022\022\n\nst"
+    "ate_time\030\005 \001(\004BMZKgit-codecommit.eu-cent"
+    "ral-1.amazonaws.com/v1/repos/jettison/jo"
+    "np/cmd/rotaryb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5frotary_2eproto_deps[2] =
     {
@@ -1677,13 +1603,13 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5frotary_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5frotary_2eproto = {
     false,
     false,
-    5644,
+    5141,
     descriptor_table_protodef_jon_5fshared_5fcmd_5frotary_2eproto,
     "jon_shared_cmd_rotary.proto",
     &descriptor_table_jon_5fshared_5fcmd_5frotary_2eproto_once,
     descriptor_table_jon_5fshared_5fcmd_5frotary_2eproto_deps,
     2,
-    41,
+    40,
     schemas,
     file_default_instances,
     TableStruct_jon_5fshared_5fcmd_5frotary_2eproto::offsets,
@@ -1973,45 +1899,6 @@ void Root::set_allocated_scan_select_node(::cmd::RotaryPlatform::ScanSelectNode*
   }
   // @@protoc_insertion_point(field_set_allocated:cmd.RotaryPlatform.Root.scan_select_node)
 }
-void Root::set_allocated_scan_delete_node(::cmd::RotaryPlatform::ScanDeleteNode* scan_delete_node) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  clear_cmd();
-  if (scan_delete_node) {
-    ::google::protobuf::Arena* submessage_arena = scan_delete_node->GetArena();
-    if (message_arena != submessage_arena) {
-      scan_delete_node = ::google::protobuf::internal::GetOwnedMessage(message_arena, scan_delete_node, submessage_arena);
-    }
-    set_has_scan_delete_node();
-    _impl_.cmd_.scan_delete_node_ = scan_delete_node;
-  }
-  // @@protoc_insertion_point(field_set_allocated:cmd.RotaryPlatform.Root.scan_delete_node)
-}
-void Root::set_allocated_scan_update_node(::cmd::RotaryPlatform::ScanUpdateNode* scan_update_node) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  clear_cmd();
-  if (scan_update_node) {
-    ::google::protobuf::Arena* submessage_arena = scan_update_node->GetArena();
-    if (message_arena != submessage_arena) {
-      scan_update_node = ::google::protobuf::internal::GetOwnedMessage(message_arena, scan_update_node, submessage_arena);
-    }
-    set_has_scan_update_node();
-    _impl_.cmd_.scan_update_node_ = scan_update_node;
-  }
-  // @@protoc_insertion_point(field_set_allocated:cmd.RotaryPlatform.Root.scan_update_node)
-}
-void Root::set_allocated_scan_add_node(::cmd::RotaryPlatform::ScanAddNode* scan_add_node) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  clear_cmd();
-  if (scan_add_node) {
-    ::google::protobuf::Arena* submessage_arena = scan_add_node->GetArena();
-    if (message_arena != submessage_arena) {
-      scan_add_node = ::google::protobuf::internal::GetOwnedMessage(message_arena, scan_add_node, submessage_arena);
-    }
-    set_has_scan_add_node();
-    _impl_.cmd_.scan_add_node_ = scan_add_node;
-  }
-  // @@protoc_insertion_point(field_set_allocated:cmd.RotaryPlatform.Root.scan_add_node)
-}
 void Root::set_allocated_halt_with_ndc(::cmd::RotaryPlatform::HaltWithNDC* halt_with_ndc) {
   ::google::protobuf::Arena* message_arena = GetArena();
   clear_cmd();
@@ -2037,6 +1924,32 @@ void Root::set_allocated_unpark(::cmd::RotaryPlatform::Unpark* unpark) {
     _impl_.cmd_.unpark_ = unpark;
   }
   // @@protoc_insertion_point(field_set_allocated:cmd.RotaryPlatform.Root.unpark)
+}
+void Root::set_allocated_poi_look_at(::cmd::RotaryPlatform::PoiLookAt* poi_look_at) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (poi_look_at) {
+    ::google::protobuf::Arena* submessage_arena = poi_look_at->GetArena();
+    if (message_arena != submessage_arena) {
+      poi_look_at = ::google::protobuf::internal::GetOwnedMessage(message_arena, poi_look_at, submessage_arena);
+    }
+    set_has_poi_look_at();
+    _impl_.cmd_.poi_look_at_ = poi_look_at;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.RotaryPlatform.Root.poi_look_at)
+}
+void Root::set_allocated_poi_save_current(::cmd::RotaryPlatform::PoiSaveCurrent* poi_save_current) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (poi_save_current) {
+    ::google::protobuf::Arena* submessage_arena = poi_save_current->GetArena();
+    if (message_arena != submessage_arena) {
+      poi_save_current = ::google::protobuf::internal::GetOwnedMessage(message_arena, poi_save_current, submessage_arena);
+    }
+    set_has_poi_save_current();
+    _impl_.cmd_.poi_save_current_ = poi_save_current;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.RotaryPlatform.Root.poi_save_current)
 }
 Root::Root(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
@@ -2133,20 +2046,17 @@ Root::Root(
       case kScanSelectNode:
         _impl_.cmd_.scan_select_node_ = ::google::protobuf::Message::CopyConstruct<::cmd::RotaryPlatform::ScanSelectNode>(arena, *from._impl_.cmd_.scan_select_node_);
         break;
-      case kScanDeleteNode:
-        _impl_.cmd_.scan_delete_node_ = ::google::protobuf::Message::CopyConstruct<::cmd::RotaryPlatform::ScanDeleteNode>(arena, *from._impl_.cmd_.scan_delete_node_);
-        break;
-      case kScanUpdateNode:
-        _impl_.cmd_.scan_update_node_ = ::google::protobuf::Message::CopyConstruct<::cmd::RotaryPlatform::ScanUpdateNode>(arena, *from._impl_.cmd_.scan_update_node_);
-        break;
-      case kScanAddNode:
-        _impl_.cmd_.scan_add_node_ = ::google::protobuf::Message::CopyConstruct<::cmd::RotaryPlatform::ScanAddNode>(arena, *from._impl_.cmd_.scan_add_node_);
-        break;
       case kHaltWithNdc:
         _impl_.cmd_.halt_with_ndc_ = ::google::protobuf::Message::CopyConstruct<::cmd::RotaryPlatform::HaltWithNDC>(arena, *from._impl_.cmd_.halt_with_ndc_);
         break;
       case kUnpark:
         _impl_.cmd_.unpark_ = ::google::protobuf::Message::CopyConstruct<::cmd::RotaryPlatform::Unpark>(arena, *from._impl_.cmd_.unpark_);
+        break;
+      case kPoiLookAt:
+        _impl_.cmd_.poi_look_at_ = ::google::protobuf::Message::CopyConstruct<::cmd::RotaryPlatform::PoiLookAt>(arena, *from._impl_.cmd_.poi_look_at_);
+        break;
+      case kPoiSaveCurrent:
+        _impl_.cmd_.poi_save_current_ = ::google::protobuf::Message::CopyConstruct<::cmd::RotaryPlatform::PoiSaveCurrent>(arena, *from._impl_.cmd_.poi_save_current_);
         break;
   }
 
@@ -2348,30 +2258,6 @@ void Root::clear_cmd() {
       }
       break;
     }
-    case kScanDeleteNode: {
-      if (GetArena() == nullptr) {
-        delete _impl_.cmd_.scan_delete_node_;
-      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.scan_delete_node_);
-      }
-      break;
-    }
-    case kScanUpdateNode: {
-      if (GetArena() == nullptr) {
-        delete _impl_.cmd_.scan_update_node_;
-      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.scan_update_node_);
-      }
-      break;
-    }
-    case kScanAddNode: {
-      if (GetArena() == nullptr) {
-        delete _impl_.cmd_.scan_add_node_;
-      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.scan_add_node_);
-      }
-      break;
-    }
     case kHaltWithNdc: {
       if (GetArena() == nullptr) {
         delete _impl_.cmd_.halt_with_ndc_;
@@ -2385,6 +2271,22 @@ void Root::clear_cmd() {
         delete _impl_.cmd_.unpark_;
       } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
         ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.unpark_);
+      }
+      break;
+    }
+    case kPoiLookAt: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.poi_look_at_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.poi_look_at_);
+      }
+      break;
+    }
+    case kPoiSaveCurrent: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.poi_save_current_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.poi_save_current_);
       }
       break;
     }
@@ -2432,16 +2334,16 @@ const ::google::protobuf::internal::ClassData* Root::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 26, 26, 0, 2> Root::_table_ = {
+const ::_pbi::TcParseTable<0, 25, 25, 0, 2> Root::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    26, 0,  // max_field_number, fast_idx_mask
+    28, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4227858432,  // skipmap
+    4041211904,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    26,  // num_field_entries
-    26,  // num_aux_entries
+    25,  // num_field_entries
+    25,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -2517,20 +2419,17 @@ const ::_pbi::TcParseTable<0, 26, 26, 0, 2> Root::_table_ = {
     // .cmd.RotaryPlatform.ScanSelectNode scan_select_node = 21;
     {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.scan_select_node_), _Internal::kOneofCaseOffset + 0, 20,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
-    // .cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;
-    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.scan_delete_node_), _Internal::kOneofCaseOffset + 0, 21,
-    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
-    // .cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;
-    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.scan_update_node_), _Internal::kOneofCaseOffset + 0, 22,
-    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
-    // .cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;
-    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.scan_add_node_), _Internal::kOneofCaseOffset + 0, 23,
-    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
     // .cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;
-    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.halt_with_ndc_), _Internal::kOneofCaseOffset + 0, 24,
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.halt_with_ndc_), _Internal::kOneofCaseOffset + 0, 21,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
     // .cmd.RotaryPlatform.Unpark unpark = 26;
-    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.unpark_), _Internal::kOneofCaseOffset + 0, 25,
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.unpark_), _Internal::kOneofCaseOffset + 0, 22,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.poi_look_at_), _Internal::kOneofCaseOffset + 0, 23,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.poi_save_current_), _Internal::kOneofCaseOffset + 0, 24,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::Start>()},
@@ -2554,11 +2453,10 @@ const ::_pbi::TcParseTable<0, 26, 26, 0, 2> Root::_table_ = {
     {::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::ScanNext>()},
     {::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::ScanRefreshNodeList>()},
     {::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::ScanSelectNode>()},
-    {::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::ScanDeleteNode>()},
-    {::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::ScanUpdateNode>()},
-    {::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::ScanAddNode>()},
     {::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::HaltWithNDC>()},
     {::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::Unpark>()},
+    {::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::PoiLookAt>()},
+    {::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::PoiSaveCurrent>()},
   }}, {{
   }},
 };
@@ -2716,24 +2614,6 @@ PROTOBUF_NOINLINE void Root::Clear() {
                   stream);
               break;
             }
-            case kScanDeleteNode: {
-              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
-                  22, *this_._impl_.cmd_.scan_delete_node_, this_._impl_.cmd_.scan_delete_node_->GetCachedSize(), target,
-                  stream);
-              break;
-            }
-            case kScanUpdateNode: {
-              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
-                  23, *this_._impl_.cmd_.scan_update_node_, this_._impl_.cmd_.scan_update_node_->GetCachedSize(), target,
-                  stream);
-              break;
-            }
-            case kScanAddNode: {
-              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
-                  24, *this_._impl_.cmd_.scan_add_node_, this_._impl_.cmd_.scan_add_node_->GetCachedSize(), target,
-                  stream);
-              break;
-            }
             case kHaltWithNdc: {
               target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
                   25, *this_._impl_.cmd_.halt_with_ndc_, this_._impl_.cmd_.halt_with_ndc_->GetCachedSize(), target,
@@ -2743,6 +2623,18 @@ PROTOBUF_NOINLINE void Root::Clear() {
             case kUnpark: {
               target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
                   26, *this_._impl_.cmd_.unpark_, this_._impl_.cmd_.unpark_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kPoiLookAt: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  27, *this_._impl_.cmd_.poi_look_at_, this_._impl_.cmd_.poi_look_at_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kPoiSaveCurrent: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  28, *this_._impl_.cmd_.poi_save_current_, this_._impl_.cmd_.poi_save_current_->GetCachedSize(), target,
                   stream);
               break;
             }
@@ -2899,24 +2791,6 @@ PROTOBUF_NOINLINE void Root::Clear() {
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.scan_select_node_);
               break;
             }
-            // .cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;
-            case kScanDeleteNode: {
-              total_size += 2 +
-                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.scan_delete_node_);
-              break;
-            }
-            // .cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;
-            case kScanUpdateNode: {
-              total_size += 2 +
-                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.scan_update_node_);
-              break;
-            }
-            // .cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;
-            case kScanAddNode: {
-              total_size += 2 +
-                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.scan_add_node_);
-              break;
-            }
             // .cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;
             case kHaltWithNdc: {
               total_size += 2 +
@@ -2927,6 +2801,18 @@ PROTOBUF_NOINLINE void Root::Clear() {
             case kUnpark: {
               total_size += 2 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.unpark_);
+              break;
+            }
+            // .cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;
+            case kPoiLookAt: {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.poi_look_at_);
+              break;
+            }
+            // .cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;
+            case kPoiSaveCurrent: {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.poi_save_current_);
               break;
             }
             case CMD_NOT_SET: {
@@ -3146,33 +3032,6 @@ void Root::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
         }
         break;
       }
-      case kScanDeleteNode: {
-        if (oneof_needs_init) {
-          _this->_impl_.cmd_.scan_delete_node_ =
-              ::google::protobuf::Message::CopyConstruct<::cmd::RotaryPlatform::ScanDeleteNode>(arena, *from._impl_.cmd_.scan_delete_node_);
-        } else {
-          _this->_impl_.cmd_.scan_delete_node_->MergeFrom(from._internal_scan_delete_node());
-        }
-        break;
-      }
-      case kScanUpdateNode: {
-        if (oneof_needs_init) {
-          _this->_impl_.cmd_.scan_update_node_ =
-              ::google::protobuf::Message::CopyConstruct<::cmd::RotaryPlatform::ScanUpdateNode>(arena, *from._impl_.cmd_.scan_update_node_);
-        } else {
-          _this->_impl_.cmd_.scan_update_node_->MergeFrom(from._internal_scan_update_node());
-        }
-        break;
-      }
-      case kScanAddNode: {
-        if (oneof_needs_init) {
-          _this->_impl_.cmd_.scan_add_node_ =
-              ::google::protobuf::Message::CopyConstruct<::cmd::RotaryPlatform::ScanAddNode>(arena, *from._impl_.cmd_.scan_add_node_);
-        } else {
-          _this->_impl_.cmd_.scan_add_node_->MergeFrom(from._internal_scan_add_node());
-        }
-        break;
-      }
       case kHaltWithNdc: {
         if (oneof_needs_init) {
           _this->_impl_.cmd_.halt_with_ndc_ =
@@ -3188,6 +3047,24 @@ void Root::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
               ::google::protobuf::Message::CopyConstruct<::cmd::RotaryPlatform::Unpark>(arena, *from._impl_.cmd_.unpark_);
         } else {
           _this->_impl_.cmd_.unpark_->MergeFrom(from._internal_unpark());
+        }
+        break;
+      }
+      case kPoiLookAt: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.poi_look_at_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::RotaryPlatform::PoiLookAt>(arena, *from._impl_.cmd_.poi_look_at_);
+        } else {
+          _this->_impl_.cmd_.poi_look_at_->MergeFrom(from._internal_poi_look_at());
+        }
+        break;
+      }
+      case kPoiSaveCurrent: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.poi_save_current_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::RotaryPlatform::PoiSaveCurrent>(arena, *from._impl_.cmd_.poi_save_current_);
+        } else {
+          _this->_impl_.cmd_.poi_save_current_->MergeFrom(from._internal_poi_save_current());
         }
         break;
       }
@@ -8965,81 +8842,81 @@ void ScanSelectNode::InternalSwap(ScanSelectNode* PROTOBUF_RESTRICT other) {
 }
 // ===================================================================
 
-class ScanDeleteNode::_Internal {
+class PoiLookAt::_Internal {
  public:
 };
 
-ScanDeleteNode::ScanDeleteNode(::google::protobuf::Arena* arena)
+PoiLookAt::PoiLookAt(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:cmd.RotaryPlatform.ScanDeleteNode)
+  // @@protoc_insertion_point(arena_constructor:cmd.RotaryPlatform.PoiLookAt)
 }
-ScanDeleteNode::ScanDeleteNode(
-    ::google::protobuf::Arena* arena, const ScanDeleteNode& from)
-    : ScanDeleteNode(arena) {
+PoiLookAt::PoiLookAt(
+    ::google::protobuf::Arena* arena, const PoiLookAt& from)
+    : PoiLookAt(arena) {
   MergeFrom(from);
 }
-inline PROTOBUF_NDEBUG_INLINE ScanDeleteNode::Impl_::Impl_(
+inline PROTOBUF_NDEBUG_INLINE PoiLookAt::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
       : _cached_size_{0} {}
 
-inline void ScanDeleteNode::SharedCtor(::_pb::Arena* arena) {
+inline void PoiLookAt::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   _impl_.index_ = {};
 }
-ScanDeleteNode::~ScanDeleteNode() {
-  // @@protoc_insertion_point(destructor:cmd.RotaryPlatform.ScanDeleteNode)
+PoiLookAt::~PoiLookAt() {
+  // @@protoc_insertion_point(destructor:cmd.RotaryPlatform.PoiLookAt)
   SharedDtor(*this);
 }
-inline void ScanDeleteNode::SharedDtor(MessageLite& self) {
-  ScanDeleteNode& this_ = static_cast<ScanDeleteNode&>(self);
+inline void PoiLookAt::SharedDtor(MessageLite& self) {
+  PoiLookAt& this_ = static_cast<PoiLookAt&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.~Impl_();
 }
 
-inline void* ScanDeleteNode::PlacementNew_(const void*, void* mem,
+inline void* PoiLookAt::PlacementNew_(const void*, void* mem,
                                         ::google::protobuf::Arena* arena) {
-  return ::new (mem) ScanDeleteNode(arena);
+  return ::new (mem) PoiLookAt(arena);
 }
-constexpr auto ScanDeleteNode::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ScanDeleteNode),
-                                            alignof(ScanDeleteNode));
+constexpr auto PoiLookAt::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(PoiLookAt),
+                                            alignof(PoiLookAt));
 }
 PROTOBUF_CONSTINIT
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::google::protobuf::internal::ClassDataFull ScanDeleteNode::_class_data_ = {
+const ::google::protobuf::internal::ClassDataFull PoiLookAt::_class_data_ = {
     ::google::protobuf::internal::ClassData{
-        &_ScanDeleteNode_default_instance_._instance,
+        &_PoiLookAt_default_instance_._instance,
         &_table_.header,
         nullptr,  // OnDemandRegisterArenaDtor
         nullptr,  // IsInitialized
-        &ScanDeleteNode::MergeImpl,
-        ::google::protobuf::Message::GetNewImpl<ScanDeleteNode>(),
+        &PoiLookAt::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<PoiLookAt>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        &ScanDeleteNode::SharedDtor,
-        ::google::protobuf::Message::GetClearImpl<ScanDeleteNode>(), &ScanDeleteNode::ByteSizeLong,
-            &ScanDeleteNode::_InternalSerialize,
+        &PoiLookAt::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<PoiLookAt>(), &PoiLookAt::ByteSizeLong,
+            &PoiLookAt::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-        PROTOBUF_FIELD_OFFSET(ScanDeleteNode, _impl_._cached_size_),
+        PROTOBUF_FIELD_OFFSET(PoiLookAt, _impl_._cached_size_),
         false,
     },
-    &ScanDeleteNode::kDescriptorMethods,
+    &PoiLookAt::kDescriptorMethods,
     &descriptor_table_jon_5fshared_5fcmd_5frotary_2eproto,
     nullptr,  // tracker
 };
-const ::google::protobuf::internal::ClassData* ScanDeleteNode::GetClassData() const {
+const ::google::protobuf::internal::ClassData* PoiLookAt::GetClassData() const {
   ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
   ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 1, 0, 0, 2> ScanDeleteNode::_table_ = {
+const ::_pbi::TcParseTable<0, 1, 0, 0, 2> PoiLookAt::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
@@ -9054,17 +8931,17 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> ScanDeleteNode::_table_ = {
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::ScanDeleteNode>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::PoiLookAt>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // int32 index = 1 [(.buf.validate.field) = {
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ScanDeleteNode, _impl_.index_), 63>(),
-     {8, 63, 0, PROTOBUF_FIELD_OFFSET(ScanDeleteNode, _impl_.index_)}},
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(PoiLookAt, _impl_.index_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(PoiLookAt, _impl_.index_)}},
   }}, {{
     65535, 65535
   }}, {{
     // int32 index = 1 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(ScanDeleteNode, _impl_.index_), 0, 0,
+    {PROTOBUF_FIELD_OFFSET(PoiLookAt, _impl_.index_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
   }},
   // no aux_entries
@@ -9072,8 +8949,8 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> ScanDeleteNode::_table_ = {
   }},
 };
 
-PROTOBUF_NOINLINE void ScanDeleteNode::Clear() {
-// @@protoc_insertion_point(message_clear_start:cmd.RotaryPlatform.ScanDeleteNode)
+PROTOBUF_NOINLINE void PoiLookAt::Clear() {
+// @@protoc_insertion_point(message_clear_start:cmd.RotaryPlatform.PoiLookAt)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -9084,17 +8961,17 @@ PROTOBUF_NOINLINE void ScanDeleteNode::Clear() {
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::uint8_t* ScanDeleteNode::_InternalSerialize(
+        ::uint8_t* PoiLookAt::_InternalSerialize(
             const MessageLite& base, ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) {
-          const ScanDeleteNode& this_ = static_cast<const ScanDeleteNode&>(base);
+          const PoiLookAt& this_ = static_cast<const PoiLookAt&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::uint8_t* ScanDeleteNode::_InternalSerialize(
+        ::uint8_t* PoiLookAt::_InternalSerialize(
             ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-          const ScanDeleteNode& this_ = *this;
+          const PoiLookAt& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(serialize_to_array_start:cmd.RotaryPlatform.ScanDeleteNode)
+          // @@protoc_insertion_point(serialize_to_array_start:cmd.RotaryPlatform.PoiLookAt)
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
@@ -9110,18 +8987,18 @@ PROTOBUF_NOINLINE void ScanDeleteNode::Clear() {
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
                     this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
           }
-          // @@protoc_insertion_point(serialize_to_array_end:cmd.RotaryPlatform.ScanDeleteNode)
+          // @@protoc_insertion_point(serialize_to_array_end:cmd.RotaryPlatform.PoiLookAt)
           return target;
         }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::size_t ScanDeleteNode::ByteSizeLong(const MessageLite& base) {
-          const ScanDeleteNode& this_ = static_cast<const ScanDeleteNode&>(base);
+        ::size_t PoiLookAt::ByteSizeLong(const MessageLite& base) {
+          const PoiLookAt& this_ = static_cast<const PoiLookAt&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::size_t ScanDeleteNode::ByteSizeLong() const {
-          const ScanDeleteNode& this_ = *this;
+        ::size_t PoiLookAt::ByteSizeLong() const {
+          const PoiLookAt& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(message_byte_size_start:cmd.RotaryPlatform.ScanDeleteNode)
+          // @@protoc_insertion_point(message_byte_size_start:cmd.RotaryPlatform.PoiLookAt)
           ::size_t total_size = 0;
 
           ::uint32_t cached_has_bits = 0;
@@ -9139,10 +9016,10 @@ PROTOBUF_NOINLINE void ScanDeleteNode::Clear() {
                                                      &this_._impl_._cached_size_);
         }
 
-void ScanDeleteNode::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<ScanDeleteNode*>(&to_msg);
-  auto& from = static_cast<const ScanDeleteNode&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:cmd.RotaryPlatform.ScanDeleteNode)
+void PoiLookAt::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<PoiLookAt*>(&to_msg);
+  auto& from = static_cast<const PoiLookAt&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:cmd.RotaryPlatform.PoiLookAt)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -9153,199 +9030,155 @@ void ScanDeleteNode::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void ScanDeleteNode::CopyFrom(const ScanDeleteNode& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:cmd.RotaryPlatform.ScanDeleteNode)
+void PoiLookAt::CopyFrom(const PoiLookAt& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:cmd.RotaryPlatform.PoiLookAt)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 
-void ScanDeleteNode::InternalSwap(ScanDeleteNode* PROTOBUF_RESTRICT other) {
+void PoiLookAt::InternalSwap(PoiLookAt* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
         swap(_impl_.index_, other->_impl_.index_);
 }
 
-::google::protobuf::Metadata ScanDeleteNode::GetMetadata() const {
+::google::protobuf::Metadata PoiLookAt::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
 
-class ScanUpdateNode::_Internal {
+class PoiSaveCurrent::_Internal {
  public:
 };
 
-ScanUpdateNode::ScanUpdateNode(::google::protobuf::Arena* arena)
+PoiSaveCurrent::PoiSaveCurrent(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:cmd.RotaryPlatform.ScanUpdateNode)
+  // @@protoc_insertion_point(arena_constructor:cmd.RotaryPlatform.PoiSaveCurrent)
 }
-ScanUpdateNode::ScanUpdateNode(
-    ::google::protobuf::Arena* arena, const ScanUpdateNode& from)
-    : ScanUpdateNode(arena) {
+PoiSaveCurrent::PoiSaveCurrent(
+    ::google::protobuf::Arena* arena, const PoiSaveCurrent& from)
+    : PoiSaveCurrent(arena) {
   MergeFrom(from);
 }
-inline PROTOBUF_NDEBUG_INLINE ScanUpdateNode::Impl_::Impl_(
+inline PROTOBUF_NDEBUG_INLINE PoiSaveCurrent::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
       : _cached_size_{0} {}
 
-inline void ScanUpdateNode::SharedCtor(::_pb::Arena* arena) {
+inline void PoiSaveCurrent::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
-  ::memset(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, index_),
-           0,
-           offsetof(Impl_, heatzoomtablevalue_) -
-               offsetof(Impl_, index_) +
-               sizeof(Impl_::heatzoomtablevalue_));
+  _impl_.index_ = {};
 }
-ScanUpdateNode::~ScanUpdateNode() {
-  // @@protoc_insertion_point(destructor:cmd.RotaryPlatform.ScanUpdateNode)
+PoiSaveCurrent::~PoiSaveCurrent() {
+  // @@protoc_insertion_point(destructor:cmd.RotaryPlatform.PoiSaveCurrent)
   SharedDtor(*this);
 }
-inline void ScanUpdateNode::SharedDtor(MessageLite& self) {
-  ScanUpdateNode& this_ = static_cast<ScanUpdateNode&>(self);
+inline void PoiSaveCurrent::SharedDtor(MessageLite& self) {
+  PoiSaveCurrent& this_ = static_cast<PoiSaveCurrent&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.~Impl_();
 }
 
-inline void* ScanUpdateNode::PlacementNew_(const void*, void* mem,
+inline void* PoiSaveCurrent::PlacementNew_(const void*, void* mem,
                                         ::google::protobuf::Arena* arena) {
-  return ::new (mem) ScanUpdateNode(arena);
+  return ::new (mem) PoiSaveCurrent(arena);
 }
-constexpr auto ScanUpdateNode::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ScanUpdateNode),
-                                            alignof(ScanUpdateNode));
+constexpr auto PoiSaveCurrent::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(PoiSaveCurrent),
+                                            alignof(PoiSaveCurrent));
 }
 PROTOBUF_CONSTINIT
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::google::protobuf::internal::ClassDataFull ScanUpdateNode::_class_data_ = {
+const ::google::protobuf::internal::ClassDataFull PoiSaveCurrent::_class_data_ = {
     ::google::protobuf::internal::ClassData{
-        &_ScanUpdateNode_default_instance_._instance,
+        &_PoiSaveCurrent_default_instance_._instance,
         &_table_.header,
         nullptr,  // OnDemandRegisterArenaDtor
         nullptr,  // IsInitialized
-        &ScanUpdateNode::MergeImpl,
-        ::google::protobuf::Message::GetNewImpl<ScanUpdateNode>(),
+        &PoiSaveCurrent::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<PoiSaveCurrent>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        &ScanUpdateNode::SharedDtor,
-        ::google::protobuf::Message::GetClearImpl<ScanUpdateNode>(), &ScanUpdateNode::ByteSizeLong,
-            &ScanUpdateNode::_InternalSerialize,
+        &PoiSaveCurrent::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<PoiSaveCurrent>(), &PoiSaveCurrent::ByteSizeLong,
+            &PoiSaveCurrent::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-        PROTOBUF_FIELD_OFFSET(ScanUpdateNode, _impl_._cached_size_),
+        PROTOBUF_FIELD_OFFSET(PoiSaveCurrent, _impl_._cached_size_),
         false,
     },
-    &ScanUpdateNode::kDescriptorMethods,
+    &PoiSaveCurrent::kDescriptorMethods,
     &descriptor_table_jon_5fshared_5fcmd_5frotary_2eproto,
     nullptr,  // tracker
 };
-const ::google::protobuf::internal::ClassData* ScanUpdateNode::GetClassData() const {
+const ::google::protobuf::internal::ClassData* PoiSaveCurrent::GetClassData() const {
   ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
   ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 7, 0, 0, 2> ScanUpdateNode::_table_ = {
+const ::_pbi::TcParseTable<0, 1, 0, 0, 2> PoiSaveCurrent::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    7, 56,  // max_field_number, fast_idx_mask
+    1, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967168,  // skipmap
+    4294967294,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    7,  // num_field_entries
+    1,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::ScanUpdateNode>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::PoiSaveCurrent>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    {::_pbi::TcParser::MiniParse, {}},
     // int32 index = 1 [(.buf.validate.field) = {
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ScanUpdateNode, _impl_.index_), 63>(),
-     {8, 63, 0, PROTOBUF_FIELD_OFFSET(ScanUpdateNode, _impl_.index_)}},
-    // int32 DayZoomTableValue = 2 [(.buf.validate.field) = {
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ScanUpdateNode, _impl_.dayzoomtablevalue_), 63>(),
-     {16, 63, 0, PROTOBUF_FIELD_OFFSET(ScanUpdateNode, _impl_.dayzoomtablevalue_)}},
-    // int32 HeatZoomTableValue = 3 [(.buf.validate.field) = {
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ScanUpdateNode, _impl_.heatzoomtablevalue_), 63>(),
-     {24, 63, 0, PROTOBUF_FIELD_OFFSET(ScanUpdateNode, _impl_.heatzoomtablevalue_)}},
-    // double azimuth = 4 [(.buf.validate.field) = {
-    {::_pbi::TcParser::FastF64S1,
-     {33, 63, 0, PROTOBUF_FIELD_OFFSET(ScanUpdateNode, _impl_.azimuth_)}},
-    // double elevation = 5 [(.buf.validate.field) = {
-    {::_pbi::TcParser::FastF64S1,
-     {41, 63, 0, PROTOBUF_FIELD_OFFSET(ScanUpdateNode, _impl_.elevation_)}},
-    // double linger = 6 [(.buf.validate.field) = {
-    {::_pbi::TcParser::FastF64S1,
-     {49, 63, 0, PROTOBUF_FIELD_OFFSET(ScanUpdateNode, _impl_.linger_)}},
-    // double speed = 7 [(.buf.validate.field) = {
-    {::_pbi::TcParser::FastF64S1,
-     {57, 63, 0, PROTOBUF_FIELD_OFFSET(ScanUpdateNode, _impl_.speed_)}},
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(PoiSaveCurrent, _impl_.index_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(PoiSaveCurrent, _impl_.index_)}},
   }}, {{
     65535, 65535
   }}, {{
     // int32 index = 1 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(ScanUpdateNode, _impl_.index_), 0, 0,
+    {PROTOBUF_FIELD_OFFSET(PoiSaveCurrent, _impl_.index_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // int32 DayZoomTableValue = 2 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(ScanUpdateNode, _impl_.dayzoomtablevalue_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // int32 HeatZoomTableValue = 3 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(ScanUpdateNode, _impl_.heatzoomtablevalue_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // double azimuth = 4 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(ScanUpdateNode, _impl_.azimuth_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double elevation = 5 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(ScanUpdateNode, _impl_.elevation_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double linger = 6 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(ScanUpdateNode, _impl_.linger_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double speed = 7 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(ScanUpdateNode, _impl_.speed_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
   }},
 };
 
-PROTOBUF_NOINLINE void ScanUpdateNode::Clear() {
-// @@protoc_insertion_point(message_clear_start:cmd.RotaryPlatform.ScanUpdateNode)
+PROTOBUF_NOINLINE void PoiSaveCurrent::Clear() {
+// @@protoc_insertion_point(message_clear_start:cmd.RotaryPlatform.PoiSaveCurrent)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.index_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.heatzoomtablevalue_) -
-      reinterpret_cast<char*>(&_impl_.index_)) + sizeof(_impl_.heatzoomtablevalue_));
+  _impl_.index_ = 0;
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::uint8_t* ScanUpdateNode::_InternalSerialize(
+        ::uint8_t* PoiSaveCurrent::_InternalSerialize(
             const MessageLite& base, ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) {
-          const ScanUpdateNode& this_ = static_cast<const ScanUpdateNode&>(base);
+          const PoiSaveCurrent& this_ = static_cast<const PoiSaveCurrent&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::uint8_t* ScanUpdateNode::_InternalSerialize(
+        ::uint8_t* PoiSaveCurrent::_InternalSerialize(
             ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-          const ScanUpdateNode& this_ = *this;
+          const PoiSaveCurrent& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(serialize_to_array_start:cmd.RotaryPlatform.ScanUpdateNode)
+          // @@protoc_insertion_point(serialize_to_array_start:cmd.RotaryPlatform.PoiSaveCurrent)
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
@@ -9356,113 +9189,44 @@ PROTOBUF_NOINLINE void ScanUpdateNode::Clear() {
                     stream, this_._internal_index(), target);
           }
 
-          // int32 DayZoomTableValue = 2 [(.buf.validate.field) = {
-          if (this_._internal_dayzoomtablevalue() != 0) {
-            target = ::google::protobuf::internal::WireFormatLite::
-                WriteInt32ToArrayWithField<2>(
-                    stream, this_._internal_dayzoomtablevalue(), target);
-          }
-
-          // int32 HeatZoomTableValue = 3 [(.buf.validate.field) = {
-          if (this_._internal_heatzoomtablevalue() != 0) {
-            target = ::google::protobuf::internal::WireFormatLite::
-                WriteInt32ToArrayWithField<3>(
-                    stream, this_._internal_heatzoomtablevalue(), target);
-          }
-
-          // double azimuth = 4 [(.buf.validate.field) = {
-          if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
-                4, this_._internal_azimuth(), target);
-          }
-
-          // double elevation = 5 [(.buf.validate.field) = {
-          if (::absl::bit_cast<::uint64_t>(this_._internal_elevation()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
-                5, this_._internal_elevation(), target);
-          }
-
-          // double linger = 6 [(.buf.validate.field) = {
-          if (::absl::bit_cast<::uint64_t>(this_._internal_linger()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
-                6, this_._internal_linger(), target);
-          }
-
-          // double speed = 7 [(.buf.validate.field) = {
-          if (::absl::bit_cast<::uint64_t>(this_._internal_speed()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
-                7, this_._internal_speed(), target);
-          }
-
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
                     this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
           }
-          // @@protoc_insertion_point(serialize_to_array_end:cmd.RotaryPlatform.ScanUpdateNode)
+          // @@protoc_insertion_point(serialize_to_array_end:cmd.RotaryPlatform.PoiSaveCurrent)
           return target;
         }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::size_t ScanUpdateNode::ByteSizeLong(const MessageLite& base) {
-          const ScanUpdateNode& this_ = static_cast<const ScanUpdateNode&>(base);
+        ::size_t PoiSaveCurrent::ByteSizeLong(const MessageLite& base) {
+          const PoiSaveCurrent& this_ = static_cast<const PoiSaveCurrent&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::size_t ScanUpdateNode::ByteSizeLong() const {
-          const ScanUpdateNode& this_ = *this;
+        ::size_t PoiSaveCurrent::ByteSizeLong() const {
+          const PoiSaveCurrent& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(message_byte_size_start:cmd.RotaryPlatform.ScanUpdateNode)
+          // @@protoc_insertion_point(message_byte_size_start:cmd.RotaryPlatform.PoiSaveCurrent)
           ::size_t total_size = 0;
 
           ::uint32_t cached_has_bits = 0;
           // Prevent compiler warnings about cached_has_bits being unused
           (void)cached_has_bits;
 
-          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
             // int32 index = 1 [(.buf.validate.field) = {
             if (this_._internal_index() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_index());
             }
-            // int32 DayZoomTableValue = 2 [(.buf.validate.field) = {
-            if (this_._internal_dayzoomtablevalue() != 0) {
-              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
-                  this_._internal_dayzoomtablevalue());
-            }
-            // double azimuth = 4 [(.buf.validate.field) = {
-            if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth()) != 0) {
-              total_size += 9;
-            }
-            // double elevation = 5 [(.buf.validate.field) = {
-            if (::absl::bit_cast<::uint64_t>(this_._internal_elevation()) != 0) {
-              total_size += 9;
-            }
-            // double linger = 6 [(.buf.validate.field) = {
-            if (::absl::bit_cast<::uint64_t>(this_._internal_linger()) != 0) {
-              total_size += 9;
-            }
-            // double speed = 7 [(.buf.validate.field) = {
-            if (::absl::bit_cast<::uint64_t>(this_._internal_speed()) != 0) {
-              total_size += 9;
-            }
-            // int32 HeatZoomTableValue = 3 [(.buf.validate.field) = {
-            if (this_._internal_heatzoomtablevalue() != 0) {
-              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
-                  this_._internal_heatzoomtablevalue());
-            }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
                                                      &this_._impl_._cached_size_);
         }
 
-void ScanUpdateNode::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<ScanUpdateNode*>(&to_msg);
-  auto& from = static_cast<const ScanUpdateNode&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:cmd.RotaryPlatform.ScanUpdateNode)
+void PoiSaveCurrent::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<PoiSaveCurrent*>(&to_msg);
+  auto& from = static_cast<const PoiSaveCurrent&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:cmd.RotaryPlatform.PoiSaveCurrent)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -9470,390 +9234,24 @@ void ScanUpdateNode::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::
   if (from._internal_index() != 0) {
     _this->_impl_.index_ = from._impl_.index_;
   }
-  if (from._internal_dayzoomtablevalue() != 0) {
-    _this->_impl_.dayzoomtablevalue_ = from._impl_.dayzoomtablevalue_;
-  }
-  if (::absl::bit_cast<::uint64_t>(from._internal_azimuth()) != 0) {
-    _this->_impl_.azimuth_ = from._impl_.azimuth_;
-  }
-  if (::absl::bit_cast<::uint64_t>(from._internal_elevation()) != 0) {
-    _this->_impl_.elevation_ = from._impl_.elevation_;
-  }
-  if (::absl::bit_cast<::uint64_t>(from._internal_linger()) != 0) {
-    _this->_impl_.linger_ = from._impl_.linger_;
-  }
-  if (::absl::bit_cast<::uint64_t>(from._internal_speed()) != 0) {
-    _this->_impl_.speed_ = from._impl_.speed_;
-  }
-  if (from._internal_heatzoomtablevalue() != 0) {
-    _this->_impl_.heatzoomtablevalue_ = from._impl_.heatzoomtablevalue_;
-  }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void ScanUpdateNode::CopyFrom(const ScanUpdateNode& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:cmd.RotaryPlatform.ScanUpdateNode)
+void PoiSaveCurrent::CopyFrom(const PoiSaveCurrent& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:cmd.RotaryPlatform.PoiSaveCurrent)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 
-void ScanUpdateNode::InternalSwap(ScanUpdateNode* PROTOBUF_RESTRICT other) {
+void PoiSaveCurrent::InternalSwap(PoiSaveCurrent* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(ScanUpdateNode, _impl_.heatzoomtablevalue_)
-      + sizeof(ScanUpdateNode::_impl_.heatzoomtablevalue_)
-      - PROTOBUF_FIELD_OFFSET(ScanUpdateNode, _impl_.index_)>(
-          reinterpret_cast<char*>(&_impl_.index_),
-          reinterpret_cast<char*>(&other->_impl_.index_));
+        swap(_impl_.index_, other->_impl_.index_);
 }
 
-::google::protobuf::Metadata ScanUpdateNode::GetMetadata() const {
-  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
-}
-// ===================================================================
-
-class ScanAddNode::_Internal {
- public:
-};
-
-ScanAddNode::ScanAddNode(::google::protobuf::Arena* arena)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, _class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:cmd.RotaryPlatform.ScanAddNode)
-}
-ScanAddNode::ScanAddNode(
-    ::google::protobuf::Arena* arena, const ScanAddNode& from)
-    : ScanAddNode(arena) {
-  MergeFrom(from);
-}
-inline PROTOBUF_NDEBUG_INLINE ScanAddNode::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility,
-    ::google::protobuf::Arena* arena)
-      : _cached_size_{0} {}
-
-inline void ScanAddNode::SharedCtor(::_pb::Arena* arena) {
-  new (&_impl_) Impl_(internal_visibility(), arena);
-  ::memset(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, index_),
-           0,
-           offsetof(Impl_, heatzoomtablevalue_) -
-               offsetof(Impl_, index_) +
-               sizeof(Impl_::heatzoomtablevalue_));
-}
-ScanAddNode::~ScanAddNode() {
-  // @@protoc_insertion_point(destructor:cmd.RotaryPlatform.ScanAddNode)
-  SharedDtor(*this);
-}
-inline void ScanAddNode::SharedDtor(MessageLite& self) {
-  ScanAddNode& this_ = static_cast<ScanAddNode&>(self);
-  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
-  ABSL_DCHECK(this_.GetArena() == nullptr);
-  this_._impl_.~Impl_();
-}
-
-inline void* ScanAddNode::PlacementNew_(const void*, void* mem,
-                                        ::google::protobuf::Arena* arena) {
-  return ::new (mem) ScanAddNode(arena);
-}
-constexpr auto ScanAddNode::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ScanAddNode),
-                                            alignof(ScanAddNode));
-}
-PROTOBUF_CONSTINIT
-PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::google::protobuf::internal::ClassDataFull ScanAddNode::_class_data_ = {
-    ::google::protobuf::internal::ClassData{
-        &_ScanAddNode_default_instance_._instance,
-        &_table_.header,
-        nullptr,  // OnDemandRegisterArenaDtor
-        nullptr,  // IsInitialized
-        &ScanAddNode::MergeImpl,
-        ::google::protobuf::Message::GetNewImpl<ScanAddNode>(),
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-        &ScanAddNode::SharedDtor,
-        ::google::protobuf::Message::GetClearImpl<ScanAddNode>(), &ScanAddNode::ByteSizeLong,
-            &ScanAddNode::_InternalSerialize,
-#endif  // PROTOBUF_CUSTOM_VTABLE
-        PROTOBUF_FIELD_OFFSET(ScanAddNode, _impl_._cached_size_),
-        false,
-    },
-    &ScanAddNode::kDescriptorMethods,
-    &descriptor_table_jon_5fshared_5fcmd_5frotary_2eproto,
-    nullptr,  // tracker
-};
-const ::google::protobuf::internal::ClassData* ScanAddNode::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
-  return _class_data_.base();
-}
-PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 7, 0, 0, 2> ScanAddNode::_table_ = {
-  {
-    0,  // no _has_bits_
-    0, // no _extensions_
-    7, 56,  // max_field_number, fast_idx_mask
-    offsetof(decltype(_table_), field_lookup_table),
-    4294967168,  // skipmap
-    offsetof(decltype(_table_), field_entries),
-    7,  // num_field_entries
-    0,  // num_aux_entries
-    offsetof(decltype(_table_), field_names),  // no aux_entries
-    _class_data_.base(),
-    nullptr,  // post_loop_handler
-    ::_pbi::TcParser::GenericFallback,  // fallback
-    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::ScanAddNode>(),  // to_prefetch
-    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
-  }, {{
-    {::_pbi::TcParser::MiniParse, {}},
-    // int32 index = 1 [(.buf.validate.field) = {
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ScanAddNode, _impl_.index_), 63>(),
-     {8, 63, 0, PROTOBUF_FIELD_OFFSET(ScanAddNode, _impl_.index_)}},
-    // int32 DayZoomTableValue = 2 [(.buf.validate.field) = {
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ScanAddNode, _impl_.dayzoomtablevalue_), 63>(),
-     {16, 63, 0, PROTOBUF_FIELD_OFFSET(ScanAddNode, _impl_.dayzoomtablevalue_)}},
-    // int32 HeatZoomTableValue = 3 [(.buf.validate.field) = {
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ScanAddNode, _impl_.heatzoomtablevalue_), 63>(),
-     {24, 63, 0, PROTOBUF_FIELD_OFFSET(ScanAddNode, _impl_.heatzoomtablevalue_)}},
-    // double azimuth = 4 [(.buf.validate.field) = {
-    {::_pbi::TcParser::FastF64S1,
-     {33, 63, 0, PROTOBUF_FIELD_OFFSET(ScanAddNode, _impl_.azimuth_)}},
-    // double elevation = 5 [(.buf.validate.field) = {
-    {::_pbi::TcParser::FastF64S1,
-     {41, 63, 0, PROTOBUF_FIELD_OFFSET(ScanAddNode, _impl_.elevation_)}},
-    // double linger = 6 [(.buf.validate.field) = {
-    {::_pbi::TcParser::FastF64S1,
-     {49, 63, 0, PROTOBUF_FIELD_OFFSET(ScanAddNode, _impl_.linger_)}},
-    // double speed = 7 [(.buf.validate.field) = {
-    {::_pbi::TcParser::FastF64S1,
-     {57, 63, 0, PROTOBUF_FIELD_OFFSET(ScanAddNode, _impl_.speed_)}},
-  }}, {{
-    65535, 65535
-  }}, {{
-    // int32 index = 1 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(ScanAddNode, _impl_.index_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // int32 DayZoomTableValue = 2 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(ScanAddNode, _impl_.dayzoomtablevalue_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // int32 HeatZoomTableValue = 3 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(ScanAddNode, _impl_.heatzoomtablevalue_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // double azimuth = 4 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(ScanAddNode, _impl_.azimuth_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double elevation = 5 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(ScanAddNode, _impl_.elevation_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double linger = 6 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(ScanAddNode, _impl_.linger_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double speed = 7 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(ScanAddNode, _impl_.speed_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-  }},
-  // no aux_entries
-  {{
-  }},
-};
-
-PROTOBUF_NOINLINE void ScanAddNode::Clear() {
-// @@protoc_insertion_point(message_clear_start:cmd.RotaryPlatform.ScanAddNode)
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  ::uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  ::memset(&_impl_.index_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.heatzoomtablevalue_) -
-      reinterpret_cast<char*>(&_impl_.index_)) + sizeof(_impl_.heatzoomtablevalue_));
-  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
-}
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::uint8_t* ScanAddNode::_InternalSerialize(
-            const MessageLite& base, ::uint8_t* target,
-            ::google::protobuf::io::EpsCopyOutputStream* stream) {
-          const ScanAddNode& this_ = static_cast<const ScanAddNode&>(base);
-#else   // PROTOBUF_CUSTOM_VTABLE
-        ::uint8_t* ScanAddNode::_InternalSerialize(
-            ::uint8_t* target,
-            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-          const ScanAddNode& this_ = *this;
-#endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(serialize_to_array_start:cmd.RotaryPlatform.ScanAddNode)
-          ::uint32_t cached_has_bits = 0;
-          (void)cached_has_bits;
-
-          // int32 index = 1 [(.buf.validate.field) = {
-          if (this_._internal_index() != 0) {
-            target = ::google::protobuf::internal::WireFormatLite::
-                WriteInt32ToArrayWithField<1>(
-                    stream, this_._internal_index(), target);
-          }
-
-          // int32 DayZoomTableValue = 2 [(.buf.validate.field) = {
-          if (this_._internal_dayzoomtablevalue() != 0) {
-            target = ::google::protobuf::internal::WireFormatLite::
-                WriteInt32ToArrayWithField<2>(
-                    stream, this_._internal_dayzoomtablevalue(), target);
-          }
-
-          // int32 HeatZoomTableValue = 3 [(.buf.validate.field) = {
-          if (this_._internal_heatzoomtablevalue() != 0) {
-            target = ::google::protobuf::internal::WireFormatLite::
-                WriteInt32ToArrayWithField<3>(
-                    stream, this_._internal_heatzoomtablevalue(), target);
-          }
-
-          // double azimuth = 4 [(.buf.validate.field) = {
-          if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
-                4, this_._internal_azimuth(), target);
-          }
-
-          // double elevation = 5 [(.buf.validate.field) = {
-          if (::absl::bit_cast<::uint64_t>(this_._internal_elevation()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
-                5, this_._internal_elevation(), target);
-          }
-
-          // double linger = 6 [(.buf.validate.field) = {
-          if (::absl::bit_cast<::uint64_t>(this_._internal_linger()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
-                6, this_._internal_linger(), target);
-          }
-
-          // double speed = 7 [(.buf.validate.field) = {
-          if (::absl::bit_cast<::uint64_t>(this_._internal_speed()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
-                7, this_._internal_speed(), target);
-          }
-
-          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
-            target =
-                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
-          }
-          // @@protoc_insertion_point(serialize_to_array_end:cmd.RotaryPlatform.ScanAddNode)
-          return target;
-        }
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::size_t ScanAddNode::ByteSizeLong(const MessageLite& base) {
-          const ScanAddNode& this_ = static_cast<const ScanAddNode&>(base);
-#else   // PROTOBUF_CUSTOM_VTABLE
-        ::size_t ScanAddNode::ByteSizeLong() const {
-          const ScanAddNode& this_ = *this;
-#endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(message_byte_size_start:cmd.RotaryPlatform.ScanAddNode)
-          ::size_t total_size = 0;
-
-          ::uint32_t cached_has_bits = 0;
-          // Prevent compiler warnings about cached_has_bits being unused
-          (void)cached_has_bits;
-
-          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
-           {
-            // int32 index = 1 [(.buf.validate.field) = {
-            if (this_._internal_index() != 0) {
-              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
-                  this_._internal_index());
-            }
-            // int32 DayZoomTableValue = 2 [(.buf.validate.field) = {
-            if (this_._internal_dayzoomtablevalue() != 0) {
-              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
-                  this_._internal_dayzoomtablevalue());
-            }
-            // double azimuth = 4 [(.buf.validate.field) = {
-            if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth()) != 0) {
-              total_size += 9;
-            }
-            // double elevation = 5 [(.buf.validate.field) = {
-            if (::absl::bit_cast<::uint64_t>(this_._internal_elevation()) != 0) {
-              total_size += 9;
-            }
-            // double linger = 6 [(.buf.validate.field) = {
-            if (::absl::bit_cast<::uint64_t>(this_._internal_linger()) != 0) {
-              total_size += 9;
-            }
-            // double speed = 7 [(.buf.validate.field) = {
-            if (::absl::bit_cast<::uint64_t>(this_._internal_speed()) != 0) {
-              total_size += 9;
-            }
-            // int32 HeatZoomTableValue = 3 [(.buf.validate.field) = {
-            if (this_._internal_heatzoomtablevalue() != 0) {
-              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
-                  this_._internal_heatzoomtablevalue());
-            }
-          }
-          return this_.MaybeComputeUnknownFieldsSize(total_size,
-                                                     &this_._impl_._cached_size_);
-        }
-
-void ScanAddNode::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<ScanAddNode*>(&to_msg);
-  auto& from = static_cast<const ScanAddNode&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:cmd.RotaryPlatform.ScanAddNode)
-  ABSL_DCHECK_NE(&from, _this);
-  ::uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from._internal_index() != 0) {
-    _this->_impl_.index_ = from._impl_.index_;
-  }
-  if (from._internal_dayzoomtablevalue() != 0) {
-    _this->_impl_.dayzoomtablevalue_ = from._impl_.dayzoomtablevalue_;
-  }
-  if (::absl::bit_cast<::uint64_t>(from._internal_azimuth()) != 0) {
-    _this->_impl_.azimuth_ = from._impl_.azimuth_;
-  }
-  if (::absl::bit_cast<::uint64_t>(from._internal_elevation()) != 0) {
-    _this->_impl_.elevation_ = from._impl_.elevation_;
-  }
-  if (::absl::bit_cast<::uint64_t>(from._internal_linger()) != 0) {
-    _this->_impl_.linger_ = from._impl_.linger_;
-  }
-  if (::absl::bit_cast<::uint64_t>(from._internal_speed()) != 0) {
-    _this->_impl_.speed_ = from._impl_.speed_;
-  }
-  if (from._internal_heatzoomtablevalue() != 0) {
-    _this->_impl_.heatzoomtablevalue_ = from._impl_.heatzoomtablevalue_;
-  }
-  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
-}
-
-void ScanAddNode::CopyFrom(const ScanAddNode& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:cmd.RotaryPlatform.ScanAddNode)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-
-void ScanAddNode::InternalSwap(ScanAddNode* PROTOBUF_RESTRICT other) {
-  using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(ScanAddNode, _impl_.heatzoomtablevalue_)
-      + sizeof(ScanAddNode::_impl_.heatzoomtablevalue_)
-      - PROTOBUF_FIELD_OFFSET(ScanAddNode, _impl_.index_)>(
-          reinterpret_cast<char*>(&_impl_.index_),
-          reinterpret_cast<char*>(&other->_impl_.index_));
-}
-
-::google::protobuf::Metadata ScanAddNode::GetMetadata() const {
+::google::protobuf::Metadata PoiSaveCurrent::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================

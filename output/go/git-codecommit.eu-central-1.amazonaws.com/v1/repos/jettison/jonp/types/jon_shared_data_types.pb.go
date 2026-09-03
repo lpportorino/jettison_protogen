@@ -1245,6 +1245,121 @@ func (JonGuiDataStateSource) EnumDescriptor() ([]byte, []int) {
 	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{21}
 }
 
+// Which drive program (eutropia DriveHost) currently owns the rotary platform.
+type JonGuiDataDriveProgram int32
+
+const (
+	JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_NONE JonGuiDataDriveProgram = 0
+	JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_SCAN JonGuiDataDriveProgram = 1
+	JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_POI  JonGuiDataDriveProgram = 2
+	JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_PARK JonGuiDataDriveProgram = 3
+)
+
+// Enum value maps for JonGuiDataDriveProgram.
+var (
+	JonGuiDataDriveProgram_name = map[int32]string{
+		0: "JON_GUI_DATA_DRIVE_PROGRAM_NONE",
+		1: "JON_GUI_DATA_DRIVE_PROGRAM_SCAN",
+		2: "JON_GUI_DATA_DRIVE_PROGRAM_POI",
+		3: "JON_GUI_DATA_DRIVE_PROGRAM_PARK",
+	}
+	JonGuiDataDriveProgram_value = map[string]int32{
+		"JON_GUI_DATA_DRIVE_PROGRAM_NONE": 0,
+		"JON_GUI_DATA_DRIVE_PROGRAM_SCAN": 1,
+		"JON_GUI_DATA_DRIVE_PROGRAM_POI":  2,
+		"JON_GUI_DATA_DRIVE_PROGRAM_PARK": 3,
+	}
+)
+
+func (x JonGuiDataDriveProgram) Enum() *JonGuiDataDriveProgram {
+	p := new(JonGuiDataDriveProgram)
+	*p = x
+	return p
+}
+
+func (x JonGuiDataDriveProgram) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (JonGuiDataDriveProgram) Descriptor() protoreflect.EnumDescriptor {
+	return file_jon_shared_data_types_proto_enumTypes[22].Descriptor()
+}
+
+func (JonGuiDataDriveProgram) Type() protoreflect.EnumType {
+	return &file_jon_shared_data_types_proto_enumTypes[22]
+}
+
+func (x JonGuiDataDriveProgram) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use JonGuiDataDriveProgram.Descriptor instead.
+func (JonGuiDataDriveProgram) EnumDescriptor() ([]byte, []int) {
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{22}
+}
+
+// Lifecycle state of the owning drive program.
+type JonGuiDataDriveState int32
+
+const (
+	JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED JonGuiDataDriveState = 0
+	JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_IDLE        JonGuiDataDriveState = 1
+	JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_ARMED       JonGuiDataDriveState = 2
+	JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_RUNNING     JonGuiDataDriveState = 3
+	JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_PAUSED      JonGuiDataDriveState = 4
+	JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_DONE        JonGuiDataDriveState = 5
+	JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_FAULT       JonGuiDataDriveState = 6
+)
+
+// Enum value maps for JonGuiDataDriveState.
+var (
+	JonGuiDataDriveState_name = map[int32]string{
+		0: "JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED",
+		1: "JON_GUI_DATA_DRIVE_STATE_IDLE",
+		2: "JON_GUI_DATA_DRIVE_STATE_ARMED",
+		3: "JON_GUI_DATA_DRIVE_STATE_RUNNING",
+		4: "JON_GUI_DATA_DRIVE_STATE_PAUSED",
+		5: "JON_GUI_DATA_DRIVE_STATE_DONE",
+		6: "JON_GUI_DATA_DRIVE_STATE_FAULT",
+	}
+	JonGuiDataDriveState_value = map[string]int32{
+		"JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED": 0,
+		"JON_GUI_DATA_DRIVE_STATE_IDLE":        1,
+		"JON_GUI_DATA_DRIVE_STATE_ARMED":       2,
+		"JON_GUI_DATA_DRIVE_STATE_RUNNING":     3,
+		"JON_GUI_DATA_DRIVE_STATE_PAUSED":      4,
+		"JON_GUI_DATA_DRIVE_STATE_DONE":        5,
+		"JON_GUI_DATA_DRIVE_STATE_FAULT":       6,
+	}
+)
+
+func (x JonGuiDataDriveState) Enum() *JonGuiDataDriveState {
+	p := new(JonGuiDataDriveState)
+	*p = x
+	return p
+}
+
+func (x JonGuiDataDriveState) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (JonGuiDataDriveState) Descriptor() protoreflect.EnumDescriptor {
+	return file_jon_shared_data_types_proto_enumTypes[23].Descriptor()
+}
+
+func (JonGuiDataDriveState) Type() protoreflect.EnumType {
+	return &file_jon_shared_data_types_proto_enumTypes[23]
+}
+
+func (x JonGuiDataDriveState) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use JonGuiDataDriveState.Descriptor instead.
+func (JonGuiDataDriveState) EnumDescriptor() ([]byte, []int) {
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{23}
+}
+
 // Tracking state
 type JonGuiDataTrackedObject_TrackingState int32
 
@@ -1285,11 +1400,11 @@ func (x JonGuiDataTrackedObject_TrackingState) String() string {
 }
 
 func (JonGuiDataTrackedObject_TrackingState) Descriptor() protoreflect.EnumDescriptor {
-	return file_jon_shared_data_types_proto_enumTypes[22].Descriptor()
+	return file_jon_shared_data_types_proto_enumTypes[24].Descriptor()
 }
 
 func (JonGuiDataTrackedObject_TrackingState) Type() protoreflect.EnumType {
-	return &file_jon_shared_data_types_proto_enumTypes[22]
+	return &file_jon_shared_data_types_proto_enumTypes[24]
 }
 
 func (x JonGuiDataTrackedObject_TrackingState) Number() protoreflect.EnumNumber {
@@ -2085,7 +2200,20 @@ const file_jon_shared_data_types_proto_rawDesc = "" +
 	"%JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED\x10\x00\x12*\n" +
 	"&JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE\x10\x01\x12+\n" +
 	"'JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE\x10\x02\x12$\n" +
-	" JON_GUI_DATA_STATE_SOURCE_SYSTEM\x10\x03B\x96\x01\n" +
+	" JON_GUI_DATA_STATE_SOURCE_SYSTEM\x10\x03*\xab\x01\n" +
+	"\x16JonGuiDataDriveProgram\x12#\n" +
+	"\x1fJON_GUI_DATA_DRIVE_PROGRAM_NONE\x10\x00\x12#\n" +
+	"\x1fJON_GUI_DATA_DRIVE_PROGRAM_SCAN\x10\x01\x12\"\n" +
+	"\x1eJON_GUI_DATA_DRIVE_PROGRAM_POI\x10\x02\x12#\n" +
+	"\x1fJON_GUI_DATA_DRIVE_PROGRAM_PARK\x10\x03*\x99\x02\n" +
+	"\x14JonGuiDataDriveState\x12(\n" +
+	"$JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED\x10\x00\x12!\n" +
+	"\x1dJON_GUI_DATA_DRIVE_STATE_IDLE\x10\x01\x12\"\n" +
+	"\x1eJON_GUI_DATA_DRIVE_STATE_ARMED\x10\x02\x12$\n" +
+	" JON_GUI_DATA_DRIVE_STATE_RUNNING\x10\x03\x12#\n" +
+	"\x1fJON_GUI_DATA_DRIVE_STATE_PAUSED\x10\x04\x12!\n" +
+	"\x1dJON_GUI_DATA_DRIVE_STATE_DONE\x10\x05\x12\"\n" +
+	"\x1eJON_GUI_DATA_DRIVE_STATE_FAULT\x10\x06B\x96\x01\n" +
 	"\acom.serB\x17JonSharedDataTypesProtoP\x01ZFgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/types\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (
@@ -2100,7 +2228,7 @@ func file_jon_shared_data_types_proto_rawDescGZIP() []byte {
 	return file_jon_shared_data_types_proto_rawDescData
 }
 
-var file_jon_shared_data_types_proto_enumTypes = make([]protoimpl.EnumInfo, 23)
+var file_jon_shared_data_types_proto_enumTypes = make([]protoimpl.EnumInfo, 25)
 var file_jon_shared_data_types_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_jon_shared_data_types_proto_goTypes = []any{
 	(JonGuiDataVideoChannelHeatFilters)(0),     // 0: ser.JonGuiDataVideoChannelHeatFilters
@@ -2125,26 +2253,28 @@ var file_jon_shared_data_types_proto_goTypes = []any{
 	(JonGuiDataClientApp)(0),                   // 19: ser.JonGuiDataClientApp
 	(JonGuiDataExtBatStatus)(0),                // 20: ser.JonGuiDataExtBatStatus
 	(JonGuiDataStateSource)(0),                 // 21: ser.JonGuiDataStateSource
-	(JonGuiDataTrackedObject_TrackingState)(0), // 22: ser.JonGuiDataTrackedObject.TrackingState
-	(*JonGuiDataMeteo)(nil),                    // 23: ser.JonGuiDataMeteo
-	(*JonOpaquePayloadVersion)(nil),            // 24: ser.JonOpaquePayloadVersion
-	(*JonOpaquePayload)(nil),                   // 25: ser.JonOpaquePayload
-	(*JonGuiDataROI)(nil),                      // 26: ser.JonGuiDataROI
-	(*JonGuiDataSharpness)(nil),                // 27: ser.JonGuiDataSharpness
-	(*JonGuiDataVector3)(nil),                  // 28: ser.JonGuiDataVector3
-	(*JonGuiDataQuaternion)(nil),               // 29: ser.JonGuiDataQuaternion
-	(*JonGuiDataTransform3D)(nil),              // 30: ser.JonGuiDataTransform3D
-	(*JonGuiDataTrackedObject)(nil),            // 31: ser.JonGuiDataTrackedObject
+	(JonGuiDataDriveProgram)(0),                // 22: ser.JonGuiDataDriveProgram
+	(JonGuiDataDriveState)(0),                  // 23: ser.JonGuiDataDriveState
+	(JonGuiDataTrackedObject_TrackingState)(0), // 24: ser.JonGuiDataTrackedObject.TrackingState
+	(*JonGuiDataMeteo)(nil),                    // 25: ser.JonGuiDataMeteo
+	(*JonOpaquePayloadVersion)(nil),            // 26: ser.JonOpaquePayloadVersion
+	(*JonOpaquePayload)(nil),                   // 27: ser.JonOpaquePayload
+	(*JonGuiDataROI)(nil),                      // 28: ser.JonGuiDataROI
+	(*JonGuiDataSharpness)(nil),                // 29: ser.JonGuiDataSharpness
+	(*JonGuiDataVector3)(nil),                  // 30: ser.JonGuiDataVector3
+	(*JonGuiDataQuaternion)(nil),               // 31: ser.JonGuiDataQuaternion
+	(*JonGuiDataTransform3D)(nil),              // 32: ser.JonGuiDataTransform3D
+	(*JonGuiDataTrackedObject)(nil),            // 33: ser.JonGuiDataTrackedObject
 }
 var file_jon_shared_data_types_proto_depIdxs = []int32{
-	24, // 0: ser.JonOpaquePayload.version:type_name -> ser.JonOpaquePayloadVersion
-	28, // 1: ser.JonGuiDataTransform3D.position:type_name -> ser.JonGuiDataVector3
-	29, // 2: ser.JonGuiDataTransform3D.orientation:type_name -> ser.JonGuiDataQuaternion
-	28, // 3: ser.JonGuiDataTransform3D.linear_velocity:type_name -> ser.JonGuiDataVector3
-	28, // 4: ser.JonGuiDataTransform3D.angular_velocity:type_name -> ser.JonGuiDataVector3
-	30, // 5: ser.JonGuiDataTrackedObject.transform:type_name -> ser.JonGuiDataTransform3D
-	26, // 6: ser.JonGuiDataTrackedObject.bounding_box:type_name -> ser.JonGuiDataROI
-	22, // 7: ser.JonGuiDataTrackedObject.state:type_name -> ser.JonGuiDataTrackedObject.TrackingState
+	26, // 0: ser.JonOpaquePayload.version:type_name -> ser.JonOpaquePayloadVersion
+	30, // 1: ser.JonGuiDataTransform3D.position:type_name -> ser.JonGuiDataVector3
+	31, // 2: ser.JonGuiDataTransform3D.orientation:type_name -> ser.JonGuiDataQuaternion
+	30, // 3: ser.JonGuiDataTransform3D.linear_velocity:type_name -> ser.JonGuiDataVector3
+	30, // 4: ser.JonGuiDataTransform3D.angular_velocity:type_name -> ser.JonGuiDataVector3
+	32, // 5: ser.JonGuiDataTrackedObject.transform:type_name -> ser.JonGuiDataTransform3D
+	28, // 6: ser.JonGuiDataTrackedObject.bounding_box:type_name -> ser.JonGuiDataROI
+	24, // 7: ser.JonGuiDataTrackedObject.state:type_name -> ser.JonGuiDataTrackedObject.TrackingState
 	8,  // [8:8] is the sub-list for method output_type
 	8,  // [8:8] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name
@@ -2162,7 +2292,7 @@ func file_jon_shared_data_types_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_data_types_proto_rawDesc), len(file_jon_shared_data_types_proto_rawDesc)),
-			NumEnums:      23,
+			NumEnums:      25,
 			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,

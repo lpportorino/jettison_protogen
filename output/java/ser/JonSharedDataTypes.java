@@ -3227,6 +3227,311 @@ public final class JonSharedDataTypes {
     // @@protoc_insertion_point(enum_scope:ser.JonGuiDataStateSource)
   }
 
+  /**
+   * <pre>
+   * Which drive program (eutropia DriveHost) currently owns the rotary platform.
+   * </pre>
+   *
+   * Protobuf enum {@code ser.JonGuiDataDriveProgram}
+   */
+  public enum JonGuiDataDriveProgram
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>JON_GUI_DATA_DRIVE_PROGRAM_NONE = 0;</code>
+     */
+    JON_GUI_DATA_DRIVE_PROGRAM_NONE(0),
+    /**
+     * <code>JON_GUI_DATA_DRIVE_PROGRAM_SCAN = 1;</code>
+     */
+    JON_GUI_DATA_DRIVE_PROGRAM_SCAN(1),
+    /**
+     * <code>JON_GUI_DATA_DRIVE_PROGRAM_POI = 2;</code>
+     */
+    JON_GUI_DATA_DRIVE_PROGRAM_POI(2),
+    /**
+     * <code>JON_GUI_DATA_DRIVE_PROGRAM_PARK = 3;</code>
+     */
+    JON_GUI_DATA_DRIVE_PROGRAM_PARK(3),
+    UNRECOGNIZED(-1),
+    ;
+
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        JonGuiDataDriveProgram.class.getName());
+    }
+    /**
+     * <code>JON_GUI_DATA_DRIVE_PROGRAM_NONE = 0;</code>
+     */
+    public static final int JON_GUI_DATA_DRIVE_PROGRAM_NONE_VALUE = 0;
+    /**
+     * <code>JON_GUI_DATA_DRIVE_PROGRAM_SCAN = 1;</code>
+     */
+    public static final int JON_GUI_DATA_DRIVE_PROGRAM_SCAN_VALUE = 1;
+    /**
+     * <code>JON_GUI_DATA_DRIVE_PROGRAM_POI = 2;</code>
+     */
+    public static final int JON_GUI_DATA_DRIVE_PROGRAM_POI_VALUE = 2;
+    /**
+     * <code>JON_GUI_DATA_DRIVE_PROGRAM_PARK = 3;</code>
+     */
+    public static final int JON_GUI_DATA_DRIVE_PROGRAM_PARK_VALUE = 3;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static JonGuiDataDriveProgram valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static JonGuiDataDriveProgram forNumber(int value) {
+      switch (value) {
+        case 0: return JON_GUI_DATA_DRIVE_PROGRAM_NONE;
+        case 1: return JON_GUI_DATA_DRIVE_PROGRAM_SCAN;
+        case 2: return JON_GUI_DATA_DRIVE_PROGRAM_POI;
+        case 3: return JON_GUI_DATA_DRIVE_PROGRAM_PARK;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<JonGuiDataDriveProgram>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        JonGuiDataDriveProgram> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<JonGuiDataDriveProgram>() {
+            public JonGuiDataDriveProgram findValueByNumber(int number) {
+              return JonGuiDataDriveProgram.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return ser.JonSharedDataTypes.getDescriptor().getEnumTypes().get(22);
+    }
+
+    private static final JonGuiDataDriveProgram[] VALUES = values();
+
+    public static JonGuiDataDriveProgram valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private JonGuiDataDriveProgram(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:ser.JonGuiDataDriveProgram)
+  }
+
+  /**
+   * <pre>
+   * Lifecycle state of the owning drive program.
+   * </pre>
+   *
+   * Protobuf enum {@code ser.JonGuiDataDriveState}
+   */
+  public enum JonGuiDataDriveState
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED = 0;</code>
+     */
+    JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED(0),
+    /**
+     * <code>JON_GUI_DATA_DRIVE_STATE_IDLE = 1;</code>
+     */
+    JON_GUI_DATA_DRIVE_STATE_IDLE(1),
+    /**
+     * <code>JON_GUI_DATA_DRIVE_STATE_ARMED = 2;</code>
+     */
+    JON_GUI_DATA_DRIVE_STATE_ARMED(2),
+    /**
+     * <code>JON_GUI_DATA_DRIVE_STATE_RUNNING = 3;</code>
+     */
+    JON_GUI_DATA_DRIVE_STATE_RUNNING(3),
+    /**
+     * <code>JON_GUI_DATA_DRIVE_STATE_PAUSED = 4;</code>
+     */
+    JON_GUI_DATA_DRIVE_STATE_PAUSED(4),
+    /**
+     * <code>JON_GUI_DATA_DRIVE_STATE_DONE = 5;</code>
+     */
+    JON_GUI_DATA_DRIVE_STATE_DONE(5),
+    /**
+     * <code>JON_GUI_DATA_DRIVE_STATE_FAULT = 6;</code>
+     */
+    JON_GUI_DATA_DRIVE_STATE_FAULT(6),
+    UNRECOGNIZED(-1),
+    ;
+
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        JonGuiDataDriveState.class.getName());
+    }
+    /**
+     * <code>JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED = 0;</code>
+     */
+    public static final int JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED_VALUE = 0;
+    /**
+     * <code>JON_GUI_DATA_DRIVE_STATE_IDLE = 1;</code>
+     */
+    public static final int JON_GUI_DATA_DRIVE_STATE_IDLE_VALUE = 1;
+    /**
+     * <code>JON_GUI_DATA_DRIVE_STATE_ARMED = 2;</code>
+     */
+    public static final int JON_GUI_DATA_DRIVE_STATE_ARMED_VALUE = 2;
+    /**
+     * <code>JON_GUI_DATA_DRIVE_STATE_RUNNING = 3;</code>
+     */
+    public static final int JON_GUI_DATA_DRIVE_STATE_RUNNING_VALUE = 3;
+    /**
+     * <code>JON_GUI_DATA_DRIVE_STATE_PAUSED = 4;</code>
+     */
+    public static final int JON_GUI_DATA_DRIVE_STATE_PAUSED_VALUE = 4;
+    /**
+     * <code>JON_GUI_DATA_DRIVE_STATE_DONE = 5;</code>
+     */
+    public static final int JON_GUI_DATA_DRIVE_STATE_DONE_VALUE = 5;
+    /**
+     * <code>JON_GUI_DATA_DRIVE_STATE_FAULT = 6;</code>
+     */
+    public static final int JON_GUI_DATA_DRIVE_STATE_FAULT_VALUE = 6;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static JonGuiDataDriveState valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static JonGuiDataDriveState forNumber(int value) {
+      switch (value) {
+        case 0: return JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED;
+        case 1: return JON_GUI_DATA_DRIVE_STATE_IDLE;
+        case 2: return JON_GUI_DATA_DRIVE_STATE_ARMED;
+        case 3: return JON_GUI_DATA_DRIVE_STATE_RUNNING;
+        case 4: return JON_GUI_DATA_DRIVE_STATE_PAUSED;
+        case 5: return JON_GUI_DATA_DRIVE_STATE_DONE;
+        case 6: return JON_GUI_DATA_DRIVE_STATE_FAULT;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<JonGuiDataDriveState>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        JonGuiDataDriveState> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<JonGuiDataDriveState>() {
+            public JonGuiDataDriveState findValueByNumber(int number) {
+              return JonGuiDataDriveState.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return ser.JonSharedDataTypes.getDescriptor().getEnumTypes().get(23);
+    }
+
+    private static final JonGuiDataDriveState[] VALUES = values();
+
+    public static JonGuiDataDriveState valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private JonGuiDataDriveState(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:ser.JonGuiDataDriveState)
+  }
+
   public interface JonGuiDataMeteoOrBuilder extends
       // @@protoc_insertion_point(interface_extends:ser.JonGuiDataMeteo)
       com.google.protobuf.MessageOrBuilder {
@@ -11042,9 +11347,21 @@ public final class JonSharedDataTypes {
       "SOURCE_UNSPECIFIED\020\000\022*\n&JON_GUI_DATA_STA" +
       "TE_SOURCE_DAY_PIPELINE\020\001\022+\n\'JON_GUI_DATA" +
       "_STATE_SOURCE_HEAT_PIPELINE\020\002\022$\n JON_GUI" +
-      "_DATA_STATE_SOURCE_SYSTEM\020\003BHZFgit-codec" +
-      "ommit.eu-central-1.amazonaws.com/v1/repo" +
-      "s/jettison/jonp/typesb\006proto3"
+      "_DATA_STATE_SOURCE_SYSTEM\020\003*\253\001\n\026JonGuiDa" +
+      "taDriveProgram\022#\n\037JON_GUI_DATA_DRIVE_PRO" +
+      "GRAM_NONE\020\000\022#\n\037JON_GUI_DATA_DRIVE_PROGRA" +
+      "M_SCAN\020\001\022\"\n\036JON_GUI_DATA_DRIVE_PROGRAM_P" +
+      "OI\020\002\022#\n\037JON_GUI_DATA_DRIVE_PROGRAM_PARK\020" +
+      "\003*\231\002\n\024JonGuiDataDriveState\022(\n$JON_GUI_DA" +
+      "TA_DRIVE_STATE_UNSPECIFIED\020\000\022!\n\035JON_GUI_" +
+      "DATA_DRIVE_STATE_IDLE\020\001\022\"\n\036JON_GUI_DATA_" +
+      "DRIVE_STATE_ARMED\020\002\022$\n JON_GUI_DATA_DRIV" +
+      "E_STATE_RUNNING\020\003\022#\n\037JON_GUI_DATA_DRIVE_" +
+      "STATE_PAUSED\020\004\022!\n\035JON_GUI_DATA_DRIVE_STA" +
+      "TE_DONE\020\005\022\"\n\036JON_GUI_DATA_DRIVE_STATE_FA" +
+      "ULT\020\006BHZFgit-codecommit.eu-central-1.ama" +
+      "zonaws.com/v1/repos/jettison/jonp/typesb" +
+      "\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

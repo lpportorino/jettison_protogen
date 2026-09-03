@@ -80,6 +80,12 @@ extern HaltElevationDefaultTypeInternal _HaltElevation_default_instance_;
 class HaltWithNDC;
 struct HaltWithNDCDefaultTypeInternal;
 extern HaltWithNDCDefaultTypeInternal _HaltWithNDC_default_instance_;
+class PoiLookAt;
+struct PoiLookAtDefaultTypeInternal;
+extern PoiLookAtDefaultTypeInternal _PoiLookAt_default_instance_;
+class PoiSaveCurrent;
+struct PoiSaveCurrentDefaultTypeInternal;
+extern PoiSaveCurrentDefaultTypeInternal _PoiSaveCurrent_default_instance_;
 class Root;
 struct RootDefaultTypeInternal;
 extern RootDefaultTypeInternal _Root_default_instance_;
@@ -113,12 +119,6 @@ extern RotateToGPSDefaultTypeInternal _RotateToGPS_default_instance_;
 class RotateToNDC;
 struct RotateToNDCDefaultTypeInternal;
 extern RotateToNDCDefaultTypeInternal _RotateToNDC_default_instance_;
-class ScanAddNode;
-struct ScanAddNodeDefaultTypeInternal;
-extern ScanAddNodeDefaultTypeInternal _ScanAddNode_default_instance_;
-class ScanDeleteNode;
-struct ScanDeleteNodeDefaultTypeInternal;
-extern ScanDeleteNodeDefaultTypeInternal _ScanDeleteNode_default_instance_;
 class ScanNext;
 struct ScanNextDefaultTypeInternal;
 extern ScanNextDefaultTypeInternal _ScanNext_default_instance_;
@@ -143,9 +143,6 @@ extern ScanStopDefaultTypeInternal _ScanStop_default_instance_;
 class ScanUnpause;
 struct ScanUnpauseDefaultTypeInternal;
 extern ScanUnpauseDefaultTypeInternal _ScanUnpause_default_instance_;
-class ScanUpdateNode;
-struct ScanUpdateNodeDefaultTypeInternal;
-extern ScanUpdateNodeDefaultTypeInternal _ScanUpdateNode_default_instance_;
 class SetAzimuthValue;
 struct SetAzimuthValueDefaultTypeInternal;
 extern SetAzimuthValueDefaultTypeInternal _SetAzimuthValue_default_instance_;
@@ -253,7 +250,7 @@ class setUseRotaryAsCompass final : public ::google::protobuf::Message
     return reinterpret_cast<const setUseRotaryAsCompass*>(
         &_setUseRotaryAsCompass_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 36;
+  static constexpr int kIndexInFileMessages = 35;
   friend void swap(setUseRotaryAsCompass& a, setUseRotaryAsCompass& b) { a.Swap(&b); }
   inline void Swap(setUseRotaryAsCompass* other) {
     if (other == this) return;
@@ -1448,7 +1445,7 @@ class SetOriginGPS final : public ::google::protobuf::Message
     return reinterpret_cast<const SetOriginGPS*>(
         &_SetOriginGPS_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 38;
+  static constexpr int kIndexInFileMessages = 37;
   friend void swap(SetOriginGPS& a, SetOriginGPS& b) { a.Swap(&b); }
   inline void Swap(SetOriginGPS* other) {
     if (other == this) return;
@@ -2177,268 +2174,6 @@ class SetAzimuthValue final : public ::google::protobuf::Message
                           const SetAzimuthValue& from_msg);
     double value_;
     int direction_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_jon_5fshared_5fcmd_5frotary_2eproto;
-};
-// -------------------------------------------------------------------
-
-class ScanUpdateNode final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:cmd.RotaryPlatform.ScanUpdateNode) */ {
- public:
-  inline ScanUpdateNode() : ScanUpdateNode(nullptr) {}
-  ~ScanUpdateNode() PROTOBUF_FINAL;
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(ScanUpdateNode* msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(ScanUpdateNode));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR ScanUpdateNode(
-      ::google::protobuf::internal::ConstantInitialized);
-
-  inline ScanUpdateNode(const ScanUpdateNode& from) : ScanUpdateNode(nullptr, from) {}
-  inline ScanUpdateNode(ScanUpdateNode&& from) noexcept
-      : ScanUpdateNode(nullptr, std::move(from)) {}
-  inline ScanUpdateNode& operator=(const ScanUpdateNode& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline ScanUpdateNode& operator=(ScanUpdateNode&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const ScanUpdateNode& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const ScanUpdateNode* internal_default_instance() {
-    return reinterpret_cast<const ScanUpdateNode*>(
-        &_ScanUpdateNode_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 33;
-  friend void swap(ScanUpdateNode& a, ScanUpdateNode& b) { a.Swap(&b); }
-  inline void Swap(ScanUpdateNode* other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(ScanUpdateNode* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  ScanUpdateNode* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<ScanUpdateNode>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const ScanUpdateNode& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const ScanUpdateNode& from) { ScanUpdateNode::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* _InternalSerialize(
-      const MessageLite& msg, ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* arena);
-  static void SharedDtor(MessageLite& self);
-  void InternalSwap(ScanUpdateNode* other);
- private:
-  template <typename T>
-  friend ::absl::string_view(
-      ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "cmd.RotaryPlatform.ScanUpdateNode"; }
-
- protected:
-  explicit ScanUpdateNode(::google::protobuf::Arena* arena);
-  ScanUpdateNode(::google::protobuf::Arena* arena, const ScanUpdateNode& from);
-  ScanUpdateNode(::google::protobuf::Arena* arena, ScanUpdateNode&& from) noexcept
-      : ScanUpdateNode(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
-  static void* PlacementNew_(const void*, void* mem,
-                             ::google::protobuf::Arena* arena);
-  static constexpr auto InternalNewImpl_();
-  static const ::google::protobuf::internal::ClassDataFull _class_data_;
-
- public:
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kIndexFieldNumber = 1,
-    kDayZoomTableValueFieldNumber = 2,
-    kAzimuthFieldNumber = 4,
-    kElevationFieldNumber = 5,
-    kLingerFieldNumber = 6,
-    kSpeedFieldNumber = 7,
-    kHeatZoomTableValueFieldNumber = 3,
-  };
-  // int32 index = 1 [(.buf.validate.field) = {
-  void clear_index() ;
-  ::int32_t index() const;
-  void set_index(::int32_t value);
-
-  private:
-  ::int32_t _internal_index() const;
-  void _internal_set_index(::int32_t value);
-
-  public:
-  // int32 DayZoomTableValue = 2 [(.buf.validate.field) = {
-  void clear_dayzoomtablevalue() ;
-  ::int32_t dayzoomtablevalue() const;
-  void set_dayzoomtablevalue(::int32_t value);
-
-  private:
-  ::int32_t _internal_dayzoomtablevalue() const;
-  void _internal_set_dayzoomtablevalue(::int32_t value);
-
-  public:
-  // double azimuth = 4 [(.buf.validate.field) = {
-  void clear_azimuth() ;
-  double azimuth() const;
-  void set_azimuth(double value);
-
-  private:
-  double _internal_azimuth() const;
-  void _internal_set_azimuth(double value);
-
-  public:
-  // double elevation = 5 [(.buf.validate.field) = {
-  void clear_elevation() ;
-  double elevation() const;
-  void set_elevation(double value);
-
-  private:
-  double _internal_elevation() const;
-  void _internal_set_elevation(double value);
-
-  public:
-  // double linger = 6 [(.buf.validate.field) = {
-  void clear_linger() ;
-  double linger() const;
-  void set_linger(double value);
-
-  private:
-  double _internal_linger() const;
-  void _internal_set_linger(double value);
-
-  public:
-  // double speed = 7 [(.buf.validate.field) = {
-  void clear_speed() ;
-  double speed() const;
-  void set_speed(double value);
-
-  private:
-  double _internal_speed() const;
-  void _internal_set_speed(double value);
-
-  public:
-  // int32 HeatZoomTableValue = 3 [(.buf.validate.field) = {
-  void clear_heatzoomtablevalue() ;
-  ::int32_t heatzoomtablevalue() const;
-  void set_heatzoomtablevalue(::int32_t value);
-
-  private:
-  ::int32_t _internal_heatzoomtablevalue() const;
-  void _internal_set_heatzoomtablevalue(::int32_t value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.ScanUpdateNode)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<
-      3, 7, 0,
-      0, 2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(
-        ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena);
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena, const Impl_& from,
-                          const ScanUpdateNode& from_msg);
-    ::int32_t index_;
-    ::int32_t dayzoomtablevalue_;
-    double azimuth_;
-    double elevation_;
-    double linger_;
-    double speed_;
-    ::int32_t heatzoomtablevalue_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -3652,458 +3387,6 @@ class ScanNext final : public ::google::protobuf::internal::ZeroFieldsBase
 };
 // -------------------------------------------------------------------
 
-class ScanDeleteNode final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:cmd.RotaryPlatform.ScanDeleteNode) */ {
- public:
-  inline ScanDeleteNode() : ScanDeleteNode(nullptr) {}
-  ~ScanDeleteNode() PROTOBUF_FINAL;
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(ScanDeleteNode* msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(ScanDeleteNode));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR ScanDeleteNode(
-      ::google::protobuf::internal::ConstantInitialized);
-
-  inline ScanDeleteNode(const ScanDeleteNode& from) : ScanDeleteNode(nullptr, from) {}
-  inline ScanDeleteNode(ScanDeleteNode&& from) noexcept
-      : ScanDeleteNode(nullptr, std::move(from)) {}
-  inline ScanDeleteNode& operator=(const ScanDeleteNode& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline ScanDeleteNode& operator=(ScanDeleteNode&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const ScanDeleteNode& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const ScanDeleteNode* internal_default_instance() {
-    return reinterpret_cast<const ScanDeleteNode*>(
-        &_ScanDeleteNode_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 32;
-  friend void swap(ScanDeleteNode& a, ScanDeleteNode& b) { a.Swap(&b); }
-  inline void Swap(ScanDeleteNode* other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(ScanDeleteNode* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  ScanDeleteNode* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<ScanDeleteNode>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const ScanDeleteNode& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const ScanDeleteNode& from) { ScanDeleteNode::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* _InternalSerialize(
-      const MessageLite& msg, ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* arena);
-  static void SharedDtor(MessageLite& self);
-  void InternalSwap(ScanDeleteNode* other);
- private:
-  template <typename T>
-  friend ::absl::string_view(
-      ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "cmd.RotaryPlatform.ScanDeleteNode"; }
-
- protected:
-  explicit ScanDeleteNode(::google::protobuf::Arena* arena);
-  ScanDeleteNode(::google::protobuf::Arena* arena, const ScanDeleteNode& from);
-  ScanDeleteNode(::google::protobuf::Arena* arena, ScanDeleteNode&& from) noexcept
-      : ScanDeleteNode(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
-  static void* PlacementNew_(const void*, void* mem,
-                             ::google::protobuf::Arena* arena);
-  static constexpr auto InternalNewImpl_();
-  static const ::google::protobuf::internal::ClassDataFull _class_data_;
-
- public:
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kIndexFieldNumber = 1,
-  };
-  // int32 index = 1 [(.buf.validate.field) = {
-  void clear_index() ;
-  ::int32_t index() const;
-  void set_index(::int32_t value);
-
-  private:
-  ::int32_t _internal_index() const;
-  void _internal_set_index(::int32_t value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.ScanDeleteNode)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<
-      0, 1, 0,
-      0, 2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(
-        ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena);
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena, const Impl_& from,
-                          const ScanDeleteNode& from_msg);
-    ::int32_t index_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_jon_5fshared_5fcmd_5frotary_2eproto;
-};
-// -------------------------------------------------------------------
-
-class ScanAddNode final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:cmd.RotaryPlatform.ScanAddNode) */ {
- public:
-  inline ScanAddNode() : ScanAddNode(nullptr) {}
-  ~ScanAddNode() PROTOBUF_FINAL;
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(ScanAddNode* msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(ScanAddNode));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR ScanAddNode(
-      ::google::protobuf::internal::ConstantInitialized);
-
-  inline ScanAddNode(const ScanAddNode& from) : ScanAddNode(nullptr, from) {}
-  inline ScanAddNode(ScanAddNode&& from) noexcept
-      : ScanAddNode(nullptr, std::move(from)) {}
-  inline ScanAddNode& operator=(const ScanAddNode& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline ScanAddNode& operator=(ScanAddNode&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const ScanAddNode& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const ScanAddNode* internal_default_instance() {
-    return reinterpret_cast<const ScanAddNode*>(
-        &_ScanAddNode_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 34;
-  friend void swap(ScanAddNode& a, ScanAddNode& b) { a.Swap(&b); }
-  inline void Swap(ScanAddNode* other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(ScanAddNode* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  ScanAddNode* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<ScanAddNode>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const ScanAddNode& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const ScanAddNode& from) { ScanAddNode::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* _InternalSerialize(
-      const MessageLite& msg, ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* arena);
-  static void SharedDtor(MessageLite& self);
-  void InternalSwap(ScanAddNode* other);
- private:
-  template <typename T>
-  friend ::absl::string_view(
-      ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "cmd.RotaryPlatform.ScanAddNode"; }
-
- protected:
-  explicit ScanAddNode(::google::protobuf::Arena* arena);
-  ScanAddNode(::google::protobuf::Arena* arena, const ScanAddNode& from);
-  ScanAddNode(::google::protobuf::Arena* arena, ScanAddNode&& from) noexcept
-      : ScanAddNode(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
-  static void* PlacementNew_(const void*, void* mem,
-                             ::google::protobuf::Arena* arena);
-  static constexpr auto InternalNewImpl_();
-  static const ::google::protobuf::internal::ClassDataFull _class_data_;
-
- public:
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kIndexFieldNumber = 1,
-    kDayZoomTableValueFieldNumber = 2,
-    kAzimuthFieldNumber = 4,
-    kElevationFieldNumber = 5,
-    kLingerFieldNumber = 6,
-    kSpeedFieldNumber = 7,
-    kHeatZoomTableValueFieldNumber = 3,
-  };
-  // int32 index = 1 [(.buf.validate.field) = {
-  void clear_index() ;
-  ::int32_t index() const;
-  void set_index(::int32_t value);
-
-  private:
-  ::int32_t _internal_index() const;
-  void _internal_set_index(::int32_t value);
-
-  public:
-  // int32 DayZoomTableValue = 2 [(.buf.validate.field) = {
-  void clear_dayzoomtablevalue() ;
-  ::int32_t dayzoomtablevalue() const;
-  void set_dayzoomtablevalue(::int32_t value);
-
-  private:
-  ::int32_t _internal_dayzoomtablevalue() const;
-  void _internal_set_dayzoomtablevalue(::int32_t value);
-
-  public:
-  // double azimuth = 4 [(.buf.validate.field) = {
-  void clear_azimuth() ;
-  double azimuth() const;
-  void set_azimuth(double value);
-
-  private:
-  double _internal_azimuth() const;
-  void _internal_set_azimuth(double value);
-
-  public:
-  // double elevation = 5 [(.buf.validate.field) = {
-  void clear_elevation() ;
-  double elevation() const;
-  void set_elevation(double value);
-
-  private:
-  double _internal_elevation() const;
-  void _internal_set_elevation(double value);
-
-  public:
-  // double linger = 6 [(.buf.validate.field) = {
-  void clear_linger() ;
-  double linger() const;
-  void set_linger(double value);
-
-  private:
-  double _internal_linger() const;
-  void _internal_set_linger(double value);
-
-  public:
-  // double speed = 7 [(.buf.validate.field) = {
-  void clear_speed() ;
-  double speed() const;
-  void set_speed(double value);
-
-  private:
-  double _internal_speed() const;
-  void _internal_set_speed(double value);
-
-  public:
-  // int32 HeatZoomTableValue = 3 [(.buf.validate.field) = {
-  void clear_heatzoomtablevalue() ;
-  ::int32_t heatzoomtablevalue() const;
-  void set_heatzoomtablevalue(::int32_t value);
-
-  private:
-  ::int32_t _internal_heatzoomtablevalue() const;
-  void _internal_set_heatzoomtablevalue(::int32_t value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.ScanAddNode)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<
-      3, 7, 0,
-      0, 2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(
-        ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena);
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena, const Impl_& from,
-                          const ScanAddNode& from_msg);
-    ::int32_t index_;
-    ::int32_t dayzoomtablevalue_;
-    double azimuth_;
-    double elevation_;
-    double linger_;
-    double speed_;
-    ::int32_t heatzoomtablevalue_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_jon_5fshared_5fcmd_5frotary_2eproto;
-};
-// -------------------------------------------------------------------
-
 class RotateToNDC final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:cmd.RotaryPlatform.RotateToNDC) */ {
  public:
@@ -4163,7 +3446,7 @@ class RotateToNDC final : public ::google::protobuf::Message
     return reinterpret_cast<const RotateToNDC*>(
         &_RotateToNDC_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 39;
+  static constexpr int kIndexInFileMessages = 38;
   friend void swap(RotateToNDC& a, RotateToNDC& b) { a.Swap(&b); }
   inline void Swap(RotateToNDC* other) {
     if (other == this) return;
@@ -4401,7 +3684,7 @@ class RotateToGPS final : public ::google::protobuf::Message
     return reinterpret_cast<const RotateToGPS*>(
         &_RotateToGPS_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 37;
+  static constexpr int kIndexInFileMessages = 36;
   friend void swap(RotateToGPS& a, RotateToGPS& b) { a.Swap(&b); }
   inline void Swap(RotateToGPS* other) {
     if (other == this) return;
@@ -6208,6 +5491,386 @@ class RotateAzimuth final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
+class PoiSaveCurrent final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.RotaryPlatform.PoiSaveCurrent) */ {
+ public:
+  inline PoiSaveCurrent() : PoiSaveCurrent(nullptr) {}
+  ~PoiSaveCurrent() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(PoiSaveCurrent* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(PoiSaveCurrent));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR PoiSaveCurrent(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline PoiSaveCurrent(const PoiSaveCurrent& from) : PoiSaveCurrent(nullptr, from) {}
+  inline PoiSaveCurrent(PoiSaveCurrent&& from) noexcept
+      : PoiSaveCurrent(nullptr, std::move(from)) {}
+  inline PoiSaveCurrent& operator=(const PoiSaveCurrent& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PoiSaveCurrent& operator=(PoiSaveCurrent&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const PoiSaveCurrent& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const PoiSaveCurrent* internal_default_instance() {
+    return reinterpret_cast<const PoiSaveCurrent*>(
+        &_PoiSaveCurrent_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 33;
+  friend void swap(PoiSaveCurrent& a, PoiSaveCurrent& b) { a.Swap(&b); }
+  inline void Swap(PoiSaveCurrent* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PoiSaveCurrent* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  PoiSaveCurrent* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<PoiSaveCurrent>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const PoiSaveCurrent& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const PoiSaveCurrent& from) { PoiSaveCurrent::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(PoiSaveCurrent* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.RotaryPlatform.PoiSaveCurrent"; }
+
+ protected:
+  explicit PoiSaveCurrent(::google::protobuf::Arena* arena);
+  PoiSaveCurrent(::google::protobuf::Arena* arena, const PoiSaveCurrent& from);
+  PoiSaveCurrent(::google::protobuf::Arena* arena, PoiSaveCurrent&& from) noexcept
+      : PoiSaveCurrent(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kIndexFieldNumber = 1,
+  };
+  // int32 index = 1 [(.buf.validate.field) = {
+  void clear_index() ;
+  ::int32_t index() const;
+  void set_index(::int32_t value);
+
+  private:
+  ::int32_t _internal_index() const;
+  void _internal_set_index(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.PoiSaveCurrent)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const PoiSaveCurrent& from_msg);
+    ::int32_t index_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5frotary_2eproto;
+};
+// -------------------------------------------------------------------
+
+class PoiLookAt final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.RotaryPlatform.PoiLookAt) */ {
+ public:
+  inline PoiLookAt() : PoiLookAt(nullptr) {}
+  ~PoiLookAt() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(PoiLookAt* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(PoiLookAt));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR PoiLookAt(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline PoiLookAt(const PoiLookAt& from) : PoiLookAt(nullptr, from) {}
+  inline PoiLookAt(PoiLookAt&& from) noexcept
+      : PoiLookAt(nullptr, std::move(from)) {}
+  inline PoiLookAt& operator=(const PoiLookAt& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PoiLookAt& operator=(PoiLookAt&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const PoiLookAt& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const PoiLookAt* internal_default_instance() {
+    return reinterpret_cast<const PoiLookAt*>(
+        &_PoiLookAt_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 32;
+  friend void swap(PoiLookAt& a, PoiLookAt& b) { a.Swap(&b); }
+  inline void Swap(PoiLookAt* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PoiLookAt* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  PoiLookAt* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<PoiLookAt>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const PoiLookAt& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const PoiLookAt& from) { PoiLookAt::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(PoiLookAt* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.RotaryPlatform.PoiLookAt"; }
+
+ protected:
+  explicit PoiLookAt(::google::protobuf::Arena* arena);
+  PoiLookAt(::google::protobuf::Arena* arena, const PoiLookAt& from);
+  PoiLookAt(::google::protobuf::Arena* arena, PoiLookAt&& from) noexcept
+      : PoiLookAt(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kIndexFieldNumber = 1,
+  };
+  // int32 index = 1 [(.buf.validate.field) = {
+  void clear_index() ;
+  ::int32_t index() const;
+  void set_index(::int32_t value);
+
+  private:
+  ::int32_t _internal_index() const;
+  void _internal_set_index(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.PoiLookAt)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const PoiLookAt& from_msg);
+    ::int32_t index_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5frotary_2eproto;
+};
+// -------------------------------------------------------------------
+
 class HaltWithNDC final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:cmd.RotaryPlatform.HaltWithNDC) */ {
  public:
@@ -6267,7 +5930,7 @@ class HaltWithNDC final : public ::google::protobuf::Message
     return reinterpret_cast<const HaltWithNDC*>(
         &_HaltWithNDC_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 40;
+  static constexpr int kIndexInFileMessages = 39;
   friend void swap(HaltWithNDC& a, HaltWithNDC& b) { a.Swap(&b); }
   inline void Swap(HaltWithNDC* other) {
     if (other == this) return;
@@ -7094,7 +6757,7 @@ class Elevation final : public ::google::protobuf::Message
     return reinterpret_cast<const Elevation*>(
         &_Elevation_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 35;
+  static constexpr int kIndexInFileMessages = 34;
   friend void swap(Elevation& a, Elevation& b) { a.Swap(&b); }
   inline void Swap(Elevation* other) {
     if (other == this) return;
@@ -7972,11 +7635,10 @@ class Root final : public ::google::protobuf::Message
     kScanNext = 19,
     kScanRefreshNodeList = 20,
     kScanSelectNode = 21,
-    kScanDeleteNode = 22,
-    kScanUpdateNode = 23,
-    kScanAddNode = 24,
     kHaltWithNdc = 25,
     kUnpark = 26,
+    kPoiLookAt = 27,
+    kPoiSaveCurrent = 28,
     CMD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -8091,11 +7753,10 @@ class Root final : public ::google::protobuf::Message
     kScanNextFieldNumber = 19,
     kScanRefreshNodeListFieldNumber = 20,
     kScanSelectNodeFieldNumber = 21,
-    kScanDeleteNodeFieldNumber = 22,
-    kScanUpdateNodeFieldNumber = 23,
-    kScanAddNodeFieldNumber = 24,
     kHaltWithNdcFieldNumber = 25,
     kUnparkFieldNumber = 26,
+    kPoiLookAtFieldNumber = 27,
+    kPoiSaveCurrentFieldNumber = 28,
   };
   // .cmd.RotaryPlatform.Start start = 1;
   bool has_start() const;
@@ -8496,63 +8157,6 @@ class Root final : public ::google::protobuf::Message
   ::cmd::RotaryPlatform::ScanSelectNode* _internal_mutable_scan_select_node();
 
   public:
-  // .cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;
-  bool has_scan_delete_node() const;
-  private:
-  bool _internal_has_scan_delete_node() const;
-
-  public:
-  void clear_scan_delete_node() ;
-  const ::cmd::RotaryPlatform::ScanDeleteNode& scan_delete_node() const;
-  PROTOBUF_NODISCARD ::cmd::RotaryPlatform::ScanDeleteNode* release_scan_delete_node();
-  ::cmd::RotaryPlatform::ScanDeleteNode* mutable_scan_delete_node();
-  void set_allocated_scan_delete_node(::cmd::RotaryPlatform::ScanDeleteNode* value);
-  void unsafe_arena_set_allocated_scan_delete_node(::cmd::RotaryPlatform::ScanDeleteNode* value);
-  ::cmd::RotaryPlatform::ScanDeleteNode* unsafe_arena_release_scan_delete_node();
-
-  private:
-  const ::cmd::RotaryPlatform::ScanDeleteNode& _internal_scan_delete_node() const;
-  ::cmd::RotaryPlatform::ScanDeleteNode* _internal_mutable_scan_delete_node();
-
-  public:
-  // .cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;
-  bool has_scan_update_node() const;
-  private:
-  bool _internal_has_scan_update_node() const;
-
-  public:
-  void clear_scan_update_node() ;
-  const ::cmd::RotaryPlatform::ScanUpdateNode& scan_update_node() const;
-  PROTOBUF_NODISCARD ::cmd::RotaryPlatform::ScanUpdateNode* release_scan_update_node();
-  ::cmd::RotaryPlatform::ScanUpdateNode* mutable_scan_update_node();
-  void set_allocated_scan_update_node(::cmd::RotaryPlatform::ScanUpdateNode* value);
-  void unsafe_arena_set_allocated_scan_update_node(::cmd::RotaryPlatform::ScanUpdateNode* value);
-  ::cmd::RotaryPlatform::ScanUpdateNode* unsafe_arena_release_scan_update_node();
-
-  private:
-  const ::cmd::RotaryPlatform::ScanUpdateNode& _internal_scan_update_node() const;
-  ::cmd::RotaryPlatform::ScanUpdateNode* _internal_mutable_scan_update_node();
-
-  public:
-  // .cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;
-  bool has_scan_add_node() const;
-  private:
-  bool _internal_has_scan_add_node() const;
-
-  public:
-  void clear_scan_add_node() ;
-  const ::cmd::RotaryPlatform::ScanAddNode& scan_add_node() const;
-  PROTOBUF_NODISCARD ::cmd::RotaryPlatform::ScanAddNode* release_scan_add_node();
-  ::cmd::RotaryPlatform::ScanAddNode* mutable_scan_add_node();
-  void set_allocated_scan_add_node(::cmd::RotaryPlatform::ScanAddNode* value);
-  void unsafe_arena_set_allocated_scan_add_node(::cmd::RotaryPlatform::ScanAddNode* value);
-  ::cmd::RotaryPlatform::ScanAddNode* unsafe_arena_release_scan_add_node();
-
-  private:
-  const ::cmd::RotaryPlatform::ScanAddNode& _internal_scan_add_node() const;
-  ::cmd::RotaryPlatform::ScanAddNode* _internal_mutable_scan_add_node();
-
-  public:
   // .cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;
   bool has_halt_with_ndc() const;
   private:
@@ -8591,6 +8195,44 @@ class Root final : public ::google::protobuf::Message
   ::cmd::RotaryPlatform::Unpark* _internal_mutable_unpark();
 
   public:
+  // .cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;
+  bool has_poi_look_at() const;
+  private:
+  bool _internal_has_poi_look_at() const;
+
+  public:
+  void clear_poi_look_at() ;
+  const ::cmd::RotaryPlatform::PoiLookAt& poi_look_at() const;
+  PROTOBUF_NODISCARD ::cmd::RotaryPlatform::PoiLookAt* release_poi_look_at();
+  ::cmd::RotaryPlatform::PoiLookAt* mutable_poi_look_at();
+  void set_allocated_poi_look_at(::cmd::RotaryPlatform::PoiLookAt* value);
+  void unsafe_arena_set_allocated_poi_look_at(::cmd::RotaryPlatform::PoiLookAt* value);
+  ::cmd::RotaryPlatform::PoiLookAt* unsafe_arena_release_poi_look_at();
+
+  private:
+  const ::cmd::RotaryPlatform::PoiLookAt& _internal_poi_look_at() const;
+  ::cmd::RotaryPlatform::PoiLookAt* _internal_mutable_poi_look_at();
+
+  public:
+  // .cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;
+  bool has_poi_save_current() const;
+  private:
+  bool _internal_has_poi_save_current() const;
+
+  public:
+  void clear_poi_save_current() ;
+  const ::cmd::RotaryPlatform::PoiSaveCurrent& poi_save_current() const;
+  PROTOBUF_NODISCARD ::cmd::RotaryPlatform::PoiSaveCurrent* release_poi_save_current();
+  ::cmd::RotaryPlatform::PoiSaveCurrent* mutable_poi_save_current();
+  void set_allocated_poi_save_current(::cmd::RotaryPlatform::PoiSaveCurrent* value);
+  void unsafe_arena_set_allocated_poi_save_current(::cmd::RotaryPlatform::PoiSaveCurrent* value);
+  ::cmd::RotaryPlatform::PoiSaveCurrent* unsafe_arena_release_poi_save_current();
+
+  private:
+  const ::cmd::RotaryPlatform::PoiSaveCurrent& _internal_poi_save_current() const;
+  ::cmd::RotaryPlatform::PoiSaveCurrent* _internal_mutable_poi_save_current();
+
+  public:
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.Root)
@@ -8617,16 +8259,15 @@ class Root final : public ::google::protobuf::Message
   void set_has_scan_next();
   void set_has_scan_refresh_node_list();
   void set_has_scan_select_node();
-  void set_has_scan_delete_node();
-  void set_has_scan_update_node();
-  void set_has_scan_add_node();
   void set_has_halt_with_ndc();
   void set_has_unpark();
+  void set_has_poi_look_at();
+  void set_has_poi_save_current();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 26, 26,
+      0, 25, 25,
       0, 2>
       _table_;
 
@@ -8668,11 +8309,10 @@ class Root final : public ::google::protobuf::Message
       ::cmd::RotaryPlatform::ScanNext* scan_next_;
       ::cmd::RotaryPlatform::ScanRefreshNodeList* scan_refresh_node_list_;
       ::cmd::RotaryPlatform::ScanSelectNode* scan_select_node_;
-      ::cmd::RotaryPlatform::ScanDeleteNode* scan_delete_node_;
-      ::cmd::RotaryPlatform::ScanUpdateNode* scan_update_node_;
-      ::cmd::RotaryPlatform::ScanAddNode* scan_add_node_;
       ::cmd::RotaryPlatform::HaltWithNDC* halt_with_ndc_;
       ::cmd::RotaryPlatform::Unpark* unpark_;
+      ::cmd::RotaryPlatform::PoiLookAt* poi_look_at_;
+      ::cmd::RotaryPlatform::PoiSaveCurrent* poi_save_current_;
     } cmd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -10357,243 +9997,6 @@ inline ::cmd::RotaryPlatform::ScanSelectNode* Root::mutable_scan_select_node() A
   return _msg;
 }
 
-// .cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;
-inline bool Root::has_scan_delete_node() const {
-  return cmd_case() == kScanDeleteNode;
-}
-inline bool Root::_internal_has_scan_delete_node() const {
-  return cmd_case() == kScanDeleteNode;
-}
-inline void Root::set_has_scan_delete_node() {
-  _impl_._oneof_case_[0] = kScanDeleteNode;
-}
-inline void Root::clear_scan_delete_node() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (cmd_case() == kScanDeleteNode) {
-    if (GetArena() == nullptr) {
-      delete _impl_.cmd_.scan_delete_node_;
-    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.scan_delete_node_);
-    }
-    clear_has_cmd();
-  }
-}
-inline ::cmd::RotaryPlatform::ScanDeleteNode* Root::release_scan_delete_node() {
-  // @@protoc_insertion_point(field_release:cmd.RotaryPlatform.Root.scan_delete_node)
-  if (cmd_case() == kScanDeleteNode) {
-    clear_has_cmd();
-    auto* temp = _impl_.cmd_.scan_delete_node_;
-    if (GetArena() != nullptr) {
-      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
-    }
-    _impl_.cmd_.scan_delete_node_ = nullptr;
-    return temp;
-  } else {
-    return nullptr;
-  }
-}
-inline const ::cmd::RotaryPlatform::ScanDeleteNode& Root::_internal_scan_delete_node() const {
-  return cmd_case() == kScanDeleteNode ? *_impl_.cmd_.scan_delete_node_ : reinterpret_cast<::cmd::RotaryPlatform::ScanDeleteNode&>(::cmd::RotaryPlatform::_ScanDeleteNode_default_instance_);
-}
-inline const ::cmd::RotaryPlatform::ScanDeleteNode& Root::scan_delete_node() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.Root.scan_delete_node)
-  return _internal_scan_delete_node();
-}
-inline ::cmd::RotaryPlatform::ScanDeleteNode* Root::unsafe_arena_release_scan_delete_node() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.RotaryPlatform.Root.scan_delete_node)
-  if (cmd_case() == kScanDeleteNode) {
-    clear_has_cmd();
-    auto* temp = _impl_.cmd_.scan_delete_node_;
-    _impl_.cmd_.scan_delete_node_ = nullptr;
-    return temp;
-  } else {
-    return nullptr;
-  }
-}
-inline void Root::unsafe_arena_set_allocated_scan_delete_node(::cmd::RotaryPlatform::ScanDeleteNode* value) {
-  // We rely on the oneof clear method to free the earlier contents
-  // of this oneof. We can directly use the pointer we're given to
-  // set the new value.
-  clear_cmd();
-  if (value) {
-    set_has_scan_delete_node();
-    _impl_.cmd_.scan_delete_node_ = value;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.RotaryPlatform.Root.scan_delete_node)
-}
-inline ::cmd::RotaryPlatform::ScanDeleteNode* Root::_internal_mutable_scan_delete_node() {
-  if (cmd_case() != kScanDeleteNode) {
-    clear_cmd();
-    set_has_scan_delete_node();
-    _impl_.cmd_.scan_delete_node_ =
-        ::google::protobuf::Message::DefaultConstruct<::cmd::RotaryPlatform::ScanDeleteNode>(GetArena());
-  }
-  return _impl_.cmd_.scan_delete_node_;
-}
-inline ::cmd::RotaryPlatform::ScanDeleteNode* Root::mutable_scan_delete_node() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  ::cmd::RotaryPlatform::ScanDeleteNode* _msg = _internal_mutable_scan_delete_node();
-  // @@protoc_insertion_point(field_mutable:cmd.RotaryPlatform.Root.scan_delete_node)
-  return _msg;
-}
-
-// .cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;
-inline bool Root::has_scan_update_node() const {
-  return cmd_case() == kScanUpdateNode;
-}
-inline bool Root::_internal_has_scan_update_node() const {
-  return cmd_case() == kScanUpdateNode;
-}
-inline void Root::set_has_scan_update_node() {
-  _impl_._oneof_case_[0] = kScanUpdateNode;
-}
-inline void Root::clear_scan_update_node() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (cmd_case() == kScanUpdateNode) {
-    if (GetArena() == nullptr) {
-      delete _impl_.cmd_.scan_update_node_;
-    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.scan_update_node_);
-    }
-    clear_has_cmd();
-  }
-}
-inline ::cmd::RotaryPlatform::ScanUpdateNode* Root::release_scan_update_node() {
-  // @@protoc_insertion_point(field_release:cmd.RotaryPlatform.Root.scan_update_node)
-  if (cmd_case() == kScanUpdateNode) {
-    clear_has_cmd();
-    auto* temp = _impl_.cmd_.scan_update_node_;
-    if (GetArena() != nullptr) {
-      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
-    }
-    _impl_.cmd_.scan_update_node_ = nullptr;
-    return temp;
-  } else {
-    return nullptr;
-  }
-}
-inline const ::cmd::RotaryPlatform::ScanUpdateNode& Root::_internal_scan_update_node() const {
-  return cmd_case() == kScanUpdateNode ? *_impl_.cmd_.scan_update_node_ : reinterpret_cast<::cmd::RotaryPlatform::ScanUpdateNode&>(::cmd::RotaryPlatform::_ScanUpdateNode_default_instance_);
-}
-inline const ::cmd::RotaryPlatform::ScanUpdateNode& Root::scan_update_node() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.Root.scan_update_node)
-  return _internal_scan_update_node();
-}
-inline ::cmd::RotaryPlatform::ScanUpdateNode* Root::unsafe_arena_release_scan_update_node() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.RotaryPlatform.Root.scan_update_node)
-  if (cmd_case() == kScanUpdateNode) {
-    clear_has_cmd();
-    auto* temp = _impl_.cmd_.scan_update_node_;
-    _impl_.cmd_.scan_update_node_ = nullptr;
-    return temp;
-  } else {
-    return nullptr;
-  }
-}
-inline void Root::unsafe_arena_set_allocated_scan_update_node(::cmd::RotaryPlatform::ScanUpdateNode* value) {
-  // We rely on the oneof clear method to free the earlier contents
-  // of this oneof. We can directly use the pointer we're given to
-  // set the new value.
-  clear_cmd();
-  if (value) {
-    set_has_scan_update_node();
-    _impl_.cmd_.scan_update_node_ = value;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.RotaryPlatform.Root.scan_update_node)
-}
-inline ::cmd::RotaryPlatform::ScanUpdateNode* Root::_internal_mutable_scan_update_node() {
-  if (cmd_case() != kScanUpdateNode) {
-    clear_cmd();
-    set_has_scan_update_node();
-    _impl_.cmd_.scan_update_node_ =
-        ::google::protobuf::Message::DefaultConstruct<::cmd::RotaryPlatform::ScanUpdateNode>(GetArena());
-  }
-  return _impl_.cmd_.scan_update_node_;
-}
-inline ::cmd::RotaryPlatform::ScanUpdateNode* Root::mutable_scan_update_node() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  ::cmd::RotaryPlatform::ScanUpdateNode* _msg = _internal_mutable_scan_update_node();
-  // @@protoc_insertion_point(field_mutable:cmd.RotaryPlatform.Root.scan_update_node)
-  return _msg;
-}
-
-// .cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;
-inline bool Root::has_scan_add_node() const {
-  return cmd_case() == kScanAddNode;
-}
-inline bool Root::_internal_has_scan_add_node() const {
-  return cmd_case() == kScanAddNode;
-}
-inline void Root::set_has_scan_add_node() {
-  _impl_._oneof_case_[0] = kScanAddNode;
-}
-inline void Root::clear_scan_add_node() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (cmd_case() == kScanAddNode) {
-    if (GetArena() == nullptr) {
-      delete _impl_.cmd_.scan_add_node_;
-    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.scan_add_node_);
-    }
-    clear_has_cmd();
-  }
-}
-inline ::cmd::RotaryPlatform::ScanAddNode* Root::release_scan_add_node() {
-  // @@protoc_insertion_point(field_release:cmd.RotaryPlatform.Root.scan_add_node)
-  if (cmd_case() == kScanAddNode) {
-    clear_has_cmd();
-    auto* temp = _impl_.cmd_.scan_add_node_;
-    if (GetArena() != nullptr) {
-      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
-    }
-    _impl_.cmd_.scan_add_node_ = nullptr;
-    return temp;
-  } else {
-    return nullptr;
-  }
-}
-inline const ::cmd::RotaryPlatform::ScanAddNode& Root::_internal_scan_add_node() const {
-  return cmd_case() == kScanAddNode ? *_impl_.cmd_.scan_add_node_ : reinterpret_cast<::cmd::RotaryPlatform::ScanAddNode&>(::cmd::RotaryPlatform::_ScanAddNode_default_instance_);
-}
-inline const ::cmd::RotaryPlatform::ScanAddNode& Root::scan_add_node() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.Root.scan_add_node)
-  return _internal_scan_add_node();
-}
-inline ::cmd::RotaryPlatform::ScanAddNode* Root::unsafe_arena_release_scan_add_node() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.RotaryPlatform.Root.scan_add_node)
-  if (cmd_case() == kScanAddNode) {
-    clear_has_cmd();
-    auto* temp = _impl_.cmd_.scan_add_node_;
-    _impl_.cmd_.scan_add_node_ = nullptr;
-    return temp;
-  } else {
-    return nullptr;
-  }
-}
-inline void Root::unsafe_arena_set_allocated_scan_add_node(::cmd::RotaryPlatform::ScanAddNode* value) {
-  // We rely on the oneof clear method to free the earlier contents
-  // of this oneof. We can directly use the pointer we're given to
-  // set the new value.
-  clear_cmd();
-  if (value) {
-    set_has_scan_add_node();
-    _impl_.cmd_.scan_add_node_ = value;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.RotaryPlatform.Root.scan_add_node)
-}
-inline ::cmd::RotaryPlatform::ScanAddNode* Root::_internal_mutable_scan_add_node() {
-  if (cmd_case() != kScanAddNode) {
-    clear_cmd();
-    set_has_scan_add_node();
-    _impl_.cmd_.scan_add_node_ =
-        ::google::protobuf::Message::DefaultConstruct<::cmd::RotaryPlatform::ScanAddNode>(GetArena());
-  }
-  return _impl_.cmd_.scan_add_node_;
-}
-inline ::cmd::RotaryPlatform::ScanAddNode* Root::mutable_scan_add_node() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  ::cmd::RotaryPlatform::ScanAddNode* _msg = _internal_mutable_scan_add_node();
-  // @@protoc_insertion_point(field_mutable:cmd.RotaryPlatform.Root.scan_add_node)
-  return _msg;
-}
-
 // .cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;
 inline bool Root::has_halt_with_ndc() const {
   return cmd_case() == kHaltWithNdc;
@@ -10749,6 +10152,164 @@ inline ::cmd::RotaryPlatform::Unpark* Root::_internal_mutable_unpark() {
 inline ::cmd::RotaryPlatform::Unpark* Root::mutable_unpark() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   ::cmd::RotaryPlatform::Unpark* _msg = _internal_mutable_unpark();
   // @@protoc_insertion_point(field_mutable:cmd.RotaryPlatform.Root.unpark)
+  return _msg;
+}
+
+// .cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;
+inline bool Root::has_poi_look_at() const {
+  return cmd_case() == kPoiLookAt;
+}
+inline bool Root::_internal_has_poi_look_at() const {
+  return cmd_case() == kPoiLookAt;
+}
+inline void Root::set_has_poi_look_at() {
+  _impl_._oneof_case_[0] = kPoiLookAt;
+}
+inline void Root::clear_poi_look_at() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kPoiLookAt) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.poi_look_at_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.poi_look_at_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::RotaryPlatform::PoiLookAt* Root::release_poi_look_at() {
+  // @@protoc_insertion_point(field_release:cmd.RotaryPlatform.Root.poi_look_at)
+  if (cmd_case() == kPoiLookAt) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.poi_look_at_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.poi_look_at_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::RotaryPlatform::PoiLookAt& Root::_internal_poi_look_at() const {
+  return cmd_case() == kPoiLookAt ? *_impl_.cmd_.poi_look_at_ : reinterpret_cast<::cmd::RotaryPlatform::PoiLookAt&>(::cmd::RotaryPlatform::_PoiLookAt_default_instance_);
+}
+inline const ::cmd::RotaryPlatform::PoiLookAt& Root::poi_look_at() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.Root.poi_look_at)
+  return _internal_poi_look_at();
+}
+inline ::cmd::RotaryPlatform::PoiLookAt* Root::unsafe_arena_release_poi_look_at() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.RotaryPlatform.Root.poi_look_at)
+  if (cmd_case() == kPoiLookAt) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.poi_look_at_;
+    _impl_.cmd_.poi_look_at_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_poi_look_at(::cmd::RotaryPlatform::PoiLookAt* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_poi_look_at();
+    _impl_.cmd_.poi_look_at_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.RotaryPlatform.Root.poi_look_at)
+}
+inline ::cmd::RotaryPlatform::PoiLookAt* Root::_internal_mutable_poi_look_at() {
+  if (cmd_case() != kPoiLookAt) {
+    clear_cmd();
+    set_has_poi_look_at();
+    _impl_.cmd_.poi_look_at_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::RotaryPlatform::PoiLookAt>(GetArena());
+  }
+  return _impl_.cmd_.poi_look_at_;
+}
+inline ::cmd::RotaryPlatform::PoiLookAt* Root::mutable_poi_look_at() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::RotaryPlatform::PoiLookAt* _msg = _internal_mutable_poi_look_at();
+  // @@protoc_insertion_point(field_mutable:cmd.RotaryPlatform.Root.poi_look_at)
+  return _msg;
+}
+
+// .cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;
+inline bool Root::has_poi_save_current() const {
+  return cmd_case() == kPoiSaveCurrent;
+}
+inline bool Root::_internal_has_poi_save_current() const {
+  return cmd_case() == kPoiSaveCurrent;
+}
+inline void Root::set_has_poi_save_current() {
+  _impl_._oneof_case_[0] = kPoiSaveCurrent;
+}
+inline void Root::clear_poi_save_current() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kPoiSaveCurrent) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.poi_save_current_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.poi_save_current_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::RotaryPlatform::PoiSaveCurrent* Root::release_poi_save_current() {
+  // @@protoc_insertion_point(field_release:cmd.RotaryPlatform.Root.poi_save_current)
+  if (cmd_case() == kPoiSaveCurrent) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.poi_save_current_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.poi_save_current_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::RotaryPlatform::PoiSaveCurrent& Root::_internal_poi_save_current() const {
+  return cmd_case() == kPoiSaveCurrent ? *_impl_.cmd_.poi_save_current_ : reinterpret_cast<::cmd::RotaryPlatform::PoiSaveCurrent&>(::cmd::RotaryPlatform::_PoiSaveCurrent_default_instance_);
+}
+inline const ::cmd::RotaryPlatform::PoiSaveCurrent& Root::poi_save_current() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.Root.poi_save_current)
+  return _internal_poi_save_current();
+}
+inline ::cmd::RotaryPlatform::PoiSaveCurrent* Root::unsafe_arena_release_poi_save_current() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.RotaryPlatform.Root.poi_save_current)
+  if (cmd_case() == kPoiSaveCurrent) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.poi_save_current_;
+    _impl_.cmd_.poi_save_current_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_poi_save_current(::cmd::RotaryPlatform::PoiSaveCurrent* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_poi_save_current();
+    _impl_.cmd_.poi_save_current_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.RotaryPlatform.Root.poi_save_current)
+}
+inline ::cmd::RotaryPlatform::PoiSaveCurrent* Root::_internal_mutable_poi_save_current() {
+  if (cmd_case() != kPoiSaveCurrent) {
+    clear_cmd();
+    set_has_poi_save_current();
+    _impl_.cmd_.poi_save_current_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::RotaryPlatform::PoiSaveCurrent>(GetArena());
+  }
+  return _impl_.cmd_.poi_save_current_;
+}
+inline ::cmd::RotaryPlatform::PoiSaveCurrent* Root::mutable_poi_save_current() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::RotaryPlatform::PoiSaveCurrent* _msg = _internal_mutable_poi_save_current();
+  // @@protoc_insertion_point(field_mutable:cmd.RotaryPlatform.Root.poi_save_current)
   return _msg;
 }
 
@@ -12156,344 +11717,54 @@ inline void ScanSelectNode::_internal_set_index(::int32_t value) {
 
 // -------------------------------------------------------------------
 
-// ScanDeleteNode
+// PoiLookAt
 
 // int32 index = 1 [(.buf.validate.field) = {
-inline void ScanDeleteNode::clear_index() {
+inline void PoiLookAt::clear_index() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.index_ = 0;
 }
-inline ::int32_t ScanDeleteNode::index() const {
-  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.ScanDeleteNode.index)
+inline ::int32_t PoiLookAt::index() const {
+  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.PoiLookAt.index)
   return _internal_index();
 }
-inline void ScanDeleteNode::set_index(::int32_t value) {
+inline void PoiLookAt::set_index(::int32_t value) {
   _internal_set_index(value);
-  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.ScanDeleteNode.index)
+  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.PoiLookAt.index)
 }
-inline ::int32_t ScanDeleteNode::_internal_index() const {
+inline ::int32_t PoiLookAt::_internal_index() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.index_;
 }
-inline void ScanDeleteNode::_internal_set_index(::int32_t value) {
+inline void PoiLookAt::_internal_set_index(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.index_ = value;
 }
 
 // -------------------------------------------------------------------
 
-// ScanUpdateNode
+// PoiSaveCurrent
 
 // int32 index = 1 [(.buf.validate.field) = {
-inline void ScanUpdateNode::clear_index() {
+inline void PoiSaveCurrent::clear_index() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.index_ = 0;
 }
-inline ::int32_t ScanUpdateNode::index() const {
-  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.ScanUpdateNode.index)
+inline ::int32_t PoiSaveCurrent::index() const {
+  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.PoiSaveCurrent.index)
   return _internal_index();
 }
-inline void ScanUpdateNode::set_index(::int32_t value) {
+inline void PoiSaveCurrent::set_index(::int32_t value) {
   _internal_set_index(value);
-  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.ScanUpdateNode.index)
+  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.PoiSaveCurrent.index)
 }
-inline ::int32_t ScanUpdateNode::_internal_index() const {
+inline ::int32_t PoiSaveCurrent::_internal_index() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.index_;
 }
-inline void ScanUpdateNode::_internal_set_index(::int32_t value) {
+inline void PoiSaveCurrent::_internal_set_index(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.index_ = value;
-}
-
-// int32 DayZoomTableValue = 2 [(.buf.validate.field) = {
-inline void ScanUpdateNode::clear_dayzoomtablevalue() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.dayzoomtablevalue_ = 0;
-}
-inline ::int32_t ScanUpdateNode::dayzoomtablevalue() const {
-  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.ScanUpdateNode.DayZoomTableValue)
-  return _internal_dayzoomtablevalue();
-}
-inline void ScanUpdateNode::set_dayzoomtablevalue(::int32_t value) {
-  _internal_set_dayzoomtablevalue(value);
-  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.ScanUpdateNode.DayZoomTableValue)
-}
-inline ::int32_t ScanUpdateNode::_internal_dayzoomtablevalue() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.dayzoomtablevalue_;
-}
-inline void ScanUpdateNode::_internal_set_dayzoomtablevalue(::int32_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.dayzoomtablevalue_ = value;
-}
-
-// int32 HeatZoomTableValue = 3 [(.buf.validate.field) = {
-inline void ScanUpdateNode::clear_heatzoomtablevalue() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.heatzoomtablevalue_ = 0;
-}
-inline ::int32_t ScanUpdateNode::heatzoomtablevalue() const {
-  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.ScanUpdateNode.HeatZoomTableValue)
-  return _internal_heatzoomtablevalue();
-}
-inline void ScanUpdateNode::set_heatzoomtablevalue(::int32_t value) {
-  _internal_set_heatzoomtablevalue(value);
-  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.ScanUpdateNode.HeatZoomTableValue)
-}
-inline ::int32_t ScanUpdateNode::_internal_heatzoomtablevalue() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.heatzoomtablevalue_;
-}
-inline void ScanUpdateNode::_internal_set_heatzoomtablevalue(::int32_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.heatzoomtablevalue_ = value;
-}
-
-// double azimuth = 4 [(.buf.validate.field) = {
-inline void ScanUpdateNode::clear_azimuth() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.azimuth_ = 0;
-}
-inline double ScanUpdateNode::azimuth() const {
-  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.ScanUpdateNode.azimuth)
-  return _internal_azimuth();
-}
-inline void ScanUpdateNode::set_azimuth(double value) {
-  _internal_set_azimuth(value);
-  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.ScanUpdateNode.azimuth)
-}
-inline double ScanUpdateNode::_internal_azimuth() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.azimuth_;
-}
-inline void ScanUpdateNode::_internal_set_azimuth(double value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.azimuth_ = value;
-}
-
-// double elevation = 5 [(.buf.validate.field) = {
-inline void ScanUpdateNode::clear_elevation() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.elevation_ = 0;
-}
-inline double ScanUpdateNode::elevation() const {
-  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.ScanUpdateNode.elevation)
-  return _internal_elevation();
-}
-inline void ScanUpdateNode::set_elevation(double value) {
-  _internal_set_elevation(value);
-  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.ScanUpdateNode.elevation)
-}
-inline double ScanUpdateNode::_internal_elevation() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.elevation_;
-}
-inline void ScanUpdateNode::_internal_set_elevation(double value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.elevation_ = value;
-}
-
-// double linger = 6 [(.buf.validate.field) = {
-inline void ScanUpdateNode::clear_linger() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.linger_ = 0;
-}
-inline double ScanUpdateNode::linger() const {
-  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.ScanUpdateNode.linger)
-  return _internal_linger();
-}
-inline void ScanUpdateNode::set_linger(double value) {
-  _internal_set_linger(value);
-  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.ScanUpdateNode.linger)
-}
-inline double ScanUpdateNode::_internal_linger() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.linger_;
-}
-inline void ScanUpdateNode::_internal_set_linger(double value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.linger_ = value;
-}
-
-// double speed = 7 [(.buf.validate.field) = {
-inline void ScanUpdateNode::clear_speed() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.speed_ = 0;
-}
-inline double ScanUpdateNode::speed() const {
-  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.ScanUpdateNode.speed)
-  return _internal_speed();
-}
-inline void ScanUpdateNode::set_speed(double value) {
-  _internal_set_speed(value);
-  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.ScanUpdateNode.speed)
-}
-inline double ScanUpdateNode::_internal_speed() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.speed_;
-}
-inline void ScanUpdateNode::_internal_set_speed(double value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.speed_ = value;
-}
-
-// -------------------------------------------------------------------
-
-// ScanAddNode
-
-// int32 index = 1 [(.buf.validate.field) = {
-inline void ScanAddNode::clear_index() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.index_ = 0;
-}
-inline ::int32_t ScanAddNode::index() const {
-  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.ScanAddNode.index)
-  return _internal_index();
-}
-inline void ScanAddNode::set_index(::int32_t value) {
-  _internal_set_index(value);
-  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.ScanAddNode.index)
-}
-inline ::int32_t ScanAddNode::_internal_index() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.index_;
-}
-inline void ScanAddNode::_internal_set_index(::int32_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.index_ = value;
-}
-
-// int32 DayZoomTableValue = 2 [(.buf.validate.field) = {
-inline void ScanAddNode::clear_dayzoomtablevalue() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.dayzoomtablevalue_ = 0;
-}
-inline ::int32_t ScanAddNode::dayzoomtablevalue() const {
-  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.ScanAddNode.DayZoomTableValue)
-  return _internal_dayzoomtablevalue();
-}
-inline void ScanAddNode::set_dayzoomtablevalue(::int32_t value) {
-  _internal_set_dayzoomtablevalue(value);
-  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.ScanAddNode.DayZoomTableValue)
-}
-inline ::int32_t ScanAddNode::_internal_dayzoomtablevalue() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.dayzoomtablevalue_;
-}
-inline void ScanAddNode::_internal_set_dayzoomtablevalue(::int32_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.dayzoomtablevalue_ = value;
-}
-
-// int32 HeatZoomTableValue = 3 [(.buf.validate.field) = {
-inline void ScanAddNode::clear_heatzoomtablevalue() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.heatzoomtablevalue_ = 0;
-}
-inline ::int32_t ScanAddNode::heatzoomtablevalue() const {
-  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.ScanAddNode.HeatZoomTableValue)
-  return _internal_heatzoomtablevalue();
-}
-inline void ScanAddNode::set_heatzoomtablevalue(::int32_t value) {
-  _internal_set_heatzoomtablevalue(value);
-  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.ScanAddNode.HeatZoomTableValue)
-}
-inline ::int32_t ScanAddNode::_internal_heatzoomtablevalue() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.heatzoomtablevalue_;
-}
-inline void ScanAddNode::_internal_set_heatzoomtablevalue(::int32_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.heatzoomtablevalue_ = value;
-}
-
-// double azimuth = 4 [(.buf.validate.field) = {
-inline void ScanAddNode::clear_azimuth() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.azimuth_ = 0;
-}
-inline double ScanAddNode::azimuth() const {
-  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.ScanAddNode.azimuth)
-  return _internal_azimuth();
-}
-inline void ScanAddNode::set_azimuth(double value) {
-  _internal_set_azimuth(value);
-  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.ScanAddNode.azimuth)
-}
-inline double ScanAddNode::_internal_azimuth() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.azimuth_;
-}
-inline void ScanAddNode::_internal_set_azimuth(double value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.azimuth_ = value;
-}
-
-// double elevation = 5 [(.buf.validate.field) = {
-inline void ScanAddNode::clear_elevation() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.elevation_ = 0;
-}
-inline double ScanAddNode::elevation() const {
-  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.ScanAddNode.elevation)
-  return _internal_elevation();
-}
-inline void ScanAddNode::set_elevation(double value) {
-  _internal_set_elevation(value);
-  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.ScanAddNode.elevation)
-}
-inline double ScanAddNode::_internal_elevation() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.elevation_;
-}
-inline void ScanAddNode::_internal_set_elevation(double value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.elevation_ = value;
-}
-
-// double linger = 6 [(.buf.validate.field) = {
-inline void ScanAddNode::clear_linger() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.linger_ = 0;
-}
-inline double ScanAddNode::linger() const {
-  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.ScanAddNode.linger)
-  return _internal_linger();
-}
-inline void ScanAddNode::set_linger(double value) {
-  _internal_set_linger(value);
-  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.ScanAddNode.linger)
-}
-inline double ScanAddNode::_internal_linger() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.linger_;
-}
-inline void ScanAddNode::_internal_set_linger(double value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.linger_ = value;
-}
-
-// double speed = 7 [(.buf.validate.field) = {
-inline void ScanAddNode::clear_speed() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.speed_ = 0;
-}
-inline double ScanAddNode::speed() const {
-  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.ScanAddNode.speed)
-  return _internal_speed();
-}
-inline void ScanAddNode::set_speed(double value) {
-  _internal_set_speed(value);
-  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.ScanAddNode.speed)
-}
-inline double ScanAddNode::_internal_speed() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.speed_;
-}
-inline void ScanAddNode::_internal_set_speed(double value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.speed_ = value;
 }
 
 // -------------------------------------------------------------------

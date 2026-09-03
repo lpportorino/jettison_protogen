@@ -1154,6 +1154,116 @@ export function jonGuiDataStateSourceToJSON(object: JonGuiDataStateSource): stri
   }
 }
 
+/** Which drive program (eutropia DriveHost) currently owns the rotary platform. */
+export enum JonGuiDataDriveProgram {
+  JON_GUI_DATA_DRIVE_PROGRAM_NONE = 0,
+  JON_GUI_DATA_DRIVE_PROGRAM_SCAN = 1,
+  JON_GUI_DATA_DRIVE_PROGRAM_POI = 2,
+  JON_GUI_DATA_DRIVE_PROGRAM_PARK = 3,
+  UNRECOGNIZED = -1,
+}
+
+export function jonGuiDataDriveProgramFromJSON(object: any): JonGuiDataDriveProgram {
+  switch (object) {
+    case 0:
+    case "JON_GUI_DATA_DRIVE_PROGRAM_NONE":
+      return JonGuiDataDriveProgram.JON_GUI_DATA_DRIVE_PROGRAM_NONE;
+    case 1:
+    case "JON_GUI_DATA_DRIVE_PROGRAM_SCAN":
+      return JonGuiDataDriveProgram.JON_GUI_DATA_DRIVE_PROGRAM_SCAN;
+    case 2:
+    case "JON_GUI_DATA_DRIVE_PROGRAM_POI":
+      return JonGuiDataDriveProgram.JON_GUI_DATA_DRIVE_PROGRAM_POI;
+    case 3:
+    case "JON_GUI_DATA_DRIVE_PROGRAM_PARK":
+      return JonGuiDataDriveProgram.JON_GUI_DATA_DRIVE_PROGRAM_PARK;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return JonGuiDataDriveProgram.UNRECOGNIZED;
+  }
+}
+
+export function jonGuiDataDriveProgramToJSON(object: JonGuiDataDriveProgram): string {
+  switch (object) {
+    case JonGuiDataDriveProgram.JON_GUI_DATA_DRIVE_PROGRAM_NONE:
+      return "JON_GUI_DATA_DRIVE_PROGRAM_NONE";
+    case JonGuiDataDriveProgram.JON_GUI_DATA_DRIVE_PROGRAM_SCAN:
+      return "JON_GUI_DATA_DRIVE_PROGRAM_SCAN";
+    case JonGuiDataDriveProgram.JON_GUI_DATA_DRIVE_PROGRAM_POI:
+      return "JON_GUI_DATA_DRIVE_PROGRAM_POI";
+    case JonGuiDataDriveProgram.JON_GUI_DATA_DRIVE_PROGRAM_PARK:
+      return "JON_GUI_DATA_DRIVE_PROGRAM_PARK";
+    case JonGuiDataDriveProgram.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
+/** Lifecycle state of the owning drive program. */
+export enum JonGuiDataDriveState {
+  JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED = 0,
+  JON_GUI_DATA_DRIVE_STATE_IDLE = 1,
+  JON_GUI_DATA_DRIVE_STATE_ARMED = 2,
+  JON_GUI_DATA_DRIVE_STATE_RUNNING = 3,
+  JON_GUI_DATA_DRIVE_STATE_PAUSED = 4,
+  JON_GUI_DATA_DRIVE_STATE_DONE = 5,
+  JON_GUI_DATA_DRIVE_STATE_FAULT = 6,
+  UNRECOGNIZED = -1,
+}
+
+export function jonGuiDataDriveStateFromJSON(object: any): JonGuiDataDriveState {
+  switch (object) {
+    case 0:
+    case "JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED":
+      return JonGuiDataDriveState.JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED;
+    case 1:
+    case "JON_GUI_DATA_DRIVE_STATE_IDLE":
+      return JonGuiDataDriveState.JON_GUI_DATA_DRIVE_STATE_IDLE;
+    case 2:
+    case "JON_GUI_DATA_DRIVE_STATE_ARMED":
+      return JonGuiDataDriveState.JON_GUI_DATA_DRIVE_STATE_ARMED;
+    case 3:
+    case "JON_GUI_DATA_DRIVE_STATE_RUNNING":
+      return JonGuiDataDriveState.JON_GUI_DATA_DRIVE_STATE_RUNNING;
+    case 4:
+    case "JON_GUI_DATA_DRIVE_STATE_PAUSED":
+      return JonGuiDataDriveState.JON_GUI_DATA_DRIVE_STATE_PAUSED;
+    case 5:
+    case "JON_GUI_DATA_DRIVE_STATE_DONE":
+      return JonGuiDataDriveState.JON_GUI_DATA_DRIVE_STATE_DONE;
+    case 6:
+    case "JON_GUI_DATA_DRIVE_STATE_FAULT":
+      return JonGuiDataDriveState.JON_GUI_DATA_DRIVE_STATE_FAULT;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return JonGuiDataDriveState.UNRECOGNIZED;
+  }
+}
+
+export function jonGuiDataDriveStateToJSON(object: JonGuiDataDriveState): string {
+  switch (object) {
+    case JonGuiDataDriveState.JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED:
+      return "JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED";
+    case JonGuiDataDriveState.JON_GUI_DATA_DRIVE_STATE_IDLE:
+      return "JON_GUI_DATA_DRIVE_STATE_IDLE";
+    case JonGuiDataDriveState.JON_GUI_DATA_DRIVE_STATE_ARMED:
+      return "JON_GUI_DATA_DRIVE_STATE_ARMED";
+    case JonGuiDataDriveState.JON_GUI_DATA_DRIVE_STATE_RUNNING:
+      return "JON_GUI_DATA_DRIVE_STATE_RUNNING";
+    case JonGuiDataDriveState.JON_GUI_DATA_DRIVE_STATE_PAUSED:
+      return "JON_GUI_DATA_DRIVE_STATE_PAUSED";
+    case JonGuiDataDriveState.JON_GUI_DATA_DRIVE_STATE_DONE:
+      return "JON_GUI_DATA_DRIVE_STATE_DONE";
+    case JonGuiDataDriveState.JON_GUI_DATA_DRIVE_STATE_FAULT:
+      return "JON_GUI_DATA_DRIVE_STATE_FAULT";
+    case JonGuiDataDriveState.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
 export interface JonGuiDataMeteo {
   temperature: number;
   humidity: number;

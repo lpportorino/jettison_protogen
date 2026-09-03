@@ -38,11 +38,10 @@ Root message for rotary platform commands that routes various control operations
 | 19 | scan_next | [[proto/cmd.RotaryPlatform.ScanNext]] | - |
 | 20 | scan_refresh_node_list | [[proto/cmd.RotaryPlatform.ScanRefreshNodeList]] | - |
 | 21 | scan_select_node | [[proto/cmd.RotaryPlatform.ScanSelectNode]] | - |
-| 22 | scan_delete_node | [[proto/cmd.RotaryPlatform.ScanDeleteNode]] | - |
-| 23 | scan_update_node | [[proto/cmd.RotaryPlatform.ScanUpdateNode]] | - |
-| 24 | scan_add_node | [[proto/cmd.RotaryPlatform.ScanAddNode]] | - |
 | 25 | halt_with_ndc | [[proto/cmd.RotaryPlatform.HaltWithNDC]] | - |
 | 26 | unpark | [[proto/cmd.RotaryPlatform.Unpark]] | - |
+| 27 | poi_look_at | [[proto/cmd.RotaryPlatform.PoiLookAt]] | - |
+| 28 | poi_save_current | [[proto/cmd.RotaryPlatform.PoiSaveCurrent]] | - |
 
 
 ## Oneofs
@@ -50,7 +49,7 @@ Root message for rotary platform commands that routes various control operations
 
 ### cmd (required)
 
-Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11, #12, #13, #14, #15, #16, #17, #18, #19, #20, #21, #22, #23, #24, #25, #26
+Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11, #12, #13, #14, #15, #16, #17, #18, #19, #20, #21, #25, #26, #27, #28
 
 
 
@@ -186,21 +185,6 @@ See [[proto/cmd.RotaryPlatform.ScanRefreshNodeList]]
 ### scan_select_node (#21)
 
 See [[proto/cmd.RotaryPlatform.ScanSelectNode]]
-
-
-### scan_delete_node (#22)
-
-See [[proto/cmd.RotaryPlatform.ScanDeleteNode]]
-
-
-### scan_update_node (#23)
-
-See [[proto/cmd.RotaryPlatform.ScanUpdateNode]]
-
-
-### scan_add_node (#24)
-
-See [[proto/cmd.RotaryPlatform.ScanAddNode]]
 
 
 ### halt_with_ndc (#25)

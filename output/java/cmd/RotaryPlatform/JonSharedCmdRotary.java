@@ -345,51 +345,6 @@ public final class JonSharedCmdRotary {
     cmd.RotaryPlatform.JonSharedCmdRotary.ScanSelectNodeOrBuilder getScanSelectNodeOrBuilder();
 
     /**
-     * <code>.cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;</code>
-     * @return Whether the scanDeleteNode field is set.
-     */
-    boolean hasScanDeleteNode();
-    /**
-     * <code>.cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;</code>
-     * @return The scanDeleteNode.
-     */
-    cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode getScanDeleteNode();
-    /**
-     * <code>.cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;</code>
-     */
-    cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNodeOrBuilder getScanDeleteNodeOrBuilder();
-
-    /**
-     * <code>.cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;</code>
-     * @return Whether the scanUpdateNode field is set.
-     */
-    boolean hasScanUpdateNode();
-    /**
-     * <code>.cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;</code>
-     * @return The scanUpdateNode.
-     */
-    cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode getScanUpdateNode();
-    /**
-     * <code>.cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;</code>
-     */
-    cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNodeOrBuilder getScanUpdateNodeOrBuilder();
-
-    /**
-     * <code>.cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;</code>
-     * @return Whether the scanAddNode field is set.
-     */
-    boolean hasScanAddNode();
-    /**
-     * <code>.cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;</code>
-     * @return The scanAddNode.
-     */
-    cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode getScanAddNode();
-    /**
-     * <code>.cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;</code>
-     */
-    cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNodeOrBuilder getScanAddNodeOrBuilder();
-
-    /**
      * <code>.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;</code>
      * @return Whether the haltWithNdc field is set.
      */
@@ -418,6 +373,36 @@ public final class JonSharedCmdRotary {
      * <code>.cmd.RotaryPlatform.Unpark unpark = 26;</code>
      */
     cmd.RotaryPlatform.JonSharedCmdRotary.UnparkOrBuilder getUnparkOrBuilder();
+
+    /**
+     * <code>.cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;</code>
+     * @return Whether the poiLookAt field is set.
+     */
+    boolean hasPoiLookAt();
+    /**
+     * <code>.cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;</code>
+     * @return The poiLookAt.
+     */
+    cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt getPoiLookAt();
+    /**
+     * <code>.cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;</code>
+     */
+    cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAtOrBuilder getPoiLookAtOrBuilder();
+
+    /**
+     * <code>.cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;</code>
+     * @return Whether the poiSaveCurrent field is set.
+     */
+    boolean hasPoiSaveCurrent();
+    /**
+     * <code>.cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;</code>
+     * @return The poiSaveCurrent.
+     */
+    cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent getPoiSaveCurrent();
+    /**
+     * <code>.cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;</code>
+     */
+    cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrentOrBuilder getPoiSaveCurrentOrBuilder();
 
     cmd.RotaryPlatform.JonSharedCmdRotary.Root.CmdCase getCmdCase();
   }
@@ -485,11 +470,10 @@ public final class JonSharedCmdRotary {
       SCAN_NEXT(19),
       SCAN_REFRESH_NODE_LIST(20),
       SCAN_SELECT_NODE(21),
-      SCAN_DELETE_NODE(22),
-      SCAN_UPDATE_NODE(23),
-      SCAN_ADD_NODE(24),
       HALT_WITH_NDC(25),
       UNPARK(26),
+      POI_LOOK_AT(27),
+      POI_SAVE_CURRENT(28),
       CMD_NOT_SET(0);
       private final int value;
       private CmdCase(int value) {
@@ -528,11 +512,10 @@ public final class JonSharedCmdRotary {
           case 19: return SCAN_NEXT;
           case 20: return SCAN_REFRESH_NODE_LIST;
           case 21: return SCAN_SELECT_NODE;
-          case 22: return SCAN_DELETE_NODE;
-          case 23: return SCAN_UPDATE_NODE;
-          case 24: return SCAN_ADD_NODE;
           case 25: return HALT_WITH_NDC;
           case 26: return UNPARK;
+          case 27: return POI_LOOK_AT;
+          case 28: return POI_SAVE_CURRENT;
           case 0: return CMD_NOT_SET;
           default: return null;
         }
@@ -1199,99 +1182,6 @@ public final class JonSharedCmdRotary {
       return cmd.RotaryPlatform.JonSharedCmdRotary.ScanSelectNode.getDefaultInstance();
     }
 
-    public static final int SCAN_DELETE_NODE_FIELD_NUMBER = 22;
-    /**
-     * <code>.cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;</code>
-     * @return Whether the scanDeleteNode field is set.
-     */
-    @java.lang.Override
-    public boolean hasScanDeleteNode() {
-      return cmdCase_ == 22;
-    }
-    /**
-     * <code>.cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;</code>
-     * @return The scanDeleteNode.
-     */
-    @java.lang.Override
-    public cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode getScanDeleteNode() {
-      if (cmdCase_ == 22) {
-         return (cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode) cmd_;
-      }
-      return cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.getDefaultInstance();
-    }
-    /**
-     * <code>.cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;</code>
-     */
-    @java.lang.Override
-    public cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNodeOrBuilder getScanDeleteNodeOrBuilder() {
-      if (cmdCase_ == 22) {
-         return (cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode) cmd_;
-      }
-      return cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.getDefaultInstance();
-    }
-
-    public static final int SCAN_UPDATE_NODE_FIELD_NUMBER = 23;
-    /**
-     * <code>.cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;</code>
-     * @return Whether the scanUpdateNode field is set.
-     */
-    @java.lang.Override
-    public boolean hasScanUpdateNode() {
-      return cmdCase_ == 23;
-    }
-    /**
-     * <code>.cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;</code>
-     * @return The scanUpdateNode.
-     */
-    @java.lang.Override
-    public cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode getScanUpdateNode() {
-      if (cmdCase_ == 23) {
-         return (cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode) cmd_;
-      }
-      return cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.getDefaultInstance();
-    }
-    /**
-     * <code>.cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;</code>
-     */
-    @java.lang.Override
-    public cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNodeOrBuilder getScanUpdateNodeOrBuilder() {
-      if (cmdCase_ == 23) {
-         return (cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode) cmd_;
-      }
-      return cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.getDefaultInstance();
-    }
-
-    public static final int SCAN_ADD_NODE_FIELD_NUMBER = 24;
-    /**
-     * <code>.cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;</code>
-     * @return Whether the scanAddNode field is set.
-     */
-    @java.lang.Override
-    public boolean hasScanAddNode() {
-      return cmdCase_ == 24;
-    }
-    /**
-     * <code>.cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;</code>
-     * @return The scanAddNode.
-     */
-    @java.lang.Override
-    public cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode getScanAddNode() {
-      if (cmdCase_ == 24) {
-         return (cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode) cmd_;
-      }
-      return cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.getDefaultInstance();
-    }
-    /**
-     * <code>.cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;</code>
-     */
-    @java.lang.Override
-    public cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNodeOrBuilder getScanAddNodeOrBuilder() {
-      if (cmdCase_ == 24) {
-         return (cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode) cmd_;
-      }
-      return cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.getDefaultInstance();
-    }
-
     public static final int HALT_WITH_NDC_FIELD_NUMBER = 25;
     /**
      * <code>.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;</code>
@@ -1352,6 +1242,68 @@ public final class JonSharedCmdRotary {
          return (cmd.RotaryPlatform.JonSharedCmdRotary.Unpark) cmd_;
       }
       return cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.getDefaultInstance();
+    }
+
+    public static final int POI_LOOK_AT_FIELD_NUMBER = 27;
+    /**
+     * <code>.cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;</code>
+     * @return Whether the poiLookAt field is set.
+     */
+    @java.lang.Override
+    public boolean hasPoiLookAt() {
+      return cmdCase_ == 27;
+    }
+    /**
+     * <code>.cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;</code>
+     * @return The poiLookAt.
+     */
+    @java.lang.Override
+    public cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt getPoiLookAt() {
+      if (cmdCase_ == 27) {
+         return (cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt) cmd_;
+      }
+      return cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;</code>
+     */
+    @java.lang.Override
+    public cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAtOrBuilder getPoiLookAtOrBuilder() {
+      if (cmdCase_ == 27) {
+         return (cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt) cmd_;
+      }
+      return cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.getDefaultInstance();
+    }
+
+    public static final int POI_SAVE_CURRENT_FIELD_NUMBER = 28;
+    /**
+     * <code>.cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;</code>
+     * @return Whether the poiSaveCurrent field is set.
+     */
+    @java.lang.Override
+    public boolean hasPoiSaveCurrent() {
+      return cmdCase_ == 28;
+    }
+    /**
+     * <code>.cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;</code>
+     * @return The poiSaveCurrent.
+     */
+    @java.lang.Override
+    public cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent getPoiSaveCurrent() {
+      if (cmdCase_ == 28) {
+         return (cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent) cmd_;
+      }
+      return cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;</code>
+     */
+    @java.lang.Override
+    public cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrentOrBuilder getPoiSaveCurrentOrBuilder() {
+      if (cmdCase_ == 28) {
+         return (cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent) cmd_;
+      }
+      return cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.getDefaultInstance();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -1431,20 +1383,17 @@ public final class JonSharedCmdRotary {
       if (cmdCase_ == 21) {
         output.writeMessage(21, (cmd.RotaryPlatform.JonSharedCmdRotary.ScanSelectNode) cmd_);
       }
-      if (cmdCase_ == 22) {
-        output.writeMessage(22, (cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode) cmd_);
-      }
-      if (cmdCase_ == 23) {
-        output.writeMessage(23, (cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode) cmd_);
-      }
-      if (cmdCase_ == 24) {
-        output.writeMessage(24, (cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode) cmd_);
-      }
       if (cmdCase_ == 25) {
         output.writeMessage(25, (cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC) cmd_);
       }
       if (cmdCase_ == 26) {
         output.writeMessage(26, (cmd.RotaryPlatform.JonSharedCmdRotary.Unpark) cmd_);
+      }
+      if (cmdCase_ == 27) {
+        output.writeMessage(27, (cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt) cmd_);
+      }
+      if (cmdCase_ == 28) {
+        output.writeMessage(28, (cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent) cmd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1539,18 +1488,6 @@ public final class JonSharedCmdRotary {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(21, (cmd.RotaryPlatform.JonSharedCmdRotary.ScanSelectNode) cmd_);
       }
-      if (cmdCase_ == 22) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(22, (cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode) cmd_);
-      }
-      if (cmdCase_ == 23) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(23, (cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode) cmd_);
-      }
-      if (cmdCase_ == 24) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(24, (cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode) cmd_);
-      }
       if (cmdCase_ == 25) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(25, (cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC) cmd_);
@@ -1558,6 +1495,14 @@ public final class JonSharedCmdRotary {
       if (cmdCase_ == 26) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(26, (cmd.RotaryPlatform.JonSharedCmdRotary.Unpark) cmd_);
+      }
+      if (cmdCase_ == 27) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(27, (cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt) cmd_);
+      }
+      if (cmdCase_ == 28) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(28, (cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent) cmd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1660,18 +1605,6 @@ public final class JonSharedCmdRotary {
           if (!getScanSelectNode()
               .equals(other.getScanSelectNode())) return false;
           break;
-        case 22:
-          if (!getScanDeleteNode()
-              .equals(other.getScanDeleteNode())) return false;
-          break;
-        case 23:
-          if (!getScanUpdateNode()
-              .equals(other.getScanUpdateNode())) return false;
-          break;
-        case 24:
-          if (!getScanAddNode()
-              .equals(other.getScanAddNode())) return false;
-          break;
         case 25:
           if (!getHaltWithNdc()
               .equals(other.getHaltWithNdc())) return false;
@@ -1679,6 +1612,14 @@ public final class JonSharedCmdRotary {
         case 26:
           if (!getUnpark()
               .equals(other.getUnpark())) return false;
+          break;
+        case 27:
+          if (!getPoiLookAt()
+              .equals(other.getPoiLookAt())) return false;
+          break;
+        case 28:
+          if (!getPoiSaveCurrent()
+              .equals(other.getPoiSaveCurrent())) return false;
           break;
         case 0:
         default:
@@ -1779,18 +1720,6 @@ public final class JonSharedCmdRotary {
           hash = (37 * hash) + SCAN_SELECT_NODE_FIELD_NUMBER;
           hash = (53 * hash) + getScanSelectNode().hashCode();
           break;
-        case 22:
-          hash = (37 * hash) + SCAN_DELETE_NODE_FIELD_NUMBER;
-          hash = (53 * hash) + getScanDeleteNode().hashCode();
-          break;
-        case 23:
-          hash = (37 * hash) + SCAN_UPDATE_NODE_FIELD_NUMBER;
-          hash = (53 * hash) + getScanUpdateNode().hashCode();
-          break;
-        case 24:
-          hash = (37 * hash) + SCAN_ADD_NODE_FIELD_NUMBER;
-          hash = (53 * hash) + getScanAddNode().hashCode();
-          break;
         case 25:
           hash = (37 * hash) + HALT_WITH_NDC_FIELD_NUMBER;
           hash = (53 * hash) + getHaltWithNdc().hashCode();
@@ -1798,6 +1727,14 @@ public final class JonSharedCmdRotary {
         case 26:
           hash = (37 * hash) + UNPARK_FIELD_NUMBER;
           hash = (53 * hash) + getUnpark().hashCode();
+          break;
+        case 27:
+          hash = (37 * hash) + POI_LOOK_AT_FIELD_NUMBER;
+          hash = (53 * hash) + getPoiLookAt().hashCode();
+          break;
+        case 28:
+          hash = (37 * hash) + POI_SAVE_CURRENT_FIELD_NUMBER;
+          hash = (53 * hash) + getPoiSaveCurrent().hashCode();
           break;
         case 0:
         default:
@@ -1996,20 +1933,17 @@ public final class JonSharedCmdRotary {
         if (scanSelectNodeBuilder_ != null) {
           scanSelectNodeBuilder_.clear();
         }
-        if (scanDeleteNodeBuilder_ != null) {
-          scanDeleteNodeBuilder_.clear();
-        }
-        if (scanUpdateNodeBuilder_ != null) {
-          scanUpdateNodeBuilder_.clear();
-        }
-        if (scanAddNodeBuilder_ != null) {
-          scanAddNodeBuilder_.clear();
-        }
         if (haltWithNdcBuilder_ != null) {
           haltWithNdcBuilder_.clear();
         }
         if (unparkBuilder_ != null) {
           unparkBuilder_.clear();
+        }
+        if (poiLookAtBuilder_ != null) {
+          poiLookAtBuilder_.clear();
+        }
+        if (poiSaveCurrentBuilder_ != null) {
+          poiSaveCurrentBuilder_.clear();
         }
         cmdCase_ = 0;
         cmd_ = null;
@@ -2136,18 +2070,6 @@ public final class JonSharedCmdRotary {
             scanSelectNodeBuilder_ != null) {
           result.cmd_ = scanSelectNodeBuilder_.build();
         }
-        if (cmdCase_ == 22 &&
-            scanDeleteNodeBuilder_ != null) {
-          result.cmd_ = scanDeleteNodeBuilder_.build();
-        }
-        if (cmdCase_ == 23 &&
-            scanUpdateNodeBuilder_ != null) {
-          result.cmd_ = scanUpdateNodeBuilder_.build();
-        }
-        if (cmdCase_ == 24 &&
-            scanAddNodeBuilder_ != null) {
-          result.cmd_ = scanAddNodeBuilder_.build();
-        }
         if (cmdCase_ == 25 &&
             haltWithNdcBuilder_ != null) {
           result.cmd_ = haltWithNdcBuilder_.build();
@@ -2155,6 +2077,14 @@ public final class JonSharedCmdRotary {
         if (cmdCase_ == 26 &&
             unparkBuilder_ != null) {
           result.cmd_ = unparkBuilder_.build();
+        }
+        if (cmdCase_ == 27 &&
+            poiLookAtBuilder_ != null) {
+          result.cmd_ = poiLookAtBuilder_.build();
+        }
+        if (cmdCase_ == 28 &&
+            poiSaveCurrentBuilder_ != null) {
+          result.cmd_ = poiSaveCurrentBuilder_.build();
         }
       }
 
@@ -2255,24 +2185,20 @@ public final class JonSharedCmdRotary {
             mergeScanSelectNode(other.getScanSelectNode());
             break;
           }
-          case SCAN_DELETE_NODE: {
-            mergeScanDeleteNode(other.getScanDeleteNode());
-            break;
-          }
-          case SCAN_UPDATE_NODE: {
-            mergeScanUpdateNode(other.getScanUpdateNode());
-            break;
-          }
-          case SCAN_ADD_NODE: {
-            mergeScanAddNode(other.getScanAddNode());
-            break;
-          }
           case HALT_WITH_NDC: {
             mergeHaltWithNdc(other.getHaltWithNdc());
             break;
           }
           case UNPARK: {
             mergeUnpark(other.getUnpark());
+            break;
+          }
+          case POI_LOOK_AT: {
+            mergePoiLookAt(other.getPoiLookAt());
+            break;
+          }
+          case POI_SAVE_CURRENT: {
+            mergePoiSaveCurrent(other.getPoiSaveCurrent());
             break;
           }
           case CMD_NOT_SET: {
@@ -2452,27 +2378,6 @@ public final class JonSharedCmdRotary {
                 cmdCase_ = 21;
                 break;
               } // case 170
-              case 178: {
-                input.readMessage(
-                    getScanDeleteNodeFieldBuilder().getBuilder(),
-                    extensionRegistry);
-                cmdCase_ = 22;
-                break;
-              } // case 178
-              case 186: {
-                input.readMessage(
-                    getScanUpdateNodeFieldBuilder().getBuilder(),
-                    extensionRegistry);
-                cmdCase_ = 23;
-                break;
-              } // case 186
-              case 194: {
-                input.readMessage(
-                    getScanAddNodeFieldBuilder().getBuilder(),
-                    extensionRegistry);
-                cmdCase_ = 24;
-                break;
-              } // case 194
               case 202: {
                 input.readMessage(
                     getHaltWithNdcFieldBuilder().getBuilder(),
@@ -2487,6 +2392,20 @@ public final class JonSharedCmdRotary {
                 cmdCase_ = 26;
                 break;
               } // case 210
+              case 218: {
+                input.readMessage(
+                    getPoiLookAtFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 27;
+                break;
+              } // case 218
+              case 226: {
+                input.readMessage(
+                    getPoiSaveCurrentFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 28;
+                break;
+              } // case 226
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -5502,432 +5421,6 @@ public final class JonSharedCmdRotary {
       }
 
       private com.google.protobuf.SingleFieldBuilder<
-          cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode, cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNodeOrBuilder> scanDeleteNodeBuilder_;
-      /**
-       * <code>.cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;</code>
-       * @return Whether the scanDeleteNode field is set.
-       */
-      @java.lang.Override
-      public boolean hasScanDeleteNode() {
-        return cmdCase_ == 22;
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;</code>
-       * @return The scanDeleteNode.
-       */
-      @java.lang.Override
-      public cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode getScanDeleteNode() {
-        if (scanDeleteNodeBuilder_ == null) {
-          if (cmdCase_ == 22) {
-            return (cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode) cmd_;
-          }
-          return cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.getDefaultInstance();
-        } else {
-          if (cmdCase_ == 22) {
-            return scanDeleteNodeBuilder_.getMessage();
-          }
-          return cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;</code>
-       */
-      public Builder setScanDeleteNode(cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode value) {
-        if (scanDeleteNodeBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          cmd_ = value;
-          onChanged();
-        } else {
-          scanDeleteNodeBuilder_.setMessage(value);
-        }
-        cmdCase_ = 22;
-        return this;
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;</code>
-       */
-      public Builder setScanDeleteNode(
-          cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.Builder builderForValue) {
-        if (scanDeleteNodeBuilder_ == null) {
-          cmd_ = builderForValue.build();
-          onChanged();
-        } else {
-          scanDeleteNodeBuilder_.setMessage(builderForValue.build());
-        }
-        cmdCase_ = 22;
-        return this;
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;</code>
-       */
-      public Builder mergeScanDeleteNode(cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode value) {
-        if (scanDeleteNodeBuilder_ == null) {
-          if (cmdCase_ == 22 &&
-              cmd_ != cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.getDefaultInstance()) {
-            cmd_ = cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.newBuilder((cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode) cmd_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            cmd_ = value;
-          }
-          onChanged();
-        } else {
-          if (cmdCase_ == 22) {
-            scanDeleteNodeBuilder_.mergeFrom(value);
-          } else {
-            scanDeleteNodeBuilder_.setMessage(value);
-          }
-        }
-        cmdCase_ = 22;
-        return this;
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;</code>
-       */
-      public Builder clearScanDeleteNode() {
-        if (scanDeleteNodeBuilder_ == null) {
-          if (cmdCase_ == 22) {
-            cmdCase_ = 0;
-            cmd_ = null;
-            onChanged();
-          }
-        } else {
-          if (cmdCase_ == 22) {
-            cmdCase_ = 0;
-            cmd_ = null;
-          }
-          scanDeleteNodeBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;</code>
-       */
-      public cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.Builder getScanDeleteNodeBuilder() {
-        return getScanDeleteNodeFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;</code>
-       */
-      @java.lang.Override
-      public cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNodeOrBuilder getScanDeleteNodeOrBuilder() {
-        if ((cmdCase_ == 22) && (scanDeleteNodeBuilder_ != null)) {
-          return scanDeleteNodeBuilder_.getMessageOrBuilder();
-        } else {
-          if (cmdCase_ == 22) {
-            return (cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode) cmd_;
-          }
-          return cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode, cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNodeOrBuilder> 
-          getScanDeleteNodeFieldBuilder() {
-        if (scanDeleteNodeBuilder_ == null) {
-          if (!(cmdCase_ == 22)) {
-            cmd_ = cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.getDefaultInstance();
-          }
-          scanDeleteNodeBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode, cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNodeOrBuilder>(
-                  (cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode) cmd_,
-                  getParentForChildren(),
-                  isClean());
-          cmd_ = null;
-        }
-        cmdCase_ = 22;
-        onChanged();
-        return scanDeleteNodeBuilder_;
-      }
-
-      private com.google.protobuf.SingleFieldBuilder<
-          cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode, cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNodeOrBuilder> scanUpdateNodeBuilder_;
-      /**
-       * <code>.cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;</code>
-       * @return Whether the scanUpdateNode field is set.
-       */
-      @java.lang.Override
-      public boolean hasScanUpdateNode() {
-        return cmdCase_ == 23;
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;</code>
-       * @return The scanUpdateNode.
-       */
-      @java.lang.Override
-      public cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode getScanUpdateNode() {
-        if (scanUpdateNodeBuilder_ == null) {
-          if (cmdCase_ == 23) {
-            return (cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode) cmd_;
-          }
-          return cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.getDefaultInstance();
-        } else {
-          if (cmdCase_ == 23) {
-            return scanUpdateNodeBuilder_.getMessage();
-          }
-          return cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;</code>
-       */
-      public Builder setScanUpdateNode(cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode value) {
-        if (scanUpdateNodeBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          cmd_ = value;
-          onChanged();
-        } else {
-          scanUpdateNodeBuilder_.setMessage(value);
-        }
-        cmdCase_ = 23;
-        return this;
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;</code>
-       */
-      public Builder setScanUpdateNode(
-          cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.Builder builderForValue) {
-        if (scanUpdateNodeBuilder_ == null) {
-          cmd_ = builderForValue.build();
-          onChanged();
-        } else {
-          scanUpdateNodeBuilder_.setMessage(builderForValue.build());
-        }
-        cmdCase_ = 23;
-        return this;
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;</code>
-       */
-      public Builder mergeScanUpdateNode(cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode value) {
-        if (scanUpdateNodeBuilder_ == null) {
-          if (cmdCase_ == 23 &&
-              cmd_ != cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.getDefaultInstance()) {
-            cmd_ = cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.newBuilder((cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode) cmd_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            cmd_ = value;
-          }
-          onChanged();
-        } else {
-          if (cmdCase_ == 23) {
-            scanUpdateNodeBuilder_.mergeFrom(value);
-          } else {
-            scanUpdateNodeBuilder_.setMessage(value);
-          }
-        }
-        cmdCase_ = 23;
-        return this;
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;</code>
-       */
-      public Builder clearScanUpdateNode() {
-        if (scanUpdateNodeBuilder_ == null) {
-          if (cmdCase_ == 23) {
-            cmdCase_ = 0;
-            cmd_ = null;
-            onChanged();
-          }
-        } else {
-          if (cmdCase_ == 23) {
-            cmdCase_ = 0;
-            cmd_ = null;
-          }
-          scanUpdateNodeBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;</code>
-       */
-      public cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.Builder getScanUpdateNodeBuilder() {
-        return getScanUpdateNodeFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;</code>
-       */
-      @java.lang.Override
-      public cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNodeOrBuilder getScanUpdateNodeOrBuilder() {
-        if ((cmdCase_ == 23) && (scanUpdateNodeBuilder_ != null)) {
-          return scanUpdateNodeBuilder_.getMessageOrBuilder();
-        } else {
-          if (cmdCase_ == 23) {
-            return (cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode) cmd_;
-          }
-          return cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode, cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNodeOrBuilder> 
-          getScanUpdateNodeFieldBuilder() {
-        if (scanUpdateNodeBuilder_ == null) {
-          if (!(cmdCase_ == 23)) {
-            cmd_ = cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.getDefaultInstance();
-          }
-          scanUpdateNodeBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode, cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNodeOrBuilder>(
-                  (cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode) cmd_,
-                  getParentForChildren(),
-                  isClean());
-          cmd_ = null;
-        }
-        cmdCase_ = 23;
-        onChanged();
-        return scanUpdateNodeBuilder_;
-      }
-
-      private com.google.protobuf.SingleFieldBuilder<
-          cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode, cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNodeOrBuilder> scanAddNodeBuilder_;
-      /**
-       * <code>.cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;</code>
-       * @return Whether the scanAddNode field is set.
-       */
-      @java.lang.Override
-      public boolean hasScanAddNode() {
-        return cmdCase_ == 24;
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;</code>
-       * @return The scanAddNode.
-       */
-      @java.lang.Override
-      public cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode getScanAddNode() {
-        if (scanAddNodeBuilder_ == null) {
-          if (cmdCase_ == 24) {
-            return (cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode) cmd_;
-          }
-          return cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.getDefaultInstance();
-        } else {
-          if (cmdCase_ == 24) {
-            return scanAddNodeBuilder_.getMessage();
-          }
-          return cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;</code>
-       */
-      public Builder setScanAddNode(cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode value) {
-        if (scanAddNodeBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          cmd_ = value;
-          onChanged();
-        } else {
-          scanAddNodeBuilder_.setMessage(value);
-        }
-        cmdCase_ = 24;
-        return this;
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;</code>
-       */
-      public Builder setScanAddNode(
-          cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.Builder builderForValue) {
-        if (scanAddNodeBuilder_ == null) {
-          cmd_ = builderForValue.build();
-          onChanged();
-        } else {
-          scanAddNodeBuilder_.setMessage(builderForValue.build());
-        }
-        cmdCase_ = 24;
-        return this;
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;</code>
-       */
-      public Builder mergeScanAddNode(cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode value) {
-        if (scanAddNodeBuilder_ == null) {
-          if (cmdCase_ == 24 &&
-              cmd_ != cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.getDefaultInstance()) {
-            cmd_ = cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.newBuilder((cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode) cmd_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            cmd_ = value;
-          }
-          onChanged();
-        } else {
-          if (cmdCase_ == 24) {
-            scanAddNodeBuilder_.mergeFrom(value);
-          } else {
-            scanAddNodeBuilder_.setMessage(value);
-          }
-        }
-        cmdCase_ = 24;
-        return this;
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;</code>
-       */
-      public Builder clearScanAddNode() {
-        if (scanAddNodeBuilder_ == null) {
-          if (cmdCase_ == 24) {
-            cmdCase_ = 0;
-            cmd_ = null;
-            onChanged();
-          }
-        } else {
-          if (cmdCase_ == 24) {
-            cmdCase_ = 0;
-            cmd_ = null;
-          }
-          scanAddNodeBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;</code>
-       */
-      public cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.Builder getScanAddNodeBuilder() {
-        return getScanAddNodeFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;</code>
-       */
-      @java.lang.Override
-      public cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNodeOrBuilder getScanAddNodeOrBuilder() {
-        if ((cmdCase_ == 24) && (scanAddNodeBuilder_ != null)) {
-          return scanAddNodeBuilder_.getMessageOrBuilder();
-        } else {
-          if (cmdCase_ == 24) {
-            return (cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode) cmd_;
-          }
-          return cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode, cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNodeOrBuilder> 
-          getScanAddNodeFieldBuilder() {
-        if (scanAddNodeBuilder_ == null) {
-          if (!(cmdCase_ == 24)) {
-            cmd_ = cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.getDefaultInstance();
-          }
-          scanAddNodeBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode, cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNodeOrBuilder>(
-                  (cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode) cmd_,
-                  getParentForChildren(),
-                  isClean());
-          cmd_ = null;
-        }
-        cmdCase_ = 24;
-        onChanged();
-        return scanAddNodeBuilder_;
-      }
-
-      private com.google.protobuf.SingleFieldBuilder<
           cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC, cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDCOrBuilder> haltWithNdcBuilder_;
       /**
        * <code>.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;</code>
@@ -6209,6 +5702,290 @@ public final class JonSharedCmdRotary {
         cmdCase_ = 26;
         onChanged();
         return unparkBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt, cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAtOrBuilder> poiLookAtBuilder_;
+      /**
+       * <code>.cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;</code>
+       * @return Whether the poiLookAt field is set.
+       */
+      @java.lang.Override
+      public boolean hasPoiLookAt() {
+        return cmdCase_ == 27;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;</code>
+       * @return The poiLookAt.
+       */
+      @java.lang.Override
+      public cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt getPoiLookAt() {
+        if (poiLookAtBuilder_ == null) {
+          if (cmdCase_ == 27) {
+            return (cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt) cmd_;
+          }
+          return cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 27) {
+            return poiLookAtBuilder_.getMessage();
+          }
+          return cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;</code>
+       */
+      public Builder setPoiLookAt(cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt value) {
+        if (poiLookAtBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          poiLookAtBuilder_.setMessage(value);
+        }
+        cmdCase_ = 27;
+        return this;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;</code>
+       */
+      public Builder setPoiLookAt(
+          cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.Builder builderForValue) {
+        if (poiLookAtBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          poiLookAtBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 27;
+        return this;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;</code>
+       */
+      public Builder mergePoiLookAt(cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt value) {
+        if (poiLookAtBuilder_ == null) {
+          if (cmdCase_ == 27 &&
+              cmd_ != cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.getDefaultInstance()) {
+            cmd_ = cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.newBuilder((cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 27) {
+            poiLookAtBuilder_.mergeFrom(value);
+          } else {
+            poiLookAtBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 27;
+        return this;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;</code>
+       */
+      public Builder clearPoiLookAt() {
+        if (poiLookAtBuilder_ == null) {
+          if (cmdCase_ == 27) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 27) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          poiLookAtBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;</code>
+       */
+      public cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.Builder getPoiLookAtBuilder() {
+        return getPoiLookAtFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;</code>
+       */
+      @java.lang.Override
+      public cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAtOrBuilder getPoiLookAtOrBuilder() {
+        if ((cmdCase_ == 27) && (poiLookAtBuilder_ != null)) {
+          return poiLookAtBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 27) {
+            return (cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt) cmd_;
+          }
+          return cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt, cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAtOrBuilder> 
+          getPoiLookAtFieldBuilder() {
+        if (poiLookAtBuilder_ == null) {
+          if (!(cmdCase_ == 27)) {
+            cmd_ = cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.getDefaultInstance();
+          }
+          poiLookAtBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt, cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAtOrBuilder>(
+                  (cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 27;
+        onChanged();
+        return poiLookAtBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent, cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrentOrBuilder> poiSaveCurrentBuilder_;
+      /**
+       * <code>.cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;</code>
+       * @return Whether the poiSaveCurrent field is set.
+       */
+      @java.lang.Override
+      public boolean hasPoiSaveCurrent() {
+        return cmdCase_ == 28;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;</code>
+       * @return The poiSaveCurrent.
+       */
+      @java.lang.Override
+      public cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent getPoiSaveCurrent() {
+        if (poiSaveCurrentBuilder_ == null) {
+          if (cmdCase_ == 28) {
+            return (cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent) cmd_;
+          }
+          return cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 28) {
+            return poiSaveCurrentBuilder_.getMessage();
+          }
+          return cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;</code>
+       */
+      public Builder setPoiSaveCurrent(cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent value) {
+        if (poiSaveCurrentBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          poiSaveCurrentBuilder_.setMessage(value);
+        }
+        cmdCase_ = 28;
+        return this;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;</code>
+       */
+      public Builder setPoiSaveCurrent(
+          cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.Builder builderForValue) {
+        if (poiSaveCurrentBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          poiSaveCurrentBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 28;
+        return this;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;</code>
+       */
+      public Builder mergePoiSaveCurrent(cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent value) {
+        if (poiSaveCurrentBuilder_ == null) {
+          if (cmdCase_ == 28 &&
+              cmd_ != cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.getDefaultInstance()) {
+            cmd_ = cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.newBuilder((cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 28) {
+            poiSaveCurrentBuilder_.mergeFrom(value);
+          } else {
+            poiSaveCurrentBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 28;
+        return this;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;</code>
+       */
+      public Builder clearPoiSaveCurrent() {
+        if (poiSaveCurrentBuilder_ == null) {
+          if (cmdCase_ == 28) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 28) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          poiSaveCurrentBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;</code>
+       */
+      public cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.Builder getPoiSaveCurrentBuilder() {
+        return getPoiSaveCurrentFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;</code>
+       */
+      @java.lang.Override
+      public cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrentOrBuilder getPoiSaveCurrentOrBuilder() {
+        if ((cmdCase_ == 28) && (poiSaveCurrentBuilder_ != null)) {
+          return poiSaveCurrentBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 28) {
+            return (cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent) cmd_;
+          }
+          return cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent, cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrentOrBuilder> 
+          getPoiSaveCurrentFieldBuilder() {
+        if (poiSaveCurrentBuilder_ == null) {
+          if (!(cmdCase_ == 28)) {
+            cmd_ = cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.getDefaultInstance();
+          }
+          poiSaveCurrentBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent, cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrentOrBuilder>(
+                  (cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 28;
+        onChanged();
+        return poiSaveCurrentBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:cmd.RotaryPlatform.Root)
@@ -21496,8 +21273,8 @@ public final class JonSharedCmdRotary {
 
   }
 
-  public interface ScanDeleteNodeOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:cmd.RotaryPlatform.ScanDeleteNode)
+  public interface PoiLookAtOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.RotaryPlatform.PoiLookAt)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -21507,12 +21284,19 @@ public final class JonSharedCmdRotary {
     int getIndex();
   }
   /**
-   * Protobuf type {@code cmd.RotaryPlatform.ScanDeleteNode}
+   * <pre>
+   * Slew to the point of interest stored in slot `index` (poi_api_server,
+   * Redis db8 `rotary:poi:&lt;index&gt;`) and apply its day/heat zoom-table
+   * positions. Consumed by eutropia's drive host, which runs the verified
+   * look-at program; the frontend no longer composes axis commands itself.
+   * </pre>
+   *
+   * Protobuf type {@code cmd.RotaryPlatform.PoiLookAt}
    */
-  public static final class ScanDeleteNode extends
+  public static final class PoiLookAt extends
       com.google.protobuf.GeneratedMessage implements
-      // @@protoc_insertion_point(message_implements:cmd.RotaryPlatform.ScanDeleteNode)
-      ScanDeleteNodeOrBuilder {
+      // @@protoc_insertion_point(message_implements:cmd.RotaryPlatform.PoiLookAt)
+      PoiLookAtOrBuilder {
   private static final long serialVersionUID = 0L;
     static {
       com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
@@ -21521,26 +21305,26 @@ public final class JonSharedCmdRotary {
         /* minor= */ 29,
         /* patch= */ 2,
         /* suffix= */ "",
-        ScanDeleteNode.class.getName());
+        PoiLookAt.class.getName());
     }
-    // Use ScanDeleteNode.newBuilder() to construct.
-    private ScanDeleteNode(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    // Use PoiLookAt.newBuilder() to construct.
+    private PoiLookAt(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
     }
-    private ScanDeleteNode() {
+    private PoiLookAt() {
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_ScanDeleteNode_descriptor;
+      return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_PoiLookAt_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_ScanDeleteNode_fieldAccessorTable
+      return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_PoiLookAt_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.class, cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.Builder.class);
+              cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.class, cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.Builder.class);
     }
 
     public static final int INDEX_FIELD_NUMBER = 1;
@@ -21594,10 +21378,10 @@ public final class JonSharedCmdRotary {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode)) {
+      if (!(obj instanceof cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt)) {
         return super.equals(obj);
       }
-      cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode other = (cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode) obj;
+      cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt other = (cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt) obj;
 
       if (getIndex()
           != other.getIndex()) return false;
@@ -21619,44 +21403,44 @@ public final class JonSharedCmdRotary {
       return hash;
     }
 
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode parseFrom(
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode parseFrom(
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode parseFrom(
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode parseFrom(
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode parseFrom(byte[] data)
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode parseFrom(
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode parseFrom(java.io.InputStream input)
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseWithIOException(PARSER, input);
     }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode parseFrom(
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -21664,26 +21448,26 @@ public final class JonSharedCmdRotary {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode parseDelimitedFrom(java.io.InputStream input)
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseDelimitedWithIOException(PARSER, input);
     }
 
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode parseDelimitedFrom(
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode parseFrom(
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseWithIOException(PARSER, input);
     }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode parseFrom(
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -21696,7 +21480,7 @@ public final class JonSharedCmdRotary {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode prototype) {
+    public static Builder newBuilder(cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -21712,26 +21496,33 @@ public final class JonSharedCmdRotary {
       return builder;
     }
     /**
-     * Protobuf type {@code cmd.RotaryPlatform.ScanDeleteNode}
+     * <pre>
+     * Slew to the point of interest stored in slot `index` (poi_api_server,
+     * Redis db8 `rotary:poi:&lt;index&gt;`) and apply its day/heat zoom-table
+     * positions. Consumed by eutropia's drive host, which runs the verified
+     * look-at program; the frontend no longer composes axis commands itself.
+     * </pre>
+     *
+     * Protobuf type {@code cmd.RotaryPlatform.PoiLookAt}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:cmd.RotaryPlatform.ScanDeleteNode)
-        cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNodeOrBuilder {
+        // @@protoc_insertion_point(builder_implements:cmd.RotaryPlatform.PoiLookAt)
+        cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAtOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_ScanDeleteNode_descriptor;
+        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_PoiLookAt_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_ScanDeleteNode_fieldAccessorTable
+        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_PoiLookAt_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.class, cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.Builder.class);
+                cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.class, cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.Builder.class);
       }
 
-      // Construct using cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.newBuilder()
+      // Construct using cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.newBuilder()
       private Builder() {
 
       }
@@ -21752,17 +21543,17 @@ public final class JonSharedCmdRotary {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_ScanDeleteNode_descriptor;
+        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_PoiLookAt_descriptor;
       }
 
       @java.lang.Override
-      public cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode getDefaultInstanceForType() {
-        return cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.getDefaultInstance();
+      public cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt getDefaultInstanceForType() {
+        return cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.getDefaultInstance();
       }
 
       @java.lang.Override
-      public cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode build() {
-        cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode result = buildPartial();
+      public cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt build() {
+        cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -21770,14 +21561,14 @@ public final class JonSharedCmdRotary {
       }
 
       @java.lang.Override
-      public cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode buildPartial() {
-        cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode result = new cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode(this);
+      public cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt buildPartial() {
+        cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt result = new cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt(this);
         if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
-      private void buildPartial0(cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode result) {
+      private void buildPartial0(cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt result) {
         int from_bitField0_ = bitField0_;
         if (((from_bitField0_ & 0x00000001) != 0)) {
           result.index_ = index_;
@@ -21786,16 +21577,16 @@ public final class JonSharedCmdRotary {
 
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode) {
-          return mergeFrom((cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode)other);
+        if (other instanceof cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt) {
+          return mergeFrom((cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode other) {
-        if (other == cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode.getDefaultInstance()) return this;
+      public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt other) {
+        if (other == cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt.getDefaultInstance()) return this;
         if (other.getIndex() != 0) {
           setIndex(other.getIndex());
         }
@@ -21879,23 +21670,23 @@ public final class JonSharedCmdRotary {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:cmd.RotaryPlatform.ScanDeleteNode)
+      // @@protoc_insertion_point(builder_scope:cmd.RotaryPlatform.PoiLookAt)
     }
 
-    // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.ScanDeleteNode)
-    private static final cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.PoiLookAt)
+    private static final cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode();
+      DEFAULT_INSTANCE = new cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt();
     }
 
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode getDefaultInstance() {
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ScanDeleteNode>
-        PARSER = new com.google.protobuf.AbstractParser<ScanDeleteNode>() {
+    private static final com.google.protobuf.Parser<PoiLookAt>
+        PARSER = new com.google.protobuf.AbstractParser<PoiLookAt>() {
       @java.lang.Override
-      public ScanDeleteNode parsePartialFrom(
+      public PoiLookAt parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -21914,24 +21705,24 @@ public final class JonSharedCmdRotary {
       }
     };
 
-    public static com.google.protobuf.Parser<ScanDeleteNode> parser() {
+    public static com.google.protobuf.Parser<PoiLookAt> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ScanDeleteNode> getParserForType() {
+    public com.google.protobuf.Parser<PoiLookAt> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode getDefaultInstanceForType() {
+    public cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface ScanUpdateNodeOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:cmd.RotaryPlatform.ScanUpdateNode)
+  public interface PoiSaveCurrentOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.RotaryPlatform.PoiSaveCurrent)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -21939,50 +21730,20 @@ public final class JonSharedCmdRotary {
      * @return The index.
      */
     int getIndex();
-
-    /**
-     * <code>int32 DayZoomTableValue = 2 [(.buf.validate.field) = { ... }</code>
-     * @return The dayZoomTableValue.
-     */
-    int getDayZoomTableValue();
-
-    /**
-     * <code>int32 HeatZoomTableValue = 3 [(.buf.validate.field) = { ... }</code>
-     * @return The heatZoomTableValue.
-     */
-    int getHeatZoomTableValue();
-
-    /**
-     * <code>double azimuth = 4 [(.buf.validate.field) = { ... }</code>
-     * @return The azimuth.
-     */
-    double getAzimuth();
-
-    /**
-     * <code>double elevation = 5 [(.buf.validate.field) = { ... }</code>
-     * @return The elevation.
-     */
-    double getElevation();
-
-    /**
-     * <code>double linger = 6 [(.buf.validate.field) = { ... }</code>
-     * @return The linger.
-     */
-    double getLinger();
-
-    /**
-     * <code>double speed = 7 [(.buf.validate.field) = { ... }</code>
-     * @return The speed.
-     */
-    double getSpeed();
   }
   /**
-   * Protobuf type {@code cmd.RotaryPlatform.ScanUpdateNode}
+   * <pre>
+   * Store the current pointing (compensated azimuth/elevation + both
+   * zoom-table positions) into POI slot `index`. Consumed by eutropia's
+   * drive host, which snapshots state and POSTs to poi_api_server.
+   * </pre>
+   *
+   * Protobuf type {@code cmd.RotaryPlatform.PoiSaveCurrent}
    */
-  public static final class ScanUpdateNode extends
+  public static final class PoiSaveCurrent extends
       com.google.protobuf.GeneratedMessage implements
-      // @@protoc_insertion_point(message_implements:cmd.RotaryPlatform.ScanUpdateNode)
-      ScanUpdateNodeOrBuilder {
+      // @@protoc_insertion_point(message_implements:cmd.RotaryPlatform.PoiSaveCurrent)
+      PoiSaveCurrentOrBuilder {
   private static final long serialVersionUID = 0L;
     static {
       com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
@@ -21991,26 +21752,26 @@ public final class JonSharedCmdRotary {
         /* minor= */ 29,
         /* patch= */ 2,
         /* suffix= */ "",
-        ScanUpdateNode.class.getName());
+        PoiSaveCurrent.class.getName());
     }
-    // Use ScanUpdateNode.newBuilder() to construct.
-    private ScanUpdateNode(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    // Use PoiSaveCurrent.newBuilder() to construct.
+    private PoiSaveCurrent(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
     }
-    private ScanUpdateNode() {
+    private PoiSaveCurrent() {
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_ScanUpdateNode_descriptor;
+      return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_PoiSaveCurrent_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_ScanUpdateNode_fieldAccessorTable
+      return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_PoiSaveCurrent_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.class, cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.Builder.class);
+              cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.class, cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.Builder.class);
     }
 
     public static final int INDEX_FIELD_NUMBER = 1;
@@ -22022,72 +21783,6 @@ public final class JonSharedCmdRotary {
     @java.lang.Override
     public int getIndex() {
       return index_;
-    }
-
-    public static final int DAYZOOMTABLEVALUE_FIELD_NUMBER = 2;
-    private int dayZoomTableValue_ = 0;
-    /**
-     * <code>int32 DayZoomTableValue = 2 [(.buf.validate.field) = { ... }</code>
-     * @return The dayZoomTableValue.
-     */
-    @java.lang.Override
-    public int getDayZoomTableValue() {
-      return dayZoomTableValue_;
-    }
-
-    public static final int HEATZOOMTABLEVALUE_FIELD_NUMBER = 3;
-    private int heatZoomTableValue_ = 0;
-    /**
-     * <code>int32 HeatZoomTableValue = 3 [(.buf.validate.field) = { ... }</code>
-     * @return The heatZoomTableValue.
-     */
-    @java.lang.Override
-    public int getHeatZoomTableValue() {
-      return heatZoomTableValue_;
-    }
-
-    public static final int AZIMUTH_FIELD_NUMBER = 4;
-    private double azimuth_ = 0D;
-    /**
-     * <code>double azimuth = 4 [(.buf.validate.field) = { ... }</code>
-     * @return The azimuth.
-     */
-    @java.lang.Override
-    public double getAzimuth() {
-      return azimuth_;
-    }
-
-    public static final int ELEVATION_FIELD_NUMBER = 5;
-    private double elevation_ = 0D;
-    /**
-     * <code>double elevation = 5 [(.buf.validate.field) = { ... }</code>
-     * @return The elevation.
-     */
-    @java.lang.Override
-    public double getElevation() {
-      return elevation_;
-    }
-
-    public static final int LINGER_FIELD_NUMBER = 6;
-    private double linger_ = 0D;
-    /**
-     * <code>double linger = 6 [(.buf.validate.field) = { ... }</code>
-     * @return The linger.
-     */
-    @java.lang.Override
-    public double getLinger() {
-      return linger_;
-    }
-
-    public static final int SPEED_FIELD_NUMBER = 7;
-    private double speed_ = 0D;
-    /**
-     * <code>double speed = 7 [(.buf.validate.field) = { ... }</code>
-     * @return The speed.
-     */
-    @java.lang.Override
-    public double getSpeed() {
-      return speed_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -22107,24 +21802,6 @@ public final class JonSharedCmdRotary {
       if (index_ != 0) {
         output.writeInt32(1, index_);
       }
-      if (dayZoomTableValue_ != 0) {
-        output.writeInt32(2, dayZoomTableValue_);
-      }
-      if (heatZoomTableValue_ != 0) {
-        output.writeInt32(3, heatZoomTableValue_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(azimuth_) != 0) {
-        output.writeDouble(4, azimuth_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(elevation_) != 0) {
-        output.writeDouble(5, elevation_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(linger_) != 0) {
-        output.writeDouble(6, linger_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(speed_) != 0) {
-        output.writeDouble(7, speed_);
-      }
       getUnknownFields().writeTo(output);
     }
 
@@ -22138,30 +21815,6 @@ public final class JonSharedCmdRotary {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, index_);
       }
-      if (dayZoomTableValue_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, dayZoomTableValue_);
-      }
-      if (heatZoomTableValue_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, heatZoomTableValue_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(azimuth_) != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(4, azimuth_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(elevation_) != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(5, elevation_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(linger_) != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(6, linger_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(speed_) != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(7, speed_);
-      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -22172,29 +21825,13 @@ public final class JonSharedCmdRotary {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode)) {
+      if (!(obj instanceof cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent)) {
         return super.equals(obj);
       }
-      cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode other = (cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode) obj;
+      cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent other = (cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent) obj;
 
       if (getIndex()
           != other.getIndex()) return false;
-      if (getDayZoomTableValue()
-          != other.getDayZoomTableValue()) return false;
-      if (getHeatZoomTableValue()
-          != other.getHeatZoomTableValue()) return false;
-      if (java.lang.Double.doubleToLongBits(getAzimuth())
-          != java.lang.Double.doubleToLongBits(
-              other.getAzimuth())) return false;
-      if (java.lang.Double.doubleToLongBits(getElevation())
-          != java.lang.Double.doubleToLongBits(
-              other.getElevation())) return false;
-      if (java.lang.Double.doubleToLongBits(getLinger())
-          != java.lang.Double.doubleToLongBits(
-              other.getLinger())) return false;
-      if (java.lang.Double.doubleToLongBits(getSpeed())
-          != java.lang.Double.doubleToLongBits(
-              other.getSpeed())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -22208,65 +21845,49 @@ public final class JonSharedCmdRotary {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + INDEX_FIELD_NUMBER;
       hash = (53 * hash) + getIndex();
-      hash = (37 * hash) + DAYZOOMTABLEVALUE_FIELD_NUMBER;
-      hash = (53 * hash) + getDayZoomTableValue();
-      hash = (37 * hash) + HEATZOOMTABLEVALUE_FIELD_NUMBER;
-      hash = (53 * hash) + getHeatZoomTableValue();
-      hash = (37 * hash) + AZIMUTH_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          java.lang.Double.doubleToLongBits(getAzimuth()));
-      hash = (37 * hash) + ELEVATION_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          java.lang.Double.doubleToLongBits(getElevation()));
-      hash = (37 * hash) + LINGER_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          java.lang.Double.doubleToLongBits(getLinger()));
-      hash = (37 * hash) + SPEED_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          java.lang.Double.doubleToLongBits(getSpeed()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode parseFrom(
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode parseFrom(
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode parseFrom(
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode parseFrom(
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode parseFrom(byte[] data)
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode parseFrom(
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode parseFrom(java.io.InputStream input)
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseWithIOException(PARSER, input);
     }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode parseFrom(
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -22274,26 +21895,26 @@ public final class JonSharedCmdRotary {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode parseDelimitedFrom(java.io.InputStream input)
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseDelimitedWithIOException(PARSER, input);
     }
 
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode parseDelimitedFrom(
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode parseFrom(
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseWithIOException(PARSER, input);
     }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode parseFrom(
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -22306,7 +21927,7 @@ public final class JonSharedCmdRotary {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode prototype) {
+    public static Builder newBuilder(cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -22322,26 +21943,32 @@ public final class JonSharedCmdRotary {
       return builder;
     }
     /**
-     * Protobuf type {@code cmd.RotaryPlatform.ScanUpdateNode}
+     * <pre>
+     * Store the current pointing (compensated azimuth/elevation + both
+     * zoom-table positions) into POI slot `index`. Consumed by eutropia's
+     * drive host, which snapshots state and POSTs to poi_api_server.
+     * </pre>
+     *
+     * Protobuf type {@code cmd.RotaryPlatform.PoiSaveCurrent}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:cmd.RotaryPlatform.ScanUpdateNode)
-        cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNodeOrBuilder {
+        // @@protoc_insertion_point(builder_implements:cmd.RotaryPlatform.PoiSaveCurrent)
+        cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrentOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_ScanUpdateNode_descriptor;
+        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_PoiSaveCurrent_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_ScanUpdateNode_fieldAccessorTable
+        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_PoiSaveCurrent_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.class, cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.Builder.class);
+                cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.class, cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.Builder.class);
       }
 
-      // Construct using cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.newBuilder()
+      // Construct using cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.newBuilder()
       private Builder() {
 
       }
@@ -22356,29 +21983,23 @@ public final class JonSharedCmdRotary {
         super.clear();
         bitField0_ = 0;
         index_ = 0;
-        dayZoomTableValue_ = 0;
-        heatZoomTableValue_ = 0;
-        azimuth_ = 0D;
-        elevation_ = 0D;
-        linger_ = 0D;
-        speed_ = 0D;
         return this;
       }
 
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_ScanUpdateNode_descriptor;
+        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_PoiSaveCurrent_descriptor;
       }
 
       @java.lang.Override
-      public cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode getDefaultInstanceForType() {
-        return cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.getDefaultInstance();
+      public cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent getDefaultInstanceForType() {
+        return cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.getDefaultInstance();
       }
 
       @java.lang.Override
-      public cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode build() {
-        cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode result = buildPartial();
+      public cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent build() {
+        cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -22386,70 +22007,34 @@ public final class JonSharedCmdRotary {
       }
 
       @java.lang.Override
-      public cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode buildPartial() {
-        cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode result = new cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode(this);
+      public cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent buildPartial() {
+        cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent result = new cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent(this);
         if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
-      private void buildPartial0(cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode result) {
+      private void buildPartial0(cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent result) {
         int from_bitField0_ = bitField0_;
         if (((from_bitField0_ & 0x00000001) != 0)) {
           result.index_ = index_;
-        }
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          result.dayZoomTableValue_ = dayZoomTableValue_;
-        }
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.heatZoomTableValue_ = heatZoomTableValue_;
-        }
-        if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.azimuth_ = azimuth_;
-        }
-        if (((from_bitField0_ & 0x00000010) != 0)) {
-          result.elevation_ = elevation_;
-        }
-        if (((from_bitField0_ & 0x00000020) != 0)) {
-          result.linger_ = linger_;
-        }
-        if (((from_bitField0_ & 0x00000040) != 0)) {
-          result.speed_ = speed_;
         }
       }
 
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode) {
-          return mergeFrom((cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode)other);
+        if (other instanceof cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent) {
+          return mergeFrom((cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode other) {
-        if (other == cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode.getDefaultInstance()) return this;
+      public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent other) {
+        if (other == cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent.getDefaultInstance()) return this;
         if (other.getIndex() != 0) {
           setIndex(other.getIndex());
-        }
-        if (other.getDayZoomTableValue() != 0) {
-          setDayZoomTableValue(other.getDayZoomTableValue());
-        }
-        if (other.getHeatZoomTableValue() != 0) {
-          setHeatZoomTableValue(other.getHeatZoomTableValue());
-        }
-        if (other.getAzimuth() != 0D) {
-          setAzimuth(other.getAzimuth());
-        }
-        if (other.getElevation() != 0D) {
-          setElevation(other.getElevation());
-        }
-        if (other.getLinger() != 0D) {
-          setLinger(other.getLinger());
-        }
-        if (other.getSpeed() != 0D) {
-          setSpeed(other.getSpeed());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -22482,36 +22067,6 @@ public final class JonSharedCmdRotary {
                 bitField0_ |= 0x00000001;
                 break;
               } // case 8
-              case 16: {
-                dayZoomTableValue_ = input.readInt32();
-                bitField0_ |= 0x00000002;
-                break;
-              } // case 16
-              case 24: {
-                heatZoomTableValue_ = input.readInt32();
-                bitField0_ |= 0x00000004;
-                break;
-              } // case 24
-              case 33: {
-                azimuth_ = input.readDouble();
-                bitField0_ |= 0x00000008;
-                break;
-              } // case 33
-              case 41: {
-                elevation_ = input.readDouble();
-                bitField0_ |= 0x00000010;
-                break;
-              } // case 41
-              case 49: {
-                linger_ = input.readDouble();
-                bitField0_ |= 0x00000020;
-                break;
-              } // case 49
-              case 57: {
-                speed_ = input.readDouble();
-                bitField0_ |= 0x00000040;
-                break;
-              } // case 57
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -22561,215 +22116,23 @@ public final class JonSharedCmdRotary {
         return this;
       }
 
-      private int dayZoomTableValue_ ;
-      /**
-       * <code>int32 DayZoomTableValue = 2 [(.buf.validate.field) = { ... }</code>
-       * @return The dayZoomTableValue.
-       */
-      @java.lang.Override
-      public int getDayZoomTableValue() {
-        return dayZoomTableValue_;
-      }
-      /**
-       * <code>int32 DayZoomTableValue = 2 [(.buf.validate.field) = { ... }</code>
-       * @param value The dayZoomTableValue to set.
-       * @return This builder for chaining.
-       */
-      public Builder setDayZoomTableValue(int value) {
-
-        dayZoomTableValue_ = value;
-        bitField0_ |= 0x00000002;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 DayZoomTableValue = 2 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearDayZoomTableValue() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        dayZoomTableValue_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private int heatZoomTableValue_ ;
-      /**
-       * <code>int32 HeatZoomTableValue = 3 [(.buf.validate.field) = { ... }</code>
-       * @return The heatZoomTableValue.
-       */
-      @java.lang.Override
-      public int getHeatZoomTableValue() {
-        return heatZoomTableValue_;
-      }
-      /**
-       * <code>int32 HeatZoomTableValue = 3 [(.buf.validate.field) = { ... }</code>
-       * @param value The heatZoomTableValue to set.
-       * @return This builder for chaining.
-       */
-      public Builder setHeatZoomTableValue(int value) {
-
-        heatZoomTableValue_ = value;
-        bitField0_ |= 0x00000004;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 HeatZoomTableValue = 3 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearHeatZoomTableValue() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        heatZoomTableValue_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private double azimuth_ ;
-      /**
-       * <code>double azimuth = 4 [(.buf.validate.field) = { ... }</code>
-       * @return The azimuth.
-       */
-      @java.lang.Override
-      public double getAzimuth() {
-        return azimuth_;
-      }
-      /**
-       * <code>double azimuth = 4 [(.buf.validate.field) = { ... }</code>
-       * @param value The azimuth to set.
-       * @return This builder for chaining.
-       */
-      public Builder setAzimuth(double value) {
-
-        azimuth_ = value;
-        bitField0_ |= 0x00000008;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>double azimuth = 4 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearAzimuth() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        azimuth_ = 0D;
-        onChanged();
-        return this;
-      }
-
-      private double elevation_ ;
-      /**
-       * <code>double elevation = 5 [(.buf.validate.field) = { ... }</code>
-       * @return The elevation.
-       */
-      @java.lang.Override
-      public double getElevation() {
-        return elevation_;
-      }
-      /**
-       * <code>double elevation = 5 [(.buf.validate.field) = { ... }</code>
-       * @param value The elevation to set.
-       * @return This builder for chaining.
-       */
-      public Builder setElevation(double value) {
-
-        elevation_ = value;
-        bitField0_ |= 0x00000010;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>double elevation = 5 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearElevation() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        elevation_ = 0D;
-        onChanged();
-        return this;
-      }
-
-      private double linger_ ;
-      /**
-       * <code>double linger = 6 [(.buf.validate.field) = { ... }</code>
-       * @return The linger.
-       */
-      @java.lang.Override
-      public double getLinger() {
-        return linger_;
-      }
-      /**
-       * <code>double linger = 6 [(.buf.validate.field) = { ... }</code>
-       * @param value The linger to set.
-       * @return This builder for chaining.
-       */
-      public Builder setLinger(double value) {
-
-        linger_ = value;
-        bitField0_ |= 0x00000020;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>double linger = 6 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearLinger() {
-        bitField0_ = (bitField0_ & ~0x00000020);
-        linger_ = 0D;
-        onChanged();
-        return this;
-      }
-
-      private double speed_ ;
-      /**
-       * <code>double speed = 7 [(.buf.validate.field) = { ... }</code>
-       * @return The speed.
-       */
-      @java.lang.Override
-      public double getSpeed() {
-        return speed_;
-      }
-      /**
-       * <code>double speed = 7 [(.buf.validate.field) = { ... }</code>
-       * @param value The speed to set.
-       * @return This builder for chaining.
-       */
-      public Builder setSpeed(double value) {
-
-        speed_ = value;
-        bitField0_ |= 0x00000040;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>double speed = 7 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearSpeed() {
-        bitField0_ = (bitField0_ & ~0x00000040);
-        speed_ = 0D;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:cmd.RotaryPlatform.ScanUpdateNode)
+      // @@protoc_insertion_point(builder_scope:cmd.RotaryPlatform.PoiSaveCurrent)
     }
 
-    // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.ScanUpdateNode)
-    private static final cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.PoiSaveCurrent)
+    private static final cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode();
+      DEFAULT_INSTANCE = new cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent();
     }
 
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode getDefaultInstance() {
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ScanUpdateNode>
-        PARSER = new com.google.protobuf.AbstractParser<ScanUpdateNode>() {
+    private static final com.google.protobuf.Parser<PoiSaveCurrent>
+        PARSER = new com.google.protobuf.AbstractParser<PoiSaveCurrent>() {
       @java.lang.Override
-      public ScanUpdateNode parsePartialFrom(
+      public PoiSaveCurrent parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -22788,891 +22151,17 @@ public final class JonSharedCmdRotary {
       }
     };
 
-    public static com.google.protobuf.Parser<ScanUpdateNode> parser() {
+    public static com.google.protobuf.Parser<PoiSaveCurrent> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ScanUpdateNode> getParserForType() {
+    public com.google.protobuf.Parser<PoiSaveCurrent> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface ScanAddNodeOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:cmd.RotaryPlatform.ScanAddNode)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>int32 index = 1 [(.buf.validate.field) = { ... }</code>
-     * @return The index.
-     */
-    int getIndex();
-
-    /**
-     * <code>int32 DayZoomTableValue = 2 [(.buf.validate.field) = { ... }</code>
-     * @return The dayZoomTableValue.
-     */
-    int getDayZoomTableValue();
-
-    /**
-     * <code>int32 HeatZoomTableValue = 3 [(.buf.validate.field) = { ... }</code>
-     * @return The heatZoomTableValue.
-     */
-    int getHeatZoomTableValue();
-
-    /**
-     * <code>double azimuth = 4 [(.buf.validate.field) = { ... }</code>
-     * @return The azimuth.
-     */
-    double getAzimuth();
-
-    /**
-     * <code>double elevation = 5 [(.buf.validate.field) = { ... }</code>
-     * @return The elevation.
-     */
-    double getElevation();
-
-    /**
-     * <code>double linger = 6 [(.buf.validate.field) = { ... }</code>
-     * @return The linger.
-     */
-    double getLinger();
-
-    /**
-     * <code>double speed = 7 [(.buf.validate.field) = { ... }</code>
-     * @return The speed.
-     */
-    double getSpeed();
-  }
-  /**
-   * Protobuf type {@code cmd.RotaryPlatform.ScanAddNode}
-   */
-  public static final class ScanAddNode extends
-      com.google.protobuf.GeneratedMessage implements
-      // @@protoc_insertion_point(message_implements:cmd.RotaryPlatform.ScanAddNode)
-      ScanAddNodeOrBuilder {
-  private static final long serialVersionUID = 0L;
-    static {
-      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
-        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
-        /* major= */ 4,
-        /* minor= */ 29,
-        /* patch= */ 2,
-        /* suffix= */ "",
-        ScanAddNode.class.getName());
-    }
-    // Use ScanAddNode.newBuilder() to construct.
-    private ScanAddNode(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-    }
-    private ScanAddNode() {
-    }
-
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_ScanAddNode_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_ScanAddNode_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.class, cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.Builder.class);
-    }
-
-    public static final int INDEX_FIELD_NUMBER = 1;
-    private int index_ = 0;
-    /**
-     * <code>int32 index = 1 [(.buf.validate.field) = { ... }</code>
-     * @return The index.
-     */
-    @java.lang.Override
-    public int getIndex() {
-      return index_;
-    }
-
-    public static final int DAYZOOMTABLEVALUE_FIELD_NUMBER = 2;
-    private int dayZoomTableValue_ = 0;
-    /**
-     * <code>int32 DayZoomTableValue = 2 [(.buf.validate.field) = { ... }</code>
-     * @return The dayZoomTableValue.
-     */
-    @java.lang.Override
-    public int getDayZoomTableValue() {
-      return dayZoomTableValue_;
-    }
-
-    public static final int HEATZOOMTABLEVALUE_FIELD_NUMBER = 3;
-    private int heatZoomTableValue_ = 0;
-    /**
-     * <code>int32 HeatZoomTableValue = 3 [(.buf.validate.field) = { ... }</code>
-     * @return The heatZoomTableValue.
-     */
-    @java.lang.Override
-    public int getHeatZoomTableValue() {
-      return heatZoomTableValue_;
-    }
-
-    public static final int AZIMUTH_FIELD_NUMBER = 4;
-    private double azimuth_ = 0D;
-    /**
-     * <code>double azimuth = 4 [(.buf.validate.field) = { ... }</code>
-     * @return The azimuth.
-     */
-    @java.lang.Override
-    public double getAzimuth() {
-      return azimuth_;
-    }
-
-    public static final int ELEVATION_FIELD_NUMBER = 5;
-    private double elevation_ = 0D;
-    /**
-     * <code>double elevation = 5 [(.buf.validate.field) = { ... }</code>
-     * @return The elevation.
-     */
-    @java.lang.Override
-    public double getElevation() {
-      return elevation_;
-    }
-
-    public static final int LINGER_FIELD_NUMBER = 6;
-    private double linger_ = 0D;
-    /**
-     * <code>double linger = 6 [(.buf.validate.field) = { ... }</code>
-     * @return The linger.
-     */
-    @java.lang.Override
-    public double getLinger() {
-      return linger_;
-    }
-
-    public static final int SPEED_FIELD_NUMBER = 7;
-    private double speed_ = 0D;
-    /**
-     * <code>double speed = 7 [(.buf.validate.field) = { ... }</code>
-     * @return The speed.
-     */
-    @java.lang.Override
-    public double getSpeed() {
-      return speed_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (index_ != 0) {
-        output.writeInt32(1, index_);
-      }
-      if (dayZoomTableValue_ != 0) {
-        output.writeInt32(2, dayZoomTableValue_);
-      }
-      if (heatZoomTableValue_ != 0) {
-        output.writeInt32(3, heatZoomTableValue_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(azimuth_) != 0) {
-        output.writeDouble(4, azimuth_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(elevation_) != 0) {
-        output.writeDouble(5, elevation_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(linger_) != 0) {
-        output.writeDouble(6, linger_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(speed_) != 0) {
-        output.writeDouble(7, speed_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (index_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, index_);
-      }
-      if (dayZoomTableValue_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, dayZoomTableValue_);
-      }
-      if (heatZoomTableValue_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, heatZoomTableValue_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(azimuth_) != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(4, azimuth_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(elevation_) != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(5, elevation_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(linger_) != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(6, linger_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(speed_) != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(7, speed_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode)) {
-        return super.equals(obj);
-      }
-      cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode other = (cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode) obj;
-
-      if (getIndex()
-          != other.getIndex()) return false;
-      if (getDayZoomTableValue()
-          != other.getDayZoomTableValue()) return false;
-      if (getHeatZoomTableValue()
-          != other.getHeatZoomTableValue()) return false;
-      if (java.lang.Double.doubleToLongBits(getAzimuth())
-          != java.lang.Double.doubleToLongBits(
-              other.getAzimuth())) return false;
-      if (java.lang.Double.doubleToLongBits(getElevation())
-          != java.lang.Double.doubleToLongBits(
-              other.getElevation())) return false;
-      if (java.lang.Double.doubleToLongBits(getLinger())
-          != java.lang.Double.doubleToLongBits(
-              other.getLinger())) return false;
-      if (java.lang.Double.doubleToLongBits(getSpeed())
-          != java.lang.Double.doubleToLongBits(
-              other.getSpeed())) return false;
-      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
-      return true;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + INDEX_FIELD_NUMBER;
-      hash = (53 * hash) + getIndex();
-      hash = (37 * hash) + DAYZOOMTABLEVALUE_FIELD_NUMBER;
-      hash = (53 * hash) + getDayZoomTableValue();
-      hash = (37 * hash) + HEATZOOMTABLEVALUE_FIELD_NUMBER;
-      hash = (53 * hash) + getHeatZoomTableValue();
-      hash = (37 * hash) + AZIMUTH_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          java.lang.Double.doubleToLongBits(getAzimuth()));
-      hash = (37 * hash) + ELEVATION_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          java.lang.Double.doubleToLongBits(getElevation()));
-      hash = (37 * hash) + LINGER_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          java.lang.Double.doubleToLongBits(getLinger()));
-      hash = (37 * hash) + SPEED_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          java.lang.Double.doubleToLongBits(getSpeed()));
-      hash = (29 * hash) + getUnknownFields().hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseWithIOException(PARSER, input);
-    }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseWithIOException(PARSER, input);
-    }
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code cmd.RotaryPlatform.ScanAddNode}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:cmd.RotaryPlatform.ScanAddNode)
-        cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNodeOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_ScanAddNode_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_ScanAddNode_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.class, cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.Builder.class);
-      }
-
-      // Construct using cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.newBuilder()
-      private Builder() {
-
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        bitField0_ = 0;
-        index_ = 0;
-        dayZoomTableValue_ = 0;
-        heatZoomTableValue_ = 0;
-        azimuth_ = 0D;
-        elevation_ = 0D;
-        linger_ = 0D;
-        speed_ = 0D;
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_ScanAddNode_descriptor;
-      }
-
-      @java.lang.Override
-      public cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode getDefaultInstanceForType() {
-        return cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode build() {
-        cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode buildPartial() {
-        cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode result = new cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode(this);
-        if (bitField0_ != 0) { buildPartial0(result); }
-        onBuilt();
-        return result;
-      }
-
-      private void buildPartial0(cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode result) {
-        int from_bitField0_ = bitField0_;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.index_ = index_;
-        }
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          result.dayZoomTableValue_ = dayZoomTableValue_;
-        }
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.heatZoomTableValue_ = heatZoomTableValue_;
-        }
-        if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.azimuth_ = azimuth_;
-        }
-        if (((from_bitField0_ & 0x00000010) != 0)) {
-          result.elevation_ = elevation_;
-        }
-        if (((from_bitField0_ & 0x00000020) != 0)) {
-          result.linger_ = linger_;
-        }
-        if (((from_bitField0_ & 0x00000040) != 0)) {
-          result.speed_ = speed_;
-        }
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode) {
-          return mergeFrom((cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode other) {
-        if (other == cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.getDefaultInstance()) return this;
-        if (other.getIndex() != 0) {
-          setIndex(other.getIndex());
-        }
-        if (other.getDayZoomTableValue() != 0) {
-          setDayZoomTableValue(other.getDayZoomTableValue());
-        }
-        if (other.getHeatZoomTableValue() != 0) {
-          setHeatZoomTableValue(other.getHeatZoomTableValue());
-        }
-        if (other.getAzimuth() != 0D) {
-          setAzimuth(other.getAzimuth());
-        }
-        if (other.getElevation() != 0D) {
-          setElevation(other.getElevation());
-        }
-        if (other.getLinger() != 0D) {
-          setLinger(other.getLinger());
-        }
-        if (other.getSpeed() != 0D) {
-          setSpeed(other.getSpeed());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        if (extensionRegistry == null) {
-          throw new java.lang.NullPointerException();
-        }
-        try {
-          boolean done = false;
-          while (!done) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              case 8: {
-                index_ = input.readInt32();
-                bitField0_ |= 0x00000001;
-                break;
-              } // case 8
-              case 16: {
-                dayZoomTableValue_ = input.readInt32();
-                bitField0_ |= 0x00000002;
-                break;
-              } // case 16
-              case 24: {
-                heatZoomTableValue_ = input.readInt32();
-                bitField0_ |= 0x00000004;
-                break;
-              } // case 24
-              case 33: {
-                azimuth_ = input.readDouble();
-                bitField0_ |= 0x00000008;
-                break;
-              } // case 33
-              case 41: {
-                elevation_ = input.readDouble();
-                bitField0_ |= 0x00000010;
-                break;
-              } // case 41
-              case 49: {
-                linger_ = input.readDouble();
-                bitField0_ |= 0x00000020;
-                break;
-              } // case 49
-              case 57: {
-                speed_ = input.readDouble();
-                bitField0_ |= 0x00000040;
-                break;
-              } // case 57
-              default: {
-                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
-                  done = true; // was an endgroup tag
-                }
-                break;
-              } // default:
-            } // switch (tag)
-          } // while (!done)
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.unwrapIOException();
-        } finally {
-          onChanged();
-        } // finally
-        return this;
-      }
-      private int bitField0_;
-
-      private int index_ ;
-      /**
-       * <code>int32 index = 1 [(.buf.validate.field) = { ... }</code>
-       * @return The index.
-       */
-      @java.lang.Override
-      public int getIndex() {
-        return index_;
-      }
-      /**
-       * <code>int32 index = 1 [(.buf.validate.field) = { ... }</code>
-       * @param value The index to set.
-       * @return This builder for chaining.
-       */
-      public Builder setIndex(int value) {
-
-        index_ = value;
-        bitField0_ |= 0x00000001;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 index = 1 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearIndex() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        index_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private int dayZoomTableValue_ ;
-      /**
-       * <code>int32 DayZoomTableValue = 2 [(.buf.validate.field) = { ... }</code>
-       * @return The dayZoomTableValue.
-       */
-      @java.lang.Override
-      public int getDayZoomTableValue() {
-        return dayZoomTableValue_;
-      }
-      /**
-       * <code>int32 DayZoomTableValue = 2 [(.buf.validate.field) = { ... }</code>
-       * @param value The dayZoomTableValue to set.
-       * @return This builder for chaining.
-       */
-      public Builder setDayZoomTableValue(int value) {
-
-        dayZoomTableValue_ = value;
-        bitField0_ |= 0x00000002;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 DayZoomTableValue = 2 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearDayZoomTableValue() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        dayZoomTableValue_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private int heatZoomTableValue_ ;
-      /**
-       * <code>int32 HeatZoomTableValue = 3 [(.buf.validate.field) = { ... }</code>
-       * @return The heatZoomTableValue.
-       */
-      @java.lang.Override
-      public int getHeatZoomTableValue() {
-        return heatZoomTableValue_;
-      }
-      /**
-       * <code>int32 HeatZoomTableValue = 3 [(.buf.validate.field) = { ... }</code>
-       * @param value The heatZoomTableValue to set.
-       * @return This builder for chaining.
-       */
-      public Builder setHeatZoomTableValue(int value) {
-
-        heatZoomTableValue_ = value;
-        bitField0_ |= 0x00000004;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 HeatZoomTableValue = 3 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearHeatZoomTableValue() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        heatZoomTableValue_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private double azimuth_ ;
-      /**
-       * <code>double azimuth = 4 [(.buf.validate.field) = { ... }</code>
-       * @return The azimuth.
-       */
-      @java.lang.Override
-      public double getAzimuth() {
-        return azimuth_;
-      }
-      /**
-       * <code>double azimuth = 4 [(.buf.validate.field) = { ... }</code>
-       * @param value The azimuth to set.
-       * @return This builder for chaining.
-       */
-      public Builder setAzimuth(double value) {
-
-        azimuth_ = value;
-        bitField0_ |= 0x00000008;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>double azimuth = 4 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearAzimuth() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        azimuth_ = 0D;
-        onChanged();
-        return this;
-      }
-
-      private double elevation_ ;
-      /**
-       * <code>double elevation = 5 [(.buf.validate.field) = { ... }</code>
-       * @return The elevation.
-       */
-      @java.lang.Override
-      public double getElevation() {
-        return elevation_;
-      }
-      /**
-       * <code>double elevation = 5 [(.buf.validate.field) = { ... }</code>
-       * @param value The elevation to set.
-       * @return This builder for chaining.
-       */
-      public Builder setElevation(double value) {
-
-        elevation_ = value;
-        bitField0_ |= 0x00000010;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>double elevation = 5 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearElevation() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        elevation_ = 0D;
-        onChanged();
-        return this;
-      }
-
-      private double linger_ ;
-      /**
-       * <code>double linger = 6 [(.buf.validate.field) = { ... }</code>
-       * @return The linger.
-       */
-      @java.lang.Override
-      public double getLinger() {
-        return linger_;
-      }
-      /**
-       * <code>double linger = 6 [(.buf.validate.field) = { ... }</code>
-       * @param value The linger to set.
-       * @return This builder for chaining.
-       */
-      public Builder setLinger(double value) {
-
-        linger_ = value;
-        bitField0_ |= 0x00000020;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>double linger = 6 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearLinger() {
-        bitField0_ = (bitField0_ & ~0x00000020);
-        linger_ = 0D;
-        onChanged();
-        return this;
-      }
-
-      private double speed_ ;
-      /**
-       * <code>double speed = 7 [(.buf.validate.field) = { ... }</code>
-       * @return The speed.
-       */
-      @java.lang.Override
-      public double getSpeed() {
-        return speed_;
-      }
-      /**
-       * <code>double speed = 7 [(.buf.validate.field) = { ... }</code>
-       * @param value The speed to set.
-       * @return This builder for chaining.
-       */
-      public Builder setSpeed(double value) {
-
-        speed_ = value;
-        bitField0_ |= 0x00000040;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>double speed = 7 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearSpeed() {
-        bitField0_ = (bitField0_ & ~0x00000040);
-        speed_ = 0D;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:cmd.RotaryPlatform.ScanAddNode)
-    }
-
-    // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.ScanAddNode)
-    private static final cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode();
-    }
-
-    public static cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<ScanAddNode>
-        PARSER = new com.google.protobuf.AbstractParser<ScanAddNode>() {
-      @java.lang.Override
-      public ScanAddNode parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        Builder builder = newBuilder();
-        try {
-          builder.mergeFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.setUnfinishedMessage(builder.buildPartial());
-        } catch (com.google.protobuf.UninitializedMessageException e) {
-          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
-        } catch (java.io.IOException e) {
-          throw new com.google.protobuf.InvalidProtocolBufferException(e)
-              .setUnfinishedMessage(builder.buildPartial());
-        }
-        return builder.buildPartial();
-      }
-    };
-
-    public static com.google.protobuf.Parser<ScanAddNode> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ScanAddNode> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode getDefaultInstanceForType() {
+    public cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -28821,20 +27310,15 @@ public final class JonSharedCmdRotary {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_RotaryPlatform_ScanSelectNode_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_cmd_RotaryPlatform_ScanDeleteNode_descriptor;
+    internal_static_cmd_RotaryPlatform_PoiLookAt_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_cmd_RotaryPlatform_ScanDeleteNode_fieldAccessorTable;
+      internal_static_cmd_RotaryPlatform_PoiLookAt_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_cmd_RotaryPlatform_ScanUpdateNode_descriptor;
+    internal_static_cmd_RotaryPlatform_PoiSaveCurrent_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_cmd_RotaryPlatform_ScanUpdateNode_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_cmd_RotaryPlatform_ScanAddNode_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_cmd_RotaryPlatform_ScanAddNode_fieldAccessorTable;
+      internal_static_cmd_RotaryPlatform_PoiSaveCurrent_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_cmd_RotaryPlatform_Elevation_descriptor;
   private static final 
@@ -28876,7 +27360,7 @@ public final class JonSharedCmdRotary {
     java.lang.String[] descriptorData = {
       "\n\033jon_shared_cmd_rotary.proto\022\022cmd.Rotar" +
       "yPlatform\032\033buf/validate/validate.proto\032\033" +
-      "jon_shared_data_types.proto\"\341\013\n\004Root\022*\n\005" +
+      "jon_shared_data_types.proto\"\342\013\n\004Root\022*\n\005" +
       "start\030\001 \001(\0132\031.cmd.RotaryPlatform.StartH\000" +
       "\022(\n\004stop\030\002 \001(\0132\030.cmd.RotaryPlatform.Stop" +
       "H\000\022(\n\004axis\030\003 \001(\0132\030.cmd.RotaryPlatform.Ax" +
@@ -28906,116 +27390,103 @@ public final class JonSharedCmdRotary {
       "m.ScanNextH\000\022I\n\026scan_refresh_node_list\030\024" +
       " \001(\0132\'.cmd.RotaryPlatform.ScanRefreshNod" +
       "eListH\000\022>\n\020scan_select_node\030\025 \001(\0132\".cmd." +
-      "RotaryPlatform.ScanSelectNodeH\000\022>\n\020scan_" +
-      "delete_node\030\026 \001(\0132\".cmd.RotaryPlatform.S" +
-      "canDeleteNodeH\000\022>\n\020scan_update_node\030\027 \001(" +
-      "\0132\".cmd.RotaryPlatform.ScanUpdateNodeH\000\022" +
-      "8\n\rscan_add_node\030\030 \001(\0132\037.cmd.RotaryPlatf" +
-      "orm.ScanAddNodeH\000\0228\n\rhalt_with_ndc\030\031 \001(\013" +
-      "2\037.cmd.RotaryPlatform.HaltWithNDCH\000\022,\n\006u" +
-      "npark\030\032 \001(\0132\032.cmd.RotaryPlatform.UnparkH" +
-      "\000B\014\n\003cmd\022\005\272H\002\010\001\"f\n\004Axis\022,\n\007azimuth\030\001 \001(\013" +
-      "2\033.cmd.RotaryPlatform.Azimuth\0220\n\televati" +
-      "on\030\002 \001(\0132\035.cmd.RotaryPlatform.Elevation\"" +
-      ">\n\007SetMode\0223\n\004mode\030\001 \001(\0162\031.ser.JonGuiDat" +
-      "aRotaryModeB\n\272H\007\202\001\004\020\001 \000\"x\n\017SetAzimuthVal" +
-      "ue\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000" +
-      "\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGuiDataRo" +
-      "taryDirectionB\n\272H\007\202\001\004\020\001 \000\"\247\001\n\017RotateAzim" +
-      "uthTo\022-\n\014target_value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000" +
-      "\200v@)\000\000\000\000\000\000\000\000\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000" +
-      "\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036.ser.Jo" +
-      "nGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"v\n\rR" +
-      "otateAzimuth\022&\n\005speed\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000" +
-      "\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser.Jo" +
-      "nGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"x\n\017R" +
-      "otateElevation\022&\n\005speed\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000" +
-      "\000\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser." +
-      "JonGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\";\n" +
-      "\021SetElevationValue\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022" +
-      "\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\"j\n\021RotateElevationTo\022" +
-      "-\n\014target_value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000" +
-      "\000\000\000\200V\300\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000" +
-      "\000\000\000\000\000\000\"\250\001\n\027RotateElevationRelative\022&\n\005va" +
-      "lue\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022&\n\005sp" +
-      "eed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdi" +
-      "rection\030\003 \001(\0162\036.ser.JonGuiDataRotaryDire" +
-      "ctionB\n\272H\007\202\001\004\020\001 \000\"\203\001\n\032RotateElevationRel" +
-      "ativeSet\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)" +
-      "\000\000\000\000\000\200V\300\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGui" +
-      "DataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"\246\001\n\025Rota" +
-      "teAzimuthRelative\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\021" +
-      "\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031" +
-      "\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036.s" +
-      "er.JonGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000" +
-      "\"\201\001\n\030RotateAzimuthRelativeSet\022&\n\005value\030\001" +
-      " \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022=\n\tdirecti" +
-      "on\030\002 \001(\0162\036.ser.JonGuiDataRotaryDirection" +
-      "B\n\272H\007\202\001\004\020\001 \000\"<\n\022SetPlatformAzimuth\022&\n\005va" +
-      "lue\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\200v\300\">\n\024Se" +
-      "tPlatformElevation\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022" +
-      "\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\"9\n\017SetPlatformBank\022&\n" +
-      "\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\"\n\n" +
-      "\010GetMeteo\"\366\002\n\007Azimuth\0228\n\tset_value\030\001 \001(\013" +
-      "2#.cmd.RotaryPlatform.SetAzimuthValueH\000\022" +
-      "8\n\trotate_to\030\002 \001(\0132#.cmd.RotaryPlatform." +
-      "RotateAzimuthToH\000\0223\n\006rotate\030\003 \001(\0132!.cmd." +
-      "RotaryPlatform.RotateAzimuthH\000\022=\n\010relati" +
-      "ve\030\004 \001(\0132).cmd.RotaryPlatform.RotateAzim" +
-      "uthRelativeH\000\022D\n\014relative_set\030\005 \001(\0132,.cm" +
-      "d.RotaryPlatform.RotateAzimuthRelativeSe" +
-      "tH\000\022/\n\004halt\030\006 \001(\0132\037.cmd.RotaryPlatform.H" +
-      "altAzimuthH\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004S" +
-      "top\"\006\n\004Halt\"\010\n\006Unpark\"\013\n\tScanStart\"\n\n\010Sc" +
-      "anStop\"\013\n\tScanPause\"\r\n\013ScanUnpause\"\r\n\013Ha" +
-      "ltAzimuth\"\017\n\rHaltElevation\"\n\n\010ScanPrev\"\n" +
-      "\n\010ScanNext\"\025\n\023ScanRefreshNodeList\"(\n\016Sca" +
-      "nSelectNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\"(\n\016S" +
-      "canDeleteNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\"\217\002" +
-      "\n\016ScanUpdateNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000" +
-      "\022\"\n\021DayZoomTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022" +
-      "HeatZoomTableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azi" +
-      "muth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\te" +
-      "levation\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022" +
-      "\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed" +
-      "\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000\"\214\002\n\013Scan" +
-      "AddNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZo" +
-      "omTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomT" +
-      "ableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(" +
-      "\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televation\030" +
-      "\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger" +
-      "\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272" +
-      "H\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000\"\204\003\n\tElevation\022:\n\t" +
-      "set_value\030\001 \001(\0132%.cmd.RotaryPlatform.Set" +
-      "ElevationValueH\000\022:\n\trotate_to\030\002 \001(\0132%.cm" +
-      "d.RotaryPlatform.RotateElevationToH\000\0225\n\006" +
-      "rotate\030\003 \001(\0132#.cmd.RotaryPlatform.Rotate" +
-      "ElevationH\000\022?\n\010relative\030\004 \001(\0132+.cmd.Rota" +
-      "ryPlatform.RotateElevationRelativeH\000\022F\n\014" +
-      "relative_set\030\005 \001(\0132..cmd.RotaryPlatform." +
-      "RotateElevationRelativeSetH\000\0221\n\004halt\030\006 \001" +
-      "(\0132!.cmd.RotaryPlatform.HaltElevationH\000B" +
-      "\014\n\003cmd\022\005\272H\002\010\001\"%\n\025setUseRotaryAsCompass\022\014" +
-      "\n\004flag\030\001 \001(\010\"\217\001\n\013RotateToGPS\022)\n\010latitude" +
-      "\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022*\n\tlongi" +
-      "tude\030\002 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022)\n\010a" +
-      "ltitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\"\220" +
-      "\001\n\014SetOriginGPS\022)\n\010latitude\030\001 \001(\001B\027\272H\024\022\022" +
-      "\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022*\n\tlongitude\030\002 \001(\001B\027\272" +
-      "H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022)\n\010altitude\030\003 \001(\001" +
-      "B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\"\267\001\n\013RotateToND" +
-      "C\0228\n\007channel\030\001 \001(\0162\033.ser.JonGuiDataVideo" +
-      "ChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\002 \001(\001B\027\272H\024\022\022\031\000\000" +
-      "\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000" +
-      "\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\004 \001(\004\022\022\n\nstate" +
-      "_time\030\005 \001(\004\"\267\001\n\013HaltWithNDC\0228\n\007channel\030\001" +
-      " \001(\0162\033.ser.JonGuiDataVideoChannelB\n\272H\007\202\001" +
-      "\004\020\001 \000\022\"\n\001x\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360" +
-      "\277\022\"\n\001y\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n" +
-      "\nframe_time\030\004 \001(\004\022\022\n\nstate_time\030\005 \001(\004BMZ" +
-      "Kgit-codecommit.eu-central-1.amazonaws.c" +
-      "om/v1/repos/jettison/jonp/cmd/rotaryb\006pr" +
-      "oto3"
+      "RotaryPlatform.ScanSelectNodeH\000\0228\n\rhalt_" +
+      "with_ndc\030\031 \001(\0132\037.cmd.RotaryPlatform.Halt" +
+      "WithNDCH\000\022,\n\006unpark\030\032 \001(\0132\032.cmd.RotaryPl" +
+      "atform.UnparkH\000\0224\n\013poi_look_at\030\033 \001(\0132\035.c" +
+      "md.RotaryPlatform.PoiLookAtH\000\022>\n\020poi_sav" +
+      "e_current\030\034 \001(\0132\".cmd.RotaryPlatform.Poi" +
+      "SaveCurrentH\000B\014\n\003cmd\022\005\272H\002\010\001J\004\010\026\020\027J\004\010\027\020\030J" +
+      "\004\010\030\020\031R\020scan_delete_nodeR\020scan_update_nod" +
+      "eR\rscan_add_node\"f\n\004Axis\022,\n\007azimuth\030\001 \001(" +
+      "\0132\033.cmd.RotaryPlatform.Azimuth\0220\n\televat" +
+      "ion\030\002 \001(\0132\035.cmd.RotaryPlatform.Elevation" +
+      "\">\n\007SetMode\0223\n\004mode\030\001 \001(\0162\031.ser.JonGuiDa" +
+      "taRotaryModeB\n\272H\007\202\001\004\020\001 \000\"x\n\017SetAzimuthVa" +
+      "lue\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000" +
+      "\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGuiDataR" +
+      "otaryDirectionB\n\272H\007\202\001\004\020\001 \000\"\247\001\n\017RotateAzi" +
+      "muthTo\022-\n\014target_value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000" +
+      "\000\200v@)\000\000\000\000\000\000\000\000\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000" +
+      "\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036.ser.J" +
+      "onGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"v\n\r" +
+      "RotateAzimuth\022&\n\005speed\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000" +
+      "\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser.J" +
+      "onGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"x\n\017" +
+      "RotateElevation\022&\n\005speed\030\001 \001(\001B\027\272H\024\022\022\031\000\000" +
+      "\000\000\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser" +
+      ".JonGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\";" +
+      "\n\021SetElevationValue\022&\n\005value\030\001 \001(\001B\027\272H\024\022" +
+      "\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\"j\n\021RotateElevationTo" +
+      "\022-\n\014target_value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000" +
+      "\000\000\000\000\200V\300\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000" +
+      "\000\000\000\000\000\000\000\"\250\001\n\027RotateElevationRelative\022&\n\005v" +
+      "alue\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022&\n\005s" +
+      "peed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\td" +
+      "irection\030\003 \001(\0162\036.ser.JonGuiDataRotaryDir" +
+      "ectionB\n\272H\007\202\001\004\020\001 \000\"\203\001\n\032RotateElevationRe" +
+      "lativeSet\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@" +
+      ")\000\000\000\000\000\200V\300\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGu" +
+      "iDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"\246\001\n\025Rot" +
+      "ateAzimuthRelative\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022" +
+      "\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022" +
+      "\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036." +
+      "ser.JonGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 " +
+      "\000\"\201\001\n\030RotateAzimuthRelativeSet\022&\n\005value\030" +
+      "\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022=\n\tdirect" +
+      "ion\030\002 \001(\0162\036.ser.JonGuiDataRotaryDirectio" +
+      "nB\n\272H\007\202\001\004\020\001 \000\"<\n\022SetPlatformAzimuth\022&\n\005v" +
+      "alue\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\200v\300\">\n\024S" +
+      "etPlatformElevation\022&\n\005value\030\001 \001(\001B\027\272H\024\022" +
+      "\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\"9\n\017SetPlatformBank\022&" +
+      "\n\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\"\n" +
+      "\n\010GetMeteo\"\366\002\n\007Azimuth\0228\n\tset_value\030\001 \001(" +
+      "\0132#.cmd.RotaryPlatform.SetAzimuthValueH\000" +
+      "\0228\n\trotate_to\030\002 \001(\0132#.cmd.RotaryPlatform" +
+      ".RotateAzimuthToH\000\0223\n\006rotate\030\003 \001(\0132!.cmd" +
+      ".RotaryPlatform.RotateAzimuthH\000\022=\n\010relat" +
+      "ive\030\004 \001(\0132).cmd.RotaryPlatform.RotateAzi" +
+      "muthRelativeH\000\022D\n\014relative_set\030\005 \001(\0132,.c" +
+      "md.RotaryPlatform.RotateAzimuthRelativeS" +
+      "etH\000\022/\n\004halt\030\006 \001(\0132\037.cmd.RotaryPlatform." +
+      "HaltAzimuthH\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004" +
+      "Stop\"\006\n\004Halt\"\010\n\006Unpark\"\013\n\tScanStart\"\n\n\010S" +
+      "canStop\"\013\n\tScanPause\"\r\n\013ScanUnpause\"\r\n\013H" +
+      "altAzimuth\"\017\n\rHaltElevation\"\n\n\010ScanPrev\"" +
+      "\n\n\010ScanNext\"\025\n\023ScanRefreshNodeList\"(\n\016Sc" +
+      "anSelectNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\"%\n\t" +
+      "PoiLookAt\022\030\n\005index\030\001 \001(\005B\t\272H\006\032\004\030\t(\000\"*\n\016P" +
+      "oiSaveCurrent\022\030\n\005index\030\001 \001(\005B\t\272H\006\032\004\030\t(\000\"" +
+      "\204\003\n\tElevation\022:\n\tset_value\030\001 \001(\0132%.cmd.R" +
+      "otaryPlatform.SetElevationValueH\000\022:\n\trot" +
+      "ate_to\030\002 \001(\0132%.cmd.RotaryPlatform.Rotate" +
+      "ElevationToH\000\0225\n\006rotate\030\003 \001(\0132#.cmd.Rota" +
+      "ryPlatform.RotateElevationH\000\022?\n\010relative" +
+      "\030\004 \001(\0132+.cmd.RotaryPlatform.RotateElevat" +
+      "ionRelativeH\000\022F\n\014relative_set\030\005 \001(\0132..cm" +
+      "d.RotaryPlatform.RotateElevationRelative" +
+      "SetH\000\0221\n\004halt\030\006 \001(\0132!.cmd.RotaryPlatform" +
+      ".HaltElevationH\000B\014\n\003cmd\022\005\272H\002\010\001\"%\n\025setUse" +
+      "RotaryAsCompass\022\014\n\004flag\030\001 \001(\010\"\217\001\n\013Rotate" +
+      "ToGPS\022)\n\010latitude\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)" +
+      "\000\000\000\000\000\200V\300\022*\n\tlongitude\030\002 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000" +
+      "\200f@)\000\000\000\000\000\200f\300\022)\n\010altitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000" +
+      "\000\000\000j\370@)\000\000\000\000\000\340z\300\"\220\001\n\014SetOriginGPS\022)\n\010lati" +
+      "tude\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022*\n\tl" +
+      "ongitude\030\002 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022" +
+      ")\n\010altitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340" +
+      "z\300\"\267\001\n\013RotateToNDC\0228\n\007channel\030\001 \001(\0162\033.se" +
+      "r.JonGuiDataVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001" +
+      "x\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 " +
+      "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_ti" +
+      "me\030\004 \001(\004\022\022\n\nstate_time\030\005 \001(\004\"\267\001\n\013HaltWit" +
+      "hNDC\0228\n\007channel\030\001 \001(\0162\033.ser.JonGuiDataVi" +
+      "deoChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\002 \001(\001B\027\272H\024\022\022" +
+      "\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000" +
+      "\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\004 \001(\004\022\022\n\nst" +
+      "ate_time\030\005 \001(\004BMZKgit-codecommit.eu-cent" +
+      "ral-1.amazonaws.com/v1/repos/jettison/jo" +
+      "np/cmd/rotaryb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -29028,7 +27499,7 @@ public final class JonSharedCmdRotary {
     internal_static_cmd_RotaryPlatform_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_Root_descriptor,
-        new java.lang.String[] { "Start", "Stop", "Axis", "SetPlatformAzimuth", "SetPlatformElevation", "SetPlatformBank", "Halt", "SetUseRotaryAsCompass", "RotateToGps", "SetOriginGps", "SetMode", "RotateToNdc", "ScanStart", "ScanStop", "ScanPause", "ScanUnpause", "GetMeteo", "ScanPrev", "ScanNext", "ScanRefreshNodeList", "ScanSelectNode", "ScanDeleteNode", "ScanUpdateNode", "ScanAddNode", "HaltWithNdc", "Unpark", "Cmd", });
+        new java.lang.String[] { "Start", "Stop", "Axis", "SetPlatformAzimuth", "SetPlatformElevation", "SetPlatformBank", "Halt", "SetUseRotaryAsCompass", "RotateToGps", "SetOriginGps", "SetMode", "RotateToNdc", "ScanStart", "ScanStop", "ScanPause", "ScanUnpause", "GetMeteo", "ScanPrev", "ScanNext", "ScanRefreshNodeList", "ScanSelectNode", "HaltWithNdc", "Unpark", "PoiLookAt", "PoiSaveCurrent", "Cmd", });
     internal_static_cmd_RotaryPlatform_Axis_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_RotaryPlatform_Axis_fieldAccessorTable = new
@@ -29215,56 +27686,50 @@ public final class JonSharedCmdRotary {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_ScanSelectNode_descriptor,
         new java.lang.String[] { "Index", });
-    internal_static_cmd_RotaryPlatform_ScanDeleteNode_descriptor =
+    internal_static_cmd_RotaryPlatform_PoiLookAt_descriptor =
       getDescriptor().getMessageTypes().get(32);
-    internal_static_cmd_RotaryPlatform_ScanDeleteNode_fieldAccessorTable = new
+    internal_static_cmd_RotaryPlatform_PoiLookAt_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_cmd_RotaryPlatform_ScanDeleteNode_descriptor,
+        internal_static_cmd_RotaryPlatform_PoiLookAt_descriptor,
         new java.lang.String[] { "Index", });
-    internal_static_cmd_RotaryPlatform_ScanUpdateNode_descriptor =
+    internal_static_cmd_RotaryPlatform_PoiSaveCurrent_descriptor =
       getDescriptor().getMessageTypes().get(33);
-    internal_static_cmd_RotaryPlatform_ScanUpdateNode_fieldAccessorTable = new
+    internal_static_cmd_RotaryPlatform_PoiSaveCurrent_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_cmd_RotaryPlatform_ScanUpdateNode_descriptor,
-        new java.lang.String[] { "Index", "DayZoomTableValue", "HeatZoomTableValue", "Azimuth", "Elevation", "Linger", "Speed", });
-    internal_static_cmd_RotaryPlatform_ScanAddNode_descriptor =
-      getDescriptor().getMessageTypes().get(34);
-    internal_static_cmd_RotaryPlatform_ScanAddNode_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_cmd_RotaryPlatform_ScanAddNode_descriptor,
-        new java.lang.String[] { "Index", "DayZoomTableValue", "HeatZoomTableValue", "Azimuth", "Elevation", "Linger", "Speed", });
+        internal_static_cmd_RotaryPlatform_PoiSaveCurrent_descriptor,
+        new java.lang.String[] { "Index", });
     internal_static_cmd_RotaryPlatform_Elevation_descriptor =
-      getDescriptor().getMessageTypes().get(35);
+      getDescriptor().getMessageTypes().get(34);
     internal_static_cmd_RotaryPlatform_Elevation_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_Elevation_descriptor,
         new java.lang.String[] { "SetValue", "RotateTo", "Rotate", "Relative", "RelativeSet", "Halt", "Cmd", });
     internal_static_cmd_RotaryPlatform_setUseRotaryAsCompass_descriptor =
-      getDescriptor().getMessageTypes().get(36);
+      getDescriptor().getMessageTypes().get(35);
     internal_static_cmd_RotaryPlatform_setUseRotaryAsCompass_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_setUseRotaryAsCompass_descriptor,
         new java.lang.String[] { "Flag", });
     internal_static_cmd_RotaryPlatform_RotateToGPS_descriptor =
-      getDescriptor().getMessageTypes().get(37);
+      getDescriptor().getMessageTypes().get(36);
     internal_static_cmd_RotaryPlatform_RotateToGPS_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_RotateToGPS_descriptor,
         new java.lang.String[] { "Latitude", "Longitude", "Altitude", });
     internal_static_cmd_RotaryPlatform_SetOriginGPS_descriptor =
-      getDescriptor().getMessageTypes().get(38);
+      getDescriptor().getMessageTypes().get(37);
     internal_static_cmd_RotaryPlatform_SetOriginGPS_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_SetOriginGPS_descriptor,
         new java.lang.String[] { "Latitude", "Longitude", "Altitude", });
     internal_static_cmd_RotaryPlatform_RotateToNDC_descriptor =
-      getDescriptor().getMessageTypes().get(39);
+      getDescriptor().getMessageTypes().get(38);
     internal_static_cmd_RotaryPlatform_RotateToNDC_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_RotateToNDC_descriptor,
         new java.lang.String[] { "Channel", "X", "Y", "FrameTime", "StateTime", });
     internal_static_cmd_RotaryPlatform_HaltWithNDC_descriptor =
-      getDescriptor().getMessageTypes().get(40);
+      getDescriptor().getMessageTypes().get(39);
     internal_static_cmd_RotaryPlatform_HaltWithNDC_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_HaltWithNDC_descriptor,

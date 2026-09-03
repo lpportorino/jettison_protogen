@@ -18,6 +18,7 @@ import "jon_shared_data_power.proto";
 import "jon_shared_data_cv.proto";
 import "jon_shared_data_pmu.proto";
 import "jon_shared_data_heater.proto";
+import "jon_shared_data_drive.proto";
 
 package ser;
 
@@ -68,4 +69,5 @@ message JonGUIState {
   JonGuiDataCV cv = 27;
   JonGuiDataPMU pmu = 28 [(buf.validate.field).required = true];
   JonGuiDataHeater heater = 29;
+  JonGuiDataDrive drive = 30;
 }

@@ -18,6 +18,7 @@ export const STATE_SUBSYSTEM_TAGS = {
   cv: 27,
   pmu: 28,
   heater: 29,
+  drive: 30,
 } as const;
 
 export type StateSubsystemKey = keyof typeof STATE_SUBSYSTEM_TAGS;

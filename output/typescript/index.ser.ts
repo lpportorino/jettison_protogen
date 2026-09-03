@@ -22,6 +22,7 @@ export * from "./jon_shared_data_power";
 export * from "./jon_shared_data_cv";
 export * from "./jon_shared_data_pmu";
 export * from "./jon_shared_data_heater";
+export * from "./jon_shared_data_drive";
 export * from "./jon_shared_data";
 export * from "./opaque/cv_meta";
 export * from "./opaque/detection_common";

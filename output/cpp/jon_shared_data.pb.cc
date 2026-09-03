@@ -46,6 +46,7 @@ inline constexpr JonGUIState::Impl_::Impl_(
         cv_{nullptr},
         pmu_{nullptr},
         heater_{nullptr},
+        drive_{nullptr},
         system_monotonic_time_us_{::uint64_t{0u}},
         protocol_version_{0u},
         state_source_{static_cast< ::ser::JonGuiDataStateSource >(0)},
@@ -113,6 +114,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGUIState, _impl_.cv_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGUIState, _impl_.pmu_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGUIState, _impl_.heater_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGUIState, _impl_.drive_),
         ~0u,
         ~0u,
         ~0u,
@@ -137,11 +139,12 @@ const ::uint32_t
         13,
         14,
         15,
+        16,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, 32, -1, sizeof(::ser::JonGUIState)},
+        {0, 33, -1, sizeof(::ser::JonGUIState)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGUIState_default_instance_._instance,
@@ -161,41 +164,42 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_2eproto[] ABSL_ATTRIBUT
     "to\032\'jon_shared_data_actual_space_time.pr"
     "oto\032\033jon_shared_data_power.proto\032\030jon_sh"
     "ared_data_cv.proto\032\031jon_shared_data_pmu."
-    "proto\032\034jon_shared_data_heater.proto\"\216\t\n\013"
-    "JonGUIState\022\'\n\020protocol_version\030\001 \001(\rB\r\272"
-    "H\n*\010\030\377\377\377\377\007 \000\022)\n\030system_monotonic_time_us"
-    "\030\002 \001(\004B\007\272H\0042\002(\000\022<\n\014state_source\030\003 \001(\0162\032."
-    "ser.JonGuiDataStateSourceB\n\272H\007\202\001\004\020\001 \000\022!\n"
-    "\020frame_pts_day_ns\030\004 \001(\004B\007\272H\0042\002(\000\022\"\n\021fram"
-    "e_pts_heat_ns\030\005 \001(\004B\007\272H\0042\002(\000\022\'\n\026frame_mo"
-    "notonic_day_us\030\006 \001(\004B\007\272H\0042\002(\000\022(\n\027frame_m"
-    "onotonic_heat_us\030\007 \001(\004B\007\272H\0042\002(\000\022.\n\017opaqu"
-    "e_payloads\030\010 \003(\0132\025.ser.JonOpaquePayload\022"
-    "-\n\006system\030\r \001(\0132\025.ser.JonGuiDataSystemB\006"
-    "\272H\003\310\001\001\0224\n\016meteo_internal\030\016 \001(\0132\024.ser.Jon"
-    "GuiDataMeteoB\006\272H\003\310\001\001\022\'\n\003lrf\030\017 \001(\0132\022.ser."
-    "JonGuiDataLrfB\006\272H\003\310\001\001\022)\n\004time\030\020 \001(\0132\023.se"
-    "r.JonGuiDataTimeB\006\272H\003\310\001\001\022\'\n\003gps\030\021 \001(\0132\022."
-    "ser.JonGuiDataGpsB\006\272H\003\310\001\001\022/\n\007compass\030\022 \001"
-    "(\0132\026.ser.JonGuiDataCompassB\006\272H\003\310\001\001\022-\n\006ro"
-    "tary\030\023 \001(\0132\025.ser.JonGuiDataRotaryB\006\272H\003\310\001"
-    "\001\0224\n\ncamera_day\030\024 \001(\0132\030.ser.JonGuiDataCa"
-    "meraDayB\006\272H\003\310\001\001\0226\n\013camera_heat\030\025 \001(\0132\031.s"
-    "er.JonGuiDataCameraHeatB\006\272H\003\310\001\001\022F\n\023compa"
-    "ss_calibration\030\026 \001(\0132!.ser.JonGuiDataCom"
-    "passCalibrationB\006\272H\003\310\001\001\022.\n\007rec_osd\030\027 \001(\013"
-    "2\025.ser.JonGuiDataRecOsdB\006\272H\003\310\001\001\022A\n\021actua"
-    "l_space_time\030\031 \001(\0132\036.ser.JonGuiDataActua"
-    "lSpaceTimeB\006\272H\003\310\001\001\022+\n\005power\030\032 \001(\0132\024.ser."
-    "JonGuiDataPowerB\006\272H\003\310\001\001\022\035\n\002cv\030\033 \001(\0132\021.se"
-    "r.JonGuiDataCV\022\'\n\003pmu\030\034 \001(\0132\022.ser.JonGui"
-    "DataPMUB\006\272H\003\310\001\001\022%\n\006heater\030\035 \001(\0132\025.ser.Jo"
-    "nGuiDataHeaterJ\004\010\t\020\nJ\004\010\n\020\013J\004\010\013\020\014J\004\010\014\020\rJ\004"
-    "\010\030\020\031BGZEgit-codecommit.eu-central-1.amaz"
-    "onaws.com/v1/repos/jettison/jonp/datab\006p"
-    "roto3"
+    "proto\032\034jon_shared_data_heater.proto\032\033jon"
+    "_shared_data_drive.proto\"\263\t\n\013JonGUIState"
+    "\022\'\n\020protocol_version\030\001 \001(\rB\r\272H\n*\010\030\377\377\377\377\007 "
+    "\000\022)\n\030system_monotonic_time_us\030\002 \001(\004B\007\272H\004"
+    "2\002(\000\022<\n\014state_source\030\003 \001(\0162\032.ser.JonGuiD"
+    "ataStateSourceB\n\272H\007\202\001\004\020\001 \000\022!\n\020frame_pts_"
+    "day_ns\030\004 \001(\004B\007\272H\0042\002(\000\022\"\n\021frame_pts_heat_"
+    "ns\030\005 \001(\004B\007\272H\0042\002(\000\022\'\n\026frame_monotonic_day"
+    "_us\030\006 \001(\004B\007\272H\0042\002(\000\022(\n\027frame_monotonic_he"
+    "at_us\030\007 \001(\004B\007\272H\0042\002(\000\022.\n\017opaque_payloads\030"
+    "\010 \003(\0132\025.ser.JonOpaquePayload\022-\n\006system\030\r"
+    " \001(\0132\025.ser.JonGuiDataSystemB\006\272H\003\310\001\001\0224\n\016m"
+    "eteo_internal\030\016 \001(\0132\024.ser.JonGuiDataMete"
+    "oB\006\272H\003\310\001\001\022\'\n\003lrf\030\017 \001(\0132\022.ser.JonGuiDataL"
+    "rfB\006\272H\003\310\001\001\022)\n\004time\030\020 \001(\0132\023.ser.JonGuiDat"
+    "aTimeB\006\272H\003\310\001\001\022\'\n\003gps\030\021 \001(\0132\022.ser.JonGuiD"
+    "ataGpsB\006\272H\003\310\001\001\022/\n\007compass\030\022 \001(\0132\026.ser.Jo"
+    "nGuiDataCompassB\006\272H\003\310\001\001\022-\n\006rotary\030\023 \001(\0132"
+    "\025.ser.JonGuiDataRotaryB\006\272H\003\310\001\001\0224\n\ncamera"
+    "_day\030\024 \001(\0132\030.ser.JonGuiDataCameraDayB\006\272H"
+    "\003\310\001\001\0226\n\013camera_heat\030\025 \001(\0132\031.ser.JonGuiDa"
+    "taCameraHeatB\006\272H\003\310\001\001\022F\n\023compass_calibrat"
+    "ion\030\026 \001(\0132!.ser.JonGuiDataCompassCalibra"
+    "tionB\006\272H\003\310\001\001\022.\n\007rec_osd\030\027 \001(\0132\025.ser.JonG"
+    "uiDataRecOsdB\006\272H\003\310\001\001\022A\n\021actual_space_tim"
+    "e\030\031 \001(\0132\036.ser.JonGuiDataActualSpaceTimeB"
+    "\006\272H\003\310\001\001\022+\n\005power\030\032 \001(\0132\024.ser.JonGuiDataP"
+    "owerB\006\272H\003\310\001\001\022\035\n\002cv\030\033 \001(\0132\021.ser.JonGuiDat"
+    "aCV\022\'\n\003pmu\030\034 \001(\0132\022.ser.JonGuiDataPMUB\006\272H"
+    "\003\310\001\001\022%\n\006heater\030\035 \001(\0132\025.ser.JonGuiDataHea"
+    "ter\022#\n\005drive\030\036 \001(\0132\024.ser.JonGuiDataDrive"
+    "J\004\010\t\020\nJ\004\010\n\020\013J\004\010\013\020\014J\004\010\014\020\rJ\004\010\030\020\031BGZEgit-co"
+    "decommit.eu-central-1.amazonaws.com/v1/r"
+    "epos/jettison/jonp/datab\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_2eproto_deps[17] =
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_2eproto_deps[18] =
     {
         &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
         &::descriptor_table_jon_5fshared_5fdata_5factual_5fspace_5ftime_2eproto,
@@ -204,6 +208,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata
         &::descriptor_table_jon_5fshared_5fdata_5fcompass_2eproto,
         &::descriptor_table_jon_5fshared_5fdata_5fcompass_5fcalibration_2eproto,
         &::descriptor_table_jon_5fshared_5fdata_5fcv_2eproto,
+        &::descriptor_table_jon_5fshared_5fdata_5fdrive_2eproto,
         &::descriptor_table_jon_5fshared_5fdata_5fgps_2eproto,
         &::descriptor_table_jon_5fshared_5fdata_5fheater_2eproto,
         &::descriptor_table_jon_5fshared_5fdata_5flrf_2eproto,
@@ -219,12 +224,12 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_2eproto = {
     false,
     false,
-    1805,
+    1871,
     descriptor_table_protodef_jon_5fshared_5fdata_2eproto,
     "jon_shared_data.proto",
     &descriptor_table_jon_5fshared_5fdata_2eproto_once,
     descriptor_table_jon_5fshared_5fdata_2eproto_deps,
-    17,
+    18,
     1,
     schemas,
     file_default_instances,
@@ -327,6 +332,11 @@ void JonGUIState::clear_heater() {
   if (_impl_.heater_ != nullptr) _impl_.heater_->Clear();
   _impl_._has_bits_[0] &= ~0x00008000u;
 }
+void JonGUIState::clear_drive() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.drive_ != nullptr) _impl_.drive_->Clear();
+  _impl_._has_bits_[0] &= ~0x00010000u;
+}
 JonGUIState::JonGUIState(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -405,6 +415,9 @@ JonGUIState::JonGUIState(
   _impl_.heater_ = (cached_has_bits & 0x00008000u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataHeater>(
                               arena, *from._impl_.heater_)
                         : nullptr;
+  _impl_.drive_ = (cached_has_bits & 0x00010000u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataDrive>(
+                              arena, *from._impl_.drive_)
+                        : nullptr;
   ::memcpy(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, system_monotonic_time_us_),
            reinterpret_cast<const char *>(&from._impl_) +
@@ -454,6 +467,7 @@ inline void JonGUIState::SharedDtor(MessageLite& self) {
   delete this_._impl_.cv_;
   delete this_._impl_.pmu_;
   delete this_._impl_.heater_;
+  delete this_._impl_.drive_;
   this_._impl_.~Impl_();
 }
 
@@ -505,16 +519,16 @@ const ::google::protobuf::internal::ClassData* JonGUIState::GetClassData() const
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<5, 24, 17, 0, 2> JonGUIState::_table_ = {
+const ::_pbi::TcParseTable<5, 25, 18, 0, 2> JonGUIState::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(JonGUIState, _impl_._has_bits_),
     0, // no _extensions_
-    29, 248,  // max_field_number, fast_idx_mask
+    30, 248,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    3766488832,  // skipmap
+    3229617920,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    24,  // num_field_entries
-    17,  // num_aux_entries
+    25,  // num_field_entries
+    18,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -601,7 +615,9 @@ const ::_pbi::TcParseTable<5, 24, 17, 0, 2> JonGUIState::_table_ = {
     // .ser.JonGuiDataHeater heater = 29;
     {::_pbi::TcParser::FastMtS2,
      {490, 15, 16, PROTOBUF_FIELD_OFFSET(JonGUIState, _impl_.heater_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // .ser.JonGuiDataDrive drive = 30;
+    {::_pbi::TcParser::FastMtS2,
+     {498, 16, 17, PROTOBUF_FIELD_OFFSET(JonGUIState, _impl_.drive_)}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
@@ -678,6 +694,9 @@ const ::_pbi::TcParseTable<5, 24, 17, 0, 2> JonGUIState::_table_ = {
     // .ser.JonGuiDataHeater heater = 29;
     {PROTOBUF_FIELD_OFFSET(JonGUIState, _impl_.heater_), _Internal::kHasBitsOffset + 15, 16,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .ser.JonGuiDataDrive drive = 30;
+    {PROTOBUF_FIELD_OFFSET(JonGUIState, _impl_.drive_), _Internal::kHasBitsOffset + 16, 17,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ser::JonOpaquePayload>()},
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataSystem>()},
@@ -696,6 +715,7 @@ const ::_pbi::TcParseTable<5, 24, 17, 0, 2> JonGUIState::_table_ = {
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataCV>()},
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataPMU>()},
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataHeater>()},
+    {::_pbi::TcParser::GetTable<::ser::JonGuiDataDrive>()},
   }}, {{
   }},
 };
@@ -776,6 +796,10 @@ PROTOBUF_NOINLINE void JonGUIState::Clear() {
       ABSL_DCHECK(_impl_.heater_ != nullptr);
       _impl_.heater_->Clear();
     }
+  }
+  if (cached_has_bits & 0x00010000u) {
+    ABSL_DCHECK(_impl_.drive_ != nullptr);
+    _impl_.drive_->Clear();
   }
   ::memset(&_impl_.system_monotonic_time_us_, 0, static_cast<::size_t>(
       reinterpret_cast<char*>(&_impl_.frame_monotonic_heat_us_) -
@@ -972,6 +996,13 @@ PROTOBUF_NOINLINE void JonGUIState::Clear() {
                 stream);
           }
 
+          // .ser.JonGuiDataDrive drive = 30;
+          if (cached_has_bits & 0x00010000u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                30, *this_._impl_.drive_, this_._impl_.drive_->GetCachedSize(), target,
+                stream);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -1088,6 +1119,13 @@ PROTOBUF_NOINLINE void JonGUIState::Clear() {
             if (cached_has_bits & 0x00008000u) {
               total_size += 2 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.heater_);
+            }
+          }
+           {
+            // .ser.JonGuiDataDrive drive = 30;
+            if (cached_has_bits & 0x00010000u) {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.drive_);
             }
           }
            {
@@ -1289,6 +1327,15 @@ void JonGUIState::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::goo
       } else {
         _this->_impl_.heater_->MergeFrom(*from._impl_.heater_);
       }
+    }
+  }
+  if (cached_has_bits & 0x00010000u) {
+    ABSL_DCHECK(from._impl_.drive_ != nullptr);
+    if (_this->_impl_.drive_ == nullptr) {
+      _this->_impl_.drive_ =
+          ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataDrive>(arena, *from._impl_.drive_);
+    } else {
+      _this->_impl_.drive_->MergeFrom(*from._impl_.drive_);
     }
   }
   if (from._internal_system_monotonic_time_us() != 0) {

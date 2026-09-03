@@ -30,12 +30,16 @@ message Root {
     ScanNext scan_next = 19;
     ScanRefreshNodeList scan_refresh_node_list = 20;
     ScanSelectNode scan_select_node = 21;
-    ScanDeleteNode scan_delete_node = 22;
-    ScanUpdateNode scan_update_node = 23;
-    ScanAddNode scan_add_node = 24;
     HaltWithNDC halt_with_ndc = 25;
     Unpark unpark = 26;
+    PoiLookAt poi_look_at = 27;
+    PoiSaveCurrent poi_save_current = 28;
   }
+  // 22-24 carried ScanDeleteNode / ScanUpdateNode / ScanAddNode. Scan-node
+  // storage is owned by scan_api_server (REST, Redis db8) and edited only
+  // there; the drive host consumes the runtime scan verbs, never node CRUD.
+  reserved 22, 23, 24;
+  reserved "scan_delete_node", "scan_update_node", "scan_add_node";
 }
 
 message Axis {
@@ -226,65 +230,29 @@ message ScanSelectNode {
   }];
 }
 
-message ScanDeleteNode {
+// Slew to the point of interest stored in slot `index` (poi_api_server,
+// Redis db8 `rotary:poi:<index>`) and apply its day/heat zoom-table
+// positions. Consumed by eutropia's drive host, which runs the verified
+// look-at program; the frontend no longer composes axis commands itself.
+message PoiLookAt {
   int32 index = 1 [(buf.validate.field).int32 = {
-    gte: 0
+    gte: 0,
+    lte: 9
   }];
 }
 
-message ScanUpdateNode {
+// Store the current pointing (compensated azimuth/elevation + both
+// zoom-table positions) into POI slot `index`. Consumed by eutropia's
+// drive host, which snapshots state and POSTs to poi_api_server.
+message PoiSaveCurrent {
   int32 index = 1 [(buf.validate.field).int32 = {
-    gte: 0
-  }];
-  int32 DayZoomTableValue = 2 [(buf.validate.field).int32 = {
-    gte: 0
-  }];
-  int32 HeatZoomTableValue = 3 [(buf.validate.field).int32 = {
-    gte: 0
-  }];
-  double azimuth = 4 [(buf.validate.field).double = {
     gte: 0,
-    lt: 360
-  }];
-  double elevation = 5 [(buf.validate.field).double = {
-    gte: -90,
-    lte: 90
-  }];
-  double linger = 6 [(buf.validate.field).double = {
-    gte: 0
-  }];
-  double speed = 7 [(buf.validate.field).double = {
-    gt: 0.0,
-    lte: 1.0
+    lte: 9
   }];
 }
 
-message ScanAddNode {
-  int32 index = 1 [(buf.validate.field).int32 = {
-    gte: 0
-  }];
-  int32 DayZoomTableValue = 2 [(buf.validate.field).int32 = {
-    gte: 0
-  }];
-  int32 HeatZoomTableValue = 3 [(buf.validate.field).int32 = {
-    gte: 0
-  }];
-  double azimuth = 4 [(buf.validate.field).double = {
-    gte: 0,
-    lt: 360
-  }];
-  double elevation = 5 [(buf.validate.field).double = {
-    gte: -90,
-    lte: 90
-  }];
-  double linger = 6 [(buf.validate.field).double = {
-    gte: 0
-  }];
-  double speed = 7 [(buf.validate.field).double = {
-    gt: 0.0,
-    lte: 1.0
-  }];
-}
+
+
 
 message Elevation {
   oneof cmd {

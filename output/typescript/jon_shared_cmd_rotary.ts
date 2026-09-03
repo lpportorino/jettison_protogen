@@ -41,11 +41,10 @@ export interface Root {
   scanNext?: ScanNext | undefined;
   scanRefreshNodeList?: ScanRefreshNodeList | undefined;
   scanSelectNode?: ScanSelectNode | undefined;
-  scanDeleteNode?: ScanDeleteNode | undefined;
-  scanUpdateNode?: ScanUpdateNode | undefined;
-  scanAddNode?: ScanAddNode | undefined;
   haltWithNdc?: HaltWithNDC | undefined;
   unpark?: Unpark | undefined;
+  poiLookAt?: PoiLookAt | undefined;
+  poiSaveCurrent?: PoiSaveCurrent | undefined;
 }
 
 export interface Axis {
@@ -181,28 +180,23 @@ export interface ScanSelectNode {
   index: number;
 }
 
-export interface ScanDeleteNode {
+/**
+ * Slew to the point of interest stored in slot `index` (poi_api_server,
+ * Redis db8 `rotary:poi:<index>`) and apply its day/heat zoom-table
+ * positions. Consumed by eutropia's drive host, which runs the verified
+ * look-at program; the frontend no longer composes axis commands itself.
+ */
+export interface PoiLookAt {
   index: number;
 }
 
-export interface ScanUpdateNode {
+/**
+ * Store the current pointing (compensated azimuth/elevation + both
+ * zoom-table positions) into POI slot `index`. Consumed by eutropia's
+ * drive host, which snapshots state and POSTs to poi_api_server.
+ */
+export interface PoiSaveCurrent {
   index: number;
-  DayZoomTableValue: number;
-  HeatZoomTableValue: number;
-  azimuth: number;
-  elevation: number;
-  linger: number;
-  speed: number;
-}
-
-export interface ScanAddNode {
-  index: number;
-  DayZoomTableValue: number;
-  HeatZoomTableValue: number;
-  azimuth: number;
-  elevation: number;
-  linger: number;
-  speed: number;
 }
 
 export interface Elevation {
@@ -273,11 +267,10 @@ function createBaseRoot(): Root {
     scanNext: undefined,
     scanRefreshNodeList: undefined,
     scanSelectNode: undefined,
-    scanDeleteNode: undefined,
-    scanUpdateNode: undefined,
-    scanAddNode: undefined,
     haltWithNdc: undefined,
     unpark: undefined,
+    poiLookAt: undefined,
+    poiSaveCurrent: undefined,
   };
 }
 
@@ -346,20 +339,17 @@ export const Root: MessageFns<Root> = {
     if (message.scanSelectNode !== undefined) {
       ScanSelectNode.encode(message.scanSelectNode, writer.uint32(170).fork()).join();
     }
-    if (message.scanDeleteNode !== undefined) {
-      ScanDeleteNode.encode(message.scanDeleteNode, writer.uint32(178).fork()).join();
-    }
-    if (message.scanUpdateNode !== undefined) {
-      ScanUpdateNode.encode(message.scanUpdateNode, writer.uint32(186).fork()).join();
-    }
-    if (message.scanAddNode !== undefined) {
-      ScanAddNode.encode(message.scanAddNode, writer.uint32(194).fork()).join();
-    }
     if (message.haltWithNdc !== undefined) {
       HaltWithNDC.encode(message.haltWithNdc, writer.uint32(202).fork()).join();
     }
     if (message.unpark !== undefined) {
       Unpark.encode(message.unpark, writer.uint32(210).fork()).join();
+    }
+    if (message.poiLookAt !== undefined) {
+      PoiLookAt.encode(message.poiLookAt, writer.uint32(218).fork()).join();
+    }
+    if (message.poiSaveCurrent !== undefined) {
+      PoiSaveCurrent.encode(message.poiSaveCurrent, writer.uint32(226).fork()).join();
     }
     return writer;
   },
@@ -545,30 +535,6 @@ export const Root: MessageFns<Root> = {
             message.scanSelectNode = ScanSelectNode.decode(reader, reader.uint32());
             continue;
           }
-          case 22: {
-            if (tag !== 178) {
-              break;
-            }
-
-            message.scanDeleteNode = ScanDeleteNode.decode(reader, reader.uint32());
-            continue;
-          }
-          case 23: {
-            if (tag !== 186) {
-              break;
-            }
-
-            message.scanUpdateNode = ScanUpdateNode.decode(reader, reader.uint32());
-            continue;
-          }
-          case 24: {
-            if (tag !== 194) {
-              break;
-            }
-
-            message.scanAddNode = ScanAddNode.decode(reader, reader.uint32());
-            continue;
-          }
           case 25: {
             if (tag !== 202) {
               break;
@@ -583,6 +549,22 @@ export const Root: MessageFns<Root> = {
             }
 
             message.unpark = Unpark.decode(reader, reader.uint32());
+            continue;
+          }
+          case 27: {
+            if (tag !== 218) {
+              break;
+            }
+
+            message.poiLookAt = PoiLookAt.decode(reader, reader.uint32());
+            continue;
+          }
+          case 28: {
+            if (tag !== 226) {
+              break;
+            }
+
+            message.poiSaveCurrent = PoiSaveCurrent.decode(reader, reader.uint32());
             continue;
           }
         }
@@ -688,27 +670,22 @@ export const Root: MessageFns<Root> = {
         : isSet(object.scan_select_node)
         ? ScanSelectNode.fromJSON(object.scan_select_node)
         : undefined,
-      scanDeleteNode: isSet(object.scanDeleteNode)
-        ? ScanDeleteNode.fromJSON(object.scanDeleteNode)
-        : isSet(object.scan_delete_node)
-        ? ScanDeleteNode.fromJSON(object.scan_delete_node)
-        : undefined,
-      scanUpdateNode: isSet(object.scanUpdateNode)
-        ? ScanUpdateNode.fromJSON(object.scanUpdateNode)
-        : isSet(object.scan_update_node)
-        ? ScanUpdateNode.fromJSON(object.scan_update_node)
-        : undefined,
-      scanAddNode: isSet(object.scanAddNode)
-        ? ScanAddNode.fromJSON(object.scanAddNode)
-        : isSet(object.scan_add_node)
-        ? ScanAddNode.fromJSON(object.scan_add_node)
-        : undefined,
       haltWithNdc: isSet(object.haltWithNdc)
         ? HaltWithNDC.fromJSON(object.haltWithNdc)
         : isSet(object.halt_with_ndc)
         ? HaltWithNDC.fromJSON(object.halt_with_ndc)
         : undefined,
       unpark: isSet(object.unpark) ? Unpark.fromJSON(object.unpark) : undefined,
+      poiLookAt: isSet(object.poiLookAt)
+        ? PoiLookAt.fromJSON(object.poiLookAt)
+        : isSet(object.poi_look_at)
+        ? PoiLookAt.fromJSON(object.poi_look_at)
+        : undefined,
+      poiSaveCurrent: isSet(object.poiSaveCurrent)
+        ? PoiSaveCurrent.fromJSON(object.poiSaveCurrent)
+        : isSet(object.poi_save_current)
+        ? PoiSaveCurrent.fromJSON(object.poi_save_current)
+        : undefined,
     };
   },
 
@@ -777,20 +754,17 @@ export const Root: MessageFns<Root> = {
     if (message.scanSelectNode !== undefined) {
       obj.scanSelectNode = ScanSelectNode.toJSON(message.scanSelectNode);
     }
-    if (message.scanDeleteNode !== undefined) {
-      obj.scanDeleteNode = ScanDeleteNode.toJSON(message.scanDeleteNode);
-    }
-    if (message.scanUpdateNode !== undefined) {
-      obj.scanUpdateNode = ScanUpdateNode.toJSON(message.scanUpdateNode);
-    }
-    if (message.scanAddNode !== undefined) {
-      obj.scanAddNode = ScanAddNode.toJSON(message.scanAddNode);
-    }
     if (message.haltWithNdc !== undefined) {
       obj.haltWithNdc = HaltWithNDC.toJSON(message.haltWithNdc);
     }
     if (message.unpark !== undefined) {
       obj.unpark = Unpark.toJSON(message.unpark);
+    }
+    if (message.poiLookAt !== undefined) {
+      obj.poiLookAt = PoiLookAt.toJSON(message.poiLookAt);
+    }
+    if (message.poiSaveCurrent !== undefined) {
+      obj.poiSaveCurrent = PoiSaveCurrent.toJSON(message.poiSaveCurrent);
     }
     return obj;
   },
@@ -856,20 +830,17 @@ export const Root: MessageFns<Root> = {
     message.scanSelectNode = (object.scanSelectNode !== undefined && object.scanSelectNode !== null)
       ? ScanSelectNode.fromPartial(object.scanSelectNode)
       : undefined;
-    message.scanDeleteNode = (object.scanDeleteNode !== undefined && object.scanDeleteNode !== null)
-      ? ScanDeleteNode.fromPartial(object.scanDeleteNode)
-      : undefined;
-    message.scanUpdateNode = (object.scanUpdateNode !== undefined && object.scanUpdateNode !== null)
-      ? ScanUpdateNode.fromPartial(object.scanUpdateNode)
-      : undefined;
-    message.scanAddNode = (object.scanAddNode !== undefined && object.scanAddNode !== null)
-      ? ScanAddNode.fromPartial(object.scanAddNode)
-      : undefined;
     message.haltWithNdc = (object.haltWithNdc !== undefined && object.haltWithNdc !== null)
       ? HaltWithNDC.fromPartial(object.haltWithNdc)
       : undefined;
     message.unpark = (object.unpark !== undefined && object.unpark !== null)
       ? Unpark.fromPartial(object.unpark)
+      : undefined;
+    message.poiLookAt = (object.poiLookAt !== undefined && object.poiLookAt !== null)
+      ? PoiLookAt.fromPartial(object.poiLookAt)
+      : undefined;
+    message.poiSaveCurrent = (object.poiSaveCurrent !== undefined && object.poiSaveCurrent !== null)
+      ? PoiSaveCurrent.fromPartial(object.poiSaveCurrent)
       : undefined;
     return message;
   },
@@ -3095,19 +3066,19 @@ export const ScanSelectNode: MessageFns<ScanSelectNode> = {
   },
 };
 
-function createBaseScanDeleteNode(): ScanDeleteNode {
+function createBasePoiLookAt(): PoiLookAt {
   return { index: 0 };
 }
 
-export const ScanDeleteNode: MessageFns<ScanDeleteNode> = {
-  encode(message: ScanDeleteNode, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const PoiLookAt: MessageFns<PoiLookAt> = {
+  encode(message: PoiLookAt, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.index !== 0) {
       writer.uint32(8).int32(message.index);
     }
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): ScanDeleteNode {
+  decode(input: BinaryReader | Uint8Array, length?: number): PoiLookAt {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     const previousRecursionDepth = (reader as any).__tsProtoDecodeDepth ?? 0;
     if (previousRecursionDepth >= 100) {
@@ -3116,7 +3087,7 @@ export const ScanDeleteNode: MessageFns<ScanDeleteNode> = {
     (reader as any).__tsProtoDecodeDepth = previousRecursionDepth + 1;
     try {
       const end = length === undefined ? reader.len : reader.pos + length;
-      const message = createBaseScanDeleteNode();
+      const message = createBasePoiLookAt();
       while (reader.pos < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
@@ -3140,11 +3111,11 @@ export const ScanDeleteNode: MessageFns<ScanDeleteNode> = {
     }
   },
 
-  fromJSON(object: any): ScanDeleteNode {
+  fromJSON(object: any): PoiLookAt {
     return { index: isSet(object.index) ? globalThis.Number(object.index) : 0 };
   },
 
-  toJSON(message: ScanDeleteNode): unknown {
+  toJSON(message: PoiLookAt): unknown {
     const obj: any = {};
     if (message.index !== 0) {
       obj.index = Math.round(message.index);
@@ -3152,47 +3123,29 @@ export const ScanDeleteNode: MessageFns<ScanDeleteNode> = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ScanDeleteNode>, I>>(base?: I): ScanDeleteNode {
-    return ScanDeleteNode.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<PoiLookAt>, I>>(base?: I): PoiLookAt {
+    return PoiLookAt.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<ScanDeleteNode>, I>>(object: I): ScanDeleteNode {
-    const message = createBaseScanDeleteNode();
+  fromPartial<I extends Exact<DeepPartial<PoiLookAt>, I>>(object: I): PoiLookAt {
+    const message = createBasePoiLookAt();
     message.index = object.index ?? 0;
     return message;
   },
 };
 
-function createBaseScanUpdateNode(): ScanUpdateNode {
-  return { index: 0, DayZoomTableValue: 0, HeatZoomTableValue: 0, azimuth: 0, elevation: 0, linger: 0, speed: 0 };
+function createBasePoiSaveCurrent(): PoiSaveCurrent {
+  return { index: 0 };
 }
 
-export const ScanUpdateNode: MessageFns<ScanUpdateNode> = {
-  encode(message: ScanUpdateNode, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const PoiSaveCurrent: MessageFns<PoiSaveCurrent> = {
+  encode(message: PoiSaveCurrent, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.index !== 0) {
       writer.uint32(8).int32(message.index);
-    }
-    if (message.DayZoomTableValue !== 0) {
-      writer.uint32(16).int32(message.DayZoomTableValue);
-    }
-    if (message.HeatZoomTableValue !== 0) {
-      writer.uint32(24).int32(message.HeatZoomTableValue);
-    }
-    if (message.azimuth !== 0) {
-      writer.uint32(33).double(message.azimuth);
-    }
-    if (message.elevation !== 0) {
-      writer.uint32(41).double(message.elevation);
-    }
-    if (message.linger !== 0) {
-      writer.uint32(49).double(message.linger);
-    }
-    if (message.speed !== 0) {
-      writer.uint32(57).double(message.speed);
     }
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): ScanUpdateNode {
+  decode(input: BinaryReader | Uint8Array, length?: number): PoiSaveCurrent {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     const previousRecursionDepth = (reader as any).__tsProtoDecodeDepth ?? 0;
     if (previousRecursionDepth >= 100) {
@@ -3201,7 +3154,7 @@ export const ScanUpdateNode: MessageFns<ScanUpdateNode> = {
     (reader as any).__tsProtoDecodeDepth = previousRecursionDepth + 1;
     try {
       const end = length === undefined ? reader.len : reader.pos + length;
-      const message = createBaseScanUpdateNode();
+      const message = createBasePoiSaveCurrent();
       while (reader.pos < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
@@ -3211,54 +3164,6 @@ export const ScanUpdateNode: MessageFns<ScanUpdateNode> = {
             }
 
             message.index = reader.int32();
-            continue;
-          }
-          case 2: {
-            if (tag !== 16) {
-              break;
-            }
-
-            message.DayZoomTableValue = reader.int32();
-            continue;
-          }
-          case 3: {
-            if (tag !== 24) {
-              break;
-            }
-
-            message.HeatZoomTableValue = reader.int32();
-            continue;
-          }
-          case 4: {
-            if (tag !== 33) {
-              break;
-            }
-
-            message.azimuth = reader.double();
-            continue;
-          }
-          case 5: {
-            if (tag !== 41) {
-              break;
-            }
-
-            message.elevation = reader.double();
-            continue;
-          }
-          case 6: {
-            if (tag !== 49) {
-              break;
-            }
-
-            message.linger = reader.double();
-            continue;
-          }
-          case 7: {
-            if (tag !== 57) {
-              break;
-            }
-
-            message.speed = reader.double();
             continue;
           }
         }
@@ -3273,221 +3178,24 @@ export const ScanUpdateNode: MessageFns<ScanUpdateNode> = {
     }
   },
 
-  fromJSON(object: any): ScanUpdateNode {
-    return {
-      index: isSet(object.index) ? globalThis.Number(object.index) : 0,
-      DayZoomTableValue: isSet(object.DayZoomTableValue) ? globalThis.Number(object.DayZoomTableValue) : 0,
-      HeatZoomTableValue: isSet(object.HeatZoomTableValue) ? globalThis.Number(object.HeatZoomTableValue) : 0,
-      azimuth: isSet(object.azimuth) ? globalThis.Number(object.azimuth) : 0,
-      elevation: isSet(object.elevation) ? globalThis.Number(object.elevation) : 0,
-      linger: isSet(object.linger) ? globalThis.Number(object.linger) : 0,
-      speed: isSet(object.speed) ? globalThis.Number(object.speed) : 0,
-    };
+  fromJSON(object: any): PoiSaveCurrent {
+    return { index: isSet(object.index) ? globalThis.Number(object.index) : 0 };
   },
 
-  toJSON(message: ScanUpdateNode): unknown {
+  toJSON(message: PoiSaveCurrent): unknown {
     const obj: any = {};
     if (message.index !== 0) {
       obj.index = Math.round(message.index);
     }
-    if (message.DayZoomTableValue !== 0) {
-      obj.DayZoomTableValue = Math.round(message.DayZoomTableValue);
-    }
-    if (message.HeatZoomTableValue !== 0) {
-      obj.HeatZoomTableValue = Math.round(message.HeatZoomTableValue);
-    }
-    if (message.azimuth !== 0) {
-      obj.azimuth = message.azimuth;
-    }
-    if (message.elevation !== 0) {
-      obj.elevation = message.elevation;
-    }
-    if (message.linger !== 0) {
-      obj.linger = message.linger;
-    }
-    if (message.speed !== 0) {
-      obj.speed = message.speed;
-    }
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ScanUpdateNode>, I>>(base?: I): ScanUpdateNode {
-    return ScanUpdateNode.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<PoiSaveCurrent>, I>>(base?: I): PoiSaveCurrent {
+    return PoiSaveCurrent.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<ScanUpdateNode>, I>>(object: I): ScanUpdateNode {
-    const message = createBaseScanUpdateNode();
+  fromPartial<I extends Exact<DeepPartial<PoiSaveCurrent>, I>>(object: I): PoiSaveCurrent {
+    const message = createBasePoiSaveCurrent();
     message.index = object.index ?? 0;
-    message.DayZoomTableValue = object.DayZoomTableValue ?? 0;
-    message.HeatZoomTableValue = object.HeatZoomTableValue ?? 0;
-    message.azimuth = object.azimuth ?? 0;
-    message.elevation = object.elevation ?? 0;
-    message.linger = object.linger ?? 0;
-    message.speed = object.speed ?? 0;
-    return message;
-  },
-};
-
-function createBaseScanAddNode(): ScanAddNode {
-  return { index: 0, DayZoomTableValue: 0, HeatZoomTableValue: 0, azimuth: 0, elevation: 0, linger: 0, speed: 0 };
-}
-
-export const ScanAddNode: MessageFns<ScanAddNode> = {
-  encode(message: ScanAddNode, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.index !== 0) {
-      writer.uint32(8).int32(message.index);
-    }
-    if (message.DayZoomTableValue !== 0) {
-      writer.uint32(16).int32(message.DayZoomTableValue);
-    }
-    if (message.HeatZoomTableValue !== 0) {
-      writer.uint32(24).int32(message.HeatZoomTableValue);
-    }
-    if (message.azimuth !== 0) {
-      writer.uint32(33).double(message.azimuth);
-    }
-    if (message.elevation !== 0) {
-      writer.uint32(41).double(message.elevation);
-    }
-    if (message.linger !== 0) {
-      writer.uint32(49).double(message.linger);
-    }
-    if (message.speed !== 0) {
-      writer.uint32(57).double(message.speed);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): ScanAddNode {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const previousRecursionDepth = (reader as any).__tsProtoDecodeDepth ?? 0;
-    if (previousRecursionDepth >= 100) {
-      throw new globalThis.Error("protobuf decode recursion limit exceeded");
-    }
-    (reader as any).__tsProtoDecodeDepth = previousRecursionDepth + 1;
-    try {
-      const end = length === undefined ? reader.len : reader.pos + length;
-      const message = createBaseScanAddNode();
-      while (reader.pos < end) {
-        const tag = reader.uint32();
-        switch (tag >>> 3) {
-          case 1: {
-            if (tag !== 8) {
-              break;
-            }
-
-            message.index = reader.int32();
-            continue;
-          }
-          case 2: {
-            if (tag !== 16) {
-              break;
-            }
-
-            message.DayZoomTableValue = reader.int32();
-            continue;
-          }
-          case 3: {
-            if (tag !== 24) {
-              break;
-            }
-
-            message.HeatZoomTableValue = reader.int32();
-            continue;
-          }
-          case 4: {
-            if (tag !== 33) {
-              break;
-            }
-
-            message.azimuth = reader.double();
-            continue;
-          }
-          case 5: {
-            if (tag !== 41) {
-              break;
-            }
-
-            message.elevation = reader.double();
-            continue;
-          }
-          case 6: {
-            if (tag !== 49) {
-              break;
-            }
-
-            message.linger = reader.double();
-            continue;
-          }
-          case 7: {
-            if (tag !== 57) {
-              break;
-            }
-
-            message.speed = reader.double();
-            continue;
-          }
-        }
-        if ((tag & 7) === 4 || tag === 0) {
-          break;
-        }
-        reader.skip(tag & 7);
-      }
-      return message;
-    } finally {
-      (reader as any).__tsProtoDecodeDepth = previousRecursionDepth;
-    }
-  },
-
-  fromJSON(object: any): ScanAddNode {
-    return {
-      index: isSet(object.index) ? globalThis.Number(object.index) : 0,
-      DayZoomTableValue: isSet(object.DayZoomTableValue) ? globalThis.Number(object.DayZoomTableValue) : 0,
-      HeatZoomTableValue: isSet(object.HeatZoomTableValue) ? globalThis.Number(object.HeatZoomTableValue) : 0,
-      azimuth: isSet(object.azimuth) ? globalThis.Number(object.azimuth) : 0,
-      elevation: isSet(object.elevation) ? globalThis.Number(object.elevation) : 0,
-      linger: isSet(object.linger) ? globalThis.Number(object.linger) : 0,
-      speed: isSet(object.speed) ? globalThis.Number(object.speed) : 0,
-    };
-  },
-
-  toJSON(message: ScanAddNode): unknown {
-    const obj: any = {};
-    if (message.index !== 0) {
-      obj.index = Math.round(message.index);
-    }
-    if (message.DayZoomTableValue !== 0) {
-      obj.DayZoomTableValue = Math.round(message.DayZoomTableValue);
-    }
-    if (message.HeatZoomTableValue !== 0) {
-      obj.HeatZoomTableValue = Math.round(message.HeatZoomTableValue);
-    }
-    if (message.azimuth !== 0) {
-      obj.azimuth = message.azimuth;
-    }
-    if (message.elevation !== 0) {
-      obj.elevation = message.elevation;
-    }
-    if (message.linger !== 0) {
-      obj.linger = message.linger;
-    }
-    if (message.speed !== 0) {
-      obj.speed = message.speed;
-    }
-    return obj;
-  },
-
-  create<I extends Exact<DeepPartial<ScanAddNode>, I>>(base?: I): ScanAddNode {
-    return ScanAddNode.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<ScanAddNode>, I>>(object: I): ScanAddNode {
-    const message = createBaseScanAddNode();
-    message.index = object.index ?? 0;
-    message.DayZoomTableValue = object.DayZoomTableValue ?? 0;
-    message.HeatZoomTableValue = object.HeatZoomTableValue ?? 0;
-    message.azimuth = object.azimuth ?? 0;
-    message.elevation = object.elevation ?? 0;
-    message.linger = object.linger ?? 0;
-    message.speed = object.speed ?? 0;
     return message;
   },
 };

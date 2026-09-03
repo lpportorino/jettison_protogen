@@ -183,6 +183,23 @@ class JonGuiDataStateSource(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE: _ClassVar[JonGuiDataStateSource]
     JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE: _ClassVar[JonGuiDataStateSource]
     JON_GUI_DATA_STATE_SOURCE_SYSTEM: _ClassVar[JonGuiDataStateSource]
+
+class JonGuiDataDriveProgram(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    JON_GUI_DATA_DRIVE_PROGRAM_NONE: _ClassVar[JonGuiDataDriveProgram]
+    JON_GUI_DATA_DRIVE_PROGRAM_SCAN: _ClassVar[JonGuiDataDriveProgram]
+    JON_GUI_DATA_DRIVE_PROGRAM_POI: _ClassVar[JonGuiDataDriveProgram]
+    JON_GUI_DATA_DRIVE_PROGRAM_PARK: _ClassVar[JonGuiDataDriveProgram]
+
+class JonGuiDataDriveState(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED: _ClassVar[JonGuiDataDriveState]
+    JON_GUI_DATA_DRIVE_STATE_IDLE: _ClassVar[JonGuiDataDriveState]
+    JON_GUI_DATA_DRIVE_STATE_ARMED: _ClassVar[JonGuiDataDriveState]
+    JON_GUI_DATA_DRIVE_STATE_RUNNING: _ClassVar[JonGuiDataDriveState]
+    JON_GUI_DATA_DRIVE_STATE_PAUSED: _ClassVar[JonGuiDataDriveState]
+    JON_GUI_DATA_DRIVE_STATE_DONE: _ClassVar[JonGuiDataDriveState]
+    JON_GUI_DATA_DRIVE_STATE_FAULT: _ClassVar[JonGuiDataDriveState]
 JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_UNSPECIFIED: JonGuiDataVideoChannelHeatFilters
 JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_WHITE: JonGuiDataVideoChannelHeatFilters
 JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_BLACK: JonGuiDataVideoChannelHeatFilters
@@ -296,6 +313,17 @@ JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED: JonGuiDataStateSource
 JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE: JonGuiDataStateSource
 JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE: JonGuiDataStateSource
 JON_GUI_DATA_STATE_SOURCE_SYSTEM: JonGuiDataStateSource
+JON_GUI_DATA_DRIVE_PROGRAM_NONE: JonGuiDataDriveProgram
+JON_GUI_DATA_DRIVE_PROGRAM_SCAN: JonGuiDataDriveProgram
+JON_GUI_DATA_DRIVE_PROGRAM_POI: JonGuiDataDriveProgram
+JON_GUI_DATA_DRIVE_PROGRAM_PARK: JonGuiDataDriveProgram
+JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED: JonGuiDataDriveState
+JON_GUI_DATA_DRIVE_STATE_IDLE: JonGuiDataDriveState
+JON_GUI_DATA_DRIVE_STATE_ARMED: JonGuiDataDriveState
+JON_GUI_DATA_DRIVE_STATE_RUNNING: JonGuiDataDriveState
+JON_GUI_DATA_DRIVE_STATE_PAUSED: JonGuiDataDriveState
+JON_GUI_DATA_DRIVE_STATE_DONE: JonGuiDataDriveState
+JON_GUI_DATA_DRIVE_STATE_FAULT: JonGuiDataDriveState
 
 class JonGuiDataMeteo(_message.Message):
     __slots__ = ("temperature", "humidity", "pressure")

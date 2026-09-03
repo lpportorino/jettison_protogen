@@ -6,7 +6,7 @@ from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Opti
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class Root(_message.Message):
-    __slots__ = ("start", "stop", "axis", "set_platform_azimuth", "set_platform_elevation", "set_platform_bank", "halt", "set_use_rotary_as_compass", "rotate_to_gps", "set_origin_gps", "set_mode", "rotate_to_ndc", "scan_start", "scan_stop", "scan_pause", "scan_unpause", "get_meteo", "scan_prev", "scan_next", "scan_refresh_node_list", "scan_select_node", "scan_delete_node", "scan_update_node", "scan_add_node", "halt_with_ndc", "unpark")
+    __slots__ = ("start", "stop", "axis", "set_platform_azimuth", "set_platform_elevation", "set_platform_bank", "halt", "set_use_rotary_as_compass", "rotate_to_gps", "set_origin_gps", "set_mode", "rotate_to_ndc", "scan_start", "scan_stop", "scan_pause", "scan_unpause", "get_meteo", "scan_prev", "scan_next", "scan_refresh_node_list", "scan_select_node", "halt_with_ndc", "unpark", "poi_look_at", "poi_save_current")
     START_FIELD_NUMBER: _ClassVar[int]
     STOP_FIELD_NUMBER: _ClassVar[int]
     AXIS_FIELD_NUMBER: _ClassVar[int]
@@ -28,11 +28,10 @@ class Root(_message.Message):
     SCAN_NEXT_FIELD_NUMBER: _ClassVar[int]
     SCAN_REFRESH_NODE_LIST_FIELD_NUMBER: _ClassVar[int]
     SCAN_SELECT_NODE_FIELD_NUMBER: _ClassVar[int]
-    SCAN_DELETE_NODE_FIELD_NUMBER: _ClassVar[int]
-    SCAN_UPDATE_NODE_FIELD_NUMBER: _ClassVar[int]
-    SCAN_ADD_NODE_FIELD_NUMBER: _ClassVar[int]
     HALT_WITH_NDC_FIELD_NUMBER: _ClassVar[int]
     UNPARK_FIELD_NUMBER: _ClassVar[int]
+    POI_LOOK_AT_FIELD_NUMBER: _ClassVar[int]
+    POI_SAVE_CURRENT_FIELD_NUMBER: _ClassVar[int]
     start: Start
     stop: Stop
     axis: Axis
@@ -54,12 +53,11 @@ class Root(_message.Message):
     scan_next: ScanNext
     scan_refresh_node_list: ScanRefreshNodeList
     scan_select_node: ScanSelectNode
-    scan_delete_node: ScanDeleteNode
-    scan_update_node: ScanUpdateNode
-    scan_add_node: ScanAddNode
     halt_with_ndc: HaltWithNDC
     unpark: Unpark
-    def __init__(self, start: _Optional[_Union[Start, _Mapping]] = ..., stop: _Optional[_Union[Stop, _Mapping]] = ..., axis: _Optional[_Union[Axis, _Mapping]] = ..., set_platform_azimuth: _Optional[_Union[SetPlatformAzimuth, _Mapping]] = ..., set_platform_elevation: _Optional[_Union[SetPlatformElevation, _Mapping]] = ..., set_platform_bank: _Optional[_Union[SetPlatformBank, _Mapping]] = ..., halt: _Optional[_Union[Halt, _Mapping]] = ..., set_use_rotary_as_compass: _Optional[_Union[setUseRotaryAsCompass, _Mapping]] = ..., rotate_to_gps: _Optional[_Union[RotateToGPS, _Mapping]] = ..., set_origin_gps: _Optional[_Union[SetOriginGPS, _Mapping]] = ..., set_mode: _Optional[_Union[SetMode, _Mapping]] = ..., rotate_to_ndc: _Optional[_Union[RotateToNDC, _Mapping]] = ..., scan_start: _Optional[_Union[ScanStart, _Mapping]] = ..., scan_stop: _Optional[_Union[ScanStop, _Mapping]] = ..., scan_pause: _Optional[_Union[ScanPause, _Mapping]] = ..., scan_unpause: _Optional[_Union[ScanUnpause, _Mapping]] = ..., get_meteo: _Optional[_Union[GetMeteo, _Mapping]] = ..., scan_prev: _Optional[_Union[ScanPrev, _Mapping]] = ..., scan_next: _Optional[_Union[ScanNext, _Mapping]] = ..., scan_refresh_node_list: _Optional[_Union[ScanRefreshNodeList, _Mapping]] = ..., scan_select_node: _Optional[_Union[ScanSelectNode, _Mapping]] = ..., scan_delete_node: _Optional[_Union[ScanDeleteNode, _Mapping]] = ..., scan_update_node: _Optional[_Union[ScanUpdateNode, _Mapping]] = ..., scan_add_node: _Optional[_Union[ScanAddNode, _Mapping]] = ..., halt_with_ndc: _Optional[_Union[HaltWithNDC, _Mapping]] = ..., unpark: _Optional[_Union[Unpark, _Mapping]] = ...) -> None: ...
+    poi_look_at: PoiLookAt
+    poi_save_current: PoiSaveCurrent
+    def __init__(self, start: _Optional[_Union[Start, _Mapping]] = ..., stop: _Optional[_Union[Stop, _Mapping]] = ..., axis: _Optional[_Union[Axis, _Mapping]] = ..., set_platform_azimuth: _Optional[_Union[SetPlatformAzimuth, _Mapping]] = ..., set_platform_elevation: _Optional[_Union[SetPlatformElevation, _Mapping]] = ..., set_platform_bank: _Optional[_Union[SetPlatformBank, _Mapping]] = ..., halt: _Optional[_Union[Halt, _Mapping]] = ..., set_use_rotary_as_compass: _Optional[_Union[setUseRotaryAsCompass, _Mapping]] = ..., rotate_to_gps: _Optional[_Union[RotateToGPS, _Mapping]] = ..., set_origin_gps: _Optional[_Union[SetOriginGPS, _Mapping]] = ..., set_mode: _Optional[_Union[SetMode, _Mapping]] = ..., rotate_to_ndc: _Optional[_Union[RotateToNDC, _Mapping]] = ..., scan_start: _Optional[_Union[ScanStart, _Mapping]] = ..., scan_stop: _Optional[_Union[ScanStop, _Mapping]] = ..., scan_pause: _Optional[_Union[ScanPause, _Mapping]] = ..., scan_unpause: _Optional[_Union[ScanUnpause, _Mapping]] = ..., get_meteo: _Optional[_Union[GetMeteo, _Mapping]] = ..., scan_prev: _Optional[_Union[ScanPrev, _Mapping]] = ..., scan_next: _Optional[_Union[ScanNext, _Mapping]] = ..., scan_refresh_node_list: _Optional[_Union[ScanRefreshNodeList, _Mapping]] = ..., scan_select_node: _Optional[_Union[ScanSelectNode, _Mapping]] = ..., halt_with_ndc: _Optional[_Union[HaltWithNDC, _Mapping]] = ..., unpark: _Optional[_Union[Unpark, _Mapping]] = ..., poi_look_at: _Optional[_Union[PoiLookAt, _Mapping]] = ..., poi_save_current: _Optional[_Union[PoiSaveCurrent, _Mapping]] = ...) -> None: ...
 
 class Axis(_message.Message):
     __slots__ = ("azimuth", "elevation")
@@ -255,47 +253,17 @@ class ScanSelectNode(_message.Message):
     index: int
     def __init__(self, index: _Optional[int] = ...) -> None: ...
 
-class ScanDeleteNode(_message.Message):
+class PoiLookAt(_message.Message):
     __slots__ = ("index",)
     INDEX_FIELD_NUMBER: _ClassVar[int]
     index: int
     def __init__(self, index: _Optional[int] = ...) -> None: ...
 
-class ScanUpdateNode(_message.Message):
-    __slots__ = ("index", "DayZoomTableValue", "HeatZoomTableValue", "azimuth", "elevation", "linger", "speed")
+class PoiSaveCurrent(_message.Message):
+    __slots__ = ("index",)
     INDEX_FIELD_NUMBER: _ClassVar[int]
-    DAYZOOMTABLEVALUE_FIELD_NUMBER: _ClassVar[int]
-    HEATZOOMTABLEVALUE_FIELD_NUMBER: _ClassVar[int]
-    AZIMUTH_FIELD_NUMBER: _ClassVar[int]
-    ELEVATION_FIELD_NUMBER: _ClassVar[int]
-    LINGER_FIELD_NUMBER: _ClassVar[int]
-    SPEED_FIELD_NUMBER: _ClassVar[int]
     index: int
-    DayZoomTableValue: int
-    HeatZoomTableValue: int
-    azimuth: float
-    elevation: float
-    linger: float
-    speed: float
-    def __init__(self, index: _Optional[int] = ..., DayZoomTableValue: _Optional[int] = ..., HeatZoomTableValue: _Optional[int] = ..., azimuth: _Optional[float] = ..., elevation: _Optional[float] = ..., linger: _Optional[float] = ..., speed: _Optional[float] = ...) -> None: ...
-
-class ScanAddNode(_message.Message):
-    __slots__ = ("index", "DayZoomTableValue", "HeatZoomTableValue", "azimuth", "elevation", "linger", "speed")
-    INDEX_FIELD_NUMBER: _ClassVar[int]
-    DAYZOOMTABLEVALUE_FIELD_NUMBER: _ClassVar[int]
-    HEATZOOMTABLEVALUE_FIELD_NUMBER: _ClassVar[int]
-    AZIMUTH_FIELD_NUMBER: _ClassVar[int]
-    ELEVATION_FIELD_NUMBER: _ClassVar[int]
-    LINGER_FIELD_NUMBER: _ClassVar[int]
-    SPEED_FIELD_NUMBER: _ClassVar[int]
-    index: int
-    DayZoomTableValue: int
-    HeatZoomTableValue: int
-    azimuth: float
-    elevation: float
-    linger: float
-    speed: float
-    def __init__(self, index: _Optional[int] = ..., DayZoomTableValue: _Optional[int] = ..., HeatZoomTableValue: _Optional[int] = ..., azimuth: _Optional[float] = ..., elevation: _Optional[float] = ..., linger: _Optional[float] = ..., speed: _Optional[float] = ...) -> None: ...
+    def __init__(self, index: _Optional[int] = ...) -> None: ...
 
 class Elevation(_message.Message):
     __slots__ = ("set_value", "rotate_to", "rotate", "relative", "relative_set", "halt")

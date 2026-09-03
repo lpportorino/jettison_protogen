@@ -13,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_cmd_rotary.proto.
  */
 export const file_jon_shared_cmd_rotary: GenFile = /*@__PURE__*/
-  fileDesc("Chtqb25fc2hhcmVkX2NtZF9yb3RhcnkucHJvdG8SEmNtZC5Sb3RhcnlQbGF0Zm9ybSLhCwoEUm9vdBIqCgVzdGFydBgBIAEoCzIZLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TdGFydEgAEigKBHN0b3AYAiABKAsyGC5jbWQuUm90YXJ5UGxhdGZvcm0uU3RvcEgAEigKBGF4aXMYAyABKAsyGC5jbWQuUm90YXJ5UGxhdGZvcm0uQXhpc0gAEkYKFHNldF9wbGF0Zm9ybV9hemltdXRoGAQgASgLMiYuY21kLlJvdGFyeVBsYXRmb3JtLlNldFBsYXRmb3JtQXppbXV0aEgAEkoKFnNldF9wbGF0Zm9ybV9lbGV2YXRpb24YBSABKAsyKC5jbWQuUm90YXJ5UGxhdGZvcm0uU2V0UGxhdGZvcm1FbGV2YXRpb25IABJAChFzZXRfcGxhdGZvcm1fYmFuaxgGIAEoCzIjLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TZXRQbGF0Zm9ybUJhbmtIABIoCgRoYWx0GAcgASgLMhguY21kLlJvdGFyeVBsYXRmb3JtLkhhbHRIABJOChlzZXRfdXNlX3JvdGFyeV9hc19jb21wYXNzGAggASgLMikuY21kLlJvdGFyeVBsYXRmb3JtLnNldFVzZVJvdGFyeUFzQ29tcGFzc0gAEjgKDXJvdGF0ZV90b19ncHMYCSABKAsyHy5jbWQuUm90YXJ5UGxhdGZvcm0uUm90YXRlVG9HUFNIABI6Cg5zZXRfb3JpZ2luX2dwcxgKIAEoCzIgLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TZXRPcmlnaW5HUFNIABIvCghzZXRfbW9kZRgLIAEoCzIbLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TZXRNb2RlSAASOAoNcm90YXRlX3RvX25kYxgMIAEoCzIfLmNtZC5Sb3RhcnlQbGF0Zm9ybS5Sb3RhdGVUb05EQ0gAEjMKCnNjYW5fc3RhcnQYDSABKAsyHS5jbWQuUm90YXJ5UGxhdGZvcm0uU2NhblN0YXJ0SAASMQoJc2Nhbl9zdG9wGA4gASgLMhwuY21kLlJvdGFyeVBsYXRmb3JtLlNjYW5TdG9wSAASMwoKc2Nhbl9wYXVzZRgPIAEoCzIdLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TY2FuUGF1c2VIABI3CgxzY2FuX3VucGF1c2UYECABKAsyHy5jbWQuUm90YXJ5UGxhdGZvcm0uU2NhblVucGF1c2VIABIxCglnZXRfbWV0ZW8YESABKAsyHC5jbWQuUm90YXJ5UGxhdGZvcm0uR2V0TWV0ZW9IABIxCglzY2FuX3ByZXYYEiABKAsyHC5jbWQuUm90YXJ5UGxhdGZvcm0uU2NhblByZXZIABIxCglzY2FuX25leHQYEyABKAsyHC5jbWQuUm90YXJ5UGxhdGZvcm0uU2Nhbk5leHRIABJJChZzY2FuX3JlZnJlc2hfbm9kZV9saXN0GBQgASgLMicuY21kLlJvdGFyeVBsYXRmb3JtLlNjYW5SZWZyZXNoTm9kZUxpc3RIABI+ChBzY2FuX3NlbGVjdF9ub2RlGBUgASgLMiIuY21kLlJvdGFyeVBsYXRmb3JtLlNjYW5TZWxlY3ROb2RlSAASPgoQc2Nhbl9kZWxldGVfbm9kZRgWIAEoCzIiLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TY2FuRGVsZXRlTm9kZUgAEj4KEHNjYW5fdXBkYXRlX25vZGUYFyABKAsyIi5jbWQuUm90YXJ5UGxhdGZvcm0uU2NhblVwZGF0ZU5vZGVIABI4Cg1zY2FuX2FkZF9ub2RlGBggASgLMh8uY21kLlJvdGFyeVBsYXRmb3JtLlNjYW5BZGROb2RlSAASOAoNaGFsdF93aXRoX25kYxgZIAEoCzIfLmNtZC5Sb3RhcnlQbGF0Zm9ybS5IYWx0V2l0aE5EQ0gAEiwKBnVucGFyaxgaIAEoCzIaLmNtZC5Sb3RhcnlQbGF0Zm9ybS5VbnBhcmtIAEIMCgNjbWQSBbpIAggBImYKBEF4aXMSLAoHYXppbXV0aBgBIAEoCzIbLmNtZC5Sb3RhcnlQbGF0Zm9ybS5BemltdXRoEjAKCWVsZXZhdGlvbhgCIAEoCzIdLmNtZC5Sb3RhcnlQbGF0Zm9ybS5FbGV2YXRpb24iPgoHU2V0TW9kZRIzCgRtb2RlGAEgASgOMhkuc2VyLkpvbkd1aURhdGFSb3RhcnlNb2RlQgq6SAeCAQQQASAAIngKD1NldEF6aW11dGhWYWx1ZRImCgV2YWx1ZRgBIAEoAUIXukgUEhIRAAAAAACAdkApAAAAAAAAAAASPQoJZGlyZWN0aW9uGAIgASgOMh4uc2VyLkpvbkd1aURhdGFSb3RhcnlEaXJlY3Rpb25CCrpIB4IBBBABIAAipwEKD1JvdGF0ZUF6aW11dGhUbxItCgx0YXJnZXRfdmFsdWUYASABKAFCF7pIFBISEQAAAAAAgHZAKQAAAAAAAAAAEiYKBXNwZWVkGAIgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAAAAABI9CglkaXJlY3Rpb24YAyABKA4yHi5zZXIuSm9uR3VpRGF0YVJvdGFyeURpcmVjdGlvbkIKukgHggEEEAEgACJ2Cg1Sb3RhdGVBemltdXRoEiYKBXNwZWVkGAEgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAAAAABI9CglkaXJlY3Rpb24YAiABKA4yHi5zZXIuSm9uR3VpRGF0YVJvdGFyeURpcmVjdGlvbkIKukgHggEEEAEgACJ4Cg9Sb3RhdGVFbGV2YXRpb24SJgoFc3BlZWQYASABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAEj0KCWRpcmVjdGlvbhgCIAEoDjIeLnNlci5Kb25HdWlEYXRhUm90YXJ5RGlyZWN0aW9uQgq6SAeCAQQQASAAIjsKEVNldEVsZXZhdGlvblZhbHVlEiYKBXZhbHVlGAEgASgBQhe6SBQSEhkAAAAAAIBWQCkAAAAAAIBWwCJqChFSb3RhdGVFbGV2YXRpb25UbxItCgx0YXJnZXRfdmFsdWUYASABKAFCF7pIFBISGQAAAAAAgFZAKQAAAAAAgFbAEiYKBXNwZWVkGAIgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAAAAACKoAQoXUm90YXRlRWxldmF0aW9uUmVsYXRpdmUSJgoFdmFsdWUYASABKAFCF7pIFBISGQAAAAAAgFZAKQAAAAAAgFbAEiYKBXNwZWVkGAIgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAAAAABI9CglkaXJlY3Rpb24YAyABKA4yHi5zZXIuSm9uR3VpRGF0YVJvdGFyeURpcmVjdGlvbkIKukgHggEEEAEgACKDAQoaUm90YXRlRWxldmF0aW9uUmVsYXRpdmVTZXQSJgoFdmFsdWUYASABKAFCF7pIFBISGQAAAAAAgFZAKQAAAAAAgFbAEj0KCWRpcmVjdGlvbhgCIAEoDjIeLnNlci5Kb25HdWlEYXRhUm90YXJ5RGlyZWN0aW9uQgq6SAeCAQQQASAAIqYBChVSb3RhdGVBemltdXRoUmVsYXRpdmUSJgoFdmFsdWUYASABKAFCF7pIFBISEQAAAAAAgGZAKQAAAAAAgGbAEiYKBXNwZWVkGAIgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAAAAABI9CglkaXJlY3Rpb24YAyABKA4yHi5zZXIuSm9uR3VpRGF0YVJvdGFyeURpcmVjdGlvbkIKukgHggEEEAEgACKBAQoYUm90YXRlQXppbXV0aFJlbGF0aXZlU2V0EiYKBXZhbHVlGAEgASgBQhe6SBQSEhEAAAAAAIBmQCkAAAAAAIBmwBI9CglkaXJlY3Rpb24YAiABKA4yHi5zZXIuSm9uR3VpRGF0YVJvdGFyeURpcmVjdGlvbkIKukgHggEEEAEgACI8ChJTZXRQbGF0Zm9ybUF6aW11dGgSJgoFdmFsdWUYASABKAFCF7pIFBISEQAAAAAAgHZAIQAAAAAAgHbAIj4KFFNldFBsYXRmb3JtRWxldmF0aW9uEiYKBXZhbHVlGAEgASgBQhe6SBQSEhkAAAAAAIBWQCkAAAAAAIBWwCI5Cg9TZXRQbGF0Zm9ybUJhbmsSJgoFdmFsdWUYASABKAFCF7pIFBISEQAAAAAAgGZAKQAAAAAAgGbAIgoKCEdldE1ldGVvIvYCCgdBemltdXRoEjgKCXNldF92YWx1ZRgBIAEoCzIjLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TZXRBemltdXRoVmFsdWVIABI4Cglyb3RhdGVfdG8YAiABKAsyIy5jbWQuUm90YXJ5UGxhdGZvcm0uUm90YXRlQXppbXV0aFRvSAASMwoGcm90YXRlGAMgASgLMiEuY21kLlJvdGFyeVBsYXRmb3JtLlJvdGF0ZUF6aW11dGhIABI9CghyZWxhdGl2ZRgEIAEoCzIpLmNtZC5Sb3RhcnlQbGF0Zm9ybS5Sb3RhdGVBemltdXRoUmVsYXRpdmVIABJECgxyZWxhdGl2ZV9zZXQYBSABKAsyLC5jbWQuUm90YXJ5UGxhdGZvcm0uUm90YXRlQXppbXV0aFJlbGF0aXZlU2V0SAASLwoEaGFsdBgGIAEoCzIfLmNtZC5Sb3RhcnlQbGF0Zm9ybS5IYWx0QXppbXV0aEgAQgwKA2NtZBIFukgCCAEiBwoFU3RhcnQiBgoEU3RvcCIGCgRIYWx0IggKBlVucGFyayILCglTY2FuU3RhcnQiCgoIU2NhblN0b3AiCwoJU2NhblBhdXNlIg0KC1NjYW5VbnBhdXNlIg0KC0hhbHRBemltdXRoIg8KDUhhbHRFbGV2YXRpb24iCgoIU2NhblByZXYiCgoIU2Nhbk5leHQiFQoTU2NhblJlZnJlc2hOb2RlTGlzdCIoCg5TY2FuU2VsZWN0Tm9kZRIWCgVpbmRleBgBIAEoBUIHukgEGgIoACIoCg5TY2FuRGVsZXRlTm9kZRIWCgVpbmRleBgBIAEoBUIHukgEGgIoACKPAgoOU2NhblVwZGF0ZU5vZGUSFgoFaW5kZXgYASABKAVCB7pIBBoCKAASIgoRRGF5Wm9vbVRhYmxlVmFsdWUYAiABKAVCB7pIBBoCKAASIwoSSGVhdFpvb21UYWJsZVZhbHVlGAMgASgFQge6SAQaAigAEigKB2F6aW11dGgYBCABKAFCF7pIFBISEQAAAAAAgHZAKQAAAAAAAAAAEioKCWVsZXZhdGlvbhgFIAEoAUIXukgUEhIZAAAAAACAVkApAAAAAACAVsASHgoGbGluZ2VyGAYgASgBQg66SAsSCSkAAAAAAAAAABImCgVzcGVlZBgHIAEoAUIXukgUEhIZAAAAAAAA8D8hAAAAAAAAAAAijAIKC1NjYW5BZGROb2RlEhYKBWluZGV4GAEgASgFQge6SAQaAigAEiIKEURheVpvb21UYWJsZVZhbHVlGAIgASgFQge6SAQaAigAEiMKEkhlYXRab29tVGFibGVWYWx1ZRgDIAEoBUIHukgEGgIoABIoCgdhemltdXRoGAQgASgBQhe6SBQSEhEAAAAAAIB2QCkAAAAAAAAAABIqCgllbGV2YXRpb24YBSABKAFCF7pIFBISGQAAAAAAgFZAKQAAAAAAgFbAEh4KBmxpbmdlchgGIAEoAUIOukgLEgkpAAAAAAAAAAASJgoFc3BlZWQYByABKAFCF7pIFBISGQAAAAAAAPA/IQAAAAAAAAAAIoQDCglFbGV2YXRpb24SOgoJc2V0X3ZhbHVlGAEgASgLMiUuY21kLlJvdGFyeVBsYXRmb3JtLlNldEVsZXZhdGlvblZhbHVlSAASOgoJcm90YXRlX3RvGAIgASgLMiUuY21kLlJvdGFyeVBsYXRmb3JtLlJvdGF0ZUVsZXZhdGlvblRvSAASNQoGcm90YXRlGAMgASgLMiMuY21kLlJvdGFyeVBsYXRmb3JtLlJvdGF0ZUVsZXZhdGlvbkgAEj8KCHJlbGF0aXZlGAQgASgLMisuY21kLlJvdGFyeVBsYXRmb3JtLlJvdGF0ZUVsZXZhdGlvblJlbGF0aXZlSAASRgoMcmVsYXRpdmVfc2V0GAUgASgLMi4uY21kLlJvdGFyeVBsYXRmb3JtLlJvdGF0ZUVsZXZhdGlvblJlbGF0aXZlU2V0SAASMQoEaGFsdBgGIAEoCzIhLmNtZC5Sb3RhcnlQbGF0Zm9ybS5IYWx0RWxldmF0aW9uSABCDAoDY21kEgW6SAIIASIlChVzZXRVc2VSb3RhcnlBc0NvbXBhc3MSDAoEZmxhZxgBIAEoCCKPAQoLUm90YXRlVG9HUFMSKQoIbGF0aXR1ZGUYASABKAFCF7pIFBISGQAAAAAAgFZAKQAAAAAAgFbAEioKCWxvbmdpdHVkZRgCIAEoAUIXukgUEhIRAAAAAACAZkApAAAAAACAZsASKQoIYWx0aXR1ZGUYAyABKAFCF7pIFBISGQAAAAAAavhAKQAAAAAA4HrAIpABCgxTZXRPcmlnaW5HUFMSKQoIbGF0aXR1ZGUYASABKAFCF7pIFBISGQAAAAAAgFZAKQAAAAAAgFbAEioKCWxvbmdpdHVkZRgCIAEoAUIXukgUEhIRAAAAAACAZkApAAAAAACAZsASKQoIYWx0aXR1ZGUYAyABKAFCF7pIFBISGQAAAAAAavhAKQAAAAAA4HrAIrcBCgtSb3RhdGVUb05EQxI4CgdjaGFubmVsGAEgASgOMhsuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxCCrpIB4IBBBABIAASIgoBeBgCIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SIgoBeRgDIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SEgoKZnJhbWVfdGltZRgEIAEoBBISCgpzdGF0ZV90aW1lGAUgASgEIrcBCgtIYWx0V2l0aE5EQxI4CgdjaGFubmVsGAEgASgOMhsuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxCCrpIB4IBBBABIAASIgoBeBgCIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SIgoBeRgDIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SEgoKZnJhbWVfdGltZRgEIAEoBBISCgpzdGF0ZV90aW1lGAUgASgEQk1aS2dpdC1jb2RlY29tbWl0LmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tL3YxL3JlcG9zL2pldHRpc29uL2pvbnAvY21kL3JvdGFyeWIGcHJvdG8z", [file_buf_validate_validate, file_jon_shared_data_types]);
+  fileDesc("Chtqb25fc2hhcmVkX2NtZF9yb3RhcnkucHJvdG8SEmNtZC5Sb3RhcnlQbGF0Zm9ybSLiCwoEUm9vdBIqCgVzdGFydBgBIAEoCzIZLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TdGFydEgAEigKBHN0b3AYAiABKAsyGC5jbWQuUm90YXJ5UGxhdGZvcm0uU3RvcEgAEigKBGF4aXMYAyABKAsyGC5jbWQuUm90YXJ5UGxhdGZvcm0uQXhpc0gAEkYKFHNldF9wbGF0Zm9ybV9hemltdXRoGAQgASgLMiYuY21kLlJvdGFyeVBsYXRmb3JtLlNldFBsYXRmb3JtQXppbXV0aEgAEkoKFnNldF9wbGF0Zm9ybV9lbGV2YXRpb24YBSABKAsyKC5jbWQuUm90YXJ5UGxhdGZvcm0uU2V0UGxhdGZvcm1FbGV2YXRpb25IABJAChFzZXRfcGxhdGZvcm1fYmFuaxgGIAEoCzIjLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TZXRQbGF0Zm9ybUJhbmtIABIoCgRoYWx0GAcgASgLMhguY21kLlJvdGFyeVBsYXRmb3JtLkhhbHRIABJOChlzZXRfdXNlX3JvdGFyeV9hc19jb21wYXNzGAggASgLMikuY21kLlJvdGFyeVBsYXRmb3JtLnNldFVzZVJvdGFyeUFzQ29tcGFzc0gAEjgKDXJvdGF0ZV90b19ncHMYCSABKAsyHy5jbWQuUm90YXJ5UGxhdGZvcm0uUm90YXRlVG9HUFNIABI6Cg5zZXRfb3JpZ2luX2dwcxgKIAEoCzIgLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TZXRPcmlnaW5HUFNIABIvCghzZXRfbW9kZRgLIAEoCzIbLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TZXRNb2RlSAASOAoNcm90YXRlX3RvX25kYxgMIAEoCzIfLmNtZC5Sb3RhcnlQbGF0Zm9ybS5Sb3RhdGVUb05EQ0gAEjMKCnNjYW5fc3RhcnQYDSABKAsyHS5jbWQuUm90YXJ5UGxhdGZvcm0uU2NhblN0YXJ0SAASMQoJc2Nhbl9zdG9wGA4gASgLMhwuY21kLlJvdGFyeVBsYXRmb3JtLlNjYW5TdG9wSAASMwoKc2Nhbl9wYXVzZRgPIAEoCzIdLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TY2FuUGF1c2VIABI3CgxzY2FuX3VucGF1c2UYECABKAsyHy5jbWQuUm90YXJ5UGxhdGZvcm0uU2NhblVucGF1c2VIABIxCglnZXRfbWV0ZW8YESABKAsyHC5jbWQuUm90YXJ5UGxhdGZvcm0uR2V0TWV0ZW9IABIxCglzY2FuX3ByZXYYEiABKAsyHC5jbWQuUm90YXJ5UGxhdGZvcm0uU2NhblByZXZIABIxCglzY2FuX25leHQYEyABKAsyHC5jbWQuUm90YXJ5UGxhdGZvcm0uU2Nhbk5leHRIABJJChZzY2FuX3JlZnJlc2hfbm9kZV9saXN0GBQgASgLMicuY21kLlJvdGFyeVBsYXRmb3JtLlNjYW5SZWZyZXNoTm9kZUxpc3RIABI+ChBzY2FuX3NlbGVjdF9ub2RlGBUgASgLMiIuY21kLlJvdGFyeVBsYXRmb3JtLlNjYW5TZWxlY3ROb2RlSAASOAoNaGFsdF93aXRoX25kYxgZIAEoCzIfLmNtZC5Sb3RhcnlQbGF0Zm9ybS5IYWx0V2l0aE5EQ0gAEiwKBnVucGFyaxgaIAEoCzIaLmNtZC5Sb3RhcnlQbGF0Zm9ybS5VbnBhcmtIABI0Cgtwb2lfbG9va19hdBgbIAEoCzIdLmNtZC5Sb3RhcnlQbGF0Zm9ybS5Qb2lMb29rQXRIABI+ChBwb2lfc2F2ZV9jdXJyZW50GBwgASgLMiIuY21kLlJvdGFyeVBsYXRmb3JtLlBvaVNhdmVDdXJyZW50SABCDAoDY21kEgW6SAIIAUoECBYQF0oECBcQGEoECBgQGVIQc2Nhbl9kZWxldGVfbm9kZVIQc2Nhbl91cGRhdGVfbm9kZVINc2Nhbl9hZGRfbm9kZSJmCgRBeGlzEiwKB2F6aW11dGgYASABKAsyGy5jbWQuUm90YXJ5UGxhdGZvcm0uQXppbXV0aBIwCgllbGV2YXRpb24YAiABKAsyHS5jbWQuUm90YXJ5UGxhdGZvcm0uRWxldmF0aW9uIj4KB1NldE1vZGUSMwoEbW9kZRgBIAEoDjIZLnNlci5Kb25HdWlEYXRhUm90YXJ5TW9kZUIKukgHggEEEAEgACJ4Cg9TZXRBemltdXRoVmFsdWUSJgoFdmFsdWUYASABKAFCF7pIFBISEQAAAAAAgHZAKQAAAAAAAAAAEj0KCWRpcmVjdGlvbhgCIAEoDjIeLnNlci5Kb25HdWlEYXRhUm90YXJ5RGlyZWN0aW9uQgq6SAeCAQQQASAAIqcBCg9Sb3RhdGVBemltdXRoVG8SLQoMdGFyZ2V0X3ZhbHVlGAEgASgBQhe6SBQSEhEAAAAAAIB2QCkAAAAAAAAAABImCgVzcGVlZBgCIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAAAAASPQoJZGlyZWN0aW9uGAMgASgOMh4uc2VyLkpvbkd1aURhdGFSb3RhcnlEaXJlY3Rpb25CCrpIB4IBBBABIAAidgoNUm90YXRlQXppbXV0aBImCgVzcGVlZBgBIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAAAAASPQoJZGlyZWN0aW9uGAIgASgOMh4uc2VyLkpvbkd1aURhdGFSb3RhcnlEaXJlY3Rpb25CCrpIB4IBBBABIAAieAoPUm90YXRlRWxldmF0aW9uEiYKBXNwZWVkGAEgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAAAAABI9CglkaXJlY3Rpb24YAiABKA4yHi5zZXIuSm9uR3VpRGF0YVJvdGFyeURpcmVjdGlvbkIKukgHggEEEAEgACI7ChFTZXRFbGV2YXRpb25WYWx1ZRImCgV2YWx1ZRgBIAEoAUIXukgUEhIZAAAAAACAVkApAAAAAACAVsAiagoRUm90YXRlRWxldmF0aW9uVG8SLQoMdGFyZ2V0X3ZhbHVlGAEgASgBQhe6SBQSEhkAAAAAAIBWQCkAAAAAAIBWwBImCgVzcGVlZBgCIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAAAAAiqAEKF1JvdGF0ZUVsZXZhdGlvblJlbGF0aXZlEiYKBXZhbHVlGAEgASgBQhe6SBQSEhkAAAAAAIBWQCkAAAAAAIBWwBImCgVzcGVlZBgCIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAAAAASPQoJZGlyZWN0aW9uGAMgASgOMh4uc2VyLkpvbkd1aURhdGFSb3RhcnlEaXJlY3Rpb25CCrpIB4IBBBABIAAigwEKGlJvdGF0ZUVsZXZhdGlvblJlbGF0aXZlU2V0EiYKBXZhbHVlGAEgASgBQhe6SBQSEhkAAAAAAIBWQCkAAAAAAIBWwBI9CglkaXJlY3Rpb24YAiABKA4yHi5zZXIuSm9uR3VpRGF0YVJvdGFyeURpcmVjdGlvbkIKukgHggEEEAEgACKmAQoVUm90YXRlQXppbXV0aFJlbGF0aXZlEiYKBXZhbHVlGAEgASgBQhe6SBQSEhEAAAAAAIBmQCkAAAAAAIBmwBImCgVzcGVlZBgCIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAAAAASPQoJZGlyZWN0aW9uGAMgASgOMh4uc2VyLkpvbkd1aURhdGFSb3RhcnlEaXJlY3Rpb25CCrpIB4IBBBABIAAigQEKGFJvdGF0ZUF6aW11dGhSZWxhdGl2ZVNldBImCgV2YWx1ZRgBIAEoAUIXukgUEhIRAAAAAACAZkApAAAAAACAZsASPQoJZGlyZWN0aW9uGAIgASgOMh4uc2VyLkpvbkd1aURhdGFSb3RhcnlEaXJlY3Rpb25CCrpIB4IBBBABIAAiPAoSU2V0UGxhdGZvcm1BemltdXRoEiYKBXZhbHVlGAEgASgBQhe6SBQSEhEAAAAAAIB2QCEAAAAAAIB2wCI+ChRTZXRQbGF0Zm9ybUVsZXZhdGlvbhImCgV2YWx1ZRgBIAEoAUIXukgUEhIZAAAAAACAVkApAAAAAACAVsAiOQoPU2V0UGxhdGZvcm1CYW5rEiYKBXZhbHVlGAEgASgBQhe6SBQSEhEAAAAAAIBmQCkAAAAAAIBmwCIKCghHZXRNZXRlbyL2AgoHQXppbXV0aBI4CglzZXRfdmFsdWUYASABKAsyIy5jbWQuUm90YXJ5UGxhdGZvcm0uU2V0QXppbXV0aFZhbHVlSAASOAoJcm90YXRlX3RvGAIgASgLMiMuY21kLlJvdGFyeVBsYXRmb3JtLlJvdGF0ZUF6aW11dGhUb0gAEjMKBnJvdGF0ZRgDIAEoCzIhLmNtZC5Sb3RhcnlQbGF0Zm9ybS5Sb3RhdGVBemltdXRoSAASPQoIcmVsYXRpdmUYBCABKAsyKS5jbWQuUm90YXJ5UGxhdGZvcm0uUm90YXRlQXppbXV0aFJlbGF0aXZlSAASRAoMcmVsYXRpdmVfc2V0GAUgASgLMiwuY21kLlJvdGFyeVBsYXRmb3JtLlJvdGF0ZUF6aW11dGhSZWxhdGl2ZVNldEgAEi8KBGhhbHQYBiABKAsyHy5jbWQuUm90YXJ5UGxhdGZvcm0uSGFsdEF6aW11dGhIAEIMCgNjbWQSBbpIAggBIgcKBVN0YXJ0IgYKBFN0b3AiBgoESGFsdCIICgZVbnBhcmsiCwoJU2NhblN0YXJ0IgoKCFNjYW5TdG9wIgsKCVNjYW5QYXVzZSINCgtTY2FuVW5wYXVzZSINCgtIYWx0QXppbXV0aCIPCg1IYWx0RWxldmF0aW9uIgoKCFNjYW5QcmV2IgoKCFNjYW5OZXh0IhUKE1NjYW5SZWZyZXNoTm9kZUxpc3QiKAoOU2NhblNlbGVjdE5vZGUSFgoFaW5kZXgYASABKAVCB7pIBBoCKAAiJQoJUG9pTG9va0F0EhgKBWluZGV4GAEgASgFQgm6SAYaBBgJKAAiKgoOUG9pU2F2ZUN1cnJlbnQSGAoFaW5kZXgYASABKAVCCbpIBhoEGAkoACKEAwoJRWxldmF0aW9uEjoKCXNldF92YWx1ZRgBIAEoCzIlLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TZXRFbGV2YXRpb25WYWx1ZUgAEjoKCXJvdGF0ZV90bxgCIAEoCzIlLmNtZC5Sb3RhcnlQbGF0Zm9ybS5Sb3RhdGVFbGV2YXRpb25Ub0gAEjUKBnJvdGF0ZRgDIAEoCzIjLmNtZC5Sb3RhcnlQbGF0Zm9ybS5Sb3RhdGVFbGV2YXRpb25IABI/CghyZWxhdGl2ZRgEIAEoCzIrLmNtZC5Sb3RhcnlQbGF0Zm9ybS5Sb3RhdGVFbGV2YXRpb25SZWxhdGl2ZUgAEkYKDHJlbGF0aXZlX3NldBgFIAEoCzIuLmNtZC5Sb3RhcnlQbGF0Zm9ybS5Sb3RhdGVFbGV2YXRpb25SZWxhdGl2ZVNldEgAEjEKBGhhbHQYBiABKAsyIS5jbWQuUm90YXJ5UGxhdGZvcm0uSGFsdEVsZXZhdGlvbkgAQgwKA2NtZBIFukgCCAEiJQoVc2V0VXNlUm90YXJ5QXNDb21wYXNzEgwKBGZsYWcYASABKAgijwEKC1JvdGF0ZVRvR1BTEikKCGxhdGl0dWRlGAEgASgBQhe6SBQSEhkAAAAAAIBWQCkAAAAAAIBWwBIqCglsb25naXR1ZGUYAiABKAFCF7pIFBISEQAAAAAAgGZAKQAAAAAAgGbAEikKCGFsdGl0dWRlGAMgASgBQhe6SBQSEhkAAAAAAGr4QCkAAAAAAOB6wCKQAQoMU2V0T3JpZ2luR1BTEikKCGxhdGl0dWRlGAEgASgBQhe6SBQSEhkAAAAAAIBWQCkAAAAAAIBWwBIqCglsb25naXR1ZGUYAiABKAFCF7pIFBISEQAAAAAAgGZAKQAAAAAAgGbAEikKCGFsdGl0dWRlGAMgASgBQhe6SBQSEhkAAAAAAGr4QCkAAAAAAOB6wCK3AQoLUm90YXRlVG9OREMSOAoHY2hhbm5lbBgBIAEoDjIbLnNlci5Kb25HdWlEYXRhVmlkZW9DaGFubmVsQgq6SAeCAQQQASAAEiIKAXgYAiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/EiIKAXkYAyABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/EhIKCmZyYW1lX3RpbWUYBCABKAQSEgoKc3RhdGVfdGltZRgFIAEoBCK3AQoLSGFsdFdpdGhOREMSOAoHY2hhbm5lbBgBIAEoDjIbLnNlci5Kb25HdWlEYXRhVmlkZW9DaGFubmVsQgq6SAeCAQQQASAAEiIKAXgYAiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/EiIKAXkYAyABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/EhIKCmZyYW1lX3RpbWUYBCABKAQSEgoKc3RhdGVfdGltZRgFIAEoBEJNWktnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2NtZC9yb3RhcnliBnByb3RvMw", [file_buf_validate_validate, file_jon_shared_data_types]);
 
 /**
  * @generated from message cmd.RotaryPlatform.Root
@@ -150,24 +150,6 @@ export type Root = Message<"cmd.RotaryPlatform.Root"> & {
     case: "scanSelectNode";
   } | {
     /**
-     * @generated from field: cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;
-     */
-    value: ScanDeleteNode;
-    case: "scanDeleteNode";
-  } | {
-    /**
-     * @generated from field: cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;
-     */
-    value: ScanUpdateNode;
-    case: "scanUpdateNode";
-  } | {
-    /**
-     * @generated from field: cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;
-     */
-    value: ScanAddNode;
-    case: "scanAddNode";
-  } | {
-    /**
      * @generated from field: cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;
      */
     value: HaltWithNDC;
@@ -178,6 +160,18 @@ export type Root = Message<"cmd.RotaryPlatform.Root"> & {
      */
     value: Unpark;
     case: "unpark";
+  } | {
+    /**
+     * @generated from field: cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;
+     */
+    value: PoiLookAt;
+    case: "poiLookAt";
+  } | {
+    /**
+     * @generated from field: cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;
+     */
+    value: PoiSaveCurrent;
+    case: "poiSaveCurrent";
   } | { case: undefined; value?: undefined };
 };
 
@@ -765,9 +759,14 @@ export const ScanSelectNodeSchema: GenMessage<ScanSelectNode> = /*@__PURE__*/
   messageDesc(file_jon_shared_cmd_rotary, 31);
 
 /**
- * @generated from message cmd.RotaryPlatform.ScanDeleteNode
+ * Slew to the point of interest stored in slot `index` (poi_api_server,
+ * Redis db8 `rotary:poi:<index>`) and apply its day/heat zoom-table
+ * positions. Consumed by eutropia's drive host, which runs the verified
+ * look-at program; the frontend no longer composes axis commands itself.
+ *
+ * @generated from message cmd.RotaryPlatform.PoiLookAt
  */
-export type ScanDeleteNode = Message<"cmd.RotaryPlatform.ScanDeleteNode"> & {
+export type PoiLookAt = Message<"cmd.RotaryPlatform.PoiLookAt"> & {
   /**
    * @generated from field: int32 index = 1;
    */
@@ -775,105 +774,32 @@ export type ScanDeleteNode = Message<"cmd.RotaryPlatform.ScanDeleteNode"> & {
 };
 
 /**
- * Describes the message cmd.RotaryPlatform.ScanDeleteNode.
- * Use `create(ScanDeleteNodeSchema)` to create a new message.
+ * Describes the message cmd.RotaryPlatform.PoiLookAt.
+ * Use `create(PoiLookAtSchema)` to create a new message.
  */
-export const ScanDeleteNodeSchema: GenMessage<ScanDeleteNode> = /*@__PURE__*/
+export const PoiLookAtSchema: GenMessage<PoiLookAt> = /*@__PURE__*/
   messageDesc(file_jon_shared_cmd_rotary, 32);
 
 /**
- * @generated from message cmd.RotaryPlatform.ScanUpdateNode
+ * Store the current pointing (compensated azimuth/elevation + both
+ * zoom-table positions) into POI slot `index`. Consumed by eutropia's
+ * drive host, which snapshots state and POSTs to poi_api_server.
+ *
+ * @generated from message cmd.RotaryPlatform.PoiSaveCurrent
  */
-export type ScanUpdateNode = Message<"cmd.RotaryPlatform.ScanUpdateNode"> & {
+export type PoiSaveCurrent = Message<"cmd.RotaryPlatform.PoiSaveCurrent"> & {
   /**
    * @generated from field: int32 index = 1;
    */
   index: number;
-
-  /**
-   * @generated from field: int32 DayZoomTableValue = 2;
-   */
-  DayZoomTableValue: number;
-
-  /**
-   * @generated from field: int32 HeatZoomTableValue = 3;
-   */
-  HeatZoomTableValue: number;
-
-  /**
-   * @generated from field: double azimuth = 4;
-   */
-  azimuth: number;
-
-  /**
-   * @generated from field: double elevation = 5;
-   */
-  elevation: number;
-
-  /**
-   * @generated from field: double linger = 6;
-   */
-  linger: number;
-
-  /**
-   * @generated from field: double speed = 7;
-   */
-  speed: number;
 };
 
 /**
- * Describes the message cmd.RotaryPlatform.ScanUpdateNode.
- * Use `create(ScanUpdateNodeSchema)` to create a new message.
+ * Describes the message cmd.RotaryPlatform.PoiSaveCurrent.
+ * Use `create(PoiSaveCurrentSchema)` to create a new message.
  */
-export const ScanUpdateNodeSchema: GenMessage<ScanUpdateNode> = /*@__PURE__*/
+export const PoiSaveCurrentSchema: GenMessage<PoiSaveCurrent> = /*@__PURE__*/
   messageDesc(file_jon_shared_cmd_rotary, 33);
-
-/**
- * @generated from message cmd.RotaryPlatform.ScanAddNode
- */
-export type ScanAddNode = Message<"cmd.RotaryPlatform.ScanAddNode"> & {
-  /**
-   * @generated from field: int32 index = 1;
-   */
-  index: number;
-
-  /**
-   * @generated from field: int32 DayZoomTableValue = 2;
-   */
-  DayZoomTableValue: number;
-
-  /**
-   * @generated from field: int32 HeatZoomTableValue = 3;
-   */
-  HeatZoomTableValue: number;
-
-  /**
-   * @generated from field: double azimuth = 4;
-   */
-  azimuth: number;
-
-  /**
-   * @generated from field: double elevation = 5;
-   */
-  elevation: number;
-
-  /**
-   * @generated from field: double linger = 6;
-   */
-  linger: number;
-
-  /**
-   * @generated from field: double speed = 7;
-   */
-  speed: number;
-};
-
-/**
- * Describes the message cmd.RotaryPlatform.ScanAddNode.
- * Use `create(ScanAddNodeSchema)` to create a new message.
- */
-export const ScanAddNodeSchema: GenMessage<ScanAddNode> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 34);
 
 /**
  * @generated from message cmd.RotaryPlatform.Elevation
@@ -926,7 +852,7 @@ export type Elevation = Message<"cmd.RotaryPlatform.Elevation"> & {
  * Use `create(ElevationSchema)` to create a new message.
  */
 export const ElevationSchema: GenMessage<Elevation> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 35);
+  messageDesc(file_jon_shared_cmd_rotary, 34);
 
 /**
  * @generated from message cmd.RotaryPlatform.setUseRotaryAsCompass
@@ -943,7 +869,7 @@ export type setUseRotaryAsCompass = Message<"cmd.RotaryPlatform.setUseRotaryAsCo
  * Use `create(setUseRotaryAsCompassSchema)` to create a new message.
  */
 export const setUseRotaryAsCompassSchema: GenMessage<setUseRotaryAsCompass> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 36);
+  messageDesc(file_jon_shared_cmd_rotary, 35);
 
 /**
  * @generated from message cmd.RotaryPlatform.RotateToGPS
@@ -970,7 +896,7 @@ export type RotateToGPS = Message<"cmd.RotaryPlatform.RotateToGPS"> & {
  * Use `create(RotateToGPSSchema)` to create a new message.
  */
 export const RotateToGPSSchema: GenMessage<RotateToGPS> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 37);
+  messageDesc(file_jon_shared_cmd_rotary, 36);
 
 /**
  * @generated from message cmd.RotaryPlatform.SetOriginGPS
@@ -997,7 +923,7 @@ export type SetOriginGPS = Message<"cmd.RotaryPlatform.SetOriginGPS"> & {
  * Use `create(SetOriginGPSSchema)` to create a new message.
  */
 export const SetOriginGPSSchema: GenMessage<SetOriginGPS> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 38);
+  messageDesc(file_jon_shared_cmd_rotary, 37);
 
 /**
  * @generated from message cmd.RotaryPlatform.RotateToNDC
@@ -1038,7 +964,7 @@ export type RotateToNDC = Message<"cmd.RotaryPlatform.RotateToNDC"> & {
  * Use `create(RotateToNDCSchema)` to create a new message.
  */
 export const RotateToNDCSchema: GenMessage<RotateToNDC> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 39);
+  messageDesc(file_jon_shared_cmd_rotary, 38);
 
 /**
  * @generated from message cmd.RotaryPlatform.HaltWithNDC
@@ -1079,5 +1005,5 @@ export type HaltWithNDC = Message<"cmd.RotaryPlatform.HaltWithNDC"> & {
  * Use `create(HaltWithNDCSchema)` to create a new message.
  */
 export const HaltWithNDCSchema: GenMessage<HaltWithNDC> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 40);
+  messageDesc(file_jon_shared_cmd_rotary, 39);
 

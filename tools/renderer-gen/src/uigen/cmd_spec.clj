@@ -288,7 +288,7 @@
    the HEAT camera). `:value-field` (default \"value\") is the RAW proto field name
    of the mutable widget leaf — the slider/number field whose live int patches the
    fixed-width slot; generalizing off the hard-coded \"value\" lets a non-\"value\"
-   value leaf (e.g. `index` on ScanDeleteNode) fail loud at gen if unpatchable,
+   value leaf (e.g. `index` on ScanSelectNode) fail loud at gen if unpatchable,
    not silently."
   [:map [:fixed {:optional true} [:map-of :keyword :int]]
    [:value-field {:optional true} s/ne-string]])
@@ -557,7 +557,7 @@
    whether an EventBinding gets a pre-encoded patched `:cmd` — the renderer
    memcpy-relays the OPAQUE cmd bytes itself, so a patchable value widget needs
    no host round-trip. Passing the widget's actual field name lets a non-\"value\"
-   value leaf (e.g. `index` on ScanDeleteNode) resolve, so a numeric value widget
+   value leaf (e.g. `index` on ScanSelectNode) resolve, so a numeric value widget
    is never wrongly judged non-patchable."
   ([command-id] (patchable? command-id "value"))
   ([command-id value-field]

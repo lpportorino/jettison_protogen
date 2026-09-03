@@ -1108,6 +1108,81 @@ impl JonGuiDataStateSource {
         }
     }
 }
+/// Which drive program (eutropia DriveHost) currently owns the rotary platform.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum JonGuiDataDriveProgram {
+    None = 0,
+    Scan = 1,
+    Poi = 2,
+    Park = 3,
+}
+impl JonGuiDataDriveProgram {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::None => "JON_GUI_DATA_DRIVE_PROGRAM_NONE",
+            Self::Scan => "JON_GUI_DATA_DRIVE_PROGRAM_SCAN",
+            Self::Poi => "JON_GUI_DATA_DRIVE_PROGRAM_POI",
+            Self::Park => "JON_GUI_DATA_DRIVE_PROGRAM_PARK",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "JON_GUI_DATA_DRIVE_PROGRAM_NONE" => Some(Self::None),
+            "JON_GUI_DATA_DRIVE_PROGRAM_SCAN" => Some(Self::Scan),
+            "JON_GUI_DATA_DRIVE_PROGRAM_POI" => Some(Self::Poi),
+            "JON_GUI_DATA_DRIVE_PROGRAM_PARK" => Some(Self::Park),
+            _ => None,
+        }
+    }
+}
+/// Lifecycle state of the owning drive program.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum JonGuiDataDriveState {
+    Unspecified = 0,
+    Idle = 1,
+    Armed = 2,
+    Running = 3,
+    Paused = 4,
+    Done = 5,
+    Fault = 6,
+}
+impl JonGuiDataDriveState {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Unspecified => "JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED",
+            Self::Idle => "JON_GUI_DATA_DRIVE_STATE_IDLE",
+            Self::Armed => "JON_GUI_DATA_DRIVE_STATE_ARMED",
+            Self::Running => "JON_GUI_DATA_DRIVE_STATE_RUNNING",
+            Self::Paused => "JON_GUI_DATA_DRIVE_STATE_PAUSED",
+            Self::Done => "JON_GUI_DATA_DRIVE_STATE_DONE",
+            Self::Fault => "JON_GUI_DATA_DRIVE_STATE_FAULT",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED" => Some(Self::Unspecified),
+            "JON_GUI_DATA_DRIVE_STATE_IDLE" => Some(Self::Idle),
+            "JON_GUI_DATA_DRIVE_STATE_ARMED" => Some(Self::Armed),
+            "JON_GUI_DATA_DRIVE_STATE_RUNNING" => Some(Self::Running),
+            "JON_GUI_DATA_DRIVE_STATE_PAUSED" => Some(Self::Paused),
+            "JON_GUI_DATA_DRIVE_STATE_DONE" => Some(Self::Done),
+            "JON_GUI_DATA_DRIVE_STATE_FAULT" => Some(Self::Fault),
+            _ => None,
+        }
+    }
+}
 /// Full-precision pose of the Ring-Trinity golden fiducial board.
 /// Injected into JonGUIState.opaque_payloads by the trinity tracker at track rate.
 ///
@@ -2299,6 +2374,44 @@ pub struct JonGuiDataHeater {
     #[prost(float, tag = "10")]
     pub target_temp_channel_2: f32,
 }
+/// Status of the sandboxed drive programs (scan / POI / park) hosted by
+/// eutropia's DriveHost. Published every state tick from the owning program's
+/// OUTPUT status block; `rotary.is_scanning` and friends stay the scan-specific
+/// surface, this message is the program-agnostic one.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct JonGuiDataDrive {
+    /// Program that currently owns the platform (NONE when idle).
+    #[prost(enumeration = "JonGuiDataDriveProgram", tag = "1")]
+    pub program: i32,
+    /// Lifecycle state of that program.
+    #[prost(enumeration = "JonGuiDataDriveState", tag = "2")]
+    pub state: i32,
+    /// Program-defined phase index (park: 0 PRE, 1 EL_APPROACH, 2 AZ_SLEW,
+    /// 3 EL_DESCEND, 4 FORWARD; scan/poi: 0 idle, 1 moving, 2 lingering).
+    #[prost(int32, tag = "3")]
+    pub phase: i32,
+    /// Program-defined error code; 0 when no fault.
+    #[prost(int32, tag = "4")]
+    pub error_code: i32,
+    /// POI slot being looked at (-1 when the POI program is not active).
+    #[prost(int32, tag = "5")]
+    pub poi_index: i32,
+    /// True from EnterTransport receipt until the transport latch is forwarded.
+    #[prost(bool, tag = "6")]
+    pub park_in_progress: bool,
+    /// Generation counter of the REST-derived tables (scan nodes, POI slots)
+    /// currently loaded into the programs' environment.
+    #[prost(uint32, tag = "7")]
+    pub tables_generation: u32,
+    /// Version code of the owning program's WASM module (major*10000 +
+    /// minor*100 + patch), 0 when no module is loaded.
+    #[prost(int32, tag = "8")]
+    pub wasm_version: i32,
+    /// Commands the host refused since the last program start (out-of-range,
+    /// non-finite, or emitted by a non-owner).
+    #[prost(uint32, tag = "9")]
+    pub rejected_commands: u32,
+}
 /// Root message
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct JonGuiState {
@@ -2356,6 +2469,8 @@ pub struct JonGuiState {
     pub pmu: ::core::option::Option<JonGuiDataPmu>,
     #[prost(message, optional, tag = "29")]
     pub heater: ::core::option::Option<JonGuiDataHeater>,
+    #[prost(message, optional, tag = "30")]
+    pub drive: ::core::option::Option<JonGuiDataDrive>,
 }
 /// Per-channel CUDA IPC metadata (frame timing + sharpness pyramid + sensor gain).
 /// Populated from /jon_cuda_ipc_day and /jon_cuda_ipc_heat shared memory.

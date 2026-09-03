@@ -919,6 +919,79 @@ inline bool JonGuiDataStateSource_Parse(absl::string_view name, JonGuiDataStateS
   return ::google::protobuf::internal::ParseNamedEnum<JonGuiDataStateSource>(
       JonGuiDataStateSource_descriptor(), name, value);
 }
+enum JonGuiDataDriveProgram : int {
+  JON_GUI_DATA_DRIVE_PROGRAM_NONE = 0,
+  JON_GUI_DATA_DRIVE_PROGRAM_SCAN = 1,
+  JON_GUI_DATA_DRIVE_PROGRAM_POI = 2,
+  JON_GUI_DATA_DRIVE_PROGRAM_PARK = 3,
+  JonGuiDataDriveProgram_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  JonGuiDataDriveProgram_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool JonGuiDataDriveProgram_IsValid(int value);
+extern const uint32_t JonGuiDataDriveProgram_internal_data_[];
+constexpr JonGuiDataDriveProgram JonGuiDataDriveProgram_MIN = static_cast<JonGuiDataDriveProgram>(0);
+constexpr JonGuiDataDriveProgram JonGuiDataDriveProgram_MAX = static_cast<JonGuiDataDriveProgram>(3);
+constexpr int JonGuiDataDriveProgram_ARRAYSIZE = 3 + 1;
+const ::google::protobuf::EnumDescriptor*
+JonGuiDataDriveProgram_descriptor();
+template <typename T>
+const std::string& JonGuiDataDriveProgram_Name(T value) {
+  static_assert(std::is_same<T, JonGuiDataDriveProgram>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to JonGuiDataDriveProgram_Name().");
+  return JonGuiDataDriveProgram_Name(static_cast<JonGuiDataDriveProgram>(value));
+}
+template <>
+inline const std::string& JonGuiDataDriveProgram_Name(JonGuiDataDriveProgram value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<JonGuiDataDriveProgram_descriptor,
+                                                 0, 3>(
+      static_cast<int>(value));
+}
+inline bool JonGuiDataDriveProgram_Parse(absl::string_view name, JonGuiDataDriveProgram* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<JonGuiDataDriveProgram>(
+      JonGuiDataDriveProgram_descriptor(), name, value);
+}
+enum JonGuiDataDriveState : int {
+  JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED = 0,
+  JON_GUI_DATA_DRIVE_STATE_IDLE = 1,
+  JON_GUI_DATA_DRIVE_STATE_ARMED = 2,
+  JON_GUI_DATA_DRIVE_STATE_RUNNING = 3,
+  JON_GUI_DATA_DRIVE_STATE_PAUSED = 4,
+  JON_GUI_DATA_DRIVE_STATE_DONE = 5,
+  JON_GUI_DATA_DRIVE_STATE_FAULT = 6,
+  JonGuiDataDriveState_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  JonGuiDataDriveState_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool JonGuiDataDriveState_IsValid(int value);
+extern const uint32_t JonGuiDataDriveState_internal_data_[];
+constexpr JonGuiDataDriveState JonGuiDataDriveState_MIN = static_cast<JonGuiDataDriveState>(0);
+constexpr JonGuiDataDriveState JonGuiDataDriveState_MAX = static_cast<JonGuiDataDriveState>(6);
+constexpr int JonGuiDataDriveState_ARRAYSIZE = 6 + 1;
+const ::google::protobuf::EnumDescriptor*
+JonGuiDataDriveState_descriptor();
+template <typename T>
+const std::string& JonGuiDataDriveState_Name(T value) {
+  static_assert(std::is_same<T, JonGuiDataDriveState>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to JonGuiDataDriveState_Name().");
+  return JonGuiDataDriveState_Name(static_cast<JonGuiDataDriveState>(value));
+}
+template <>
+inline const std::string& JonGuiDataDriveState_Name(JonGuiDataDriveState value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<JonGuiDataDriveState_descriptor,
+                                                 0, 6>(
+      static_cast<int>(value));
+}
+inline bool JonGuiDataDriveState_Parse(absl::string_view name, JonGuiDataDriveState* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<JonGuiDataDriveState>(
+      JonGuiDataDriveState_descriptor(), name, value);
+}
 
 // ===================================================================
 
@@ -4450,6 +4523,18 @@ struct is_proto_enum<::ser::JonGuiDataStateSource> : std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor<::ser::JonGuiDataStateSource>() {
   return ::ser::JonGuiDataStateSource_descriptor();
+}
+template <>
+struct is_proto_enum<::ser::JonGuiDataDriveProgram> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::ser::JonGuiDataDriveProgram>() {
+  return ::ser::JonGuiDataDriveProgram_descriptor();
+}
+template <>
+struct is_proto_enum<::ser::JonGuiDataDriveState> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::ser::JonGuiDataDriveState>() {
+  return ::ser::JonGuiDataDriveState_descriptor();
 }
 
 }  // namespace protobuf

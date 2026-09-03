@@ -279,7 +279,7 @@ struct JonGuiDataTrackedObjectDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 JonGuiDataTrackedObjectDefaultTypeInternal _JonGuiDataTrackedObject_default_instance_;
 }  // namespace ser
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[23];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[25];
 static constexpr const ::_pb::ServiceDescriptor**
     file_level_service_descriptors_jon_5fshared_5fdata_5ftypes_2eproto = nullptr;
 const ::uint32_t
@@ -604,9 +604,21 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5ftypes_2eproto[] ABSL_
     "SOURCE_UNSPECIFIED\020\000\022*\n&JON_GUI_DATA_STA"
     "TE_SOURCE_DAY_PIPELINE\020\001\022+\n\'JON_GUI_DATA"
     "_STATE_SOURCE_HEAT_PIPELINE\020\002\022$\n JON_GUI"
-    "_DATA_STATE_SOURCE_SYSTEM\020\003BHZFgit-codec"
-    "ommit.eu-central-1.amazonaws.com/v1/repo"
-    "s/jettison/jonp/typesb\006proto3"
+    "_DATA_STATE_SOURCE_SYSTEM\020\003*\253\001\n\026JonGuiDa"
+    "taDriveProgram\022#\n\037JON_GUI_DATA_DRIVE_PRO"
+    "GRAM_NONE\020\000\022#\n\037JON_GUI_DATA_DRIVE_PROGRA"
+    "M_SCAN\020\001\022\"\n\036JON_GUI_DATA_DRIVE_PROGRAM_P"
+    "OI\020\002\022#\n\037JON_GUI_DATA_DRIVE_PROGRAM_PARK\020"
+    "\003*\231\002\n\024JonGuiDataDriveState\022(\n$JON_GUI_DA"
+    "TA_DRIVE_STATE_UNSPECIFIED\020\000\022!\n\035JON_GUI_"
+    "DATA_DRIVE_STATE_IDLE\020\001\022\"\n\036JON_GUI_DATA_"
+    "DRIVE_STATE_ARMED\020\002\022$\n JON_GUI_DATA_DRIV"
+    "E_STATE_RUNNING\020\003\022#\n\037JON_GUI_DATA_DRIVE_"
+    "STATE_PAUSED\020\004\022!\n\035JON_GUI_DATA_DRIVE_STA"
+    "TE_DONE\020\005\022\"\n\036JON_GUI_DATA_DRIVE_STATE_FA"
+    "ULT\020\006BHZFgit-codecommit.eu-central-1.ama"
+    "zonaws.com/v1/repos/jettison/jonp/typesb"
+    "\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_deps[1] =
     {
@@ -616,7 +628,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto = {
     false,
     false,
-    7229,
+    7687,
     descriptor_table_protodef_jon_5fshared_5fdata_5ftypes_2eproto,
     "jon_shared_data_types.proto",
     &descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_once,
@@ -850,6 +862,24 @@ PROTOBUF_CONSTINIT const uint32_t JonGuiDataStateSource_internal_data_[] = {
     262144u, 0u, };
 bool JonGuiDataStateSource_IsValid(int value) {
   return 0 <= value && value <= 3;
+}
+const ::google::protobuf::EnumDescriptor* JonGuiDataDriveProgram_descriptor() {
+  ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto);
+  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[23];
+}
+PROTOBUF_CONSTINIT const uint32_t JonGuiDataDriveProgram_internal_data_[] = {
+    262144u, 0u, };
+bool JonGuiDataDriveProgram_IsValid(int value) {
+  return 0 <= value && value <= 3;
+}
+const ::google::protobuf::EnumDescriptor* JonGuiDataDriveState_descriptor() {
+  ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto);
+  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[24];
+}
+PROTOBUF_CONSTINIT const uint32_t JonGuiDataDriveState_internal_data_[] = {
+    458752u, 0u, };
+bool JonGuiDataDriveState_IsValid(int value) {
+  return 0 <= value && value <= 6;
 }
 // ===================================================================
 

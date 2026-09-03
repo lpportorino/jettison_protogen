@@ -41,6 +41,7 @@ Root protocol buffer message that aggregates telemetry and state from multiple s
 | 27 | cv | [[proto/ser.JonGuiDataCV]] | - |
 | 28 | pmu | [[proto/ser.JonGuiDataPMU]] | required |
 | 29 | heater | [[proto/ser.JonGuiDataHeater]] | - |
+| 30 | drive | [[proto/ser.JonGuiDataDrive]] | - |
 
 
 

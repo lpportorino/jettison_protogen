@@ -533,78 +533,6 @@ public object RootKt {
     }
 
     /**
-     * `.cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;`
-     */
-    public var scanDeleteNode: cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode
-      @JvmName("getScanDeleteNode")
-      get() = _builder.scanDeleteNode
-      @JvmName("setScanDeleteNode")
-      set(value) {
-        _builder.scanDeleteNode = value
-      }
-    /**
-     * `.cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;`
-     */
-    public fun clearScanDeleteNode() {
-      _builder.clearScanDeleteNode()
-    }
-    /**
-     * `.cmd.RotaryPlatform.ScanDeleteNode scan_delete_node = 22;`
-     * @return Whether the scanDeleteNode field is set.
-     */
-    public fun hasScanDeleteNode(): kotlin.Boolean {
-      return _builder.hasScanDeleteNode()
-    }
-
-    /**
-     * `.cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;`
-     */
-    public var scanUpdateNode: cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode
-      @JvmName("getScanUpdateNode")
-      get() = _builder.scanUpdateNode
-      @JvmName("setScanUpdateNode")
-      set(value) {
-        _builder.scanUpdateNode = value
-      }
-    /**
-     * `.cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;`
-     */
-    public fun clearScanUpdateNode() {
-      _builder.clearScanUpdateNode()
-    }
-    /**
-     * `.cmd.RotaryPlatform.ScanUpdateNode scan_update_node = 23;`
-     * @return Whether the scanUpdateNode field is set.
-     */
-    public fun hasScanUpdateNode(): kotlin.Boolean {
-      return _builder.hasScanUpdateNode()
-    }
-
-    /**
-     * `.cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;`
-     */
-    public var scanAddNode: cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode
-      @JvmName("getScanAddNode")
-      get() = _builder.scanAddNode
-      @JvmName("setScanAddNode")
-      set(value) {
-        _builder.scanAddNode = value
-      }
-    /**
-     * `.cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;`
-     */
-    public fun clearScanAddNode() {
-      _builder.clearScanAddNode()
-    }
-    /**
-     * `.cmd.RotaryPlatform.ScanAddNode scan_add_node = 24;`
-     * @return Whether the scanAddNode field is set.
-     */
-    public fun hasScanAddNode(): kotlin.Boolean {
-      return _builder.hasScanAddNode()
-    }
-
-    /**
      * `.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;`
      */
     public var haltWithNdc: cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC
@@ -650,6 +578,54 @@ public object RootKt {
      */
     public fun hasUnpark(): kotlin.Boolean {
       return _builder.hasUnpark()
+    }
+
+    /**
+     * `.cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;`
+     */
+    public var poiLookAt: cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt
+      @JvmName("getPoiLookAt")
+      get() = _builder.poiLookAt
+      @JvmName("setPoiLookAt")
+      set(value) {
+        _builder.poiLookAt = value
+      }
+    /**
+     * `.cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;`
+     */
+    public fun clearPoiLookAt() {
+      _builder.clearPoiLookAt()
+    }
+    /**
+     * `.cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;`
+     * @return Whether the poiLookAt field is set.
+     */
+    public fun hasPoiLookAt(): kotlin.Boolean {
+      return _builder.hasPoiLookAt()
+    }
+
+    /**
+     * `.cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;`
+     */
+    public var poiSaveCurrent: cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent
+      @JvmName("getPoiSaveCurrent")
+      get() = _builder.poiSaveCurrent
+      @JvmName("setPoiSaveCurrent")
+      set(value) {
+        _builder.poiSaveCurrent = value
+      }
+    /**
+     * `.cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;`
+     */
+    public fun clearPoiSaveCurrent() {
+      _builder.clearPoiSaveCurrent()
+    }
+    /**
+     * `.cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;`
+     * @return Whether the poiSaveCurrent field is set.
+     */
+    public fun hasPoiSaveCurrent(): kotlin.Boolean {
+      return _builder.hasPoiSaveCurrent()
     }
     public val cmdCase: cmd.RotaryPlatform.JonSharedCmdRotary.Root.CmdCase
     @kotlin.jvm.JvmName("getCmdCase")
@@ -727,18 +703,15 @@ public val cmd.RotaryPlatform.JonSharedCmdRotary.RootOrBuilder.scanRefreshNodeLi
 public val cmd.RotaryPlatform.JonSharedCmdRotary.RootOrBuilder.scanSelectNodeOrNull: cmd.RotaryPlatform.JonSharedCmdRotary.ScanSelectNode?
   get() = if (hasScanSelectNode()) getScanSelectNode() else null
 
-public val cmd.RotaryPlatform.JonSharedCmdRotary.RootOrBuilder.scanDeleteNodeOrNull: cmd.RotaryPlatform.JonSharedCmdRotary.ScanDeleteNode?
-  get() = if (hasScanDeleteNode()) getScanDeleteNode() else null
-
-public val cmd.RotaryPlatform.JonSharedCmdRotary.RootOrBuilder.scanUpdateNodeOrNull: cmd.RotaryPlatform.JonSharedCmdRotary.ScanUpdateNode?
-  get() = if (hasScanUpdateNode()) getScanUpdateNode() else null
-
-public val cmd.RotaryPlatform.JonSharedCmdRotary.RootOrBuilder.scanAddNodeOrNull: cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode?
-  get() = if (hasScanAddNode()) getScanAddNode() else null
-
 public val cmd.RotaryPlatform.JonSharedCmdRotary.RootOrBuilder.haltWithNdcOrNull: cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC?
   get() = if (hasHaltWithNdc()) getHaltWithNdc() else null
 
 public val cmd.RotaryPlatform.JonSharedCmdRotary.RootOrBuilder.unparkOrNull: cmd.RotaryPlatform.JonSharedCmdRotary.Unpark?
   get() = if (hasUnpark()) getUnpark() else null
+
+public val cmd.RotaryPlatform.JonSharedCmdRotary.RootOrBuilder.poiLookAtOrNull: cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt?
+  get() = if (hasPoiLookAt()) getPoiLookAt() else null
+
+public val cmd.RotaryPlatform.JonSharedCmdRotary.RootOrBuilder.poiSaveCurrentOrNull: cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent?
+  get() = if (hasPoiSaveCurrent()) getPoiSaveCurrent() else null
 

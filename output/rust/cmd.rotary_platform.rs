@@ -3,7 +3,7 @@
 pub struct Root {
     #[prost(
         oneof = "root::Cmd",
-        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26"
+        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 25, 26, 27, 28"
     )]
     pub cmd: ::core::option::Option<root::Cmd>,
 }
@@ -53,16 +53,14 @@ pub mod root {
         ScanRefreshNodeList(super::ScanRefreshNodeList),
         #[prost(message, tag = "21")]
         ScanSelectNode(super::ScanSelectNode),
-        #[prost(message, tag = "22")]
-        ScanDeleteNode(super::ScanDeleteNode),
-        #[prost(message, tag = "23")]
-        ScanUpdateNode(super::ScanUpdateNode),
-        #[prost(message, tag = "24")]
-        ScanAddNode(super::ScanAddNode),
         #[prost(message, tag = "25")]
         HaltWithNdc(super::HaltWithNdc),
         #[prost(message, tag = "26")]
         Unpark(super::Unpark),
+        #[prost(message, tag = "27")]
+        PoiLookAt(super::PoiLookAt),
+        #[prost(message, tag = "28")]
+        PoiSaveCurrent(super::PoiSaveCurrent),
     }
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -225,44 +223,22 @@ pub struct ScanSelectNode {
     #[prost(int32, tag = "1")]
     pub index: i32,
 }
+/// Slew to the point of interest stored in slot `index` (poi_api_server,
+/// Redis db8 `rotary:poi:<index>`) and apply its day/heat zoom-table
+/// positions. Consumed by eutropia's drive host, which runs the verified
+/// look-at program; the frontend no longer composes axis commands itself.
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct ScanDeleteNode {
+pub struct PoiLookAt {
     #[prost(int32, tag = "1")]
     pub index: i32,
 }
+/// Store the current pointing (compensated azimuth/elevation + both
+/// zoom-table positions) into POI slot `index`. Consumed by eutropia's
+/// drive host, which snapshots state and POSTs to poi_api_server.
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct ScanUpdateNode {
+pub struct PoiSaveCurrent {
     #[prost(int32, tag = "1")]
     pub index: i32,
-    #[prost(int32, tag = "2")]
-    pub day_zoom_table_value: i32,
-    #[prost(int32, tag = "3")]
-    pub heat_zoom_table_value: i32,
-    #[prost(double, tag = "4")]
-    pub azimuth: f64,
-    #[prost(double, tag = "5")]
-    pub elevation: f64,
-    #[prost(double, tag = "6")]
-    pub linger: f64,
-    #[prost(double, tag = "7")]
-    pub speed: f64,
-}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct ScanAddNode {
-    #[prost(int32, tag = "1")]
-    pub index: i32,
-    #[prost(int32, tag = "2")]
-    pub day_zoom_table_value: i32,
-    #[prost(int32, tag = "3")]
-    pub heat_zoom_table_value: i32,
-    #[prost(double, tag = "4")]
-    pub azimuth: f64,
-    #[prost(double, tag = "5")]
-    pub elevation: f64,
-    #[prost(double, tag = "6")]
-    pub linger: f64,
-    #[prost(double, tag = "7")]
-    pub speed: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct Elevation {

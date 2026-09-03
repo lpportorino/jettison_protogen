@@ -13,6 +13,7 @@ import { JonGuiDataCameraHeat } from "./jon_shared_data_camera_heat";
 import { JonGuiDataCompass } from "./jon_shared_data_compass";
 import { JonGuiDataCompassCalibration } from "./jon_shared_data_compass_calibration";
 import { JonGuiDataCV } from "./jon_shared_data_cv";
+import { JonGuiDataDrive } from "./jon_shared_data_drive";
 import { JonGuiDataGps } from "./jon_shared_data_gps";
 import { JonGuiDataHeater } from "./jon_shared_data_heater";
 import { JonGuiDataLrf } from "./jon_shared_data_lrf";
@@ -62,6 +63,7 @@ export interface JonGUIState {
   cv: JonGuiDataCV | undefined;
   pmu: JonGuiDataPMU | undefined;
   heater: JonGuiDataHeater | undefined;
+  drive: JonGuiDataDrive | undefined;
 }
 
 function createBaseJonGUIState(): JonGUIState {
@@ -90,6 +92,7 @@ function createBaseJonGUIState(): JonGUIState {
     cv: undefined,
     pmu: undefined,
     heater: undefined,
+    drive: undefined,
   };
 }
 
@@ -166,6 +169,9 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     }
     if (message.heater !== undefined) {
       JonGuiDataHeater.encode(message.heater, writer.uint32(234).fork()).join();
+    }
+    if (message.drive !== undefined) {
+      JonGuiDataDrive.encode(message.drive, writer.uint32(242).fork()).join();
     }
     return writer;
   },
@@ -375,6 +381,14 @@ export const JonGUIState: MessageFns<JonGUIState> = {
             message.heater = JonGuiDataHeater.decode(reader, reader.uint32());
             continue;
           }
+          case 30: {
+            if (tag !== 242) {
+              break;
+            }
+
+            message.drive = JonGuiDataDrive.decode(reader, reader.uint32());
+            continue;
+          }
         }
         if ((tag & 7) === 4 || tag === 0) {
           break;
@@ -469,6 +483,7 @@ export const JonGUIState: MessageFns<JonGUIState> = {
       cv: isSet(object.cv) ? JonGuiDataCV.fromJSON(object.cv) : undefined,
       pmu: isSet(object.pmu) ? JonGuiDataPMU.fromJSON(object.pmu) : undefined,
       heater: isSet(object.heater) ? JonGuiDataHeater.fromJSON(object.heater) : undefined,
+      drive: isSet(object.drive) ? JonGuiDataDrive.fromJSON(object.drive) : undefined,
     };
   },
 
@@ -546,6 +561,9 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     if (message.heater !== undefined) {
       obj.heater = JonGuiDataHeater.toJSON(message.heater);
     }
+    if (message.drive !== undefined) {
+      obj.drive = JonGuiDataDrive.toJSON(message.drive);
+    }
     return obj;
   },
 
@@ -612,6 +630,9 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     message.pmu = (object.pmu !== undefined && object.pmu !== null) ? JonGuiDataPMU.fromPartial(object.pmu) : undefined;
     message.heater = (object.heater !== undefined && object.heater !== null)
       ? JonGuiDataHeater.fromPartial(object.heater)
+      : undefined;
+    message.drive = (object.drive !== undefined && object.drive !== null)
+      ? JonGuiDataDrive.fromPartial(object.drive)
       : undefined;
     return message;
   },

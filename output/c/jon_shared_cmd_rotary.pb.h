@@ -154,29 +154,20 @@ typedef struct _cmd_RotaryPlatform_ScanSelectNode {
     int32_t index;
 } cmd_RotaryPlatform_ScanSelectNode;
 
-typedef struct _cmd_RotaryPlatform_ScanDeleteNode {
+/* Slew to the point of interest stored in slot `index` (poi_api_server,
+ Redis db8 `rotary:poi:<index>`) and apply its day/heat zoom-table
+ positions. Consumed by eutropia's drive host, which runs the verified
+ look-at program; the frontend no longer composes axis commands itself. */
+typedef struct _cmd_RotaryPlatform_PoiLookAt {
     int32_t index;
-} cmd_RotaryPlatform_ScanDeleteNode;
+} cmd_RotaryPlatform_PoiLookAt;
 
-typedef struct _cmd_RotaryPlatform_ScanUpdateNode {
+/* Store the current pointing (compensated azimuth/elevation + both
+ zoom-table positions) into POI slot `index`. Consumed by eutropia's
+ drive host, which snapshots state and POSTs to poi_api_server. */
+typedef struct _cmd_RotaryPlatform_PoiSaveCurrent {
     int32_t index;
-    int32_t DayZoomTableValue;
-    int32_t HeatZoomTableValue;
-    double azimuth;
-    double elevation;
-    double linger;
-    double speed;
-} cmd_RotaryPlatform_ScanUpdateNode;
-
-typedef struct _cmd_RotaryPlatform_ScanAddNode {
-    int32_t index;
-    int32_t DayZoomTableValue;
-    int32_t HeatZoomTableValue;
-    double azimuth;
-    double elevation;
-    double linger;
-    double speed;
-} cmd_RotaryPlatform_ScanAddNode;
+} cmd_RotaryPlatform_PoiSaveCurrent;
 
 typedef struct _cmd_RotaryPlatform_Elevation {
     pb_size_t which_cmd;
@@ -253,11 +244,10 @@ typedef struct _cmd_RotaryPlatform_Root {
         cmd_RotaryPlatform_ScanNext scan_next;
         cmd_RotaryPlatform_ScanRefreshNodeList scan_refresh_node_list;
         cmd_RotaryPlatform_ScanSelectNode scan_select_node;
-        cmd_RotaryPlatform_ScanDeleteNode scan_delete_node;
-        cmd_RotaryPlatform_ScanUpdateNode scan_update_node;
-        cmd_RotaryPlatform_ScanAddNode scan_add_node;
         cmd_RotaryPlatform_HaltWithNDC halt_with_ndc;
         cmd_RotaryPlatform_Unpark unpark;
+        cmd_RotaryPlatform_PoiLookAt poi_look_at;
+        cmd_RotaryPlatform_PoiSaveCurrent poi_save_current;
     } cmd;
 } cmd_RotaryPlatform_Root;
 
@@ -299,9 +289,8 @@ extern "C" {
 #define cmd_RotaryPlatform_ScanNext_init_default {0}
 #define cmd_RotaryPlatform_ScanRefreshNodeList_init_default {0}
 #define cmd_RotaryPlatform_ScanSelectNode_init_default {0}
-#define cmd_RotaryPlatform_ScanDeleteNode_init_default {0}
-#define cmd_RotaryPlatform_ScanUpdateNode_init_default {0, 0, 0, 0, 0, 0, 0}
-#define cmd_RotaryPlatform_ScanAddNode_init_default {0, 0, 0, 0, 0, 0, 0}
+#define cmd_RotaryPlatform_PoiLookAt_init_default {0}
+#define cmd_RotaryPlatform_PoiSaveCurrent_init_default {0}
 #define cmd_RotaryPlatform_Elevation_init_default {0, {cmd_RotaryPlatform_SetElevationValue_init_default}}
 #define cmd_RotaryPlatform_setUseRotaryAsCompass_init_default {0}
 #define cmd_RotaryPlatform_RotateToGPS_init_default {0, 0, 0}
@@ -340,9 +329,8 @@ extern "C" {
 #define cmd_RotaryPlatform_ScanNext_init_zero    {0}
 #define cmd_RotaryPlatform_ScanRefreshNodeList_init_zero {0}
 #define cmd_RotaryPlatform_ScanSelectNode_init_zero {0}
-#define cmd_RotaryPlatform_ScanDeleteNode_init_zero {0}
-#define cmd_RotaryPlatform_ScanUpdateNode_init_zero {0, 0, 0, 0, 0, 0, 0}
-#define cmd_RotaryPlatform_ScanAddNode_init_zero {0, 0, 0, 0, 0, 0, 0}
+#define cmd_RotaryPlatform_PoiLookAt_init_zero   {0}
+#define cmd_RotaryPlatform_PoiSaveCurrent_init_zero {0}
 #define cmd_RotaryPlatform_Elevation_init_zero   {0, {cmd_RotaryPlatform_SetElevationValue_init_zero}}
 #define cmd_RotaryPlatform_setUseRotaryAsCompass_init_zero {0}
 #define cmd_RotaryPlatform_RotateToGPS_init_zero {0, 0, 0}
@@ -384,21 +372,8 @@ extern "C" {
 #define cmd_RotaryPlatform_Azimuth_relative_set_tag 5
 #define cmd_RotaryPlatform_Azimuth_halt_tag      6
 #define cmd_RotaryPlatform_ScanSelectNode_index_tag 1
-#define cmd_RotaryPlatform_ScanDeleteNode_index_tag 1
-#define cmd_RotaryPlatform_ScanUpdateNode_index_tag 1
-#define cmd_RotaryPlatform_ScanUpdateNode_DayZoomTableValue_tag 2
-#define cmd_RotaryPlatform_ScanUpdateNode_HeatZoomTableValue_tag 3
-#define cmd_RotaryPlatform_ScanUpdateNode_azimuth_tag 4
-#define cmd_RotaryPlatform_ScanUpdateNode_elevation_tag 5
-#define cmd_RotaryPlatform_ScanUpdateNode_linger_tag 6
-#define cmd_RotaryPlatform_ScanUpdateNode_speed_tag 7
-#define cmd_RotaryPlatform_ScanAddNode_index_tag 1
-#define cmd_RotaryPlatform_ScanAddNode_DayZoomTableValue_tag 2
-#define cmd_RotaryPlatform_ScanAddNode_HeatZoomTableValue_tag 3
-#define cmd_RotaryPlatform_ScanAddNode_azimuth_tag 4
-#define cmd_RotaryPlatform_ScanAddNode_elevation_tag 5
-#define cmd_RotaryPlatform_ScanAddNode_linger_tag 6
-#define cmd_RotaryPlatform_ScanAddNode_speed_tag 7
+#define cmd_RotaryPlatform_PoiLookAt_index_tag   1
+#define cmd_RotaryPlatform_PoiSaveCurrent_index_tag 1
 #define cmd_RotaryPlatform_Elevation_set_value_tag 1
 #define cmd_RotaryPlatform_Elevation_rotate_to_tag 2
 #define cmd_RotaryPlatform_Elevation_rotate_tag  3
@@ -445,11 +420,10 @@ extern "C" {
 #define cmd_RotaryPlatform_Root_scan_next_tag    19
 #define cmd_RotaryPlatform_Root_scan_refresh_node_list_tag 20
 #define cmd_RotaryPlatform_Root_scan_select_node_tag 21
-#define cmd_RotaryPlatform_Root_scan_delete_node_tag 22
-#define cmd_RotaryPlatform_Root_scan_update_node_tag 23
-#define cmd_RotaryPlatform_Root_scan_add_node_tag 24
 #define cmd_RotaryPlatform_Root_halt_with_ndc_tag 25
 #define cmd_RotaryPlatform_Root_unpark_tag       26
+#define cmd_RotaryPlatform_Root_poi_look_at_tag  27
+#define cmd_RotaryPlatform_Root_poi_save_current_tag 28
 
 /* Struct field encoding specification for nanopb */
 #define cmd_RotaryPlatform_Root_FIELDLIST(X, a) \
@@ -474,11 +448,10 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scan_prev,cmd.scan_prev),  18) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scan_next,cmd.scan_next),  19) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scan_refresh_node_list,cmd.scan_refresh_node_list),  20) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scan_select_node,cmd.scan_select_node),  21) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scan_delete_node,cmd.scan_delete_node),  22) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scan_update_node,cmd.scan_update_node),  23) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scan_add_node,cmd.scan_add_node),  24) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,halt_with_ndc,cmd.halt_with_ndc),  25) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,unpark,cmd.unpark),  26)
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,unpark,cmd.unpark),  26) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,poi_look_at,cmd.poi_look_at),  27) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,poi_save_current,cmd.poi_save_current),  28)
 #define cmd_RotaryPlatform_Root_CALLBACK NULL
 #define cmd_RotaryPlatform_Root_DEFAULT NULL
 #define cmd_RotaryPlatform_Root_cmd_start_MSGTYPE cmd_RotaryPlatform_Start
@@ -502,11 +475,10 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,unpark,cmd.unpark),  26)
 #define cmd_RotaryPlatform_Root_cmd_scan_next_MSGTYPE cmd_RotaryPlatform_ScanNext
 #define cmd_RotaryPlatform_Root_cmd_scan_refresh_node_list_MSGTYPE cmd_RotaryPlatform_ScanRefreshNodeList
 #define cmd_RotaryPlatform_Root_cmd_scan_select_node_MSGTYPE cmd_RotaryPlatform_ScanSelectNode
-#define cmd_RotaryPlatform_Root_cmd_scan_delete_node_MSGTYPE cmd_RotaryPlatform_ScanDeleteNode
-#define cmd_RotaryPlatform_Root_cmd_scan_update_node_MSGTYPE cmd_RotaryPlatform_ScanUpdateNode
-#define cmd_RotaryPlatform_Root_cmd_scan_add_node_MSGTYPE cmd_RotaryPlatform_ScanAddNode
 #define cmd_RotaryPlatform_Root_cmd_halt_with_ndc_MSGTYPE cmd_RotaryPlatform_HaltWithNDC
 #define cmd_RotaryPlatform_Root_cmd_unpark_MSGTYPE cmd_RotaryPlatform_Unpark
+#define cmd_RotaryPlatform_Root_cmd_poi_look_at_MSGTYPE cmd_RotaryPlatform_PoiLookAt
+#define cmd_RotaryPlatform_Root_cmd_poi_save_current_MSGTYPE cmd_RotaryPlatform_PoiSaveCurrent
 
 #define cmd_RotaryPlatform_Axis_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  azimuth,           1) \
@@ -689,32 +661,15 @@ X(a, STATIC,   SINGULAR, INT32,    index,             1)
 #define cmd_RotaryPlatform_ScanSelectNode_CALLBACK NULL
 #define cmd_RotaryPlatform_ScanSelectNode_DEFAULT NULL
 
-#define cmd_RotaryPlatform_ScanDeleteNode_FIELDLIST(X, a) \
+#define cmd_RotaryPlatform_PoiLookAt_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, INT32,    index,             1)
-#define cmd_RotaryPlatform_ScanDeleteNode_CALLBACK NULL
-#define cmd_RotaryPlatform_ScanDeleteNode_DEFAULT NULL
+#define cmd_RotaryPlatform_PoiLookAt_CALLBACK NULL
+#define cmd_RotaryPlatform_PoiLookAt_DEFAULT NULL
 
-#define cmd_RotaryPlatform_ScanUpdateNode_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, INT32,    index,             1) \
-X(a, STATIC,   SINGULAR, INT32,    DayZoomTableValue,   2) \
-X(a, STATIC,   SINGULAR, INT32,    HeatZoomTableValue,   3) \
-X(a, STATIC,   SINGULAR, DOUBLE,   azimuth,           4) \
-X(a, STATIC,   SINGULAR, DOUBLE,   elevation,         5) \
-X(a, STATIC,   SINGULAR, DOUBLE,   linger,            6) \
-X(a, STATIC,   SINGULAR, DOUBLE,   speed,             7)
-#define cmd_RotaryPlatform_ScanUpdateNode_CALLBACK NULL
-#define cmd_RotaryPlatform_ScanUpdateNode_DEFAULT NULL
-
-#define cmd_RotaryPlatform_ScanAddNode_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, INT32,    index,             1) \
-X(a, STATIC,   SINGULAR, INT32,    DayZoomTableValue,   2) \
-X(a, STATIC,   SINGULAR, INT32,    HeatZoomTableValue,   3) \
-X(a, STATIC,   SINGULAR, DOUBLE,   azimuth,           4) \
-X(a, STATIC,   SINGULAR, DOUBLE,   elevation,         5) \
-X(a, STATIC,   SINGULAR, DOUBLE,   linger,            6) \
-X(a, STATIC,   SINGULAR, DOUBLE,   speed,             7)
-#define cmd_RotaryPlatform_ScanAddNode_CALLBACK NULL
-#define cmd_RotaryPlatform_ScanAddNode_DEFAULT NULL
+#define cmd_RotaryPlatform_PoiSaveCurrent_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, INT32,    index,             1)
+#define cmd_RotaryPlatform_PoiSaveCurrent_CALLBACK NULL
+#define cmd_RotaryPlatform_PoiSaveCurrent_DEFAULT NULL
 
 #define cmd_RotaryPlatform_Elevation_FIELDLIST(X, a) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,set_value,cmd.set_value),   1) \
@@ -801,9 +756,8 @@ extern const pb_msgdesc_t cmd_RotaryPlatform_ScanPrev_msg;
 extern const pb_msgdesc_t cmd_RotaryPlatform_ScanNext_msg;
 extern const pb_msgdesc_t cmd_RotaryPlatform_ScanRefreshNodeList_msg;
 extern const pb_msgdesc_t cmd_RotaryPlatform_ScanSelectNode_msg;
-extern const pb_msgdesc_t cmd_RotaryPlatform_ScanDeleteNode_msg;
-extern const pb_msgdesc_t cmd_RotaryPlatform_ScanUpdateNode_msg;
-extern const pb_msgdesc_t cmd_RotaryPlatform_ScanAddNode_msg;
+extern const pb_msgdesc_t cmd_RotaryPlatform_PoiLookAt_msg;
+extern const pb_msgdesc_t cmd_RotaryPlatform_PoiSaveCurrent_msg;
 extern const pb_msgdesc_t cmd_RotaryPlatform_Elevation_msg;
 extern const pb_msgdesc_t cmd_RotaryPlatform_setUseRotaryAsCompass_msg;
 extern const pb_msgdesc_t cmd_RotaryPlatform_RotateToGPS_msg;
@@ -844,9 +798,8 @@ extern const pb_msgdesc_t cmd_RotaryPlatform_HaltWithNDC_msg;
 #define cmd_RotaryPlatform_ScanNext_fields &cmd_RotaryPlatform_ScanNext_msg
 #define cmd_RotaryPlatform_ScanRefreshNodeList_fields &cmd_RotaryPlatform_ScanRefreshNodeList_msg
 #define cmd_RotaryPlatform_ScanSelectNode_fields &cmd_RotaryPlatform_ScanSelectNode_msg
-#define cmd_RotaryPlatform_ScanDeleteNode_fields &cmd_RotaryPlatform_ScanDeleteNode_msg
-#define cmd_RotaryPlatform_ScanUpdateNode_fields &cmd_RotaryPlatform_ScanUpdateNode_msg
-#define cmd_RotaryPlatform_ScanAddNode_fields &cmd_RotaryPlatform_ScanAddNode_msg
+#define cmd_RotaryPlatform_PoiLookAt_fields &cmd_RotaryPlatform_PoiLookAt_msg
+#define cmd_RotaryPlatform_PoiSaveCurrent_fields &cmd_RotaryPlatform_PoiSaveCurrent_msg
 #define cmd_RotaryPlatform_Elevation_fields &cmd_RotaryPlatform_Elevation_msg
 #define cmd_RotaryPlatform_setUseRotaryAsCompass_fields &cmd_RotaryPlatform_setUseRotaryAsCompass_msg
 #define cmd_RotaryPlatform_RotateToGPS_fields &cmd_RotaryPlatform_RotateToGPS_msg
@@ -864,7 +817,9 @@ extern const pb_msgdesc_t cmd_RotaryPlatform_HaltWithNDC_msg;
 #define cmd_RotaryPlatform_HaltElevation_size    0
 #define cmd_RotaryPlatform_HaltWithNDC_size      42
 #define cmd_RotaryPlatform_Halt_size             0
-#define cmd_RotaryPlatform_Root_size             72
+#define cmd_RotaryPlatform_PoiLookAt_size        11
+#define cmd_RotaryPlatform_PoiSaveCurrent_size   11
+#define cmd_RotaryPlatform_Root_size             50
 #define cmd_RotaryPlatform_RotateAzimuthRelativeSet_size 11
 #define cmd_RotaryPlatform_RotateAzimuthRelative_size 20
 #define cmd_RotaryPlatform_RotateAzimuthTo_size  20
@@ -875,8 +830,6 @@ extern const pb_msgdesc_t cmd_RotaryPlatform_HaltWithNDC_msg;
 #define cmd_RotaryPlatform_RotateElevation_size  11
 #define cmd_RotaryPlatform_RotateToGPS_size      27
 #define cmd_RotaryPlatform_RotateToNDC_size      42
-#define cmd_RotaryPlatform_ScanAddNode_size      69
-#define cmd_RotaryPlatform_ScanDeleteNode_size   11
 #define cmd_RotaryPlatform_ScanNext_size         0
 #define cmd_RotaryPlatform_ScanPause_size        0
 #define cmd_RotaryPlatform_ScanPrev_size         0
@@ -885,7 +838,6 @@ extern const pb_msgdesc_t cmd_RotaryPlatform_HaltWithNDC_msg;
 #define cmd_RotaryPlatform_ScanStart_size        0
 #define cmd_RotaryPlatform_ScanStop_size         0
 #define cmd_RotaryPlatform_ScanUnpause_size      0
-#define cmd_RotaryPlatform_ScanUpdateNode_size   69
 #define cmd_RotaryPlatform_SetAzimuthValue_size  11
 #define cmd_RotaryPlatform_SetElevationValue_size 9
 #define cmd_RotaryPlatform_SetMode_size          2

@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/drive";
+
+import "jon_shared_data_types.proto";
+
+package ser;
+
+// Status of the sandboxed drive programs (scan / POI / park) hosted by
+// eutropia's DriveHost. Published every state tick from the owning program's
+// OUTPUT status block; `rotary.is_scanning` and friends stay the scan-specific
+// surface, this message is the program-agnostic one.
+message JonGuiDataDrive {
+  // Program that currently owns the platform (NONE when idle).
+  JonGuiDataDriveProgram program = 1 [(buf.validate.field).enum = {
+    defined_only: true
+  }];
+  // Lifecycle state of that program.
+  JonGuiDataDriveState state = 2 [(buf.validate.field).enum = {
+    defined_only: true
+  }];
+  // Program-defined phase index (park: 0 PRE, 1 EL_APPROACH, 2 AZ_SLEW,
+  // 3 EL_DESCEND, 4 FORWARD; scan/poi: 0 idle, 1 moving, 2 lingering).
+  int32 phase = 3 [(buf.validate.field).int32 = {
+    gte: 0
+  }];
+  // Program-defined error code; 0 when no fault.
+  int32 error_code = 4 [(buf.validate.field).int32 = {
+    gte: 0
+  }];
+  // POI slot being looked at (-1 when the POI program is not active).
+  int32 poi_index = 5 [(buf.validate.field).int32 = {
+    gte: -1,
+    lte: 9
+  }];
+  // True from EnterTransport receipt until the transport latch is forwarded.
+  bool park_in_progress = 6;
+  // Generation counter of the REST-derived tables (scan nodes, POI slots)
+  // currently loaded into the programs' environment.
+  uint32 tables_generation = 7;
+  // Version code of the owning program's WASM module (major*10000 +
+  // minor*100 + patch), 0 when no module is loaded.
+  int32 wasm_version = 8 [(buf.validate.field).int32 = {
+    gte: 0
+  }];
+  // Commands the host refused since the last program start (out-of-range,
+  // non-finite, or emitted by a non-owner).
+  uint32 rejected_commands = 9;
+}

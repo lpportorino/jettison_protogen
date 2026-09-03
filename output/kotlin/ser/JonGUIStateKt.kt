@@ -729,6 +729,33 @@ public object JonGUIStateKt {
 
     public val JonGUIStateKt.Dsl.heaterOrNull: ser.JonSharedDataHeater.JonGuiDataHeater?
       get() = _builder.heaterOrNull
+
+    /**
+     * `.ser.JonGuiDataDrive drive = 30;`
+     */
+    public var drive: ser.JonSharedDataDrive.JonGuiDataDrive
+      @JvmName("getDrive")
+      get() = _builder.drive
+      @JvmName("setDrive")
+      set(value) {
+        _builder.drive = value
+      }
+    /**
+     * `.ser.JonGuiDataDrive drive = 30;`
+     */
+    public fun clearDrive() {
+      _builder.clearDrive()
+    }
+    /**
+     * `.ser.JonGuiDataDrive drive = 30;`
+     * @return Whether the drive field is set.
+     */
+    public fun hasDrive(): kotlin.Boolean {
+      return _builder.hasDrive()
+    }
+
+    public val JonGUIStateKt.Dsl.driveOrNull: ser.JonSharedDataDrive.JonGuiDataDrive?
+      get() = _builder.driveOrNull
   }
 }
 @kotlin.jvm.JvmSynthetic
@@ -782,4 +809,7 @@ public val ser.JonSharedData.JonGUIStateOrBuilder.pmuOrNull: ser.JonSharedDataPm
 
 public val ser.JonSharedData.JonGUIStateOrBuilder.heaterOrNull: ser.JonSharedDataHeater.JonGuiDataHeater?
   get() = if (hasHeater()) getHeater() else null
+
+public val ser.JonSharedData.JonGUIStateOrBuilder.driveOrNull: ser.JonSharedDataDrive.JonGuiDataDrive?
+  get() = if (hasDrive()) getDrive() else null
 

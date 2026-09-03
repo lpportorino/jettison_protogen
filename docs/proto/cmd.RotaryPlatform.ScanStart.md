@@ -37,7 +37,6 @@ Starts automated scan pattern execution
 
 - [[proto/cmd.RotaryPlatform.ScanStop]]
 - [[proto/cmd.RotaryPlatform.ScanPause]]
-- [[proto/cmd.RotaryPlatform.ScanAddNode]]
 
 
 ### Preconditions

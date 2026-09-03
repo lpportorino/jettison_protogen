@@ -102,13 +102,10 @@ PB_BIND(cmd_RotaryPlatform_ScanRefreshNodeList, cmd_RotaryPlatform_ScanRefreshNo
 PB_BIND(cmd_RotaryPlatform_ScanSelectNode, cmd_RotaryPlatform_ScanSelectNode, AUTO)
 
 
-PB_BIND(cmd_RotaryPlatform_ScanDeleteNode, cmd_RotaryPlatform_ScanDeleteNode, AUTO)
+PB_BIND(cmd_RotaryPlatform_PoiLookAt, cmd_RotaryPlatform_PoiLookAt, AUTO)
 
 
-PB_BIND(cmd_RotaryPlatform_ScanUpdateNode, cmd_RotaryPlatform_ScanUpdateNode, AUTO)
-
-
-PB_BIND(cmd_RotaryPlatform_ScanAddNode, cmd_RotaryPlatform_ScanAddNode, AUTO)
+PB_BIND(cmd_RotaryPlatform_PoiSaveCurrent, cmd_RotaryPlatform_PoiSaveCurrent, AUTO)
 
 
 PB_BIND(cmd_RotaryPlatform_Elevation, cmd_RotaryPlatform_Elevation, AUTO)
