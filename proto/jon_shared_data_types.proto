@@ -311,6 +311,7 @@ enum JonGuiDataDriveProgram {
   JON_GUI_DATA_DRIVE_PROGRAM_SCAN = 1;
   JON_GUI_DATA_DRIVE_PROGRAM_POI = 2;
   JON_GUI_DATA_DRIVE_PROGRAM_PARK = 3;
+  JON_GUI_DATA_DRIVE_PROGRAM_COMPASS = 4;
 }
 
 // Lifecycle state of the owning drive program.
