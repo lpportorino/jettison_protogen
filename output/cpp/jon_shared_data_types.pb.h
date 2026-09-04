@@ -924,6 +924,7 @@ enum JonGuiDataDriveProgram : int {
   JON_GUI_DATA_DRIVE_PROGRAM_SCAN = 1,
   JON_GUI_DATA_DRIVE_PROGRAM_POI = 2,
   JON_GUI_DATA_DRIVE_PROGRAM_PARK = 3,
+  JON_GUI_DATA_DRIVE_PROGRAM_COMPASS = 4,
   JonGuiDataDriveProgram_INT_MIN_SENTINEL_DO_NOT_USE_ =
       std::numeric_limits<::int32_t>::min(),
   JonGuiDataDriveProgram_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -933,8 +934,8 @@ enum JonGuiDataDriveProgram : int {
 bool JonGuiDataDriveProgram_IsValid(int value);
 extern const uint32_t JonGuiDataDriveProgram_internal_data_[];
 constexpr JonGuiDataDriveProgram JonGuiDataDriveProgram_MIN = static_cast<JonGuiDataDriveProgram>(0);
-constexpr JonGuiDataDriveProgram JonGuiDataDriveProgram_MAX = static_cast<JonGuiDataDriveProgram>(3);
-constexpr int JonGuiDataDriveProgram_ARRAYSIZE = 3 + 1;
+constexpr JonGuiDataDriveProgram JonGuiDataDriveProgram_MAX = static_cast<JonGuiDataDriveProgram>(4);
+constexpr int JonGuiDataDriveProgram_ARRAYSIZE = 4 + 1;
 const ::google::protobuf::EnumDescriptor*
 JonGuiDataDriveProgram_descriptor();
 template <typename T>
@@ -947,7 +948,7 @@ const std::string& JonGuiDataDriveProgram_Name(T value) {
 template <>
 inline const std::string& JonGuiDataDriveProgram_Name(JonGuiDataDriveProgram value) {
   return ::google::protobuf::internal::NameOfDenseEnum<JonGuiDataDriveProgram_descriptor,
-                                                 0, 3>(
+                                                 0, 4>(
       static_cast<int>(value));
 }
 inline bool JonGuiDataDriveProgram_Parse(absl::string_view name, JonGuiDataDriveProgram* value) {

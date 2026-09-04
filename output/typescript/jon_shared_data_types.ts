@@ -1160,6 +1160,7 @@ export enum JonGuiDataDriveProgram {
   JON_GUI_DATA_DRIVE_PROGRAM_SCAN = 1,
   JON_GUI_DATA_DRIVE_PROGRAM_POI = 2,
   JON_GUI_DATA_DRIVE_PROGRAM_PARK = 3,
+  JON_GUI_DATA_DRIVE_PROGRAM_COMPASS = 4,
   UNRECOGNIZED = -1,
 }
 
@@ -1177,6 +1178,9 @@ export function jonGuiDataDriveProgramFromJSON(object: any): JonGuiDataDriveProg
     case 3:
     case "JON_GUI_DATA_DRIVE_PROGRAM_PARK":
       return JonGuiDataDriveProgram.JON_GUI_DATA_DRIVE_PROGRAM_PARK;
+    case 4:
+    case "JON_GUI_DATA_DRIVE_PROGRAM_COMPASS":
+      return JonGuiDataDriveProgram.JON_GUI_DATA_DRIVE_PROGRAM_COMPASS;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -1194,6 +1198,8 @@ export function jonGuiDataDriveProgramToJSON(object: JonGuiDataDriveProgram): st
       return "JON_GUI_DATA_DRIVE_PROGRAM_POI";
     case JonGuiDataDriveProgram.JON_GUI_DATA_DRIVE_PROGRAM_PARK:
       return "JON_GUI_DATA_DRIVE_PROGRAM_PARK";
+    case JonGuiDataDriveProgram.JON_GUI_DATA_DRIVE_PROGRAM_COMPASS:
+      return "JON_GUI_DATA_DRIVE_PROGRAM_COMPASS";
     case JonGuiDataDriveProgram.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";

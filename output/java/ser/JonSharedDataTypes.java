@@ -3252,6 +3252,10 @@ public final class JonSharedDataTypes {
      * <code>JON_GUI_DATA_DRIVE_PROGRAM_PARK = 3;</code>
      */
     JON_GUI_DATA_DRIVE_PROGRAM_PARK(3),
+    /**
+     * <code>JON_GUI_DATA_DRIVE_PROGRAM_COMPASS = 4;</code>
+     */
+    JON_GUI_DATA_DRIVE_PROGRAM_COMPASS(4),
     UNRECOGNIZED(-1),
     ;
 
@@ -3280,6 +3284,10 @@ public final class JonSharedDataTypes {
      * <code>JON_GUI_DATA_DRIVE_PROGRAM_PARK = 3;</code>
      */
     public static final int JON_GUI_DATA_DRIVE_PROGRAM_PARK_VALUE = 3;
+    /**
+     * <code>JON_GUI_DATA_DRIVE_PROGRAM_COMPASS = 4;</code>
+     */
+    public static final int JON_GUI_DATA_DRIVE_PROGRAM_COMPASS_VALUE = 4;
 
 
     public final int getNumber() {
@@ -3310,6 +3318,7 @@ public final class JonSharedDataTypes {
         case 1: return JON_GUI_DATA_DRIVE_PROGRAM_SCAN;
         case 2: return JON_GUI_DATA_DRIVE_PROGRAM_POI;
         case 3: return JON_GUI_DATA_DRIVE_PROGRAM_PARK;
+        case 4: return JON_GUI_DATA_DRIVE_PROGRAM_COMPASS;
         default: return null;
       }
     }
@@ -11347,12 +11356,13 @@ public final class JonSharedDataTypes {
       "SOURCE_UNSPECIFIED\020\000\022*\n&JON_GUI_DATA_STA" +
       "TE_SOURCE_DAY_PIPELINE\020\001\022+\n\'JON_GUI_DATA" +
       "_STATE_SOURCE_HEAT_PIPELINE\020\002\022$\n JON_GUI" +
-      "_DATA_STATE_SOURCE_SYSTEM\020\003*\253\001\n\026JonGuiDa" +
+      "_DATA_STATE_SOURCE_SYSTEM\020\003*\323\001\n\026JonGuiDa" +
       "taDriveProgram\022#\n\037JON_GUI_DATA_DRIVE_PRO" +
       "GRAM_NONE\020\000\022#\n\037JON_GUI_DATA_DRIVE_PROGRA" +
       "M_SCAN\020\001\022\"\n\036JON_GUI_DATA_DRIVE_PROGRAM_P" +
       "OI\020\002\022#\n\037JON_GUI_DATA_DRIVE_PROGRAM_PARK\020" +
-      "\003*\231\002\n\024JonGuiDataDriveState\022(\n$JON_GUI_DA" +
+      "\003\022&\n\"JON_GUI_DATA_DRIVE_PROGRAM_COMPASS\020" +
+      "\004*\231\002\n\024JonGuiDataDriveState\022(\n$JON_GUI_DA" +
       "TA_DRIVE_STATE_UNSPECIFIED\020\000\022!\n\035JON_GUI_" +
       "DATA_DRIVE_STATE_IDLE\020\001\022\"\n\036JON_GUI_DATA_" +
       "DRIVE_STATE_ARMED\020\002\022$\n JON_GUI_DATA_DRIV" +

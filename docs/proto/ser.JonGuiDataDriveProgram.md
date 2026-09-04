@@ -21,4 +21,5 @@ Identifies which sandboxed drive program owns the rotary platform: none, the sca
 | 1 | JON_GUI_DATA_DRIVE_PROGRAM_SCAN | The scan-pattern walker owns the platform (started by ScanStart). |
 | 2 | JON_GUI_DATA_DRIVE_PROGRAM_POI | The point-of-interest look-at owns the platform (started by PoiLookAt). |
 | 3 | JON_GUI_DATA_DRIVE_PROGRAM_PARK | The transport-park sequencer owns the platform (started by System.EnterTransport). |
+| 4 | JON_GUI_DATA_DRIVE_PROGRAM_COMPASS | - |
 

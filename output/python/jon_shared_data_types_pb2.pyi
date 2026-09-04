@@ -190,6 +190,7 @@ class JonGuiDataDriveProgram(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     JON_GUI_DATA_DRIVE_PROGRAM_SCAN: _ClassVar[JonGuiDataDriveProgram]
     JON_GUI_DATA_DRIVE_PROGRAM_POI: _ClassVar[JonGuiDataDriveProgram]
     JON_GUI_DATA_DRIVE_PROGRAM_PARK: _ClassVar[JonGuiDataDriveProgram]
+    JON_GUI_DATA_DRIVE_PROGRAM_COMPASS: _ClassVar[JonGuiDataDriveProgram]
 
 class JonGuiDataDriveState(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -317,6 +318,7 @@ JON_GUI_DATA_DRIVE_PROGRAM_NONE: JonGuiDataDriveProgram
 JON_GUI_DATA_DRIVE_PROGRAM_SCAN: JonGuiDataDriveProgram
 JON_GUI_DATA_DRIVE_PROGRAM_POI: JonGuiDataDriveProgram
 JON_GUI_DATA_DRIVE_PROGRAM_PARK: JonGuiDataDriveProgram
+JON_GUI_DATA_DRIVE_PROGRAM_COMPASS: JonGuiDataDriveProgram
 JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED: JonGuiDataDriveState
 JON_GUI_DATA_DRIVE_STATE_IDLE: JonGuiDataDriveState
 JON_GUI_DATA_DRIVE_STATE_ARMED: JonGuiDataDriveState

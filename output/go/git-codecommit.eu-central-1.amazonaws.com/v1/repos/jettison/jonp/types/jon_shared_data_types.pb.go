@@ -1249,10 +1249,11 @@ func (JonGuiDataStateSource) EnumDescriptor() ([]byte, []int) {
 type JonGuiDataDriveProgram int32
 
 const (
-	JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_NONE JonGuiDataDriveProgram = 0
-	JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_SCAN JonGuiDataDriveProgram = 1
-	JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_POI  JonGuiDataDriveProgram = 2
-	JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_PARK JonGuiDataDriveProgram = 3
+	JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_NONE    JonGuiDataDriveProgram = 0
+	JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_SCAN    JonGuiDataDriveProgram = 1
+	JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_POI     JonGuiDataDriveProgram = 2
+	JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_PARK    JonGuiDataDriveProgram = 3
+	JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_COMPASS JonGuiDataDriveProgram = 4
 )
 
 // Enum value maps for JonGuiDataDriveProgram.
@@ -1262,12 +1263,14 @@ var (
 		1: "JON_GUI_DATA_DRIVE_PROGRAM_SCAN",
 		2: "JON_GUI_DATA_DRIVE_PROGRAM_POI",
 		3: "JON_GUI_DATA_DRIVE_PROGRAM_PARK",
+		4: "JON_GUI_DATA_DRIVE_PROGRAM_COMPASS",
 	}
 	JonGuiDataDriveProgram_value = map[string]int32{
-		"JON_GUI_DATA_DRIVE_PROGRAM_NONE": 0,
-		"JON_GUI_DATA_DRIVE_PROGRAM_SCAN": 1,
-		"JON_GUI_DATA_DRIVE_PROGRAM_POI":  2,
-		"JON_GUI_DATA_DRIVE_PROGRAM_PARK": 3,
+		"JON_GUI_DATA_DRIVE_PROGRAM_NONE":    0,
+		"JON_GUI_DATA_DRIVE_PROGRAM_SCAN":    1,
+		"JON_GUI_DATA_DRIVE_PROGRAM_POI":     2,
+		"JON_GUI_DATA_DRIVE_PROGRAM_PARK":    3,
+		"JON_GUI_DATA_DRIVE_PROGRAM_COMPASS": 4,
 	}
 )
 
@@ -2200,12 +2203,13 @@ const file_jon_shared_data_types_proto_rawDesc = "" +
 	"%JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED\x10\x00\x12*\n" +
 	"&JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE\x10\x01\x12+\n" +
 	"'JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE\x10\x02\x12$\n" +
-	" JON_GUI_DATA_STATE_SOURCE_SYSTEM\x10\x03*\xab\x01\n" +
+	" JON_GUI_DATA_STATE_SOURCE_SYSTEM\x10\x03*\xd3\x01\n" +
 	"\x16JonGuiDataDriveProgram\x12#\n" +
 	"\x1fJON_GUI_DATA_DRIVE_PROGRAM_NONE\x10\x00\x12#\n" +
 	"\x1fJON_GUI_DATA_DRIVE_PROGRAM_SCAN\x10\x01\x12\"\n" +
 	"\x1eJON_GUI_DATA_DRIVE_PROGRAM_POI\x10\x02\x12#\n" +
-	"\x1fJON_GUI_DATA_DRIVE_PROGRAM_PARK\x10\x03*\x99\x02\n" +
+	"\x1fJON_GUI_DATA_DRIVE_PROGRAM_PARK\x10\x03\x12&\n" +
+	"\"JON_GUI_DATA_DRIVE_PROGRAM_COMPASS\x10\x04*\x99\x02\n" +
 	"\x14JonGuiDataDriveState\x12(\n" +
 	"$JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED\x10\x00\x12!\n" +
 	"\x1dJON_GUI_DATA_DRIVE_STATE_IDLE\x10\x01\x12\"\n" +

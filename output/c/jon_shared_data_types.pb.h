@@ -198,7 +198,8 @@ typedef enum _ser_JonGuiDataDriveProgram {
     ser_JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_NONE = 0,
     ser_JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_SCAN = 1,
     ser_JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_POI = 2,
-    ser_JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_PARK = 3
+    ser_JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_PARK = 3,
+    ser_JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_COMPASS = 4
 } ser_JonGuiDataDriveProgram;
 
 /* Lifecycle state of the owning drive program. */
@@ -407,8 +408,8 @@ extern "C" {
 #define _ser_JonGuiDataStateSource_ARRAYSIZE ((ser_JonGuiDataStateSource)(ser_JonGuiDataStateSource_JON_GUI_DATA_STATE_SOURCE_SYSTEM+1))
 
 #define _ser_JonGuiDataDriveProgram_MIN ser_JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_NONE
-#define _ser_JonGuiDataDriveProgram_MAX ser_JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_PARK
-#define _ser_JonGuiDataDriveProgram_ARRAYSIZE ((ser_JonGuiDataDriveProgram)(ser_JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_PARK+1))
+#define _ser_JonGuiDataDriveProgram_MAX ser_JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_COMPASS
+#define _ser_JonGuiDataDriveProgram_ARRAYSIZE ((ser_JonGuiDataDriveProgram)(ser_JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_COMPASS+1))
 
 #define _ser_JonGuiDataDriveState_MIN ser_JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED
 #define _ser_JonGuiDataDriveState_MAX ser_JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_FAULT

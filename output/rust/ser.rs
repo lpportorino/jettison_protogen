@@ -1116,6 +1116,7 @@ pub enum JonGuiDataDriveProgram {
     Scan = 1,
     Poi = 2,
     Park = 3,
+    Compass = 4,
 }
 impl JonGuiDataDriveProgram {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -1128,6 +1129,7 @@ impl JonGuiDataDriveProgram {
             Self::Scan => "JON_GUI_DATA_DRIVE_PROGRAM_SCAN",
             Self::Poi => "JON_GUI_DATA_DRIVE_PROGRAM_POI",
             Self::Park => "JON_GUI_DATA_DRIVE_PROGRAM_PARK",
+            Self::Compass => "JON_GUI_DATA_DRIVE_PROGRAM_COMPASS",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -1137,6 +1139,7 @@ impl JonGuiDataDriveProgram {
             "JON_GUI_DATA_DRIVE_PROGRAM_SCAN" => Some(Self::Scan),
             "JON_GUI_DATA_DRIVE_PROGRAM_POI" => Some(Self::Poi),
             "JON_GUI_DATA_DRIVE_PROGRAM_PARK" => Some(Self::Park),
+            "JON_GUI_DATA_DRIVE_PROGRAM_COMPASS" => Some(Self::Compass),
             _ => None,
         }
     }
