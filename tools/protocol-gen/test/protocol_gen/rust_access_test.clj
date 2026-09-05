@@ -414,3 +414,17 @@
     (testing "beside the two consts it belongs with, before the Access enum"
       (is (re-find #"(?s)pub const PACKAGE: &str = .*pub const SCHEMA_VERSION: u32 = .*pub enum Access"
                    module)))))
+
+(deftest the-emitted-banner-calls-the-flat-artefact-the-transcript
+  ;; The same split `protocol-gen.state-table`'s banner test asserts, at the
+  ;; other emitted site that names the flat artefact: MIRROR is the nested
+  ;; tree's word, and the flat EDN file is the TRANSCRIPT. This banner is
+  ;; shipped text, so the stale name is a claim a consumer reads rather than a
+  ;; comment only this repository sees.
+  ;;
+  ;; The positive assertion carries the non-vacuity, and the absence token is
+  ;; the retired BYTES rather than the bare word, both for the reasons
+  ;; recorded beside its twin.
+  (let [module (rust-access/module group)]
+    (is (str/includes? module "the permission transcript"))
+    (is (not (str/includes? module "the permission mirror beside it")))))

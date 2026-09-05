@@ -88,3 +88,26 @@
     (is (thrown-with-msg?
          clojure.lang.ExceptionInfo #"Not an access policy"
          ((instrument/uninstrumented #'policy/validate!) p "<inline>")))))
+
+(deftest the-emitted-banner-calls-the-flat-artefact-the-transcript
+  ;; THE WORD MIRROR IS THE NESTED TREE'S ALONE. `protocol-gen.mirror` and
+  ;; `protocol-gen.permission-tree` both state the split in their docstrings,
+  ;; and the tree's own banner — emitted into the same run directory as this
+  ;; one — already spells the flat artefact TRANSCRIPT. A banner here calling
+  ;; it a mirror republishes the retired vocabulary to every consumer on every
+  ;; regeneration, and leaves two banners in one output directory naming one
+  ;; artefact two ways.
+  ;;
+  ;; THE POSITIVE ASSERTION CARRIES THE NON-VACUITY. It is a non-zero
+  ;; expectation, so it reddens over an empty module; the absence assertion
+  ;; beside it structurally cannot, since its pass value equals its
+  ;; nothing-ran value.
+  ;;
+  ;; THE ABSENCE TOKEN IS THE RETIRED BYTES AND NOT THE BARE WORD, because
+  ;; `permission mirror` is a SANCTIONED name here — `protocol-gen.permission-tree`
+  ;; opens `The NESTED permission mirror`. A banner widened to name the tree
+  ;; that way would be correct, and a bare-word probe would redden it.
+  (let [rust (state-table/module declared
+                                 (state-table/rows declared [(project :g ["telemetry"])]))]
+    (is (str/includes? rust "the permission transcript"))
+    (is (not (str/includes? rust "the flat permission mirror")))))
