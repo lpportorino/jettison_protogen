@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-Identifies which sandboxed drive program owns the rotary platform: none, the scan-pattern walker, the point-of-interest look-at, or the transport-park sequencer.
+Identifies which sandboxed drive program owns the rotary platform: none, the scan-pattern walker, the point-of-interest look-at, the transport-park sequencer, or the compass calibration servo.
 
 ## Values
 
@@ -21,5 +21,5 @@ Identifies which sandboxed drive program owns the rotary platform: none, the sca
 | 1 | JON_GUI_DATA_DRIVE_PROGRAM_SCAN | The scan-pattern walker owns the platform (started by ScanStart). |
 | 2 | JON_GUI_DATA_DRIVE_PROGRAM_POI | The point-of-interest look-at owns the platform (started by PoiLookAt). |
 | 3 | JON_GUI_DATA_DRIVE_PROGRAM_PARK | The transport-park sequencer owns the platform (started by System.EnterTransport). |
-| 4 | JON_GUI_DATA_DRIVE_PROGRAM_COMPASS | - |
+| 4 | JON_GUI_DATA_DRIVE_PROGRAM_COMPASS | The compass calibration / geodesic-alignment servo owns the platform (started by Compass.StartCalibrate* or GeodesicModeEnable): it turns the head to each heading the compass device requests and holds it there. |
 
