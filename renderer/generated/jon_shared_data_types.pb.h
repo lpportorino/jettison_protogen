@@ -193,6 +193,26 @@ typedef enum _ser_JonGuiDataStateSource {
     ser_JonGuiDataStateSource_JON_GUI_DATA_STATE_SOURCE_SYSTEM = 3
 } ser_JonGuiDataStateSource;
 
+/* Which drive program (eutropia DriveHost) currently owns the rotary platform. */
+typedef enum _ser_JonGuiDataDriveProgram {
+    ser_JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_NONE = 0,
+    ser_JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_SCAN = 1,
+    ser_JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_POI = 2,
+    ser_JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_PARK = 3,
+    ser_JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_COMPASS = 4
+} ser_JonGuiDataDriveProgram;
+
+/* Lifecycle state of the owning drive program. */
+typedef enum _ser_JonGuiDataDriveState {
+    ser_JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED = 0,
+    ser_JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_IDLE = 1,
+    ser_JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_ARMED = 2,
+    ser_JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_RUNNING = 3,
+    ser_JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_PAUSED = 4,
+    ser_JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_DONE = 5,
+    ser_JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_FAULT = 6
+} ser_JonGuiDataDriveState;
+
 /* Tracking state */
 typedef enum _ser_JonGuiDataTrackedObject_TrackingState {
     ser_JonGuiDataTrackedObject_TrackingState_TRACKING_STATE_UNSPECIFIED = 0,
@@ -386,6 +406,14 @@ extern "C" {
 #define _ser_JonGuiDataStateSource_MIN ser_JonGuiDataStateSource_JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED
 #define _ser_JonGuiDataStateSource_MAX ser_JonGuiDataStateSource_JON_GUI_DATA_STATE_SOURCE_SYSTEM
 #define _ser_JonGuiDataStateSource_ARRAYSIZE ((ser_JonGuiDataStateSource)(ser_JonGuiDataStateSource_JON_GUI_DATA_STATE_SOURCE_SYSTEM+1))
+
+#define _ser_JonGuiDataDriveProgram_MIN ser_JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_NONE
+#define _ser_JonGuiDataDriveProgram_MAX ser_JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_COMPASS
+#define _ser_JonGuiDataDriveProgram_ARRAYSIZE ((ser_JonGuiDataDriveProgram)(ser_JonGuiDataDriveProgram_JON_GUI_DATA_DRIVE_PROGRAM_COMPASS+1))
+
+#define _ser_JonGuiDataDriveState_MIN ser_JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED
+#define _ser_JonGuiDataDriveState_MAX ser_JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_FAULT
+#define _ser_JonGuiDataDriveState_ARRAYSIZE ((ser_JonGuiDataDriveState)(ser_JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_FAULT+1))
 
 #define _ser_JonGuiDataTrackedObject_TrackingState_MIN ser_JonGuiDataTrackedObject_TrackingState_TRACKING_STATE_UNSPECIFIED
 #define _ser_JonGuiDataTrackedObject_TrackingState_MAX ser_JonGuiDataTrackedObject_TrackingState_TRACKING_STATE_LOST
