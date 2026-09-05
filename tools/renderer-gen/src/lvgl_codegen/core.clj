@@ -31,15 +31,34 @@
 ;; marker (not a tagged literal) keeps the reader a pure clojure.edn pass — no
 ;; global *data-readers* mutation.
 (defn- ir->edn-string
-  "EDN string of an IR map, ByteString fields encoded as base64 markers."
+  "EDN string of an IR map, ByteString fields encoded as base64 markers.
+
+   THE PRINTER BINDINGS ARE PINNED, NOT INHERITED, because this string IS the
+   persisted baseline and `emit-patch-artifacts!` re-spits it on every compile.
+   Two ambient vars change its BYTES without changing its VALUE, so a baseline
+   written by one process and refreshed by another would diff as a screen
+   change that never happened — and where a consumer tracks that baseline, a
+   compile would MUTATE the file it is judging:
+
+     `*print-namespace-maps*` — true in a REPL, false in a plain JVM. It
+     rewrites the single-key marker map below into the `#:lvgl-codegen.core{…}`
+     namespace-map form, which is the same value spelled differently.
+
+     `*print-length*` / `*print-level*` — an inherited limit ELIDES part of the
+     tree, and a truncated baseline is not a baseline: it no longer reads back
+     to the IR it was written from (`*print-level*` emits a bare `#`, which is
+     not even readable EDN), so the next diff runs against a fiction."
   [ir]
-  (pr-str (walk/postwalk (fn [form]
-                           (if (instance? ByteString form)
-                             {::bytes-b64 (Base64$Encoder/.encodeToString
-                                           (Base64/getEncoder)
-                                           (ByteString/.toByteArray ^ByteString form))}
-                             form))
-                         ir)))
+  (binding [*print-namespace-maps* false
+            *print-length* nil
+            *print-level* nil]
+    (pr-str (walk/postwalk (fn [form]
+                             (if (instance? ByteString form)
+                               {::bytes-b64 (Base64$Encoder/.encodeToString
+                                             (Base64/getEncoder)
+                                             (ByteString/.toByteArray ^ByteString form))}
+                               form))
+                           ir))))
 (m/=> ir->edn-string [:=> [:cat [:map-of :keyword some?]] [:string {:min 1}]])
 
 (defn- edn-string->ir
