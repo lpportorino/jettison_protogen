@@ -1,18 +1,18 @@
-;; A policy whose group names a STATE SUBSYSTEM the policy does not declare.
+;; A policy whose group names a SUBJECT GROUP the policy does not declare.
 ;;
 ;; It is a typo, and the emitted table is exactly where a typo would hide: the
 ;; table is total over the DECLARED set, so an undeclared name contributes no
-;; row at all — and a group with no row for a subsystem reads identically to a
-;; group that deliberately does not receive it. There is nothing in the emitted
-;; bytes for a consumer to notice.
+;; row at all — and a group with no row for a subject group reads identically
+;; to a group that deliberately does not receive it. There is nothing in the
+;; emitted bytes for a consumer to notice.
 ;;
 ;; So `protocol-gen.projection` refuses it by name instead, and it does so at
 ;; POLICY grain rather than group grain because the declared set is a top-level
 ;; declaration no single group can see.
 {:version 1
- :state-subsystems ["diagnostics" "telemetry"]
+ :subject-groups ["diagnostics" "telemetry"]
  :groups
  [{:id :sensor-reader
    :package "pgfix.sensor"
    :grants [{:message "pgfix.Reading" :access #{:read} :fields #{"value"}}]
-   :state-subsystems ["telemetry" "thermla"]}]}
+   :subject-groups ["telemetry" "thermla"]}]}

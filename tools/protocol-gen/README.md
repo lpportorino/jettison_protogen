@@ -5,8 +5,8 @@ descriptors already parsed into EDN), a declarative **access policy**, a set of
 **locally-minted** messages, and an assign-once **field-number registry**. Its
 output is one `.proto` file per access group, one **Rust access module** per
 group, a machine-readable **permission transcript**, a **nested permission
-tree** in Rust, and a **state subsystem table** — all written from the same
-value in the same run.
+tree** in Rust, and a **subject group table** — all written from the same value
+in the same run.
 
 **TWO OF THOSE ARTEFACTS ARE EASILY CONFUSED, so they carry separate names.**
 The flat EDN file `permissions.edn` is the **permission transcript**: a record
@@ -63,7 +63,7 @@ locally-minted msgs ─┼─► numbering ─► projection ─► render ─�
 field-number registry┘                    │                       └► transcript
 access policy ───────────────────────────┘                        ├► .rs
                                           │                       ├► permission tree
-                                          └──────────────────────►└► state table
+                                          └──────────────────────►└► subject group table
 ```
 
 | namespace | what it owns |
@@ -78,7 +78,7 @@ access policy ──────────────────────
 | `src/protocol_gen/emit.clj` | resolved projection to `.proto` text |
 | `src/protocol_gen/mirror.clj` | the flat permission TRANSCRIPT |
 | `src/protocol_gen/permission_tree.clj` | the NESTED permission tree, in Rust |
-| `src/protocol_gen/state_table.clj` | the STATE SUBSYSTEM table, in Rust |
+| `src/protocol_gen/state_table.clj` | the SUBJECT GROUP table, in Rust |
 | `src/protocol_gen/rust_access.clj` | the per-group Rust ACCESS module |
 | `src/protocol_gen/rust_lit.clj` | quoting a name into emitted Rust |
 | `src/protocol_gen/core.clj` | the command line |
@@ -250,7 +250,7 @@ or they do not.
 
 **WHAT IT IS TAKEN OVER, and why the answer is neither `pr-str` nor a short
 list of names.** The input is every fact the projection DECLARES: the group id
-and package, the state subsystems, and per granted message its id, emitted
+and package, the subject groups, and per granted message its id, emitted
 name, origin, access, its fields' declared facts and its oneofs', and per
 granted enum its members'. `protocol-gen.db`'s field, oneof and enum-value
 schemas are OPEN on purpose, so a database may carry prose and interaction
@@ -515,41 +515,54 @@ what a defect in the expansion produces.
 below records. Two runs over one projection write identical bytes, which is the
 property that matters where a consumer freshness-gates the file.
 
-## The STATE SUBSYSTEM TABLE — the axis no descriptor database carries
+## The SUBJECT GROUP TABLE — the axis no descriptor database carries
 
-The run also writes `state_subsystems.rs`: which state subsystems each group
-may receive, as Rust data and nothing else.
+The run also writes `subject_groups.rs`: which subject groups each group may
+receive, as Rust data and nothing else.
 
 ```rust
-pub static STATE_SUBSYSTEMS: &[&str] = &["diagnostics", "telemetry", "thermal"];
+pub static SUBJECT_GROUPS: &[&str] = &["diagnostics", "telemetry", "thermal"];
 
-pub static GROUP_STATE_SUBSYSTEMS: &[(&str, &[(&str, bool)])] = &[
+pub static GROUP_SUBJECT_GROUPS: &[(&str, &[(&str, bool)])] = &[
     ("commander",     &[("diagnostics", false), ("telemetry", false), ("thermal", false)]),
     ("sensor-reader", &[("diagnostics", false), ("telemetry", true),  ("thermal", true)]),
 ];
 ```
 
+**WHAT A SUBJECT GROUP IS.** A named set of state SUBJECTS a consumer's own
+producer emits — a screen, a service, a projection it publishes. It is NOT a
+partition of the device state the descriptor database describes: that state is
+not narrowed per group, and no row here thins it. The axis exists for the state
+no descriptor carries at all.
+
+**THE NAME IS NEW AND THE OLD ONE IS RETIRED.** This axis was `:state-subsystems`,
+emitted as `state_subsystems.rs` carrying `STATE_SUBSYSTEMS` and
+`GROUP_STATE_SUBSYSTEMS`, refused as `state-subsystem-not-declared`. Every one
+of those names said "device subsystem", so a reader who met the key inferred a
+per-subsystem thinning of device state that does not exist. The old spelling is
+recorded here so it can be recognised, and it is current nowhere.
+
 **WHY IT IS AN AXIS OF ITS OWN.** A grant names a MESSAGE and the projection
-resolves it against the descriptor database. A state subsystem names a SOURCE
-of state, which no descriptor database carries and nothing here can resolve —
-so the policy itself is the only thing that can say which subsystems exist.
+resolves it against the descriptor database. A subject group names an emitter of
+state, which no descriptor database carries and nothing here can resolve — so
+the policy itself is the only thing that can say which subject groups exist.
 Neither the group's `.proto` nor its permission tree has anywhere to put that.
 
-**THE POLICY GRAMMAR WAS EXTENDED FOR IT, minimally.** `:state-subsystems` at
-the policy's top level is the CLOSED SET, optional and non-empty when present;
-`:state-subsystems` on a group is a subset of it, optional, where an omitted
-key means the empty set — the reading `:enums` already has. Both are checked
-for distinct entries at LOAD. A group naming an id the policy does not declare
-is refused `state-subsystem-not-declared`, at POLICY grain, because the
-declared set is a top-level fact no single group can see.
+**THE POLICY GRAMMAR WAS EXTENDED FOR IT, minimally.** `:subject-groups` at the
+policy's top level is the CLOSED SET, optional and non-empty when present;
+`:subject-groups` on a group is a subset of it, optional, where an omitted key
+means the empty set — the reading `:enums` already has. Both are checked for
+distinct entries at LOAD. A group naming an id the policy does not declare is
+refused `subject-group-not-declared`, at POLICY grain, because the declared set
+is a top-level fact no single group can see.
 
 **THE TOP-LEVEL DECLARATION IS WHAT MAKES TOTALITY POSSIBLE.** Without a set to
-be total OVER, *this group receives none* and *this policy has no state axis*
-emit the same nothing, and a subsystem dropped from a group is
+be total OVER, *this group receives none* and *this policy has no subject-group
+axis* emit the same nothing, and a subject group dropped from a group is
 indistinguishable from one nobody has declared yet. With it, the table is the
-CROSS PRODUCT — one row per group per declared subsystem, each carrying a bool
-— so an absent row is not representable and **a group that receives nothing has
-a row per subsystem reading `false`** rather than no rows at all.
+CROSS PRODUCT — one row per group per declared subject group, each carrying a
+bool — so an absent row is not representable and **a group that receives nothing
+has a row per subject group reading `false`** rather than no rows at all.
 
 **IT IS DATA AND NOTHING ELSE.** A read path narrows against this table; the
 narrowing is the consumer's, and a `const fn` doing it here would be a second
@@ -558,7 +571,7 @@ items besides. The fragment names no crate, declares no type and assumes
 nothing is in scope, which is why it is a SEPARATE file from the permission
 tree — folding it in would add a third name that fragment's includer must
 supply, or force this axis into a permission vocabulary it does not have
-(`Inherit` means nothing about a subsystem).
+(`Inherit` means nothing about a subject group).
 
 **A POLICY THAT DECLARES NO AXIS EMITS AN EMPTY UNIVERSE**, and therefore an
 empty row set under every group — the group tuples are still all there. That is
@@ -567,10 +580,16 @@ beside the rows: a consumer checks its length rather than reading a short table
 as a narrow one. The oracle refuses to JUDGE such a table (exit 2) rather than
 reporting it clean, so a vacuous one cannot pass for a narrow one here either.
 
-**WHAT THIS FORK DID NOT DECIDE.** The subsystem NAMES in `fixtures/policy.edn`
-are generic engineering words chosen to exercise the generator. Real policy
-content is authored elsewhere; nothing here claims to know what a deployment's
-subsystems are called.
+**THE EMITTING NAMESPACE KEEPS ITS NAME.** `src/protocol_gen/state_table.clj`
+is named for the ARTEFACT it writes rather than for the file it writes, which is
+this generator's convention: of the five namespaces that emit, only
+`permission_tree.clj` shares a name with its output. Renaming it would have
+created a convention the tree does not have.
+
+**WHAT THIS FORK DID NOT DECIDE.** The subject-group NAMES in
+`fixtures/policy.edn` are generic engineering words chosen to exercise the
+generator. Real policy content is authored elsewhere; nothing here claims to
+know what a deployment's subject groups are called.
 
 ## The fixtures and the canary
 
@@ -605,8 +624,8 @@ than decorative.
 
 `fixtures/refusal-db-cycle.edn` plus `fixtures/refusal-policy-cycle.edn` reach
 the cycle refusal, `fixtures/refusal-policy-group-name.edn` reaches the
-colliding-static one, and `fixtures/refusal-policy-state.edn` reaches the
-undeclared-subsystem one. Both are ordinary, legal policies — the first emits a
+colliding-static one, and `fixtures/refusal-policy-subject-group.edn` reaches
+the undeclared-subject-group one. Both are ordinary, legal policies — the first emits a
 perfectly good `.proto` — so each is driven with a fixture rather than a
 mutation, and the mutation is what breaks its clause alone.
 
@@ -632,8 +651,8 @@ DROPPED from it, a nested permission tree that lists only its GRANTS instead of
 every field the source declares, a tree that describes the interior of a
 DENIAL, each of the tree's two policy-reachable refusals broken alone with the
 other as its neighbouring control, a fixture policy withholding a field that
-the emitted tree must then follow, a state subsystem table carrying only its
-PERMITTED rows, a fixture policy withholding a subsystem that the emitted
+the emitted tree must then follow, a subject group table carrying only its
+PERMITTED rows, a fixture policy withholding a subject group that the emitted
 table must then follow, a projection fingerprint that folds in an ENVIRONMENTAL
 term, one that collapses to a CONSTANT — each asserted CLEAN on the other's
 case, so neither reads as covering it — and a fixture policy withholding a

@@ -2,7 +2,7 @@
   "Quoting a value into emitted Rust source.
 
    ONE HOME, because three namespaces now emit Rust from this projection — the
-   per-group ACCESS module, the nested PERMISSION TREE and the STATE SUBSYSTEM
+   per-group ACCESS module, the nested PERMISSION TREE and the SUBJECT GROUP
    table — and each of them quotes a name into a string literal. A second copy
    of the assertion below is how one of them quietly stops making it."
   (:require [malli.core :as m]))

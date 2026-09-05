@@ -24,7 +24,7 @@
   ;; order this literal happens to be written in.
   {:id :operator
    :package "p.operator"
-   :state-subsystems []
+   :subject-groups []
    :messages [(msg "p.Stop" #{:write})
               (msg "p.Reading" #{:read})
               (msg "p.SetMode" #{:read :write})]
@@ -131,7 +131,7 @@
   ;; cannot reach the case, and this suite has no Rust toolchain. That the
   ;; shape does compile was observed while authoring and is NOT committed
   ;; evidence — an authoring-side observation is the floor, not the finish.
-  (let [module (rust-access/module {:id :empty :package "p.e" :state-subsystems []
+  (let [module (rust-access/module {:id :empty :package "p.e" :subject-groups []
                                     :messages [] :enums []})]
     (is (str/includes? module "pub enum Message {\n}"))
     (is (str/includes? module "match self {}"))
@@ -334,7 +334,7 @@
   (let [variants [group
                   (assoc group :id :other-group)
                   (assoc group :package "p.other")
-                  (assoc group :state-subsystems ["telemetry"])
+                  (assoc group :subject-groups ["telemetry"])
                   (regroup #(vec (butlast %)))
                   (regroup #(conj % (msg "p.Extra" #{:read})))]
         versions (map rust-access/schema-version variants)]

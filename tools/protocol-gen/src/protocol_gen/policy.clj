@@ -46,30 +46,37 @@
              [:fn {:error/message "at least one access mode"} seq]]]
    [:fields [:or [:= :all] [:set {:min 1} db/proto-identifier]]]])
 
-(def state-subsystem
-  "One state subsystem id. A stable name, in the shape every other name in this
+(def subject-group
+  "One subject group id. A stable name, in the shape every other name in this
    generator takes, so it quotes into emitted source without escaping.
 
-   IT IS NOT A MESSAGE ID AND RESOLVES AGAINST NOTHING. The subsystems a group
-   may receive are an axis the descriptor database knows nothing about — they
-   name SOURCES of state rather than shapes — so the only thing that can say
-   which ones exist is the policy itself, which declares the closed set below."
+   WHAT A SUBJECT GROUP IS: a named set of state SUBJECTS a consumer's own
+   producer emits — a screen, a service, a projection it publishes — and never a
+   partition of the device state a descriptor database describes. Device state
+   is not narrowed per group, so nothing here thins it; this axis exists for the
+   state that has no descriptor at all.
+
+   IT IS NOT A MESSAGE ID AND RESOLVES AGAINST NOTHING. The subject groups a
+   group may receive are an axis the descriptor database knows nothing about —
+   they name emitters of state rather than shapes — so the only thing that can
+   say which ones exist is the policy itself, which declares the closed set
+   below."
   db/proto-identifier)
 
 (def ^:private distinct-vector
   "A vector whose members are distinct. A repeat is a policy-authoring typo with
-   no meaning: it names one subsystem twice, and folding it silently is how a
-   policy stops saying what it looks like it says."
+   no meaning: it names one subject group twice, and folding it silently is how
+   a policy stops saying what it looks like it says."
   [:fn {:error/message "entries must be distinct"}
    #(= (count %) (count (set %)))])
 
 (def group
   "One access group: its id, the proto package its schema is emitted into, its
-   grants, the enums it may name, and the state subsystems it may receive.
+   grants, the enums it may name, and the subject groups it may receive.
 
-   `:state-subsystems` is OPTIONAL and an omitted key means the EMPTY set — the
+   `:subject-groups` is OPTIONAL and an omitted key means the EMPTY set — the
    same reading `:enums` already has. It is not a silent default: the emitted
-   state table carries a row for every subsystem the policy declares, so a group
+   table carries a row for every subject group the policy declares, so a group
    that names none is a group whose every row says `false`, which is a decision
    on the record rather than an absence a reader has to interpret.
 
@@ -85,17 +92,17 @@
    [:package db/proto-qualified-name]
    [:grants [:vector {:min 1} grant]]
    [:enums {:optional true} [:vector db/proto-qualified-name]]
-   [:state-subsystems {:optional true} [:and [:vector state-subsystem] distinct-vector]]])
+   [:subject-groups {:optional true} [:and [:vector subject-group] distinct-vector]]])
 
 (def policy
   "The whole policy. `:version` is the POLICY FORMAT's version and exists so a
    reader of an emitted mirror can tell which vocabulary produced it.
 
-   `:state-subsystems` HERE IS THE CLOSED UNIVERSE, and a group's list is a
-   subset of it. Declaring it at the top is what makes the emitted table TOTAL:
-   without a set to be total OVER, `this group receives none of them` and `this
-   policy has no state axis` emit the same nothing, and a subsystem dropped from
-   a group would be indistinguishable from one nobody has declared yet.
+   `:subject-groups` HERE IS THE CLOSED UNIVERSE, and a group's list is a subset
+   of it. Declaring it at the top is what makes the emitted table TOTAL: without
+   a set to be total OVER, `this group receives none of them` and `this policy
+   has no state axis` emit the same nothing, and a subject group dropped from a
+   group would be indistinguishable from one nobody has declared yet.
 
    IT IS OPTIONAL, because a policy that does not use the axis should not have
    to declare an empty one — and its absence is not a silent skip: the emitted
@@ -103,32 +110,32 @@
    empty population rather than reporting it clean."
   [:map {:closed true}
    [:version [:= 1]]
-   [:state-subsystems {:optional true}
-    [:and [:vector {:min 1} state-subsystem] distinct-vector]]
+   [:subject-groups {:optional true}
+    [:and [:vector {:min 1} subject-group] distinct-vector]]
    [:groups [:vector {:min 1} group]]])
 
-(defn declared-subsystems
-  "The closed set of state subsystems `p` declares, as a sorted vector.
+(defn declared-subject-groups
+  "The closed set of subject groups `p` declares, as a sorted vector.
 
    SORTED HERE AND NOWHERE ELSE, so the emitted table's row order is a function
    of the policy's content rather than of its authoring order and two runs write
    identical bytes."
   [p]
-  (vec (sort (:state-subsystems p []))))
+  (vec (sort (:subject-groups p []))))
 
-(m/=> declared-subsystems [:=> [:cat policy] [:vector state-subsystem]])
+(m/=> declared-subject-groups [:=> [:cat policy] [:vector subject-group]])
 
-(defn undeclared-subsystems
-  "The subsystems `g` names that `declared` does not carry.
+(defn undeclared-subject-groups
+  "The subject groups `g` names that `declared` does not carry.
 
    Reported rather than refused here, for the reason `duplicate-group-ids` gives
    for its own shape: this namespace owns what a policy IS, and the refusal
    belongs where the policy is applied."
   [declared g]
-  (vec (sort (remove (set declared) (:state-subsystems g [])))))
+  (vec (sort (remove (set declared) (:subject-groups g [])))))
 
-(m/=> undeclared-subsystems
-      [:=> [:cat [:sequential state-subsystem] group] [:vector state-subsystem]])
+(m/=> undeclared-subject-groups
+      [:=> [:cat [:sequential subject-group] group] [:vector subject-group]])
 
 (defn validate!
   "Return `p` when it conforms to `policy`; throw naming `path` otherwise.

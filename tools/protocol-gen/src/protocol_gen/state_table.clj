@@ -1,13 +1,28 @@
 (ns protocol-gen.state-table
-  "The STATE SUBSYSTEM TABLE: per group, which state subsystems that group may
+  "The SUBJECT GROUP TABLE: per group, which subject groups that group may
    receive, as Rust data.
 
+   THE NAMESPACE IS NAMED FOR THE ARTEFACT AND NOT FOR THE EMITTED FILE, which
+   is this generator's convention rather than an oversight: of the five
+   namespaces that write a file, only `protocol-gen.permission-tree` shares its
+   name with what it writes. `protocol-gen.mirror` writes `permissions.edn`,
+   `protocol-gen.emit` and `protocol-gen.rust-access` write per-group names, and
+   this one writes `subject_groups.rs`.
+
    WHY IT IS A SEPARATE AXIS FROM EVERY GRANT. A grant names a MESSAGE, and the
-   projection resolves it against the descriptor database. A state subsystem
-   names a SOURCE of state, which no descriptor database carries and nothing
-   here can resolve — so the policy's own closed declaration is the only thing
-   that can say which subsystems exist, and the group's list is a subset of it.
-   Neither the schema nor the permission tree has anywhere to put that fact.
+   projection resolves it against the descriptor database. A subject group names
+   a set of state SUBJECTS a consumer's own producer emits — a screen, a
+   service, a projection it publishes — which no descriptor database carries and
+   nothing here can resolve, so the policy's own closed declaration is the only
+   thing that can say which subject groups exist, and the group's list is a
+   subset of it. Neither the schema nor the permission tree has anywhere to put
+   that fact.
+
+   IT IS NOT A PARTITION OF DEVICE STATE. Device state is not narrowed per
+   group, so no row here thins it; the axis exists for the state no descriptor
+   describes. The RETIRED name for it — `:state-subsystems`, a \"state
+   subsystem\" — said the opposite, and a reader who still hears it reads every
+   row as a device filter that was never built.
 
    WHY IT IS DATA AND NOTHING ELSE. A read path narrows against this table; the
    narrowing is the consumer's, and a `const fn` doing it here would be logic
@@ -15,11 +30,11 @@
    So the emission is two `pub static`s of primitives and no items besides.
 
    TOTALITY, and it is the same property the permission tree carries one axis
-   over. The table holds a row for EVERY group crossed with EVERY subsystem the
-   policy declares, each row carrying whether that group may receive it. So an
-   absent subsystem is not representable: a group that receives none has a row
-   per subsystem saying `false`, which is a decision on the record, where an
-   empty row set would read identically to a table nobody filled in.
+   over. The table holds a row for EVERY group crossed with EVERY subject group
+   the policy declares, each row carrying whether that group may receive it. So
+   an absent subject group is not representable: a group that receives none has
+   a row per subject group saying `false`, which is a decision on the record,
+   where an empty row set would read identically to a table nobody filled in.
 
    A GROUP THAT RECEIVES NOTHING IS THEREFORE VISIBLE RATHER THAN MISSING, and
    that is the case worth being sure of — it is the one a policy is most likely
@@ -28,8 +43,8 @@
    WHY IT IS A SECOND FILE AND NOT PART OF THE PERMISSION TREE. That fragment's
    whole contract is that it assumes exactly two names are in scope. Folding a
    table into it would add a third thing a consumer's module must supply, or
-   force this axis into a permission vocabulary it does not have — a subsystem
-   is received or it is not, and `Inherit` means nothing about one."
+   force this axis into a permission vocabulary it does not have — a subject
+   group is received or it is not, and `Inherit` means nothing about one."
   (:require [clojure.string :as str]
             [malli.core :as m]
             [protocol-gen.db :as db]
@@ -39,26 +54,26 @@
 (set! *warn-on-reflection* true)
 
 (def group-row
-  "One group's row set: its policy id and one entry per declared subsystem."
+  "One group's row set: its policy id and one entry per declared subject group."
   [:map {:closed true}
    [:id :keyword]
    [:entries [:vector [:map {:closed true}
-                       [:subsystem db/proto-identifier]
+                       [:subject-group db/proto-identifier]
                        [:permitted :boolean]]]]])
 
 (defn rows
   "Every group's row set — GROUPS crossed with `declared`, in id order and
-   subsystem order.
+   subject-group order.
 
    THE CROSS PRODUCT IS THE POINT, not an implementation detail. Emitting only
-   the permitted entries would make a dropped subsystem and a denied one the
+   the permitted entries would make a dropped subject group and a denied one the
    same bytes, and the whole reason this table exists beside the group's other
    artefacts is that neither of them can express the difference."
   [declared groups]
   (mapv (fn [g]
-          (let [permitted (set (:state-subsystems g))]
+          (let [permitted (set (:subject-groups g))]
             {:id (:id g)
-             :entries (mapv (fn [s] {:subsystem s :permitted (contains? permitted s)})
+             :entries (mapv (fn [s] {:subject-group s :permitted (contains? permitted s)})
                             declared)}))
         (sort-by (comp name :id) groups)))
 
@@ -83,9 +98,9 @@
        "// IT IS A FRAGMENT OF PRIMITIVES. It names no crate, declares no type,\n"
        "// and assumes nothing is in scope, so it can be `include!`d anywhere.\n"
        "//\n"
-       "// IT IS TOTAL: one row per group per DECLARED subsystem, carrying\n"
+       "// IT IS TOTAL: one row per group per DECLARED subject group, carrying\n"
        "// whether that group may receive it. A group that may receive none has\n"
-       "// a row per subsystem reading `false` — never an absent row, which\n"
+       "// a row per subject group reading `false` — never an absent row, which\n"
        "// would be indistinguishable from a table nobody filled in.\n"
        "//\n"
        "// A policy that declares no state axis emits an EMPTY universe, and so\n"
@@ -99,7 +114,7 @@
   [{:keys [id entries]}]
   (str "    (" (rust-lit/string-literal (name id)) ", &[\n"
        (str/join "" (for [e entries]
-                      (str "        (" (rust-lit/string-literal (:subsystem e)) ", "
+                      (str "        (" (rust-lit/string-literal (:subject-group e)) ", "
                            (:permitted e) "),\n")))
        "    ]),\n"))
 
@@ -113,14 +128,14 @@
    rows alone cannot show, because a narrower table is still a well-formed one."
   [declared group-rows]
   (str banner
-       "\n/// Every state subsystem this policy declares, in name order.\n"
-       "pub static STATE_SUBSYSTEMS: &[&str] = &[\n"
+       "\n/// Every subject group this policy declares, in name order.\n"
+       "pub static SUBJECT_GROUPS: &[&str] = &[\n"
        (str/join "" (for [s declared] (str "    " (rust-lit/string-literal s) ",\n")))
        "];\n"
        "\n/// Which of them each group may receive, keyed by the group's policy id.\n"
        "///\n"
-       "/// TOTAL: one entry per group per declared subsystem, in id order.\n"
-       "pub static GROUP_STATE_SUBSYSTEMS: &[(&str, &[(&str, bool)])] = &[\n"
+       "/// TOTAL: one entry per group per declared subject group, in id order.\n"
+       "pub static GROUP_SUBJECT_GROUPS: &[(&str, &[(&str, bool)])] = &[\n"
        (str/join "" (map render-row group-rows))
        "];\n"))
 

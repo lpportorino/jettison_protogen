@@ -119,7 +119,7 @@
     :name-collision
     :permission-cycle
     :grant-under-denial
-    :state-subsystem-not-declared})
+    :subject-group-not-declared})
 
 (def refusal
   "One refusal: which thing, why, and enough detail to fix it without reading

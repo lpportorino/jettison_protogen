@@ -13,7 +13,7 @@
               --out <dir>
        Emit one `.proto` per group, one Rust ACCESS MODULE per group, the flat
        permission mirror, the NESTED permission tree a byte-level scanner walks,
-       and the STATE SUBSYSTEM TABLE a read path narrows against — all derived
+       and the SUBJECT GROUP TABLE a read path narrows against — all derived
        from the same projection in the same run, so no two of them can
        disagree.
        Every path is named; nothing is defaulted.
@@ -193,7 +193,7 @@
   nil)
 
 (defn- write-state-table!
-  "Emit the STATE SUBSYSTEM TABLE from the SAME projected groups, and the closed
+  "Emit the SUBJECT GROUP TABLE from the SAME projected groups, and the closed
    set the policy declared them against.
 
    THE UNIVERSE COMES FROM THE POLICY AND THE PERMITTED SET FROM THE PROJECTION,
@@ -206,12 +206,12 @@
    distinguishable from one whose groups all receive nothing — the two emit
    different files and would otherwise read as one line of output."
   [out-dir declared groups]
-  (let [path (str out-dir "/state_subsystems.rs")
+  (let [path (str out-dir "/subject_groups.rs")
         rows (state-table/rows declared groups)]
     (io/make-parents path)
     (spit path (state-table/module declared rows))
     (println (str "protocol-gen: " path " — " (count declared)
-                  " declared subsystem(s), "
+                  " declared subject group(s), "
                   (reduce + 0 (for [r rows, e (:entries r) :when (:permitted e)] 1))
                   " permitted across " (count rows) " group(s)")))
   nil)
@@ -219,7 +219,7 @@
 (defn generate!
   "Project the database and the minted messages through the policy, then emit
    one `.proto` per group, one Rust access module per group, one flat
-   permission mirror, one nested permission tree and one state subsystem table
+   permission mirror, one nested permission tree and one subject group table
    beside them.
 
    THE ARTEFACTS ARE ONE VALUE SEEN SEVERAL WAYS. `groups` is projected once
@@ -249,7 +249,7 @@
     (spit mirror-path (with-out-str (pp/pprint (mirror/mirror groups))))
     (println (str "protocol-gen: " mirror-path " — " (count groups) " group(s)"))
     (write-permission-tree! out-dir trees)
-    (write-state-table! out-dir (policy/declared-subsystems p) groups))
+    (write-state-table! out-dir (policy/declared-subject-groups p) groups))
   nil)
 
 (m/=> generate! [:=> [:cat [:map-of :keyword [:string {:min 1}]]] :nil])

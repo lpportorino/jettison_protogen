@@ -52,19 +52,19 @@
 
 (def projected-group
   "One group's whole projection — the value the `.proto` text, the permission
-   mirror, the access module, the permission tree and the state subsystem table
+   mirror, the access module, the permission tree and the subject group table
    are all derived from, so no two of them can disagree.
 
-   `:state-subsystems` IS AN AUTHORISATION FACT LIKE `:access`, which is why it
-   is carried here rather than read back out of the policy by the emitter. It
-   resolves against nothing in the database — a state subsystem names a SOURCE
-   of state rather than a shape — so the policy's own declared set is what
-   `project` validates it against, one level up where the whole policy is in
-   hand."
+   `:subject-groups` IS AN AUTHORISATION FACT LIKE `:access`, which is why it is
+   carried here rather than read back out of the policy by the emitter. It
+   resolves against nothing in the database — a subject group names a set of
+   state SUBJECTS a consumer's own producer emits rather than a shape — so the
+   policy's own declared set is what `project` validates it against, one level
+   up where the whole policy is in hand."
   [:map {:closed true}
    [:id :keyword]
    [:package db/proto-qualified-name]
-   [:state-subsystems [:vector db/proto-identifier]]
+   [:subject-groups [:vector db/proto-identifier]]
    [:messages [:vector projected-message]]
    [:enums [:vector [:map {:closed true}
                      [:id db/proto-qualified-name]
@@ -239,16 +239,15 @@
     (numbering/assert-stamped! messages)
     {:id (:id g)
      :package (:package g)
-     :state-subsystems (vec (sort (:state-subsystems g [])))
+     :subject-groups (vec (sort (:subject-groups g [])))
      :messages messages
      :enums enums}))
 
 (m/=> project-group
       [:=> [:cat db/database db/database policy/group] projected-group])
 
-(defn- assert-subsystems-declared!
-  "Refuse a group naming a state subsystem the policy's closed set does not
-   carry.
+(defn- assert-subject-groups-declared!
+  "Refuse a group naming a subject group the policy's closed set does not carry.
 
    IT IS ASKED HERE AND NOT IN `project-group`, because the closed set is a
    POLICY-level declaration and a single group cannot see it. Left unrefused, a
@@ -256,12 +255,12 @@
    under a table that is total over the DECLARED set, no row at all, which reads
    exactly like a group that deliberately receives nothing."
   [p]
-  (let [declared (policy/declared-subsystems p)]
+  (let [declared (policy/declared-subject-groups p)]
     (doseq [g (:groups p)
-            :let [unknown (policy/undeclared-subsystems declared g)]
+            :let [unknown (policy/undeclared-subject-groups declared g)]
             :when (seq unknown)]
-      (constructs/refuse! :state-subsystem-not-declared (str (:id g))
-                          (str "this group names state subsystem(s) the policy does not "
+      (constructs/refuse! :subject-group-not-declared (str (:id g))
+                          (str "this group names subject group(s) the policy does not "
                                "declare: " (pr-str unknown) "; the declared set is "
                                (pr-str declared))))))
 
@@ -273,7 +272,7 @@
   (when-let [dups (seq (policy/duplicate-group-ids p))]
     (constructs/refuse! :name-collision "policy/groups"
                         (str "these group ids are declared more than once: " (pr-str dups))))
-  (assert-subsystems-declared! p)
+  (assert-subject-groups-declared! p)
   (mapv #(project-group database minted %) (:groups p)))
 
 (m/=> project

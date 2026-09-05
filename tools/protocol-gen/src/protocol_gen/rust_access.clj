@@ -158,7 +158,7 @@
    projection declares, in an order nothing environmental can move.
 
    WHAT IS IN. Every key the projection's own schemas declare — the group id
-   and package, the state subsystems, and per granted message its id, emitted
+   and package, the subject groups, and per granted message its id, emitted
    name, origin, access and its fields' and oneofs' declared facts, and per
    granted enum its members'. Total over the declared set, so no projected
    fact can change without moving the value.
@@ -207,7 +207,7 @@
   [group]
   {:id (:id group)
    :package (:package group)
-   :state-subsystems (vec (sort (:state-subsystems group)))
+   :subject-groups (vec (sort (:subject-groups group)))
    :messages (mapv (fn [msg]
                      {:id (:id msg)
                       :proto-name (:proto-name msg)

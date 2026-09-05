@@ -11,7 +11,7 @@
 (def ^:private groups
   [{:id :b
     :package "p.b"
-    :state-subsystems []
+    :subject-groups []
     :messages [{:id "p.Beat" :proto-name "p_Beat" :origin :minted :access #{:write}
                 :fields [{:number 1 :name "seq" :type :uint32
                           :number-source :registry :oneof nil}]
@@ -19,7 +19,7 @@
     :enums []}
    {:id :a
     :package "p.a"
-    :state-subsystems []
+    :subject-groups []
     :messages [{:id "p.Reading" :proto-name "p_Reading" :origin :descriptor
                 :access #{:read}
                 :fields [{:number 3 :name "value" :type :double
@@ -54,6 +54,6 @@
 (deftest a-group-that-granted-nothing-still-appears
   ;; An empty entry is a fact — "this group was declared and got nothing" — and
   ;; is not the same as the group being absent from the policy.
-  (let [m (mirror/mirror [{:id :empty :package "p.e" :state-subsystems []
+  (let [m (mirror/mirror [{:id :empty :package "p.e" :subject-groups []
                            :messages [] :enums []}])]
     (is (= {} (get-in m [:groups :empty :messages])))))

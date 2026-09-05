@@ -406,10 +406,10 @@
             ": held by the emitted tree and described by nothing")))))
 
 (defn parse-state-dump
-  "The lines of a state-table dump as `{[group subsystem] permitted}`.
+  "The lines of a state-table dump as `{[group subject-group] permitted}`.
 
    THE DUMP IS WHAT THE EMITTED STATICS HELD. A canary compiles the fragment
-   into a harness that walks `GROUP_STATE_SUBSYSTEMS` and prints one line per
+   into a harness that walks `GROUP_SUBJECT_GROUPS` and prints one line per
    entry, so what reaches here has been through rustc and through the same const
    data a read path would narrow against.
 
@@ -420,37 +420,37 @@
    (fn [acc line]
      (let [parts (str/split line #"\t")]
        (when (not= 3 (count parts))
-         (throw (ex-info "state table dump line is not three tab-separated fields"
+         (throw (ex-info "subject group table dump line is not three tab-separated fields"
                          {:line line :fields (count parts)})))
-       (let [[group subsystem permitted] parts]
-         (assoc acc [group subsystem]
+       (let [[group subject-group permitted] parts]
+         (assoc acc [group subject-group]
                 (case permitted
                   "true" true
                   "false" false
-                  (throw (ex-info "state table dump flag is not a Rust bool"
+                  (throw (ex-info "subject group table dump flag is not a Rust bool"
                                   {:line line :value permitted})))))))
    {}
    (remove str/blank? (str/split-lines text))))
 
 (defn expected-state-table
-  "What the emitted state table SHOULD hold, as `{[group subsystem] permitted}`,
+  "What the emitted table SHOULD hold, as `{[group subject-group] permitted}`,
    re-derived from the POLICY ALONE.
 
    THE POLICY ALONE IS SUFFICIENT AND THAT IS THE POINT — the same argument
-   `expected-access` makes. A state subsystem resolves against nothing in the
+   `expected-access` makes. A subject group resolves against nothing in the
    database, the mints or the registry, so this derivation cannot be led astray
    by the input that led the generator astray.
 
    IT IS THE CROSS PRODUCT, deliberately: every group against every DECLARED
-   subsystem. A derivation that produced only the permitted pairs could not tell
-   a table missing a denial from one that never had it."
+   subject group. A derivation that produced only the permitted pairs could not
+   tell a table missing a denial from one that never had it."
   [policy]
-  (let [declared (sort (:state-subsystems policy []))]
+  (let [declared (sort (:subject-groups policy []))]
     (into {}
           (for [g (:groups policy)
                 s declared]
             [[(name (:id g)) s]
-             (boolean (some #{s} (:state-subsystems g [])))]))))
+             (boolean (some #{s} (:subject-groups g [])))]))))
 
 (defn state-findings
   "Every disagreement between the table the policy describes and the table the
@@ -605,7 +605,7 @@
                     "each emitted static holds")))))
 
 (defn- check-state-table
-  "Judge the state subsystem table the emitted statics HELD against the policy
+  "Judge the subject group table the emitted statics HELD against the policy
    that declared it."
   [{:keys [dump policy]}]
   (doseq [[flag v] [["--dump" dump] ["--policy" policy]]]
@@ -626,13 +626,13 @@
       (die 2 [(str "verify state-table: CANNOT RUN — " (count expected)
                    " described row(s), " (count actual)
                    " held by the emitted table. An empty side means the policy "
-                   "declares no state axis, or discovery broke — neither is a "
-                   "clean verdict.")]))
+                   "declares no subject-group axis, or discovery broke — neither "
+                   "is a clean verdict.")]))
     (if (seq found)
       (die 1 (cons (str "verify state-table: FAIL — " (count found) " finding(s):")
                    (map #(str "  " %) found)))
       (println (str "verify state-table: clean — " (count expected)
-                    " row(s) agreed between the policy and the state subsystem "
+                    " row(s) agreed between the policy and the subject group "
                     "table the emitted statics hold")))))
 
 (def ^:private modes
@@ -662,11 +662,11 @@
                 field its source declares is a finding rather than a smaller
                 clean run.
      state-table --dump --policy
-                The STATE SUBSYSTEM TABLE the emitted statics hold — read out of
-                a rustc-compiled harness that walks it — against the policy that
+                The SUBJECT GROUP TABLE the emitted statics hold — read out of a
+                rustc-compiled harness that walks it — against the policy that
                 declared it. Judges the CROSS PRODUCT of groups and declared
-                subsystems, so a missing row is a finding rather than a narrower
-                clean run."
+                subject groups, so a missing row is a finding rather than a
+                narrower clean run."
   [& args]
   (let [[mode & rest-args] args
         handler (or (get modes mode)

@@ -90,10 +90,10 @@
 #     the emitted bytes must move, the tree must still DESCRIBE that field as
 #     denied, and the oracle must call the result clean against the mutated
 #     policy and RED against the real one.
-#   * A STATE SUBSYSTEM TABLE THAT IS NOT TOTAL, and one that does not follow
-#     its policy. The same pair one axis over: the first mutation emits only the
+#   * A SUBJECT GROUP TABLE THAT IS NOT TOTAL, and one that does not follow its
+#     policy. The same pair one axis over: the first mutation emits only the
 #     PERMITTED rows, which is a smaller well-formed table that no other
-#     artefact contradicts; the second withholds a subsystem in the FIXTURE
+#     artefact contradicts; the second withholds a subject group in the FIXTURE
 #     policy and requires the bytes to move, the row to survive reading `false`,
 #     and the oracle to split clean-against-the-mutant from red-against-the-real
 #     one.
@@ -502,13 +502,13 @@ permission_tree_dump() {
 	set -e
 }
 
-# state_table_dump <out-dir> <work-dir> — what the emitted STATE SUBSYSTEM
-# table holds, as a tab-separated dump the oracle judges.
+# state_table_dump <out-dir> <work-dir> — what the emitted SUBJECT GROUP table
+# holds, as a tab-separated dump the oracle judges.
 #
 # THE SAME TWO-COMPILE SPLIT the permission tree and the access module use. The
 # first compiles the fragment alone as a library under -D warnings, which is the
 # whole of "the emitted text is valid, warning-free Rust"; the second builds a
-# harness that walks `GROUP_STATE_SUBSYSTEMS` and prints one line per entry, so
+# harness that walks `GROUP_SUBJECT_GROUPS` and prints one line per entry, so
 # what the oracle judges has been through rustc and through the same const data
 # a read path would narrow against.
 #
@@ -529,7 +529,7 @@ state_table_dump() {
 	# `<<-` strips leading TABS only, so the tabs indent the heredoc and the
 	# SPACES survive into the Rust source.
 	cat > "$work/lib.rs" <<-STLEOF
-		include!("$out/state_subsystems.rs");
+		include!("$out/subject_groups.rs");
 	STLEOF
 	set +e
 	STD_OUT="$(rustc --edition 2021 --crate-type lib --emit=metadata -D warnings \
@@ -541,9 +541,9 @@ state_table_dump() {
 	cat >> "$work/harness.rs" <<-STHEOF
 
 		fn main() {
-		    for (group, entries) in GROUP_STATE_SUBSYSTEMS.iter().copied() {
-		        for (subsystem, permitted) in entries.iter().copied() {
-		            println!("{group}\t{subsystem}\t{permitted}");
+		    for (group, entries) in GROUP_SUBJECT_GROUPS.iter().copied() {
+		        for (subject_group, permitted) in entries.iter().copied() {
+		            println!("{group}\t{subject_group}\t{permitted}");
 		        }
 		    }
 		}
@@ -559,7 +559,7 @@ state_table_dump() {
 	set -e
 }
 
-# verify_state <dump> <policy> — judge a state-table dump against the policy
+# verify_state <dump> <policy> — judge a subject-group-table dump against the policy
 # that declared it, with the REAL tree's oracle. Bare, so its own status is read.
 VS_RC=0
 VS_OUT=""
@@ -691,8 +691,8 @@ if diff -r -q "$BASE/sensor-reader.proto" "$AGAIN/sensor-reader.proto" > /dev/nu
 	diff -q "$BASE/sensor-reader.rs" "$AGAIN/sensor-reader.rs" > /dev/null 2>&1 &&
 	diff -q "$BASE/commander.rs" "$AGAIN/commander.rs" > /dev/null 2>&1 &&
 	diff -q "$BASE/permission_tree.rs" "$AGAIN/permission_tree.rs" > /dev/null 2>&1 &&
-	diff -q "$BASE/state_subsystems.rs" "$AGAIN/state_subsystems.rs" > /dev/null 2>&1; then
-	ok "the schema, the mirror, both access modules, the permission tree and the state table are byte-identical across runs"
+	diff -q "$BASE/subject_groups.rs" "$AGAIN/subject_groups.rs" > /dev/null 2>&1; then
+	ok "the schema, the mirror, both access modules, the permission tree and the subject group table are byte-identical across runs"
 else
 	bad "the generator is not deterministic"
 fi
@@ -1939,60 +1939,60 @@ else
 	bad "a malformed tree dump was scored as a verdict (rc=$VT_RC): $VT_OUT"
 fi
 
-section "STATE SUBSYSTEM TABLE — the axis no descriptor database carries"
-# A state subsystem names a SOURCE of state, which nothing in the database, the
-# mints or the registry can resolve — so the policy's own closed declaration is
-# the only thing that says which exist, and this table is what a read path later
-# narrows against.
+section "SUBJECT GROUP TABLE — the axis no descriptor database carries"
+# A subject group names a set of state SUBJECTS a consumer's own producer emits,
+# which nothing in the database, the mints or the registry can resolve — so the
+# policy's own closed declaration is the only thing that says which exist, and
+# this table is what a read path later narrows against.
 STBASE="$WORK/st-base"
 state_table_dump "$BASE" "$STBASE"
 if [ "$STD_RC" -eq 0 ]; then
 	ok "the emitted table compiles warning-free with NOTHING in scope, and its data reads"
 else
-	bad "the emitted state table did not compile or did not run (rc=$STD_RC): $STD_OUT"
+	bad "the emitted subject group table did not compile or did not run (rc=$STD_RC): $STD_OUT"
 fi
 verify_state "$STD_DUMP" "$PG/fixtures/policy.edn"
 if [ "$VS_RC" -eq 0 ]; then
 	ok "every row the emitted table holds agrees with the policy that declared it"
 else
-	bad "the baseline state table disagreed with its policy (rc=$VS_RC): $VS_OUT"
+	bad "the baseline subject group table disagreed with its policy (rc=$VS_RC): $VS_OUT"
 fi
 if contains "$VS_OUT" "clean — " && ! contains "$VS_OUT" "clean — 0 row(s)"; then
-	ok "the state oracle reports a non-zero row count"
+	ok "the subject-group oracle reports a non-zero row count"
 else
-	bad "the state oracle checked ZERO rows, or did not report a count at all: $VS_OUT"
+	bad "the subject-group oracle checked ZERO rows, or did not report a count at all: $VS_OUT"
 fi
 STATE_DUMP="$(cat "$STD_DUMP")"
-# TOTALITY, on this axis. The policy declares three subsystems; one group names
-# two of them and the other names none at all. A table carrying only the
+# TOTALITY, on this axis. The policy declares three subject groups; one group
+# names two of them and the other names none at all. A table carrying only the
 # PERMITTED entries would hold two rows and look perfectly well-formed — and a
 # group that receives nothing would then have no rows, which is exactly what a
 # table nobody filled in looks like.
 if contains "$STATE_DUMP" "$(printf 'sensor-reader\ttelemetry\ttrue')" &&
 	contains "$STATE_DUMP" "$(printf 'sensor-reader\tdiagnostics\tfalse')" &&
 	contains "$STATE_DUMP" "$(printf 'commander\tthermal\tfalse')"; then
-	ok "the table is the CROSS PRODUCT — every group against every declared subsystem"
+	ok "the table is the CROSS PRODUCT — every group against every declared subject group"
 else
-	bad "the state table is not total over the declared set: $STATE_DUMP"
+	bad "the subject group table is not total over the declared set: $STATE_DUMP"
 fi
 # THE GROUP THAT RECEIVES NOTHING IS PRESENT, not missing. `commander` names no
-# subsystem at all, and its rows are what say so.
+# subject group at all, and its rows are what say so.
 if [ "$(printf '%s\n' "$STATE_DUMP" | command grep -c '^commander	')" -eq 3 ] &&
 	! contains "$STATE_DUMP" "$(printf 'commander\tdiagnostics\ttrue')"; then
-	ok "a group that receives NO state carries a row per subsystem, each false"
+	ok "a group that receives NO state carries a row per subject group, each false"
 else
 	bad "the group that receives no state is not represented row by row: $STATE_DUMP"
 fi
 # THE UNIVERSE IS EMITTED TOO, which is what lets a consumer notice a row set
 # that silently narrowed — a narrower table is still a well-formed one.
-if command grep -q 'pub static STATE_SUBSYSTEMS: &\[&str\]' "$BASE/state_subsystems.rs" &&
-	command grep -q '"diagnostics",' "$BASE/state_subsystems.rs"; then
+if command grep -q 'pub static SUBJECT_GROUPS: &\[&str\]' "$BASE/subject_groups.rs" &&
+	command grep -q '"diagnostics",' "$BASE/subject_groups.rs"; then
 	ok "the declared universe is emitted beside the rows"
 else
 	bad "the emitted table does not carry the universe its rows are total over"
 fi
 
-section "STATE SUBSYSTEM TABLE — a policy with no state axis, and an undeclared name"
+section "SUBJECT GROUP TABLE — a policy with no subject-group axis, and an undeclared name"
 # A policy need not use the axis, and the honest rendering is an EMPTY universe
 # rather than a missing file. The oracle must then refuse to judge rather than
 # report clean, which is what stops a vacuous table passing for a narrow one.
@@ -2006,26 +2006,26 @@ verify_state "$STD_DUMP" "$PG/fixtures/policy-nested.edn"
 if [ "$VS_RC" -eq 2 ] && contains "$VS_OUT" "CANNOT RUN"; then
 	ok "and the oracle REFUSES to judge it — an empty table is a fault, not a clean verdict"
 else
-	bad "an empty state table was reported as a verdict (rc=$VS_RC): $VS_OUT"
+	bad "an empty subject group table was reported as a verdict (rc=$VS_RC): $VS_OUT"
 fi
-generate "$PG" "$WORK/state-out" fixtures/refusal-policy-state.edn fixtures/db.edn
-if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "state-subsystem-not-declared"; then
-	ok "a group naming a subsystem the policy does not declare is REFUSED, by name"
+generate "$PG" "$WORK/state-out" fixtures/refusal-policy-subject-group.edn fixtures/db.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "subject-group-not-declared"; then
+	ok "a group naming a subject group the policy does not declare is REFUSED, by name"
 else
-	bad "an undeclared subsystem was not refused (rc=$GEN_RC): $GEN_OUT"
+	bad "an undeclared subject group was not refused (rc=$GEN_RC): $GEN_OUT"
 fi
 
 section "MUTATION 20 — a table of only the PERMITTED rows is caught"
 # The totality half, and the reason it needs a case: dropping the denied rows
 # leaves a smaller table that is still valid Rust, still consistent with every
 # other artefact of the run, and indistinguishable from a policy that declared
-# fewer subsystems — unless something re-derives the CROSS PRODUCT.
+# fewer subject groups — unless something re-derives the CROSS PRODUCT.
 M20="$WORK/m20"
 copy_tool "$M20"
 mutate_file "$M20/src/protocol_gen/state_table.clj" \
-	'             :entries (mapv (fn [s] {:subsystem s :permitted (contains? permitted s)})
+	'             :entries (mapv (fn [s] {:subject-group s :permitted (contains? permitted s)})
                             declared)}))' \
-	'             :entries (mapv (fn [s] {:subsystem s :permitted true})
+	'             :entries (mapv (fn [s] {:subject-group s :permitted true})
                             (filterv permitted declared))}))' \
 	|| bad "mutation 20 did not land"
 generate "$M20" "$WORK/m20-out" fixtures/policy.edn fixtures/db.edn
@@ -2045,10 +2045,10 @@ if [ "$VS_RC" -eq 1 ] &&
 	contains "$VS_OUT" "commander/diagnostics: the policy describes permitted=false, and the emitted table carries no row for it"; then
 	ok "a table missing its denied rows is REFUSED, naming the row and what it should say"
 else
-	bad "a non-total state table was not caught (rc=$VS_RC): $VS_OUT"
+	bad "a non-total subject group table was not caught (rc=$VS_RC): $VS_OUT"
 fi
 # CONTROL: every other artefact is UNAFFECTED on this same mutant, so the red
-# above is attributable to the state emission and to nothing else.
+# above is attributable to the subject group emission and to nothing else.
 verify "$WORK/m20-out"
 if [ "$VER_RC" -eq 0 ]; then
 	ok "CONTROL: the proto-and-mirror oracle calls that mutant CLEAN"
@@ -2063,15 +2063,15 @@ else
 	bad "the neighbour stopped refusing too — mutation 20 broke more than its clause: $GEN_OUT"
 fi
 
-section "MUTATION 21 — a subsystem withheld from a group's POLICY moves that group's table"
+section "MUTATION 21 — a subject group withheld from a group's POLICY moves that group's table"
 # The direction a tool mutation cannot ask, the same shape MUTATION 19 takes on
 # the permission axis: `telemetry` is dropped from the sensor-reader group and
 # nothing else changes.
 M21="$WORK/m21"
 copy_tool "$M21"
 mutate_file "$M21/fixtures/policy.edn" \
-	'   :state-subsystems ["telemetry" "thermal"]}' \
-	'   :state-subsystems ["thermal"]}' \
+	'   :subject-groups ["telemetry" "thermal"]}' \
+	'   :subject-groups ["thermal"]}' \
 	|| bad "mutation 21 did not land"
 generate "$M21" "$WORK/m21-out" fixtures/policy.edn fixtures/db.edn
 if [ "$GEN_RC" -eq 0 ]; then
@@ -2079,19 +2079,19 @@ if [ "$GEN_RC" -eq 0 ]; then
 else
 	bad "the mutant failed to generate (rc=$GEN_RC): $GEN_OUT"
 fi
-if [ -s "$BASE/state_subsystems.rs" ] && [ -s "$WORK/m21-out/state_subsystems.rs" ] &&
-	! diff -q "$BASE/state_subsystems.rs" "$WORK/m21-out/state_subsystems.rs" > /dev/null 2>&1; then
-	ok "MUTANT: withholding one subsystem CHANGES the emitted table's bytes"
+if [ -s "$BASE/subject_groups.rs" ] && [ -s "$WORK/m21-out/subject_groups.rs" ] &&
+	! diff -q "$BASE/subject_groups.rs" "$WORK/m21-out/subject_groups.rs" > /dev/null 2>&1; then
+	ok "MUTANT: withholding one subject group CHANGES the emitted table's bytes"
 else
-	bad "withholding a subsystem left the emitted table byte-identical, or one of the two was never written"
+	bad "withholding a subject group left the emitted table byte-identical, or one of the two was never written"
 fi
 state_table_dump "$WORK/m21-out" "$WORK/st-m21"
 M21_DUMP="$(cat "$STD_DUMP")"
 if [ "$STD_RC" -eq 0 ] &&
 	contains "$M21_DUMP" "$(printf 'sensor-reader\ttelemetry\tfalse')"; then
-	ok "MUTANT: the withheld subsystem still has a ROW, and it now reads false"
+	ok "MUTANT: the withheld subject group still has a ROW, and it now reads false"
 else
-	bad "the withheld subsystem did not turn into a false row (rc=$STD_RC): $M21_DUMP"
+	bad "the withheld subject group did not turn into a false row (rc=$STD_RC): $M21_DUMP"
 fi
 verify_state "$STD_DUMP" "$M21/fixtures/policy.edn"
 if [ "$VS_RC" -eq 0 ]; then
@@ -2104,23 +2104,23 @@ if [ "$VS_RC" -eq 1 ] &&
 	contains "$VS_OUT" "sensor-reader/telemetry: the policy describes permitted=true, the emitted table holds permitted=false"; then
 	ok "and against the UNMUTATED policy it is REFUSED, naming the row and both answers"
 else
-	bad "the moved subsystem was not caught (rc=$VS_RC): $VS_OUT"
+	bad "the moved subject group was not caught (rc=$VS_RC): $VS_OUT"
 fi
 
-section "STATE TABLE VACUITY — an unreadable dump is a FAULT, not a pass"
+section "SUBJECT GROUP TABLE VACUITY — an unreadable dump is a FAULT, not a pass"
 printf 'sensor-reader\ttelemetry\n' > "$WORK/malformed-state.tsv"
 verify_state "$WORK/malformed-state.tsv" "$PG/fixtures/policy.edn"
 if [ "$VS_RC" -eq 2 ] && contains "$VS_OUT" "CANNOT RUN"; then
-	ok "a state dump line that is not three fields is exit 2, never a finding"
+	ok "a subject-group dump line that is not three fields is exit 2, never a finding"
 else
-	bad "a malformed state dump was scored as a verdict (rc=$VS_RC): $VS_OUT"
+	bad "a malformed subject-group dump was scored as a verdict (rc=$VS_RC): $VS_OUT"
 fi
 printf 'sensor-reader\ttelemetry\tyes\n' > "$WORK/nonbool-state.tsv"
 verify_state "$WORK/nonbool-state.tsv" "$PG/fixtures/policy.edn"
 if [ "$VS_RC" -eq 2 ] && contains "$VS_OUT" "CANNOT RUN"; then
-	ok "a state dump flag that is not a Rust bool is exit 2 too"
+	ok "a subject-group dump flag that is not a Rust bool is exit 2 too"
 else
-	bad "a non-bool state flag was scored as a verdict (rc=$VS_RC): $VS_OUT"
+	bad "a non-bool subject-group flag was scored as a verdict (rc=$VS_RC): $VS_OUT"
 fi
 
 section "SCHEMA VERSION — a fingerprint of the projection, in every emitted module"

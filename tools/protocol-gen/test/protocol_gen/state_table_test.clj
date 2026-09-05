@@ -16,18 +16,18 @@
 (def ^:private declared ["diagnostics" "telemetry" "thermal"])
 
 (defn- project
-  [id subsystems]
+  [id subject-groups]
   (projection/project-group
    database no-mints
    (cond-> {:id id :package "p.g"
             :grants [{:message "p.Stop" :access #{:read} :fields :all}]}
-     subsystems (assoc :state-subsystems subsystems))))
+     subject-groups (assoc :subject-groups subject-groups))))
 
-(deftest the-table-is-the-cross-product-of-groups-and-declared-subsystems
+(deftest the-table-is-the-cross-product-of-groups-and-declared-subject-groups
   ;; TOTALITY. A table of only the permitted entries would be well-formed and
   ;; smaller, and nothing else the generator emits could contradict it.
   (let [[row] (state-table/rows declared [(project :g ["telemetry"])])]
-    (is (= ["diagnostics" "telemetry" "thermal"] (map :subsystem (:entries row))))
+    (is (= ["diagnostics" "telemetry" "thermal"] (map :subject-group (:entries row))))
     (is (= [false true false] (map :permitted (:entries row))))))
 
 (deftest a-group-that-receives-nothing-is-rows-of-false-not-an-absence
@@ -37,19 +37,19 @@
     (is (= 3 (count (:entries row))))
     (is (every? (complement :permitted) (:entries row)))))
 
-(deftest rows-are-emitted-in-group-id-order-and-subsystem-order
+(deftest rows-are-emitted-in-group-id-order-and-subject-group-order
   (let [rows (state-table/rows declared [(project :zulu ["thermal"])
                                          (project :alpha ["thermal"])])]
     (is (= [:alpha :zulu] (map :id rows)))
-    (is (= declared (map :subsystem (:entries (first rows)))))))
+    (is (= declared (map :subject-group (:entries (first rows)))))))
 
 (deftest the-emitted-fragment-declares-nothing-and-carries-the-universe
   ;; A read path narrows against this file, so it must be able to see the set
   ;; its rows are total over — a narrower table is still a well-formed one.
   (let [rust (state-table/module declared
                                  (state-table/rows declared [(project :g ["telemetry"])]))]
-    (is (str/includes? rust "pub static STATE_SUBSYSTEMS: &[&str]"))
-    (is (str/includes? rust "pub static GROUP_STATE_SUBSYSTEMS: &[(&str, &[(&str, bool)])]"))
+    (is (str/includes? rust "pub static SUBJECT_GROUPS: &[&str]"))
+    (is (str/includes? rust "pub static GROUP_SUBJECT_GROUPS: &[(&str, &[(&str, bool)])]"))
     (is (str/includes? rust "(\"telemetry\", true),"))
     (is (str/includes? rust "(\"diagnostics\", false),"))
     (testing "no use, no type declaration, nothing assumed in scope"
@@ -61,28 +61,28 @@
   ;; Honest rather than absent: the group tuples are still all there, and the
   ;; universe's own length is what tells a vacuous table from a narrow one.
   (let [rust (state-table/module [] (state-table/rows [] [(project :g nil)]))]
-    (is (str/includes? rust "pub static STATE_SUBSYSTEMS: &[&str] = &[\n];"))
+    (is (str/includes? rust "pub static SUBJECT_GROUPS: &[&str] = &[\n];"))
     (is (str/includes? rust "(\"g\", &[\n    ]),"))))
 
-(deftest a-group-naming-an-undeclared-subsystem-is-reported
+(deftest a-group-naming-an-undeclared-subject-group-is-reported
   (let [p {:version 1
-           :state-subsystems ["telemetry"]
+           :subject-groups ["telemetry"]
            :groups [{:id :g :package "p.g"
                      :grants [{:message "p.Stop" :access #{:read} :fields :all}]
-                     :state-subsystems ["telemetry" "thermla"]}]}]
-    (is (= ["telemetry"] (policy/declared-subsystems p)))
-    (is (= ["thermla"] (policy/undeclared-subsystems (policy/declared-subsystems p)
-                                                     (first (:groups p)))))
+                     :subject-groups ["telemetry" "thermla"]}]}]
+    (is (= ["telemetry"] (policy/declared-subject-groups p)))
+    (is (= ["thermla"] (policy/undeclared-subject-groups (policy/declared-subject-groups p)
+                                                         (first (:groups p)))))
     (testing "and the projection refuses it by name"
       (is (thrown-with-msg?
-           clojure.lang.ExceptionInfo #"state-subsystem-not-declared"
+           clojure.lang.ExceptionInfo #"subject-group-not-declared"
            (projection/project database no-mints p))))))
 
-(deftest the-policy-shape-refuses-a-repeated-subsystem
-  ;; A repeat names one subsystem twice and means nothing; folding it silently
-  ;; is how a policy stops saying what it looks like it says.
+(deftest the-policy-shape-refuses-a-repeated-subject-group
+  ;; A repeat names one subject group twice and means nothing; folding it
+  ;; silently is how a policy stops saying what it looks like it says.
   (let [p {:version 1
-           :state-subsystems ["telemetry" "telemetry"]
+           :subject-groups ["telemetry" "telemetry"]
            :groups [{:id :g :package "p.g"
                      :grants [{:message "p.Stop" :access #{:read} :fields :all}]}]}]
     (is (thrown-with-msg?
