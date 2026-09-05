@@ -201,6 +201,13 @@ RUN pip3 install --break-system-packages \
 # the committed files carry, and land the bump together with the regenerated
 # output. It is the same rule the Go plugin block below states: bumping a
 # generator that stamps itself IS a regeneration.
+#
+# THAT CLAIM IS NOW CHECKABLE RATHER THAN ASSERTED, which is what a pin is for:
+# `make -f lint.mk ts-validated-repro` re-runs the typescript-validated leg into
+# a throwaway directory and refuses on any byte difference against
+# output/typescript-validated — and reads this very line, so a pin bumped
+# without a regeneration is a named PIN mismatch rather than a silent drift.
+# Its canary, `ts-validated-repro-test`, rides `lint`.
 RUN npm install -g \
     ts-proto \
     @bufbuild/protoc-gen-es@2.14.0 \
