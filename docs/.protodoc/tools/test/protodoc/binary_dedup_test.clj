@@ -802,11 +802,12 @@
             "TAG_SET must come after the const literal")))))
 
 (deftest generate-typescript-camel-roundtrip-test
-  (testing "All 16 production subsystem names round-trip through snake->camel"
+  (testing "All 17 production subsystem names round-trip through snake->camel"
     (let [production-names ["system" "meteo_internal" "lrf" "time"
                             "gps" "compass" "rotary"
                             "camera_day" "camera_heat" "compass_calibration"
-                            "rec_osd" "actual_space_time" "power" "cv" "pmu" "heater"]
+                            "rec_osd" "actual_space_time" "power" "cv" "pmu" "heater"
+                            "drive"]
           fields (mapv #(hash-map :name %1 :number (+ 13 %2) :type-name "ser.X")
                        production-names
                        (range (count production-names)))
@@ -824,7 +825,7 @@
     ;; Verify against known values from the generated TS decode switch
     (let [expected {13 106, 14 114, 15 122, 16 130, 17 138, 18 146,
                     19 154, 20 162, 21 170, 22 178, 23 186, 25 202,
-                    26 210, 27 218, 28 226, 29 234}]
+                    26 210, 27 218, 28 226, 29 234, 30 242}]
       (doseq [[field-number expected-tag] expected]
         (is (= expected-tag (bit-or (bit-shift-left field-number 3) 2))
             (str "Field " field-number " should have wire tag " expected-tag))))))
@@ -908,13 +909,13 @@
             msg-index (#'bd/build-message-index descriptor)
             gui-state (get msg-index "ser.JonGUIState")
             fields (bd/extract-subsystem-fields gui-state)]
-        ;; Expected: 16 subsystem fields (tags 13-29, gap at 24)
-        (is (= 16 (count fields)))
+        ;; Expected: 17 subsystem fields (tags 13-30, gap at 24)
+        (is (= 17 (count fields)))
         ;; Verify specific known fields
         (is (= 13 (:number (first fields))))
         (is (= "system" (:name (first fields))))
-        (is (= 29 (:number (last fields))))
-        (is (= "heater" (:name (last fields))))
+        (is (= 30 (:number (last fields))))
+        (is (= "drive" (:name (last fields))))
         ;; Tag 24 should not be present (reserved)
         (is (not-any? #(= 24 (:number %)) fields))
         ;; Validation should pass (no map fields in production protos)
@@ -927,7 +928,8 @@
           (let [content (slurp output-file)]
             (is (str/includes? content "STATE_SUBSYSTEM_TAGS"))
             (is (str/includes? content "system: 13,"))
-            (is (str/includes? content "heater: 29,")))
+            (is (str/includes? content "heater: 29,"))
+            (is (str/includes? content "drive: 30,")))
           (finally
             (.delete output-file)))))))
 
@@ -940,13 +942,14 @@
         (.deleteOnExit out-file)
         ;; Full generate! must succeed (no V1-V7 rejections on real schema)
         (let [result (bd/generate! real-descriptor-path (.getPath out-file))]
-          (is (= 16 (count (:fields result))))
+          (is (= 17 (count (:fields result))))
           ;; Assert all expected production subsystem names are present
           (let [names (set (map :name (:fields result)))]
             (is (contains? names "system"))
             (is (contains? names "gps"))
             (is (contains? names "cv"))
-            (is (contains? names "heater"))))))))
+            (is (contains? names "heater"))
+            (is (contains? names "drive"))))))))
 
 ;; ============================================================================
 ;; SMOKE TESTS — minimal happy-path validation of each entry point.
@@ -975,13 +978,13 @@
           (is (str/includes? content "STATE_SUBSYSTEM_TAG_SET")))))))
 
 (deftest smoke-extract-subsystem-fields-test
-  (testing "smoke: extract-subsystem-fields on the real descriptor returns 16 entries"
+  (testing "smoke: extract-subsystem-fields on the real descriptor returns 17 entries"
     (when (.exists (io/file real-descriptor-path))
       (let [descriptor (json/read-str (slurp (io/file real-descriptor-path)))
             msg-index (#'bd/build-message-index descriptor)
             gui-state (get msg-index "ser.JonGUIState")
             fields (bd/extract-subsystem-fields gui-state)]
-        (is (= 16 (count fields)))
+        (is (= 17 (count fields)))
         (is (every? :name fields))
         (is (every? :number fields))
         (is (every? :type-name fields))))))
@@ -1044,7 +1047,7 @@
               parsed (parse-ts-entries ts)]
           ;; Expected count is a snapshot — if subsystems are added/removed,
           ;; this test breaks and forces explicit acknowledgement.
-          (is (= 16 (count (:fields result)))
+          (is (= 17 (count (:fields result)))
               "Production descriptor subsystem count changed. If intentional,
                update expected count here AND verify generated TS matches.")
           ;; Parsed TS must have the same count as the generator said
