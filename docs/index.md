@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 345 messages, 68 enums, 1133 fields
+**Statistics:** 346 messages, 69 enums, 1137 fields
 
 ## Messages by Package
 
@@ -39,6 +39,11 @@ If the container is already running, this command has no effect. The bridge_stat
 Gracefully shuts down the CV Bridge container. The bridge_status field will transition to STOPPING, then to STOPPED once the container exits. The last_exit_reason will be set to NORMAL.
 
 When the CV Bridge is stopped, fanout operates in bypass mode - state continues to flow but without CV enrichment (autofocus metrics will be stale/default).
+- [[proto/cmd.CV.DumpShot|DumpShot]] — Takes the cv-dump PHOTO: ONE instant, every plane of BOTH channels' CUDA-IPC rings — the RAW pre-ISP frame, the native raster, the CLAHE plane and the operator picture — written as a cv_dump bundle whose `archive.pb` carries one `ShotCapture` per channel (with the whole 1024-byte control block verbatim) and one `ShotPlane` per file (`shots/day_p0_raw.rg12`, `shots/day_p1_native.png`, …). Only available in factory mode (URL parameter ui=factory), beside DumpStart.
+
+The message is EMPTY on purpose. A shot is always both channels — the artifact's value is that they are the same instant, and a channel that is powered off appears in the bundle with no planes and a reason rather than being chosen away. Every capture parameter (zoom, fx mode, the ISP tokens) already rides the ring's control block, and the operator note arrives later over `PUT /note/{id}` exactly as a dump's does.
+
+Consumed by eutropia at its command flow and never forwarded to manifold. Progress and result ride the STATE plane: [[proto/ser.JonGuiDataCV#shot_state]] (what the button renders), [[proto/ser.JonGuiDataCV#shot_seq]] (the increment that proves the shot landed) and [[proto/ser.JonGuiDataCV#shot_id]] (the bundle to link). A press while `shot_state` is not `IDLE` is refused, not queued.
 - [[proto/cmd.CV.DumpStart|DumpStart]] — Initiates recording of computer vision frame data to disk for debugging and analysis purposes. Only available in factory mode (URL parameter ui=factory). The state is tracked via data.System.cvDumping boolean field.
 - [[proto/cmd.CV.DumpStop|DumpStop]] — Stops the computer vision frame dumping process that was previously initiated with DumpStart, ceasing the export of CV data to disk. Sets the cvDumping state to false when processed.
 - [[proto/cmd.CV.RecognitionModeDisable|RecognitionModeDisable]] — Disables the AI-powered computer vision recognition mode, stopping automatic object detection and classification in the video feed. Paired with [[proto/cmd.CV.RecognitionModeEnable]]; the two back a single toggle rather than two independent buttons.
@@ -576,6 +581,7 @@ consumers, not two copies of one fact.
 - [[proto/ser.SamTrackingState|SamTrackingState]]
 - [[proto/ser.SamTrackingStatus|SamTrackingStatus]]
 - [[proto/ui.ScaleMode|ScaleMode]]
+- [[proto/ser.JonGuiDataCV.ShotState|ShotState]] — The lifecycle of the one-at-a-time cv-dump PHOTO ([[proto/cmd.CV.DumpShot]]), published by eutropia on [[proto/ser.JonGuiDataCV#shot_state]]. A press is accepted only in `IDLE`; `READY` and `FAILED` are the terminal states of the last shot and give way to `IDLE` on the next accepted press.
 - [[proto/ui.StylePropertyType|StylePropertyType]]
 - [[proto/ui.SubjectType|SubjectType]]
 - [[proto/ui.TextAlign|TextAlign]]

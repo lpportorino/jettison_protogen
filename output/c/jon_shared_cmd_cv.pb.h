@@ -24,6 +24,14 @@ typedef struct _cmd_CV_DumpStop {
     char dummy_field;
 } cmd_CV_DumpStop;
 
+/* Empty on purpose: a shot is always BOTH channels (the artifact's value is
+ that they are the same instant), every capture parameter already rides the
+ ring's control block, and the operator note arrives later over
+ PUT /note/{id} exactly as a dump's does. */
+typedef struct _cmd_CV_DumpShot {
+    char dummy_field;
+} cmd_CV_DumpShot;
+
 typedef struct _cmd_CV_VampireModeDisable {
     char dummy_field;
 } cmd_CV_VampireModeDisable;
@@ -114,6 +122,11 @@ typedef struct _cmd_CV_Root {
         /* Ring-Trinity golden fiducial board tracking */
         cmd_CV_StartTrackTrinity start_track_trinity;
         cmd_CV_StopTrackTrinity stop_track_trinity;
+        /* The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+     rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+     ShotCapture). Consumed by eutropia, never forwarded to manifold;
+     progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id. */
+        cmd_CV_DumpShot dump_shot;
         /* CV Bridge container control */
         cmd_CV_BridgeStart bridge_start;
         cmd_CV_BridgeStop bridge_stop;
@@ -131,6 +144,7 @@ extern "C" {
 #define cmd_CV_VampireModeEnable_init_default    {0}
 #define cmd_CV_DumpStart_init_default            {0}
 #define cmd_CV_DumpStop_init_default             {0}
+#define cmd_CV_DumpShot_init_default             {0}
 #define cmd_CV_VampireModeDisable_init_default   {0}
 #define cmd_CV_StabilizationModeEnable_init_default {0}
 #define cmd_CV_StabilizationModeDisable_init_default {0}
@@ -148,6 +162,7 @@ extern "C" {
 #define cmd_CV_VampireModeEnable_init_zero       {0}
 #define cmd_CV_DumpStart_init_zero               {0}
 #define cmd_CV_DumpStop_init_zero                {0}
+#define cmd_CV_DumpShot_init_zero                {0}
 #define cmd_CV_VampireModeDisable_init_zero      {0}
 #define cmd_CV_StabilizationModeEnable_init_zero {0}
 #define cmd_CV_StabilizationModeDisable_init_zero {0}
@@ -187,6 +202,7 @@ extern "C" {
 #define cmd_CV_Root_recognition_mode_disable_tag 11
 #define cmd_CV_Root_start_track_trinity_tag      12
 #define cmd_CV_Root_stop_track_trinity_tag       13
+#define cmd_CV_Root_dump_shot_tag                14
 #define cmd_CV_Root_bridge_start_tag             20
 #define cmd_CV_Root_bridge_stop_tag              21
 #define cmd_CV_Root_bridge_restart_tag           22
@@ -206,6 +222,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,recognition_mode_enable,cmd.recognition_
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,recognition_mode_disable,cmd.recognition_mode_disable),  11) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,start_track_trinity,cmd.start_track_trinity),  12) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,stop_track_trinity,cmd.stop_track_trinity),  13) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,dump_shot,cmd.dump_shot),  14) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,bridge_start,cmd.bridge_start),  20) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,bridge_stop,cmd.bridge_stop),  21) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,bridge_restart,cmd.bridge_restart),  22)
@@ -224,6 +241,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,bridge_restart,cmd.bridge_restart),  22)
 #define cmd_CV_Root_cmd_recognition_mode_disable_MSGTYPE cmd_CV_RecognitionModeDisable
 #define cmd_CV_Root_cmd_start_track_trinity_MSGTYPE cmd_CV_StartTrackTrinity
 #define cmd_CV_Root_cmd_stop_track_trinity_MSGTYPE cmd_CV_StopTrackTrinity
+#define cmd_CV_Root_cmd_dump_shot_MSGTYPE cmd_CV_DumpShot
 #define cmd_CV_Root_cmd_bridge_start_MSGTYPE cmd_CV_BridgeStart
 #define cmd_CV_Root_cmd_bridge_stop_MSGTYPE cmd_CV_BridgeStop
 #define cmd_CV_Root_cmd_bridge_restart_MSGTYPE cmd_CV_BridgeRestart
@@ -242,6 +260,11 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,bridge_restart,cmd.bridge_restart),  22)
 
 #define cmd_CV_DumpStop_CALLBACK NULL
 #define cmd_CV_DumpStop_DEFAULT NULL
+
+#define cmd_CV_DumpShot_FIELDLIST(X, a) \
+
+#define cmd_CV_DumpShot_CALLBACK NULL
+#define cmd_CV_DumpShot_DEFAULT NULL
 
 #define cmd_CV_VampireModeDisable_FIELDLIST(X, a) \
 
@@ -319,6 +342,7 @@ extern const pb_msgdesc_t cmd_CV_Root_msg;
 extern const pb_msgdesc_t cmd_CV_VampireModeEnable_msg;
 extern const pb_msgdesc_t cmd_CV_DumpStart_msg;
 extern const pb_msgdesc_t cmd_CV_DumpStop_msg;
+extern const pb_msgdesc_t cmd_CV_DumpShot_msg;
 extern const pb_msgdesc_t cmd_CV_VampireModeDisable_msg;
 extern const pb_msgdesc_t cmd_CV_StabilizationModeEnable_msg;
 extern const pb_msgdesc_t cmd_CV_StabilizationModeDisable_msg;
@@ -338,6 +362,7 @@ extern const pb_msgdesc_t cmd_CV_BridgeRestart_msg;
 #define cmd_CV_VampireModeEnable_fields &cmd_CV_VampireModeEnable_msg
 #define cmd_CV_DumpStart_fields &cmd_CV_DumpStart_msg
 #define cmd_CV_DumpStop_fields &cmd_CV_DumpStop_msg
+#define cmd_CV_DumpShot_fields &cmd_CV_DumpShot_msg
 #define cmd_CV_VampireModeDisable_fields &cmd_CV_VampireModeDisable_msg
 #define cmd_CV_StabilizationModeEnable_fields &cmd_CV_StabilizationModeEnable_msg
 #define cmd_CV_StabilizationModeDisable_fields &cmd_CV_StabilizationModeDisable_msg
@@ -364,6 +389,7 @@ union cmd_CV_Root_cmd_size_union {char f12[(14 + ser_TrinityBoardVersion_size)];
 #define cmd_CV_BridgeRestart_size                2
 #define cmd_CV_BridgeStart_size                  0
 #define cmd_CV_BridgeStop_size                   2
+#define cmd_CV_DumpShot_size                     0
 #define cmd_CV_DumpStart_size                    0
 #define cmd_CV_DumpStop_size                     0
 #define cmd_CV_RecognitionModeDisable_size       0

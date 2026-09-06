@@ -1205,6 +1205,106 @@ public object JonGuiDataCVKt {
 
     public val JonGuiDataCVKt.Dsl.stabCorrectionHeatOrNull: ser.JonSharedDataCv.JonGuiDataStabCorrection?
       get() = _builder.stabCorrectionHeatOrNull
+
+    /**
+     * ```
+     * The cv-dump PHOTO (cmd.CV.DumpShot). Owned by eutropia — it consumes the
+     * command and patches these on the state plane; manifold never sees them.
+     *
+     * Monotonic count of COMPLETED shots since boot — the button's
+     * proof-of-landing: an increment is the discriminator (the same one the
+     * photo button uses on its global target_id), never the ack.
+     * ```
+     *
+     * `uint32 shot_seq = 110;`
+     */
+    public var shotSeq: kotlin.Int
+      @JvmName("getShotSeq")
+      get() = _builder.shotSeq
+      @JvmName("setShotSeq")
+      set(value) {
+        _builder.shotSeq = value
+      }
+    /**
+     * ```
+     * The cv-dump PHOTO (cmd.CV.DumpShot). Owned by eutropia — it consumes the
+     * command and patches these on the state plane; manifold never sees them.
+     *
+     * Monotonic count of COMPLETED shots since boot — the button's
+     * proof-of-landing: an increment is the discriminator (the same one the
+     * photo button uses on its global target_id), never the ack.
+     * ```
+     *
+     * `uint32 shot_seq = 110;`
+     */
+    public fun clearShotSeq() {
+      _builder.clearShotSeq()
+    }
+
+    /**
+     * ```
+     * Where the one-at-a-time shot is in its lifecycle — what the button
+     * renders. A press while it is not IDLE is refused, not queued; defined_only
+     * because a reader must never render an unknown state as progress.
+     * ```
+     *
+     * `.ser.JonGuiDataCV.ShotState shot_state = 111 [(.buf.validate.field) = { ... }`
+     */
+    public var shotState: ser.JonSharedDataCv.JonGuiDataCV.ShotState
+      @JvmName("getShotState")
+      get() = _builder.shotState
+      @JvmName("setShotState")
+      set(value) {
+        _builder.shotState = value
+      }
+    public var shotStateValue: kotlin.Int
+      @JvmName("getShotStateValue")
+      get() = _builder.shotStateValue
+      @JvmName("setShotStateValue")
+      set(value) {
+        _builder.shotStateValue = value
+      }
+    /**
+     * ```
+     * Where the one-at-a-time shot is in its lifecycle — what the button
+     * renders. A press while it is not IDLE is refused, not queued; defined_only
+     * because a reader must never render an unknown state as progress.
+     * ```
+     *
+     * `.ser.JonGuiDataCV.ShotState shot_state = 111 [(.buf.validate.field) = { ... }`
+     */
+    public fun clearShotState() {
+      _builder.clearShotState()
+    }
+
+    /**
+     * ```
+     * The bundle uuid of the last shot (a 36-char dashed UUIDv4, the
+     * cv_dump_sessions primary key and the /api/cvdump/bundle/{name} key); empty
+     * until the first READY. max_len 36 pins the uuid shape.
+     * ```
+     *
+     * `string shot_id = 112 [(.buf.validate.field) = { ... }`
+     */
+    public var shotId: kotlin.String
+      @JvmName("getShotId")
+      get() = _builder.shotId
+      @JvmName("setShotId")
+      set(value) {
+        _builder.shotId = value
+      }
+    /**
+     * ```
+     * The bundle uuid of the last shot (a 36-char dashed UUIDv4, the
+     * cv_dump_sessions primary key and the /api/cvdump/bundle/{name} key); empty
+     * until the first READY. max_len 36 pins the uuid shape.
+     * ```
+     *
+     * `string shot_id = 112 [(.buf.validate.field) = { ... }`
+     */
+    public fun clearShotId() {
+      _builder.clearShotId()
+    }
   }
 }
 @kotlin.jvm.JvmSynthetic

@@ -397,9 +397,67 @@ export interface CvDumpArchive {
   video: VideoChannel[];
   /**
    * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-   * of one kind are contiguous. Last field number on purpose: it is the bulk.
+   * of one kind are contiguous. It is the bulk of a capture-window bundle.
    */
   streams: StreamGroup[];
+  /**
+   * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+   * channels' rings, as files under shots/ with their geometry, encoding and
+   * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+   * channel that captured nothing appears with no planes and a reason. Empty
+   * on a capture-window bundle; a photo bundle has empty video + streams.
+   */
+  shots: ShotCapture[];
+}
+
+/**
+ * One plane of one channel's photo. The output format keys on the plane's
+ * FORMAT tag from the control block, never on the plane index.
+ */
+export interface ShotPlane {
+  /** Ring plane index (0..3). */
+  plane: number;
+  /**
+   * SensorRingPlaneTag as the control block carried it: 1 NATIVE, 2 CLAHE,
+   * 3 OPERATOR, 4 RAW.
+   */
+  tag: number;
+  /**
+   * The plane's source pixel format (NvBufSurfaceColorFormat, or the RAW
+   * enum), as the control block carried it.
+   */
+  sourceFormat: number;
+  /** Bundle-relative path, e.g. "shots/day_p0_raw.rg12". */
+  path: string;
+  /** "png8-rgb" | "png8-gray" | "raw-rg12-msb16" | "raw-nv12". */
+  encoding: string;
+  width: number;
+  height: number;
+  /** Source pitch in bytes (what the raw encodings preserve verbatim). */
+  pitch: number;
+  /** NV12 UV-plane offset within the source, 0 for single-plane formats. */
+  uvOffset: number;
+  bytes: Long;
+  /** Lowercase hex SHA-256 of the file. */
+  sha256: string;
+}
+
+/**
+ * One channel's photo: the frame's identity + the whole control block, and
+ * every plane written for it.
+ */
+export interface ShotCapture {
+  /** "day" | "heat". */
+  channel: string;
+  generation: number;
+  ptsNs: Long;
+  /** CLOCK_MONOTONIC — the cross-channel skew key. */
+  captureTimeNs: Long;
+  /** The 1024-byte control block, verbatim, as snapshotted under the seqlock. */
+  ctlSnapshot: Uint8Array;
+  /** Empty when the channel captured nothing — then absent_reason says why. */
+  planes: ShotPlane[];
+  absentReason: string;
 }
 
 /**
@@ -717,6 +775,7 @@ function createBaseCvDumpArchive(): CvDumpArchive {
     integrity: undefined,
     video: [],
     streams: [],
+    shots: [],
   };
 }
 
@@ -751,6 +810,9 @@ export const CvDumpArchive: MessageFns<CvDumpArchive> = {
     }
     for (const v of message.streams) {
       StreamGroup.encode(v!, writer.uint32(82).fork()).join();
+    }
+    for (const v of message.shots) {
+      ShotCapture.encode(v!, writer.uint32(90).fork()).join();
     }
     return writer;
   },
@@ -848,6 +910,14 @@ export const CvDumpArchive: MessageFns<CvDumpArchive> = {
             message.streams.push(StreamGroup.decode(reader, reader.uint32()));
             continue;
           }
+          case 11: {
+            if (tag !== 90) {
+              break;
+            }
+
+            message.shots.push(ShotCapture.decode(reader, reader.uint32()));
+            continue;
+          }
         }
         if ((tag & 7) === 4 || tag === 0) {
           break;
@@ -876,6 +946,7 @@ export const CvDumpArchive: MessageFns<CvDumpArchive> = {
       integrity: isSet(object.integrity) ? IntegrityReport.fromJSON(object.integrity) : undefined,
       video: globalThis.Array.isArray(object?.video) ? object.video.map((e: any) => VideoChannel.fromJSON(e)) : [],
       streams: globalThis.Array.isArray(object?.streams) ? object.streams.map((e: any) => StreamGroup.fromJSON(e)) : [],
+      shots: globalThis.Array.isArray(object?.shots) ? object.shots.map((e: any) => ShotCapture.fromJSON(e)) : [],
     };
   },
 
@@ -911,6 +982,9 @@ export const CvDumpArchive: MessageFns<CvDumpArchive> = {
     if (message.streams?.length) {
       obj.streams = message.streams.map((e) => StreamGroup.toJSON(e));
     }
+    if (message.shots?.length) {
+      obj.shots = message.shots.map((e) => ShotCapture.toJSON(e));
+    }
     return obj;
   },
 
@@ -935,6 +1009,449 @@ export const CvDumpArchive: MessageFns<CvDumpArchive> = {
       : undefined;
     message.video = object.video?.map((e) => VideoChannel.fromPartial(e)) || [];
     message.streams = object.streams?.map((e) => StreamGroup.fromPartial(e)) || [];
+    message.shots = object.shots?.map((e) => ShotCapture.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBaseShotPlane(): ShotPlane {
+  return {
+    plane: 0,
+    tag: 0,
+    sourceFormat: 0,
+    path: "",
+    encoding: "",
+    width: 0,
+    height: 0,
+    pitch: 0,
+    uvOffset: 0,
+    bytes: Long.UZERO,
+    sha256: "",
+  };
+}
+
+export const ShotPlane: MessageFns<ShotPlane> = {
+  encode(message: ShotPlane, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.plane !== 0) {
+      writer.uint32(8).uint32(message.plane);
+    }
+    if (message.tag !== 0) {
+      writer.uint32(16).uint32(message.tag);
+    }
+    if (message.sourceFormat !== 0) {
+      writer.uint32(24).uint32(message.sourceFormat);
+    }
+    if (message.path !== "") {
+      writer.uint32(34).string(message.path);
+    }
+    if (message.encoding !== "") {
+      writer.uint32(42).string(message.encoding);
+    }
+    if (message.width !== 0) {
+      writer.uint32(48).uint32(message.width);
+    }
+    if (message.height !== 0) {
+      writer.uint32(56).uint32(message.height);
+    }
+    if (message.pitch !== 0) {
+      writer.uint32(64).uint32(message.pitch);
+    }
+    if (message.uvOffset !== 0) {
+      writer.uint32(72).uint32(message.uvOffset);
+    }
+    if (!message.bytes.equals(Long.UZERO)) {
+      writer.uint32(80).uint64(message.bytes.toString());
+    }
+    if (message.sha256 !== "") {
+      writer.uint32(90).string(message.sha256);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): ShotPlane {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const previousRecursionDepth = (reader as any).__tsProtoDecodeDepth ?? 0;
+    if (previousRecursionDepth >= 100) {
+      throw new globalThis.Error("protobuf decode recursion limit exceeded");
+    }
+    (reader as any).__tsProtoDecodeDepth = previousRecursionDepth + 1;
+    try {
+      const end = length === undefined ? reader.len : reader.pos + length;
+      const message = createBaseShotPlane();
+      while (reader.pos < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1: {
+            if (tag !== 8) {
+              break;
+            }
+
+            message.plane = reader.uint32();
+            continue;
+          }
+          case 2: {
+            if (tag !== 16) {
+              break;
+            }
+
+            message.tag = reader.uint32();
+            continue;
+          }
+          case 3: {
+            if (tag !== 24) {
+              break;
+            }
+
+            message.sourceFormat = reader.uint32();
+            continue;
+          }
+          case 4: {
+            if (tag !== 34) {
+              break;
+            }
+
+            message.path = reader.string();
+            continue;
+          }
+          case 5: {
+            if (tag !== 42) {
+              break;
+            }
+
+            message.encoding = reader.string();
+            continue;
+          }
+          case 6: {
+            if (tag !== 48) {
+              break;
+            }
+
+            message.width = reader.uint32();
+            continue;
+          }
+          case 7: {
+            if (tag !== 56) {
+              break;
+            }
+
+            message.height = reader.uint32();
+            continue;
+          }
+          case 8: {
+            if (tag !== 64) {
+              break;
+            }
+
+            message.pitch = reader.uint32();
+            continue;
+          }
+          case 9: {
+            if (tag !== 72) {
+              break;
+            }
+
+            message.uvOffset = reader.uint32();
+            continue;
+          }
+          case 10: {
+            if (tag !== 80) {
+              break;
+            }
+
+            message.bytes = Long.fromString(reader.uint64().toString(), true);
+            continue;
+          }
+          case 11: {
+            if (tag !== 90) {
+              break;
+            }
+
+            message.sha256 = reader.string();
+            continue;
+          }
+        }
+        if ((tag & 7) === 4 || tag === 0) {
+          break;
+        }
+        reader.skip(tag & 7);
+      }
+      return message;
+    } finally {
+      (reader as any).__tsProtoDecodeDepth = previousRecursionDepth;
+    }
+  },
+
+  fromJSON(object: any): ShotPlane {
+    return {
+      plane: isSet(object.plane) ? globalThis.Number(object.plane) : 0,
+      tag: isSet(object.tag) ? globalThis.Number(object.tag) : 0,
+      sourceFormat: isSet(object.sourceFormat)
+        ? globalThis.Number(object.sourceFormat)
+        : isSet(object.source_format)
+        ? globalThis.Number(object.source_format)
+        : 0,
+      path: isSet(object.path) ? globalThis.String(object.path) : "",
+      encoding: isSet(object.encoding) ? globalThis.String(object.encoding) : "",
+      width: isSet(object.width) ? globalThis.Number(object.width) : 0,
+      height: isSet(object.height) ? globalThis.Number(object.height) : 0,
+      pitch: isSet(object.pitch) ? globalThis.Number(object.pitch) : 0,
+      uvOffset: isSet(object.uvOffset)
+        ? globalThis.Number(object.uvOffset)
+        : isSet(object.uv_offset)
+        ? globalThis.Number(object.uv_offset)
+        : 0,
+      bytes: isSet(object.bytes) ? Long.fromValue(object.bytes) : Long.UZERO,
+      sha256: isSet(object.sha256) ? globalThis.String(object.sha256) : "",
+    };
+  },
+
+  toJSON(message: ShotPlane): unknown {
+    const obj: any = {};
+    if (message.plane !== 0) {
+      obj.plane = Math.round(message.plane);
+    }
+    if (message.tag !== 0) {
+      obj.tag = Math.round(message.tag);
+    }
+    if (message.sourceFormat !== 0) {
+      obj.sourceFormat = Math.round(message.sourceFormat);
+    }
+    if (message.path !== "") {
+      obj.path = message.path;
+    }
+    if (message.encoding !== "") {
+      obj.encoding = message.encoding;
+    }
+    if (message.width !== 0) {
+      obj.width = Math.round(message.width);
+    }
+    if (message.height !== 0) {
+      obj.height = Math.round(message.height);
+    }
+    if (message.pitch !== 0) {
+      obj.pitch = Math.round(message.pitch);
+    }
+    if (message.uvOffset !== 0) {
+      obj.uvOffset = Math.round(message.uvOffset);
+    }
+    if (!message.bytes.equals(Long.UZERO)) {
+      obj.bytes = (message.bytes || Long.UZERO).toString();
+    }
+    if (message.sha256 !== "") {
+      obj.sha256 = message.sha256;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ShotPlane>, I>>(base?: I): ShotPlane {
+    return ShotPlane.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ShotPlane>, I>>(object: I): ShotPlane {
+    const message = createBaseShotPlane();
+    message.plane = object.plane ?? 0;
+    message.tag = object.tag ?? 0;
+    message.sourceFormat = object.sourceFormat ?? 0;
+    message.path = object.path ?? "";
+    message.encoding = object.encoding ?? "";
+    message.width = object.width ?? 0;
+    message.height = object.height ?? 0;
+    message.pitch = object.pitch ?? 0;
+    message.uvOffset = object.uvOffset ?? 0;
+    message.bytes = (object.bytes !== undefined && object.bytes !== null) ? Long.fromValue(object.bytes) : Long.UZERO;
+    message.sha256 = object.sha256 ?? "";
+    return message;
+  },
+};
+
+function createBaseShotCapture(): ShotCapture {
+  return {
+    channel: "",
+    generation: 0,
+    ptsNs: Long.UZERO,
+    captureTimeNs: Long.UZERO,
+    ctlSnapshot: new Uint8Array(0),
+    planes: [],
+    absentReason: "",
+  };
+}
+
+export const ShotCapture: MessageFns<ShotCapture> = {
+  encode(message: ShotCapture, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.channel !== "") {
+      writer.uint32(10).string(message.channel);
+    }
+    if (message.generation !== 0) {
+      writer.uint32(16).uint32(message.generation);
+    }
+    if (!message.ptsNs.equals(Long.UZERO)) {
+      writer.uint32(24).uint64(message.ptsNs.toString());
+    }
+    if (!message.captureTimeNs.equals(Long.UZERO)) {
+      writer.uint32(32).uint64(message.captureTimeNs.toString());
+    }
+    if (message.ctlSnapshot.length !== 0) {
+      writer.uint32(42).bytes(message.ctlSnapshot);
+    }
+    for (const v of message.planes) {
+      ShotPlane.encode(v!, writer.uint32(50).fork()).join();
+    }
+    if (message.absentReason !== "") {
+      writer.uint32(58).string(message.absentReason);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): ShotCapture {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const previousRecursionDepth = (reader as any).__tsProtoDecodeDepth ?? 0;
+    if (previousRecursionDepth >= 100) {
+      throw new globalThis.Error("protobuf decode recursion limit exceeded");
+    }
+    (reader as any).__tsProtoDecodeDepth = previousRecursionDepth + 1;
+    try {
+      const end = length === undefined ? reader.len : reader.pos + length;
+      const message = createBaseShotCapture();
+      while (reader.pos < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1: {
+            if (tag !== 10) {
+              break;
+            }
+
+            message.channel = reader.string();
+            continue;
+          }
+          case 2: {
+            if (tag !== 16) {
+              break;
+            }
+
+            message.generation = reader.uint32();
+            continue;
+          }
+          case 3: {
+            if (tag !== 24) {
+              break;
+            }
+
+            message.ptsNs = Long.fromString(reader.uint64().toString(), true);
+            continue;
+          }
+          case 4: {
+            if (tag !== 32) {
+              break;
+            }
+
+            message.captureTimeNs = Long.fromString(reader.uint64().toString(), true);
+            continue;
+          }
+          case 5: {
+            if (tag !== 42) {
+              break;
+            }
+
+            message.ctlSnapshot = reader.bytes();
+            continue;
+          }
+          case 6: {
+            if (tag !== 50) {
+              break;
+            }
+
+            message.planes.push(ShotPlane.decode(reader, reader.uint32()));
+            continue;
+          }
+          case 7: {
+            if (tag !== 58) {
+              break;
+            }
+
+            message.absentReason = reader.string();
+            continue;
+          }
+        }
+        if ((tag & 7) === 4 || tag === 0) {
+          break;
+        }
+        reader.skip(tag & 7);
+      }
+      return message;
+    } finally {
+      (reader as any).__tsProtoDecodeDepth = previousRecursionDepth;
+    }
+  },
+
+  fromJSON(object: any): ShotCapture {
+    return {
+      channel: isSet(object.channel) ? globalThis.String(object.channel) : "",
+      generation: isSet(object.generation) ? globalThis.Number(object.generation) : 0,
+      ptsNs: isSet(object.ptsNs)
+        ? Long.fromValue(object.ptsNs)
+        : isSet(object.pts_ns)
+        ? Long.fromValue(object.pts_ns)
+        : Long.UZERO,
+      captureTimeNs: isSet(object.captureTimeNs)
+        ? Long.fromValue(object.captureTimeNs)
+        : isSet(object.capture_time_ns)
+        ? Long.fromValue(object.capture_time_ns)
+        : Long.UZERO,
+      ctlSnapshot: isSet(object.ctlSnapshot)
+        ? bytesFromBase64(object.ctlSnapshot)
+        : isSet(object.ctl_snapshot)
+        ? bytesFromBase64(object.ctl_snapshot)
+        : new Uint8Array(0),
+      planes: globalThis.Array.isArray(object?.planes)
+        ? object.planes.map((e: any) => ShotPlane.fromJSON(e))
+        : [],
+      absentReason: isSet(object.absentReason)
+        ? globalThis.String(object.absentReason)
+        : isSet(object.absent_reason)
+        ? globalThis.String(object.absent_reason)
+        : "",
+    };
+  },
+
+  toJSON(message: ShotCapture): unknown {
+    const obj: any = {};
+    if (message.channel !== "") {
+      obj.channel = message.channel;
+    }
+    if (message.generation !== 0) {
+      obj.generation = Math.round(message.generation);
+    }
+    if (!message.ptsNs.equals(Long.UZERO)) {
+      obj.ptsNs = (message.ptsNs || Long.UZERO).toString();
+    }
+    if (!message.captureTimeNs.equals(Long.UZERO)) {
+      obj.captureTimeNs = (message.captureTimeNs || Long.UZERO).toString();
+    }
+    if (message.ctlSnapshot.length !== 0) {
+      obj.ctlSnapshot = base64FromBytes(message.ctlSnapshot);
+    }
+    if (message.planes?.length) {
+      obj.planes = message.planes.map((e) => ShotPlane.toJSON(e));
+    }
+    if (message.absentReason !== "") {
+      obj.absentReason = message.absentReason;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ShotCapture>, I>>(base?: I): ShotCapture {
+    return ShotCapture.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ShotCapture>, I>>(object: I): ShotCapture {
+    const message = createBaseShotCapture();
+    message.channel = object.channel ?? "";
+    message.generation = object.generation ?? 0;
+    message.ptsNs = (object.ptsNs !== undefined && object.ptsNs !== null) ? Long.fromValue(object.ptsNs) : Long.UZERO;
+    message.captureTimeNs = (object.captureTimeNs !== undefined && object.captureTimeNs !== null)
+      ? Long.fromValue(object.captureTimeNs)
+      : Long.UZERO;
+    message.ctlSnapshot = object.ctlSnapshot ?? new Uint8Array(0);
+    message.planes = object.planes?.map((e) => ShotPlane.fromPartial(e)) || [];
+    message.absentReason = object.absentReason ?? "";
     return message;
   },
 };

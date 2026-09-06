@@ -82,6 +82,65 @@ func (JonGuiDataCV_AutofocusState) EnumDescriptor() ([]byte, []int) {
 	return file_jon_shared_data_cv_proto_rawDescGZIP(), []int{0, 0}
 }
 
+// The cv-dump PHOTO (cmd.CV.DumpShot) lifecycle, one shot at a time.
+type JonGuiDataCV_ShotState int32
+
+const (
+	JonGuiDataCV_SHOT_STATE_UNSPECIFIED JonGuiDataCV_ShotState = 0
+	JonGuiDataCV_SHOT_STATE_IDLE        JonGuiDataCV_ShotState = 1 // no shot in flight; a press is accepted
+	JonGuiDataCV_SHOT_STATE_CAPTURING   JonGuiDataCV_ShotState = 2 // waiting for the next RAW-armed frame on each channel
+	JonGuiDataCV_SHOT_STATE_WRITING     JonGuiDataCV_ShotState = 3 // planes copied out; PNG encode + bundle write in progress
+	JonGuiDataCV_SHOT_STATE_READY       JonGuiDataCV_ShotState = 4 // the bundle is on disk; shot_id names it, shot_seq advanced
+	JonGuiDataCV_SHOT_STATE_FAILED      JonGuiDataCV_ShotState = 5 // the shot was abandoned; the bundle carries the reason
+)
+
+// Enum value maps for JonGuiDataCV_ShotState.
+var (
+	JonGuiDataCV_ShotState_name = map[int32]string{
+		0: "SHOT_STATE_UNSPECIFIED",
+		1: "SHOT_STATE_IDLE",
+		2: "SHOT_STATE_CAPTURING",
+		3: "SHOT_STATE_WRITING",
+		4: "SHOT_STATE_READY",
+		5: "SHOT_STATE_FAILED",
+	}
+	JonGuiDataCV_ShotState_value = map[string]int32{
+		"SHOT_STATE_UNSPECIFIED": 0,
+		"SHOT_STATE_IDLE":        1,
+		"SHOT_STATE_CAPTURING":   2,
+		"SHOT_STATE_WRITING":     3,
+		"SHOT_STATE_READY":       4,
+		"SHOT_STATE_FAILED":      5,
+	}
+)
+
+func (x JonGuiDataCV_ShotState) Enum() *JonGuiDataCV_ShotState {
+	p := new(JonGuiDataCV_ShotState)
+	*p = x
+	return p
+}
+
+func (x JonGuiDataCV_ShotState) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (JonGuiDataCV_ShotState) Descriptor() protoreflect.EnumDescriptor {
+	return file_jon_shared_data_cv_proto_enumTypes[1].Descriptor()
+}
+
+func (JonGuiDataCV_ShotState) Type() protoreflect.EnumType {
+	return &file_jon_shared_data_cv_proto_enumTypes[1]
+}
+
+func (x JonGuiDataCV_ShotState) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use JonGuiDataCV_ShotState.Descriptor instead.
+func (JonGuiDataCV_ShotState) EnumDescriptor() ([]byte, []int) {
+	return file_jon_shared_data_cv_proto_rawDescGZIP(), []int{0, 1}
+}
+
 // CV Bridge container status
 type JonGuiDataCV_CvBridgeStatus int32
 
@@ -128,11 +187,11 @@ func (x JonGuiDataCV_CvBridgeStatus) String() string {
 }
 
 func (JonGuiDataCV_CvBridgeStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_jon_shared_data_cv_proto_enumTypes[1].Descriptor()
+	return file_jon_shared_data_cv_proto_enumTypes[2].Descriptor()
 }
 
 func (JonGuiDataCV_CvBridgeStatus) Type() protoreflect.EnumType {
-	return &file_jon_shared_data_cv_proto_enumTypes[1]
+	return &file_jon_shared_data_cv_proto_enumTypes[2]
 }
 
 func (x JonGuiDataCV_CvBridgeStatus) Number() protoreflect.EnumNumber {
@@ -141,7 +200,7 @@ func (x JonGuiDataCV_CvBridgeStatus) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use JonGuiDataCV_CvBridgeStatus.Descriptor instead.
 func (JonGuiDataCV_CvBridgeStatus) EnumDescriptor() ([]byte, []int) {
-	return file_jon_shared_data_cv_proto_rawDescGZIP(), []int{0, 1}
+	return file_jon_shared_data_cv_proto_rawDescGZIP(), []int{0, 2}
 }
 
 // CV Bridge exit/termination reason
@@ -196,11 +255,11 @@ func (x JonGuiDataCV_CvBridgeExitReason) String() string {
 }
 
 func (JonGuiDataCV_CvBridgeExitReason) Descriptor() protoreflect.EnumDescriptor {
-	return file_jon_shared_data_cv_proto_enumTypes[2].Descriptor()
+	return file_jon_shared_data_cv_proto_enumTypes[3].Descriptor()
 }
 
 func (JonGuiDataCV_CvBridgeExitReason) Type() protoreflect.EnumType {
-	return &file_jon_shared_data_cv_proto_enumTypes[2]
+	return &file_jon_shared_data_cv_proto_enumTypes[3]
 }
 
 func (x JonGuiDataCV_CvBridgeExitReason) Number() protoreflect.EnumNumber {
@@ -209,7 +268,7 @@ func (x JonGuiDataCV_CvBridgeExitReason) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use JonGuiDataCV_CvBridgeExitReason.Descriptor instead.
 func (JonGuiDataCV_CvBridgeExitReason) EnumDescriptor() ([]byte, []int) {
-	return file_jon_shared_data_cv_proto_rawDescGZIP(), []int{0, 2}
+	return file_jon_shared_data_cv_proto_rawDescGZIP(), []int{0, 3}
 }
 
 // CV Gateway state enrichment — the CV subsystem's per-tick state on the STATE
@@ -346,8 +405,23 @@ type JonGuiDataCV struct {
 	// never guess.
 	StabCorrectionDay  *JonGuiDataStabCorrection `protobuf:"bytes,100,opt,name=stab_correction_day,json=stabCorrectionDay,proto3,oneof" json:"stab_correction_day,omitempty"`
 	StabCorrectionHeat *JonGuiDataStabCorrection `protobuf:"bytes,101,opt,name=stab_correction_heat,json=stabCorrectionHeat,proto3,oneof" json:"stab_correction_heat,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	// The cv-dump PHOTO (cmd.CV.DumpShot). Owned by eutropia — it consumes the
+	// command and patches these on the state plane; manifold never sees them.
+	//
+	// Monotonic count of COMPLETED shots since boot — the button's
+	// proof-of-landing: an increment is the discriminator (the same one the
+	// photo button uses on its global target_id), never the ack.
+	ShotSeq uint32 `protobuf:"varint,110,opt,name=shot_seq,json=shotSeq,proto3" json:"shot_seq,omitempty"`
+	// Where the one-at-a-time shot is in its lifecycle — what the button
+	// renders. A press while it is not IDLE is refused, not queued; defined_only
+	// because a reader must never render an unknown state as progress.
+	ShotState JonGuiDataCV_ShotState `protobuf:"varint,111,opt,name=shot_state,json=shotState,proto3,enum=ser.JonGuiDataCV_ShotState" json:"shot_state,omitempty"`
+	// The bundle uuid of the last shot (a 36-char dashed UUIDv4, the
+	// cv_dump_sessions primary key and the /api/cvdump/bundle/{name} key); empty
+	// until the first READY. max_len 36 pins the uuid shape.
+	ShotId        string `protobuf:"bytes,112,opt,name=shot_id,json=shotId,proto3" json:"shot_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *JonGuiDataCV) Reset() {
@@ -632,6 +706,27 @@ func (x *JonGuiDataCV) GetStabCorrectionHeat() *JonGuiDataStabCorrection {
 	return nil
 }
 
+func (x *JonGuiDataCV) GetShotSeq() uint32 {
+	if x != nil {
+		return x.ShotSeq
+	}
+	return 0
+}
+
+func (x *JonGuiDataCV) GetShotState() JonGuiDataCV_ShotState {
+	if x != nil {
+		return x.ShotState
+	}
+	return JonGuiDataCV_SHOT_STATE_UNSPECIFIED
+}
+
+func (x *JonGuiDataCV) GetShotId() string {
+	if x != nil {
+		return x.ShotId
+	}
+	return ""
+}
+
 // One channel's display-stabilisation correction, in that channel's
 // delivered-FX-raster pixels. See the field comments on
 // JonGuiDataCV.stab_correction_day/_heat for the sign convention, the
@@ -692,7 +787,7 @@ var File_jon_shared_data_cv_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_cv_proto_rawDesc = "" +
 	"\n" +
-	"\x18jon_shared_data_cv.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xee\x1a\n" +
+	"\x18jon_shared_data_cv.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x8f\x1d\n" +
 	"\fJonGuiDataCV\x12Z\n" +
 	"\x13autofocus_state_day\x18\x01 \x01(\x0e2 .ser.JonGuiDataCV.AutofocusStateB\b\xbaH\x05\x82\x01\x02\x10\x01R\x11autofocusStateDay\x123\n" +
 	"\rsharpness_day\x18\x02 \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00R\fsharpnessDay\x12<\n" +
@@ -733,14 +828,25 @@ const file_jon_shared_data_cv_proto_rawDesc = "" +
 	"\x13zoom_roi_active_day\x18[ \x01(\bR\x10zoomRoiActiveDay\x12/\n" +
 	"\x14zoom_roi_active_heat\x18\\ \x01(\bR\x11zoomRoiActiveHeat\x12R\n" +
 	"\x13stab_correction_day\x18d \x01(\v2\x1d.ser.JonGuiDataStabCorrectionH\fR\x11stabCorrectionDay\x88\x01\x01\x12T\n" +
-	"\x14stab_correction_heat\x18e \x01(\v2\x1d.ser.JonGuiDataStabCorrectionH\rR\x12stabCorrectionHeat\x88\x01\x01\"\xc8\x01\n" +
+	"\x14stab_correction_heat\x18e \x01(\v2\x1d.ser.JonGuiDataStabCorrectionH\rR\x12stabCorrectionHeat\x88\x01\x01\x12\x19\n" +
+	"\bshot_seq\x18n \x01(\rR\ashotSeq\x12D\n" +
+	"\n" +
+	"shot_state\x18o \x01(\x0e2\x1b.ser.JonGuiDataCV.ShotStateB\b\xbaH\x05\x82\x01\x02\x10\x01R\tshotState\x12 \n" +
+	"\ashot_id\x18p \x01(\tB\a\xbaH\x04r\x02\x18$R\x06shotId\"\xc8\x01\n" +
 	"\x0eAutofocusState\x12\x1f\n" +
 	"\x1bAUTOFOCUS_STATE_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14AUTOFOCUS_STATE_IDLE\x10\x01\x12 \n" +
 	"\x1cAUTOFOCUS_STATE_COARSE_SWEEP\x10\x02\x12\x1e\n" +
 	"\x1aAUTOFOCUS_STATE_FINE_SWEEP\x10\x03\x12\x1d\n" +
 	"\x19AUTOFOCUS_STATE_CONVERGED\x10\x04\x12\x1a\n" +
-	"\x16AUTOFOCUS_STATE_FAILED\x10\x05\"\xeb\x01\n" +
+	"\x16AUTOFOCUS_STATE_FAILED\x10\x05\"\x9b\x01\n" +
+	"\tShotState\x12\x1a\n" +
+	"\x16SHOT_STATE_UNSPECIFIED\x10\x00\x12\x13\n" +
+	"\x0fSHOT_STATE_IDLE\x10\x01\x12\x18\n" +
+	"\x14SHOT_STATE_CAPTURING\x10\x02\x12\x16\n" +
+	"\x12SHOT_STATE_WRITING\x10\x03\x12\x14\n" +
+	"\x10SHOT_STATE_READY\x10\x04\x12\x15\n" +
+	"\x11SHOT_STATE_FAILED\x10\x05\"\xeb\x01\n" +
 	"\x0eCvBridgeStatus\x12 \n" +
 	"\x1cCV_BRIDGE_STATUS_UNSPECIFIED\x10\x00\x12\x1c\n" +
 	"\x18CV_BRIDGE_STATUS_STOPPED\x10\x01\x12\x1d\n" +
@@ -790,44 +896,46 @@ func file_jon_shared_data_cv_proto_rawDescGZIP() []byte {
 	return file_jon_shared_data_cv_proto_rawDescData
 }
 
-var file_jon_shared_data_cv_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_jon_shared_data_cv_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
 var file_jon_shared_data_cv_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_jon_shared_data_cv_proto_goTypes = []any{
 	(JonGuiDataCV_AutofocusState)(0),      // 0: ser.JonGuiDataCV.AutofocusState
-	(JonGuiDataCV_CvBridgeStatus)(0),      // 1: ser.JonGuiDataCV.CvBridgeStatus
-	(JonGuiDataCV_CvBridgeExitReason)(0),  // 2: ser.JonGuiDataCV.CvBridgeExitReason
-	(*JonGuiDataCV)(nil),                  // 3: ser.JonGuiDataCV
-	(*JonGuiDataStabCorrection)(nil),      // 4: ser.JonGuiDataStabCorrection
-	(*types.JonGuiDataROI)(nil),           // 5: ser.JonGuiDataROI
-	(*types.JonGuiDataSharpness)(nil),     // 6: ser.JonGuiDataSharpness
-	(*types.JonGuiDataTransform3D)(nil),   // 7: ser.JonGuiDataTransform3D
-	(*types.JonGuiDataTrackedObject)(nil), // 8: ser.JonGuiDataTrackedObject
+	(JonGuiDataCV_ShotState)(0),           // 1: ser.JonGuiDataCV.ShotState
+	(JonGuiDataCV_CvBridgeStatus)(0),      // 2: ser.JonGuiDataCV.CvBridgeStatus
+	(JonGuiDataCV_CvBridgeExitReason)(0),  // 3: ser.JonGuiDataCV.CvBridgeExitReason
+	(*JonGuiDataCV)(nil),                  // 4: ser.JonGuiDataCV
+	(*JonGuiDataStabCorrection)(nil),      // 5: ser.JonGuiDataStabCorrection
+	(*types.JonGuiDataROI)(nil),           // 6: ser.JonGuiDataROI
+	(*types.JonGuiDataSharpness)(nil),     // 7: ser.JonGuiDataSharpness
+	(*types.JonGuiDataTransform3D)(nil),   // 8: ser.JonGuiDataTransform3D
+	(*types.JonGuiDataTrackedObject)(nil), // 9: ser.JonGuiDataTrackedObject
 }
 var file_jon_shared_data_cv_proto_depIdxs = []int32{
 	0,  // 0: ser.JonGuiDataCV.autofocus_state_day:type_name -> ser.JonGuiDataCV.AutofocusState
 	0,  // 1: ser.JonGuiDataCV.autofocus_state_heat:type_name -> ser.JonGuiDataCV.AutofocusState
-	1,  // 2: ser.JonGuiDataCV.bridge_status:type_name -> ser.JonGuiDataCV.CvBridgeStatus
-	2,  // 3: ser.JonGuiDataCV.last_exit_reason:type_name -> ser.JonGuiDataCV.CvBridgeExitReason
-	5,  // 4: ser.JonGuiDataCV.roi_focus_day:type_name -> ser.JonGuiDataROI
-	5,  // 5: ser.JonGuiDataCV.roi_track_day:type_name -> ser.JonGuiDataROI
-	5,  // 6: ser.JonGuiDataCV.roi_zoom_day:type_name -> ser.JonGuiDataROI
-	5,  // 7: ser.JonGuiDataCV.roi_fx_day:type_name -> ser.JonGuiDataROI
-	5,  // 8: ser.JonGuiDataCV.roi_focus_heat:type_name -> ser.JonGuiDataROI
-	5,  // 9: ser.JonGuiDataCV.roi_track_heat:type_name -> ser.JonGuiDataROI
-	5,  // 10: ser.JonGuiDataCV.roi_zoom_heat:type_name -> ser.JonGuiDataROI
-	5,  // 11: ser.JonGuiDataCV.roi_fx_heat:type_name -> ser.JonGuiDataROI
-	6,  // 12: ser.JonGuiDataCV.sharpness_metrics_day:type_name -> ser.JonGuiDataSharpness
-	6,  // 13: ser.JonGuiDataCV.sharpness_metrics_heat:type_name -> ser.JonGuiDataSharpness
-	7,  // 14: ser.JonGuiDataCV.camera_transform_day:type_name -> ser.JonGuiDataTransform3D
-	7,  // 15: ser.JonGuiDataCV.camera_transform_heat:type_name -> ser.JonGuiDataTransform3D
-	8,  // 16: ser.JonGuiDataCV.tracked_objects:type_name -> ser.JonGuiDataTrackedObject
-	4,  // 17: ser.JonGuiDataCV.stab_correction_day:type_name -> ser.JonGuiDataStabCorrection
-	4,  // 18: ser.JonGuiDataCV.stab_correction_heat:type_name -> ser.JonGuiDataStabCorrection
-	19, // [19:19] is the sub-list for method output_type
-	19, // [19:19] is the sub-list for method input_type
-	19, // [19:19] is the sub-list for extension type_name
-	19, // [19:19] is the sub-list for extension extendee
-	0,  // [0:19] is the sub-list for field type_name
+	2,  // 2: ser.JonGuiDataCV.bridge_status:type_name -> ser.JonGuiDataCV.CvBridgeStatus
+	3,  // 3: ser.JonGuiDataCV.last_exit_reason:type_name -> ser.JonGuiDataCV.CvBridgeExitReason
+	6,  // 4: ser.JonGuiDataCV.roi_focus_day:type_name -> ser.JonGuiDataROI
+	6,  // 5: ser.JonGuiDataCV.roi_track_day:type_name -> ser.JonGuiDataROI
+	6,  // 6: ser.JonGuiDataCV.roi_zoom_day:type_name -> ser.JonGuiDataROI
+	6,  // 7: ser.JonGuiDataCV.roi_fx_day:type_name -> ser.JonGuiDataROI
+	6,  // 8: ser.JonGuiDataCV.roi_focus_heat:type_name -> ser.JonGuiDataROI
+	6,  // 9: ser.JonGuiDataCV.roi_track_heat:type_name -> ser.JonGuiDataROI
+	6,  // 10: ser.JonGuiDataCV.roi_zoom_heat:type_name -> ser.JonGuiDataROI
+	6,  // 11: ser.JonGuiDataCV.roi_fx_heat:type_name -> ser.JonGuiDataROI
+	7,  // 12: ser.JonGuiDataCV.sharpness_metrics_day:type_name -> ser.JonGuiDataSharpness
+	7,  // 13: ser.JonGuiDataCV.sharpness_metrics_heat:type_name -> ser.JonGuiDataSharpness
+	8,  // 14: ser.JonGuiDataCV.camera_transform_day:type_name -> ser.JonGuiDataTransform3D
+	8,  // 15: ser.JonGuiDataCV.camera_transform_heat:type_name -> ser.JonGuiDataTransform3D
+	9,  // 16: ser.JonGuiDataCV.tracked_objects:type_name -> ser.JonGuiDataTrackedObject
+	5,  // 17: ser.JonGuiDataCV.stab_correction_day:type_name -> ser.JonGuiDataStabCorrection
+	5,  // 18: ser.JonGuiDataCV.stab_correction_heat:type_name -> ser.JonGuiDataStabCorrection
+	1,  // 19: ser.JonGuiDataCV.shot_state:type_name -> ser.JonGuiDataCV.ShotState
+	20, // [20:20] is the sub-list for method output_type
+	20, // [20:20] is the sub-list for method input_type
+	20, // [20:20] is the sub-list for extension type_name
+	20, // [20:20] is the sub-list for extension extendee
+	0,  // [0:20] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_cv_proto_init() }
@@ -841,7 +949,7 @@ func file_jon_shared_data_cv_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_data_cv_proto_rawDesc), len(file_jon_shared_data_cv_proto_rawDesc)),
-			NumEnums:      3,
+			NumEnums:      4,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,

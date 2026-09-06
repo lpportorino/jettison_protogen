@@ -480,7 +480,7 @@ public object CvDumpArchiveKt {
     /**
      * ```
      * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-     * of one kind are contiguous. Last field number on purpose: it is the bulk.
+     * of one kind are contiguous. It is the bulk of a capture-window bundle.
      * ```
      *
      * `repeated .jon.cvdump.StreamGroup streams = 10;`
@@ -493,7 +493,7 @@ public object CvDumpArchiveKt {
     /**
      * ```
      * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-     * of one kind are contiguous. Last field number on purpose: it is the bulk.
+     * of one kind are contiguous. It is the bulk of a capture-window bundle.
      * ```
      *
      * `repeated .jon.cvdump.StreamGroup streams = 10;`
@@ -507,7 +507,7 @@ public object CvDumpArchiveKt {
     /**
      * ```
      * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-     * of one kind are contiguous. Last field number on purpose: it is the bulk.
+     * of one kind are contiguous. It is the bulk of a capture-window bundle.
      * ```
      *
      * `repeated .jon.cvdump.StreamGroup streams = 10;`
@@ -522,7 +522,7 @@ public object CvDumpArchiveKt {
     /**
      * ```
      * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-     * of one kind are contiguous. Last field number on purpose: it is the bulk.
+     * of one kind are contiguous. It is the bulk of a capture-window bundle.
      * ```
      *
      * `repeated .jon.cvdump.StreamGroup streams = 10;`
@@ -536,7 +536,7 @@ public object CvDumpArchiveKt {
     /**
      * ```
      * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-     * of one kind are contiguous. Last field number on purpose: it is the bulk.
+     * of one kind are contiguous. It is the bulk of a capture-window bundle.
      * ```
      *
      * `repeated .jon.cvdump.StreamGroup streams = 10;`
@@ -551,7 +551,7 @@ public object CvDumpArchiveKt {
     /**
      * ```
      * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-     * of one kind are contiguous. Last field number on purpose: it is the bulk.
+     * of one kind are contiguous. It is the bulk of a capture-window bundle.
      * ```
      *
      * `repeated .jon.cvdump.StreamGroup streams = 10;`
@@ -566,7 +566,7 @@ public object CvDumpArchiveKt {
     /**
      * ```
      * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-     * of one kind are contiguous. Last field number on purpose: it is the bulk.
+     * of one kind are contiguous. It is the bulk of a capture-window bundle.
      * ```
      *
      * `repeated .jon.cvdump.StreamGroup streams = 10;`
@@ -575,6 +575,134 @@ public object CvDumpArchiveKt {
     @kotlin.jvm.JvmName("clearStreams")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.StreamGroup, StreamsProxy>.clear() {
       _builder.clearStreams()
+    }
+
+
+    /**
+     * An uninstantiable, behaviorless type to represent the field in
+     * generics.
+     */
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    public class ShotsProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+    /**
+     * ```
+     * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+     * channels' rings, as files under shots/ with their geometry, encoding and
+     * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+     * channel that captured nothing appears with no planes and a reason. Empty
+     * on a capture-window bundle; a photo bundle has empty video + streams.
+     * ```
+     *
+     * `repeated .jon.cvdump.ShotCapture shots = 11;`
+     */
+     public val shots: com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotCapture, ShotsProxy>
+      @kotlin.jvm.JvmSynthetic
+      get() = com.google.protobuf.kotlin.DslList(
+        _builder.shotsList
+      )
+    /**
+     * ```
+     * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+     * channels' rings, as files under shots/ with their geometry, encoding and
+     * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+     * channel that captured nothing appears with no planes and a reason. Empty
+     * on a capture-window bundle; a photo bundle has empty video + streams.
+     * ```
+     *
+     * `repeated .jon.cvdump.ShotCapture shots = 11;`
+     * @param value The shots to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("addShots")
+    public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotCapture, ShotsProxy>.add(value: jon.cvdump.JonCvDumpArchive.ShotCapture) {
+      _builder.addShots(value)
+    }
+    /**
+     * ```
+     * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+     * channels' rings, as files under shots/ with their geometry, encoding and
+     * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+     * channel that captured nothing appears with no planes and a reason. Empty
+     * on a capture-window bundle; a photo bundle has empty video + streams.
+     * ```
+     *
+     * `repeated .jon.cvdump.ShotCapture shots = 11;`
+     * @param value The shots to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("plusAssignShots")
+    @Suppress("NOTHING_TO_INLINE")
+    public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotCapture, ShotsProxy>.plusAssign(value: jon.cvdump.JonCvDumpArchive.ShotCapture) {
+      add(value)
+    }
+    /**
+     * ```
+     * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+     * channels' rings, as files under shots/ with their geometry, encoding and
+     * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+     * channel that captured nothing appears with no planes and a reason. Empty
+     * on a capture-window bundle; a photo bundle has empty video + streams.
+     * ```
+     *
+     * `repeated .jon.cvdump.ShotCapture shots = 11;`
+     * @param values The shots to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("addAllShots")
+    public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotCapture, ShotsProxy>.addAll(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.ShotCapture>) {
+      _builder.addAllShots(values)
+    }
+    /**
+     * ```
+     * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+     * channels' rings, as files under shots/ with their geometry, encoding and
+     * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+     * channel that captured nothing appears with no planes and a reason. Empty
+     * on a capture-window bundle; a photo bundle has empty video + streams.
+     * ```
+     *
+     * `repeated .jon.cvdump.ShotCapture shots = 11;`
+     * @param values The shots to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("plusAssignAllShots")
+    @Suppress("NOTHING_TO_INLINE")
+    public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotCapture, ShotsProxy>.plusAssign(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.ShotCapture>) {
+      addAll(values)
+    }
+    /**
+     * ```
+     * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+     * channels' rings, as files under shots/ with their geometry, encoding and
+     * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+     * channel that captured nothing appears with no planes and a reason. Empty
+     * on a capture-window bundle; a photo bundle has empty video + streams.
+     * ```
+     *
+     * `repeated .jon.cvdump.ShotCapture shots = 11;`
+     * @param index The index to set the value at.
+     * @param value The shots to set.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("setShots")
+    public operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotCapture, ShotsProxy>.set(index: kotlin.Int, value: jon.cvdump.JonCvDumpArchive.ShotCapture) {
+      _builder.setShots(index, value)
+    }
+    /**
+     * ```
+     * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+     * channels' rings, as files under shots/ with their geometry, encoding and
+     * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+     * channel that captured nothing appears with no planes and a reason. Empty
+     * on a capture-window bundle; a photo bundle has empty video + streams.
+     * ```
+     *
+     * `repeated .jon.cvdump.ShotCapture shots = 11;`
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("clearShots")
+    public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotCapture, ShotsProxy>.clear() {
+      _builder.clearShots()
     }
 
   }

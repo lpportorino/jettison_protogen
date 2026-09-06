@@ -33,6 +33,15 @@ export interface Root {
   stopTrackTrinity?:
     | StopTrackTrinity
     | undefined;
+  /**
+   * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+   * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+   * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+   * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+   */
+  dumpShot?:
+    | DumpShot
+    | undefined;
   /** CV Bridge container control */
   bridgeStart?: BridgeStart | undefined;
   bridgeStop?: BridgeStop | undefined;
@@ -46,6 +55,15 @@ export interface DumpStart {
 }
 
 export interface DumpStop {
+}
+
+/**
+ * Empty on purpose: a shot is always BOTH channels (the artifact's value is
+ * that they are the same instant), every capture parameter already rides the
+ * ring's control block, and the operator note arrives later over
+ * PUT /note/{id} exactly as a dump's does.
+ */
+export interface DumpShot {
 }
 
 export interface VampireModeDisable {
@@ -134,6 +152,7 @@ function createBaseRoot(): Root {
     recognitionModeDisable: undefined,
     startTrackTrinity: undefined,
     stopTrackTrinity: undefined,
+    dumpShot: undefined,
     bridgeStart: undefined,
     bridgeStop: undefined,
     bridgeRestart: undefined,
@@ -180,6 +199,9 @@ export const Root: MessageFns<Root> = {
     }
     if (message.stopTrackTrinity !== undefined) {
       StopTrackTrinity.encode(message.stopTrackTrinity, writer.uint32(106).fork()).join();
+    }
+    if (message.dumpShot !== undefined) {
+      DumpShot.encode(message.dumpShot, writer.uint32(114).fork()).join();
     }
     if (message.bridgeStart !== undefined) {
       BridgeStart.encode(message.bridgeStart, writer.uint32(162).fork()).join();
@@ -310,6 +332,14 @@ export const Root: MessageFns<Root> = {
             message.stopTrackTrinity = StopTrackTrinity.decode(reader, reader.uint32());
             continue;
           }
+          case 14: {
+            if (tag !== 114) {
+              break;
+            }
+
+            message.dumpShot = DumpShot.decode(reader, reader.uint32());
+            continue;
+          }
           case 20: {
             if (tag !== 162) {
               break;
@@ -413,6 +443,11 @@ export const Root: MessageFns<Root> = {
         : isSet(object.stop_track_trinity)
         ? StopTrackTrinity.fromJSON(object.stop_track_trinity)
         : undefined,
+      dumpShot: isSet(object.dumpShot)
+        ? DumpShot.fromJSON(object.dumpShot)
+        : isSet(object.dump_shot)
+        ? DumpShot.fromJSON(object.dump_shot)
+        : undefined,
       bridgeStart: isSet(object.bridgeStart)
         ? BridgeStart.fromJSON(object.bridgeStart)
         : isSet(object.bridge_start)
@@ -471,6 +506,9 @@ export const Root: MessageFns<Root> = {
     }
     if (message.stopTrackTrinity !== undefined) {
       obj.stopTrackTrinity = StopTrackTrinity.toJSON(message.stopTrackTrinity);
+    }
+    if (message.dumpShot !== undefined) {
+      obj.dumpShot = DumpShot.toJSON(message.dumpShot);
     }
     if (message.bridgeStart !== undefined) {
       obj.bridgeStart = BridgeStart.toJSON(message.bridgeStart);
@@ -531,6 +569,9 @@ export const Root: MessageFns<Root> = {
       : undefined;
     message.stopTrackTrinity = (object.stopTrackTrinity !== undefined && object.stopTrackTrinity !== null)
       ? StopTrackTrinity.fromPartial(object.stopTrackTrinity)
+      : undefined;
+    message.dumpShot = (object.dumpShot !== undefined && object.dumpShot !== null)
+      ? DumpShot.fromPartial(object.dumpShot)
       : undefined;
     message.bridgeStart = (object.bridgeStart !== undefined && object.bridgeStart !== null)
       ? BridgeStart.fromPartial(object.bridgeStart)
@@ -697,6 +738,58 @@ export const DumpStop: MessageFns<DumpStop> = {
   },
   fromPartial<I extends Exact<DeepPartial<DumpStop>, I>>(_: I): DumpStop {
     const message = createBaseDumpStop();
+    return message;
+  },
+};
+
+function createBaseDumpShot(): DumpShot {
+  return {};
+}
+
+export const DumpShot: MessageFns<DumpShot> = {
+  encode(_: DumpShot, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): DumpShot {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const previousRecursionDepth = (reader as any).__tsProtoDecodeDepth ?? 0;
+    if (previousRecursionDepth >= 100) {
+      throw new globalThis.Error("protobuf decode recursion limit exceeded");
+    }
+    (reader as any).__tsProtoDecodeDepth = previousRecursionDepth + 1;
+    try {
+      const end = length === undefined ? reader.len : reader.pos + length;
+      const message = createBaseDumpShot();
+      while (reader.pos < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+        }
+        if ((tag & 7) === 4 || tag === 0) {
+          break;
+        }
+        reader.skip(tag & 7);
+      }
+      return message;
+    } finally {
+      (reader as any).__tsProtoDecodeDepth = previousRecursionDepth;
+    }
+  },
+
+  fromJSON(_: any): DumpShot {
+    return {};
+  },
+
+  toJSON(_: DumpShot): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<DumpShot>, I>>(base?: I): DumpShot {
+    return DumpShot.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<DumpShot>, I>>(_: I): DumpShot {
+    const message = createBaseDumpShot();
     return message;
   },
 };

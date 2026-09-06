@@ -26,6 +26,12 @@ message Root {
     StartTrackTrinity start_track_trinity = 12;
     StopTrackTrinity stop_track_trinity = 13;
 
+    // The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+    // rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+    // ShotCapture). Consumed by eutropia, never forwarded to manifold;
+    // progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+    DumpShot dump_shot = 14;
+
     // CV Bridge container control
     BridgeStart bridge_start = 20;
     BridgeStop bridge_stop = 21;
@@ -40,6 +46,13 @@ message DumpStart {
 }
 
 message DumpStop {
+}
+
+// Empty on purpose: a shot is always BOTH channels (the artifact's value is
+// that they are the same instant), every capture parameter already rides the
+// ring's control block, and the operator note arrives later over
+// PUT /note/{id} exactly as a dump's does.
+message DumpShot {
 }
 
 message VampireModeDisable {

@@ -18,6 +18,9 @@ PB_BIND(cmd_CV_DumpStart, cmd_CV_DumpStart, AUTO)
 PB_BIND(cmd_CV_DumpStop, cmd_CV_DumpStop, AUTO)
 
 
+PB_BIND(cmd_CV_DumpShot, cmd_CV_DumpShot, AUTO)
+
+
 PB_BIND(cmd_CV_VampireModeDisable, cmd_CV_VampireModeDisable, AUTO)
 
 

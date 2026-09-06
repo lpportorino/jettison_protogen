@@ -58,6 +58,7 @@ pub const CvDumpArchive = struct {
     integrity: ?IntegrityReport = null,
     video: std.ArrayListUnmanaged(VideoChannel) = .empty,
     streams: std.ArrayListUnmanaged(StreamGroup) = .empty,
+    shots: std.ArrayListUnmanaged(ShotCapture) = .empty,
 
     pub const _desc_table = .{
         .version = fd(1, .@"enum"),
@@ -70,6 +71,181 @@ pub const CvDumpArchive = struct {
         .integrity = fd(8, .submessage),
         .video = fd(9, .{ .repeated = .submessage}),
         .streams = fd(10, .{ .repeated = .submessage}),
+        .shots = fd(11, .{ .repeated = .submessage}),
+    };
+
+    /// Encodes the message to the writer
+    /// The allocator is used to generate submessages internally.
+    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
+    pub fn encode(
+        self: @This(),
+        writer: *std.Io.Writer,
+        allocator: std.mem.Allocator,
+    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
+        return protobuf.encode(writer, allocator, self);
+    }
+
+    /// Decodes the message from the bytes read from the reader.
+    pub fn decode(
+        reader: *std.Io.Reader,
+        allocator: std.mem.Allocator,
+    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
+        return protobuf.decode(@This(), reader, allocator);
+    }
+    
+    /// Deinitializes and frees the memory associated with the message.
+    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
+        return protobuf.deinit(allocator, self);
+    }
+
+    /// Duplicates the message.
+    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
+        return protobuf.dupe(@This(), self, allocator);
+    }
+
+    /// Decodes the message from the JSON string.
+    pub fn jsonDecode(
+        input: []const u8,
+        options: std.json.ParseOptions,
+        allocator: std.mem.Allocator,
+    ) !std.json.Parsed(@This()) {
+        return protobuf.json.decode(@This(), input, options, allocator);
+    }
+  
+    /// Encodes the message to a JSON string.
+    pub fn jsonEncode(
+        self: @This(),
+        options: std.json.Stringify.Options,
+        allocator: std.mem.Allocator,
+    ) ![]const u8 {
+        return protobuf.json.encode(self, options, allocator);
+    }
+
+    /// This method is used by std.json
+    /// internally for deserialization. DO NOT RENAME!
+    pub fn jsonParse(
+        allocator: std.mem.Allocator,
+        source: anytype,
+        options: std.json.ParseOptions,
+    ) !@This() {
+        return protobuf.json.parse(@This(), allocator, source, options);
+    }
+
+    /// This method is used by std.json
+    /// internally for serialization. DO NOT RENAME!
+    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
+        return protobuf.json.stringify(@This(), self, jws);
+    }
+};
+
+pub const ShotPlane = struct {
+    plane: u32 = 0,
+    tag: u32 = 0,
+    source_format: u32 = 0,
+    path: []const u8 = &.{},
+    encoding: []const u8 = &.{},
+    width: u32 = 0,
+    height: u32 = 0,
+    pitch: u32 = 0,
+    uv_offset: u32 = 0,
+    bytes: u64 = 0,
+    sha256: []const u8 = &.{},
+
+    pub const _desc_table = .{
+        .plane = fd(1, .{ .scalar = .uint32 }),
+        .tag = fd(2, .{ .scalar = .uint32 }),
+        .source_format = fd(3, .{ .scalar = .uint32 }),
+        .path = fd(4, .{ .scalar = .string }),
+        .encoding = fd(5, .{ .scalar = .string }),
+        .width = fd(6, .{ .scalar = .uint32 }),
+        .height = fd(7, .{ .scalar = .uint32 }),
+        .pitch = fd(8, .{ .scalar = .uint32 }),
+        .uv_offset = fd(9, .{ .scalar = .uint32 }),
+        .bytes = fd(10, .{ .scalar = .uint64 }),
+        .sha256 = fd(11, .{ .scalar = .string }),
+    };
+
+    /// Encodes the message to the writer
+    /// The allocator is used to generate submessages internally.
+    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
+    pub fn encode(
+        self: @This(),
+        writer: *std.Io.Writer,
+        allocator: std.mem.Allocator,
+    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
+        return protobuf.encode(writer, allocator, self);
+    }
+
+    /// Decodes the message from the bytes read from the reader.
+    pub fn decode(
+        reader: *std.Io.Reader,
+        allocator: std.mem.Allocator,
+    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
+        return protobuf.decode(@This(), reader, allocator);
+    }
+    
+    /// Deinitializes and frees the memory associated with the message.
+    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
+        return protobuf.deinit(allocator, self);
+    }
+
+    /// Duplicates the message.
+    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
+        return protobuf.dupe(@This(), self, allocator);
+    }
+
+    /// Decodes the message from the JSON string.
+    pub fn jsonDecode(
+        input: []const u8,
+        options: std.json.ParseOptions,
+        allocator: std.mem.Allocator,
+    ) !std.json.Parsed(@This()) {
+        return protobuf.json.decode(@This(), input, options, allocator);
+    }
+  
+    /// Encodes the message to a JSON string.
+    pub fn jsonEncode(
+        self: @This(),
+        options: std.json.Stringify.Options,
+        allocator: std.mem.Allocator,
+    ) ![]const u8 {
+        return protobuf.json.encode(self, options, allocator);
+    }
+
+    /// This method is used by std.json
+    /// internally for deserialization. DO NOT RENAME!
+    pub fn jsonParse(
+        allocator: std.mem.Allocator,
+        source: anytype,
+        options: std.json.ParseOptions,
+    ) !@This() {
+        return protobuf.json.parse(@This(), allocator, source, options);
+    }
+
+    /// This method is used by std.json
+    /// internally for serialization. DO NOT RENAME!
+    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
+        return protobuf.json.stringify(@This(), self, jws);
+    }
+};
+
+pub const ShotCapture = struct {
+    channel: []const u8 = &.{},
+    generation: u32 = 0,
+    pts_ns: u64 = 0,
+    capture_time_ns: u64 = 0,
+    ctl_snapshot: []const u8 = &.{},
+    planes: std.ArrayListUnmanaged(ShotPlane) = .empty,
+    absent_reason: []const u8 = &.{},
+
+    pub const _desc_table = .{
+        .channel = fd(1, .{ .scalar = .string }),
+        .generation = fd(2, .{ .scalar = .uint32 }),
+        .pts_ns = fd(3, .{ .scalar = .uint64 }),
+        .capture_time_ns = fd(4, .{ .scalar = .uint64 }),
+        .ctl_snapshot = fd(5, .{ .scalar = .bytes }),
+        .planes = fd(6, .{ .repeated = .submessage}),
+        .absent_reason = fd(7, .{ .scalar = .string }),
     };
 
     /// Encodes the message to the writer

@@ -56,6 +56,9 @@ inline constexpr JonGuiDataCV::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         tracked_objects_{},
+        shot_id_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
         roi_focus_day_{nullptr},
         roi_track_day_{nullptr},
         roi_zoom_day_{nullptr},
@@ -90,7 +93,9 @@ inline constexpr JonGuiDataCV::Impl_::Impl_(
         restart_count_{0},
         trinity_tracking_active_{false},
         zoom_roi_active_day_{false},
-        zoom_roi_active_heat_{false} {}
+        zoom_roi_active_heat_{false},
+        shot_seq_{0u},
+        shot_state_{static_cast< ::ser::JonGuiDataCV_ShotState >(0)} {}
 
 template <typename>
 PROTOBUF_CONSTEXPR JonGuiDataCV::JonGuiDataCV(::_pbi::ConstantInitialized)
@@ -112,7 +117,7 @@ struct JonGuiDataCVDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 JonGuiDataCVDefaultTypeInternal _JonGuiDataCV_default_instance_;
 }  // namespace ser
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_jon_5fshared_5fdata_5fcv_2eproto[3];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_jon_5fshared_5fdata_5fcv_2eproto[4];
 static constexpr const ::_pb::ServiceDescriptor**
     file_level_service_descriptors_jon_5fshared_5fdata_5fcv_2eproto = nullptr;
 const ::uint32_t
@@ -162,6 +167,9 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCV, _impl_.zoom_roi_active_heat_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCV, _impl_.stab_correction_day_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCV, _impl_.stab_correction_heat_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCV, _impl_.shot_seq_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCV, _impl_.shot_state_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCV, _impl_.shot_id_),
         ~0u,
         ~0u,
         ~0u,
@@ -198,6 +206,9 @@ const ::uint32_t
         ~0u,
         12,
         13,
+        ~0u,
+        ~0u,
+        ~0u,
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataStabCorrection, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -212,8 +223,8 @@ const ::uint32_t
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, 44, -1, sizeof(::ser::JonGuiDataCV)},
-        {80, -1, -1, sizeof(::ser::JonGuiDataStabCorrection)},
+        {0, 47, -1, sizeof(::ser::JonGuiDataCV)},
+        {86, -1, -1, sizeof(::ser::JonGuiDataStabCorrection)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGuiDataCV_default_instance_._instance,
@@ -223,7 +234,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fcv_2eproto[] ABSL_ATT
     protodesc_cold) = {
     "\n\030jon_shared_data_cv.proto\022\003ser\032\033buf/val"
     "idate/validate.proto\032\033jon_shared_data_ty"
-    "pes.proto\"\272\026\n\014JonGuiDataCV\022G\n\023autofocus_"
+    "pes.proto\"\277\030\n\014JonGuiDataCV\022G\n\023autofocus_"
     "state_day\030\001 \001(\0162 .ser.JonGuiDataCV.Autof"
     "ocusStateB\010\272H\005\202\001\002\020\001\022%\n\rsharpness_day\030\002 \001"
     "(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022*\n\022best_sharpness_day"
@@ -268,37 +279,44 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fcv_2eproto[] ABSL_ATT
     "\n\023stab_correction_day\030d \001(\0132\035.ser.JonGui"
     "DataStabCorrectionH\014\210\001\001\022@\n\024stab_correcti"
     "on_heat\030e \001(\0132\035.ser.JonGuiDataStabCorrec"
-    "tionH\r\210\001\001\"\310\001\n\016AutofocusState\022\037\n\033AUTOFOCU"
-    "S_STATE_UNSPECIFIED\020\000\022\030\n\024AUTOFOCUS_STATE"
-    "_IDLE\020\001\022 \n\034AUTOFOCUS_STATE_COARSE_SWEEP\020"
-    "\002\022\036\n\032AUTOFOCUS_STATE_FINE_SWEEP\020\003\022\035\n\031AUT"
-    "OFOCUS_STATE_CONVERGED\020\004\022\032\n\026AUTOFOCUS_ST"
-    "ATE_FAILED\020\005\"\353\001\n\016CvBridgeStatus\022 \n\034CV_BR"
-    "IDGE_STATUS_UNSPECIFIED\020\000\022\034\n\030CV_BRIDGE_S"
-    "TATUS_STOPPED\020\001\022\035\n\031CV_BRIDGE_STATUS_STAR"
-    "TING\020\002\022\034\n\030CV_BRIDGE_STATUS_RUNNING\020\003\022\035\n\031"
-    "CV_BRIDGE_STATUS_STOPPING\020\004\022\034\n\030CV_BRIDGE"
-    "_STATUS_CRASHED\020\005\022\037\n\033CV_BRIDGE_STATUS_RE"
-    "STARTING\020\006\"\324\002\n\022CvBridgeExitReason\022%\n!CV_"
-    "BRIDGE_EXIT_REASON_UNSPECIFIED\020\000\022%\n!CV_B"
-    "RIDGE_EXIT_REASON_NOT_STARTED\020\001\022 \n\034CV_BR"
-    "IDGE_EXIT_REASON_NORMAL\020\002\022\037\n\033CV_BRIDGE_E"
-    "XIT_REASON_ERROR\020\003\022$\n CV_BRIDGE_EXIT_REA"
-    "SON_CUDA_ERROR\020\004\022#\n\037CV_BRIDGE_EXIT_REASO"
-    "N_IPC_ERROR\020\005\022\035\n\031CV_BRIDGE_EXIT_REASON_O"
-    "OM\020\006\022!\n\035CV_BRIDGE_EXIT_REASON_TIMEOUT\020\007\022"
-    " \n\034CV_BRIDGE_EXIT_REASON_SIGNAL\020\010B\020\n\016_ro"
-    "i_focus_dayB\020\n\016_roi_track_dayB\017\n\r_roi_zo"
-    "om_dayB\r\n\013_roi_fx_dayB\021\n\017_roi_focus_heat"
-    "B\021\n\017_roi_track_heatB\020\n\016_roi_zoom_heatB\016\n"
-    "\014_roi_fx_heatB\030\n\026_sharpness_metrics_dayB"
-    "\031\n\027_sharpness_metrics_heatB\027\n\025_camera_tr"
-    "ansform_dayB\030\n\026_camera_transform_heatB\026\n"
-    "\024_stab_correction_dayB\027\n\025_stab_correctio"
-    "n_heat\"6\n\030JonGuiDataStabCorrection\022\014\n\004x_"
-    "px\030\001 \001(\002\022\014\n\004y_px\030\002 \001(\002BJZHgit-codecommit"
-    ".eu-central-1.amazonaws.com/v1/repos/jet"
-    "tison/jonp/data/cvb\006proto3"
+    "tionH\r\210\001\001\022\020\n\010shot_seq\030n \001(\r\0229\n\nshot_stat"
+    "e\030o \001(\0162\033.ser.JonGuiDataCV.ShotStateB\010\272H"
+    "\005\202\001\002\020\001\022\030\n\007shot_id\030p \001(\tB\007\272H\004r\002\030$\"\310\001\n\016Aut"
+    "ofocusState\022\037\n\033AUTOFOCUS_STATE_UNSPECIFI"
+    "ED\020\000\022\030\n\024AUTOFOCUS_STATE_IDLE\020\001\022 \n\034AUTOFO"
+    "CUS_STATE_COARSE_SWEEP\020\002\022\036\n\032AUTOFOCUS_ST"
+    "ATE_FINE_SWEEP\020\003\022\035\n\031AUTOFOCUS_STATE_CONV"
+    "ERGED\020\004\022\032\n\026AUTOFOCUS_STATE_FAILED\020\005\"\233\001\n\t"
+    "ShotState\022\032\n\026SHOT_STATE_UNSPECIFIED\020\000\022\023\n"
+    "\017SHOT_STATE_IDLE\020\001\022\030\n\024SHOT_STATE_CAPTURI"
+    "NG\020\002\022\026\n\022SHOT_STATE_WRITING\020\003\022\024\n\020SHOT_STA"
+    "TE_READY\020\004\022\025\n\021SHOT_STATE_FAILED\020\005\"\353\001\n\016Cv"
+    "BridgeStatus\022 \n\034CV_BRIDGE_STATUS_UNSPECI"
+    "FIED\020\000\022\034\n\030CV_BRIDGE_STATUS_STOPPED\020\001\022\035\n\031"
+    "CV_BRIDGE_STATUS_STARTING\020\002\022\034\n\030CV_BRIDGE"
+    "_STATUS_RUNNING\020\003\022\035\n\031CV_BRIDGE_STATUS_ST"
+    "OPPING\020\004\022\034\n\030CV_BRIDGE_STATUS_CRASHED\020\005\022\037"
+    "\n\033CV_BRIDGE_STATUS_RESTARTING\020\006\"\324\002\n\022CvBr"
+    "idgeExitReason\022%\n!CV_BRIDGE_EXIT_REASON_"
+    "UNSPECIFIED\020\000\022%\n!CV_BRIDGE_EXIT_REASON_N"
+    "OT_STARTED\020\001\022 \n\034CV_BRIDGE_EXIT_REASON_NO"
+    "RMAL\020\002\022\037\n\033CV_BRIDGE_EXIT_REASON_ERROR\020\003\022"
+    "$\n CV_BRIDGE_EXIT_REASON_CUDA_ERROR\020\004\022#\n"
+    "\037CV_BRIDGE_EXIT_REASON_IPC_ERROR\020\005\022\035\n\031CV"
+    "_BRIDGE_EXIT_REASON_OOM\020\006\022!\n\035CV_BRIDGE_E"
+    "XIT_REASON_TIMEOUT\020\007\022 \n\034CV_BRIDGE_EXIT_R"
+    "EASON_SIGNAL\020\010B\020\n\016_roi_focus_dayB\020\n\016_roi"
+    "_track_dayB\017\n\r_roi_zoom_dayB\r\n\013_roi_fx_d"
+    "ayB\021\n\017_roi_focus_heatB\021\n\017_roi_track_heat"
+    "B\020\n\016_roi_zoom_heatB\016\n\014_roi_fx_heatB\030\n\026_s"
+    "harpness_metrics_dayB\031\n\027_sharpness_metri"
+    "cs_heatB\027\n\025_camera_transform_dayB\030\n\026_cam"
+    "era_transform_heatB\026\n\024_stab_correction_d"
+    "ayB\027\n\025_stab_correction_heat\"6\n\030JonGuiDat"
+    "aStabCorrection\022\014\n\004x_px\030\001 \001(\002\022\014\n\004y_px\030\002 "
+    "\001(\002BJZHgit-codecommit.eu-central-1.amazo"
+    "naws.com/v1/repos/jettison/jonp/data/cvb"
+    "\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fcv_2eproto_deps[2] =
     {
@@ -309,7 +327,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fcv_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fcv_2eproto = {
     false,
     false,
-    3106,
+    3367,
     descriptor_table_protodef_jon_5fshared_5fdata_5fcv_2eproto,
     "jon_shared_data_cv.proto",
     &descriptor_table_jon_5fshared_5fdata_5fcv_2eproto_once,
@@ -347,9 +365,33 @@ constexpr int JonGuiDataCV::AutofocusState_ARRAYSIZE;
 
 #endif  // (__cplusplus < 201703) &&
         // (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
-const ::google::protobuf::EnumDescriptor* JonGuiDataCV_CvBridgeStatus_descriptor() {
+const ::google::protobuf::EnumDescriptor* JonGuiDataCV_ShotState_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5fcv_2eproto);
   return file_level_enum_descriptors_jon_5fshared_5fdata_5fcv_2eproto[1];
+}
+PROTOBUF_CONSTINIT const uint32_t JonGuiDataCV_ShotState_internal_data_[] = {
+    393216u, 0u, };
+bool JonGuiDataCV_ShotState_IsValid(int value) {
+  return 0 <= value && value <= 5;
+}
+#if (__cplusplus < 201703) && \
+  (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
+
+constexpr JonGuiDataCV_ShotState JonGuiDataCV::SHOT_STATE_UNSPECIFIED;
+constexpr JonGuiDataCV_ShotState JonGuiDataCV::SHOT_STATE_IDLE;
+constexpr JonGuiDataCV_ShotState JonGuiDataCV::SHOT_STATE_CAPTURING;
+constexpr JonGuiDataCV_ShotState JonGuiDataCV::SHOT_STATE_WRITING;
+constexpr JonGuiDataCV_ShotState JonGuiDataCV::SHOT_STATE_READY;
+constexpr JonGuiDataCV_ShotState JonGuiDataCV::SHOT_STATE_FAILED;
+constexpr JonGuiDataCV_ShotState JonGuiDataCV::ShotState_MIN;
+constexpr JonGuiDataCV_ShotState JonGuiDataCV::ShotState_MAX;
+constexpr int JonGuiDataCV::ShotState_ARRAYSIZE;
+
+#endif  // (__cplusplus < 201703) &&
+        // (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
+const ::google::protobuf::EnumDescriptor* JonGuiDataCV_CvBridgeStatus_descriptor() {
+  ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5fcv_2eproto);
+  return file_level_enum_descriptors_jon_5fshared_5fdata_5fcv_2eproto[2];
 }
 PROTOBUF_CONSTINIT const uint32_t JonGuiDataCV_CvBridgeStatus_internal_data_[] = {
     458752u, 0u, };
@@ -374,7 +416,7 @@ constexpr int JonGuiDataCV::CvBridgeStatus_ARRAYSIZE;
         // (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
 const ::google::protobuf::EnumDescriptor* JonGuiDataCV_CvBridgeExitReason_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5fcv_2eproto);
-  return file_level_enum_descriptors_jon_5fshared_5fdata_5fcv_2eproto[2];
+  return file_level_enum_descriptors_jon_5fshared_5fdata_5fcv_2eproto[3];
 }
 PROTOBUF_CONSTINIT const uint32_t JonGuiDataCV_CvBridgeExitReason_internal_data_[] = {
     589824u, 0u, };
@@ -487,7 +529,8 @@ inline PROTOBUF_NDEBUG_INLINE JonGuiDataCV::Impl_::Impl_(
     const Impl_& from, const ::ser::JonGuiDataCV& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
-        tracked_objects_{visibility, arena, from.tracked_objects_} {}
+        tracked_objects_{visibility, arena, from.tracked_objects_},
+        shot_id_(arena, from.shot_id_) {}
 
 JonGuiDataCV::JonGuiDataCV(
     ::google::protobuf::Arena* arena,
@@ -549,9 +592,9 @@ JonGuiDataCV::JonGuiDataCV(
                offsetof(Impl_, sharpness_day_),
            reinterpret_cast<const char *>(&from._impl_) +
                offsetof(Impl_, sharpness_day_),
-           offsetof(Impl_, zoom_roi_active_heat_) -
+           offsetof(Impl_, shot_state_) -
                offsetof(Impl_, sharpness_day_) +
-               sizeof(Impl_::zoom_roi_active_heat_));
+               sizeof(Impl_::shot_state_));
 
   // @@protoc_insertion_point(copy_constructor:ser.JonGuiDataCV)
 }
@@ -559,16 +602,17 @@ inline PROTOBUF_NDEBUG_INLINE JonGuiDataCV::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
       : _cached_size_{0},
-        tracked_objects_{visibility, arena} {}
+        tracked_objects_{visibility, arena},
+        shot_id_(arena) {}
 
 inline void JonGuiDataCV::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, roi_focus_day_),
            0,
-           offsetof(Impl_, zoom_roi_active_heat_) -
+           offsetof(Impl_, shot_state_) -
                offsetof(Impl_, roi_focus_day_) +
-               sizeof(Impl_::zoom_roi_active_heat_));
+               sizeof(Impl_::shot_state_));
 }
 JonGuiDataCV::~JonGuiDataCV() {
   // @@protoc_insertion_point(destructor:ser.JonGuiDataCV)
@@ -578,6 +622,7 @@ inline void JonGuiDataCV::SharedDtor(MessageLite& self) {
   JonGuiDataCV& this_ = static_cast<JonGuiDataCV&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.shot_id_.Destroy();
   delete this_._impl_.roi_focus_day_;
   delete this_._impl_.roi_track_day_;
   delete this_._impl_.roi_zoom_day_;
@@ -607,7 +652,7 @@ constexpr auto JonGuiDataCV::InternalNewImpl_() {
                   ::google::protobuf::Message::internal_visibility()),
   });
   if (arena_bits.has_value()) {
-    return ::google::protobuf::internal::MessageCreator::ZeroInit(
+    return ::google::protobuf::internal::MessageCreator::CopyInit(
         sizeof(JonGuiDataCV), alignof(JonGuiDataCV), *arena_bits);
   } else {
     return ::google::protobuf::internal::MessageCreator(&JonGuiDataCV::PlacementNew_,
@@ -643,15 +688,15 @@ const ::google::protobuf::internal::ClassData* JonGuiDataCV::GetClassData() cons
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<5, 36, 15, 0, 15> JonGuiDataCV::_table_ = {
+const ::_pbi::TcParseTable<5, 39, 15, 64, 15> JonGuiDataCV::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(JonGuiDataCV, _impl_._has_bits_),
     0, // no _extensions_
-    101, 248,  // max_field_number, fast_idx_mask
+    112, 248,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
     528990688,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    36,  // num_field_entries
+    39,  // num_field_entries
     15,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
@@ -747,7 +792,7 @@ const ::_pbi::TcParseTable<5, 36, 15, 0, 15> JonGuiDataCV::_table_ = {
      {504, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCV, _impl_.last_exit_reason_)}},
   }}, {{
     33, 0, 5,
-    63614, 17, 59361, 22, 32671, 28, 61951, 31, 65511, 34,
+    63614, 17, 59361, 22, 32671, 28, 61951, 31, 8167, 34,
     65535, 65535
   }}, {{
     // .ser.JonGuiDataCV.AutofocusState autofocus_state_day = 1 [(.buf.validate.field) = {
@@ -858,6 +903,15 @@ const ::_pbi::TcParseTable<5, 36, 15, 0, 15> JonGuiDataCV::_table_ = {
     // optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCV, _impl_.stab_correction_heat_), _Internal::kHasBitsOffset + 13, 14,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // uint32 shot_seq = 110;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCV, _impl_.shot_seq_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // .ser.JonGuiDataCV.ShotState shot_state = 111 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCV, _impl_.shot_state_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
+    // string shot_id = 112 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCV, _impl_.shot_id_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataROI>()},
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataROI>()},
@@ -875,6 +929,9 @@ const ::_pbi::TcParseTable<5, 36, 15, 0, 15> JonGuiDataCV::_table_ = {
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataStabCorrection>()},
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataStabCorrection>()},
   }}, {{
+    "\20\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\7"
+    "ser.JonGuiDataCV"
+    "shot_id"
   }},
 };
 
@@ -886,6 +943,7 @@ PROTOBUF_NOINLINE void JonGuiDataCV::Clear() {
   (void) cached_has_bits;
 
   _impl_.tracked_objects_.Clear();
+  _impl_.shot_id_.ClearToEmpty();
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x000000ffu) {
     if (cached_has_bits & 0x00000001u) {
@@ -948,8 +1006,8 @@ PROTOBUF_NOINLINE void JonGuiDataCV::Clear() {
     }
   }
   ::memset(&_impl_.sharpness_day_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.zoom_roi_active_heat_) -
-      reinterpret_cast<char*>(&_impl_.sharpness_day_)) + sizeof(_impl_.zoom_roi_active_heat_));
+      reinterpret_cast<char*>(&_impl_.shot_state_) -
+      reinterpret_cast<char*>(&_impl_.sharpness_day_)) + sizeof(_impl_.shot_state_));
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -1226,6 +1284,28 @@ PROTOBUF_NOINLINE void JonGuiDataCV::Clear() {
                 stream);
           }
 
+          // uint32 shot_seq = 110;
+          if (this_._internal_shot_seq() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                110, this_._internal_shot_seq(), target);
+          }
+
+          // .ser.JonGuiDataCV.ShotState shot_state = 111 [(.buf.validate.field) = {
+          if (this_._internal_shot_state() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteEnumToArray(
+                111, this_._internal_shot_state(), target);
+          }
+
+          // string shot_id = 112 [(.buf.validate.field) = {
+          if (!this_._internal_shot_id().empty()) {
+            const std::string& _s = this_._internal_shot_id();
+            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "ser.JonGuiDataCV.shot_id");
+            target = stream->WriteStringMaybeAliased(112, _s, target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -1257,6 +1337,13 @@ PROTOBUF_NOINLINE void JonGuiDataCV::Clear() {
               for (const auto& msg : this_._internal_tracked_objects()) {
                 total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
               }
+            }
+          }
+           {
+            // string shot_id = 112 [(.buf.validate.field) = {
+            if (!this_._internal_shot_id().empty()) {
+              total_size += 2 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                              this_._internal_shot_id());
             }
           }
           cached_has_bits = this_._impl_._has_bits_[0];
@@ -1427,6 +1514,16 @@ PROTOBUF_NOINLINE void JonGuiDataCV::Clear() {
             if (this_._internal_zoom_roi_active_heat() != 0) {
               total_size += 3;
             }
+            // uint32 shot_seq = 110;
+            if (this_._internal_shot_seq() != 0) {
+              total_size += 2 + ::_pbi::WireFormatLite::UInt32Size(
+                                              this_._internal_shot_seq());
+            }
+            // .ser.JonGuiDataCV.ShotState shot_state = 111 [(.buf.validate.field) = {
+            if (this_._internal_shot_state() != 0) {
+              total_size += 2 +
+                            ::_pbi::WireFormatLite::EnumSize(this_._internal_shot_state());
+            }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
                                                      &this_._impl_._cached_size_);
@@ -1443,6 +1540,9 @@ void JonGuiDataCV::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::go
 
   _this->_internal_mutable_tracked_objects()->MergeFrom(
       from._internal_tracked_objects());
+  if (!from._internal_shot_id().empty()) {
+    _this->_internal_set_shot_id(from._internal_shot_id());
+  }
   cached_has_bits = from._impl_._has_bits_[0];
   if (cached_has_bits & 0x000000ffu) {
     if (cached_has_bits & 0x00000001u) {
@@ -1637,6 +1737,12 @@ void JonGuiDataCV::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::go
   if (from._internal_zoom_roi_active_heat() != 0) {
     _this->_impl_.zoom_roi_active_heat_ = from._impl_.zoom_roi_active_heat_;
   }
+  if (from._internal_shot_seq() != 0) {
+    _this->_impl_.shot_seq_ = from._impl_.shot_seq_;
+  }
+  if (from._internal_shot_state() != 0) {
+    _this->_impl_.shot_state_ = from._impl_.shot_state_;
+  }
   _this->_impl_._has_bits_[0] |= cached_has_bits;
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -1651,12 +1757,15 @@ void JonGuiDataCV::CopyFrom(const JonGuiDataCV& from) {
 
 void JonGuiDataCV::InternalSwap(JonGuiDataCV* PROTOBUF_RESTRICT other) {
   using std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   _impl_.tracked_objects_.InternalSwap(&other->_impl_.tracked_objects_);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.shot_id_, &other->_impl_.shot_id_, arena);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(JonGuiDataCV, _impl_.zoom_roi_active_heat_)
-      + sizeof(JonGuiDataCV::_impl_.zoom_roi_active_heat_)
+      PROTOBUF_FIELD_OFFSET(JonGuiDataCV, _impl_.shot_state_)
+      + sizeof(JonGuiDataCV::_impl_.shot_state_)
       - PROTOBUF_FIELD_OFFSET(JonGuiDataCV, _impl_.roi_focus_day_)>(
           reinterpret_cast<char*>(&_impl_.roi_focus_day_),
           reinterpret_cast<char*>(&other->_impl_.roi_focus_day_));

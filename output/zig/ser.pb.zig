@@ -2761,6 +2761,9 @@ pub const JonGuiDataCV = struct {
     zoom_roi_active_heat: bool = false,
     stab_correction_day: ?JonGuiDataStabCorrection = null,
     stab_correction_heat: ?JonGuiDataStabCorrection = null,
+    shot_seq: u32 = 0,
+    shot_state: JonGuiDataCV.ShotState = @enumFromInt(0),
+    shot_id: []const u8 = &.{},
 
     pub const _desc_table = .{
         .autofocus_state_day = fd(1, .@"enum"),
@@ -2799,6 +2802,9 @@ pub const JonGuiDataCV = struct {
         .zoom_roi_active_heat = fd(92, .{ .scalar = .bool }),
         .stab_correction_day = fd(100, .submessage),
         .stab_correction_heat = fd(101, .submessage),
+        .shot_seq = fd(110, .{ .scalar = .uint32 }),
+        .shot_state = fd(111, .@"enum"),
+        .shot_id = fd(112, .{ .scalar = .string }),
     };
 
 pub const AutofocusState = enum(i32) {
@@ -2808,6 +2814,17 @@ pub const AutofocusState = enum(i32) {
    AUTOFOCUS_STATE_FINE_SWEEP = 3,
    AUTOFOCUS_STATE_CONVERGED = 4,
    AUTOFOCUS_STATE_FAILED = 5,
+    _,
+};
+
+
+pub const ShotState = enum(i32) {
+   SHOT_STATE_UNSPECIFIED = 0,
+   SHOT_STATE_IDLE = 1,
+   SHOT_STATE_CAPTURING = 2,
+   SHOT_STATE_WRITING = 3,
+   SHOT_STATE_READY = 4,
+   SHOT_STATE_FAILED = 5,
     _,
 };
 

@@ -664,6 +664,68 @@ public final class JonSharedDataCv {
      * <code>optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;</code>
      */
     ser.JonSharedDataCv.JonGuiDataStabCorrectionOrBuilder getStabCorrectionHeatOrBuilder();
+
+    /**
+     * <pre>
+     * The cv-dump PHOTO (cmd.CV.DumpShot). Owned by eutropia — it consumes the
+     * command and patches these on the state plane; manifold never sees them.
+     *
+     * Monotonic count of COMPLETED shots since boot — the button's
+     * proof-of-landing: an increment is the discriminator (the same one the
+     * photo button uses on its global target_id), never the ack.
+     * </pre>
+     *
+     * <code>uint32 shot_seq = 110;</code>
+     * @return The shotSeq.
+     */
+    int getShotSeq();
+
+    /**
+     * <pre>
+     * Where the one-at-a-time shot is in its lifecycle — what the button
+     * renders. A press while it is not IDLE is refused, not queued; defined_only
+     * because a reader must never render an unknown state as progress.
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataCV.ShotState shot_state = 111 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for shotState.
+     */
+    int getShotStateValue();
+    /**
+     * <pre>
+     * Where the one-at-a-time shot is in its lifecycle — what the button
+     * renders. A press while it is not IDLE is refused, not queued; defined_only
+     * because a reader must never render an unknown state as progress.
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataCV.ShotState shot_state = 111 [(.buf.validate.field) = { ... }</code>
+     * @return The shotState.
+     */
+    ser.JonSharedDataCv.JonGuiDataCV.ShotState getShotState();
+
+    /**
+     * <pre>
+     * The bundle uuid of the last shot (a 36-char dashed UUIDv4, the
+     * cv_dump_sessions primary key and the /api/cvdump/bundle/{name} key); empty
+     * until the first READY. max_len 36 pins the uuid shape.
+     * </pre>
+     *
+     * <code>string shot_id = 112 [(.buf.validate.field) = { ... }</code>
+     * @return The shotId.
+     */
+    java.lang.String getShotId();
+    /**
+     * <pre>
+     * The bundle uuid of the last shot (a 36-char dashed UUIDv4, the
+     * cv_dump_sessions primary key and the /api/cvdump/bundle/{name} key); empty
+     * until the first READY. max_len 36 pins the uuid shape.
+     * </pre>
+     *
+     * <code>string shot_id = 112 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for shotId.
+     */
+    com.google.protobuf.ByteString
+        getShotIdBytes();
   }
   /**
    * <pre>
@@ -703,6 +765,8 @@ public final class JonSharedDataCv {
       bridgeStatus_ = 0;
       lastExitReason_ = 0;
       trackedObjects_ = java.util.Collections.emptyList();
+      shotState_ = 0;
+      shotId_ = "";
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -873,6 +937,203 @@ public final class JonSharedDataCv {
       }
 
       // @@protoc_insertion_point(enum_scope:ser.JonGuiDataCV.AutofocusState)
+    }
+
+    /**
+     * <pre>
+     * The cv-dump PHOTO (cmd.CV.DumpShot) lifecycle, one shot at a time.
+     * </pre>
+     *
+     * Protobuf enum {@code ser.JonGuiDataCV.ShotState}
+     */
+    public enum ShotState
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>SHOT_STATE_UNSPECIFIED = 0;</code>
+       */
+      SHOT_STATE_UNSPECIFIED(0),
+      /**
+       * <pre>
+       * no shot in flight; a press is accepted
+       * </pre>
+       *
+       * <code>SHOT_STATE_IDLE = 1;</code>
+       */
+      SHOT_STATE_IDLE(1),
+      /**
+       * <pre>
+       * waiting for the next RAW-armed frame on each channel
+       * </pre>
+       *
+       * <code>SHOT_STATE_CAPTURING = 2;</code>
+       */
+      SHOT_STATE_CAPTURING(2),
+      /**
+       * <pre>
+       * planes copied out; PNG encode + bundle write in progress
+       * </pre>
+       *
+       * <code>SHOT_STATE_WRITING = 3;</code>
+       */
+      SHOT_STATE_WRITING(3),
+      /**
+       * <pre>
+       * the bundle is on disk; shot_id names it, shot_seq advanced
+       * </pre>
+       *
+       * <code>SHOT_STATE_READY = 4;</code>
+       */
+      SHOT_STATE_READY(4),
+      /**
+       * <pre>
+       * the shot was abandoned; the bundle carries the reason
+       * </pre>
+       *
+       * <code>SHOT_STATE_FAILED = 5;</code>
+       */
+      SHOT_STATE_FAILED(5),
+      UNRECOGNIZED(-1),
+      ;
+
+      static {
+        com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+          com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+          /* major= */ 4,
+          /* minor= */ 29,
+          /* patch= */ 2,
+          /* suffix= */ "",
+          ShotState.class.getName());
+      }
+      /**
+       * <code>SHOT_STATE_UNSPECIFIED = 0;</code>
+       */
+      public static final int SHOT_STATE_UNSPECIFIED_VALUE = 0;
+      /**
+       * <pre>
+       * no shot in flight; a press is accepted
+       * </pre>
+       *
+       * <code>SHOT_STATE_IDLE = 1;</code>
+       */
+      public static final int SHOT_STATE_IDLE_VALUE = 1;
+      /**
+       * <pre>
+       * waiting for the next RAW-armed frame on each channel
+       * </pre>
+       *
+       * <code>SHOT_STATE_CAPTURING = 2;</code>
+       */
+      public static final int SHOT_STATE_CAPTURING_VALUE = 2;
+      /**
+       * <pre>
+       * planes copied out; PNG encode + bundle write in progress
+       * </pre>
+       *
+       * <code>SHOT_STATE_WRITING = 3;</code>
+       */
+      public static final int SHOT_STATE_WRITING_VALUE = 3;
+      /**
+       * <pre>
+       * the bundle is on disk; shot_id names it, shot_seq advanced
+       * </pre>
+       *
+       * <code>SHOT_STATE_READY = 4;</code>
+       */
+      public static final int SHOT_STATE_READY_VALUE = 4;
+      /**
+       * <pre>
+       * the shot was abandoned; the bundle carries the reason
+       * </pre>
+       *
+       * <code>SHOT_STATE_FAILED = 5;</code>
+       */
+      public static final int SHOT_STATE_FAILED_VALUE = 5;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static ShotState valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static ShotState forNumber(int value) {
+        switch (value) {
+          case 0: return SHOT_STATE_UNSPECIFIED;
+          case 1: return SHOT_STATE_IDLE;
+          case 2: return SHOT_STATE_CAPTURING;
+          case 3: return SHOT_STATE_WRITING;
+          case 4: return SHOT_STATE_READY;
+          case 5: return SHOT_STATE_FAILED;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<ShotState>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          ShotState> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<ShotState>() {
+              public ShotState findValueByNumber(int number) {
+                return ShotState.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return ser.JonSharedDataCv.JonGuiDataCV.getDescriptor().getEnumTypes().get(1);
+      }
+
+      private static final ShotState[] VALUES = values();
+
+      public static ShotState valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private ShotState(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:ser.JonGuiDataCV.ShotState)
     }
 
     /**
@@ -1063,7 +1324,7 @@ public final class JonSharedDataCv {
       }
       public static final com.google.protobuf.Descriptors.EnumDescriptor
           getDescriptor() {
-        return ser.JonSharedDataCv.JonGuiDataCV.getDescriptor().getEnumTypes().get(1);
+        return ser.JonSharedDataCv.JonGuiDataCV.getDescriptor().getEnumTypes().get(2);
       }
 
       private static final CvBridgeStatus[] VALUES = values();
@@ -1311,7 +1572,7 @@ public final class JonSharedDataCv {
       }
       public static final com.google.protobuf.Descriptors.EnumDescriptor
           getDescriptor() {
-        return ser.JonSharedDataCv.JonGuiDataCV.getDescriptor().getEnumTypes().get(2);
+        return ser.JonSharedDataCv.JonGuiDataCV.getDescriptor().getEnumTypes().get(3);
       }
 
       private static final CvBridgeExitReason[] VALUES = values();
@@ -2258,6 +2519,107 @@ public final class JonSharedDataCv {
       return stabCorrectionHeat_ == null ? ser.JonSharedDataCv.JonGuiDataStabCorrection.getDefaultInstance() : stabCorrectionHeat_;
     }
 
+    public static final int SHOT_SEQ_FIELD_NUMBER = 110;
+    private int shotSeq_ = 0;
+    /**
+     * <pre>
+     * The cv-dump PHOTO (cmd.CV.DumpShot). Owned by eutropia — it consumes the
+     * command and patches these on the state plane; manifold never sees them.
+     *
+     * Monotonic count of COMPLETED shots since boot — the button's
+     * proof-of-landing: an increment is the discriminator (the same one the
+     * photo button uses on its global target_id), never the ack.
+     * </pre>
+     *
+     * <code>uint32 shot_seq = 110;</code>
+     * @return The shotSeq.
+     */
+    @java.lang.Override
+    public int getShotSeq() {
+      return shotSeq_;
+    }
+
+    public static final int SHOT_STATE_FIELD_NUMBER = 111;
+    private int shotState_ = 0;
+    /**
+     * <pre>
+     * Where the one-at-a-time shot is in its lifecycle — what the button
+     * renders. A press while it is not IDLE is refused, not queued; defined_only
+     * because a reader must never render an unknown state as progress.
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataCV.ShotState shot_state = 111 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for shotState.
+     */
+    @java.lang.Override public int getShotStateValue() {
+      return shotState_;
+    }
+    /**
+     * <pre>
+     * Where the one-at-a-time shot is in its lifecycle — what the button
+     * renders. A press while it is not IDLE is refused, not queued; defined_only
+     * because a reader must never render an unknown state as progress.
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataCV.ShotState shot_state = 111 [(.buf.validate.field) = { ... }</code>
+     * @return The shotState.
+     */
+    @java.lang.Override public ser.JonSharedDataCv.JonGuiDataCV.ShotState getShotState() {
+      ser.JonSharedDataCv.JonGuiDataCV.ShotState result = ser.JonSharedDataCv.JonGuiDataCV.ShotState.forNumber(shotState_);
+      return result == null ? ser.JonSharedDataCv.JonGuiDataCV.ShotState.UNRECOGNIZED : result;
+    }
+
+    public static final int SHOT_ID_FIELD_NUMBER = 112;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object shotId_ = "";
+    /**
+     * <pre>
+     * The bundle uuid of the last shot (a 36-char dashed UUIDv4, the
+     * cv_dump_sessions primary key and the /api/cvdump/bundle/{name} key); empty
+     * until the first READY. max_len 36 pins the uuid shape.
+     * </pre>
+     *
+     * <code>string shot_id = 112 [(.buf.validate.field) = { ... }</code>
+     * @return The shotId.
+     */
+    @java.lang.Override
+    public java.lang.String getShotId() {
+      java.lang.Object ref = shotId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        shotId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * The bundle uuid of the last shot (a 36-char dashed UUIDv4, the
+     * cv_dump_sessions primary key and the /api/cvdump/bundle/{name} key); empty
+     * until the first READY. max_len 36 pins the uuid shape.
+     * </pre>
+     *
+     * <code>string shot_id = 112 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for shotId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getShotIdBytes() {
+      java.lang.Object ref = shotId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        shotId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -2379,6 +2741,15 @@ public final class JonSharedDataCv {
       }
       if (((bitField0_ & 0x00002000) != 0)) {
         output.writeMessage(101, getStabCorrectionHeat());
+      }
+      if (shotSeq_ != 0) {
+        output.writeUInt32(110, shotSeq_);
+      }
+      if (shotState_ != ser.JonSharedDataCv.JonGuiDataCV.ShotState.SHOT_STATE_UNSPECIFIED.getNumber()) {
+        output.writeEnum(111, shotState_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(shotId_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 112, shotId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2533,6 +2904,17 @@ public final class JonSharedDataCv {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(101, getStabCorrectionHeat());
       }
+      if (shotSeq_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(110, shotSeq_);
+      }
+      if (shotState_ != ser.JonSharedDataCv.JonGuiDataCV.ShotState.SHOT_STATE_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(111, shotState_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(shotId_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(112, shotId_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -2668,6 +3050,11 @@ public final class JonSharedDataCv {
         if (!getStabCorrectionHeat()
             .equals(other.getStabCorrectionHeat())) return false;
       }
+      if (getShotSeq()
+          != other.getShotSeq()) return false;
+      if (shotState_ != other.shotState_) return false;
+      if (!getShotId()
+          .equals(other.getShotId())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -2795,6 +3182,12 @@ public final class JonSharedDataCv {
         hash = (37 * hash) + STAB_CORRECTION_HEAT_FIELD_NUMBER;
         hash = (53 * hash) + getStabCorrectionHeat().hashCode();
       }
+      hash = (37 * hash) + SHOT_SEQ_FIELD_NUMBER;
+      hash = (53 * hash) + getShotSeq();
+      hash = (37 * hash) + SHOT_STATE_FIELD_NUMBER;
+      hash = (53 * hash) + shotState_;
+      hash = (37 * hash) + SHOT_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getShotId().hashCode();
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3056,6 +3449,9 @@ public final class JonSharedDataCv {
           stabCorrectionHeatBuilder_.dispose();
           stabCorrectionHeatBuilder_ = null;
         }
+        shotSeq_ = 0;
+        shotState_ = 0;
+        shotId_ = "";
         return this;
       }
 
@@ -3257,6 +3653,15 @@ public final class JonSharedDataCv {
               : stabCorrectionHeatBuilder_.build();
           to_bitField0_ |= 0x00002000;
         }
+        if (((from_bitField1_ & 0x00000010) != 0)) {
+          result.shotSeq_ = shotSeq_;
+        }
+        if (((from_bitField1_ & 0x00000020) != 0)) {
+          result.shotState_ = shotState_;
+        }
+        if (((from_bitField1_ & 0x00000040) != 0)) {
+          result.shotId_ = shotId_;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -3402,6 +3807,17 @@ public final class JonSharedDataCv {
         }
         if (other.hasStabCorrectionHeat()) {
           mergeStabCorrectionHeat(other.getStabCorrectionHeat());
+        }
+        if (other.getShotSeq() != 0) {
+          setShotSeq(other.getShotSeq());
+        }
+        if (other.shotState_ != 0) {
+          setShotStateValue(other.getShotStateValue());
+        }
+        if (!other.getShotId().isEmpty()) {
+          shotId_ = other.shotId_;
+          bitField1_ |= 0x00000040;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -3645,6 +4061,21 @@ public final class JonSharedDataCv {
                 bitField1_ |= 0x00000008;
                 break;
               } // case 810
+              case 880: {
+                shotSeq_ = input.readUInt32();
+                bitField1_ |= 0x00000010;
+                break;
+              } // case 880
+              case 888: {
+                shotState_ = input.readEnum();
+                bitField1_ |= 0x00000020;
+                break;
+              } // case 888
+              case 898: {
+                shotId_ = input.readStringRequireUtf8();
+                bitField1_ |= 0x00000040;
+                break;
+              } // case 898
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -7124,6 +7555,250 @@ public final class JonSharedDataCv {
         return stabCorrectionHeatBuilder_;
       }
 
+      private int shotSeq_ ;
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot). Owned by eutropia — it consumes the
+       * command and patches these on the state plane; manifold never sees them.
+       *
+       * Monotonic count of COMPLETED shots since boot — the button's
+       * proof-of-landing: an increment is the discriminator (the same one the
+       * photo button uses on its global target_id), never the ack.
+       * </pre>
+       *
+       * <code>uint32 shot_seq = 110;</code>
+       * @return The shotSeq.
+       */
+      @java.lang.Override
+      public int getShotSeq() {
+        return shotSeq_;
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot). Owned by eutropia — it consumes the
+       * command and patches these on the state plane; manifold never sees them.
+       *
+       * Monotonic count of COMPLETED shots since boot — the button's
+       * proof-of-landing: an increment is the discriminator (the same one the
+       * photo button uses on its global target_id), never the ack.
+       * </pre>
+       *
+       * <code>uint32 shot_seq = 110;</code>
+       * @param value The shotSeq to set.
+       * @return This builder for chaining.
+       */
+      public Builder setShotSeq(int value) {
+
+        shotSeq_ = value;
+        bitField1_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot). Owned by eutropia — it consumes the
+       * command and patches these on the state plane; manifold never sees them.
+       *
+       * Monotonic count of COMPLETED shots since boot — the button's
+       * proof-of-landing: an increment is the discriminator (the same one the
+       * photo button uses on its global target_id), never the ack.
+       * </pre>
+       *
+       * <code>uint32 shot_seq = 110;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearShotSeq() {
+        bitField1_ = (bitField1_ & ~0x00000010);
+        shotSeq_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int shotState_ = 0;
+      /**
+       * <pre>
+       * Where the one-at-a-time shot is in its lifecycle — what the button
+       * renders. A press while it is not IDLE is refused, not queued; defined_only
+       * because a reader must never render an unknown state as progress.
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataCV.ShotState shot_state = 111 [(.buf.validate.field) = { ... }</code>
+       * @return The enum numeric value on the wire for shotState.
+       */
+      @java.lang.Override public int getShotStateValue() {
+        return shotState_;
+      }
+      /**
+       * <pre>
+       * Where the one-at-a-time shot is in its lifecycle — what the button
+       * renders. A press while it is not IDLE is refused, not queued; defined_only
+       * because a reader must never render an unknown state as progress.
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataCV.ShotState shot_state = 111 [(.buf.validate.field) = { ... }</code>
+       * @param value The enum numeric value on the wire for shotState to set.
+       * @return This builder for chaining.
+       */
+      public Builder setShotStateValue(int value) {
+        shotState_ = value;
+        bitField1_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Where the one-at-a-time shot is in its lifecycle — what the button
+       * renders. A press while it is not IDLE is refused, not queued; defined_only
+       * because a reader must never render an unknown state as progress.
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataCV.ShotState shot_state = 111 [(.buf.validate.field) = { ... }</code>
+       * @return The shotState.
+       */
+      @java.lang.Override
+      public ser.JonSharedDataCv.JonGuiDataCV.ShotState getShotState() {
+        ser.JonSharedDataCv.JonGuiDataCV.ShotState result = ser.JonSharedDataCv.JonGuiDataCV.ShotState.forNumber(shotState_);
+        return result == null ? ser.JonSharedDataCv.JonGuiDataCV.ShotState.UNRECOGNIZED : result;
+      }
+      /**
+       * <pre>
+       * Where the one-at-a-time shot is in its lifecycle — what the button
+       * renders. A press while it is not IDLE is refused, not queued; defined_only
+       * because a reader must never render an unknown state as progress.
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataCV.ShotState shot_state = 111 [(.buf.validate.field) = { ... }</code>
+       * @param value The shotState to set.
+       * @return This builder for chaining.
+       */
+      public Builder setShotState(ser.JonSharedDataCv.JonGuiDataCV.ShotState value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField1_ |= 0x00000020;
+        shotState_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Where the one-at-a-time shot is in its lifecycle — what the button
+       * renders. A press while it is not IDLE is refused, not queued; defined_only
+       * because a reader must never render an unknown state as progress.
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataCV.ShotState shot_state = 111 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearShotState() {
+        bitField1_ = (bitField1_ & ~0x00000020);
+        shotState_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object shotId_ = "";
+      /**
+       * <pre>
+       * The bundle uuid of the last shot (a 36-char dashed UUIDv4, the
+       * cv_dump_sessions primary key and the /api/cvdump/bundle/{name} key); empty
+       * until the first READY. max_len 36 pins the uuid shape.
+       * </pre>
+       *
+       * <code>string shot_id = 112 [(.buf.validate.field) = { ... }</code>
+       * @return The shotId.
+       */
+      public java.lang.String getShotId() {
+        java.lang.Object ref = shotId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          shotId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The bundle uuid of the last shot (a 36-char dashed UUIDv4, the
+       * cv_dump_sessions primary key and the /api/cvdump/bundle/{name} key); empty
+       * until the first READY. max_len 36 pins the uuid shape.
+       * </pre>
+       *
+       * <code>string shot_id = 112 [(.buf.validate.field) = { ... }</code>
+       * @return The bytes for shotId.
+       */
+      public com.google.protobuf.ByteString
+          getShotIdBytes() {
+        java.lang.Object ref = shotId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          shotId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The bundle uuid of the last shot (a 36-char dashed UUIDv4, the
+       * cv_dump_sessions primary key and the /api/cvdump/bundle/{name} key); empty
+       * until the first READY. max_len 36 pins the uuid shape.
+       * </pre>
+       *
+       * <code>string shot_id = 112 [(.buf.validate.field) = { ... }</code>
+       * @param value The shotId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setShotId(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        shotId_ = value;
+        bitField1_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The bundle uuid of the last shot (a 36-char dashed UUIDv4, the
+       * cv_dump_sessions primary key and the /api/cvdump/bundle/{name} key); empty
+       * until the first READY. max_len 36 pins the uuid shape.
+       * </pre>
+       *
+       * <code>string shot_id = 112 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearShotId() {
+        shotId_ = getDefaultInstance().getShotId();
+        bitField1_ = (bitField1_ & ~0x00000040);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The bundle uuid of the last shot (a 36-char dashed UUIDv4, the
+       * cv_dump_sessions primary key and the /api/cvdump/bundle/{name} key); empty
+       * until the first READY. max_len 36 pins the uuid shape.
+       * </pre>
+       *
+       * <code>string shot_id = 112 [(.buf.validate.field) = { ... }</code>
+       * @param value The bytes for shotId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setShotIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        shotId_ = value;
+        bitField1_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataCV)
     }
 
@@ -7720,7 +8395,7 @@ public final class JonSharedDataCv {
     java.lang.String[] descriptorData = {
       "\n\030jon_shared_data_cv.proto\022\003ser\032\033buf/val" +
       "idate/validate.proto\032\033jon_shared_data_ty" +
-      "pes.proto\"\272\026\n\014JonGuiDataCV\022G\n\023autofocus_" +
+      "pes.proto\"\277\030\n\014JonGuiDataCV\022G\n\023autofocus_" +
       "state_day\030\001 \001(\0162 .ser.JonGuiDataCV.Autof" +
       "ocusStateB\010\272H\005\202\001\002\020\001\022%\n\rsharpness_day\030\002 \001" +
       "(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022*\n\022best_sharpness_day" +
@@ -7765,37 +8440,44 @@ public final class JonSharedDataCv {
       "\n\023stab_correction_day\030d \001(\0132\035.ser.JonGui" +
       "DataStabCorrectionH\014\210\001\001\022@\n\024stab_correcti" +
       "on_heat\030e \001(\0132\035.ser.JonGuiDataStabCorrec" +
-      "tionH\r\210\001\001\"\310\001\n\016AutofocusState\022\037\n\033AUTOFOCU" +
-      "S_STATE_UNSPECIFIED\020\000\022\030\n\024AUTOFOCUS_STATE" +
-      "_IDLE\020\001\022 \n\034AUTOFOCUS_STATE_COARSE_SWEEP\020" +
-      "\002\022\036\n\032AUTOFOCUS_STATE_FINE_SWEEP\020\003\022\035\n\031AUT" +
-      "OFOCUS_STATE_CONVERGED\020\004\022\032\n\026AUTOFOCUS_ST" +
-      "ATE_FAILED\020\005\"\353\001\n\016CvBridgeStatus\022 \n\034CV_BR" +
-      "IDGE_STATUS_UNSPECIFIED\020\000\022\034\n\030CV_BRIDGE_S" +
-      "TATUS_STOPPED\020\001\022\035\n\031CV_BRIDGE_STATUS_STAR" +
-      "TING\020\002\022\034\n\030CV_BRIDGE_STATUS_RUNNING\020\003\022\035\n\031" +
-      "CV_BRIDGE_STATUS_STOPPING\020\004\022\034\n\030CV_BRIDGE" +
-      "_STATUS_CRASHED\020\005\022\037\n\033CV_BRIDGE_STATUS_RE" +
-      "STARTING\020\006\"\324\002\n\022CvBridgeExitReason\022%\n!CV_" +
-      "BRIDGE_EXIT_REASON_UNSPECIFIED\020\000\022%\n!CV_B" +
-      "RIDGE_EXIT_REASON_NOT_STARTED\020\001\022 \n\034CV_BR" +
-      "IDGE_EXIT_REASON_NORMAL\020\002\022\037\n\033CV_BRIDGE_E" +
-      "XIT_REASON_ERROR\020\003\022$\n CV_BRIDGE_EXIT_REA" +
-      "SON_CUDA_ERROR\020\004\022#\n\037CV_BRIDGE_EXIT_REASO" +
-      "N_IPC_ERROR\020\005\022\035\n\031CV_BRIDGE_EXIT_REASON_O" +
-      "OM\020\006\022!\n\035CV_BRIDGE_EXIT_REASON_TIMEOUT\020\007\022" +
-      " \n\034CV_BRIDGE_EXIT_REASON_SIGNAL\020\010B\020\n\016_ro" +
-      "i_focus_dayB\020\n\016_roi_track_dayB\017\n\r_roi_zo" +
-      "om_dayB\r\n\013_roi_fx_dayB\021\n\017_roi_focus_heat" +
-      "B\021\n\017_roi_track_heatB\020\n\016_roi_zoom_heatB\016\n" +
-      "\014_roi_fx_heatB\030\n\026_sharpness_metrics_dayB" +
-      "\031\n\027_sharpness_metrics_heatB\027\n\025_camera_tr" +
-      "ansform_dayB\030\n\026_camera_transform_heatB\026\n" +
-      "\024_stab_correction_dayB\027\n\025_stab_correctio" +
-      "n_heat\"6\n\030JonGuiDataStabCorrection\022\014\n\004x_" +
-      "px\030\001 \001(\002\022\014\n\004y_px\030\002 \001(\002BJZHgit-codecommit" +
-      ".eu-central-1.amazonaws.com/v1/repos/jet" +
-      "tison/jonp/data/cvb\006proto3"
+      "tionH\r\210\001\001\022\020\n\010shot_seq\030n \001(\r\0229\n\nshot_stat" +
+      "e\030o \001(\0162\033.ser.JonGuiDataCV.ShotStateB\010\272H" +
+      "\005\202\001\002\020\001\022\030\n\007shot_id\030p \001(\tB\007\272H\004r\002\030$\"\310\001\n\016Aut" +
+      "ofocusState\022\037\n\033AUTOFOCUS_STATE_UNSPECIFI" +
+      "ED\020\000\022\030\n\024AUTOFOCUS_STATE_IDLE\020\001\022 \n\034AUTOFO" +
+      "CUS_STATE_COARSE_SWEEP\020\002\022\036\n\032AUTOFOCUS_ST" +
+      "ATE_FINE_SWEEP\020\003\022\035\n\031AUTOFOCUS_STATE_CONV" +
+      "ERGED\020\004\022\032\n\026AUTOFOCUS_STATE_FAILED\020\005\"\233\001\n\t" +
+      "ShotState\022\032\n\026SHOT_STATE_UNSPECIFIED\020\000\022\023\n" +
+      "\017SHOT_STATE_IDLE\020\001\022\030\n\024SHOT_STATE_CAPTURI" +
+      "NG\020\002\022\026\n\022SHOT_STATE_WRITING\020\003\022\024\n\020SHOT_STA" +
+      "TE_READY\020\004\022\025\n\021SHOT_STATE_FAILED\020\005\"\353\001\n\016Cv" +
+      "BridgeStatus\022 \n\034CV_BRIDGE_STATUS_UNSPECI" +
+      "FIED\020\000\022\034\n\030CV_BRIDGE_STATUS_STOPPED\020\001\022\035\n\031" +
+      "CV_BRIDGE_STATUS_STARTING\020\002\022\034\n\030CV_BRIDGE" +
+      "_STATUS_RUNNING\020\003\022\035\n\031CV_BRIDGE_STATUS_ST" +
+      "OPPING\020\004\022\034\n\030CV_BRIDGE_STATUS_CRASHED\020\005\022\037" +
+      "\n\033CV_BRIDGE_STATUS_RESTARTING\020\006\"\324\002\n\022CvBr" +
+      "idgeExitReason\022%\n!CV_BRIDGE_EXIT_REASON_" +
+      "UNSPECIFIED\020\000\022%\n!CV_BRIDGE_EXIT_REASON_N" +
+      "OT_STARTED\020\001\022 \n\034CV_BRIDGE_EXIT_REASON_NO" +
+      "RMAL\020\002\022\037\n\033CV_BRIDGE_EXIT_REASON_ERROR\020\003\022" +
+      "$\n CV_BRIDGE_EXIT_REASON_CUDA_ERROR\020\004\022#\n" +
+      "\037CV_BRIDGE_EXIT_REASON_IPC_ERROR\020\005\022\035\n\031CV" +
+      "_BRIDGE_EXIT_REASON_OOM\020\006\022!\n\035CV_BRIDGE_E" +
+      "XIT_REASON_TIMEOUT\020\007\022 \n\034CV_BRIDGE_EXIT_R" +
+      "EASON_SIGNAL\020\010B\020\n\016_roi_focus_dayB\020\n\016_roi" +
+      "_track_dayB\017\n\r_roi_zoom_dayB\r\n\013_roi_fx_d" +
+      "ayB\021\n\017_roi_focus_heatB\021\n\017_roi_track_heat" +
+      "B\020\n\016_roi_zoom_heatB\016\n\014_roi_fx_heatB\030\n\026_s" +
+      "harpness_metrics_dayB\031\n\027_sharpness_metri" +
+      "cs_heatB\027\n\025_camera_transform_dayB\030\n\026_cam" +
+      "era_transform_heatB\026\n\024_stab_correction_d" +
+      "ayB\027\n\025_stab_correction_heat\"6\n\030JonGuiDat" +
+      "aStabCorrection\022\014\n\004x_px\030\001 \001(\002\022\014\n\004y_px\030\002 " +
+      "\001(\002BJZHgit-codecommit.eu-central-1.amazo" +
+      "naws.com/v1/repos/jettison/jonp/data/cvb" +
+      "\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -7808,7 +8490,7 @@ public final class JonSharedDataCv {
     internal_static_ser_JonGuiDataCV_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataCV_descriptor,
-        new java.lang.String[] { "AutofocusStateDay", "SharpnessDay", "BestSharpnessDay", "SweepProgressDay", "BestFocusPosDay", "AutofocusStateHeat", "SharpnessHeat", "BestSharpnessHeat", "SweepProgressHeat", "BestFocusPosHeat", "RoiX1", "RoiY1", "RoiX2", "RoiY2", "BridgeStatus", "LastExitReason", "BridgeUptimeMs", "RestartCount", "RoiFocusDay", "RoiTrackDay", "RoiZoomDay", "RoiFxDay", "RoiFocusHeat", "RoiTrackHeat", "RoiZoomHeat", "RoiFxHeat", "SharpnessMetricsDay", "SharpnessMetricsHeat", "CameraTransformDay", "CameraTransformHeat", "TrackedObjects", "TrinityTrackingActive", "ZoomRoiActiveDay", "ZoomRoiActiveHeat", "StabCorrectionDay", "StabCorrectionHeat", });
+        new java.lang.String[] { "AutofocusStateDay", "SharpnessDay", "BestSharpnessDay", "SweepProgressDay", "BestFocusPosDay", "AutofocusStateHeat", "SharpnessHeat", "BestSharpnessHeat", "SweepProgressHeat", "BestFocusPosHeat", "RoiX1", "RoiY1", "RoiX2", "RoiY2", "BridgeStatus", "LastExitReason", "BridgeUptimeMs", "RestartCount", "RoiFocusDay", "RoiTrackDay", "RoiZoomDay", "RoiFxDay", "RoiFocusHeat", "RoiTrackHeat", "RoiZoomHeat", "RoiFxHeat", "SharpnessMetricsDay", "SharpnessMetricsHeat", "CameraTransformDay", "CameraTransformHeat", "TrackedObjects", "TrinityTrackingActive", "ZoomRoiActiveDay", "ZoomRoiActiveHeat", "StabCorrectionDay", "StabCorrectionHeat", "ShotSeq", "ShotState", "ShotId", });
     internal_static_ser_JonGuiDataStabCorrection_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_ser_JonGuiDataStabCorrection_fieldAccessorTable = new

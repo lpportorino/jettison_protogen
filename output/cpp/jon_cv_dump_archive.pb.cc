@@ -87,6 +87,47 @@ struct TableRowsDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TableRowsDefaultTypeInternal _TableRows_default_instance_;
 
+inline constexpr ShotPlane::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : path_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        encoding_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        sha256_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        plane_{0u},
+        tag_{0u},
+        source_format_{0u},
+        width_{0u},
+        height_{0u},
+        pitch_{0u},
+        bytes_{::uint64_t{0u}},
+        uv_offset_{0u},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR ShotPlane::ShotPlane(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct ShotPlaneDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ShotPlaneDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ShotPlaneDefaultTypeInternal() {}
+  union {
+    ShotPlane _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ShotPlaneDefaultTypeInternal _ShotPlane_default_instance_;
+
 inline constexpr RedisStreamField::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : name_(
@@ -348,6 +389,43 @@ struct StreamGroupDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StreamGroupDefaultTypeInternal _StreamGroup_default_instance_;
 
+inline constexpr ShotCapture::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : planes_{},
+        channel_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        ctl_snapshot_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        absent_reason_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        pts_ns_{::uint64_t{0u}},
+        capture_time_ns_{::uint64_t{0u}},
+        generation_{0u},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR ShotCapture::ShotCapture(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct ShotCaptureDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ShotCaptureDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ShotCaptureDefaultTypeInternal() {}
+  union {
+    ShotCapture _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ShotCaptureDefaultTypeInternal _ShotCapture_default_instance_;
+
 inline constexpr RedisStreamRecord::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : fields_{},
@@ -445,6 +523,7 @@ inline constexpr CvDumpArchive::Impl_::Impl_(
       : _cached_size_{0},
         video_{},
         streams_{},
+        shots_{},
         id_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
@@ -505,6 +584,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::jon::cvdump::CvDumpArchive, _impl_.integrity_),
         PROTOBUF_FIELD_OFFSET(::jon::cvdump::CvDumpArchive, _impl_.video_),
         PROTOBUF_FIELD_OFFSET(::jon::cvdump::CvDumpArchive, _impl_.streams_),
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::CvDumpArchive, _impl_.shots_),
         ~0u,
         ~0u,
         ~0u,
@@ -515,6 +595,41 @@ const ::uint32_t
         2,
         ~0u,
         ~0u,
+        ~0u,
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotPlane, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotPlane, _impl_.plane_),
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotPlane, _impl_.tag_),
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotPlane, _impl_.source_format_),
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotPlane, _impl_.path_),
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotPlane, _impl_.encoding_),
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotPlane, _impl_.width_),
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotPlane, _impl_.height_),
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotPlane, _impl_.pitch_),
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotPlane, _impl_.uv_offset_),
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotPlane, _impl_.bytes_),
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotPlane, _impl_.sha256_),
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotCapture, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotCapture, _impl_.channel_),
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotCapture, _impl_.generation_),
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotCapture, _impl_.pts_ns_),
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotCapture, _impl_.capture_time_ns_),
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotCapture, _impl_.ctl_snapshot_),
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotCapture, _impl_.planes_),
+        PROTOBUF_FIELD_OFFSET(::jon::cvdump::ShotCapture, _impl_.absent_reason_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::jon::cvdump::CaptureWindow, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -687,23 +802,27 @@ const ::uint32_t
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, 18, -1, sizeof(::jon::cvdump::CvDumpArchive)},
-        {28, -1, -1, sizeof(::jon::cvdump::CaptureWindow)},
-        {40, 55, -1, sizeof(::jon::cvdump::MachineIdentity)},
-        {62, -1, -1, sizeof(::jon::cvdump::DeployFingerprint)},
-        {74, -1, -1, sizeof(::jon::cvdump::ChannelConfig)},
-        {88, -1, -1, sizeof(::jon::cvdump::IntegrityReport)},
-        {106, -1, -1, sizeof(::jon::cvdump::VideoChannel)},
-        {116, -1, -1, sizeof(::jon::cvdump::VideoSegment)},
-        {131, -1, -1, sizeof(::jon::cvdump::StreamGroup)},
-        {148, -1, -1, sizeof(::jon::cvdump::ColumnDef)},
-        {158, -1, -1, sizeof(::jon::cvdump::RedisStreamRecords)},
-        {167, -1, -1, sizeof(::jon::cvdump::RedisStreamRecord)},
-        {177, -1, -1, sizeof(::jon::cvdump::RedisStreamField)},
-        {187, -1, -1, sizeof(::jon::cvdump::TableRows)},
+        {0, 19, -1, sizeof(::jon::cvdump::CvDumpArchive)},
+        {30, -1, -1, sizeof(::jon::cvdump::ShotPlane)},
+        {49, -1, -1, sizeof(::jon::cvdump::ShotCapture)},
+        {64, -1, -1, sizeof(::jon::cvdump::CaptureWindow)},
+        {76, 91, -1, sizeof(::jon::cvdump::MachineIdentity)},
+        {98, -1, -1, sizeof(::jon::cvdump::DeployFingerprint)},
+        {110, -1, -1, sizeof(::jon::cvdump::ChannelConfig)},
+        {124, -1, -1, sizeof(::jon::cvdump::IntegrityReport)},
+        {142, -1, -1, sizeof(::jon::cvdump::VideoChannel)},
+        {152, -1, -1, sizeof(::jon::cvdump::VideoSegment)},
+        {167, -1, -1, sizeof(::jon::cvdump::StreamGroup)},
+        {184, -1, -1, sizeof(::jon::cvdump::ColumnDef)},
+        {194, -1, -1, sizeof(::jon::cvdump::RedisStreamRecords)},
+        {203, -1, -1, sizeof(::jon::cvdump::RedisStreamRecord)},
+        {213, -1, -1, sizeof(::jon::cvdump::RedisStreamField)},
+        {223, -1, -1, sizeof(::jon::cvdump::TableRows)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::jon::cvdump::_CvDumpArchive_default_instance_._instance,
+    &::jon::cvdump::_ShotPlane_default_instance_._instance,
+    &::jon::cvdump::_ShotCapture_default_instance_._instance,
     &::jon::cvdump::_CaptureWindow_default_instance_._instance,
     &::jon::cvdump::_MachineIdentity_default_instance_._instance,
     &::jon::cvdump::_DeployFingerprint_default_instance_._instance,
@@ -721,7 +840,7 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fcv_5fdump_5farchive_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\031jon_cv_dump_archive.proto\022\njon.cvdump\032"
-    "\033buf/validate/validate.proto\"\212\003\n\rCvDumpA"
+    "\033buf/validate/validate.proto\"\262\003\n\rCvDumpA"
     "rchive\0221\n\007version\030\001 \001(\0162 .jon.cvdump.Arc"
     "hiveFormatVersion\022\023\n\002id\030\002 \001(\tB\007\272H\004r\002\020$\022\024"
     "\n\014generated_at\030\003 \001(\t\022)\n\006window\030\004 \001(\0132\031.j"
@@ -731,67 +850,79 @@ const char descriptor_table_protodef_jon_5fcv_5fdump_5farchive_2eproto[] ABSL_AT
     "achineIdentity\022.\n\tintegrity\030\010 \001(\0132\033.jon."
     "cvdump.IntegrityReport\022\'\n\005video\030\t \003(\0132\030."
     "jon.cvdump.VideoChannel\022(\n\007streams\030\n \003(\013"
-    "2\027.jon.cvdump.StreamGroup\"Y\n\rCaptureWind"
-    "ow\022\017\n\007t0_wall\030\001 \001(\t\022\017\n\007t1_wall\030\002 \001(\t\022\022\n\n"
-    "t0_boot_ns\030\003 \001(\003\022\022\n\nt1_boot_ns\030\004 \001(\003\"\242\002\n"
-    "\017MachineIdentity\022\027\n\nmachine_id\030\001 \001(\tH\000\210\001"
-    "\001\022\025\n\010hostname\030\002 \001(\tH\001\210\001\001\022\025\n\010hw_model\030\003 \001"
-    "(\tH\002\210\001\001\022\024\n\007boot_id\030\004 \001(\tH\003\210\001\001\022-\n\006deploy\030"
-    "\005 \001(\0132\035.jon.cvdump.DeployFingerprint\0222\n\017"
-    "channels_config\030\006 \003(\0132\031.jon.cvdump.Chann"
-    "elConfig\022\032\n\022machine_incomplete\030\007 \001(\010B\r\n\013"
-    "_machine_idB\013\n\t_hostnameB\013\n\t_hw_modelB\n\n"
-    "\010_boot_id\"e\n\021DeployFingerprint\022\023\n\013finger"
-    "print\030\001 \001(\t\022\024\n\014jettison_sha\030\002 \001(\t\022\020\n\010des"
-    "cribe\030\003 \001(\t\022\023\n\013deployed_at\030\004 \001(\t\"|\n\rChan"
-    "nelConfig\022\017\n\007channel\030\001 \001(\t\022\r\n\005width\030\002 \001("
-    "\r\022\016\n\006height\030\003 \001(\r\022\021\n\tfps_limit\030\004 \001(\r\022\022\n\n"
-    "sensor_fps\030\005 \001(\r\022\024\n\014crop_margins\030\006 \001(\r\"\276"
-    "\002\n\017IntegrityReport\022)\n\006status\030\001 \001(\0162\031.jon"
-    ".cvdump.ArchiveStatus\022\027\n\017lapped_segments"
-    "\030\002 \001(\r\022\031\n\021window_start_lost\030\003 \001(\010\022\032\n\022wri"
-    "ter_seg_skipped\030\004 \001(\010\022\033\n\023rec_control_unk"
-    "nown\030\005 \001(\010\022\031\n\021rec_enable_failed\030\006 \001(\010\022 \n"
-    "\030no_window_video_channels\030\007 \003(\t\022\031\n\021trunc"
-    "ated_sources\030\010 \003(\t\022\034\n\024telemetry_incomple"
-    "te\030\t \001(\010\022\035\n\025io_records_incomplete\030\n \001(\010\""
-    "K\n\014VideoChannel\022\017\n\007channel\030\001 \001(\t\022*\n\010segm"
-    "ents\030\002 \003(\0132\030.jon.cvdump.VideoSegment\"\213\001\n"
-    "\014VideoSegment\022\020\n\010sequence\030\001 \001(\r\022\014\n\004path\030"
-    "\002 \001(\t\022\r\n\005bytes\030\003 \001(\004\022\030\n\006sha256\030\004 \001(\tB\010\272H"
-    "\005r\003\230\001@\022\020\n\010start_ns\030\005 \001(\003\022\016\n\006end_ns\030\006 \001(\003"
-    "\022\020\n\010open_end\030\007 \001(\010\"\220\002\n\013StreamGroup\022$\n\004ki"
-    "nd\030\001 \001(\0162\026.jon.cvdump.StreamKind\022\027\n\006sour"
-    "ce\030\002 \001(\tB\007\272H\004r\002\020\001\022\'\n\005codec\030\003 \001(\0162\030.jon.c"
-    "vdump.ArchiveCodec\022\024\n\014record_count\030\004 \001(\004"
-    "\022\025\n\rdecoded_bytes\030\005 \001(\004\022 \n\016decoded_sha25"
-    "6\030\006 \001(\tB\010\272H\005r\003\230\001@\022\021\n\ttruncated\030\007 \001(\010\022&\n\007"
-    "columns\030\010 \003(\0132\025.jon.cvdump.ColumnDef\022\017\n\007"
-    "payload\030\t \001(\014\"\'\n\tColumnDef\022\014\n\004name\030\001 \001(\t"
-    "\022\014\n\004type\030\002 \001(\t\"D\n\022RedisStreamRecords\022.\n\007"
-    "records\030\001 \003(\0132\035.jon.cvdump.RedisStreamRe"
-    "cord\"M\n\021RedisStreamRecord\022\n\n\002id\030\001 \001(\t\022,\n"
-    "\006fields\030\002 \003(\0132\034.jon.cvdump.RedisStreamFi"
-    "eld\"/\n\020RedisStreamField\022\014\n\004name\030\001 \001(\t\022\r\n"
-    "\005value\030\002 \001(\014\"\031\n\tTableRows\022\014\n\004rows\030\001 \003(\014*"
-    "]\n\024ArchiveFormatVersion\022&\n\"ARCHIVE_FORMA"
-    "T_VERSION_UNSPECIFIED\020\000\022\035\n\031ARCHIVE_FORMA"
-    "T_VERSION_V3\020\003*E\n\014ArchiveCodec\022\035\n\031ARCHIV"
-    "E_CODEC_UNSPECIFIED\020\000\022\026\n\022ARCHIVE_CODEC_N"
-    "ONE\020\001*\262\001\n\nStreamKind\022\033\n\027STREAM_KIND_UNSP"
-    "ECIFIED\020\000\022\023\n\017STREAM_KIND_CAN\020\001\022\033\n\027STREAM"
-    "_KIND_ROTARY_UART\020\002\022\031\n\025STREAM_KIND_FRAME"
-    "_TAP\020\003\022\032\n\026STREAM_KIND_TSDB_TABLE\020\004\022\036\n\032ST"
-    "REAM_KIND_MOTION_HISTORY\020\005*\203\001\n\rArchiveSt"
-    "atus\022\036\n\032ARCHIVE_STATUS_UNSPECIFIED\020\000\022\033\n\027"
-    "ARCHIVE_STATUS_COMPLETE\020\001\022\032\n\026ARCHIVE_STA"
-    "TUS_PARTIAL\020\002\022\031\n\025ARCHIVE_STATUS_FAILED\020\003"
-    "*|\n\021SessionProvenance\022\"\n\036SESSION_PROVENA"
-    "NCE_UNSPECIFIED\020\000\022\037\n\033SESSION_PROVENANCE_"
-    "EUTROPIA\020\001\022\"\n\036SESSION_PROVENANCE_SYNTHES"
-    "IZED\020\002BIZGgit-codecommit.eu-central-1.am"
-    "azonaws.com/v1/repos/jettison/jonp/cvdum"
-    "pb\006proto3"
+    "2\027.jon.cvdump.StreamGroup\022&\n\005shots\030\013 \003(\013"
+    "2\027.jon.cvdump.ShotCapture\"\363\001\n\tShotPlane\022"
+    "\026\n\005plane\030\001 \001(\rB\007\272H\004*\002\030\003\022\013\n\003tag\030\002 \001(\r\022\025\n\r"
+    "source_format\030\003 \001(\r\022\025\n\004path\030\004 \001(\tB\007\272H\004r\002"
+    "\020\001\022\031\n\010encoding\030\005 \001(\tB\007\272H\004r\002\020\001\022\r\n\005width\030\006"
+    " \001(\r\022\016\n\006height\030\007 \001(\r\022\r\n\005pitch\030\010 \001(\r\022\021\n\tu"
+    "v_offset\030\t \001(\r\022\r\n\005bytes\030\n \001(\004\022(\n\006sha256\030"
+    "\013 \001(\tB\030\272H\025r\0232\016^[0-9a-f]{64}$\230\001@\"\301\001\n\013Shot"
+    "Capture\022!\n\007channel\030\001 \001(\tB\020\272H\rr\013R\003dayR\004he"
+    "at\022\022\n\ngeneration\030\002 \001(\r\022\016\n\006pts_ns\030\003 \001(\004\022\027"
+    "\n\017capture_time_ns\030\004 \001(\004\022\024\n\014ctl_snapshot\030"
+    "\005 \001(\014\022%\n\006planes\030\006 \003(\0132\025.jon.cvdump.ShotP"
+    "lane\022\025\n\rabsent_reason\030\007 \001(\t\"Y\n\rCaptureWi"
+    "ndow\022\017\n\007t0_wall\030\001 \001(\t\022\017\n\007t1_wall\030\002 \001(\t\022\022"
+    "\n\nt0_boot_ns\030\003 \001(\003\022\022\n\nt1_boot_ns\030\004 \001(\003\"\242"
+    "\002\n\017MachineIdentity\022\027\n\nmachine_id\030\001 \001(\tH\000"
+    "\210\001\001\022\025\n\010hostname\030\002 \001(\tH\001\210\001\001\022\025\n\010hw_model\030\003"
+    " \001(\tH\002\210\001\001\022\024\n\007boot_id\030\004 \001(\tH\003\210\001\001\022-\n\006deplo"
+    "y\030\005 \001(\0132\035.jon.cvdump.DeployFingerprint\0222"
+    "\n\017channels_config\030\006 \003(\0132\031.jon.cvdump.Cha"
+    "nnelConfig\022\032\n\022machine_incomplete\030\007 \001(\010B\r"
+    "\n\013_machine_idB\013\n\t_hostnameB\013\n\t_hw_modelB"
+    "\n\n\010_boot_id\"e\n\021DeployFingerprint\022\023\n\013fing"
+    "erprint\030\001 \001(\t\022\024\n\014jettison_sha\030\002 \001(\t\022\020\n\010d"
+    "escribe\030\003 \001(\t\022\023\n\013deployed_at\030\004 \001(\t\"|\n\rCh"
+    "annelConfig\022\017\n\007channel\030\001 \001(\t\022\r\n\005width\030\002 "
+    "\001(\r\022\016\n\006height\030\003 \001(\r\022\021\n\tfps_limit\030\004 \001(\r\022\022"
+    "\n\nsensor_fps\030\005 \001(\r\022\024\n\014crop_margins\030\006 \001(\r"
+    "\"\276\002\n\017IntegrityReport\022)\n\006status\030\001 \001(\0162\031.j"
+    "on.cvdump.ArchiveStatus\022\027\n\017lapped_segmen"
+    "ts\030\002 \001(\r\022\031\n\021window_start_lost\030\003 \001(\010\022\032\n\022w"
+    "riter_seg_skipped\030\004 \001(\010\022\033\n\023rec_control_u"
+    "nknown\030\005 \001(\010\022\031\n\021rec_enable_failed\030\006 \001(\010\022"
+    " \n\030no_window_video_channels\030\007 \003(\t\022\031\n\021tru"
+    "ncated_sources\030\010 \003(\t\022\034\n\024telemetry_incomp"
+    "lete\030\t \001(\010\022\035\n\025io_records_incomplete\030\n \001("
+    "\010\"K\n\014VideoChannel\022\017\n\007channel\030\001 \001(\t\022*\n\010se"
+    "gments\030\002 \003(\0132\030.jon.cvdump.VideoSegment\"\213"
+    "\001\n\014VideoSegment\022\020\n\010sequence\030\001 \001(\r\022\014\n\004pat"
+    "h\030\002 \001(\t\022\r\n\005bytes\030\003 \001(\004\022\030\n\006sha256\030\004 \001(\tB\010"
+    "\272H\005r\003\230\001@\022\020\n\010start_ns\030\005 \001(\003\022\016\n\006end_ns\030\006 \001"
+    "(\003\022\020\n\010open_end\030\007 \001(\010\"\220\002\n\013StreamGroup\022$\n\004"
+    "kind\030\001 \001(\0162\026.jon.cvdump.StreamKind\022\027\n\006so"
+    "urce\030\002 \001(\tB\007\272H\004r\002\020\001\022\'\n\005codec\030\003 \001(\0162\030.jon"
+    ".cvdump.ArchiveCodec\022\024\n\014record_count\030\004 \001"
+    "(\004\022\025\n\rdecoded_bytes\030\005 \001(\004\022 \n\016decoded_sha"
+    "256\030\006 \001(\tB\010\272H\005r\003\230\001@\022\021\n\ttruncated\030\007 \001(\010\022&"
+    "\n\007columns\030\010 \003(\0132\025.jon.cvdump.ColumnDef\022\017"
+    "\n\007payload\030\t \001(\014\"\'\n\tColumnDef\022\014\n\004name\030\001 \001"
+    "(\t\022\014\n\004type\030\002 \001(\t\"D\n\022RedisStreamRecords\022."
+    "\n\007records\030\001 \003(\0132\035.jon.cvdump.RedisStream"
+    "Record\"M\n\021RedisStreamRecord\022\n\n\002id\030\001 \001(\t\022"
+    ",\n\006fields\030\002 \003(\0132\034.jon.cvdump.RedisStream"
+    "Field\"/\n\020RedisStreamField\022\014\n\004name\030\001 \001(\t\022"
+    "\r\n\005value\030\002 \001(\014\"\031\n\tTableRows\022\014\n\004rows\030\001 \003("
+    "\014*]\n\024ArchiveFormatVersion\022&\n\"ARCHIVE_FOR"
+    "MAT_VERSION_UNSPECIFIED\020\000\022\035\n\031ARCHIVE_FOR"
+    "MAT_VERSION_V3\020\003*E\n\014ArchiveCodec\022\035\n\031ARCH"
+    "IVE_CODEC_UNSPECIFIED\020\000\022\026\n\022ARCHIVE_CODEC"
+    "_NONE\020\001*\262\001\n\nStreamKind\022\033\n\027STREAM_KIND_UN"
+    "SPECIFIED\020\000\022\023\n\017STREAM_KIND_CAN\020\001\022\033\n\027STRE"
+    "AM_KIND_ROTARY_UART\020\002\022\031\n\025STREAM_KIND_FRA"
+    "ME_TAP\020\003\022\032\n\026STREAM_KIND_TSDB_TABLE\020\004\022\036\n\032"
+    "STREAM_KIND_MOTION_HISTORY\020\005*\203\001\n\rArchive"
+    "Status\022\036\n\032ARCHIVE_STATUS_UNSPECIFIED\020\000\022\033"
+    "\n\027ARCHIVE_STATUS_COMPLETE\020\001\022\032\n\026ARCHIVE_S"
+    "TATUS_PARTIAL\020\002\022\031\n\025ARCHIVE_STATUS_FAILED"
+    "\020\003*|\n\021SessionProvenance\022\"\n\036SESSION_PROVE"
+    "NANCE_UNSPECIFIED\020\000\022\037\n\033SESSION_PROVENANC"
+    "E_EUTROPIA\020\001\022\"\n\036SESSION_PROVENANCE_SYNTH"
+    "ESIZED\020\002BIZGgit-codecommit.eu-central-1."
+    "amazonaws.com/v1/repos/jettison/jonp/cvd"
+    "umpb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fcv_5fdump_5farchive_2eproto_deps[1] =
     {
@@ -801,13 +932,13 @@ static ::absl::once_flag descriptor_table_jon_5fcv_5fdump_5farchive_2eproto_once
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fcv_5fdump_5farchive_2eproto = {
     false,
     false,
-    2849,
+    3331,
     descriptor_table_protodef_jon_5fcv_5fdump_5farchive_2eproto,
     "jon_cv_dump_archive.proto",
     &descriptor_table_jon_5fcv_5fdump_5farchive_2eproto_once,
     descriptor_table_jon_5fcv_5fdump_5farchive_2eproto_deps,
     1,
-    14,
+    16,
     schemas,
     file_default_instances,
     TableStruct_jon_5fcv_5fdump_5farchive_2eproto::offsets,
@@ -887,6 +1018,7 @@ inline PROTOBUF_NDEBUG_INLINE CvDumpArchive::Impl_::Impl_(
         _cached_size_{0},
         video_{visibility, arena, from.video_},
         streams_{visibility, arena, from.streams_},
+        shots_{visibility, arena, from.shots_},
         id_(arena, from.id_),
         generated_at_(arena, from.generated_at_),
         note_(arena, from.note_) {}
@@ -930,6 +1062,7 @@ inline PROTOBUF_NDEBUG_INLINE CvDumpArchive::Impl_::Impl_(
       : _cached_size_{0},
         video_{visibility, arena},
         streams_{visibility, arena},
+        shots_{visibility, arena},
         id_(arena),
         generated_at_(arena),
         note_(arena) {}
@@ -974,6 +1107,10 @@ constexpr auto CvDumpArchive::InternalNewImpl_() {
           decltype(CvDumpArchive::_impl_.streams_)::
               InternalGetArenaOffset(
                   ::google::protobuf::Message::internal_visibility()),
+      PROTOBUF_FIELD_OFFSET(CvDumpArchive, _impl_.shots_) +
+          decltype(CvDumpArchive::_impl_.shots_)::
+              InternalGetArenaOffset(
+                  ::google::protobuf::Message::internal_visibility()),
   });
   if (arena_bits.has_value()) {
     return ::google::protobuf::internal::MessageCreator::CopyInit(
@@ -1012,16 +1149,16 @@ const ::google::protobuf::internal::ClassData* CvDumpArchive::GetClassData() con
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<4, 10, 5, 59, 2> CvDumpArchive::_table_ = {
+const ::_pbi::TcParseTable<4, 11, 6, 59, 2> CvDumpArchive::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(CvDumpArchive, _impl_._has_bits_),
     0, // no _extensions_
-    10, 120,  // max_field_number, fast_idx_mask
+    11, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294966272,  // skipmap
+    4294965248,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    10,  // num_field_entries
-    5,  // num_aux_entries
+    11,  // num_field_entries
+    6,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -1061,7 +1198,9 @@ const ::_pbi::TcParseTable<4, 10, 5, 59, 2> CvDumpArchive::_table_ = {
     // repeated .jon.cvdump.StreamGroup streams = 10;
     {::_pbi::TcParser::FastMtR1,
      {82, 63, 4, PROTOBUF_FIELD_OFFSET(CvDumpArchive, _impl_.streams_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // repeated .jon.cvdump.ShotCapture shots = 11;
+    {::_pbi::TcParser::FastMtR1,
+     {90, 63, 5, PROTOBUF_FIELD_OFFSET(CvDumpArchive, _impl_.shots_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -1099,12 +1238,16 @@ const ::_pbi::TcParseTable<4, 10, 5, 59, 2> CvDumpArchive::_table_ = {
     // repeated .jon.cvdump.StreamGroup streams = 10;
     {PROTOBUF_FIELD_OFFSET(CvDumpArchive, _impl_.streams_), -1, 4,
     (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
+    // repeated .jon.cvdump.ShotCapture shots = 11;
+    {PROTOBUF_FIELD_OFFSET(CvDumpArchive, _impl_.shots_), -1, 5,
+    (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::jon::cvdump::CaptureWindow>()},
     {::_pbi::TcParser::GetTable<::jon::cvdump::MachineIdentity>()},
     {::_pbi::TcParser::GetTable<::jon::cvdump::IntegrityReport>()},
     {::_pbi::TcParser::GetTable<::jon::cvdump::VideoChannel>()},
     {::_pbi::TcParser::GetTable<::jon::cvdump::StreamGroup>()},
+    {::_pbi::TcParser::GetTable<::jon::cvdump::ShotCapture>()},
   }}, {{
     "\30\0\2\14\0\0\4\0\0\0\0\0\0\0\0\0"
     "jon.cvdump.CvDumpArchive"
@@ -1123,6 +1266,7 @@ PROTOBUF_NOINLINE void CvDumpArchive::Clear() {
 
   _impl_.video_.Clear();
   _impl_.streams_.Clear();
+  _impl_.shots_.Clear();
   _impl_.id_.ClearToEmpty();
   _impl_.generated_at_.ClearToEmpty();
   _impl_.note_.ClearToEmpty();
@@ -1245,6 +1389,17 @@ PROTOBUF_NOINLINE void CvDumpArchive::Clear() {
                     target, stream);
           }
 
+          // repeated .jon.cvdump.ShotCapture shots = 11;
+          for (unsigned i = 0, n = static_cast<unsigned>(
+                                   this_._internal_shots_size());
+               i < n; i++) {
+            const auto& repfield = this_._internal_shots().Get(i);
+            target =
+                ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                    11, repfield, repfield.GetCachedSize(),
+                    target, stream);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -1281,6 +1436,13 @@ PROTOBUF_NOINLINE void CvDumpArchive::Clear() {
             {
               total_size += 1UL * this_._internal_streams_size();
               for (const auto& msg : this_._internal_streams()) {
+                total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
+              }
+            }
+            // repeated .jon.cvdump.ShotCapture shots = 11;
+            {
+              total_size += 1UL * this_._internal_shots_size();
+              for (const auto& msg : this_._internal_shots()) {
                 total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
               }
             }
@@ -1349,6 +1511,8 @@ void CvDumpArchive::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::g
       from._internal_video());
   _this->_internal_mutable_streams()->MergeFrom(
       from._internal_streams());
+  _this->_internal_mutable_shots()->MergeFrom(
+      from._internal_shots());
   if (!from._internal_id().empty()) {
     _this->_internal_set_id(from._internal_id());
   }
@@ -1414,6 +1578,7 @@ void CvDumpArchive::InternalSwap(CvDumpArchive* PROTOBUF_RESTRICT other) {
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   _impl_.video_.InternalSwap(&other->_impl_.video_);
   _impl_.streams_.InternalSwap(&other->_impl_.streams_);
+  _impl_.shots_.InternalSwap(&other->_impl_.shots_);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.id_, &other->_impl_.id_, arena);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.generated_at_, &other->_impl_.generated_at_, arena);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.note_, &other->_impl_.note_, arena);
@@ -1426,6 +1591,904 @@ void CvDumpArchive::InternalSwap(CvDumpArchive* PROTOBUF_RESTRICT other) {
 }
 
 ::google::protobuf::Metadata CvDumpArchive::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ShotPlane::_Internal {
+ public:
+};
+
+ShotPlane::ShotPlane(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:jon.cvdump.ShotPlane)
+}
+inline PROTOBUF_NDEBUG_INLINE ShotPlane::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::jon::cvdump::ShotPlane& from_msg)
+      : path_(arena, from.path_),
+        encoding_(arena, from.encoding_),
+        sha256_(arena, from.sha256_),
+        _cached_size_{0} {}
+
+ShotPlane::ShotPlane(
+    ::google::protobuf::Arena* arena,
+    const ShotPlane& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ShotPlane* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, plane_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, plane_),
+           offsetof(Impl_, uv_offset_) -
+               offsetof(Impl_, plane_) +
+               sizeof(Impl_::uv_offset_));
+
+  // @@protoc_insertion_point(copy_constructor:jon.cvdump.ShotPlane)
+}
+inline PROTOBUF_NDEBUG_INLINE ShotPlane::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : path_(arena),
+        encoding_(arena),
+        sha256_(arena),
+        _cached_size_{0} {}
+
+inline void ShotPlane::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, plane_),
+           0,
+           offsetof(Impl_, uv_offset_) -
+               offsetof(Impl_, plane_) +
+               sizeof(Impl_::uv_offset_));
+}
+ShotPlane::~ShotPlane() {
+  // @@protoc_insertion_point(destructor:jon.cvdump.ShotPlane)
+  SharedDtor(*this);
+}
+inline void ShotPlane::SharedDtor(MessageLite& self) {
+  ShotPlane& this_ = static_cast<ShotPlane&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.path_.Destroy();
+  this_._impl_.encoding_.Destroy();
+  this_._impl_.sha256_.Destroy();
+  this_._impl_.~Impl_();
+}
+
+inline void* ShotPlane::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) ShotPlane(arena);
+}
+constexpr auto ShotPlane::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(ShotPlane),
+                                            alignof(ShotPlane));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull ShotPlane::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_ShotPlane_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &ShotPlane::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<ShotPlane>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &ShotPlane::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<ShotPlane>(), &ShotPlane::ByteSizeLong,
+            &ShotPlane::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_._cached_size_),
+        false,
+    },
+    &ShotPlane::kDescriptorMethods,
+    &descriptor_table_jon_5fcv_5fdump_5farchive_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* ShotPlane::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<4, 11, 0, 55, 2> ShotPlane::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    11, 120,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294965248,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    11,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::jon::cvdump::ShotPlane>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // uint32 plane = 1 [(.buf.validate.field) = {
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ShotPlane, _impl_.plane_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.plane_)}},
+    // uint32 tag = 2;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ShotPlane, _impl_.tag_), 63>(),
+     {16, 63, 0, PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.tag_)}},
+    // uint32 source_format = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ShotPlane, _impl_.source_format_), 63>(),
+     {24, 63, 0, PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.source_format_)}},
+    // string path = 4 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastUS1,
+     {34, 63, 0, PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.path_)}},
+    // string encoding = 5 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastUS1,
+     {42, 63, 0, PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.encoding_)}},
+    // uint32 width = 6;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ShotPlane, _impl_.width_), 63>(),
+     {48, 63, 0, PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.width_)}},
+    // uint32 height = 7;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ShotPlane, _impl_.height_), 63>(),
+     {56, 63, 0, PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.height_)}},
+    // uint32 pitch = 8;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ShotPlane, _impl_.pitch_), 63>(),
+     {64, 63, 0, PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.pitch_)}},
+    // uint32 uv_offset = 9;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ShotPlane, _impl_.uv_offset_), 63>(),
+     {72, 63, 0, PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.uv_offset_)}},
+    // uint64 bytes = 10;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(ShotPlane, _impl_.bytes_), 63>(),
+     {80, 63, 0, PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.bytes_)}},
+    // string sha256 = 11 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastUS1,
+     {90, 63, 0, PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.sha256_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // uint32 plane = 1 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.plane_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint32 tag = 2;
+    {PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.tag_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint32 source_format = 3;
+    {PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.source_format_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // string path = 4 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.path_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // string encoding = 5 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.encoding_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // uint32 width = 6;
+    {PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.width_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint32 height = 7;
+    {PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.height_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint32 pitch = 8;
+    {PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.pitch_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint32 uv_offset = 9;
+    {PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.uv_offset_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint64 bytes = 10;
+    {PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.bytes_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // string sha256 = 11 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.sha256_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+  }},
+  // no aux_entries
+  {{
+    "\24\0\0\0\4\10\0\0\0\0\0\6\0\0\0\0"
+    "jon.cvdump.ShotPlane"
+    "path"
+    "encoding"
+    "sha256"
+  }},
+};
+
+PROTOBUF_NOINLINE void ShotPlane::Clear() {
+// @@protoc_insertion_point(message_clear_start:jon.cvdump.ShotPlane)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.path_.ClearToEmpty();
+  _impl_.encoding_.ClearToEmpty();
+  _impl_.sha256_.ClearToEmpty();
+  ::memset(&_impl_.plane_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.uv_offset_) -
+      reinterpret_cast<char*>(&_impl_.plane_)) + sizeof(_impl_.uv_offset_));
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* ShotPlane::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const ShotPlane& this_ = static_cast<const ShotPlane&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* ShotPlane::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const ShotPlane& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:jon.cvdump.ShotPlane)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // uint32 plane = 1 [(.buf.validate.field) = {
+          if (this_._internal_plane() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                1, this_._internal_plane(), target);
+          }
+
+          // uint32 tag = 2;
+          if (this_._internal_tag() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                2, this_._internal_tag(), target);
+          }
+
+          // uint32 source_format = 3;
+          if (this_._internal_source_format() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                3, this_._internal_source_format(), target);
+          }
+
+          // string path = 4 [(.buf.validate.field) = {
+          if (!this_._internal_path().empty()) {
+            const std::string& _s = this_._internal_path();
+            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.cvdump.ShotPlane.path");
+            target = stream->WriteStringMaybeAliased(4, _s, target);
+          }
+
+          // string encoding = 5 [(.buf.validate.field) = {
+          if (!this_._internal_encoding().empty()) {
+            const std::string& _s = this_._internal_encoding();
+            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.cvdump.ShotPlane.encoding");
+            target = stream->WriteStringMaybeAliased(5, _s, target);
+          }
+
+          // uint32 width = 6;
+          if (this_._internal_width() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                6, this_._internal_width(), target);
+          }
+
+          // uint32 height = 7;
+          if (this_._internal_height() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                7, this_._internal_height(), target);
+          }
+
+          // uint32 pitch = 8;
+          if (this_._internal_pitch() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                8, this_._internal_pitch(), target);
+          }
+
+          // uint32 uv_offset = 9;
+          if (this_._internal_uv_offset() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                9, this_._internal_uv_offset(), target);
+          }
+
+          // uint64 bytes = 10;
+          if (this_._internal_bytes() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                10, this_._internal_bytes(), target);
+          }
+
+          // string sha256 = 11 [(.buf.validate.field) = {
+          if (!this_._internal_sha256().empty()) {
+            const std::string& _s = this_._internal_sha256();
+            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.cvdump.ShotPlane.sha256");
+            target = stream->WriteStringMaybeAliased(11, _s, target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:jon.cvdump.ShotPlane)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t ShotPlane::ByteSizeLong(const MessageLite& base) {
+          const ShotPlane& this_ = static_cast<const ShotPlane&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t ShotPlane::ByteSizeLong() const {
+          const ShotPlane& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:jon.cvdump.ShotPlane)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+           {
+            // string path = 4 [(.buf.validate.field) = {
+            if (!this_._internal_path().empty()) {
+              total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                              this_._internal_path());
+            }
+            // string encoding = 5 [(.buf.validate.field) = {
+            if (!this_._internal_encoding().empty()) {
+              total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                              this_._internal_encoding());
+            }
+            // string sha256 = 11 [(.buf.validate.field) = {
+            if (!this_._internal_sha256().empty()) {
+              total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                              this_._internal_sha256());
+            }
+            // uint32 plane = 1 [(.buf.validate.field) = {
+            if (this_._internal_plane() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_plane());
+            }
+            // uint32 tag = 2;
+            if (this_._internal_tag() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_tag());
+            }
+            // uint32 source_format = 3;
+            if (this_._internal_source_format() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_source_format());
+            }
+            // uint32 width = 6;
+            if (this_._internal_width() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_width());
+            }
+            // uint32 height = 7;
+            if (this_._internal_height() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_height());
+            }
+            // uint32 pitch = 8;
+            if (this_._internal_pitch() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_pitch());
+            }
+            // uint64 bytes = 10;
+            if (this_._internal_bytes() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_bytes());
+            }
+            // uint32 uv_offset = 9;
+            if (this_._internal_uv_offset() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_uv_offset());
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void ShotPlane::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<ShotPlane*>(&to_msg);
+  auto& from = static_cast<const ShotPlane&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:jon.cvdump.ShotPlane)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_path().empty()) {
+    _this->_internal_set_path(from._internal_path());
+  }
+  if (!from._internal_encoding().empty()) {
+    _this->_internal_set_encoding(from._internal_encoding());
+  }
+  if (!from._internal_sha256().empty()) {
+    _this->_internal_set_sha256(from._internal_sha256());
+  }
+  if (from._internal_plane() != 0) {
+    _this->_impl_.plane_ = from._impl_.plane_;
+  }
+  if (from._internal_tag() != 0) {
+    _this->_impl_.tag_ = from._impl_.tag_;
+  }
+  if (from._internal_source_format() != 0) {
+    _this->_impl_.source_format_ = from._impl_.source_format_;
+  }
+  if (from._internal_width() != 0) {
+    _this->_impl_.width_ = from._impl_.width_;
+  }
+  if (from._internal_height() != 0) {
+    _this->_impl_.height_ = from._impl_.height_;
+  }
+  if (from._internal_pitch() != 0) {
+    _this->_impl_.pitch_ = from._impl_.pitch_;
+  }
+  if (from._internal_bytes() != 0) {
+    _this->_impl_.bytes_ = from._impl_.bytes_;
+  }
+  if (from._internal_uv_offset() != 0) {
+    _this->_impl_.uv_offset_ = from._impl_.uv_offset_;
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void ShotPlane::CopyFrom(const ShotPlane& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:jon.cvdump.ShotPlane)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void ShotPlane::InternalSwap(ShotPlane* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.path_, &other->_impl_.path_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.encoding_, &other->_impl_.encoding_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.sha256_, &other->_impl_.sha256_, arena);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.uv_offset_)
+      + sizeof(ShotPlane::_impl_.uv_offset_)
+      - PROTOBUF_FIELD_OFFSET(ShotPlane, _impl_.plane_)>(
+          reinterpret_cast<char*>(&_impl_.plane_),
+          reinterpret_cast<char*>(&other->_impl_.plane_));
+}
+
+::google::protobuf::Metadata ShotPlane::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ShotCapture::_Internal {
+ public:
+};
+
+ShotCapture::ShotCapture(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:jon.cvdump.ShotCapture)
+}
+inline PROTOBUF_NDEBUG_INLINE ShotCapture::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::jon::cvdump::ShotCapture& from_msg)
+      : planes_{visibility, arena, from.planes_},
+        channel_(arena, from.channel_),
+        ctl_snapshot_(arena, from.ctl_snapshot_),
+        absent_reason_(arena, from.absent_reason_),
+        _cached_size_{0} {}
+
+ShotCapture::ShotCapture(
+    ::google::protobuf::Arena* arena,
+    const ShotCapture& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ShotCapture* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, pts_ns_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, pts_ns_),
+           offsetof(Impl_, generation_) -
+               offsetof(Impl_, pts_ns_) +
+               sizeof(Impl_::generation_));
+
+  // @@protoc_insertion_point(copy_constructor:jon.cvdump.ShotCapture)
+}
+inline PROTOBUF_NDEBUG_INLINE ShotCapture::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : planes_{visibility, arena},
+        channel_(arena),
+        ctl_snapshot_(arena),
+        absent_reason_(arena),
+        _cached_size_{0} {}
+
+inline void ShotCapture::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, pts_ns_),
+           0,
+           offsetof(Impl_, generation_) -
+               offsetof(Impl_, pts_ns_) +
+               sizeof(Impl_::generation_));
+}
+ShotCapture::~ShotCapture() {
+  // @@protoc_insertion_point(destructor:jon.cvdump.ShotCapture)
+  SharedDtor(*this);
+}
+inline void ShotCapture::SharedDtor(MessageLite& self) {
+  ShotCapture& this_ = static_cast<ShotCapture&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.channel_.Destroy();
+  this_._impl_.ctl_snapshot_.Destroy();
+  this_._impl_.absent_reason_.Destroy();
+  this_._impl_.~Impl_();
+}
+
+inline void* ShotCapture::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) ShotCapture(arena);
+}
+constexpr auto ShotCapture::InternalNewImpl_() {
+  constexpr auto arena_bits = ::google::protobuf::internal::EncodePlacementArenaOffsets({
+      PROTOBUF_FIELD_OFFSET(ShotCapture, _impl_.planes_) +
+          decltype(ShotCapture::_impl_.planes_)::
+              InternalGetArenaOffset(
+                  ::google::protobuf::Message::internal_visibility()),
+  });
+  if (arena_bits.has_value()) {
+    return ::google::protobuf::internal::MessageCreator::CopyInit(
+        sizeof(ShotCapture), alignof(ShotCapture), *arena_bits);
+  } else {
+    return ::google::protobuf::internal::MessageCreator(&ShotCapture::PlacementNew_,
+                                 sizeof(ShotCapture),
+                                 alignof(ShotCapture));
+  }
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull ShotCapture::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_ShotCapture_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &ShotCapture::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<ShotCapture>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &ShotCapture::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<ShotCapture>(), &ShotCapture::ByteSizeLong,
+            &ShotCapture::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(ShotCapture, _impl_._cached_size_),
+        false,
+    },
+    &ShotCapture::kDescriptorMethods,
+    &descriptor_table_jon_5fcv_5fdump_5farchive_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* ShotCapture::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<3, 7, 1, 51, 2> ShotCapture::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    7, 56,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967168,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    7,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::jon::cvdump::ShotCapture>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // string channel = 1 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastUS1,
+     {10, 63, 0, PROTOBUF_FIELD_OFFSET(ShotCapture, _impl_.channel_)}},
+    // uint32 generation = 2;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ShotCapture, _impl_.generation_), 63>(),
+     {16, 63, 0, PROTOBUF_FIELD_OFFSET(ShotCapture, _impl_.generation_)}},
+    // uint64 pts_ns = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(ShotCapture, _impl_.pts_ns_), 63>(),
+     {24, 63, 0, PROTOBUF_FIELD_OFFSET(ShotCapture, _impl_.pts_ns_)}},
+    // uint64 capture_time_ns = 4;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(ShotCapture, _impl_.capture_time_ns_), 63>(),
+     {32, 63, 0, PROTOBUF_FIELD_OFFSET(ShotCapture, _impl_.capture_time_ns_)}},
+    // bytes ctl_snapshot = 5;
+    {::_pbi::TcParser::FastBS1,
+     {42, 63, 0, PROTOBUF_FIELD_OFFSET(ShotCapture, _impl_.ctl_snapshot_)}},
+    // repeated .jon.cvdump.ShotPlane planes = 6;
+    {::_pbi::TcParser::FastMtR1,
+     {50, 63, 0, PROTOBUF_FIELD_OFFSET(ShotCapture, _impl_.planes_)}},
+    // string absent_reason = 7;
+    {::_pbi::TcParser::FastUS1,
+     {58, 63, 0, PROTOBUF_FIELD_OFFSET(ShotCapture, _impl_.absent_reason_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // string channel = 1 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(ShotCapture, _impl_.channel_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // uint32 generation = 2;
+    {PROTOBUF_FIELD_OFFSET(ShotCapture, _impl_.generation_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint64 pts_ns = 3;
+    {PROTOBUF_FIELD_OFFSET(ShotCapture, _impl_.pts_ns_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // uint64 capture_time_ns = 4;
+    {PROTOBUF_FIELD_OFFSET(ShotCapture, _impl_.capture_time_ns_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // bytes ctl_snapshot = 5;
+    {PROTOBUF_FIELD_OFFSET(ShotCapture, _impl_.ctl_snapshot_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kBytes | ::_fl::kRepAString)},
+    // repeated .jon.cvdump.ShotPlane planes = 6;
+    {PROTOBUF_FIELD_OFFSET(ShotCapture, _impl_.planes_), 0, 0,
+    (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
+    // string absent_reason = 7;
+    {PROTOBUF_FIELD_OFFSET(ShotCapture, _impl_.absent_reason_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::jon::cvdump::ShotPlane>()},
+  }}, {{
+    "\26\7\0\0\0\0\0\15"
+    "jon.cvdump.ShotCapture"
+    "channel"
+    "absent_reason"
+  }},
+};
+
+PROTOBUF_NOINLINE void ShotCapture::Clear() {
+// @@protoc_insertion_point(message_clear_start:jon.cvdump.ShotCapture)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.planes_.Clear();
+  _impl_.channel_.ClearToEmpty();
+  _impl_.ctl_snapshot_.ClearToEmpty();
+  _impl_.absent_reason_.ClearToEmpty();
+  ::memset(&_impl_.pts_ns_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.generation_) -
+      reinterpret_cast<char*>(&_impl_.pts_ns_)) + sizeof(_impl_.generation_));
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* ShotCapture::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const ShotCapture& this_ = static_cast<const ShotCapture&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* ShotCapture::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const ShotCapture& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:jon.cvdump.ShotCapture)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // string channel = 1 [(.buf.validate.field) = {
+          if (!this_._internal_channel().empty()) {
+            const std::string& _s = this_._internal_channel();
+            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.cvdump.ShotCapture.channel");
+            target = stream->WriteStringMaybeAliased(1, _s, target);
+          }
+
+          // uint32 generation = 2;
+          if (this_._internal_generation() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                2, this_._internal_generation(), target);
+          }
+
+          // uint64 pts_ns = 3;
+          if (this_._internal_pts_ns() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                3, this_._internal_pts_ns(), target);
+          }
+
+          // uint64 capture_time_ns = 4;
+          if (this_._internal_capture_time_ns() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                4, this_._internal_capture_time_ns(), target);
+          }
+
+          // bytes ctl_snapshot = 5;
+          if (!this_._internal_ctl_snapshot().empty()) {
+            const std::string& _s = this_._internal_ctl_snapshot();
+            target = stream->WriteBytesMaybeAliased(5, _s, target);
+          }
+
+          // repeated .jon.cvdump.ShotPlane planes = 6;
+          for (unsigned i = 0, n = static_cast<unsigned>(
+                                   this_._internal_planes_size());
+               i < n; i++) {
+            const auto& repfield = this_._internal_planes().Get(i);
+            target =
+                ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                    6, repfield, repfield.GetCachedSize(),
+                    target, stream);
+          }
+
+          // string absent_reason = 7;
+          if (!this_._internal_absent_reason().empty()) {
+            const std::string& _s = this_._internal_absent_reason();
+            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.cvdump.ShotCapture.absent_reason");
+            target = stream->WriteStringMaybeAliased(7, _s, target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:jon.cvdump.ShotCapture)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t ShotCapture::ByteSizeLong(const MessageLite& base) {
+          const ShotCapture& this_ = static_cast<const ShotCapture&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t ShotCapture::ByteSizeLong() const {
+          const ShotCapture& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:jon.cvdump.ShotCapture)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+           {
+            // repeated .jon.cvdump.ShotPlane planes = 6;
+            {
+              total_size += 1UL * this_._internal_planes_size();
+              for (const auto& msg : this_._internal_planes()) {
+                total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
+              }
+            }
+          }
+           {
+            // string channel = 1 [(.buf.validate.field) = {
+            if (!this_._internal_channel().empty()) {
+              total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                              this_._internal_channel());
+            }
+            // bytes ctl_snapshot = 5;
+            if (!this_._internal_ctl_snapshot().empty()) {
+              total_size += 1 + ::google::protobuf::internal::WireFormatLite::BytesSize(
+                                              this_._internal_ctl_snapshot());
+            }
+            // string absent_reason = 7;
+            if (!this_._internal_absent_reason().empty()) {
+              total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                              this_._internal_absent_reason());
+            }
+            // uint64 pts_ns = 3;
+            if (this_._internal_pts_ns() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_pts_ns());
+            }
+            // uint64 capture_time_ns = 4;
+            if (this_._internal_capture_time_ns() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_capture_time_ns());
+            }
+            // uint32 generation = 2;
+            if (this_._internal_generation() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_generation());
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void ShotCapture::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<ShotCapture*>(&to_msg);
+  auto& from = static_cast<const ShotCapture&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:jon.cvdump.ShotCapture)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_internal_mutable_planes()->MergeFrom(
+      from._internal_planes());
+  if (!from._internal_channel().empty()) {
+    _this->_internal_set_channel(from._internal_channel());
+  }
+  if (!from._internal_ctl_snapshot().empty()) {
+    _this->_internal_set_ctl_snapshot(from._internal_ctl_snapshot());
+  }
+  if (!from._internal_absent_reason().empty()) {
+    _this->_internal_set_absent_reason(from._internal_absent_reason());
+  }
+  if (from._internal_pts_ns() != 0) {
+    _this->_impl_.pts_ns_ = from._impl_.pts_ns_;
+  }
+  if (from._internal_capture_time_ns() != 0) {
+    _this->_impl_.capture_time_ns_ = from._impl_.capture_time_ns_;
+  }
+  if (from._internal_generation() != 0) {
+    _this->_impl_.generation_ = from._impl_.generation_;
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void ShotCapture::CopyFrom(const ShotCapture& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:jon.cvdump.ShotCapture)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void ShotCapture::InternalSwap(ShotCapture* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.planes_.InternalSwap(&other->_impl_.planes_);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.channel_, &other->_impl_.channel_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.ctl_snapshot_, &other->_impl_.ctl_snapshot_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.absent_reason_, &other->_impl_.absent_reason_, arena);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(ShotCapture, _impl_.generation_)
+      + sizeof(ShotCapture::_impl_.generation_)
+      - PROTOBUF_FIELD_OFFSET(ShotCapture, _impl_.pts_ns_)>(
+          reinterpret_cast<char*>(&_impl_.pts_ns_),
+          reinterpret_cast<char*>(&other->_impl_.pts_ns_));
+}
+
+::google::protobuf::Metadata ShotCapture::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================

@@ -85,6 +85,12 @@ extern RedisStreamRecordDefaultTypeInternal _RedisStreamRecord_default_instance_
 class RedisStreamRecords;
 struct RedisStreamRecordsDefaultTypeInternal;
 extern RedisStreamRecordsDefaultTypeInternal _RedisStreamRecords_default_instance_;
+class ShotCapture;
+struct ShotCaptureDefaultTypeInternal;
+extern ShotCaptureDefaultTypeInternal _ShotCapture_default_instance_;
+class ShotPlane;
+struct ShotPlaneDefaultTypeInternal;
+extern ShotPlaneDefaultTypeInternal _ShotPlane_default_instance_;
 class StreamGroup;
 struct StreamGroupDefaultTypeInternal;
 extern StreamGroupDefaultTypeInternal _StreamGroup_default_instance_;
@@ -343,7 +349,7 @@ class VideoSegment final : public ::google::protobuf::Message
     return reinterpret_cast<const VideoSegment*>(
         &_VideoSegment_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 7;
+  static constexpr int kIndexInFileMessages = 9;
   friend void swap(VideoSegment& a, VideoSegment& b) { a.Swap(&b); }
   inline void Swap(VideoSegment* other) {
     if (other == this) return;
@@ -617,7 +623,7 @@ class TableRows final : public ::google::protobuf::Message
     return reinterpret_cast<const TableRows*>(
         &_TableRows_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 13;
+  static constexpr int kIndexInFileMessages = 15;
   friend void swap(TableRows& a, TableRows& b) { a.Swap(&b); }
   inline void Swap(TableRows* other) {
     if (other == this) return;
@@ -760,6 +766,334 @@ class TableRows final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
+class ShotPlane final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:jon.cvdump.ShotPlane) */ {
+ public:
+  inline ShotPlane() : ShotPlane(nullptr) {}
+  ~ShotPlane() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(ShotPlane* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(ShotPlane));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR ShotPlane(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline ShotPlane(const ShotPlane& from) : ShotPlane(nullptr, from) {}
+  inline ShotPlane(ShotPlane&& from) noexcept
+      : ShotPlane(nullptr, std::move(from)) {}
+  inline ShotPlane& operator=(const ShotPlane& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ShotPlane& operator=(ShotPlane&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ShotPlane& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ShotPlane* internal_default_instance() {
+    return reinterpret_cast<const ShotPlane*>(
+        &_ShotPlane_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 1;
+  friend void swap(ShotPlane& a, ShotPlane& b) { a.Swap(&b); }
+  inline void Swap(ShotPlane* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ShotPlane* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ShotPlane* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<ShotPlane>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const ShotPlane& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const ShotPlane& from) { ShotPlane::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(ShotPlane* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "jon.cvdump.ShotPlane"; }
+
+ protected:
+  explicit ShotPlane(::google::protobuf::Arena* arena);
+  ShotPlane(::google::protobuf::Arena* arena, const ShotPlane& from);
+  ShotPlane(::google::protobuf::Arena* arena, ShotPlane&& from) noexcept
+      : ShotPlane(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kPathFieldNumber = 4,
+    kEncodingFieldNumber = 5,
+    kSha256FieldNumber = 11,
+    kPlaneFieldNumber = 1,
+    kTagFieldNumber = 2,
+    kSourceFormatFieldNumber = 3,
+    kWidthFieldNumber = 6,
+    kHeightFieldNumber = 7,
+    kPitchFieldNumber = 8,
+    kBytesFieldNumber = 10,
+    kUvOffsetFieldNumber = 9,
+  };
+  // string path = 4 [(.buf.validate.field) = {
+  void clear_path() ;
+  const std::string& path() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_path(Arg_&& arg, Args_... args);
+  std::string* mutable_path();
+  PROTOBUF_NODISCARD std::string* release_path();
+  void set_allocated_path(std::string* value);
+
+  private:
+  const std::string& _internal_path() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_path(
+      const std::string& value);
+  std::string* _internal_mutable_path();
+
+  public:
+  // string encoding = 5 [(.buf.validate.field) = {
+  void clear_encoding() ;
+  const std::string& encoding() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_encoding(Arg_&& arg, Args_... args);
+  std::string* mutable_encoding();
+  PROTOBUF_NODISCARD std::string* release_encoding();
+  void set_allocated_encoding(std::string* value);
+
+  private:
+  const std::string& _internal_encoding() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_encoding(
+      const std::string& value);
+  std::string* _internal_mutable_encoding();
+
+  public:
+  // string sha256 = 11 [(.buf.validate.field) = {
+  void clear_sha256() ;
+  const std::string& sha256() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_sha256(Arg_&& arg, Args_... args);
+  std::string* mutable_sha256();
+  PROTOBUF_NODISCARD std::string* release_sha256();
+  void set_allocated_sha256(std::string* value);
+
+  private:
+  const std::string& _internal_sha256() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_sha256(
+      const std::string& value);
+  std::string* _internal_mutable_sha256();
+
+  public:
+  // uint32 plane = 1 [(.buf.validate.field) = {
+  void clear_plane() ;
+  ::uint32_t plane() const;
+  void set_plane(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_plane() const;
+  void _internal_set_plane(::uint32_t value);
+
+  public:
+  // uint32 tag = 2;
+  void clear_tag() ;
+  ::uint32_t tag() const;
+  void set_tag(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_tag() const;
+  void _internal_set_tag(::uint32_t value);
+
+  public:
+  // uint32 source_format = 3;
+  void clear_source_format() ;
+  ::uint32_t source_format() const;
+  void set_source_format(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_source_format() const;
+  void _internal_set_source_format(::uint32_t value);
+
+  public:
+  // uint32 width = 6;
+  void clear_width() ;
+  ::uint32_t width() const;
+  void set_width(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_width() const;
+  void _internal_set_width(::uint32_t value);
+
+  public:
+  // uint32 height = 7;
+  void clear_height() ;
+  ::uint32_t height() const;
+  void set_height(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_height() const;
+  void _internal_set_height(::uint32_t value);
+
+  public:
+  // uint32 pitch = 8;
+  void clear_pitch() ;
+  ::uint32_t pitch() const;
+  void set_pitch(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_pitch() const;
+  void _internal_set_pitch(::uint32_t value);
+
+  public:
+  // uint64 bytes = 10;
+  void clear_bytes() ;
+  ::uint64_t bytes() const;
+  void set_bytes(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_bytes() const;
+  void _internal_set_bytes(::uint64_t value);
+
+  public:
+  // uint32 uv_offset = 9;
+  void clear_uv_offset() ;
+  ::uint32_t uv_offset() const;
+  void set_uv_offset(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_uv_offset() const;
+  void _internal_set_uv_offset(::uint32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:jon.cvdump.ShotPlane)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      4, 11, 0,
+      55, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const ShotPlane& from_msg);
+    ::google::protobuf::internal::ArenaStringPtr path_;
+    ::google::protobuf::internal::ArenaStringPtr encoding_;
+    ::google::protobuf::internal::ArenaStringPtr sha256_;
+    ::uint32_t plane_;
+    ::uint32_t tag_;
+    ::uint32_t source_format_;
+    ::uint32_t width_;
+    ::uint32_t height_;
+    ::uint32_t pitch_;
+    ::uint64_t bytes_;
+    ::uint32_t uv_offset_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fcv_5fdump_5farchive_2eproto;
+};
+// -------------------------------------------------------------------
+
 class RedisStreamField final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:jon.cvdump.RedisStreamField) */ {
  public:
@@ -819,7 +1153,7 @@ class RedisStreamField final : public ::google::protobuf::Message
     return reinterpret_cast<const RedisStreamField*>(
         &_RedisStreamField_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 12;
+  static constexpr int kIndexInFileMessages = 14;
   friend void swap(RedisStreamField& a, RedisStreamField& b) { a.Swap(&b); }
   inline void Swap(RedisStreamField* other) {
     if (other == this) return;
@@ -1033,7 +1367,7 @@ class IntegrityReport final : public ::google::protobuf::Message
     return reinterpret_cast<const IntegrityReport*>(
         &_IntegrityReport_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 5;
+  static constexpr int kIndexInFileMessages = 7;
   friend void swap(IntegrityReport& a, IntegrityReport& b) { a.Swap(&b); }
   inline void Swap(IntegrityReport* other) {
     if (other == this) return;
@@ -1355,7 +1689,7 @@ class DeployFingerprint final : public ::google::protobuf::Message
     return reinterpret_cast<const DeployFingerprint*>(
         &_DeployFingerprint_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 3;
+  static constexpr int kIndexInFileMessages = 5;
   friend void swap(DeployFingerprint& a, DeployFingerprint& b) { a.Swap(&b); }
   inline void Swap(DeployFingerprint* other) {
     if (other == this) return;
@@ -1605,7 +1939,7 @@ class ColumnDef final : public ::google::protobuf::Message
     return reinterpret_cast<const ColumnDef*>(
         &_ColumnDef_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 9;
+  static constexpr int kIndexInFileMessages = 11;
   friend void swap(ColumnDef& a, ColumnDef& b) { a.Swap(&b); }
   inline void Swap(ColumnDef* other) {
     if (other == this) return;
@@ -1819,7 +2153,7 @@ class ChannelConfig final : public ::google::protobuf::Message
     return reinterpret_cast<const ChannelConfig*>(
         &_ChannelConfig_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 4;
+  static constexpr int kIndexInFileMessages = 6;
   friend void swap(ChannelConfig& a, ChannelConfig& b) { a.Swap(&b); }
   inline void Swap(ChannelConfig* other) {
     if (other == this) return;
@@ -2075,7 +2409,7 @@ class CaptureWindow final : public ::google::protobuf::Message
     return reinterpret_cast<const CaptureWindow*>(
         &_CaptureWindow_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 1;
+  static constexpr int kIndexInFileMessages = 3;
   friend void swap(CaptureWindow& a, CaptureWindow& b) { a.Swap(&b); }
   inline void Swap(CaptureWindow* other) {
     if (other == this) return;
@@ -2313,7 +2647,7 @@ class VideoChannel final : public ::google::protobuf::Message
     return reinterpret_cast<const VideoChannel*>(
         &_VideoChannel_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 6;
+  static constexpr int kIndexInFileMessages = 8;
   friend void swap(VideoChannel& a, VideoChannel& b) { a.Swap(&b); }
   inline void Swap(VideoChannel* other) {
     if (other == this) return;
@@ -2528,7 +2862,7 @@ class StreamGroup final : public ::google::protobuf::Message
     return reinterpret_cast<const StreamGroup*>(
         &_StreamGroup_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 8;
+  static constexpr int kIndexInFileMessages = 10;
   friend void swap(StreamGroup& a, StreamGroup& b) { a.Swap(&b); }
   inline void Swap(StreamGroup* other) {
     if (other == this) return;
@@ -2780,6 +3114,293 @@ class StreamGroup final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
+class ShotCapture final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:jon.cvdump.ShotCapture) */ {
+ public:
+  inline ShotCapture() : ShotCapture(nullptr) {}
+  ~ShotCapture() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(ShotCapture* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(ShotCapture));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR ShotCapture(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline ShotCapture(const ShotCapture& from) : ShotCapture(nullptr, from) {}
+  inline ShotCapture(ShotCapture&& from) noexcept
+      : ShotCapture(nullptr, std::move(from)) {}
+  inline ShotCapture& operator=(const ShotCapture& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ShotCapture& operator=(ShotCapture&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ShotCapture& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ShotCapture* internal_default_instance() {
+    return reinterpret_cast<const ShotCapture*>(
+        &_ShotCapture_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 2;
+  friend void swap(ShotCapture& a, ShotCapture& b) { a.Swap(&b); }
+  inline void Swap(ShotCapture* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ShotCapture* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ShotCapture* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<ShotCapture>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const ShotCapture& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const ShotCapture& from) { ShotCapture::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(ShotCapture* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "jon.cvdump.ShotCapture"; }
+
+ protected:
+  explicit ShotCapture(::google::protobuf::Arena* arena);
+  ShotCapture(::google::protobuf::Arena* arena, const ShotCapture& from);
+  ShotCapture(::google::protobuf::Arena* arena, ShotCapture&& from) noexcept
+      : ShotCapture(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kPlanesFieldNumber = 6,
+    kChannelFieldNumber = 1,
+    kCtlSnapshotFieldNumber = 5,
+    kAbsentReasonFieldNumber = 7,
+    kPtsNsFieldNumber = 3,
+    kCaptureTimeNsFieldNumber = 4,
+    kGenerationFieldNumber = 2,
+  };
+  // repeated .jon.cvdump.ShotPlane planes = 6;
+  int planes_size() const;
+  private:
+  int _internal_planes_size() const;
+
+  public:
+  void clear_planes() ;
+  ::jon::cvdump::ShotPlane* mutable_planes(int index);
+  ::google::protobuf::RepeatedPtrField<::jon::cvdump::ShotPlane>* mutable_planes();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::jon::cvdump::ShotPlane>& _internal_planes() const;
+  ::google::protobuf::RepeatedPtrField<::jon::cvdump::ShotPlane>* _internal_mutable_planes();
+  public:
+  const ::jon::cvdump::ShotPlane& planes(int index) const;
+  ::jon::cvdump::ShotPlane* add_planes();
+  const ::google::protobuf::RepeatedPtrField<::jon::cvdump::ShotPlane>& planes() const;
+  // string channel = 1 [(.buf.validate.field) = {
+  void clear_channel() ;
+  const std::string& channel() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_channel(Arg_&& arg, Args_... args);
+  std::string* mutable_channel();
+  PROTOBUF_NODISCARD std::string* release_channel();
+  void set_allocated_channel(std::string* value);
+
+  private:
+  const std::string& _internal_channel() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_channel(
+      const std::string& value);
+  std::string* _internal_mutable_channel();
+
+  public:
+  // bytes ctl_snapshot = 5;
+  void clear_ctl_snapshot() ;
+  const std::string& ctl_snapshot() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_ctl_snapshot(Arg_&& arg, Args_... args);
+  std::string* mutable_ctl_snapshot();
+  PROTOBUF_NODISCARD std::string* release_ctl_snapshot();
+  void set_allocated_ctl_snapshot(std::string* value);
+
+  private:
+  const std::string& _internal_ctl_snapshot() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ctl_snapshot(
+      const std::string& value);
+  std::string* _internal_mutable_ctl_snapshot();
+
+  public:
+  // string absent_reason = 7;
+  void clear_absent_reason() ;
+  const std::string& absent_reason() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_absent_reason(Arg_&& arg, Args_... args);
+  std::string* mutable_absent_reason();
+  PROTOBUF_NODISCARD std::string* release_absent_reason();
+  void set_allocated_absent_reason(std::string* value);
+
+  private:
+  const std::string& _internal_absent_reason() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_absent_reason(
+      const std::string& value);
+  std::string* _internal_mutable_absent_reason();
+
+  public:
+  // uint64 pts_ns = 3;
+  void clear_pts_ns() ;
+  ::uint64_t pts_ns() const;
+  void set_pts_ns(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_pts_ns() const;
+  void _internal_set_pts_ns(::uint64_t value);
+
+  public:
+  // uint64 capture_time_ns = 4;
+  void clear_capture_time_ns() ;
+  ::uint64_t capture_time_ns() const;
+  void set_capture_time_ns(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_capture_time_ns() const;
+  void _internal_set_capture_time_ns(::uint64_t value);
+
+  public:
+  // uint32 generation = 2;
+  void clear_generation() ;
+  ::uint32_t generation() const;
+  void set_generation(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_generation() const;
+  void _internal_set_generation(::uint32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:jon.cvdump.ShotCapture)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      3, 7, 1,
+      51, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const ShotCapture& from_msg);
+    ::google::protobuf::RepeatedPtrField< ::jon::cvdump::ShotPlane > planes_;
+    ::google::protobuf::internal::ArenaStringPtr channel_;
+    ::google::protobuf::internal::ArenaStringPtr ctl_snapshot_;
+    ::google::protobuf::internal::ArenaStringPtr absent_reason_;
+    ::uint64_t pts_ns_;
+    ::uint64_t capture_time_ns_;
+    ::uint32_t generation_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fcv_5fdump_5farchive_2eproto;
+};
+// -------------------------------------------------------------------
+
 class RedisStreamRecord final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:jon.cvdump.RedisStreamRecord) */ {
  public:
@@ -2839,7 +3460,7 @@ class RedisStreamRecord final : public ::google::protobuf::Message
     return reinterpret_cast<const RedisStreamRecord*>(
         &_RedisStreamRecord_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 11;
+  static constexpr int kIndexInFileMessages = 13;
   friend void swap(RedisStreamRecord& a, RedisStreamRecord& b) { a.Swap(&b); }
   inline void Swap(RedisStreamRecord* other) {
     if (other == this) return;
@@ -3054,7 +3675,7 @@ class MachineIdentity final : public ::google::protobuf::Message
     return reinterpret_cast<const MachineIdentity*>(
         &_MachineIdentity_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 2;
+  static constexpr int kIndexInFileMessages = 4;
   friend void swap(MachineIdentity& a, MachineIdentity& b) { a.Swap(&b); }
   inline void Swap(MachineIdentity* other) {
     if (other == this) return;
@@ -3357,7 +3978,7 @@ class RedisStreamRecords final : public ::google::protobuf::Message
     return reinterpret_cast<const RedisStreamRecords*>(
         &_RedisStreamRecords_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 10;
+  static constexpr int kIndexInFileMessages = 12;
   friend void swap(RedisStreamRecords& a, RedisStreamRecords& b) { a.Swap(&b); }
   inline void Swap(RedisStreamRecords* other) {
     if (other == this) return;
@@ -3643,6 +4264,7 @@ class CvDumpArchive final : public ::google::protobuf::Message
   enum : int {
     kVideoFieldNumber = 9,
     kStreamsFieldNumber = 10,
+    kShotsFieldNumber = 11,
     kIdFieldNumber = 2,
     kGeneratedAtFieldNumber = 3,
     kNoteFieldNumber = 6,
@@ -3686,6 +4308,23 @@ class CvDumpArchive final : public ::google::protobuf::Message
   const ::jon::cvdump::StreamGroup& streams(int index) const;
   ::jon::cvdump::StreamGroup* add_streams();
   const ::google::protobuf::RepeatedPtrField<::jon::cvdump::StreamGroup>& streams() const;
+  // repeated .jon.cvdump.ShotCapture shots = 11;
+  int shots_size() const;
+  private:
+  int _internal_shots_size() const;
+
+  public:
+  void clear_shots() ;
+  ::jon::cvdump::ShotCapture* mutable_shots(int index);
+  ::google::protobuf::RepeatedPtrField<::jon::cvdump::ShotCapture>* mutable_shots();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::jon::cvdump::ShotCapture>& _internal_shots() const;
+  ::google::protobuf::RepeatedPtrField<::jon::cvdump::ShotCapture>* _internal_mutable_shots();
+  public:
+  const ::jon::cvdump::ShotCapture& shots(int index) const;
+  ::jon::cvdump::ShotCapture* add_shots();
+  const ::google::protobuf::RepeatedPtrField<::jon::cvdump::ShotCapture>& shots() const;
   // string id = 2 [(.buf.validate.field) = {
   void clear_id() ;
   const std::string& id() const;
@@ -3804,7 +4443,7 @@ class CvDumpArchive final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 10, 5,
+      4, 11, 6,
       59, 2>
       _table_;
 
@@ -3826,6 +4465,7 @@ class CvDumpArchive final : public ::google::protobuf::Message
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::RepeatedPtrField< ::jon::cvdump::VideoChannel > video_;
     ::google::protobuf::RepeatedPtrField< ::jon::cvdump::StreamGroup > streams_;
+    ::google::protobuf::RepeatedPtrField< ::jon::cvdump::ShotCapture > shots_;
     ::google::protobuf::internal::ArenaStringPtr id_;
     ::google::protobuf::internal::ArenaStringPtr generated_at_;
     ::google::protobuf::internal::ArenaStringPtr note_;
@@ -4428,6 +5068,642 @@ inline ::google::protobuf::RepeatedPtrField<::jon::cvdump::StreamGroup>*
 CvDumpArchive::_internal_mutable_streams() {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return &_impl_.streams_;
+}
+
+// repeated .jon.cvdump.ShotCapture shots = 11;
+inline int CvDumpArchive::_internal_shots_size() const {
+  return _internal_shots().size();
+}
+inline int CvDumpArchive::shots_size() const {
+  return _internal_shots_size();
+}
+inline void CvDumpArchive::clear_shots() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.shots_.Clear();
+}
+inline ::jon::cvdump::ShotCapture* CvDumpArchive::mutable_shots(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:jon.cvdump.CvDumpArchive.shots)
+  return _internal_mutable_shots()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::jon::cvdump::ShotCapture>* CvDumpArchive::mutable_shots()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:jon.cvdump.CvDumpArchive.shots)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_shots();
+}
+inline const ::jon::cvdump::ShotCapture& CvDumpArchive::shots(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.cvdump.CvDumpArchive.shots)
+  return _internal_shots().Get(index);
+}
+inline ::jon::cvdump::ShotCapture* CvDumpArchive::add_shots() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::jon::cvdump::ShotCapture* _add = _internal_mutable_shots()->Add();
+  // @@protoc_insertion_point(field_add:jon.cvdump.CvDumpArchive.shots)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::jon::cvdump::ShotCapture>& CvDumpArchive::shots() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:jon.cvdump.CvDumpArchive.shots)
+  return _internal_shots();
+}
+inline const ::google::protobuf::RepeatedPtrField<::jon::cvdump::ShotCapture>&
+CvDumpArchive::_internal_shots() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.shots_;
+}
+inline ::google::protobuf::RepeatedPtrField<::jon::cvdump::ShotCapture>*
+CvDumpArchive::_internal_mutable_shots() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.shots_;
+}
+
+// -------------------------------------------------------------------
+
+// ShotPlane
+
+// uint32 plane = 1 [(.buf.validate.field) = {
+inline void ShotPlane::clear_plane() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.plane_ = 0u;
+}
+inline ::uint32_t ShotPlane::plane() const {
+  // @@protoc_insertion_point(field_get:jon.cvdump.ShotPlane.plane)
+  return _internal_plane();
+}
+inline void ShotPlane::set_plane(::uint32_t value) {
+  _internal_set_plane(value);
+  // @@protoc_insertion_point(field_set:jon.cvdump.ShotPlane.plane)
+}
+inline ::uint32_t ShotPlane::_internal_plane() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.plane_;
+}
+inline void ShotPlane::_internal_set_plane(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.plane_ = value;
+}
+
+// uint32 tag = 2;
+inline void ShotPlane::clear_tag() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.tag_ = 0u;
+}
+inline ::uint32_t ShotPlane::tag() const {
+  // @@protoc_insertion_point(field_get:jon.cvdump.ShotPlane.tag)
+  return _internal_tag();
+}
+inline void ShotPlane::set_tag(::uint32_t value) {
+  _internal_set_tag(value);
+  // @@protoc_insertion_point(field_set:jon.cvdump.ShotPlane.tag)
+}
+inline ::uint32_t ShotPlane::_internal_tag() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.tag_;
+}
+inline void ShotPlane::_internal_set_tag(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.tag_ = value;
+}
+
+// uint32 source_format = 3;
+inline void ShotPlane::clear_source_format() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.source_format_ = 0u;
+}
+inline ::uint32_t ShotPlane::source_format() const {
+  // @@protoc_insertion_point(field_get:jon.cvdump.ShotPlane.source_format)
+  return _internal_source_format();
+}
+inline void ShotPlane::set_source_format(::uint32_t value) {
+  _internal_set_source_format(value);
+  // @@protoc_insertion_point(field_set:jon.cvdump.ShotPlane.source_format)
+}
+inline ::uint32_t ShotPlane::_internal_source_format() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.source_format_;
+}
+inline void ShotPlane::_internal_set_source_format(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.source_format_ = value;
+}
+
+// string path = 4 [(.buf.validate.field) = {
+inline void ShotPlane::clear_path() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.path_.ClearToEmpty();
+}
+inline const std::string& ShotPlane::path() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.cvdump.ShotPlane.path)
+  return _internal_path();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void ShotPlane::set_path(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.path_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.cvdump.ShotPlane.path)
+}
+inline std::string* ShotPlane::mutable_path() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_path();
+  // @@protoc_insertion_point(field_mutable:jon.cvdump.ShotPlane.path)
+  return _s;
+}
+inline const std::string& ShotPlane::_internal_path() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.path_.Get();
+}
+inline void ShotPlane::_internal_set_path(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.path_.Set(value, GetArena());
+}
+inline std::string* ShotPlane::_internal_mutable_path() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.path_.Mutable( GetArena());
+}
+inline std::string* ShotPlane::release_path() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.cvdump.ShotPlane.path)
+  return _impl_.path_.Release();
+}
+inline void ShotPlane::set_allocated_path(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.path_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.path_.IsDefault()) {
+    _impl_.path_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.cvdump.ShotPlane.path)
+}
+
+// string encoding = 5 [(.buf.validate.field) = {
+inline void ShotPlane::clear_encoding() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.encoding_.ClearToEmpty();
+}
+inline const std::string& ShotPlane::encoding() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.cvdump.ShotPlane.encoding)
+  return _internal_encoding();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void ShotPlane::set_encoding(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.encoding_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.cvdump.ShotPlane.encoding)
+}
+inline std::string* ShotPlane::mutable_encoding() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_encoding();
+  // @@protoc_insertion_point(field_mutable:jon.cvdump.ShotPlane.encoding)
+  return _s;
+}
+inline const std::string& ShotPlane::_internal_encoding() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.encoding_.Get();
+}
+inline void ShotPlane::_internal_set_encoding(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.encoding_.Set(value, GetArena());
+}
+inline std::string* ShotPlane::_internal_mutable_encoding() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.encoding_.Mutable( GetArena());
+}
+inline std::string* ShotPlane::release_encoding() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.cvdump.ShotPlane.encoding)
+  return _impl_.encoding_.Release();
+}
+inline void ShotPlane::set_allocated_encoding(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.encoding_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.encoding_.IsDefault()) {
+    _impl_.encoding_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.cvdump.ShotPlane.encoding)
+}
+
+// uint32 width = 6;
+inline void ShotPlane::clear_width() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.width_ = 0u;
+}
+inline ::uint32_t ShotPlane::width() const {
+  // @@protoc_insertion_point(field_get:jon.cvdump.ShotPlane.width)
+  return _internal_width();
+}
+inline void ShotPlane::set_width(::uint32_t value) {
+  _internal_set_width(value);
+  // @@protoc_insertion_point(field_set:jon.cvdump.ShotPlane.width)
+}
+inline ::uint32_t ShotPlane::_internal_width() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.width_;
+}
+inline void ShotPlane::_internal_set_width(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.width_ = value;
+}
+
+// uint32 height = 7;
+inline void ShotPlane::clear_height() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.height_ = 0u;
+}
+inline ::uint32_t ShotPlane::height() const {
+  // @@protoc_insertion_point(field_get:jon.cvdump.ShotPlane.height)
+  return _internal_height();
+}
+inline void ShotPlane::set_height(::uint32_t value) {
+  _internal_set_height(value);
+  // @@protoc_insertion_point(field_set:jon.cvdump.ShotPlane.height)
+}
+inline ::uint32_t ShotPlane::_internal_height() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.height_;
+}
+inline void ShotPlane::_internal_set_height(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.height_ = value;
+}
+
+// uint32 pitch = 8;
+inline void ShotPlane::clear_pitch() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.pitch_ = 0u;
+}
+inline ::uint32_t ShotPlane::pitch() const {
+  // @@protoc_insertion_point(field_get:jon.cvdump.ShotPlane.pitch)
+  return _internal_pitch();
+}
+inline void ShotPlane::set_pitch(::uint32_t value) {
+  _internal_set_pitch(value);
+  // @@protoc_insertion_point(field_set:jon.cvdump.ShotPlane.pitch)
+}
+inline ::uint32_t ShotPlane::_internal_pitch() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.pitch_;
+}
+inline void ShotPlane::_internal_set_pitch(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.pitch_ = value;
+}
+
+// uint32 uv_offset = 9;
+inline void ShotPlane::clear_uv_offset() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.uv_offset_ = 0u;
+}
+inline ::uint32_t ShotPlane::uv_offset() const {
+  // @@protoc_insertion_point(field_get:jon.cvdump.ShotPlane.uv_offset)
+  return _internal_uv_offset();
+}
+inline void ShotPlane::set_uv_offset(::uint32_t value) {
+  _internal_set_uv_offset(value);
+  // @@protoc_insertion_point(field_set:jon.cvdump.ShotPlane.uv_offset)
+}
+inline ::uint32_t ShotPlane::_internal_uv_offset() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.uv_offset_;
+}
+inline void ShotPlane::_internal_set_uv_offset(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.uv_offset_ = value;
+}
+
+// uint64 bytes = 10;
+inline void ShotPlane::clear_bytes() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.bytes_ = ::uint64_t{0u};
+}
+inline ::uint64_t ShotPlane::bytes() const {
+  // @@protoc_insertion_point(field_get:jon.cvdump.ShotPlane.bytes)
+  return _internal_bytes();
+}
+inline void ShotPlane::set_bytes(::uint64_t value) {
+  _internal_set_bytes(value);
+  // @@protoc_insertion_point(field_set:jon.cvdump.ShotPlane.bytes)
+}
+inline ::uint64_t ShotPlane::_internal_bytes() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.bytes_;
+}
+inline void ShotPlane::_internal_set_bytes(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.bytes_ = value;
+}
+
+// string sha256 = 11 [(.buf.validate.field) = {
+inline void ShotPlane::clear_sha256() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.sha256_.ClearToEmpty();
+}
+inline const std::string& ShotPlane::sha256() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.cvdump.ShotPlane.sha256)
+  return _internal_sha256();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void ShotPlane::set_sha256(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.sha256_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.cvdump.ShotPlane.sha256)
+}
+inline std::string* ShotPlane::mutable_sha256() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_sha256();
+  // @@protoc_insertion_point(field_mutable:jon.cvdump.ShotPlane.sha256)
+  return _s;
+}
+inline const std::string& ShotPlane::_internal_sha256() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.sha256_.Get();
+}
+inline void ShotPlane::_internal_set_sha256(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.sha256_.Set(value, GetArena());
+}
+inline std::string* ShotPlane::_internal_mutable_sha256() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.sha256_.Mutable( GetArena());
+}
+inline std::string* ShotPlane::release_sha256() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.cvdump.ShotPlane.sha256)
+  return _impl_.sha256_.Release();
+}
+inline void ShotPlane::set_allocated_sha256(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.sha256_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.sha256_.IsDefault()) {
+    _impl_.sha256_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.cvdump.ShotPlane.sha256)
+}
+
+// -------------------------------------------------------------------
+
+// ShotCapture
+
+// string channel = 1 [(.buf.validate.field) = {
+inline void ShotCapture::clear_channel() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.channel_.ClearToEmpty();
+}
+inline const std::string& ShotCapture::channel() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.cvdump.ShotCapture.channel)
+  return _internal_channel();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void ShotCapture::set_channel(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.channel_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.cvdump.ShotCapture.channel)
+}
+inline std::string* ShotCapture::mutable_channel() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_channel();
+  // @@protoc_insertion_point(field_mutable:jon.cvdump.ShotCapture.channel)
+  return _s;
+}
+inline const std::string& ShotCapture::_internal_channel() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.channel_.Get();
+}
+inline void ShotCapture::_internal_set_channel(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.channel_.Set(value, GetArena());
+}
+inline std::string* ShotCapture::_internal_mutable_channel() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.channel_.Mutable( GetArena());
+}
+inline std::string* ShotCapture::release_channel() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.cvdump.ShotCapture.channel)
+  return _impl_.channel_.Release();
+}
+inline void ShotCapture::set_allocated_channel(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.channel_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.channel_.IsDefault()) {
+    _impl_.channel_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.cvdump.ShotCapture.channel)
+}
+
+// uint32 generation = 2;
+inline void ShotCapture::clear_generation() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.generation_ = 0u;
+}
+inline ::uint32_t ShotCapture::generation() const {
+  // @@protoc_insertion_point(field_get:jon.cvdump.ShotCapture.generation)
+  return _internal_generation();
+}
+inline void ShotCapture::set_generation(::uint32_t value) {
+  _internal_set_generation(value);
+  // @@protoc_insertion_point(field_set:jon.cvdump.ShotCapture.generation)
+}
+inline ::uint32_t ShotCapture::_internal_generation() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.generation_;
+}
+inline void ShotCapture::_internal_set_generation(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.generation_ = value;
+}
+
+// uint64 pts_ns = 3;
+inline void ShotCapture::clear_pts_ns() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.pts_ns_ = ::uint64_t{0u};
+}
+inline ::uint64_t ShotCapture::pts_ns() const {
+  // @@protoc_insertion_point(field_get:jon.cvdump.ShotCapture.pts_ns)
+  return _internal_pts_ns();
+}
+inline void ShotCapture::set_pts_ns(::uint64_t value) {
+  _internal_set_pts_ns(value);
+  // @@protoc_insertion_point(field_set:jon.cvdump.ShotCapture.pts_ns)
+}
+inline ::uint64_t ShotCapture::_internal_pts_ns() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.pts_ns_;
+}
+inline void ShotCapture::_internal_set_pts_ns(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.pts_ns_ = value;
+}
+
+// uint64 capture_time_ns = 4;
+inline void ShotCapture::clear_capture_time_ns() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.capture_time_ns_ = ::uint64_t{0u};
+}
+inline ::uint64_t ShotCapture::capture_time_ns() const {
+  // @@protoc_insertion_point(field_get:jon.cvdump.ShotCapture.capture_time_ns)
+  return _internal_capture_time_ns();
+}
+inline void ShotCapture::set_capture_time_ns(::uint64_t value) {
+  _internal_set_capture_time_ns(value);
+  // @@protoc_insertion_point(field_set:jon.cvdump.ShotCapture.capture_time_ns)
+}
+inline ::uint64_t ShotCapture::_internal_capture_time_ns() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.capture_time_ns_;
+}
+inline void ShotCapture::_internal_set_capture_time_ns(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.capture_time_ns_ = value;
+}
+
+// bytes ctl_snapshot = 5;
+inline void ShotCapture::clear_ctl_snapshot() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ctl_snapshot_.ClearToEmpty();
+}
+inline const std::string& ShotCapture::ctl_snapshot() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.cvdump.ShotCapture.ctl_snapshot)
+  return _internal_ctl_snapshot();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void ShotCapture::set_ctl_snapshot(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ctl_snapshot_.SetBytes(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.cvdump.ShotCapture.ctl_snapshot)
+}
+inline std::string* ShotCapture::mutable_ctl_snapshot() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_ctl_snapshot();
+  // @@protoc_insertion_point(field_mutable:jon.cvdump.ShotCapture.ctl_snapshot)
+  return _s;
+}
+inline const std::string& ShotCapture::_internal_ctl_snapshot() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.ctl_snapshot_.Get();
+}
+inline void ShotCapture::_internal_set_ctl_snapshot(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ctl_snapshot_.Set(value, GetArena());
+}
+inline std::string* ShotCapture::_internal_mutable_ctl_snapshot() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.ctl_snapshot_.Mutable( GetArena());
+}
+inline std::string* ShotCapture::release_ctl_snapshot() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.cvdump.ShotCapture.ctl_snapshot)
+  return _impl_.ctl_snapshot_.Release();
+}
+inline void ShotCapture::set_allocated_ctl_snapshot(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ctl_snapshot_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.ctl_snapshot_.IsDefault()) {
+    _impl_.ctl_snapshot_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.cvdump.ShotCapture.ctl_snapshot)
+}
+
+// repeated .jon.cvdump.ShotPlane planes = 6;
+inline int ShotCapture::_internal_planes_size() const {
+  return _internal_planes().size();
+}
+inline int ShotCapture::planes_size() const {
+  return _internal_planes_size();
+}
+inline void ShotCapture::clear_planes() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.planes_.Clear();
+}
+inline ::jon::cvdump::ShotPlane* ShotCapture::mutable_planes(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:jon.cvdump.ShotCapture.planes)
+  return _internal_mutable_planes()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::jon::cvdump::ShotPlane>* ShotCapture::mutable_planes()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:jon.cvdump.ShotCapture.planes)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_planes();
+}
+inline const ::jon::cvdump::ShotPlane& ShotCapture::planes(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.cvdump.ShotCapture.planes)
+  return _internal_planes().Get(index);
+}
+inline ::jon::cvdump::ShotPlane* ShotCapture::add_planes() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::jon::cvdump::ShotPlane* _add = _internal_mutable_planes()->Add();
+  // @@protoc_insertion_point(field_add:jon.cvdump.ShotCapture.planes)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::jon::cvdump::ShotPlane>& ShotCapture::planes() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:jon.cvdump.ShotCapture.planes)
+  return _internal_planes();
+}
+inline const ::google::protobuf::RepeatedPtrField<::jon::cvdump::ShotPlane>&
+ShotCapture::_internal_planes() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.planes_;
+}
+inline ::google::protobuf::RepeatedPtrField<::jon::cvdump::ShotPlane>*
+ShotCapture::_internal_mutable_planes() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.planes_;
+}
+
+// string absent_reason = 7;
+inline void ShotCapture::clear_absent_reason() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.absent_reason_.ClearToEmpty();
+}
+inline const std::string& ShotCapture::absent_reason() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.cvdump.ShotCapture.absent_reason)
+  return _internal_absent_reason();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void ShotCapture::set_absent_reason(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.absent_reason_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.cvdump.ShotCapture.absent_reason)
+}
+inline std::string* ShotCapture::mutable_absent_reason() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_absent_reason();
+  // @@protoc_insertion_point(field_mutable:jon.cvdump.ShotCapture.absent_reason)
+  return _s;
+}
+inline const std::string& ShotCapture::_internal_absent_reason() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.absent_reason_.Get();
+}
+inline void ShotCapture::_internal_set_absent_reason(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.absent_reason_.Set(value, GetArena());
+}
+inline std::string* ShotCapture::_internal_mutable_absent_reason() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.absent_reason_.Mutable( GetArena());
+}
+inline std::string* ShotCapture::release_absent_reason() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.cvdump.ShotCapture.absent_reason)
+  return _impl_.absent_reason_.Release();
+}
+inline void ShotCapture::set_allocated_absent_reason(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.absent_reason_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.absent_reason_.IsDefault()) {
+    _impl_.absent_reason_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.cvdump.ShotCapture.absent_reason)
 }
 
 // -------------------------------------------------------------------

@@ -63,9 +63,76 @@ pub struct CvDumpArchive {
     #[prost(message, repeated, tag = "9")]
     pub video: ::prost::alloc::vec::Vec<VideoChannel>,
     /// The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-    /// of one kind are contiguous. Last field number on purpose: it is the bulk.
+    /// of one kind are contiguous. It is the bulk of a capture-window bundle.
     #[prost(message, repeated, tag = "10")]
     pub streams: ::prost::alloc::vec::Vec<StreamGroup>,
+    /// The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+    /// channels' rings, as files under shots/ with their geometry, encoding and
+    /// provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+    /// channel that captured nothing appears with no planes and a reason. Empty
+    /// on a capture-window bundle; a photo bundle has empty video + streams.
+    #[prost(message, repeated, tag = "11")]
+    pub shots: ::prost::alloc::vec::Vec<ShotCapture>,
+}
+/// One plane of one channel's photo. The output format keys on the plane's
+/// FORMAT tag from the control block, never on the plane index.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ShotPlane {
+    /// Ring plane index (0..3).
+    #[prost(uint32, tag = "1")]
+    pub plane: u32,
+    /// SensorRingPlaneTag as the control block carried it: 1 NATIVE, 2 CLAHE,
+    /// 3 OPERATOR, 4 RAW.
+    #[prost(uint32, tag = "2")]
+    pub tag: u32,
+    /// The plane's source pixel format (NvBufSurfaceColorFormat, or the RAW
+    /// enum), as the control block carried it.
+    #[prost(uint32, tag = "3")]
+    pub source_format: u32,
+    /// Bundle-relative path, e.g. "shots/day_p0_raw.rg12".
+    #[prost(string, tag = "4")]
+    pub path: ::prost::alloc::string::String,
+    /// "png8-rgb" | "png8-gray" | "raw-rg12-msb16" | "raw-nv12".
+    #[prost(string, tag = "5")]
+    pub encoding: ::prost::alloc::string::String,
+    #[prost(uint32, tag = "6")]
+    pub width: u32,
+    #[prost(uint32, tag = "7")]
+    pub height: u32,
+    /// Source pitch in bytes (what the raw encodings preserve verbatim).
+    #[prost(uint32, tag = "8")]
+    pub pitch: u32,
+    /// NV12 UV-plane offset within the source, 0 for single-plane formats.
+    #[prost(uint32, tag = "9")]
+    pub uv_offset: u32,
+    #[prost(uint64, tag = "10")]
+    pub bytes: u64,
+    /// Lowercase hex SHA-256 of the file.
+    #[prost(string, tag = "11")]
+    pub sha256: ::prost::alloc::string::String,
+}
+/// One channel's photo: the frame's identity + the whole control block, and
+/// every plane written for it.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ShotCapture {
+    /// "day" | "heat".
+    #[prost(string, tag = "1")]
+    pub channel: ::prost::alloc::string::String,
+    #[prost(uint32, tag = "2")]
+    pub generation: u32,
+    #[prost(uint64, tag = "3")]
+    pub pts_ns: u64,
+    /// CLOCK_MONOTONIC — the cross-channel skew key.
+    #[prost(uint64, tag = "4")]
+    pub capture_time_ns: u64,
+    /// The 1024-byte control block, verbatim, as snapshotted under the seqlock.
+    #[prost(bytes = "vec", tag = "5")]
+    pub ctl_snapshot: ::prost::alloc::vec::Vec<u8>,
+    /// Empty when the channel captured nothing — then absent_reason says why.
+    #[prost(message, repeated, tag = "6")]
+    pub planes: ::prost::alloc::vec::Vec<ShotPlane>,
+    #[prost(string, tag = "7")]
+    pub absent_reason: ::prost::alloc::string::String,
 }
 /// The capture window in both clock domains.
 ///

@@ -168,7 +168,30 @@ export interface JonGuiDataCV {
    * never guess.
    */
   stabCorrectionDay?: JonGuiDataStabCorrection | undefined;
-  stabCorrectionHeat?: JonGuiDataStabCorrection | undefined;
+  stabCorrectionHeat?:
+    | JonGuiDataStabCorrection
+    | undefined;
+  /**
+   * The cv-dump PHOTO (cmd.CV.DumpShot). Owned by eutropia — it consumes the
+   * command and patches these on the state plane; manifold never sees them.
+   *
+   * Monotonic count of COMPLETED shots since boot — the button's
+   * proof-of-landing: an increment is the discriminator (the same one the
+   * photo button uses on its global target_id), never the ack.
+   */
+  shotSeq: number;
+  /**
+   * Where the one-at-a-time shot is in its lifecycle — what the button
+   * renders. A press while it is not IDLE is refused, not queued; defined_only
+   * because a reader must never render an unknown state as progress.
+   */
+  shotState: JonGuiDataCV_ShotState;
+  /**
+   * The bundle uuid of the last shot (a 36-char dashed UUIDv4, the
+   * cv_dump_sessions primary key and the /api/cvdump/bundle/{name} key); empty
+   * until the first READY. max_len 36 pins the uuid shape.
+   */
+  shotId: string;
 }
 
 /** Autofocus sweep state */
@@ -224,6 +247,69 @@ export function jonGuiDataCV_AutofocusStateToJSON(object: JonGuiDataCV_Autofocus
     case JonGuiDataCV_AutofocusState.AUTOFOCUS_STATE_FAILED:
       return "AUTOFOCUS_STATE_FAILED";
     case JonGuiDataCV_AutofocusState.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
+/** The cv-dump PHOTO (cmd.CV.DumpShot) lifecycle, one shot at a time. */
+export enum JonGuiDataCV_ShotState {
+  SHOT_STATE_UNSPECIFIED = 0,
+  /** SHOT_STATE_IDLE - no shot in flight; a press is accepted */
+  SHOT_STATE_IDLE = 1,
+  /** SHOT_STATE_CAPTURING - waiting for the next RAW-armed frame on each channel */
+  SHOT_STATE_CAPTURING = 2,
+  /** SHOT_STATE_WRITING - planes copied out; PNG encode + bundle write in progress */
+  SHOT_STATE_WRITING = 3,
+  /** SHOT_STATE_READY - the bundle is on disk; shot_id names it, shot_seq advanced */
+  SHOT_STATE_READY = 4,
+  /** SHOT_STATE_FAILED - the shot was abandoned; the bundle carries the reason */
+  SHOT_STATE_FAILED = 5,
+  UNRECOGNIZED = -1,
+}
+
+export function jonGuiDataCV_ShotStateFromJSON(object: any): JonGuiDataCV_ShotState {
+  switch (object) {
+    case 0:
+    case "SHOT_STATE_UNSPECIFIED":
+      return JonGuiDataCV_ShotState.SHOT_STATE_UNSPECIFIED;
+    case 1:
+    case "SHOT_STATE_IDLE":
+      return JonGuiDataCV_ShotState.SHOT_STATE_IDLE;
+    case 2:
+    case "SHOT_STATE_CAPTURING":
+      return JonGuiDataCV_ShotState.SHOT_STATE_CAPTURING;
+    case 3:
+    case "SHOT_STATE_WRITING":
+      return JonGuiDataCV_ShotState.SHOT_STATE_WRITING;
+    case 4:
+    case "SHOT_STATE_READY":
+      return JonGuiDataCV_ShotState.SHOT_STATE_READY;
+    case 5:
+    case "SHOT_STATE_FAILED":
+      return JonGuiDataCV_ShotState.SHOT_STATE_FAILED;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return JonGuiDataCV_ShotState.UNRECOGNIZED;
+  }
+}
+
+export function jonGuiDataCV_ShotStateToJSON(object: JonGuiDataCV_ShotState): string {
+  switch (object) {
+    case JonGuiDataCV_ShotState.SHOT_STATE_UNSPECIFIED:
+      return "SHOT_STATE_UNSPECIFIED";
+    case JonGuiDataCV_ShotState.SHOT_STATE_IDLE:
+      return "SHOT_STATE_IDLE";
+    case JonGuiDataCV_ShotState.SHOT_STATE_CAPTURING:
+      return "SHOT_STATE_CAPTURING";
+    case JonGuiDataCV_ShotState.SHOT_STATE_WRITING:
+      return "SHOT_STATE_WRITING";
+    case JonGuiDataCV_ShotState.SHOT_STATE_READY:
+      return "SHOT_STATE_READY";
+    case JonGuiDataCV_ShotState.SHOT_STATE_FAILED:
+      return "SHOT_STATE_FAILED";
+    case JonGuiDataCV_ShotState.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
   }
@@ -432,6 +518,9 @@ function createBaseJonGuiDataCV(): JonGuiDataCV {
     zoomRoiActiveHeat: false,
     stabCorrectionDay: undefined,
     stabCorrectionHeat: undefined,
+    shotSeq: 0,
+    shotState: 0,
+    shotId: "",
   };
 }
 
@@ -544,6 +633,15 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
     }
     if (message.stabCorrectionHeat !== undefined) {
       JonGuiDataStabCorrection.encode(message.stabCorrectionHeat, writer.uint32(810).fork()).join();
+    }
+    if (message.shotSeq !== 0) {
+      writer.uint32(880).uint32(message.shotSeq);
+    }
+    if (message.shotState !== 0) {
+      writer.uint32(888).int32(message.shotState);
+    }
+    if (message.shotId !== "") {
+      writer.uint32(898).string(message.shotId);
     }
     return writer;
   },
@@ -849,6 +947,30 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
             message.stabCorrectionHeat = JonGuiDataStabCorrection.decode(reader, reader.uint32());
             continue;
           }
+          case 110: {
+            if (tag !== 880) {
+              break;
+            }
+
+            message.shotSeq = reader.uint32();
+            continue;
+          }
+          case 111: {
+            if (tag !== 888) {
+              break;
+            }
+
+            message.shotState = reader.int32() as any;
+            continue;
+          }
+          case 112: {
+            if (tag !== 898) {
+              break;
+            }
+
+            message.shotId = reader.string();
+            continue;
+          }
         }
         if ((tag & 7) === 4 || tag === 0) {
           break;
@@ -1043,6 +1165,21 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
         : isSet(object.stab_correction_heat)
         ? JonGuiDataStabCorrection.fromJSON(object.stab_correction_heat)
         : undefined,
+      shotSeq: isSet(object.shotSeq)
+        ? globalThis.Number(object.shotSeq)
+        : isSet(object.shot_seq)
+        ? globalThis.Number(object.shot_seq)
+        : 0,
+      shotState: isSet(object.shotState)
+        ? jonGuiDataCV_ShotStateFromJSON(object.shotState)
+        : isSet(object.shot_state)
+        ? jonGuiDataCV_ShotStateFromJSON(object.shot_state)
+        : 0,
+      shotId: isSet(object.shotId)
+        ? globalThis.String(object.shotId)
+        : isSet(object.shot_id)
+        ? globalThis.String(object.shot_id)
+        : "",
     };
   },
 
@@ -1156,6 +1293,15 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
     if (message.stabCorrectionHeat !== undefined) {
       obj.stabCorrectionHeat = JonGuiDataStabCorrection.toJSON(message.stabCorrectionHeat);
     }
+    if (message.shotSeq !== 0) {
+      obj.shotSeq = Math.round(message.shotSeq);
+    }
+    if (message.shotState !== 0) {
+      obj.shotState = jonGuiDataCV_ShotStateToJSON(message.shotState);
+    }
+    if (message.shotId !== "") {
+      obj.shotId = message.shotId;
+    }
     return obj;
   },
 
@@ -1230,6 +1376,9 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
     message.stabCorrectionHeat = (object.stabCorrectionHeat !== undefined && object.stabCorrectionHeat !== null)
       ? JonGuiDataStabCorrection.fromPartial(object.stabCorrectionHeat)
       : undefined;
+    message.shotSeq = object.shotSeq ?? 0;
+    message.shotState = object.shotState ?? 0;
+    message.shotId = object.shotId ?? "";
     return message;
   },
 };

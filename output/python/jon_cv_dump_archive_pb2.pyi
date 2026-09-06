@@ -56,7 +56,7 @@ SESSION_PROVENANCE_EUTROPIA: SessionProvenance
 SESSION_PROVENANCE_SYNTHESIZED: SessionProvenance
 
 class CvDumpArchive(_message.Message):
-    __slots__ = ("version", "id", "generated_at", "window", "provenance", "note", "machine", "integrity", "video", "streams")
+    __slots__ = ("version", "id", "generated_at", "window", "provenance", "note", "machine", "integrity", "video", "streams", "shots")
     VERSION_FIELD_NUMBER: _ClassVar[int]
     ID_FIELD_NUMBER: _ClassVar[int]
     GENERATED_AT_FIELD_NUMBER: _ClassVar[int]
@@ -67,6 +67,7 @@ class CvDumpArchive(_message.Message):
     INTEGRITY_FIELD_NUMBER: _ClassVar[int]
     VIDEO_FIELD_NUMBER: _ClassVar[int]
     STREAMS_FIELD_NUMBER: _ClassVar[int]
+    SHOTS_FIELD_NUMBER: _ClassVar[int]
     version: ArchiveFormatVersion
     id: str
     generated_at: str
@@ -77,7 +78,52 @@ class CvDumpArchive(_message.Message):
     integrity: IntegrityReport
     video: _containers.RepeatedCompositeFieldContainer[VideoChannel]
     streams: _containers.RepeatedCompositeFieldContainer[StreamGroup]
-    def __init__(self, version: _Optional[_Union[ArchiveFormatVersion, str]] = ..., id: _Optional[str] = ..., generated_at: _Optional[str] = ..., window: _Optional[_Union[CaptureWindow, _Mapping]] = ..., provenance: _Optional[_Union[SessionProvenance, str]] = ..., note: _Optional[str] = ..., machine: _Optional[_Union[MachineIdentity, _Mapping]] = ..., integrity: _Optional[_Union[IntegrityReport, _Mapping]] = ..., video: _Optional[_Iterable[_Union[VideoChannel, _Mapping]]] = ..., streams: _Optional[_Iterable[_Union[StreamGroup, _Mapping]]] = ...) -> None: ...
+    shots: _containers.RepeatedCompositeFieldContainer[ShotCapture]
+    def __init__(self, version: _Optional[_Union[ArchiveFormatVersion, str]] = ..., id: _Optional[str] = ..., generated_at: _Optional[str] = ..., window: _Optional[_Union[CaptureWindow, _Mapping]] = ..., provenance: _Optional[_Union[SessionProvenance, str]] = ..., note: _Optional[str] = ..., machine: _Optional[_Union[MachineIdentity, _Mapping]] = ..., integrity: _Optional[_Union[IntegrityReport, _Mapping]] = ..., video: _Optional[_Iterable[_Union[VideoChannel, _Mapping]]] = ..., streams: _Optional[_Iterable[_Union[StreamGroup, _Mapping]]] = ..., shots: _Optional[_Iterable[_Union[ShotCapture, _Mapping]]] = ...) -> None: ...
+
+class ShotPlane(_message.Message):
+    __slots__ = ("plane", "tag", "source_format", "path", "encoding", "width", "height", "pitch", "uv_offset", "bytes", "sha256")
+    PLANE_FIELD_NUMBER: _ClassVar[int]
+    TAG_FIELD_NUMBER: _ClassVar[int]
+    SOURCE_FORMAT_FIELD_NUMBER: _ClassVar[int]
+    PATH_FIELD_NUMBER: _ClassVar[int]
+    ENCODING_FIELD_NUMBER: _ClassVar[int]
+    WIDTH_FIELD_NUMBER: _ClassVar[int]
+    HEIGHT_FIELD_NUMBER: _ClassVar[int]
+    PITCH_FIELD_NUMBER: _ClassVar[int]
+    UV_OFFSET_FIELD_NUMBER: _ClassVar[int]
+    BYTES_FIELD_NUMBER: _ClassVar[int]
+    SHA256_FIELD_NUMBER: _ClassVar[int]
+    plane: int
+    tag: int
+    source_format: int
+    path: str
+    encoding: str
+    width: int
+    height: int
+    pitch: int
+    uv_offset: int
+    bytes: int
+    sha256: str
+    def __init__(self, plane: _Optional[int] = ..., tag: _Optional[int] = ..., source_format: _Optional[int] = ..., path: _Optional[str] = ..., encoding: _Optional[str] = ..., width: _Optional[int] = ..., height: _Optional[int] = ..., pitch: _Optional[int] = ..., uv_offset: _Optional[int] = ..., bytes: _Optional[int] = ..., sha256: _Optional[str] = ...) -> None: ...
+
+class ShotCapture(_message.Message):
+    __slots__ = ("channel", "generation", "pts_ns", "capture_time_ns", "ctl_snapshot", "planes", "absent_reason")
+    CHANNEL_FIELD_NUMBER: _ClassVar[int]
+    GENERATION_FIELD_NUMBER: _ClassVar[int]
+    PTS_NS_FIELD_NUMBER: _ClassVar[int]
+    CAPTURE_TIME_NS_FIELD_NUMBER: _ClassVar[int]
+    CTL_SNAPSHOT_FIELD_NUMBER: _ClassVar[int]
+    PLANES_FIELD_NUMBER: _ClassVar[int]
+    ABSENT_REASON_FIELD_NUMBER: _ClassVar[int]
+    channel: str
+    generation: int
+    pts_ns: int
+    capture_time_ns: int
+    ctl_snapshot: bytes
+    planes: _containers.RepeatedCompositeFieldContainer[ShotPlane]
+    absent_reason: str
+    def __init__(self, channel: _Optional[str] = ..., generation: _Optional[int] = ..., pts_ns: _Optional[int] = ..., capture_time_ns: _Optional[int] = ..., ctl_snapshot: _Optional[bytes] = ..., planes: _Optional[_Iterable[_Union[ShotPlane, _Mapping]]] = ..., absent_reason: _Optional[str] = ...) -> None: ...
 
 class CaptureWindow(_message.Message):
     __slots__ = ("t0_wall", "t1_wall", "t0_boot_ns", "t1_boot_ns")

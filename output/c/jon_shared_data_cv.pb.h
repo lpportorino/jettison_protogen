@@ -21,6 +21,16 @@ typedef enum _ser_JonGuiDataCV_AutofocusState {
     ser_JonGuiDataCV_AutofocusState_AUTOFOCUS_STATE_FAILED = 5
 } ser_JonGuiDataCV_AutofocusState;
 
+/* The cv-dump PHOTO (cmd.CV.DumpShot) lifecycle, one shot at a time. */
+typedef enum _ser_JonGuiDataCV_ShotState {
+    ser_JonGuiDataCV_ShotState_SHOT_STATE_UNSPECIFIED = 0,
+    ser_JonGuiDataCV_ShotState_SHOT_STATE_IDLE = 1, /* no shot in flight; a press is accepted */
+    ser_JonGuiDataCV_ShotState_SHOT_STATE_CAPTURING = 2, /* waiting for the next RAW-armed frame on each channel */
+    ser_JonGuiDataCV_ShotState_SHOT_STATE_WRITING = 3, /* planes copied out; PNG encode + bundle write in progress */
+    ser_JonGuiDataCV_ShotState_SHOT_STATE_READY = 4, /* the bundle is on disk; shot_id names it, shot_seq advanced */
+    ser_JonGuiDataCV_ShotState_SHOT_STATE_FAILED = 5 /* the shot was abandoned; the bundle carries the reason */
+} ser_JonGuiDataCV_ShotState;
+
 /* CV Bridge container status */
 typedef enum _ser_JonGuiDataCV_CvBridgeStatus {
     ser_JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_UNSPECIFIED = 0,
@@ -202,6 +212,21 @@ typedef struct _ser_JonGuiDataCV {
     ser_JonGuiDataStabCorrection stab_correction_day;
     bool has_stab_correction_heat;
     ser_JonGuiDataStabCorrection stab_correction_heat;
+    /* The cv-dump PHOTO (cmd.CV.DumpShot). Owned by eutropia — it consumes the
+ command and patches these on the state plane; manifold never sees them.
+
+ Monotonic count of COMPLETED shots since boot — the button's
+ proof-of-landing: an increment is the discriminator (the same one the
+ photo button uses on its global target_id), never the ack. */
+    uint32_t shot_seq;
+    /* Where the one-at-a-time shot is in its lifecycle — what the button
+ renders. A press while it is not IDLE is refused, not queued; defined_only
+ because a reader must never render an unknown state as progress. */
+    ser_JonGuiDataCV_ShotState shot_state;
+    /* The bundle uuid of the last shot (a 36-char dashed UUIDv4, the
+ cv_dump_sessions primary key and the /api/cvdump/bundle/{name} key); empty
+ until the first READY. max_len 36 pins the uuid shape. */
+    pb_callback_t shot_id;
 } ser_JonGuiDataCV;
 
 
@@ -213,6 +238,10 @@ extern "C" {
 #define _ser_JonGuiDataCV_AutofocusState_MIN ser_JonGuiDataCV_AutofocusState_AUTOFOCUS_STATE_UNSPECIFIED
 #define _ser_JonGuiDataCV_AutofocusState_MAX ser_JonGuiDataCV_AutofocusState_AUTOFOCUS_STATE_FAILED
 #define _ser_JonGuiDataCV_AutofocusState_ARRAYSIZE ((ser_JonGuiDataCV_AutofocusState)(ser_JonGuiDataCV_AutofocusState_AUTOFOCUS_STATE_FAILED+1))
+
+#define _ser_JonGuiDataCV_ShotState_MIN ser_JonGuiDataCV_ShotState_SHOT_STATE_UNSPECIFIED
+#define _ser_JonGuiDataCV_ShotState_MAX ser_JonGuiDataCV_ShotState_SHOT_STATE_FAILED
+#define _ser_JonGuiDataCV_ShotState_ARRAYSIZE ((ser_JonGuiDataCV_ShotState)(ser_JonGuiDataCV_ShotState_SHOT_STATE_FAILED+1))
 
 #define _ser_JonGuiDataCV_CvBridgeStatus_MIN ser_JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_UNSPECIFIED
 #define _ser_JonGuiDataCV_CvBridgeStatus_MAX ser_JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_RESTARTING
@@ -226,13 +255,14 @@ extern "C" {
 #define ser_JonGuiDataCV_autofocus_state_heat_ENUMTYPE ser_JonGuiDataCV_AutofocusState
 #define ser_JonGuiDataCV_bridge_status_ENUMTYPE ser_JonGuiDataCV_CvBridgeStatus
 #define ser_JonGuiDataCV_last_exit_reason_ENUMTYPE ser_JonGuiDataCV_CvBridgeExitReason
+#define ser_JonGuiDataCV_shot_state_ENUMTYPE ser_JonGuiDataCV_ShotState
 
 
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataCV_init_default            {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataSharpness_init_default, false, ser_JonGuiDataSharpness_init_default, false, ser_JonGuiDataTransform3D_init_default, false, ser_JonGuiDataTransform3D_init_default, {{NULL}, NULL}, 0, 0, 0, false, ser_JonGuiDataStabCorrection_init_default, false, ser_JonGuiDataStabCorrection_init_default}
+#define ser_JonGuiDataCV_init_default            {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataSharpness_init_default, false, ser_JonGuiDataSharpness_init_default, false, ser_JonGuiDataTransform3D_init_default, false, ser_JonGuiDataTransform3D_init_default, {{NULL}, NULL}, 0, 0, 0, false, ser_JonGuiDataStabCorrection_init_default, false, ser_JonGuiDataStabCorrection_init_default, 0, _ser_JonGuiDataCV_ShotState_MIN, {{NULL}, NULL}}
 #define ser_JonGuiDataStabCorrection_init_default {0, 0}
-#define ser_JonGuiDataCV_init_zero               {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataSharpness_init_zero, false, ser_JonGuiDataSharpness_init_zero, false, ser_JonGuiDataTransform3D_init_zero, false, ser_JonGuiDataTransform3D_init_zero, {{NULL}, NULL}, 0, 0, 0, false, ser_JonGuiDataStabCorrection_init_zero, false, ser_JonGuiDataStabCorrection_init_zero}
+#define ser_JonGuiDataCV_init_zero               {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataSharpness_init_zero, false, ser_JonGuiDataSharpness_init_zero, false, ser_JonGuiDataTransform3D_init_zero, false, ser_JonGuiDataTransform3D_init_zero, {{NULL}, NULL}, 0, 0, 0, false, ser_JonGuiDataStabCorrection_init_zero, false, ser_JonGuiDataStabCorrection_init_zero, 0, _ser_JonGuiDataCV_ShotState_MIN, {{NULL}, NULL}}
 #define ser_JonGuiDataStabCorrection_init_zero   {0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
@@ -274,6 +304,9 @@ extern "C" {
 #define ser_JonGuiDataCV_zoom_roi_active_heat_tag 92
 #define ser_JonGuiDataCV_stab_correction_day_tag 100
 #define ser_JonGuiDataCV_stab_correction_heat_tag 101
+#define ser_JonGuiDataCV_shot_seq_tag            110
+#define ser_JonGuiDataCV_shot_state_tag          111
+#define ser_JonGuiDataCV_shot_id_tag             112
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataCV_FIELDLIST(X, a) \
@@ -312,7 +345,10 @@ X(a, STATIC,   SINGULAR, BOOL,     trinity_tracking_active,  90) \
 X(a, STATIC,   SINGULAR, BOOL,     zoom_roi_active_day,  91) \
 X(a, STATIC,   SINGULAR, BOOL,     zoom_roi_active_heat,  92) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  stab_correction_day, 100) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  stab_correction_heat, 101)
+X(a, STATIC,   OPTIONAL, MESSAGE,  stab_correction_heat, 101) \
+X(a, STATIC,   SINGULAR, UINT32,   shot_seq,        110) \
+X(a, STATIC,   SINGULAR, UENUM,    shot_state,      111) \
+X(a, CALLBACK, SINGULAR, STRING,   shot_id,         112)
 #define ser_JonGuiDataCV_CALLBACK pb_default_field_callback
 #define ser_JonGuiDataCV_DEFAULT NULL
 #define ser_JonGuiDataCV_roi_focus_day_MSGTYPE ser_JonGuiDataROI

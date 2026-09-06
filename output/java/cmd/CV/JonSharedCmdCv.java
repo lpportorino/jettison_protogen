@@ -238,6 +238,42 @@ public final class JonSharedCmdCv {
 
     /**
      * <pre>
+     * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+     * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+     * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+     * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+     * </pre>
+     *
+     * <code>.cmd.CV.DumpShot dump_shot = 14;</code>
+     * @return Whether the dumpShot field is set.
+     */
+    boolean hasDumpShot();
+    /**
+     * <pre>
+     * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+     * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+     * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+     * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+     * </pre>
+     *
+     * <code>.cmd.CV.DumpShot dump_shot = 14;</code>
+     * @return The dumpShot.
+     */
+    cmd.CV.JonSharedCmdCv.DumpShot getDumpShot();
+    /**
+     * <pre>
+     * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+     * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+     * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+     * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+     * </pre>
+     *
+     * <code>.cmd.CV.DumpShot dump_shot = 14;</code>
+     */
+    cmd.CV.JonSharedCmdCv.DumpShotOrBuilder getDumpShotOrBuilder();
+
+    /**
+     * <pre>
      * CV Bridge container control
      * </pre>
      *
@@ -351,6 +387,7 @@ public final class JonSharedCmdCv {
       RECOGNITION_MODE_DISABLE(11),
       START_TRACK_TRINITY(12),
       STOP_TRACK_TRINITY(13),
+      DUMP_SHOT(14),
       BRIDGE_START(20),
       BRIDGE_STOP(21),
       BRIDGE_RESTART(22),
@@ -384,6 +421,7 @@ public final class JonSharedCmdCv {
           case 11: return RECOGNITION_MODE_DISABLE;
           case 12: return START_TRACK_TRINITY;
           case 13: return STOP_TRACK_TRINITY;
+          case 14: return DUMP_SHOT;
           case 20: return BRIDGE_START;
           case 21: return BRIDGE_STOP;
           case 22: return BRIDGE_RESTART;
@@ -817,6 +855,58 @@ public final class JonSharedCmdCv {
       return cmd.CV.JonSharedCmdCv.StopTrackTrinity.getDefaultInstance();
     }
 
+    public static final int DUMP_SHOT_FIELD_NUMBER = 14;
+    /**
+     * <pre>
+     * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+     * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+     * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+     * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+     * </pre>
+     *
+     * <code>.cmd.CV.DumpShot dump_shot = 14;</code>
+     * @return Whether the dumpShot field is set.
+     */
+    @java.lang.Override
+    public boolean hasDumpShot() {
+      return cmdCase_ == 14;
+    }
+    /**
+     * <pre>
+     * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+     * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+     * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+     * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+     * </pre>
+     *
+     * <code>.cmd.CV.DumpShot dump_shot = 14;</code>
+     * @return The dumpShot.
+     */
+    @java.lang.Override
+    public cmd.CV.JonSharedCmdCv.DumpShot getDumpShot() {
+      if (cmdCase_ == 14) {
+         return (cmd.CV.JonSharedCmdCv.DumpShot) cmd_;
+      }
+      return cmd.CV.JonSharedCmdCv.DumpShot.getDefaultInstance();
+    }
+    /**
+     * <pre>
+     * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+     * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+     * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+     * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+     * </pre>
+     *
+     * <code>.cmd.CV.DumpShot dump_shot = 14;</code>
+     */
+    @java.lang.Override
+    public cmd.CV.JonSharedCmdCv.DumpShotOrBuilder getDumpShotOrBuilder() {
+      if (cmdCase_ == 14) {
+         return (cmd.CV.JonSharedCmdCv.DumpShot) cmd_;
+      }
+      return cmd.CV.JonSharedCmdCv.DumpShot.getDefaultInstance();
+    }
+
     public static final int BRIDGE_START_FIELD_NUMBER = 20;
     /**
      * <pre>
@@ -975,6 +1065,9 @@ public final class JonSharedCmdCv {
       if (cmdCase_ == 13) {
         output.writeMessage(13, (cmd.CV.JonSharedCmdCv.StopTrackTrinity) cmd_);
       }
+      if (cmdCase_ == 14) {
+        output.writeMessage(14, (cmd.CV.JonSharedCmdCv.DumpShot) cmd_);
+      }
       if (cmdCase_ == 20) {
         output.writeMessage(20, (cmd.CV.JonSharedCmdCv.BridgeStart) cmd_);
       }
@@ -1044,6 +1137,10 @@ public final class JonSharedCmdCv {
       if (cmdCase_ == 13) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(13, (cmd.CV.JonSharedCmdCv.StopTrackTrinity) cmd_);
+      }
+      if (cmdCase_ == 14) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(14, (cmd.CV.JonSharedCmdCv.DumpShot) cmd_);
       }
       if (cmdCase_ == 20) {
         size += com.google.protobuf.CodedOutputStream
@@ -1126,6 +1223,10 @@ public final class JonSharedCmdCv {
           if (!getStopTrackTrinity()
               .equals(other.getStopTrackTrinity())) return false;
           break;
+        case 14:
+          if (!getDumpShot()
+              .equals(other.getDumpShot())) return false;
+          break;
         case 20:
           if (!getBridgeStart()
               .equals(other.getBridgeStart())) return false;
@@ -1204,6 +1305,10 @@ public final class JonSharedCmdCv {
         case 13:
           hash = (37 * hash) + STOP_TRACK_TRINITY_FIELD_NUMBER;
           hash = (53 * hash) + getStopTrackTrinity().hashCode();
+          break;
+        case 14:
+          hash = (37 * hash) + DUMP_SHOT_FIELD_NUMBER;
+          hash = (53 * hash) + getDumpShot().hashCode();
           break;
         case 20:
           hash = (37 * hash) + BRIDGE_START_FIELD_NUMBER;
@@ -1390,6 +1495,9 @@ public final class JonSharedCmdCv {
         if (stopTrackTrinityBuilder_ != null) {
           stopTrackTrinityBuilder_.clear();
         }
+        if (dumpShotBuilder_ != null) {
+          dumpShotBuilder_.clear();
+        }
         if (bridgeStartBuilder_ != null) {
           bridgeStartBuilder_.clear();
         }
@@ -1492,6 +1600,10 @@ public final class JonSharedCmdCv {
             stopTrackTrinityBuilder_ != null) {
           result.cmd_ = stopTrackTrinityBuilder_.build();
         }
+        if (cmdCase_ == 14 &&
+            dumpShotBuilder_ != null) {
+          result.cmd_ = dumpShotBuilder_.build();
+        }
         if (cmdCase_ == 20 &&
             bridgeStartBuilder_ != null) {
           result.cmd_ = bridgeStartBuilder_.build();
@@ -1569,6 +1681,10 @@ public final class JonSharedCmdCv {
           }
           case STOP_TRACK_TRINITY: {
             mergeStopTrackTrinity(other.getStopTrackTrinity());
+            break;
+          }
+          case DUMP_SHOT: {
+            mergeDumpShot(other.getDumpShot());
             break;
           }
           case BRIDGE_START: {
@@ -1704,6 +1820,13 @@ public final class JonSharedCmdCv {
                 cmdCase_ = 13;
                 break;
               } // case 106
+              case 114: {
+                input.readMessage(
+                    getDumpShotFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 14;
+                break;
+              } // case 114
               case 162: {
                 input.readMessage(
                     getBridgeStartFieldBuilder().getBuilder(),
@@ -3640,6 +3763,211 @@ public final class JonSharedCmdCv {
       }
 
       private com.google.protobuf.SingleFieldBuilder<
+          cmd.CV.JonSharedCmdCv.DumpShot, cmd.CV.JonSharedCmdCv.DumpShot.Builder, cmd.CV.JonSharedCmdCv.DumpShotOrBuilder> dumpShotBuilder_;
+      /**
+       * <pre>
+       * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+       * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+       * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+       * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+       * </pre>
+       *
+       * <code>.cmd.CV.DumpShot dump_shot = 14;</code>
+       * @return Whether the dumpShot field is set.
+       */
+      @java.lang.Override
+      public boolean hasDumpShot() {
+        return cmdCase_ == 14;
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+       * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+       * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+       * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+       * </pre>
+       *
+       * <code>.cmd.CV.DumpShot dump_shot = 14;</code>
+       * @return The dumpShot.
+       */
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.DumpShot getDumpShot() {
+        if (dumpShotBuilder_ == null) {
+          if (cmdCase_ == 14) {
+            return (cmd.CV.JonSharedCmdCv.DumpShot) cmd_;
+          }
+          return cmd.CV.JonSharedCmdCv.DumpShot.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 14) {
+            return dumpShotBuilder_.getMessage();
+          }
+          return cmd.CV.JonSharedCmdCv.DumpShot.getDefaultInstance();
+        }
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+       * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+       * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+       * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+       * </pre>
+       *
+       * <code>.cmd.CV.DumpShot dump_shot = 14;</code>
+       */
+      public Builder setDumpShot(cmd.CV.JonSharedCmdCv.DumpShot value) {
+        if (dumpShotBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          dumpShotBuilder_.setMessage(value);
+        }
+        cmdCase_ = 14;
+        return this;
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+       * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+       * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+       * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+       * </pre>
+       *
+       * <code>.cmd.CV.DumpShot dump_shot = 14;</code>
+       */
+      public Builder setDumpShot(
+          cmd.CV.JonSharedCmdCv.DumpShot.Builder builderForValue) {
+        if (dumpShotBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          dumpShotBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 14;
+        return this;
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+       * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+       * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+       * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+       * </pre>
+       *
+       * <code>.cmd.CV.DumpShot dump_shot = 14;</code>
+       */
+      public Builder mergeDumpShot(cmd.CV.JonSharedCmdCv.DumpShot value) {
+        if (dumpShotBuilder_ == null) {
+          if (cmdCase_ == 14 &&
+              cmd_ != cmd.CV.JonSharedCmdCv.DumpShot.getDefaultInstance()) {
+            cmd_ = cmd.CV.JonSharedCmdCv.DumpShot.newBuilder((cmd.CV.JonSharedCmdCv.DumpShot) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 14) {
+            dumpShotBuilder_.mergeFrom(value);
+          } else {
+            dumpShotBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 14;
+        return this;
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+       * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+       * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+       * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+       * </pre>
+       *
+       * <code>.cmd.CV.DumpShot dump_shot = 14;</code>
+       */
+      public Builder clearDumpShot() {
+        if (dumpShotBuilder_ == null) {
+          if (cmdCase_ == 14) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 14) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          dumpShotBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+       * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+       * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+       * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+       * </pre>
+       *
+       * <code>.cmd.CV.DumpShot dump_shot = 14;</code>
+       */
+      public cmd.CV.JonSharedCmdCv.DumpShot.Builder getDumpShotBuilder() {
+        return getDumpShotFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+       * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+       * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+       * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+       * </pre>
+       *
+       * <code>.cmd.CV.DumpShot dump_shot = 14;</code>
+       */
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.DumpShotOrBuilder getDumpShotOrBuilder() {
+        if ((cmdCase_ == 14) && (dumpShotBuilder_ != null)) {
+          return dumpShotBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 14) {
+            return (cmd.CV.JonSharedCmdCv.DumpShot) cmd_;
+          }
+          return cmd.CV.JonSharedCmdCv.DumpShot.getDefaultInstance();
+        }
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+       * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+       * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+       * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+       * </pre>
+       *
+       * <code>.cmd.CV.DumpShot dump_shot = 14;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.CV.JonSharedCmdCv.DumpShot, cmd.CV.JonSharedCmdCv.DumpShot.Builder, cmd.CV.JonSharedCmdCv.DumpShotOrBuilder> 
+          getDumpShotFieldBuilder() {
+        if (dumpShotBuilder_ == null) {
+          if (!(cmdCase_ == 14)) {
+            cmd_ = cmd.CV.JonSharedCmdCv.DumpShot.getDefaultInstance();
+          }
+          dumpShotBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.CV.JonSharedCmdCv.DumpShot, cmd.CV.JonSharedCmdCv.DumpShot.Builder, cmd.CV.JonSharedCmdCv.DumpShotOrBuilder>(
+                  (cmd.CV.JonSharedCmdCv.DumpShot) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 14;
+        onChanged();
+        return dumpShotBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
           cmd.CV.JonSharedCmdCv.BridgeStart, cmd.CV.JonSharedCmdCv.BridgeStart.Builder, cmd.CV.JonSharedCmdCv.BridgeStartOrBuilder> bridgeStartBuilder_;
       /**
        * <pre>
@@ -5212,6 +5540,375 @@ public final class JonSharedCmdCv {
 
     @java.lang.Override
     public cmd.CV.JonSharedCmdCv.DumpStop getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface DumpShotOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.CV.DumpShot)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * <pre>
+   * Empty on purpose: a shot is always BOTH channels (the artifact's value is
+   * that they are the same instant), every capture parameter already rides the
+   * ring's control block, and the operator note arrives later over
+   * PUT /note/{id} exactly as a dump's does.
+   * </pre>
+   *
+   * Protobuf type {@code cmd.CV.DumpShot}
+   */
+  public static final class DumpShot extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.CV.DumpShot)
+      DumpShotOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        DumpShot.class.getName());
+    }
+    // Use DumpShot.newBuilder() to construct.
+    private DumpShot(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private DumpShot() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_DumpShot_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_DumpShot_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.CV.JonSharedCmdCv.DumpShot.class, cmd.CV.JonSharedCmdCv.DumpShot.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.CV.JonSharedCmdCv.DumpShot)) {
+        return super.equals(obj);
+      }
+      cmd.CV.JonSharedCmdCv.DumpShot other = (cmd.CV.JonSharedCmdCv.DumpShot) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.CV.JonSharedCmdCv.DumpShot parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.CV.JonSharedCmdCv.DumpShot parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.DumpShot parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.CV.JonSharedCmdCv.DumpShot parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.DumpShot parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.CV.JonSharedCmdCv.DumpShot parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.DumpShot parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.CV.JonSharedCmdCv.DumpShot parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.CV.JonSharedCmdCv.DumpShot parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.CV.JonSharedCmdCv.DumpShot parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.DumpShot parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.CV.JonSharedCmdCv.DumpShot parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.CV.JonSharedCmdCv.DumpShot prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Empty on purpose: a shot is always BOTH channels (the artifact's value is
+     * that they are the same instant), every capture parameter already rides the
+     * ring's control block, and the operator note arrives later over
+     * PUT /note/{id} exactly as a dump's does.
+     * </pre>
+     *
+     * Protobuf type {@code cmd.CV.DumpShot}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.CV.DumpShot)
+        cmd.CV.JonSharedCmdCv.DumpShotOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_DumpShot_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_DumpShot_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.CV.JonSharedCmdCv.DumpShot.class, cmd.CV.JonSharedCmdCv.DumpShot.Builder.class);
+      }
+
+      // Construct using cmd.CV.JonSharedCmdCv.DumpShot.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_DumpShot_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.DumpShot getDefaultInstanceForType() {
+        return cmd.CV.JonSharedCmdCv.DumpShot.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.DumpShot build() {
+        cmd.CV.JonSharedCmdCv.DumpShot result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.DumpShot buildPartial() {
+        cmd.CV.JonSharedCmdCv.DumpShot result = new cmd.CV.JonSharedCmdCv.DumpShot(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.CV.JonSharedCmdCv.DumpShot) {
+          return mergeFrom((cmd.CV.JonSharedCmdCv.DumpShot)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.CV.JonSharedCmdCv.DumpShot other) {
+        if (other == cmd.CV.JonSharedCmdCv.DumpShot.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.CV.DumpShot)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.CV.DumpShot)
+    private static final cmd.CV.JonSharedCmdCv.DumpShot DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.CV.JonSharedCmdCv.DumpShot();
+    }
+
+    public static cmd.CV.JonSharedCmdCv.DumpShot getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<DumpShot>
+        PARSER = new com.google.protobuf.AbstractParser<DumpShot>() {
+      @java.lang.Override
+      public DumpShot parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<DumpShot> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DumpShot> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.CV.JonSharedCmdCv.DumpShot getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -11158,6 +11855,11 @@ public final class JonSharedCmdCv {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_CV_DumpStop_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_CV_DumpShot_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_CV_DumpShot_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_cmd_CV_VampireModeDisable_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -11234,7 +11936,7 @@ public final class JonSharedCmdCv {
       "\n\027jon_shared_cmd_cv.proto\022\006cmd.CV\032\033buf/v" +
       "alidate/validate.proto\032\033jon_shared_data_" +
       "types.proto\032\035opaque/trinity_tracking.pro" +
-      "to\"\364\006\n\004Root\022.\n\016set_auto_focus\030\001 \001(\0132\024.cm" +
+      "to\"\233\007\n\004Root\022.\n\016set_auto_focus\030\001 \001(\0132\024.cm" +
       "d.CV.SetAutoFocusH\000\0220\n\017start_track_ndc\030\002" +
       " \001(\0132\025.cmd.CV.StartTrackNDCH\000\022\'\n\nstop_tr" +
       "ack\030\003 \001(\0132\021.cmd.CV.StopTrackH\000\0228\n\023vampir" +
@@ -11252,30 +11954,31 @@ public final class JonSharedCmdCv {
       "RecognitionModeDisableH\000\0228\n\023start_track_" +
       "trinity\030\014 \001(\0132\031.cmd.CV.StartTrackTrinity" +
       "H\000\0226\n\022stop_track_trinity\030\r \001(\0132\030.cmd.CV." +
-      "StopTrackTrinityH\000\022+\n\014bridge_start\030\024 \001(\013" +
-      "2\023.cmd.CV.BridgeStartH\000\022)\n\013bridge_stop\030\025" +
-      " \001(\0132\022.cmd.CV.BridgeStopH\000\022/\n\016bridge_res" +
-      "tart\030\026 \001(\0132\025.cmd.CV.BridgeRestartH\000B\014\n\003c" +
-      "md\022\005\272H\002\010\001\"\023\n\021VampireModeEnable\"\013\n\tDumpSt" +
-      "art\"\n\n\010DumpStop\"\024\n\022VampireModeDisable\"\031\n" +
-      "\027StabilizationModeEnable\"\032\n\030Stabilizatio" +
-      "nModeDisable\"\027\n\025RecognitionModeEnable\"\030\n" +
-      "\026RecognitionModeDisable\"W\n\014SetAutoFocus\022" +
-      "8\n\007channel\030\001 \001(\0162\033.ser.JonGuiDataVideoCh" +
-      "annelB\n\272H\007\202\001\004\020\001 \000\022\r\n\005value\030\002 \001(\010\"\271\001\n\rSta" +
-      "rtTrackNDC\0228\n\007channel\030\001 \001(\0162\033.ser.JonGui" +
-      "DataVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\002 \001(\001B" +
-      "\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 \001(\001B\027\272H\024" +
-      "\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\004 \001(\004" +
-      "\022\022\n\nstate_time\030\005 \001(\004\"\013\n\tStopTrack\"}\n\021Sta" +
-      "rtTrackTrinity\0228\n\007channel\030\001 \001(\0162\033.ser.Jo" +
-      "nGuiDataVideoChannelB\n\272H\007\202\001\004\020\001 \000\022.\n\014expe" +
-      "ct_board\030\002 \001(\0132\030.ser.TrinityBoardVersion" +
-      "\"\022\n\020StopTrackTrinity\"\r\n\013BridgeStart\"\033\n\nB" +
-      "ridgeStop\022\r\n\005force\030\001 \001(\010\"\036\n\rBridgeRestar" +
-      "t\022\r\n\005force\030\001 \001(\010BIZGgit-codecommit.eu-ce" +
-      "ntral-1.amazonaws.com/v1/repos/jettison/" +
-      "jonp/cmd/cvb\006proto3"
+      "StopTrackTrinityH\000\022%\n\tdump_shot\030\016 \001(\0132\020." +
+      "cmd.CV.DumpShotH\000\022+\n\014bridge_start\030\024 \001(\0132" +
+      "\023.cmd.CV.BridgeStartH\000\022)\n\013bridge_stop\030\025 " +
+      "\001(\0132\022.cmd.CV.BridgeStopH\000\022/\n\016bridge_rest" +
+      "art\030\026 \001(\0132\025.cmd.CV.BridgeRestartH\000B\014\n\003cm" +
+      "d\022\005\272H\002\010\001\"\023\n\021VampireModeEnable\"\013\n\tDumpSta" +
+      "rt\"\n\n\010DumpStop\"\n\n\010DumpShot\"\024\n\022VampireMod" +
+      "eDisable\"\031\n\027StabilizationModeEnable\"\032\n\030S" +
+      "tabilizationModeDisable\"\027\n\025RecognitionMo" +
+      "deEnable\"\030\n\026RecognitionModeDisable\"W\n\014Se" +
+      "tAutoFocus\0228\n\007channel\030\001 \001(\0162\033.ser.JonGui" +
+      "DataVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\r\n\005value\030\002 " +
+      "\001(\010\"\271\001\n\rStartTrackNDC\0228\n\007channel\030\001 \001(\0162\033" +
+      ".ser.JonGuiDataVideoChannelB\n\272H\007\202\001\004\020\001 \000\022" +
+      "\"\n\001x\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y" +
+      "\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe" +
+      "_time\030\004 \001(\004\022\022\n\nstate_time\030\005 \001(\004\"\013\n\tStopT" +
+      "rack\"}\n\021StartTrackTrinity\0228\n\007channel\030\001 \001" +
+      "(\0162\033.ser.JonGuiDataVideoChannelB\n\272H\007\202\001\004\020" +
+      "\001 \000\022.\n\014expect_board\030\002 \001(\0132\030.ser.TrinityB" +
+      "oardVersion\"\022\n\020StopTrackTrinity\"\r\n\013Bridg" +
+      "eStart\"\033\n\nBridgeStop\022\r\n\005force\030\001 \001(\010\"\036\n\rB" +
+      "ridgeRestart\022\r\n\005force\030\001 \001(\010BIZGgit-codec" +
+      "ommit.eu-central-1.amazonaws.com/v1/repo" +
+      "s/jettison/jonp/cmd/cvb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -11289,7 +11992,7 @@ public final class JonSharedCmdCv {
     internal_static_cmd_CV_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_Root_descriptor,
-        new java.lang.String[] { "SetAutoFocus", "StartTrackNdc", "StopTrack", "VampireModeEnable", "VampireModeDisable", "StabilizationModeEnable", "StabilizationModeDisable", "DumpStart", "DumpStop", "RecognitionModeEnable", "RecognitionModeDisable", "StartTrackTrinity", "StopTrackTrinity", "BridgeStart", "BridgeStop", "BridgeRestart", "Cmd", });
+        new java.lang.String[] { "SetAutoFocus", "StartTrackNdc", "StopTrack", "VampireModeEnable", "VampireModeDisable", "StabilizationModeEnable", "StabilizationModeDisable", "DumpStart", "DumpStop", "RecognitionModeEnable", "RecognitionModeDisable", "StartTrackTrinity", "StopTrackTrinity", "DumpShot", "BridgeStart", "BridgeStop", "BridgeRestart", "Cmd", });
     internal_static_cmd_CV_VampireModeEnable_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_CV_VampireModeEnable_fieldAccessorTable = new
@@ -11308,80 +12011,86 @@ public final class JonSharedCmdCv {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_DumpStop_descriptor,
         new java.lang.String[] { });
-    internal_static_cmd_CV_VampireModeDisable_descriptor =
+    internal_static_cmd_CV_DumpShot_descriptor =
       getDescriptor().getMessageTypes().get(4);
+    internal_static_cmd_CV_DumpShot_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_CV_DumpShot_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_CV_VampireModeDisable_descriptor =
+      getDescriptor().getMessageTypes().get(5);
     internal_static_cmd_CV_VampireModeDisable_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_VampireModeDisable_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_CV_StabilizationModeEnable_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_cmd_CV_StabilizationModeEnable_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_StabilizationModeEnable_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_CV_StabilizationModeDisable_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_cmd_CV_StabilizationModeDisable_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_StabilizationModeDisable_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_CV_RecognitionModeEnable_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_cmd_CV_RecognitionModeEnable_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_RecognitionModeEnable_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_CV_RecognitionModeDisable_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_cmd_CV_RecognitionModeDisable_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_RecognitionModeDisable_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_CV_SetAutoFocus_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_cmd_CV_SetAutoFocus_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_SetAutoFocus_descriptor,
         new java.lang.String[] { "Channel", "Value", });
     internal_static_cmd_CV_StartTrackNDC_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_cmd_CV_StartTrackNDC_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_StartTrackNDC_descriptor,
         new java.lang.String[] { "Channel", "X", "Y", "FrameTime", "StateTime", });
     internal_static_cmd_CV_StopTrack_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_cmd_CV_StopTrack_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_StopTrack_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_CV_StartTrackTrinity_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_cmd_CV_StartTrackTrinity_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_StartTrackTrinity_descriptor,
         new java.lang.String[] { "Channel", "ExpectBoard", });
     internal_static_cmd_CV_StopTrackTrinity_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_cmd_CV_StopTrackTrinity_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_StopTrackTrinity_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_CV_BridgeStart_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_cmd_CV_BridgeStart_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_BridgeStart_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_CV_BridgeStop_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_cmd_CV_BridgeStop_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_BridgeStop_descriptor,
         new java.lang.String[] { "Force", });
     internal_static_cmd_CV_BridgeRestart_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_cmd_CV_BridgeRestart_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_BridgeRestart_descriptor,

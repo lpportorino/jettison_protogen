@@ -354,6 +354,51 @@ public object RootKt {
 
     /**
      * ```
+     * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+     * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+     * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+     * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+     * ```
+     *
+     * `.cmd.CV.DumpShot dump_shot = 14;`
+     */
+    public var dumpShot: cmd.CV.JonSharedCmdCv.DumpShot
+      @JvmName("getDumpShot")
+      get() = _builder.dumpShot
+      @JvmName("setDumpShot")
+      set(value) {
+        _builder.dumpShot = value
+      }
+    /**
+     * ```
+     * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+     * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+     * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+     * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+     * ```
+     *
+     * `.cmd.CV.DumpShot dump_shot = 14;`
+     */
+    public fun clearDumpShot() {
+      _builder.clearDumpShot()
+    }
+    /**
+     * ```
+     * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+     * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+     * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+     * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+     * ```
+     *
+     * `.cmd.CV.DumpShot dump_shot = 14;`
+     * @return Whether the dumpShot field is set.
+     */
+    public fun hasDumpShot(): kotlin.Boolean {
+      return _builder.hasDumpShot()
+    }
+
+    /**
+     * ```
      * CV Bridge container control
      * ```
      *
@@ -486,6 +531,9 @@ public val cmd.CV.JonSharedCmdCv.RootOrBuilder.startTrackTrinityOrNull: cmd.CV.J
 
 public val cmd.CV.JonSharedCmdCv.RootOrBuilder.stopTrackTrinityOrNull: cmd.CV.JonSharedCmdCv.StopTrackTrinity?
   get() = if (hasStopTrackTrinity()) getStopTrackTrinity() else null
+
+public val cmd.CV.JonSharedCmdCv.RootOrBuilder.dumpShotOrNull: cmd.CV.JonSharedCmdCv.DumpShot?
+  get() = if (hasDumpShot()) getDumpShot() else null
 
 public val cmd.CV.JonSharedCmdCv.RootOrBuilder.bridgeStartOrNull: cmd.CV.JonSharedCmdCv.BridgeStart?
   get() = if (hasBridgeStart()) getBridgeStart() else null

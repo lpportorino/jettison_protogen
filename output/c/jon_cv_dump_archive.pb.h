@@ -125,6 +125,48 @@ typedef enum _jon_cvdump_SessionProvenance {
 } jon_cvdump_SessionProvenance;
 
 /* Struct definitions */
+/* One plane of one channel's photo. The output format keys on the plane's
+ FORMAT tag from the control block, never on the plane index. */
+typedef struct _jon_cvdump_ShotPlane {
+    /* Ring plane index (0..3). */
+    uint32_t plane;
+    /* SensorRingPlaneTag as the control block carried it: 1 NATIVE, 2 CLAHE,
+ 3 OPERATOR, 4 RAW. */
+    uint32_t tag;
+    /* The plane's source pixel format (NvBufSurfaceColorFormat, or the RAW
+ enum), as the control block carried it. */
+    uint32_t source_format;
+    /* Bundle-relative path, e.g. "shots/day_p0_raw.rg12". */
+    pb_callback_t path;
+    /* "png8-rgb" | "png8-gray" | "raw-rg12-msb16" | "raw-nv12". */
+    pb_callback_t encoding;
+    uint32_t width;
+    uint32_t height;
+    /* Source pitch in bytes (what the raw encodings preserve verbatim). */
+    uint32_t pitch;
+    /* NV12 UV-plane offset within the source, 0 for single-plane formats. */
+    uint32_t uv_offset;
+    uint64_t bytes;
+    /* Lowercase hex SHA-256 of the file. */
+    pb_callback_t sha256;
+} jon_cvdump_ShotPlane;
+
+/* One channel's photo: the frame's identity + the whole control block, and
+ every plane written for it. */
+typedef struct _jon_cvdump_ShotCapture {
+    /* "day" | "heat". */
+    pb_callback_t channel;
+    uint32_t generation;
+    uint64_t pts_ns;
+    /* CLOCK_MONOTONIC — the cross-channel skew key. */
+    uint64_t capture_time_ns;
+    /* The 1024-byte control block, verbatim, as snapshotted under the seqlock. */
+    pb_callback_t ctl_snapshot;
+    /* Empty when the channel captured nothing — then absent_reason says why. */
+    pb_callback_t planes;
+    pb_callback_t absent_reason;
+} jon_cvdump_ShotCapture;
+
 /* The capture window in both clock domains.
 
  The wall stamps index the redis io-record streams (redis auto-ids are
@@ -293,8 +335,14 @@ typedef struct _jon_cvdump_CvDumpArchive {
  stored aggregate is free to disagree with its own parts. Sum the segments. */
     pb_callback_t video;
     /* The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
- of one kind are contiguous. Last field number on purpose: it is the bulk. */
+ of one kind are contiguous. It is the bulk of a capture-window bundle. */
     pb_callback_t streams;
+    /* The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+ channels' rings, as files under shots/ with their geometry, encoding and
+ provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+ channel that captured nothing appears with no planes and a reason. Empty
+ on a capture-window bundle; a photo bundle has empty video + streams. */
+    pb_callback_t shots;
 } jon_cvdump_CvDumpArchive;
 
 /* One channel's ring video: the segment files that cover , and the time
@@ -436,6 +484,8 @@ extern "C" {
 
 
 
+
+
 #define jon_cvdump_IntegrityReport_status_ENUMTYPE jon_cvdump_ArchiveStatus
 
 
@@ -450,7 +500,9 @@ extern "C" {
 
 
 /* Initializer values for message structs */
-#define jon_cvdump_CvDumpArchive_init_default    {_jon_cvdump_ArchiveFormatVersion_MIN, {{NULL}, NULL}, {{NULL}, NULL}, false, jon_cvdump_CaptureWindow_init_default, _jon_cvdump_SessionProvenance_MIN, {{NULL}, NULL}, false, jon_cvdump_MachineIdentity_init_default, false, jon_cvdump_IntegrityReport_init_default, {{NULL}, NULL}, {{NULL}, NULL}}
+#define jon_cvdump_CvDumpArchive_init_default    {_jon_cvdump_ArchiveFormatVersion_MIN, {{NULL}, NULL}, {{NULL}, NULL}, false, jon_cvdump_CaptureWindow_init_default, _jon_cvdump_SessionProvenance_MIN, {{NULL}, NULL}, false, jon_cvdump_MachineIdentity_init_default, false, jon_cvdump_IntegrityReport_init_default, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}}
+#define jon_cvdump_ShotPlane_init_default        {0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, 0, 0, 0, {{NULL}, NULL}}
+#define jon_cvdump_ShotCapture_init_default      {{{NULL}, NULL}, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}}
 #define jon_cvdump_CaptureWindow_init_default    {{{NULL}, NULL}, {{NULL}, NULL}, 0, 0}
 #define jon_cvdump_MachineIdentity_init_default  {{{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, false, jon_cvdump_DeployFingerprint_init_default, {{NULL}, NULL}, 0}
 #define jon_cvdump_DeployFingerprint_init_default {{{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}}
@@ -464,7 +516,9 @@ extern "C" {
 #define jon_cvdump_RedisStreamRecord_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
 #define jon_cvdump_RedisStreamField_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
 #define jon_cvdump_TableRows_init_default        {{{NULL}, NULL}}
-#define jon_cvdump_CvDumpArchive_init_zero       {_jon_cvdump_ArchiveFormatVersion_MIN, {{NULL}, NULL}, {{NULL}, NULL}, false, jon_cvdump_CaptureWindow_init_zero, _jon_cvdump_SessionProvenance_MIN, {{NULL}, NULL}, false, jon_cvdump_MachineIdentity_init_zero, false, jon_cvdump_IntegrityReport_init_zero, {{NULL}, NULL}, {{NULL}, NULL}}
+#define jon_cvdump_CvDumpArchive_init_zero       {_jon_cvdump_ArchiveFormatVersion_MIN, {{NULL}, NULL}, {{NULL}, NULL}, false, jon_cvdump_CaptureWindow_init_zero, _jon_cvdump_SessionProvenance_MIN, {{NULL}, NULL}, false, jon_cvdump_MachineIdentity_init_zero, false, jon_cvdump_IntegrityReport_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}}
+#define jon_cvdump_ShotPlane_init_zero           {0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, 0, 0, 0, {{NULL}, NULL}}
+#define jon_cvdump_ShotCapture_init_zero         {{{NULL}, NULL}, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}}
 #define jon_cvdump_CaptureWindow_init_zero       {{{NULL}, NULL}, {{NULL}, NULL}, 0, 0}
 #define jon_cvdump_MachineIdentity_init_zero     {{{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, false, jon_cvdump_DeployFingerprint_init_zero, {{NULL}, NULL}, 0}
 #define jon_cvdump_DeployFingerprint_init_zero   {{{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}}
@@ -480,6 +534,24 @@ extern "C" {
 #define jon_cvdump_TableRows_init_zero           {{{NULL}, NULL}}
 
 /* Field tags (for use in manual encoding/decoding) */
+#define jon_cvdump_ShotPlane_plane_tag           1
+#define jon_cvdump_ShotPlane_tag_tag             2
+#define jon_cvdump_ShotPlane_source_format_tag   3
+#define jon_cvdump_ShotPlane_path_tag            4
+#define jon_cvdump_ShotPlane_encoding_tag        5
+#define jon_cvdump_ShotPlane_width_tag           6
+#define jon_cvdump_ShotPlane_height_tag          7
+#define jon_cvdump_ShotPlane_pitch_tag           8
+#define jon_cvdump_ShotPlane_uv_offset_tag       9
+#define jon_cvdump_ShotPlane_bytes_tag           10
+#define jon_cvdump_ShotPlane_sha256_tag          11
+#define jon_cvdump_ShotCapture_channel_tag       1
+#define jon_cvdump_ShotCapture_generation_tag    2
+#define jon_cvdump_ShotCapture_pts_ns_tag        3
+#define jon_cvdump_ShotCapture_capture_time_ns_tag 4
+#define jon_cvdump_ShotCapture_ctl_snapshot_tag  5
+#define jon_cvdump_ShotCapture_planes_tag        6
+#define jon_cvdump_ShotCapture_absent_reason_tag 7
 #define jon_cvdump_CaptureWindow_t0_wall_tag     1
 #define jon_cvdump_CaptureWindow_t1_wall_tag     2
 #define jon_cvdump_CaptureWindow_t0_boot_ns_tag  3
@@ -521,6 +593,7 @@ extern "C" {
 #define jon_cvdump_CvDumpArchive_integrity_tag   8
 #define jon_cvdump_CvDumpArchive_video_tag       9
 #define jon_cvdump_CvDumpArchive_streams_tag     10
+#define jon_cvdump_CvDumpArchive_shots_tag       11
 #define jon_cvdump_VideoChannel_channel_tag      1
 #define jon_cvdump_VideoChannel_segments_tag     2
 #define jon_cvdump_VideoSegment_sequence_tag     1
@@ -559,7 +632,8 @@ X(a, CALLBACK, SINGULAR, STRING,   note,              6) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  machine,           7) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  integrity,         8) \
 X(a, CALLBACK, REPEATED, MESSAGE,  video,             9) \
-X(a, CALLBACK, REPEATED, MESSAGE,  streams,          10)
+X(a, CALLBACK, REPEATED, MESSAGE,  streams,          10) \
+X(a, CALLBACK, REPEATED, MESSAGE,  shots,            11)
 #define jon_cvdump_CvDumpArchive_CALLBACK pb_default_field_callback
 #define jon_cvdump_CvDumpArchive_DEFAULT NULL
 #define jon_cvdump_CvDumpArchive_window_MSGTYPE jon_cvdump_CaptureWindow
@@ -567,6 +641,34 @@ X(a, CALLBACK, REPEATED, MESSAGE,  streams,          10)
 #define jon_cvdump_CvDumpArchive_integrity_MSGTYPE jon_cvdump_IntegrityReport
 #define jon_cvdump_CvDumpArchive_video_MSGTYPE jon_cvdump_VideoChannel
 #define jon_cvdump_CvDumpArchive_streams_MSGTYPE jon_cvdump_StreamGroup
+#define jon_cvdump_CvDumpArchive_shots_MSGTYPE jon_cvdump_ShotCapture
+
+#define jon_cvdump_ShotPlane_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UINT32,   plane,             1) \
+X(a, STATIC,   SINGULAR, UINT32,   tag,               2) \
+X(a, STATIC,   SINGULAR, UINT32,   source_format,     3) \
+X(a, CALLBACK, SINGULAR, STRING,   path,              4) \
+X(a, CALLBACK, SINGULAR, STRING,   encoding,          5) \
+X(a, STATIC,   SINGULAR, UINT32,   width,             6) \
+X(a, STATIC,   SINGULAR, UINT32,   height,            7) \
+X(a, STATIC,   SINGULAR, UINT32,   pitch,             8) \
+X(a, STATIC,   SINGULAR, UINT32,   uv_offset,         9) \
+X(a, STATIC,   SINGULAR, UINT64,   bytes,            10) \
+X(a, CALLBACK, SINGULAR, STRING,   sha256,           11)
+#define jon_cvdump_ShotPlane_CALLBACK pb_default_field_callback
+#define jon_cvdump_ShotPlane_DEFAULT NULL
+
+#define jon_cvdump_ShotCapture_FIELDLIST(X, a) \
+X(a, CALLBACK, SINGULAR, STRING,   channel,           1) \
+X(a, STATIC,   SINGULAR, UINT32,   generation,        2) \
+X(a, STATIC,   SINGULAR, UINT64,   pts_ns,            3) \
+X(a, STATIC,   SINGULAR, UINT64,   capture_time_ns,   4) \
+X(a, CALLBACK, SINGULAR, BYTES,    ctl_snapshot,      5) \
+X(a, CALLBACK, REPEATED, MESSAGE,  planes,            6) \
+X(a, CALLBACK, SINGULAR, STRING,   absent_reason,     7)
+#define jon_cvdump_ShotCapture_CALLBACK pb_default_field_callback
+#define jon_cvdump_ShotCapture_DEFAULT NULL
+#define jon_cvdump_ShotCapture_planes_MSGTYPE jon_cvdump_ShotPlane
 
 #define jon_cvdump_CaptureWindow_FIELDLIST(X, a) \
 X(a, CALLBACK, SINGULAR, STRING,   t0_wall,           1) \
@@ -684,6 +786,8 @@ X(a, CALLBACK, REPEATED, BYTES,    rows,              1)
 #define jon_cvdump_TableRows_DEFAULT NULL
 
 extern const pb_msgdesc_t jon_cvdump_CvDumpArchive_msg;
+extern const pb_msgdesc_t jon_cvdump_ShotPlane_msg;
+extern const pb_msgdesc_t jon_cvdump_ShotCapture_msg;
 extern const pb_msgdesc_t jon_cvdump_CaptureWindow_msg;
 extern const pb_msgdesc_t jon_cvdump_MachineIdentity_msg;
 extern const pb_msgdesc_t jon_cvdump_DeployFingerprint_msg;
@@ -700,6 +804,8 @@ extern const pb_msgdesc_t jon_cvdump_TableRows_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define jon_cvdump_CvDumpArchive_fields &jon_cvdump_CvDumpArchive_msg
+#define jon_cvdump_ShotPlane_fields &jon_cvdump_ShotPlane_msg
+#define jon_cvdump_ShotCapture_fields &jon_cvdump_ShotCapture_msg
 #define jon_cvdump_CaptureWindow_fields &jon_cvdump_CaptureWindow_msg
 #define jon_cvdump_MachineIdentity_fields &jon_cvdump_MachineIdentity_msg
 #define jon_cvdump_DeployFingerprint_fields &jon_cvdump_DeployFingerprint_msg
@@ -716,6 +822,8 @@ extern const pb_msgdesc_t jon_cvdump_TableRows_msg;
 
 /* Maximum encoded size of messages (where known) */
 /* jon_cvdump_CvDumpArchive_size depends on runtime parameters */
+/* jon_cvdump_ShotPlane_size depends on runtime parameters */
+/* jon_cvdump_ShotCapture_size depends on runtime parameters */
 /* jon_cvdump_CaptureWindow_size depends on runtime parameters */
 /* jon_cvdump_MachineIdentity_size depends on runtime parameters */
 /* jon_cvdump_DeployFingerprint_size depends on runtime parameters */

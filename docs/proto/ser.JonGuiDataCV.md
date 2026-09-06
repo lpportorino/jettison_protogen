@@ -68,6 +68,9 @@ That split is why a fact an opaque payload already carries can also appear here,
 | 92 | zoom_roi_active_heat | bool | - |
 | 100 | stab_correction_day | [[proto/ser.JonGuiDataStabCorrection]] | - |
 | 101 | stab_correction_heat | [[proto/ser.JonGuiDataStabCorrection]] | - |
+| 110 | shot_seq | uint32 | - |
+| 111 | shot_state | [[proto/ser.JonGuiDataCV.ShotState]] | defined enum value only |
+| 112 | shot_id | string | max-len: 36 |
 
 
 ## Oneofs
@@ -315,6 +318,21 @@ Whether the Ring-Trinity board tracker is **running**. It follows the tracker's 
 **It collapses the tracker's states on purpose.** `LOCKED`, `SEARCHING`, `DEGRADED` and `BOARD_MISMATCH` are all `true` here, because a toggle asks only whether tracking is RUNNING; `TRINITY_TRACKING_STATUS_IDLE` is `false`, as is the tracker not being up at all. Anything that must tell those apart — is there a lock, is the pose valid, is this the board that was asked for — reads `TrinityTracking.status` ([[proto/ser.TrinityTrackingStatus]]) from the opaque payload, which is the authoritative and richer value. This field cannot answer that and must not be read as though it could.
 
 It carries no validation constraint, and none is available: `false` is proto3's zero default, so nothing on the wire distinguishes "not tracking" from "this field was never populated". That is the same absence-versus-state hazard [[proto/ser.TrinityTrackingStatus]] documents one plane over, and it is why this field answers the toggle question only, rather than standing in for the tracker's health.
+
+
+### shot_seq (#110)
+
+Monotonic count of cv-dump PHOTOS ([[proto/cmd.CV.DumpShot]]) COMPLETED since boot, published by eutropia — the shot button's proof-of-landing. A consumer that sent `DumpShot` watches for an INCREMENT, exactly the discriminator the photo button uses on its global `target_id`; the command's own ack proves only that the bridge accepted the bytes. Resets to 0 on a eutropia restart, so a reader compares against the value it captured before pressing, never against an absolute.
+
+
+### shot_state (#111)
+
+Where the one-at-a-time photo is in its lifecycle ([[proto/ser.JonGuiDataCV.ShotState]]) — what the shot button renders. `IDLE` is the only state in which a press is accepted; a press while `CAPTURING` or `WRITING` is REFUSED, not queued, so there is never more than one shot in flight. `READY` and `FAILED` are terminal for that shot and return to `IDLE` on the next accepted press. `defined_only` because a reader must never render an unknown state as progress: an enum value this reader does not know is a schema skew, and rendering it as "still working" would leave the operator waiting on a shot that is over.
+
+
+### shot_id (#112)
+
+The bundle uuid of the LAST photo — a 36-character dashed UUIDv4, the `cv_dump_sessions` primary key and the `/api/cvdump/bundle/{name}` key, so the dialog can link straight to the bundle. Empty until the first `READY` after boot; unchanged by a `FAILED` shot (the failed shot has no bundle to name). `max_len 36` pins the uuid shape — anything longer is not a bundle name and would 404 the link it exists to build.
 
 
 

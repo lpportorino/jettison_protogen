@@ -8,7 +8,7 @@ from typing import ClassVar as _ClassVar, Iterable as _Iterable, Mapping as _Map
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class JonGuiDataCV(_message.Message):
-    __slots__ = ("autofocus_state_day", "sharpness_day", "best_sharpness_day", "sweep_progress_day", "best_focus_pos_day", "autofocus_state_heat", "sharpness_heat", "best_sharpness_heat", "sweep_progress_heat", "best_focus_pos_heat", "roi_x1", "roi_y1", "roi_x2", "roi_y2", "bridge_status", "last_exit_reason", "bridge_uptime_ms", "restart_count", "roi_focus_day", "roi_track_day", "roi_zoom_day", "roi_fx_day", "roi_focus_heat", "roi_track_heat", "roi_zoom_heat", "roi_fx_heat", "sharpness_metrics_day", "sharpness_metrics_heat", "camera_transform_day", "camera_transform_heat", "tracked_objects", "trinity_tracking_active", "zoom_roi_active_day", "zoom_roi_active_heat", "stab_correction_day", "stab_correction_heat")
+    __slots__ = ("autofocus_state_day", "sharpness_day", "best_sharpness_day", "sweep_progress_day", "best_focus_pos_day", "autofocus_state_heat", "sharpness_heat", "best_sharpness_heat", "sweep_progress_heat", "best_focus_pos_heat", "roi_x1", "roi_y1", "roi_x2", "roi_y2", "bridge_status", "last_exit_reason", "bridge_uptime_ms", "restart_count", "roi_focus_day", "roi_track_day", "roi_zoom_day", "roi_fx_day", "roi_focus_heat", "roi_track_heat", "roi_zoom_heat", "roi_fx_heat", "sharpness_metrics_day", "sharpness_metrics_heat", "camera_transform_day", "camera_transform_heat", "tracked_objects", "trinity_tracking_active", "zoom_roi_active_day", "zoom_roi_active_heat", "stab_correction_day", "stab_correction_heat", "shot_seq", "shot_state", "shot_id")
     class AutofocusState(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
         __slots__ = ()
         AUTOFOCUS_STATE_UNSPECIFIED: _ClassVar[JonGuiDataCV.AutofocusState]
@@ -23,6 +23,20 @@ class JonGuiDataCV(_message.Message):
     AUTOFOCUS_STATE_FINE_SWEEP: JonGuiDataCV.AutofocusState
     AUTOFOCUS_STATE_CONVERGED: JonGuiDataCV.AutofocusState
     AUTOFOCUS_STATE_FAILED: JonGuiDataCV.AutofocusState
+    class ShotState(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+        __slots__ = ()
+        SHOT_STATE_UNSPECIFIED: _ClassVar[JonGuiDataCV.ShotState]
+        SHOT_STATE_IDLE: _ClassVar[JonGuiDataCV.ShotState]
+        SHOT_STATE_CAPTURING: _ClassVar[JonGuiDataCV.ShotState]
+        SHOT_STATE_WRITING: _ClassVar[JonGuiDataCV.ShotState]
+        SHOT_STATE_READY: _ClassVar[JonGuiDataCV.ShotState]
+        SHOT_STATE_FAILED: _ClassVar[JonGuiDataCV.ShotState]
+    SHOT_STATE_UNSPECIFIED: JonGuiDataCV.ShotState
+    SHOT_STATE_IDLE: JonGuiDataCV.ShotState
+    SHOT_STATE_CAPTURING: JonGuiDataCV.ShotState
+    SHOT_STATE_WRITING: JonGuiDataCV.ShotState
+    SHOT_STATE_READY: JonGuiDataCV.ShotState
+    SHOT_STATE_FAILED: JonGuiDataCV.ShotState
     class CvBridgeStatus(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
         __slots__ = ()
         CV_BRIDGE_STATUS_UNSPECIFIED: _ClassVar[JonGuiDataCV.CvBridgeStatus]
@@ -95,6 +109,9 @@ class JonGuiDataCV(_message.Message):
     ZOOM_ROI_ACTIVE_HEAT_FIELD_NUMBER: _ClassVar[int]
     STAB_CORRECTION_DAY_FIELD_NUMBER: _ClassVar[int]
     STAB_CORRECTION_HEAT_FIELD_NUMBER: _ClassVar[int]
+    SHOT_SEQ_FIELD_NUMBER: _ClassVar[int]
+    SHOT_STATE_FIELD_NUMBER: _ClassVar[int]
+    SHOT_ID_FIELD_NUMBER: _ClassVar[int]
     autofocus_state_day: JonGuiDataCV.AutofocusState
     sharpness_day: float
     best_sharpness_day: float
@@ -131,7 +148,10 @@ class JonGuiDataCV(_message.Message):
     zoom_roi_active_heat: bool
     stab_correction_day: JonGuiDataStabCorrection
     stab_correction_heat: JonGuiDataStabCorrection
-    def __init__(self, autofocus_state_day: _Optional[_Union[JonGuiDataCV.AutofocusState, str]] = ..., sharpness_day: _Optional[float] = ..., best_sharpness_day: _Optional[float] = ..., sweep_progress_day: _Optional[int] = ..., best_focus_pos_day: _Optional[float] = ..., autofocus_state_heat: _Optional[_Union[JonGuiDataCV.AutofocusState, str]] = ..., sharpness_heat: _Optional[float] = ..., best_sharpness_heat: _Optional[float] = ..., sweep_progress_heat: _Optional[int] = ..., best_focus_pos_heat: _Optional[float] = ..., roi_x1: _Optional[float] = ..., roi_y1: _Optional[float] = ..., roi_x2: _Optional[float] = ..., roi_y2: _Optional[float] = ..., bridge_status: _Optional[_Union[JonGuiDataCV.CvBridgeStatus, str]] = ..., last_exit_reason: _Optional[_Union[JonGuiDataCV.CvBridgeExitReason, str]] = ..., bridge_uptime_ms: _Optional[int] = ..., restart_count: _Optional[int] = ..., roi_focus_day: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataROI, _Mapping]] = ..., roi_track_day: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataROI, _Mapping]] = ..., roi_zoom_day: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataROI, _Mapping]] = ..., roi_fx_day: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataROI, _Mapping]] = ..., roi_focus_heat: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataROI, _Mapping]] = ..., roi_track_heat: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataROI, _Mapping]] = ..., roi_zoom_heat: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataROI, _Mapping]] = ..., roi_fx_heat: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataROI, _Mapping]] = ..., sharpness_metrics_day: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataSharpness, _Mapping]] = ..., sharpness_metrics_heat: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataSharpness, _Mapping]] = ..., camera_transform_day: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataTransform3D, _Mapping]] = ..., camera_transform_heat: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataTransform3D, _Mapping]] = ..., tracked_objects: _Optional[_Iterable[_Union[_jon_shared_data_types_pb2.JonGuiDataTrackedObject, _Mapping]]] = ..., trinity_tracking_active: bool = ..., zoom_roi_active_day: bool = ..., zoom_roi_active_heat: bool = ..., stab_correction_day: _Optional[_Union[JonGuiDataStabCorrection, _Mapping]] = ..., stab_correction_heat: _Optional[_Union[JonGuiDataStabCorrection, _Mapping]] = ...) -> None: ...
+    shot_seq: int
+    shot_state: JonGuiDataCV.ShotState
+    shot_id: str
+    def __init__(self, autofocus_state_day: _Optional[_Union[JonGuiDataCV.AutofocusState, str]] = ..., sharpness_day: _Optional[float] = ..., best_sharpness_day: _Optional[float] = ..., sweep_progress_day: _Optional[int] = ..., best_focus_pos_day: _Optional[float] = ..., autofocus_state_heat: _Optional[_Union[JonGuiDataCV.AutofocusState, str]] = ..., sharpness_heat: _Optional[float] = ..., best_sharpness_heat: _Optional[float] = ..., sweep_progress_heat: _Optional[int] = ..., best_focus_pos_heat: _Optional[float] = ..., roi_x1: _Optional[float] = ..., roi_y1: _Optional[float] = ..., roi_x2: _Optional[float] = ..., roi_y2: _Optional[float] = ..., bridge_status: _Optional[_Union[JonGuiDataCV.CvBridgeStatus, str]] = ..., last_exit_reason: _Optional[_Union[JonGuiDataCV.CvBridgeExitReason, str]] = ..., bridge_uptime_ms: _Optional[int] = ..., restart_count: _Optional[int] = ..., roi_focus_day: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataROI, _Mapping]] = ..., roi_track_day: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataROI, _Mapping]] = ..., roi_zoom_day: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataROI, _Mapping]] = ..., roi_fx_day: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataROI, _Mapping]] = ..., roi_focus_heat: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataROI, _Mapping]] = ..., roi_track_heat: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataROI, _Mapping]] = ..., roi_zoom_heat: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataROI, _Mapping]] = ..., roi_fx_heat: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataROI, _Mapping]] = ..., sharpness_metrics_day: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataSharpness, _Mapping]] = ..., sharpness_metrics_heat: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataSharpness, _Mapping]] = ..., camera_transform_day: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataTransform3D, _Mapping]] = ..., camera_transform_heat: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataTransform3D, _Mapping]] = ..., tracked_objects: _Optional[_Iterable[_Union[_jon_shared_data_types_pb2.JonGuiDataTrackedObject, _Mapping]]] = ..., trinity_tracking_active: bool = ..., zoom_roi_active_day: bool = ..., zoom_roi_active_heat: bool = ..., stab_correction_day: _Optional[_Union[JonGuiDataStabCorrection, _Mapping]] = ..., stab_correction_heat: _Optional[_Union[JonGuiDataStabCorrection, _Mapping]] = ..., shot_seq: _Optional[int] = ..., shot_state: _Optional[_Union[JonGuiDataCV.ShotState, str]] = ..., shot_id: _Optional[str] = ...) -> None: ...
 
 class JonGuiDataStabCorrection(_message.Message):
     __slots__ = ("x_px", "y_px")

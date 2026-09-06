@@ -261,6 +261,24 @@ struct DumpStartDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DumpStartDefaultTypeInternal _DumpStart_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR DumpShot::DumpShot(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct DumpShotDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR DumpShotDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~DumpShotDefaultTypeInternal() {}
+  union {
+    DumpShot _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DumpShotDefaultTypeInternal _DumpShot_default_instance_;
 
 inline constexpr BridgeStop::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -414,6 +432,7 @@ const ::uint32_t
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
         PROTOBUF_FIELD_OFFSET(::cmd::CV::Root, _impl_.cmd_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::CV::VampireModeEnable, _internal_metadata_),
@@ -433,6 +452,14 @@ const ::uint32_t
         ~0u,  // no sizeof(Split)
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::CV::DumpStop, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::CV::DumpShot, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
         ~0u,  // no _weak_field_map_
@@ -561,28 +588,30 @@ const ::uint32_t
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::cmd::CV::Root)},
-        {25, -1, -1, sizeof(::cmd::CV::VampireModeEnable)},
-        {33, -1, -1, sizeof(::cmd::CV::DumpStart)},
-        {41, -1, -1, sizeof(::cmd::CV::DumpStop)},
-        {49, -1, -1, sizeof(::cmd::CV::VampireModeDisable)},
-        {57, -1, -1, sizeof(::cmd::CV::StabilizationModeEnable)},
-        {65, -1, -1, sizeof(::cmd::CV::StabilizationModeDisable)},
-        {73, -1, -1, sizeof(::cmd::CV::RecognitionModeEnable)},
-        {81, -1, -1, sizeof(::cmd::CV::RecognitionModeDisable)},
-        {89, -1, -1, sizeof(::cmd::CV::SetAutoFocus)},
-        {99, -1, -1, sizeof(::cmd::CV::StartTrackNDC)},
-        {112, -1, -1, sizeof(::cmd::CV::StopTrack)},
-        {120, 130, -1, sizeof(::cmd::CV::StartTrackTrinity)},
-        {132, -1, -1, sizeof(::cmd::CV::StopTrackTrinity)},
-        {140, -1, -1, sizeof(::cmd::CV::BridgeStart)},
-        {148, -1, -1, sizeof(::cmd::CV::BridgeStop)},
-        {157, -1, -1, sizeof(::cmd::CV::BridgeRestart)},
+        {26, -1, -1, sizeof(::cmd::CV::VampireModeEnable)},
+        {34, -1, -1, sizeof(::cmd::CV::DumpStart)},
+        {42, -1, -1, sizeof(::cmd::CV::DumpStop)},
+        {50, -1, -1, sizeof(::cmd::CV::DumpShot)},
+        {58, -1, -1, sizeof(::cmd::CV::VampireModeDisable)},
+        {66, -1, -1, sizeof(::cmd::CV::StabilizationModeEnable)},
+        {74, -1, -1, sizeof(::cmd::CV::StabilizationModeDisable)},
+        {82, -1, -1, sizeof(::cmd::CV::RecognitionModeEnable)},
+        {90, -1, -1, sizeof(::cmd::CV::RecognitionModeDisable)},
+        {98, -1, -1, sizeof(::cmd::CV::SetAutoFocus)},
+        {108, -1, -1, sizeof(::cmd::CV::StartTrackNDC)},
+        {121, -1, -1, sizeof(::cmd::CV::StopTrack)},
+        {129, 139, -1, sizeof(::cmd::CV::StartTrackTrinity)},
+        {141, -1, -1, sizeof(::cmd::CV::StopTrackTrinity)},
+        {149, -1, -1, sizeof(::cmd::CV::BridgeStart)},
+        {157, -1, -1, sizeof(::cmd::CV::BridgeStop)},
+        {166, -1, -1, sizeof(::cmd::CV::BridgeRestart)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::CV::_Root_default_instance_._instance,
     &::cmd::CV::_VampireModeEnable_default_instance_._instance,
     &::cmd::CV::_DumpStart_default_instance_._instance,
     &::cmd::CV::_DumpStop_default_instance_._instance,
+    &::cmd::CV::_DumpShot_default_instance_._instance,
     &::cmd::CV::_VampireModeDisable_default_instance_._instance,
     &::cmd::CV::_StabilizationModeEnable_default_instance_._instance,
     &::cmd::CV::_StabilizationModeDisable_default_instance_._instance,
@@ -602,7 +631,7 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5fcv_2eproto[] ABSL_ATTR
     "\n\027jon_shared_cmd_cv.proto\022\006cmd.CV\032\033buf/v"
     "alidate/validate.proto\032\033jon_shared_data_"
     "types.proto\032\035opaque/trinity_tracking.pro"
-    "to\"\364\006\n\004Root\022.\n\016set_auto_focus\030\001 \001(\0132\024.cm"
+    "to\"\233\007\n\004Root\022.\n\016set_auto_focus\030\001 \001(\0132\024.cm"
     "d.CV.SetAutoFocusH\000\0220\n\017start_track_ndc\030\002"
     " \001(\0132\025.cmd.CV.StartTrackNDCH\000\022\'\n\nstop_tr"
     "ack\030\003 \001(\0132\021.cmd.CV.StopTrackH\000\0228\n\023vampir"
@@ -620,30 +649,31 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5fcv_2eproto[] ABSL_ATTR
     "RecognitionModeDisableH\000\0228\n\023start_track_"
     "trinity\030\014 \001(\0132\031.cmd.CV.StartTrackTrinity"
     "H\000\0226\n\022stop_track_trinity\030\r \001(\0132\030.cmd.CV."
-    "StopTrackTrinityH\000\022+\n\014bridge_start\030\024 \001(\013"
-    "2\023.cmd.CV.BridgeStartH\000\022)\n\013bridge_stop\030\025"
-    " \001(\0132\022.cmd.CV.BridgeStopH\000\022/\n\016bridge_res"
-    "tart\030\026 \001(\0132\025.cmd.CV.BridgeRestartH\000B\014\n\003c"
-    "md\022\005\272H\002\010\001\"\023\n\021VampireModeEnable\"\013\n\tDumpSt"
-    "art\"\n\n\010DumpStop\"\024\n\022VampireModeDisable\"\031\n"
-    "\027StabilizationModeEnable\"\032\n\030Stabilizatio"
-    "nModeDisable\"\027\n\025RecognitionModeEnable\"\030\n"
-    "\026RecognitionModeDisable\"W\n\014SetAutoFocus\022"
-    "8\n\007channel\030\001 \001(\0162\033.ser.JonGuiDataVideoCh"
-    "annelB\n\272H\007\202\001\004\020\001 \000\022\r\n\005value\030\002 \001(\010\"\271\001\n\rSta"
-    "rtTrackNDC\0228\n\007channel\030\001 \001(\0162\033.ser.JonGui"
-    "DataVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\002 \001(\001B"
-    "\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 \001(\001B\027\272H\024"
-    "\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\004 \001(\004"
-    "\022\022\n\nstate_time\030\005 \001(\004\"\013\n\tStopTrack\"}\n\021Sta"
-    "rtTrackTrinity\0228\n\007channel\030\001 \001(\0162\033.ser.Jo"
-    "nGuiDataVideoChannelB\n\272H\007\202\001\004\020\001 \000\022.\n\014expe"
-    "ct_board\030\002 \001(\0132\030.ser.TrinityBoardVersion"
-    "\"\022\n\020StopTrackTrinity\"\r\n\013BridgeStart\"\033\n\nB"
-    "ridgeStop\022\r\n\005force\030\001 \001(\010\"\036\n\rBridgeRestar"
-    "t\022\r\n\005force\030\001 \001(\010BIZGgit-codecommit.eu-ce"
-    "ntral-1.amazonaws.com/v1/repos/jettison/"
-    "jonp/cmd/cvb\006proto3"
+    "StopTrackTrinityH\000\022%\n\tdump_shot\030\016 \001(\0132\020."
+    "cmd.CV.DumpShotH\000\022+\n\014bridge_start\030\024 \001(\0132"
+    "\023.cmd.CV.BridgeStartH\000\022)\n\013bridge_stop\030\025 "
+    "\001(\0132\022.cmd.CV.BridgeStopH\000\022/\n\016bridge_rest"
+    "art\030\026 \001(\0132\025.cmd.CV.BridgeRestartH\000B\014\n\003cm"
+    "d\022\005\272H\002\010\001\"\023\n\021VampireModeEnable\"\013\n\tDumpSta"
+    "rt\"\n\n\010DumpStop\"\n\n\010DumpShot\"\024\n\022VampireMod"
+    "eDisable\"\031\n\027StabilizationModeEnable\"\032\n\030S"
+    "tabilizationModeDisable\"\027\n\025RecognitionMo"
+    "deEnable\"\030\n\026RecognitionModeDisable\"W\n\014Se"
+    "tAutoFocus\0228\n\007channel\030\001 \001(\0162\033.ser.JonGui"
+    "DataVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\r\n\005value\030\002 "
+    "\001(\010\"\271\001\n\rStartTrackNDC\0228\n\007channel\030\001 \001(\0162\033"
+    ".ser.JonGuiDataVideoChannelB\n\272H\007\202\001\004\020\001 \000\022"
+    "\"\n\001x\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\"\n\001y"
+    "\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe"
+    "_time\030\004 \001(\004\022\022\n\nstate_time\030\005 \001(\004\"\013\n\tStopT"
+    "rack\"}\n\021StartTrackTrinity\0228\n\007channel\030\001 \001"
+    "(\0162\033.ser.JonGuiDataVideoChannelB\n\272H\007\202\001\004\020"
+    "\001 \000\022.\n\014expect_board\030\002 \001(\0132\030.ser.TrinityB"
+    "oardVersion\"\022\n\020StopTrackTrinity\"\r\n\013Bridg"
+    "eStart\"\033\n\nBridgeStop\022\r\n\005force\030\001 \001(\010\"\036\n\rB"
+    "ridgeRestart\022\r\n\005force\030\001 \001(\010BIZGgit-codec"
+    "ommit.eu-central-1.amazonaws.com/v1/repo"
+    "s/jettison/jonp/cmd/cvb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto_deps[3] =
     {
@@ -655,13 +685,13 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto = {
     false,
     false,
-    1779,
+    1830,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fcv_2eproto,
     "jon_shared_cmd_cv.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto_once,
     descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto_deps,
     3,
-    17,
+    18,
     schemas,
     file_default_instances,
     TableStruct_jon_5fshared_5fcmd_5fcv_2eproto::offsets,
@@ -847,6 +877,19 @@ void Root::set_allocated_stop_track_trinity(::cmd::CV::StopTrackTrinity* stop_tr
   }
   // @@protoc_insertion_point(field_set_allocated:cmd.CV.Root.stop_track_trinity)
 }
+void Root::set_allocated_dump_shot(::cmd::CV::DumpShot* dump_shot) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (dump_shot) {
+    ::google::protobuf::Arena* submessage_arena = dump_shot->GetArena();
+    if (message_arena != submessage_arena) {
+      dump_shot = ::google::protobuf::internal::GetOwnedMessage(message_arena, dump_shot, submessage_arena);
+    }
+    set_has_dump_shot();
+    _impl_.cmd_.dump_shot_ = dump_shot;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.CV.Root.dump_shot)
+}
 void Root::set_allocated_bridge_start(::cmd::CV::BridgeStart* bridge_start) {
   ::google::protobuf::Arena* message_arena = GetArena();
   clear_cmd();
@@ -956,6 +999,9 @@ Root::Root(
         break;
       case kStopTrackTrinity:
         _impl_.cmd_.stop_track_trinity_ = ::google::protobuf::Message::CopyConstruct<::cmd::CV::StopTrackTrinity>(arena, *from._impl_.cmd_.stop_track_trinity_);
+        break;
+      case kDumpShot:
+        _impl_.cmd_.dump_shot_ = ::google::protobuf::Message::CopyConstruct<::cmd::CV::DumpShot>(arena, *from._impl_.cmd_.dump_shot_);
         break;
       case kBridgeStart:
         _impl_.cmd_.bridge_start_ = ::google::protobuf::Message::CopyConstruct<::cmd::CV::BridgeStart>(arena, *from._impl_.cmd_.bridge_start_);
@@ -1102,6 +1148,14 @@ void Root::clear_cmd() {
       }
       break;
     }
+    case kDumpShot: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.dump_shot_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.dump_shot_);
+      }
+      break;
+    }
     case kBridgeStart: {
       if (GetArena() == nullptr) {
         delete _impl_.cmd_.bridge_start_;
@@ -1170,16 +1224,16 @@ const ::google::protobuf::internal::ClassData* Root::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 16, 16, 0, 2> Root::_table_ = {
+const ::_pbi::TcParseTable<0, 17, 17, 0, 2> Root::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
     22, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4291289088,  // skipmap
+    4291280896,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    16,  // num_field_entries
-    16,  // num_aux_entries
+    17,  // num_field_entries
+    17,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -1231,14 +1285,17 @@ const ::_pbi::TcParseTable<0, 16, 16, 0, 2> Root::_table_ = {
     // .cmd.CV.StopTrackTrinity stop_track_trinity = 13;
     {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.stop_track_trinity_), _Internal::kOneofCaseOffset + 0, 12,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.CV.DumpShot dump_shot = 14;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.dump_shot_), _Internal::kOneofCaseOffset + 0, 13,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
     // .cmd.CV.BridgeStart bridge_start = 20;
-    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.bridge_start_), _Internal::kOneofCaseOffset + 0, 13,
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.bridge_start_), _Internal::kOneofCaseOffset + 0, 14,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
     // .cmd.CV.BridgeStop bridge_stop = 21;
-    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.bridge_stop_), _Internal::kOneofCaseOffset + 0, 14,
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.bridge_stop_), _Internal::kOneofCaseOffset + 0, 15,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
     // .cmd.CV.BridgeRestart bridge_restart = 22;
-    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.bridge_restart_), _Internal::kOneofCaseOffset + 0, 15,
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.bridge_restart_), _Internal::kOneofCaseOffset + 0, 16,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::cmd::CV::SetAutoFocus>()},
@@ -1254,6 +1311,7 @@ const ::_pbi::TcParseTable<0, 16, 16, 0, 2> Root::_table_ = {
     {::_pbi::TcParser::GetTable<::cmd::CV::RecognitionModeDisable>()},
     {::_pbi::TcParser::GetTable<::cmd::CV::StartTrackTrinity>()},
     {::_pbi::TcParser::GetTable<::cmd::CV::StopTrackTrinity>()},
+    {::_pbi::TcParser::GetTable<::cmd::CV::DumpShot>()},
     {::_pbi::TcParser::GetTable<::cmd::CV::BridgeStart>()},
     {::_pbi::TcParser::GetTable<::cmd::CV::BridgeStop>()},
     {::_pbi::TcParser::GetTable<::cmd::CV::BridgeRestart>()},
@@ -1363,6 +1421,12 @@ PROTOBUF_NOINLINE void Root::Clear() {
             case kStopTrackTrinity: {
               target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
                   13, *this_._impl_.cmd_.stop_track_trinity_, this_._impl_.cmd_.stop_track_trinity_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kDumpShot: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  14, *this_._impl_.cmd_.dump_shot_, this_._impl_.cmd_.dump_shot_->GetCachedSize(), target,
                   stream);
               break;
             }
@@ -1487,6 +1551,12 @@ PROTOBUF_NOINLINE void Root::Clear() {
             case kStopTrackTrinity: {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.stop_track_trinity_);
+              break;
+            }
+            // .cmd.CV.DumpShot dump_shot = 14;
+            case kDumpShot: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.dump_shot_);
               break;
             }
             // .cmd.CV.BridgeStart bridge_start = 20;
@@ -1649,6 +1719,15 @@ void Root::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
               ::google::protobuf::Message::CopyConstruct<::cmd::CV::StopTrackTrinity>(arena, *from._impl_.cmd_.stop_track_trinity_);
         } else {
           _this->_impl_.cmd_.stop_track_trinity_->MergeFrom(from._internal_stop_track_trinity());
+        }
+        break;
+      }
+      case kDumpShot: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.dump_shot_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::CV::DumpShot>(arena, *from._impl_.cmd_.dump_shot_);
+        } else {
+          _this->_impl_.cmd_.dump_shot_->MergeFrom(from._internal_dump_shot());
         }
         break;
       }
@@ -2011,6 +2090,109 @@ const ::_pbi::TcParseTable<0, 0, 0, 0, 2> DumpStop::_table_ = {
 
 
 ::google::protobuf::Metadata DumpStop::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class DumpShot::_Internal {
+ public:
+};
+
+DumpShot::DumpShot(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.CV.DumpShot)
+}
+DumpShot::DumpShot(
+    ::google::protobuf::Arena* arena,
+    const DumpShot& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  DumpShot* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.CV.DumpShot)
+}
+
+inline void* DumpShot::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) DumpShot(arena);
+}
+constexpr auto DumpShot::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(DumpShot),
+                                            alignof(DumpShot));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull DumpShot::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_DumpShot_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &DumpShot::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<DumpShot>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &DumpShot::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<DumpShot>(), &DumpShot::ByteSizeLong,
+            &DumpShot::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(DumpShot, _impl_._cached_size_),
+        false,
+    },
+    &DumpShot::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* DumpShot::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> DumpShot::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::CV::DumpShot>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata DumpShot::GetMetadata() const {
   return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================

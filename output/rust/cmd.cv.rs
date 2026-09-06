@@ -3,7 +3,7 @@
 pub struct Root {
     #[prost(
         oneof = "root::Cmd",
-        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 20, 21, 22"
+        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 20, 21, 22"
     )]
     pub cmd: ::core::option::Option<root::Cmd>,
 }
@@ -38,6 +38,12 @@ pub mod root {
         StartTrackTrinity(super::StartTrackTrinity),
         #[prost(message, tag = "13")]
         StopTrackTrinity(super::StopTrackTrinity),
+        /// The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+        /// rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+        /// ShotCapture). Consumed by eutropia, never forwarded to manifold;
+        /// progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+        #[prost(message, tag = "14")]
+        DumpShot(super::DumpShot),
         /// CV Bridge container control
         #[prost(message, tag = "20")]
         BridgeStart(super::BridgeStart),
@@ -53,6 +59,12 @@ pub struct VampireModeEnable {}
 pub struct DumpStart {}
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct DumpStop {}
+/// Empty on purpose: a shot is always BOTH channels (the artifact's value is
+/// that they are the same instant), every capture parameter already rides the
+/// ring's control block, and the operator note arrives later over
+/// PUT /note/{id} exactly as a dump's does.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct DumpShot {}
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct VampireModeDisable {}
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]

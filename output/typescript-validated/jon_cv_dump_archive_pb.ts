@@ -11,7 +11,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_cv_dump_archive.proto.
  */
 export const file_jon_cv_dump_archive: GenFile = /*@__PURE__*/
-  fileDesc("Chlqb25fY3ZfZHVtcF9hcmNoaXZlLnByb3RvEgpqb24uY3ZkdW1wIooDCg1DdkR1bXBBcmNoaXZlEjEKB3ZlcnNpb24YASABKA4yIC5qb24uY3ZkdW1wLkFyY2hpdmVGb3JtYXRWZXJzaW9uEhMKAmlkGAIgASgJQge6SARyAhAkEhQKDGdlbmVyYXRlZF9hdBgDIAEoCRIpCgZ3aW5kb3cYBCABKAsyGS5qb24uY3ZkdW1wLkNhcHR1cmVXaW5kb3cSMQoKcHJvdmVuYW5jZRgFIAEoDjIdLmpvbi5jdmR1bXAuU2Vzc2lvblByb3ZlbmFuY2USDAoEbm90ZRgGIAEoCRIsCgdtYWNoaW5lGAcgASgLMhsuam9uLmN2ZHVtcC5NYWNoaW5lSWRlbnRpdHkSLgoJaW50ZWdyaXR5GAggASgLMhsuam9uLmN2ZHVtcC5JbnRlZ3JpdHlSZXBvcnQSJwoFdmlkZW8YCSADKAsyGC5qb24uY3ZkdW1wLlZpZGVvQ2hhbm5lbBIoCgdzdHJlYW1zGAogAygLMhcuam9uLmN2ZHVtcC5TdHJlYW1Hcm91cCJZCg1DYXB0dXJlV2luZG93Eg8KB3QwX3dhbGwYASABKAkSDwoHdDFfd2FsbBgCIAEoCRISCgp0MF9ib290X25zGAMgASgDEhIKCnQxX2Jvb3RfbnMYBCABKAMiogIKD01hY2hpbmVJZGVudGl0eRIXCgptYWNoaW5lX2lkGAEgASgJSACIAQESFQoIaG9zdG5hbWUYAiABKAlIAYgBARIVCghod19tb2RlbBgDIAEoCUgCiAEBEhQKB2Jvb3RfaWQYBCABKAlIA4gBARItCgZkZXBsb3kYBSABKAsyHS5qb24uY3ZkdW1wLkRlcGxveUZpbmdlcnByaW50EjIKD2NoYW5uZWxzX2NvbmZpZxgGIAMoCzIZLmpvbi5jdmR1bXAuQ2hhbm5lbENvbmZpZxIaChJtYWNoaW5lX2luY29tcGxldGUYByABKAhCDQoLX21hY2hpbmVfaWRCCwoJX2hvc3RuYW1lQgsKCV9od19tb2RlbEIKCghfYm9vdF9pZCJlChFEZXBsb3lGaW5nZXJwcmludBITCgtmaW5nZXJwcmludBgBIAEoCRIUCgxqZXR0aXNvbl9zaGEYAiABKAkSEAoIZGVzY3JpYmUYAyABKAkSEwoLZGVwbG95ZWRfYXQYBCABKAkifAoNQ2hhbm5lbENvbmZpZxIPCgdjaGFubmVsGAEgASgJEg0KBXdpZHRoGAIgASgNEg4KBmhlaWdodBgDIAEoDRIRCglmcHNfbGltaXQYBCABKA0SEgoKc2Vuc29yX2ZwcxgFIAEoDRIUCgxjcm9wX21hcmdpbnMYBiABKA0ivgIKD0ludGVncml0eVJlcG9ydBIpCgZzdGF0dXMYASABKA4yGS5qb24uY3ZkdW1wLkFyY2hpdmVTdGF0dXMSFwoPbGFwcGVkX3NlZ21lbnRzGAIgASgNEhkKEXdpbmRvd19zdGFydF9sb3N0GAMgASgIEhoKEndyaXRlcl9zZWdfc2tpcHBlZBgEIAEoCBIbChNyZWNfY29udHJvbF91bmtub3duGAUgASgIEhkKEXJlY19lbmFibGVfZmFpbGVkGAYgASgIEiAKGG5vX3dpbmRvd192aWRlb19jaGFubmVscxgHIAMoCRIZChF0cnVuY2F0ZWRfc291cmNlcxgIIAMoCRIcChR0ZWxlbWV0cnlfaW5jb21wbGV0ZRgJIAEoCBIdChVpb19yZWNvcmRzX2luY29tcGxldGUYCiABKAgiSwoMVmlkZW9DaGFubmVsEg8KB2NoYW5uZWwYASABKAkSKgoIc2VnbWVudHMYAiADKAsyGC5qb24uY3ZkdW1wLlZpZGVvU2VnbWVudCKLAQoMVmlkZW9TZWdtZW50EhAKCHNlcXVlbmNlGAEgASgNEgwKBHBhdGgYAiABKAkSDQoFYnl0ZXMYAyABKAQSGAoGc2hhMjU2GAQgASgJQgi6SAVyA5gBQBIQCghzdGFydF9ucxgFIAEoAxIOCgZlbmRfbnMYBiABKAMSEAoIb3Blbl9lbmQYByABKAgikAIKC1N0cmVhbUdyb3VwEiQKBGtpbmQYASABKA4yFi5qb24uY3ZkdW1wLlN0cmVhbUtpbmQSFwoGc291cmNlGAIgASgJQge6SARyAhABEicKBWNvZGVjGAMgASgOMhguam9uLmN2ZHVtcC5BcmNoaXZlQ29kZWMSFAoMcmVjb3JkX2NvdW50GAQgASgEEhUKDWRlY29kZWRfYnl0ZXMYBSABKAQSIAoOZGVjb2RlZF9zaGEyNTYYBiABKAlCCLpIBXIDmAFAEhEKCXRydW5jYXRlZBgHIAEoCBImCgdjb2x1bW5zGAggAygLMhUuam9uLmN2ZHVtcC5Db2x1bW5EZWYSDwoHcGF5bG9hZBgJIAEoDCInCglDb2x1bW5EZWYSDAoEbmFtZRgBIAEoCRIMCgR0eXBlGAIgASgJIkQKElJlZGlzU3RyZWFtUmVjb3JkcxIuCgdyZWNvcmRzGAEgAygLMh0uam9uLmN2ZHVtcC5SZWRpc1N0cmVhbVJlY29yZCJNChFSZWRpc1N0cmVhbVJlY29yZBIKCgJpZBgBIAEoCRIsCgZmaWVsZHMYAiADKAsyHC5qb24uY3ZkdW1wLlJlZGlzU3RyZWFtRmllbGQiLwoQUmVkaXNTdHJlYW1GaWVsZBIMCgRuYW1lGAEgASgJEg0KBXZhbHVlGAIgASgMIhkKCVRhYmxlUm93cxIMCgRyb3dzGAEgAygMKl0KFEFyY2hpdmVGb3JtYXRWZXJzaW9uEiYKIkFSQ0hJVkVfRk9STUFUX1ZFUlNJT05fVU5TUEVDSUZJRUQQABIdChlBUkNISVZFX0ZPUk1BVF9WRVJTSU9OX1YzEAMqRQoMQXJjaGl2ZUNvZGVjEh0KGUFSQ0hJVkVfQ09ERUNfVU5TUEVDSUZJRUQQABIWChJBUkNISVZFX0NPREVDX05PTkUQASqyAQoKU3RyZWFtS2luZBIbChdTVFJFQU1fS0lORF9VTlNQRUNJRklFRBAAEhMKD1NUUkVBTV9LSU5EX0NBThABEhsKF1NUUkVBTV9LSU5EX1JPVEFSWV9VQVJUEAISGQoVU1RSRUFNX0tJTkRfRlJBTUVfVEFQEAMSGgoWU1RSRUFNX0tJTkRfVFNEQl9UQUJMRRAEEh4KGlNUUkVBTV9LSU5EX01PVElPTl9ISVNUT1JZEAUqgwEKDUFyY2hpdmVTdGF0dXMSHgoaQVJDSElWRV9TVEFUVVNfVU5TUEVDSUZJRUQQABIbChdBUkNISVZFX1NUQVRVU19DT01QTEVURRABEhoKFkFSQ0hJVkVfU1RBVFVTX1BBUlRJQUwQAhIZChVBUkNISVZFX1NUQVRVU19GQUlMRUQQAyp8ChFTZXNzaW9uUHJvdmVuYW5jZRIiCh5TRVNTSU9OX1BST1ZFTkFOQ0VfVU5TUEVDSUZJRUQQABIfChtTRVNTSU9OX1BST1ZFTkFOQ0VfRVVUUk9QSUEQARIiCh5TRVNTSU9OX1BST1ZFTkFOQ0VfU1lOVEhFU0laRUQQAkJJWkdnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2N2ZHVtcGIGcHJvdG8z", [file_buf_validate_validate]);
+  fileDesc("Chlqb25fY3ZfZHVtcF9hcmNoaXZlLnByb3RvEgpqb24uY3ZkdW1wIrIDCg1DdkR1bXBBcmNoaXZlEjEKB3ZlcnNpb24YASABKA4yIC5qb24uY3ZkdW1wLkFyY2hpdmVGb3JtYXRWZXJzaW9uEhMKAmlkGAIgASgJQge6SARyAhAkEhQKDGdlbmVyYXRlZF9hdBgDIAEoCRIpCgZ3aW5kb3cYBCABKAsyGS5qb24uY3ZkdW1wLkNhcHR1cmVXaW5kb3cSMQoKcHJvdmVuYW5jZRgFIAEoDjIdLmpvbi5jdmR1bXAuU2Vzc2lvblByb3ZlbmFuY2USDAoEbm90ZRgGIAEoCRIsCgdtYWNoaW5lGAcgASgLMhsuam9uLmN2ZHVtcC5NYWNoaW5lSWRlbnRpdHkSLgoJaW50ZWdyaXR5GAggASgLMhsuam9uLmN2ZHVtcC5JbnRlZ3JpdHlSZXBvcnQSJwoFdmlkZW8YCSADKAsyGC5qb24uY3ZkdW1wLlZpZGVvQ2hhbm5lbBIoCgdzdHJlYW1zGAogAygLMhcuam9uLmN2ZHVtcC5TdHJlYW1Hcm91cBImCgVzaG90cxgLIAMoCzIXLmpvbi5jdmR1bXAuU2hvdENhcHR1cmUi8wEKCVNob3RQbGFuZRIWCgVwbGFuZRgBIAEoDUIHukgEKgIYAxILCgN0YWcYAiABKA0SFQoNc291cmNlX2Zvcm1hdBgDIAEoDRIVCgRwYXRoGAQgASgJQge6SARyAhABEhkKCGVuY29kaW5nGAUgASgJQge6SARyAhABEg0KBXdpZHRoGAYgASgNEg4KBmhlaWdodBgHIAEoDRINCgVwaXRjaBgIIAEoDRIRCgl1dl9vZmZzZXQYCSABKA0SDQoFYnl0ZXMYCiABKAQSKAoGc2hhMjU2GAsgASgJQhi6SBVyEzIOXlswLTlhLWZdezY0fSSYAUAiwQEKC1Nob3RDYXB0dXJlEiEKB2NoYW5uZWwYASABKAlCELpIDXILUgNkYXlSBGhlYXQSEgoKZ2VuZXJhdGlvbhgCIAEoDRIOCgZwdHNfbnMYAyABKAQSFwoPY2FwdHVyZV90aW1lX25zGAQgASgEEhQKDGN0bF9zbmFwc2hvdBgFIAEoDBIlCgZwbGFuZXMYBiADKAsyFS5qb24uY3ZkdW1wLlNob3RQbGFuZRIVCg1hYnNlbnRfcmVhc29uGAcgASgJIlkKDUNhcHR1cmVXaW5kb3cSDwoHdDBfd2FsbBgBIAEoCRIPCgd0MV93YWxsGAIgASgJEhIKCnQwX2Jvb3RfbnMYAyABKAMSEgoKdDFfYm9vdF9ucxgEIAEoAyKiAgoPTWFjaGluZUlkZW50aXR5EhcKCm1hY2hpbmVfaWQYASABKAlIAIgBARIVCghob3N0bmFtZRgCIAEoCUgBiAEBEhUKCGh3X21vZGVsGAMgASgJSAKIAQESFAoHYm9vdF9pZBgEIAEoCUgDiAEBEi0KBmRlcGxveRgFIAEoCzIdLmpvbi5jdmR1bXAuRGVwbG95RmluZ2VycHJpbnQSMgoPY2hhbm5lbHNfY29uZmlnGAYgAygLMhkuam9uLmN2ZHVtcC5DaGFubmVsQ29uZmlnEhoKEm1hY2hpbmVfaW5jb21wbGV0ZRgHIAEoCEINCgtfbWFjaGluZV9pZEILCglfaG9zdG5hbWVCCwoJX2h3X21vZGVsQgoKCF9ib290X2lkImUKEURlcGxveUZpbmdlcnByaW50EhMKC2ZpbmdlcnByaW50GAEgASgJEhQKDGpldHRpc29uX3NoYRgCIAEoCRIQCghkZXNjcmliZRgDIAEoCRITCgtkZXBsb3llZF9hdBgEIAEoCSJ8Cg1DaGFubmVsQ29uZmlnEg8KB2NoYW5uZWwYASABKAkSDQoFd2lkdGgYAiABKA0SDgoGaGVpZ2h0GAMgASgNEhEKCWZwc19saW1pdBgEIAEoDRISCgpzZW5zb3JfZnBzGAUgASgNEhQKDGNyb3BfbWFyZ2lucxgGIAEoDSK+AgoPSW50ZWdyaXR5UmVwb3J0EikKBnN0YXR1cxgBIAEoDjIZLmpvbi5jdmR1bXAuQXJjaGl2ZVN0YXR1cxIXCg9sYXBwZWRfc2VnbWVudHMYAiABKA0SGQoRd2luZG93X3N0YXJ0X2xvc3QYAyABKAgSGgoSd3JpdGVyX3NlZ19za2lwcGVkGAQgASgIEhsKE3JlY19jb250cm9sX3Vua25vd24YBSABKAgSGQoRcmVjX2VuYWJsZV9mYWlsZWQYBiABKAgSIAoYbm9fd2luZG93X3ZpZGVvX2NoYW5uZWxzGAcgAygJEhkKEXRydW5jYXRlZF9zb3VyY2VzGAggAygJEhwKFHRlbGVtZXRyeV9pbmNvbXBsZXRlGAkgASgIEh0KFWlvX3JlY29yZHNfaW5jb21wbGV0ZRgKIAEoCCJLCgxWaWRlb0NoYW5uZWwSDwoHY2hhbm5lbBgBIAEoCRIqCghzZWdtZW50cxgCIAMoCzIYLmpvbi5jdmR1bXAuVmlkZW9TZWdtZW50IosBCgxWaWRlb1NlZ21lbnQSEAoIc2VxdWVuY2UYASABKA0SDAoEcGF0aBgCIAEoCRINCgVieXRlcxgDIAEoBBIYCgZzaGEyNTYYBCABKAlCCLpIBXIDmAFAEhAKCHN0YXJ0X25zGAUgASgDEg4KBmVuZF9ucxgGIAEoAxIQCghvcGVuX2VuZBgHIAEoCCKQAgoLU3RyZWFtR3JvdXASJAoEa2luZBgBIAEoDjIWLmpvbi5jdmR1bXAuU3RyZWFtS2luZBIXCgZzb3VyY2UYAiABKAlCB7pIBHICEAESJwoFY29kZWMYAyABKA4yGC5qb24uY3ZkdW1wLkFyY2hpdmVDb2RlYxIUCgxyZWNvcmRfY291bnQYBCABKAQSFQoNZGVjb2RlZF9ieXRlcxgFIAEoBBIgCg5kZWNvZGVkX3NoYTI1NhgGIAEoCUIIukgFcgOYAUASEQoJdHJ1bmNhdGVkGAcgASgIEiYKB2NvbHVtbnMYCCADKAsyFS5qb24uY3ZkdW1wLkNvbHVtbkRlZhIPCgdwYXlsb2FkGAkgASgMIicKCUNvbHVtbkRlZhIMCgRuYW1lGAEgASgJEgwKBHR5cGUYAiABKAkiRAoSUmVkaXNTdHJlYW1SZWNvcmRzEi4KB3JlY29yZHMYASADKAsyHS5qb24uY3ZkdW1wLlJlZGlzU3RyZWFtUmVjb3JkIk0KEVJlZGlzU3RyZWFtUmVjb3JkEgoKAmlkGAEgASgJEiwKBmZpZWxkcxgCIAMoCzIcLmpvbi5jdmR1bXAuUmVkaXNTdHJlYW1GaWVsZCIvChBSZWRpc1N0cmVhbUZpZWxkEgwKBG5hbWUYASABKAkSDQoFdmFsdWUYAiABKAwiGQoJVGFibGVSb3dzEgwKBHJvd3MYASADKAwqXQoUQXJjaGl2ZUZvcm1hdFZlcnNpb24SJgoiQVJDSElWRV9GT1JNQVRfVkVSU0lPTl9VTlNQRUNJRklFRBAAEh0KGUFSQ0hJVkVfRk9STUFUX1ZFUlNJT05fVjMQAypFCgxBcmNoaXZlQ29kZWMSHQoZQVJDSElWRV9DT0RFQ19VTlNQRUNJRklFRBAAEhYKEkFSQ0hJVkVfQ09ERUNfTk9ORRABKrIBCgpTdHJlYW1LaW5kEhsKF1NUUkVBTV9LSU5EX1VOU1BFQ0lGSUVEEAASEwoPU1RSRUFNX0tJTkRfQ0FOEAESGwoXU1RSRUFNX0tJTkRfUk9UQVJZX1VBUlQQAhIZChVTVFJFQU1fS0lORF9GUkFNRV9UQVAQAxIaChZTVFJFQU1fS0lORF9UU0RCX1RBQkxFEAQSHgoaU1RSRUFNX0tJTkRfTU9USU9OX0hJU1RPUlkQBSqDAQoNQXJjaGl2ZVN0YXR1cxIeChpBUkNISVZFX1NUQVRVU19VTlNQRUNJRklFRBAAEhsKF0FSQ0hJVkVfU1RBVFVTX0NPTVBMRVRFEAESGgoWQVJDSElWRV9TVEFUVVNfUEFSVElBTBACEhkKFUFSQ0hJVkVfU1RBVFVTX0ZBSUxFRBADKnwKEVNlc3Npb25Qcm92ZW5hbmNlEiIKHlNFU1NJT05fUFJPVkVOQU5DRV9VTlNQRUNJRklFRBAAEh8KG1NFU1NJT05fUFJPVkVOQU5DRV9FVVRST1BJQRABEiIKHlNFU1NJT05fUFJPVkVOQU5DRV9TWU5USEVTSVpFRBACQklaR2dpdC1jb2RlY29tbWl0LmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tL3YxL3JlcG9zL2pldHRpc29uL2pvbnAvY3ZkdW1wYgZwcm90bzM", [file_buf_validate_validate]);
 
 /**
  * ONE capture-session archive — the whole self-description of a cv_dump bundle
@@ -116,11 +116,22 @@ export type CvDumpArchive = Message<"jon.cvdump.CvDumpArchive"> & {
 
   /**
    * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-   * of one kind are contiguous. Last field number on purpose: it is the bulk.
+   * of one kind are contiguous. It is the bulk of a capture-window bundle.
    *
    * @generated from field: repeated jon.cvdump.StreamGroup streams = 10;
    */
   streams: StreamGroup[];
+
+  /**
+   * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+   * channels' rings, as files under shots/ with their geometry, encoding and
+   * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+   * channel that captured nothing appears with no planes and a reason. Empty
+   * on a capture-window bundle; a photo bundle has empty video + streams.
+   *
+   * @generated from field: repeated jon.cvdump.ShotCapture shots = 11;
+   */
+  shots: ShotCapture[];
 };
 
 /**
@@ -129,6 +140,152 @@ export type CvDumpArchive = Message<"jon.cvdump.CvDumpArchive"> & {
  */
 export const CvDumpArchiveSchema: GenMessage<CvDumpArchive> = /*@__PURE__*/
   messageDesc(file_jon_cv_dump_archive, 0);
+
+/**
+ * One plane of one channel's photo. The output format keys on the plane's
+ * FORMAT tag from the control block, never on the plane index.
+ *
+ * @generated from message jon.cvdump.ShotPlane
+ */
+export type ShotPlane = Message<"jon.cvdump.ShotPlane"> & {
+  /**
+   * Ring plane index (0..3).
+   *
+   * @generated from field: uint32 plane = 1;
+   */
+  plane: number;
+
+  /**
+   * SensorRingPlaneTag as the control block carried it: 1 NATIVE, 2 CLAHE,
+   * 3 OPERATOR, 4 RAW.
+   *
+   * @generated from field: uint32 tag = 2;
+   */
+  tag: number;
+
+  /**
+   * The plane's source pixel format (NvBufSurfaceColorFormat, or the RAW
+   * enum), as the control block carried it.
+   *
+   * @generated from field: uint32 source_format = 3;
+   */
+  sourceFormat: number;
+
+  /**
+   * Bundle-relative path, e.g. "shots/day_p0_raw.rg12".
+   *
+   * @generated from field: string path = 4;
+   */
+  path: string;
+
+  /**
+   * "png8-rgb" | "png8-gray" | "raw-rg12-msb16" | "raw-nv12".
+   *
+   * @generated from field: string encoding = 5;
+   */
+  encoding: string;
+
+  /**
+   * @generated from field: uint32 width = 6;
+   */
+  width: number;
+
+  /**
+   * @generated from field: uint32 height = 7;
+   */
+  height: number;
+
+  /**
+   * Source pitch in bytes (what the raw encodings preserve verbatim).
+   *
+   * @generated from field: uint32 pitch = 8;
+   */
+  pitch: number;
+
+  /**
+   * NV12 UV-plane offset within the source, 0 for single-plane formats.
+   *
+   * @generated from field: uint32 uv_offset = 9;
+   */
+  uvOffset: number;
+
+  /**
+   * @generated from field: uint64 bytes = 10;
+   */
+  bytes: bigint;
+
+  /**
+   * Lowercase hex SHA-256 of the file.
+   *
+   * @generated from field: string sha256 = 11;
+   */
+  sha256: string;
+};
+
+/**
+ * Describes the message jon.cvdump.ShotPlane.
+ * Use `create(ShotPlaneSchema)` to create a new message.
+ */
+export const ShotPlaneSchema: GenMessage<ShotPlane> = /*@__PURE__*/
+  messageDesc(file_jon_cv_dump_archive, 1);
+
+/**
+ * One channel's photo: the frame's identity + the whole control block, and
+ * every plane written for it.
+ *
+ * @generated from message jon.cvdump.ShotCapture
+ */
+export type ShotCapture = Message<"jon.cvdump.ShotCapture"> & {
+  /**
+   * "day" | "heat".
+   *
+   * @generated from field: string channel = 1;
+   */
+  channel: string;
+
+  /**
+   * @generated from field: uint32 generation = 2;
+   */
+  generation: number;
+
+  /**
+   * @generated from field: uint64 pts_ns = 3;
+   */
+  ptsNs: bigint;
+
+  /**
+   * CLOCK_MONOTONIC — the cross-channel skew key.
+   *
+   * @generated from field: uint64 capture_time_ns = 4;
+   */
+  captureTimeNs: bigint;
+
+  /**
+   * The 1024-byte control block, verbatim, as snapshotted under the seqlock.
+   *
+   * @generated from field: bytes ctl_snapshot = 5;
+   */
+  ctlSnapshot: Uint8Array;
+
+  /**
+   * Empty when the channel captured nothing — then absent_reason says why.
+   *
+   * @generated from field: repeated jon.cvdump.ShotPlane planes = 6;
+   */
+  planes: ShotPlane[];
+
+  /**
+   * @generated from field: string absent_reason = 7;
+   */
+  absentReason: string;
+};
+
+/**
+ * Describes the message jon.cvdump.ShotCapture.
+ * Use `create(ShotCaptureSchema)` to create a new message.
+ */
+export const ShotCaptureSchema: GenMessage<ShotCapture> = /*@__PURE__*/
+  messageDesc(file_jon_cv_dump_archive, 2);
 
 /**
  * The capture window in both clock domains.
@@ -174,7 +331,7 @@ export type CaptureWindow = Message<"jon.cvdump.CaptureWindow"> & {
  * Use `create(CaptureWindowSchema)` to create a new message.
  */
 export const CaptureWindowSchema: GenMessage<CaptureWindow> = /*@__PURE__*/
-  messageDesc(file_jon_cv_dump_archive, 1);
+  messageDesc(file_jon_cv_dump_archive, 3);
 
 /**
  * Device + boot + deployed-code identity, gathered at harvest time from local
@@ -248,7 +405,7 @@ export type MachineIdentity = Message<"jon.cvdump.MachineIdentity"> & {
  * Use `create(MachineIdentitySchema)` to create a new message.
  */
 export const MachineIdentitySchema: GenMessage<MachineIdentity> = /*@__PURE__*/
-  messageDesc(file_jon_cv_dump_archive, 2);
+  messageDesc(file_jon_cv_dump_archive, 4);
 
 /**
  * The deploy the capture ran under. Values are opaque strings to a consumer.
@@ -290,7 +447,7 @@ export type DeployFingerprint = Message<"jon.cvdump.DeployFingerprint"> & {
  * Use `create(DeployFingerprintSchema)` to create a new message.
  */
 export const DeployFingerprintSchema: GenMessage<DeployFingerprint> = /*@__PURE__*/
-  messageDesc(file_jon_cv_dump_archive, 3);
+  messageDesc(file_jon_cv_dump_archive, 5);
 
 /**
  * Frozen per-channel stream constants (day: 1920x1080; heat: a 900x720 crop of
@@ -343,7 +500,7 @@ export type ChannelConfig = Message<"jon.cvdump.ChannelConfig"> & {
  * Use `create(ChannelConfigSchema)` to create a new message.
  */
 export const ChannelConfigSchema: GenMessage<ChannelConfig> = /*@__PURE__*/
-  messageDesc(file_jon_cv_dump_archive, 4);
+  messageDesc(file_jon_cv_dump_archive, 6);
 
 /**
  * Whether the capture is trustworthy, and why. Every bool here is a DEGRADE
@@ -452,7 +609,7 @@ export type IntegrityReport = Message<"jon.cvdump.IntegrityReport"> & {
  * Use `create(IntegrityReportSchema)` to create a new message.
  */
 export const IntegrityReportSchema: GenMessage<IntegrityReport> = /*@__PURE__*/
-  messageDesc(file_jon_cv_dump_archive, 5);
+  messageDesc(file_jon_cv_dump_archive, 7);
 
 /**
  * One channel's ring video: the segment files that cover [t0,t1], and the time
@@ -479,7 +636,7 @@ export type VideoChannel = Message<"jon.cvdump.VideoChannel"> & {
  * Use `create(VideoChannelSchema)` to create a new message.
  */
 export const VideoChannelSchema: GenMessage<VideoChannel> = /*@__PURE__*/
-  messageDesc(file_jon_cv_dump_archive, 6);
+  messageDesc(file_jon_cv_dump_archive, 8);
 
 /**
  * One VCAP ring segment, copied byte-for-byte into the bundle.
@@ -550,7 +707,7 @@ export type VideoSegment = Message<"jon.cvdump.VideoSegment"> & {
  * Use `create(VideoSegmentSchema)` to create a new message.
  */
 export const VideoSegmentSchema: GenMessage<VideoSegment> = /*@__PURE__*/
-  messageDesc(file_jon_cv_dump_archive, 7);
+  messageDesc(file_jon_cv_dump_archive, 9);
 
 /**
  * One contiguous run of records from ONE source.
@@ -642,7 +799,7 @@ export type StreamGroup = Message<"jon.cvdump.StreamGroup"> & {
  * Use `create(StreamGroupSchema)` to create a new message.
  */
 export const StreamGroupSchema: GenMessage<StreamGroup> = /*@__PURE__*/
-  messageDesc(file_jon_cv_dump_archive, 8);
+  messageDesc(file_jon_cv_dump_archive, 10);
 
 /**
  * One column of a TSDB table.
@@ -668,7 +825,7 @@ export type ColumnDef = Message<"jon.cvdump.ColumnDef"> & {
  * Use `create(ColumnDefSchema)` to create a new message.
  */
 export const ColumnDefSchema: GenMessage<ColumnDef> = /*@__PURE__*/
-  messageDesc(file_jon_cv_dump_archive, 9);
+  messageDesc(file_jon_cv_dump_archive, 11);
 
 /**
  * The decoded payload of a redis-stream group (StreamKind 1-3).
@@ -687,7 +844,7 @@ export type RedisStreamRecords = Message<"jon.cvdump.RedisStreamRecords"> & {
  * Use `create(RedisStreamRecordsSchema)` to create a new message.
  */
 export const RedisStreamRecordsSchema: GenMessage<RedisStreamRecords> = /*@__PURE__*/
-  messageDesc(file_jon_cv_dump_archive, 10);
+  messageDesc(file_jon_cv_dump_archive, 12);
 
 /**
  * One redis stream entry, byte-faithful.
@@ -718,7 +875,7 @@ export type RedisStreamRecord = Message<"jon.cvdump.RedisStreamRecord"> & {
  * Use `create(RedisStreamRecordSchema)` to create a new message.
  */
 export const RedisStreamRecordSchema: GenMessage<RedisStreamRecord> = /*@__PURE__*/
-  messageDesc(file_jon_cv_dump_archive, 11);
+  messageDesc(file_jon_cv_dump_archive, 13);
 
 /**
  * A single redis field. value is RAW BYTES and is never UTF-8 decoded: the
@@ -744,7 +901,7 @@ export type RedisStreamField = Message<"jon.cvdump.RedisStreamField"> & {
  * Use `create(RedisStreamFieldSchema)` to create a new message.
  */
 export const RedisStreamFieldSchema: GenMessage<RedisStreamField> = /*@__PURE__*/
-  messageDesc(file_jon_cv_dump_archive, 12);
+  messageDesc(file_jon_cv_dump_archive, 14);
 
 /**
  * The decoded payload of a TSDB-table group (StreamKind 4).
@@ -768,7 +925,7 @@ export type TableRows = Message<"jon.cvdump.TableRows"> & {
  * Use `create(TableRowsSchema)` to create a new message.
  */
 export const TableRowsSchema: GenMessage<TableRows> = /*@__PURE__*/
-  messageDesc(file_jon_cv_dump_archive, 13);
+  messageDesc(file_jon_cv_dump_archive, 15);
 
 /**
  * Format version of a CvDumpArchive. Carried as CvDumpArchive.version — FIELD

@@ -105,6 +105,43 @@ inline bool JonGuiDataCV_AutofocusState_Parse(absl::string_view name, JonGuiData
   return ::google::protobuf::internal::ParseNamedEnum<JonGuiDataCV_AutofocusState>(
       JonGuiDataCV_AutofocusState_descriptor(), name, value);
 }
+enum JonGuiDataCV_ShotState : int {
+  JonGuiDataCV_ShotState_SHOT_STATE_UNSPECIFIED = 0,
+  JonGuiDataCV_ShotState_SHOT_STATE_IDLE = 1,
+  JonGuiDataCV_ShotState_SHOT_STATE_CAPTURING = 2,
+  JonGuiDataCV_ShotState_SHOT_STATE_WRITING = 3,
+  JonGuiDataCV_ShotState_SHOT_STATE_READY = 4,
+  JonGuiDataCV_ShotState_SHOT_STATE_FAILED = 5,
+  JonGuiDataCV_ShotState_JonGuiDataCV_ShotState_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  JonGuiDataCV_ShotState_JonGuiDataCV_ShotState_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool JonGuiDataCV_ShotState_IsValid(int value);
+extern const uint32_t JonGuiDataCV_ShotState_internal_data_[];
+constexpr JonGuiDataCV_ShotState JonGuiDataCV_ShotState_ShotState_MIN = static_cast<JonGuiDataCV_ShotState>(0);
+constexpr JonGuiDataCV_ShotState JonGuiDataCV_ShotState_ShotState_MAX = static_cast<JonGuiDataCV_ShotState>(5);
+constexpr int JonGuiDataCV_ShotState_ShotState_ARRAYSIZE = 5 + 1;
+const ::google::protobuf::EnumDescriptor*
+JonGuiDataCV_ShotState_descriptor();
+template <typename T>
+const std::string& JonGuiDataCV_ShotState_Name(T value) {
+  static_assert(std::is_same<T, JonGuiDataCV_ShotState>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to ShotState_Name().");
+  return JonGuiDataCV_ShotState_Name(static_cast<JonGuiDataCV_ShotState>(value));
+}
+template <>
+inline const std::string& JonGuiDataCV_ShotState_Name(JonGuiDataCV_ShotState value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<JonGuiDataCV_ShotState_descriptor,
+                                                 0, 5>(
+      static_cast<int>(value));
+}
+inline bool JonGuiDataCV_ShotState_Parse(absl::string_view name, JonGuiDataCV_ShotState* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<JonGuiDataCV_ShotState>(
+      JonGuiDataCV_ShotState_descriptor(), name, value);
+}
 enum JonGuiDataCV_CvBridgeStatus : int {
   JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_UNSPECIFIED = 0,
   JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_STOPPED = 1,
@@ -557,6 +594,29 @@ class JonGuiDataCV final : public ::google::protobuf::Message
   static inline bool AutofocusState_Parse(absl::string_view name, AutofocusState* value) {
     return JonGuiDataCV_AutofocusState_Parse(name, value);
   }
+  using ShotState = JonGuiDataCV_ShotState;
+  static constexpr ShotState SHOT_STATE_UNSPECIFIED = JonGuiDataCV_ShotState_SHOT_STATE_UNSPECIFIED;
+  static constexpr ShotState SHOT_STATE_IDLE = JonGuiDataCV_ShotState_SHOT_STATE_IDLE;
+  static constexpr ShotState SHOT_STATE_CAPTURING = JonGuiDataCV_ShotState_SHOT_STATE_CAPTURING;
+  static constexpr ShotState SHOT_STATE_WRITING = JonGuiDataCV_ShotState_SHOT_STATE_WRITING;
+  static constexpr ShotState SHOT_STATE_READY = JonGuiDataCV_ShotState_SHOT_STATE_READY;
+  static constexpr ShotState SHOT_STATE_FAILED = JonGuiDataCV_ShotState_SHOT_STATE_FAILED;
+  static inline bool ShotState_IsValid(int value) {
+    return JonGuiDataCV_ShotState_IsValid(value);
+  }
+  static constexpr ShotState ShotState_MIN = JonGuiDataCV_ShotState_ShotState_MIN;
+  static constexpr ShotState ShotState_MAX = JonGuiDataCV_ShotState_ShotState_MAX;
+  static constexpr int ShotState_ARRAYSIZE = JonGuiDataCV_ShotState_ShotState_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor* ShotState_descriptor() {
+    return JonGuiDataCV_ShotState_descriptor();
+  }
+  template <typename T>
+  static inline const std::string& ShotState_Name(T value) {
+    return JonGuiDataCV_ShotState_Name(value);
+  }
+  static inline bool ShotState_Parse(absl::string_view name, ShotState* value) {
+    return JonGuiDataCV_ShotState_Parse(name, value);
+  }
   using CvBridgeStatus = JonGuiDataCV_CvBridgeStatus;
   static constexpr CvBridgeStatus CV_BRIDGE_STATUS_UNSPECIFIED = JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_UNSPECIFIED;
   static constexpr CvBridgeStatus CV_BRIDGE_STATUS_STOPPED = JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_STOPPED;
@@ -611,6 +671,7 @@ class JonGuiDataCV final : public ::google::protobuf::Message
   // accessors -------------------------------------------------------
   enum : int {
     kTrackedObjectsFieldNumber = 80,
+    kShotIdFieldNumber = 112,
     kRoiFocusDayFieldNumber = 40,
     kRoiTrackDayFieldNumber = 41,
     kRoiZoomDayFieldNumber = 42,
@@ -646,6 +707,8 @@ class JonGuiDataCV final : public ::google::protobuf::Message
     kTrinityTrackingActiveFieldNumber = 90,
     kZoomRoiActiveDayFieldNumber = 91,
     kZoomRoiActiveHeatFieldNumber = 92,
+    kShotSeqFieldNumber = 110,
+    kShotStateFieldNumber = 111,
   };
   // repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;
   int tracked_objects_size() const;
@@ -664,6 +727,22 @@ class JonGuiDataCV final : public ::google::protobuf::Message
   const ::ser::JonGuiDataTrackedObject& tracked_objects(int index) const;
   ::ser::JonGuiDataTrackedObject* add_tracked_objects();
   const ::google::protobuf::RepeatedPtrField<::ser::JonGuiDataTrackedObject>& tracked_objects() const;
+  // string shot_id = 112 [(.buf.validate.field) = {
+  void clear_shot_id() ;
+  const std::string& shot_id() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_shot_id(Arg_&& arg, Args_... args);
+  std::string* mutable_shot_id();
+  PROTOBUF_NODISCARD std::string* release_shot_id();
+  void set_allocated_shot_id(std::string* value);
+
+  private:
+  const std::string& _internal_shot_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_shot_id(
+      const std::string& value);
+  std::string* _internal_mutable_shot_id();
+
+  public:
   // optional .ser.JonGuiDataROI roi_focus_day = 40;
   bool has_roi_focus_day() const;
   void clear_roi_focus_day() ;
@@ -1084,13 +1163,33 @@ class JonGuiDataCV final : public ::google::protobuf::Message
   void _internal_set_zoom_roi_active_heat(bool value);
 
   public:
+  // uint32 shot_seq = 110;
+  void clear_shot_seq() ;
+  ::uint32_t shot_seq() const;
+  void set_shot_seq(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_shot_seq() const;
+  void _internal_set_shot_seq(::uint32_t value);
+
+  public:
+  // .ser.JonGuiDataCV.ShotState shot_state = 111 [(.buf.validate.field) = {
+  void clear_shot_state() ;
+  ::ser::JonGuiDataCV_ShotState shot_state() const;
+  void set_shot_state(::ser::JonGuiDataCV_ShotState value);
+
+  private:
+  ::ser::JonGuiDataCV_ShotState _internal_shot_state() const;
+  void _internal_set_shot_state(::ser::JonGuiDataCV_ShotState value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataCV)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 36, 15,
-      0, 15>
+      5, 39, 15,
+      64, 15>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -1110,6 +1209,7 @@ class JonGuiDataCV final : public ::google::protobuf::Message
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::RepeatedPtrField< ::ser::JonGuiDataTrackedObject > tracked_objects_;
+    ::google::protobuf::internal::ArenaStringPtr shot_id_;
     ::ser::JonGuiDataROI* roi_focus_day_;
     ::ser::JonGuiDataROI* roi_track_day_;
     ::ser::JonGuiDataROI* roi_zoom_day_;
@@ -1145,6 +1245,8 @@ class JonGuiDataCV final : public ::google::protobuf::Message
     bool trinity_tracking_active_;
     bool zoom_roi_active_day_;
     bool zoom_roi_active_heat_;
+    ::uint32_t shot_seq_;
+    int shot_state_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -2958,6 +3060,98 @@ inline void JonGuiDataCV::set_allocated_stab_correction_heat(::ser::JonGuiDataSt
   // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCV.stab_correction_heat)
 }
 
+// uint32 shot_seq = 110;
+inline void JonGuiDataCV::clear_shot_seq() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.shot_seq_ = 0u;
+}
+inline ::uint32_t JonGuiDataCV::shot_seq() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.shot_seq)
+  return _internal_shot_seq();
+}
+inline void JonGuiDataCV::set_shot_seq(::uint32_t value) {
+  _internal_set_shot_seq(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCV.shot_seq)
+}
+inline ::uint32_t JonGuiDataCV::_internal_shot_seq() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.shot_seq_;
+}
+inline void JonGuiDataCV::_internal_set_shot_seq(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.shot_seq_ = value;
+}
+
+// .ser.JonGuiDataCV.ShotState shot_state = 111 [(.buf.validate.field) = {
+inline void JonGuiDataCV::clear_shot_state() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.shot_state_ = 0;
+}
+inline ::ser::JonGuiDataCV_ShotState JonGuiDataCV::shot_state() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.shot_state)
+  return _internal_shot_state();
+}
+inline void JonGuiDataCV::set_shot_state(::ser::JonGuiDataCV_ShotState value) {
+  _internal_set_shot_state(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCV.shot_state)
+}
+inline ::ser::JonGuiDataCV_ShotState JonGuiDataCV::_internal_shot_state() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::ser::JonGuiDataCV_ShotState>(_impl_.shot_state_);
+}
+inline void JonGuiDataCV::_internal_set_shot_state(::ser::JonGuiDataCV_ShotState value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.shot_state_ = value;
+}
+
+// string shot_id = 112 [(.buf.validate.field) = {
+inline void JonGuiDataCV::clear_shot_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.shot_id_.ClearToEmpty();
+}
+inline const std::string& JonGuiDataCV::shot_id() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.shot_id)
+  return _internal_shot_id();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void JonGuiDataCV::set_shot_id(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.shot_id_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCV.shot_id)
+}
+inline std::string* JonGuiDataCV::mutable_shot_id() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_shot_id();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCV.shot_id)
+  return _s;
+}
+inline const std::string& JonGuiDataCV::_internal_shot_id() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.shot_id_.Get();
+}
+inline void JonGuiDataCV::_internal_set_shot_id(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.shot_id_.Set(value, GetArena());
+}
+inline std::string* JonGuiDataCV::_internal_mutable_shot_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.shot_id_.Mutable( GetArena());
+}
+inline std::string* JonGuiDataCV::release_shot_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataCV.shot_id)
+  return _impl_.shot_id_.Release();
+}
+inline void JonGuiDataCV::set_allocated_shot_id(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.shot_id_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.shot_id_.IsDefault()) {
+    _impl_.shot_id_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCV.shot_id)
+}
+
 // -------------------------------------------------------------------
 
 // JonGuiDataStabCorrection
@@ -3022,6 +3216,12 @@ struct is_proto_enum<::ser::JonGuiDataCV_AutofocusState> : std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor<::ser::JonGuiDataCV_AutofocusState>() {
   return ::ser::JonGuiDataCV_AutofocusState_descriptor();
+}
+template <>
+struct is_proto_enum<::ser::JonGuiDataCV_ShotState> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::ser::JonGuiDataCV_ShotState>() {
+  return ::ser::JonGuiDataCV_ShotState_descriptor();
 }
 template <>
 struct is_proto_enum<::ser::JonGuiDataCV_CvBridgeStatus> : std::true_type {};

@@ -9,6 +9,12 @@
 PB_BIND(jon_cvdump_CvDumpArchive, jon_cvdump_CvDumpArchive, 2)
 
 
+PB_BIND(jon_cvdump_ShotPlane, jon_cvdump_ShotPlane, AUTO)
+
+
+PB_BIND(jon_cvdump_ShotCapture, jon_cvdump_ShotCapture, AUTO)
+
+
 PB_BIND(jon_cvdump_CaptureWindow, jon_cvdump_CaptureWindow, AUTO)
 
 

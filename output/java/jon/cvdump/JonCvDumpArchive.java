@@ -1164,7 +1164,7 @@ public final class JonCvDumpArchive {
     /**
      * <pre>
      * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-     * of one kind are contiguous. Last field number on purpose: it is the bulk.
+     * of one kind are contiguous. It is the bulk of a capture-window bundle.
      * </pre>
      *
      * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -1174,7 +1174,7 @@ public final class JonCvDumpArchive {
     /**
      * <pre>
      * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-     * of one kind are contiguous. Last field number on purpose: it is the bulk.
+     * of one kind are contiguous. It is the bulk of a capture-window bundle.
      * </pre>
      *
      * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -1183,7 +1183,7 @@ public final class JonCvDumpArchive {
     /**
      * <pre>
      * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-     * of one kind are contiguous. Last field number on purpose: it is the bulk.
+     * of one kind are contiguous. It is the bulk of a capture-window bundle.
      * </pre>
      *
      * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -1192,7 +1192,7 @@ public final class JonCvDumpArchive {
     /**
      * <pre>
      * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-     * of one kind are contiguous. Last field number on purpose: it is the bulk.
+     * of one kind are contiguous. It is the bulk of a capture-window bundle.
      * </pre>
      *
      * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -1202,12 +1202,76 @@ public final class JonCvDumpArchive {
     /**
      * <pre>
      * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-     * of one kind are contiguous. Last field number on purpose: it is the bulk.
+     * of one kind are contiguous. It is the bulk of a capture-window bundle.
      * </pre>
      *
      * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
      */
     jon.cvdump.JonCvDumpArchive.StreamGroupOrBuilder getStreamsOrBuilder(
+        int index);
+
+    /**
+     * <pre>
+     * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+     * channels' rings, as files under shots/ with their geometry, encoding and
+     * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+     * channel that captured nothing appears with no planes and a reason. Empty
+     * on a capture-window bundle; a photo bundle has empty video + streams.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+     */
+    java.util.List<jon.cvdump.JonCvDumpArchive.ShotCapture> 
+        getShotsList();
+    /**
+     * <pre>
+     * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+     * channels' rings, as files under shots/ with their geometry, encoding and
+     * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+     * channel that captured nothing appears with no planes and a reason. Empty
+     * on a capture-window bundle; a photo bundle has empty video + streams.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+     */
+    jon.cvdump.JonCvDumpArchive.ShotCapture getShots(int index);
+    /**
+     * <pre>
+     * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+     * channels' rings, as files under shots/ with their geometry, encoding and
+     * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+     * channel that captured nothing appears with no planes and a reason. Empty
+     * on a capture-window bundle; a photo bundle has empty video + streams.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+     */
+    int getShotsCount();
+    /**
+     * <pre>
+     * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+     * channels' rings, as files under shots/ with their geometry, encoding and
+     * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+     * channel that captured nothing appears with no planes and a reason. Empty
+     * on a capture-window bundle; a photo bundle has empty video + streams.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+     */
+    java.util.List<? extends jon.cvdump.JonCvDumpArchive.ShotCaptureOrBuilder> 
+        getShotsOrBuilderList();
+    /**
+     * <pre>
+     * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+     * channels' rings, as files under shots/ with their geometry, encoding and
+     * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+     * channel that captured nothing appears with no planes and a reason. Empty
+     * on a capture-window bundle; a photo bundle has empty video + streams.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+     */
+    jon.cvdump.JonCvDumpArchive.ShotCaptureOrBuilder getShotsOrBuilder(
         int index);
   }
   /**
@@ -1261,6 +1325,7 @@ public final class JonCvDumpArchive {
       note_ = "";
       video_ = java.util.Collections.emptyList();
       streams_ = java.util.Collections.emptyList();
+      shots_ = java.util.Collections.emptyList();
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -1700,7 +1765,7 @@ public final class JonCvDumpArchive {
     /**
      * <pre>
      * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-     * of one kind are contiguous. Last field number on purpose: it is the bulk.
+     * of one kind are contiguous. It is the bulk of a capture-window bundle.
      * </pre>
      *
      * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -1712,7 +1777,7 @@ public final class JonCvDumpArchive {
     /**
      * <pre>
      * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-     * of one kind are contiguous. Last field number on purpose: it is the bulk.
+     * of one kind are contiguous. It is the bulk of a capture-window bundle.
      * </pre>
      *
      * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -1725,7 +1790,7 @@ public final class JonCvDumpArchive {
     /**
      * <pre>
      * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-     * of one kind are contiguous. Last field number on purpose: it is the bulk.
+     * of one kind are contiguous. It is the bulk of a capture-window bundle.
      * </pre>
      *
      * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -1737,7 +1802,7 @@ public final class JonCvDumpArchive {
     /**
      * <pre>
      * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-     * of one kind are contiguous. Last field number on purpose: it is the bulk.
+     * of one kind are contiguous. It is the bulk of a capture-window bundle.
      * </pre>
      *
      * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -1749,7 +1814,7 @@ public final class JonCvDumpArchive {
     /**
      * <pre>
      * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-     * of one kind are contiguous. Last field number on purpose: it is the bulk.
+     * of one kind are contiguous. It is the bulk of a capture-window bundle.
      * </pre>
      *
      * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -1758,6 +1823,87 @@ public final class JonCvDumpArchive {
     public jon.cvdump.JonCvDumpArchive.StreamGroupOrBuilder getStreamsOrBuilder(
         int index) {
       return streams_.get(index);
+    }
+
+    public static final int SHOTS_FIELD_NUMBER = 11;
+    @SuppressWarnings("serial")
+    private java.util.List<jon.cvdump.JonCvDumpArchive.ShotCapture> shots_;
+    /**
+     * <pre>
+     * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+     * channels' rings, as files under shots/ with their geometry, encoding and
+     * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+     * channel that captured nothing appears with no planes and a reason. Empty
+     * on a capture-window bundle; a photo bundle has empty video + streams.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+     */
+    @java.lang.Override
+    public java.util.List<jon.cvdump.JonCvDumpArchive.ShotCapture> getShotsList() {
+      return shots_;
+    }
+    /**
+     * <pre>
+     * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+     * channels' rings, as files under shots/ with their geometry, encoding and
+     * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+     * channel that captured nothing appears with no planes and a reason. Empty
+     * on a capture-window bundle; a photo bundle has empty video + streams.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends jon.cvdump.JonCvDumpArchive.ShotCaptureOrBuilder> 
+        getShotsOrBuilderList() {
+      return shots_;
+    }
+    /**
+     * <pre>
+     * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+     * channels' rings, as files under shots/ with their geometry, encoding and
+     * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+     * channel that captured nothing appears with no planes and a reason. Empty
+     * on a capture-window bundle; a photo bundle has empty video + streams.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+     */
+    @java.lang.Override
+    public int getShotsCount() {
+      return shots_.size();
+    }
+    /**
+     * <pre>
+     * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+     * channels' rings, as files under shots/ with their geometry, encoding and
+     * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+     * channel that captured nothing appears with no planes and a reason. Empty
+     * on a capture-window bundle; a photo bundle has empty video + streams.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+     */
+    @java.lang.Override
+    public jon.cvdump.JonCvDumpArchive.ShotCapture getShots(int index) {
+      return shots_.get(index);
+    }
+    /**
+     * <pre>
+     * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+     * channels' rings, as files under shots/ with their geometry, encoding and
+     * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+     * channel that captured nothing appears with no planes and a reason. Empty
+     * on a capture-window bundle; a photo bundle has empty video + streams.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+     */
+    @java.lang.Override
+    public jon.cvdump.JonCvDumpArchive.ShotCaptureOrBuilder getShotsOrBuilder(
+        int index) {
+      return shots_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -1803,6 +1949,9 @@ public final class JonCvDumpArchive {
       }
       for (int i = 0; i < streams_.size(); i++) {
         output.writeMessage(10, streams_.get(i));
+      }
+      for (int i = 0; i < shots_.size(); i++) {
+        output.writeMessage(11, shots_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -1850,6 +1999,10 @@ public final class JonCvDumpArchive {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(10, streams_.get(i));
       }
+      for (int i = 0; i < shots_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(11, shots_.get(i));
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -1892,6 +2045,8 @@ public final class JonCvDumpArchive {
           .equals(other.getVideoList())) return false;
       if (!getStreamsList()
           .equals(other.getStreamsList())) return false;
+      if (!getShotsList()
+          .equals(other.getShotsList())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -1932,6 +2087,10 @@ public final class JonCvDumpArchive {
       if (getStreamsCount() > 0) {
         hash = (37 * hash) + STREAMS_FIELD_NUMBER;
         hash = (53 * hash) + getStreamsList().hashCode();
+      }
+      if (getShotsCount() > 0) {
+        hash = (37 * hash) + SHOTS_FIELD_NUMBER;
+        hash = (53 * hash) + getShotsList().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -2090,6 +2249,7 @@ public final class JonCvDumpArchive {
           getIntegrityFieldBuilder();
           getVideoFieldBuilder();
           getStreamsFieldBuilder();
+          getShotsFieldBuilder();
         }
       }
       @java.lang.Override
@@ -2130,6 +2290,13 @@ public final class JonCvDumpArchive {
           streamsBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000200);
+        if (shotsBuilder_ == null) {
+          shots_ = java.util.Collections.emptyList();
+        } else {
+          shots_ = null;
+          shotsBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
@@ -2180,6 +2347,15 @@ public final class JonCvDumpArchive {
           result.streams_ = streams_;
         } else {
           result.streams_ = streamsBuilder_.build();
+        }
+        if (shotsBuilder_ == null) {
+          if (((bitField0_ & 0x00000400) != 0)) {
+            shots_ = java.util.Collections.unmodifiableList(shots_);
+            bitField0_ = (bitField0_ & ~0x00000400);
+          }
+          result.shots_ = shots_;
+        } else {
+          result.shots_ = shotsBuilder_.build();
         }
       }
 
@@ -2316,6 +2492,32 @@ public final class JonCvDumpArchive {
             }
           }
         }
+        if (shotsBuilder_ == null) {
+          if (!other.shots_.isEmpty()) {
+            if (shots_.isEmpty()) {
+              shots_ = other.shots_;
+              bitField0_ = (bitField0_ & ~0x00000400);
+            } else {
+              ensureShotsIsMutable();
+              shots_.addAll(other.shots_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.shots_.isEmpty()) {
+            if (shotsBuilder_.isEmpty()) {
+              shotsBuilder_.dispose();
+              shotsBuilder_ = null;
+              shots_ = other.shots_;
+              bitField0_ = (bitField0_ & ~0x00000400);
+              shotsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getShotsFieldBuilder() : null;
+            } else {
+              shotsBuilder_.addAllMessages(other.shots_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
@@ -2414,6 +2616,19 @@ public final class JonCvDumpArchive {
                 }
                 break;
               } // case 82
+              case 90: {
+                jon.cvdump.JonCvDumpArchive.ShotCapture m =
+                    input.readMessage(
+                        jon.cvdump.JonCvDumpArchive.ShotCapture.parser(),
+                        extensionRegistry);
+                if (shotsBuilder_ == null) {
+                  ensureShotsIsMutable();
+                  shots_.add(m);
+                } else {
+                  shotsBuilder_.addMessage(m);
+                }
+                break;
+              } // case 90
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -3819,7 +4034,7 @@ public final class JonCvDumpArchive {
       /**
        * <pre>
        * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-       * of one kind are contiguous. Last field number on purpose: it is the bulk.
+       * of one kind are contiguous. It is the bulk of a capture-window bundle.
        * </pre>
        *
        * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -3834,7 +4049,7 @@ public final class JonCvDumpArchive {
       /**
        * <pre>
        * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-       * of one kind are contiguous. Last field number on purpose: it is the bulk.
+       * of one kind are contiguous. It is the bulk of a capture-window bundle.
        * </pre>
        *
        * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -3849,7 +4064,7 @@ public final class JonCvDumpArchive {
       /**
        * <pre>
        * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-       * of one kind are contiguous. Last field number on purpose: it is the bulk.
+       * of one kind are contiguous. It is the bulk of a capture-window bundle.
        * </pre>
        *
        * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -3864,7 +4079,7 @@ public final class JonCvDumpArchive {
       /**
        * <pre>
        * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-       * of one kind are contiguous. Last field number on purpose: it is the bulk.
+       * of one kind are contiguous. It is the bulk of a capture-window bundle.
        * </pre>
        *
        * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -3886,7 +4101,7 @@ public final class JonCvDumpArchive {
       /**
        * <pre>
        * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-       * of one kind are contiguous. Last field number on purpose: it is the bulk.
+       * of one kind are contiguous. It is the bulk of a capture-window bundle.
        * </pre>
        *
        * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -3905,7 +4120,7 @@ public final class JonCvDumpArchive {
       /**
        * <pre>
        * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-       * of one kind are contiguous. Last field number on purpose: it is the bulk.
+       * of one kind are contiguous. It is the bulk of a capture-window bundle.
        * </pre>
        *
        * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -3926,7 +4141,7 @@ public final class JonCvDumpArchive {
       /**
        * <pre>
        * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-       * of one kind are contiguous. Last field number on purpose: it is the bulk.
+       * of one kind are contiguous. It is the bulk of a capture-window bundle.
        * </pre>
        *
        * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -3948,7 +4163,7 @@ public final class JonCvDumpArchive {
       /**
        * <pre>
        * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-       * of one kind are contiguous. Last field number on purpose: it is the bulk.
+       * of one kind are contiguous. It is the bulk of a capture-window bundle.
        * </pre>
        *
        * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -3967,7 +4182,7 @@ public final class JonCvDumpArchive {
       /**
        * <pre>
        * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-       * of one kind are contiguous. Last field number on purpose: it is the bulk.
+       * of one kind are contiguous. It is the bulk of a capture-window bundle.
        * </pre>
        *
        * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -3986,7 +4201,7 @@ public final class JonCvDumpArchive {
       /**
        * <pre>
        * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-       * of one kind are contiguous. Last field number on purpose: it is the bulk.
+       * of one kind are contiguous. It is the bulk of a capture-window bundle.
        * </pre>
        *
        * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -4006,7 +4221,7 @@ public final class JonCvDumpArchive {
       /**
        * <pre>
        * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-       * of one kind are contiguous. Last field number on purpose: it is the bulk.
+       * of one kind are contiguous. It is the bulk of a capture-window bundle.
        * </pre>
        *
        * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -4024,7 +4239,7 @@ public final class JonCvDumpArchive {
       /**
        * <pre>
        * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-       * of one kind are contiguous. Last field number on purpose: it is the bulk.
+       * of one kind are contiguous. It is the bulk of a capture-window bundle.
        * </pre>
        *
        * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -4042,7 +4257,7 @@ public final class JonCvDumpArchive {
       /**
        * <pre>
        * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-       * of one kind are contiguous. Last field number on purpose: it is the bulk.
+       * of one kind are contiguous. It is the bulk of a capture-window bundle.
        * </pre>
        *
        * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -4054,7 +4269,7 @@ public final class JonCvDumpArchive {
       /**
        * <pre>
        * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-       * of one kind are contiguous. Last field number on purpose: it is the bulk.
+       * of one kind are contiguous. It is the bulk of a capture-window bundle.
        * </pre>
        *
        * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -4069,7 +4284,7 @@ public final class JonCvDumpArchive {
       /**
        * <pre>
        * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-       * of one kind are contiguous. Last field number on purpose: it is the bulk.
+       * of one kind are contiguous. It is the bulk of a capture-window bundle.
        * </pre>
        *
        * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -4085,7 +4300,7 @@ public final class JonCvDumpArchive {
       /**
        * <pre>
        * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-       * of one kind are contiguous. Last field number on purpose: it is the bulk.
+       * of one kind are contiguous. It is the bulk of a capture-window bundle.
        * </pre>
        *
        * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -4097,7 +4312,7 @@ public final class JonCvDumpArchive {
       /**
        * <pre>
        * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-       * of one kind are contiguous. Last field number on purpose: it is the bulk.
+       * of one kind are contiguous. It is the bulk of a capture-window bundle.
        * </pre>
        *
        * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -4110,7 +4325,7 @@ public final class JonCvDumpArchive {
       /**
        * <pre>
        * The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-       * of one kind are contiguous. Last field number on purpose: it is the bulk.
+       * of one kind are contiguous. It is the bulk of a capture-window bundle.
        * </pre>
        *
        * <code>repeated .jon.cvdump.StreamGroup streams = 10;</code>
@@ -4132,6 +4347,390 @@ public final class JonCvDumpArchive {
           streams_ = null;
         }
         return streamsBuilder_;
+      }
+
+      private java.util.List<jon.cvdump.JonCvDumpArchive.ShotCapture> shots_ =
+        java.util.Collections.emptyList();
+      private void ensureShotsIsMutable() {
+        if (!((bitField0_ & 0x00000400) != 0)) {
+          shots_ = new java.util.ArrayList<jon.cvdump.JonCvDumpArchive.ShotCapture>(shots_);
+          bitField0_ |= 0x00000400;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          jon.cvdump.JonCvDumpArchive.ShotCapture, jon.cvdump.JonCvDumpArchive.ShotCapture.Builder, jon.cvdump.JonCvDumpArchive.ShotCaptureOrBuilder> shotsBuilder_;
+
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+       * channels' rings, as files under shots/ with their geometry, encoding and
+       * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+       * channel that captured nothing appears with no planes and a reason. Empty
+       * on a capture-window bundle; a photo bundle has empty video + streams.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+       */
+      public java.util.List<jon.cvdump.JonCvDumpArchive.ShotCapture> getShotsList() {
+        if (shotsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(shots_);
+        } else {
+          return shotsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+       * channels' rings, as files under shots/ with their geometry, encoding and
+       * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+       * channel that captured nothing appears with no planes and a reason. Empty
+       * on a capture-window bundle; a photo bundle has empty video + streams.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+       */
+      public int getShotsCount() {
+        if (shotsBuilder_ == null) {
+          return shots_.size();
+        } else {
+          return shotsBuilder_.getCount();
+        }
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+       * channels' rings, as files under shots/ with their geometry, encoding and
+       * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+       * channel that captured nothing appears with no planes and a reason. Empty
+       * on a capture-window bundle; a photo bundle has empty video + streams.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+       */
+      public jon.cvdump.JonCvDumpArchive.ShotCapture getShots(int index) {
+        if (shotsBuilder_ == null) {
+          return shots_.get(index);
+        } else {
+          return shotsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+       * channels' rings, as files under shots/ with their geometry, encoding and
+       * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+       * channel that captured nothing appears with no planes and a reason. Empty
+       * on a capture-window bundle; a photo bundle has empty video + streams.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+       */
+      public Builder setShots(
+          int index, jon.cvdump.JonCvDumpArchive.ShotCapture value) {
+        if (shotsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureShotsIsMutable();
+          shots_.set(index, value);
+          onChanged();
+        } else {
+          shotsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+       * channels' rings, as files under shots/ with their geometry, encoding and
+       * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+       * channel that captured nothing appears with no planes and a reason. Empty
+       * on a capture-window bundle; a photo bundle has empty video + streams.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+       */
+      public Builder setShots(
+          int index, jon.cvdump.JonCvDumpArchive.ShotCapture.Builder builderForValue) {
+        if (shotsBuilder_ == null) {
+          ensureShotsIsMutable();
+          shots_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          shotsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+       * channels' rings, as files under shots/ with their geometry, encoding and
+       * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+       * channel that captured nothing appears with no planes and a reason. Empty
+       * on a capture-window bundle; a photo bundle has empty video + streams.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+       */
+      public Builder addShots(jon.cvdump.JonCvDumpArchive.ShotCapture value) {
+        if (shotsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureShotsIsMutable();
+          shots_.add(value);
+          onChanged();
+        } else {
+          shotsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+       * channels' rings, as files under shots/ with their geometry, encoding and
+       * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+       * channel that captured nothing appears with no planes and a reason. Empty
+       * on a capture-window bundle; a photo bundle has empty video + streams.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+       */
+      public Builder addShots(
+          int index, jon.cvdump.JonCvDumpArchive.ShotCapture value) {
+        if (shotsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureShotsIsMutable();
+          shots_.add(index, value);
+          onChanged();
+        } else {
+          shotsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+       * channels' rings, as files under shots/ with their geometry, encoding and
+       * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+       * channel that captured nothing appears with no planes and a reason. Empty
+       * on a capture-window bundle; a photo bundle has empty video + streams.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+       */
+      public Builder addShots(
+          jon.cvdump.JonCvDumpArchive.ShotCapture.Builder builderForValue) {
+        if (shotsBuilder_ == null) {
+          ensureShotsIsMutable();
+          shots_.add(builderForValue.build());
+          onChanged();
+        } else {
+          shotsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+       * channels' rings, as files under shots/ with their geometry, encoding and
+       * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+       * channel that captured nothing appears with no planes and a reason. Empty
+       * on a capture-window bundle; a photo bundle has empty video + streams.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+       */
+      public Builder addShots(
+          int index, jon.cvdump.JonCvDumpArchive.ShotCapture.Builder builderForValue) {
+        if (shotsBuilder_ == null) {
+          ensureShotsIsMutable();
+          shots_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          shotsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+       * channels' rings, as files under shots/ with their geometry, encoding and
+       * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+       * channel that captured nothing appears with no planes and a reason. Empty
+       * on a capture-window bundle; a photo bundle has empty video + streams.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+       */
+      public Builder addAllShots(
+          java.lang.Iterable<? extends jon.cvdump.JonCvDumpArchive.ShotCapture> values) {
+        if (shotsBuilder_ == null) {
+          ensureShotsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, shots_);
+          onChanged();
+        } else {
+          shotsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+       * channels' rings, as files under shots/ with their geometry, encoding and
+       * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+       * channel that captured nothing appears with no planes and a reason. Empty
+       * on a capture-window bundle; a photo bundle has empty video + streams.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+       */
+      public Builder clearShots() {
+        if (shotsBuilder_ == null) {
+          shots_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000400);
+          onChanged();
+        } else {
+          shotsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+       * channels' rings, as files under shots/ with their geometry, encoding and
+       * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+       * channel that captured nothing appears with no planes and a reason. Empty
+       * on a capture-window bundle; a photo bundle has empty video + streams.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+       */
+      public Builder removeShots(int index) {
+        if (shotsBuilder_ == null) {
+          ensureShotsIsMutable();
+          shots_.remove(index);
+          onChanged();
+        } else {
+          shotsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+       * channels' rings, as files under shots/ with their geometry, encoding and
+       * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+       * channel that captured nothing appears with no planes and a reason. Empty
+       * on a capture-window bundle; a photo bundle has empty video + streams.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+       */
+      public jon.cvdump.JonCvDumpArchive.ShotCapture.Builder getShotsBuilder(
+          int index) {
+        return getShotsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+       * channels' rings, as files under shots/ with their geometry, encoding and
+       * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+       * channel that captured nothing appears with no planes and a reason. Empty
+       * on a capture-window bundle; a photo bundle has empty video + streams.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+       */
+      public jon.cvdump.JonCvDumpArchive.ShotCaptureOrBuilder getShotsOrBuilder(
+          int index) {
+        if (shotsBuilder_ == null) {
+          return shots_.get(index);  } else {
+          return shotsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+       * channels' rings, as files under shots/ with their geometry, encoding and
+       * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+       * channel that captured nothing appears with no planes and a reason. Empty
+       * on a capture-window bundle; a photo bundle has empty video + streams.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+       */
+      public java.util.List<? extends jon.cvdump.JonCvDumpArchive.ShotCaptureOrBuilder> 
+           getShotsOrBuilderList() {
+        if (shotsBuilder_ != null) {
+          return shotsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(shots_);
+        }
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+       * channels' rings, as files under shots/ with their geometry, encoding and
+       * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+       * channel that captured nothing appears with no planes and a reason. Empty
+       * on a capture-window bundle; a photo bundle has empty video + streams.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+       */
+      public jon.cvdump.JonCvDumpArchive.ShotCapture.Builder addShotsBuilder() {
+        return getShotsFieldBuilder().addBuilder(
+            jon.cvdump.JonCvDumpArchive.ShotCapture.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+       * channels' rings, as files under shots/ with their geometry, encoding and
+       * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+       * channel that captured nothing appears with no planes and a reason. Empty
+       * on a capture-window bundle; a photo bundle has empty video + streams.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+       */
+      public jon.cvdump.JonCvDumpArchive.ShotCapture.Builder addShotsBuilder(
+          int index) {
+        return getShotsFieldBuilder().addBuilder(
+            index, jon.cvdump.JonCvDumpArchive.ShotCapture.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+       * channels' rings, as files under shots/ with their geometry, encoding and
+       * provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+       * channel that captured nothing appears with no planes and a reason. Empty
+       * on a capture-window bundle; a photo bundle has empty video + streams.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotCapture shots = 11;</code>
+       */
+      public java.util.List<jon.cvdump.JonCvDumpArchive.ShotCapture.Builder> 
+           getShotsBuilderList() {
+        return getShotsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          jon.cvdump.JonCvDumpArchive.ShotCapture, jon.cvdump.JonCvDumpArchive.ShotCapture.Builder, jon.cvdump.JonCvDumpArchive.ShotCaptureOrBuilder> 
+          getShotsFieldBuilder() {
+        if (shotsBuilder_ == null) {
+          shotsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              jon.cvdump.JonCvDumpArchive.ShotCapture, jon.cvdump.JonCvDumpArchive.ShotCapture.Builder, jon.cvdump.JonCvDumpArchive.ShotCaptureOrBuilder>(
+                  shots_,
+                  ((bitField0_ & 0x00000400) != 0),
+                  getParentForChildren(),
+                  isClean());
+          shots_ = null;
+        }
+        return shotsBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:jon.cvdump.CvDumpArchive)
@@ -4180,6 +4779,3142 @@ public final class JonCvDumpArchive {
 
     @java.lang.Override
     public jon.cvdump.JonCvDumpArchive.CvDumpArchive getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ShotPlaneOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:jon.cvdump.ShotPlane)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Ring plane index (0..3).
+     * </pre>
+     *
+     * <code>uint32 plane = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The plane.
+     */
+    int getPlane();
+
+    /**
+     * <pre>
+     * SensorRingPlaneTag as the control block carried it: 1 NATIVE, 2 CLAHE,
+     * 3 OPERATOR, 4 RAW.
+     * </pre>
+     *
+     * <code>uint32 tag = 2;</code>
+     * @return The tag.
+     */
+    int getTag();
+
+    /**
+     * <pre>
+     * The plane's source pixel format (NvBufSurfaceColorFormat, or the RAW
+     * enum), as the control block carried it.
+     * </pre>
+     *
+     * <code>uint32 source_format = 3;</code>
+     * @return The sourceFormat.
+     */
+    int getSourceFormat();
+
+    /**
+     * <pre>
+     * Bundle-relative path, e.g. "shots/day_p0_raw.rg12".
+     * </pre>
+     *
+     * <code>string path = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The path.
+     */
+    java.lang.String getPath();
+    /**
+     * <pre>
+     * Bundle-relative path, e.g. "shots/day_p0_raw.rg12".
+     * </pre>
+     *
+     * <code>string path = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for path.
+     */
+    com.google.protobuf.ByteString
+        getPathBytes();
+
+    /**
+     * <pre>
+     * "png8-rgb" | "png8-gray" | "raw-rg12-msb16" | "raw-nv12".
+     * </pre>
+     *
+     * <code>string encoding = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The encoding.
+     */
+    java.lang.String getEncoding();
+    /**
+     * <pre>
+     * "png8-rgb" | "png8-gray" | "raw-rg12-msb16" | "raw-nv12".
+     * </pre>
+     *
+     * <code>string encoding = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for encoding.
+     */
+    com.google.protobuf.ByteString
+        getEncodingBytes();
+
+    /**
+     * <code>uint32 width = 6;</code>
+     * @return The width.
+     */
+    int getWidth();
+
+    /**
+     * <code>uint32 height = 7;</code>
+     * @return The height.
+     */
+    int getHeight();
+
+    /**
+     * <pre>
+     * Source pitch in bytes (what the raw encodings preserve verbatim).
+     * </pre>
+     *
+     * <code>uint32 pitch = 8;</code>
+     * @return The pitch.
+     */
+    int getPitch();
+
+    /**
+     * <pre>
+     * NV12 UV-plane offset within the source, 0 for single-plane formats.
+     * </pre>
+     *
+     * <code>uint32 uv_offset = 9;</code>
+     * @return The uvOffset.
+     */
+    int getUvOffset();
+
+    /**
+     * <code>uint64 bytes = 10;</code>
+     * @return The bytes.
+     */
+    long getBytes();
+
+    /**
+     * <pre>
+     * Lowercase hex SHA-256 of the file.
+     * </pre>
+     *
+     * <code>string sha256 = 11 [(.buf.validate.field) = { ... }</code>
+     * @return The sha256.
+     */
+    java.lang.String getSha256();
+    /**
+     * <pre>
+     * Lowercase hex SHA-256 of the file.
+     * </pre>
+     *
+     * <code>string sha256 = 11 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for sha256.
+     */
+    com.google.protobuf.ByteString
+        getSha256Bytes();
+  }
+  /**
+   * <pre>
+   * One plane of one channel's photo. The output format keys on the plane's
+   * FORMAT tag from the control block, never on the plane index.
+   * </pre>
+   *
+   * Protobuf type {@code jon.cvdump.ShotPlane}
+   */
+  public static final class ShotPlane extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:jon.cvdump.ShotPlane)
+      ShotPlaneOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        ShotPlane.class.getName());
+    }
+    // Use ShotPlane.newBuilder() to construct.
+    private ShotPlane(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private ShotPlane() {
+      path_ = "";
+      encoding_ = "";
+      sha256_ = "";
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return jon.cvdump.JonCvDumpArchive.internal_static_jon_cvdump_ShotPlane_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return jon.cvdump.JonCvDumpArchive.internal_static_jon_cvdump_ShotPlane_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              jon.cvdump.JonCvDumpArchive.ShotPlane.class, jon.cvdump.JonCvDumpArchive.ShotPlane.Builder.class);
+    }
+
+    public static final int PLANE_FIELD_NUMBER = 1;
+    private int plane_ = 0;
+    /**
+     * <pre>
+     * Ring plane index (0..3).
+     * </pre>
+     *
+     * <code>uint32 plane = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The plane.
+     */
+    @java.lang.Override
+    public int getPlane() {
+      return plane_;
+    }
+
+    public static final int TAG_FIELD_NUMBER = 2;
+    private int tag_ = 0;
+    /**
+     * <pre>
+     * SensorRingPlaneTag as the control block carried it: 1 NATIVE, 2 CLAHE,
+     * 3 OPERATOR, 4 RAW.
+     * </pre>
+     *
+     * <code>uint32 tag = 2;</code>
+     * @return The tag.
+     */
+    @java.lang.Override
+    public int getTag() {
+      return tag_;
+    }
+
+    public static final int SOURCE_FORMAT_FIELD_NUMBER = 3;
+    private int sourceFormat_ = 0;
+    /**
+     * <pre>
+     * The plane's source pixel format (NvBufSurfaceColorFormat, or the RAW
+     * enum), as the control block carried it.
+     * </pre>
+     *
+     * <code>uint32 source_format = 3;</code>
+     * @return The sourceFormat.
+     */
+    @java.lang.Override
+    public int getSourceFormat() {
+      return sourceFormat_;
+    }
+
+    public static final int PATH_FIELD_NUMBER = 4;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object path_ = "";
+    /**
+     * <pre>
+     * Bundle-relative path, e.g. "shots/day_p0_raw.rg12".
+     * </pre>
+     *
+     * <code>string path = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The path.
+     */
+    @java.lang.Override
+    public java.lang.String getPath() {
+      java.lang.Object ref = path_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        path_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Bundle-relative path, e.g. "shots/day_p0_raw.rg12".
+     * </pre>
+     *
+     * <code>string path = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for path.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getPathBytes() {
+      java.lang.Object ref = path_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        path_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ENCODING_FIELD_NUMBER = 5;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object encoding_ = "";
+    /**
+     * <pre>
+     * "png8-rgb" | "png8-gray" | "raw-rg12-msb16" | "raw-nv12".
+     * </pre>
+     *
+     * <code>string encoding = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The encoding.
+     */
+    @java.lang.Override
+    public java.lang.String getEncoding() {
+      java.lang.Object ref = encoding_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        encoding_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * "png8-rgb" | "png8-gray" | "raw-rg12-msb16" | "raw-nv12".
+     * </pre>
+     *
+     * <code>string encoding = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for encoding.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getEncodingBytes() {
+      java.lang.Object ref = encoding_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        encoding_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int WIDTH_FIELD_NUMBER = 6;
+    private int width_ = 0;
+    /**
+     * <code>uint32 width = 6;</code>
+     * @return The width.
+     */
+    @java.lang.Override
+    public int getWidth() {
+      return width_;
+    }
+
+    public static final int HEIGHT_FIELD_NUMBER = 7;
+    private int height_ = 0;
+    /**
+     * <code>uint32 height = 7;</code>
+     * @return The height.
+     */
+    @java.lang.Override
+    public int getHeight() {
+      return height_;
+    }
+
+    public static final int PITCH_FIELD_NUMBER = 8;
+    private int pitch_ = 0;
+    /**
+     * <pre>
+     * Source pitch in bytes (what the raw encodings preserve verbatim).
+     * </pre>
+     *
+     * <code>uint32 pitch = 8;</code>
+     * @return The pitch.
+     */
+    @java.lang.Override
+    public int getPitch() {
+      return pitch_;
+    }
+
+    public static final int UV_OFFSET_FIELD_NUMBER = 9;
+    private int uvOffset_ = 0;
+    /**
+     * <pre>
+     * NV12 UV-plane offset within the source, 0 for single-plane formats.
+     * </pre>
+     *
+     * <code>uint32 uv_offset = 9;</code>
+     * @return The uvOffset.
+     */
+    @java.lang.Override
+    public int getUvOffset() {
+      return uvOffset_;
+    }
+
+    public static final int BYTES_FIELD_NUMBER = 10;
+    private long bytes_ = 0L;
+    /**
+     * <code>uint64 bytes = 10;</code>
+     * @return The bytes.
+     */
+    @java.lang.Override
+    public long getBytes() {
+      return bytes_;
+    }
+
+    public static final int SHA256_FIELD_NUMBER = 11;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object sha256_ = "";
+    /**
+     * <pre>
+     * Lowercase hex SHA-256 of the file.
+     * </pre>
+     *
+     * <code>string sha256 = 11 [(.buf.validate.field) = { ... }</code>
+     * @return The sha256.
+     */
+    @java.lang.Override
+    public java.lang.String getSha256() {
+      java.lang.Object ref = sha256_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        sha256_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Lowercase hex SHA-256 of the file.
+     * </pre>
+     *
+     * <code>string sha256 = 11 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for sha256.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getSha256Bytes() {
+      java.lang.Object ref = sha256_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        sha256_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (plane_ != 0) {
+        output.writeUInt32(1, plane_);
+      }
+      if (tag_ != 0) {
+        output.writeUInt32(2, tag_);
+      }
+      if (sourceFormat_ != 0) {
+        output.writeUInt32(3, sourceFormat_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(path_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 4, path_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(encoding_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 5, encoding_);
+      }
+      if (width_ != 0) {
+        output.writeUInt32(6, width_);
+      }
+      if (height_ != 0) {
+        output.writeUInt32(7, height_);
+      }
+      if (pitch_ != 0) {
+        output.writeUInt32(8, pitch_);
+      }
+      if (uvOffset_ != 0) {
+        output.writeUInt32(9, uvOffset_);
+      }
+      if (bytes_ != 0L) {
+        output.writeUInt64(10, bytes_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(sha256_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 11, sha256_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (plane_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, plane_);
+      }
+      if (tag_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, tag_);
+      }
+      if (sourceFormat_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(3, sourceFormat_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(path_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(4, path_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(encoding_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(5, encoding_);
+      }
+      if (width_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(6, width_);
+      }
+      if (height_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(7, height_);
+      }
+      if (pitch_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(8, pitch_);
+      }
+      if (uvOffset_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(9, uvOffset_);
+      }
+      if (bytes_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(10, bytes_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(sha256_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(11, sha256_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof jon.cvdump.JonCvDumpArchive.ShotPlane)) {
+        return super.equals(obj);
+      }
+      jon.cvdump.JonCvDumpArchive.ShotPlane other = (jon.cvdump.JonCvDumpArchive.ShotPlane) obj;
+
+      if (getPlane()
+          != other.getPlane()) return false;
+      if (getTag()
+          != other.getTag()) return false;
+      if (getSourceFormat()
+          != other.getSourceFormat()) return false;
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (!getEncoding()
+          .equals(other.getEncoding())) return false;
+      if (getWidth()
+          != other.getWidth()) return false;
+      if (getHeight()
+          != other.getHeight()) return false;
+      if (getPitch()
+          != other.getPitch()) return false;
+      if (getUvOffset()
+          != other.getUvOffset()) return false;
+      if (getBytes()
+          != other.getBytes()) return false;
+      if (!getSha256()
+          .equals(other.getSha256())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + PLANE_FIELD_NUMBER;
+      hash = (53 * hash) + getPlane();
+      hash = (37 * hash) + TAG_FIELD_NUMBER;
+      hash = (53 * hash) + getTag();
+      hash = (37 * hash) + SOURCE_FORMAT_FIELD_NUMBER;
+      hash = (53 * hash) + getSourceFormat();
+      hash = (37 * hash) + PATH_FIELD_NUMBER;
+      hash = (53 * hash) + getPath().hashCode();
+      hash = (37 * hash) + ENCODING_FIELD_NUMBER;
+      hash = (53 * hash) + getEncoding().hashCode();
+      hash = (37 * hash) + WIDTH_FIELD_NUMBER;
+      hash = (53 * hash) + getWidth();
+      hash = (37 * hash) + HEIGHT_FIELD_NUMBER;
+      hash = (53 * hash) + getHeight();
+      hash = (37 * hash) + PITCH_FIELD_NUMBER;
+      hash = (53 * hash) + getPitch();
+      hash = (37 * hash) + UV_OFFSET_FIELD_NUMBER;
+      hash = (53 * hash) + getUvOffset();
+      hash = (37 * hash) + BYTES_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getBytes());
+      hash = (37 * hash) + SHA256_FIELD_NUMBER;
+      hash = (53 * hash) + getSha256().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static jon.cvdump.JonCvDumpArchive.ShotPlane parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.cvdump.JonCvDumpArchive.ShotPlane parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.cvdump.JonCvDumpArchive.ShotPlane parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.cvdump.JonCvDumpArchive.ShotPlane parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.cvdump.JonCvDumpArchive.ShotPlane parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.cvdump.JonCvDumpArchive.ShotPlane parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.cvdump.JonCvDumpArchive.ShotPlane parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static jon.cvdump.JonCvDumpArchive.ShotPlane parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static jon.cvdump.JonCvDumpArchive.ShotPlane parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static jon.cvdump.JonCvDumpArchive.ShotPlane parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static jon.cvdump.JonCvDumpArchive.ShotPlane parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static jon.cvdump.JonCvDumpArchive.ShotPlane parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(jon.cvdump.JonCvDumpArchive.ShotPlane prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * One plane of one channel's photo. The output format keys on the plane's
+     * FORMAT tag from the control block, never on the plane index.
+     * </pre>
+     *
+     * Protobuf type {@code jon.cvdump.ShotPlane}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:jon.cvdump.ShotPlane)
+        jon.cvdump.JonCvDumpArchive.ShotPlaneOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return jon.cvdump.JonCvDumpArchive.internal_static_jon_cvdump_ShotPlane_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return jon.cvdump.JonCvDumpArchive.internal_static_jon_cvdump_ShotPlane_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                jon.cvdump.JonCvDumpArchive.ShotPlane.class, jon.cvdump.JonCvDumpArchive.ShotPlane.Builder.class);
+      }
+
+      // Construct using jon.cvdump.JonCvDumpArchive.ShotPlane.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        plane_ = 0;
+        tag_ = 0;
+        sourceFormat_ = 0;
+        path_ = "";
+        encoding_ = "";
+        width_ = 0;
+        height_ = 0;
+        pitch_ = 0;
+        uvOffset_ = 0;
+        bytes_ = 0L;
+        sha256_ = "";
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return jon.cvdump.JonCvDumpArchive.internal_static_jon_cvdump_ShotPlane_descriptor;
+      }
+
+      @java.lang.Override
+      public jon.cvdump.JonCvDumpArchive.ShotPlane getDefaultInstanceForType() {
+        return jon.cvdump.JonCvDumpArchive.ShotPlane.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public jon.cvdump.JonCvDumpArchive.ShotPlane build() {
+        jon.cvdump.JonCvDumpArchive.ShotPlane result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public jon.cvdump.JonCvDumpArchive.ShotPlane buildPartial() {
+        jon.cvdump.JonCvDumpArchive.ShotPlane result = new jon.cvdump.JonCvDumpArchive.ShotPlane(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(jon.cvdump.JonCvDumpArchive.ShotPlane result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.plane_ = plane_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.tag_ = tag_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.sourceFormat_ = sourceFormat_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.path_ = path_;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.encoding_ = encoding_;
+        }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.width_ = width_;
+        }
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.height_ = height_;
+        }
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          result.pitch_ = pitch_;
+        }
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          result.uvOffset_ = uvOffset_;
+        }
+        if (((from_bitField0_ & 0x00000200) != 0)) {
+          result.bytes_ = bytes_;
+        }
+        if (((from_bitField0_ & 0x00000400) != 0)) {
+          result.sha256_ = sha256_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof jon.cvdump.JonCvDumpArchive.ShotPlane) {
+          return mergeFrom((jon.cvdump.JonCvDumpArchive.ShotPlane)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(jon.cvdump.JonCvDumpArchive.ShotPlane other) {
+        if (other == jon.cvdump.JonCvDumpArchive.ShotPlane.getDefaultInstance()) return this;
+        if (other.getPlane() != 0) {
+          setPlane(other.getPlane());
+        }
+        if (other.getTag() != 0) {
+          setTag(other.getTag());
+        }
+        if (other.getSourceFormat() != 0) {
+          setSourceFormat(other.getSourceFormat());
+        }
+        if (!other.getPath().isEmpty()) {
+          path_ = other.path_;
+          bitField0_ |= 0x00000008;
+          onChanged();
+        }
+        if (!other.getEncoding().isEmpty()) {
+          encoding_ = other.encoding_;
+          bitField0_ |= 0x00000010;
+          onChanged();
+        }
+        if (other.getWidth() != 0) {
+          setWidth(other.getWidth());
+        }
+        if (other.getHeight() != 0) {
+          setHeight(other.getHeight());
+        }
+        if (other.getPitch() != 0) {
+          setPitch(other.getPitch());
+        }
+        if (other.getUvOffset() != 0) {
+          setUvOffset(other.getUvOffset());
+        }
+        if (other.getBytes() != 0L) {
+          setBytes(other.getBytes());
+        }
+        if (!other.getSha256().isEmpty()) {
+          sha256_ = other.sha256_;
+          bitField0_ |= 0x00000400;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                plane_ = input.readUInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 16: {
+                tag_ = input.readUInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              case 24: {
+                sourceFormat_ = input.readUInt32();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 24
+              case 34: {
+                path_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 34
+              case 42: {
+                encoding_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 42
+              case 48: {
+                width_ = input.readUInt32();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 48
+              case 56: {
+                height_ = input.readUInt32();
+                bitField0_ |= 0x00000040;
+                break;
+              } // case 56
+              case 64: {
+                pitch_ = input.readUInt32();
+                bitField0_ |= 0x00000080;
+                break;
+              } // case 64
+              case 72: {
+                uvOffset_ = input.readUInt32();
+                bitField0_ |= 0x00000100;
+                break;
+              } // case 72
+              case 80: {
+                bytes_ = input.readUInt64();
+                bitField0_ |= 0x00000200;
+                break;
+              } // case 80
+              case 90: {
+                sha256_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000400;
+                break;
+              } // case 90
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int plane_ ;
+      /**
+       * <pre>
+       * Ring plane index (0..3).
+       * </pre>
+       *
+       * <code>uint32 plane = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The plane.
+       */
+      @java.lang.Override
+      public int getPlane() {
+        return plane_;
+      }
+      /**
+       * <pre>
+       * Ring plane index (0..3).
+       * </pre>
+       *
+       * <code>uint32 plane = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The plane to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPlane(int value) {
+
+        plane_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Ring plane index (0..3).
+       * </pre>
+       *
+       * <code>uint32 plane = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPlane() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        plane_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int tag_ ;
+      /**
+       * <pre>
+       * SensorRingPlaneTag as the control block carried it: 1 NATIVE, 2 CLAHE,
+       * 3 OPERATOR, 4 RAW.
+       * </pre>
+       *
+       * <code>uint32 tag = 2;</code>
+       * @return The tag.
+       */
+      @java.lang.Override
+      public int getTag() {
+        return tag_;
+      }
+      /**
+       * <pre>
+       * SensorRingPlaneTag as the control block carried it: 1 NATIVE, 2 CLAHE,
+       * 3 OPERATOR, 4 RAW.
+       * </pre>
+       *
+       * <code>uint32 tag = 2;</code>
+       * @param value The tag to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTag(int value) {
+
+        tag_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * SensorRingPlaneTag as the control block carried it: 1 NATIVE, 2 CLAHE,
+       * 3 OPERATOR, 4 RAW.
+       * </pre>
+       *
+       * <code>uint32 tag = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTag() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        tag_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int sourceFormat_ ;
+      /**
+       * <pre>
+       * The plane's source pixel format (NvBufSurfaceColorFormat, or the RAW
+       * enum), as the control block carried it.
+       * </pre>
+       *
+       * <code>uint32 source_format = 3;</code>
+       * @return The sourceFormat.
+       */
+      @java.lang.Override
+      public int getSourceFormat() {
+        return sourceFormat_;
+      }
+      /**
+       * <pre>
+       * The plane's source pixel format (NvBufSurfaceColorFormat, or the RAW
+       * enum), as the control block carried it.
+       * </pre>
+       *
+       * <code>uint32 source_format = 3;</code>
+       * @param value The sourceFormat to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSourceFormat(int value) {
+
+        sourceFormat_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The plane's source pixel format (NvBufSurfaceColorFormat, or the RAW
+       * enum), as the control block carried it.
+       * </pre>
+       *
+       * <code>uint32 source_format = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSourceFormat() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        sourceFormat_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object path_ = "";
+      /**
+       * <pre>
+       * Bundle-relative path, e.g. "shots/day_p0_raw.rg12".
+       * </pre>
+       *
+       * <code>string path = 4 [(.buf.validate.field) = { ... }</code>
+       * @return The path.
+       */
+      public java.lang.String getPath() {
+        java.lang.Object ref = path_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          path_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Bundle-relative path, e.g. "shots/day_p0_raw.rg12".
+       * </pre>
+       *
+       * <code>string path = 4 [(.buf.validate.field) = { ... }</code>
+       * @return The bytes for path.
+       */
+      public com.google.protobuf.ByteString
+          getPathBytes() {
+        java.lang.Object ref = path_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          path_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Bundle-relative path, e.g. "shots/day_p0_raw.rg12".
+       * </pre>
+       *
+       * <code>string path = 4 [(.buf.validate.field) = { ... }</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPath(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        path_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Bundle-relative path, e.g. "shots/day_p0_raw.rg12".
+       * </pre>
+       *
+       * <code>string path = 4 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPath() {
+        path_ = getDefaultInstance().getPath();
+        bitField0_ = (bitField0_ & ~0x00000008);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Bundle-relative path, e.g. "shots/day_p0_raw.rg12".
+       * </pre>
+       *
+       * <code>string path = 4 [(.buf.validate.field) = { ... }</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPathBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        path_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object encoding_ = "";
+      /**
+       * <pre>
+       * "png8-rgb" | "png8-gray" | "raw-rg12-msb16" | "raw-nv12".
+       * </pre>
+       *
+       * <code>string encoding = 5 [(.buf.validate.field) = { ... }</code>
+       * @return The encoding.
+       */
+      public java.lang.String getEncoding() {
+        java.lang.Object ref = encoding_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          encoding_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * "png8-rgb" | "png8-gray" | "raw-rg12-msb16" | "raw-nv12".
+       * </pre>
+       *
+       * <code>string encoding = 5 [(.buf.validate.field) = { ... }</code>
+       * @return The bytes for encoding.
+       */
+      public com.google.protobuf.ByteString
+          getEncodingBytes() {
+        java.lang.Object ref = encoding_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          encoding_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * "png8-rgb" | "png8-gray" | "raw-rg12-msb16" | "raw-nv12".
+       * </pre>
+       *
+       * <code>string encoding = 5 [(.buf.validate.field) = { ... }</code>
+       * @param value The encoding to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEncoding(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        encoding_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * "png8-rgb" | "png8-gray" | "raw-rg12-msb16" | "raw-nv12".
+       * </pre>
+       *
+       * <code>string encoding = 5 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEncoding() {
+        encoding_ = getDefaultInstance().getEncoding();
+        bitField0_ = (bitField0_ & ~0x00000010);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * "png8-rgb" | "png8-gray" | "raw-rg12-msb16" | "raw-nv12".
+       * </pre>
+       *
+       * <code>string encoding = 5 [(.buf.validate.field) = { ... }</code>
+       * @param value The bytes for encoding to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEncodingBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        encoding_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+
+      private int width_ ;
+      /**
+       * <code>uint32 width = 6;</code>
+       * @return The width.
+       */
+      @java.lang.Override
+      public int getWidth() {
+        return width_;
+      }
+      /**
+       * <code>uint32 width = 6;</code>
+       * @param value The width to set.
+       * @return This builder for chaining.
+       */
+      public Builder setWidth(int value) {
+
+        width_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 width = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearWidth() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        width_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int height_ ;
+      /**
+       * <code>uint32 height = 7;</code>
+       * @return The height.
+       */
+      @java.lang.Override
+      public int getHeight() {
+        return height_;
+      }
+      /**
+       * <code>uint32 height = 7;</code>
+       * @param value The height to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHeight(int value) {
+
+        height_ = value;
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 height = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHeight() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        height_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int pitch_ ;
+      /**
+       * <pre>
+       * Source pitch in bytes (what the raw encodings preserve verbatim).
+       * </pre>
+       *
+       * <code>uint32 pitch = 8;</code>
+       * @return The pitch.
+       */
+      @java.lang.Override
+      public int getPitch() {
+        return pitch_;
+      }
+      /**
+       * <pre>
+       * Source pitch in bytes (what the raw encodings preserve verbatim).
+       * </pre>
+       *
+       * <code>uint32 pitch = 8;</code>
+       * @param value The pitch to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPitch(int value) {
+
+        pitch_ = value;
+        bitField0_ |= 0x00000080;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Source pitch in bytes (what the raw encodings preserve verbatim).
+       * </pre>
+       *
+       * <code>uint32 pitch = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPitch() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        pitch_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int uvOffset_ ;
+      /**
+       * <pre>
+       * NV12 UV-plane offset within the source, 0 for single-plane formats.
+       * </pre>
+       *
+       * <code>uint32 uv_offset = 9;</code>
+       * @return The uvOffset.
+       */
+      @java.lang.Override
+      public int getUvOffset() {
+        return uvOffset_;
+      }
+      /**
+       * <pre>
+       * NV12 UV-plane offset within the source, 0 for single-plane formats.
+       * </pre>
+       *
+       * <code>uint32 uv_offset = 9;</code>
+       * @param value The uvOffset to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUvOffset(int value) {
+
+        uvOffset_ = value;
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * NV12 UV-plane offset within the source, 0 for single-plane formats.
+       * </pre>
+       *
+       * <code>uint32 uv_offset = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUvOffset() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        uvOffset_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long bytes_ ;
+      /**
+       * <code>uint64 bytes = 10;</code>
+       * @return The bytes.
+       */
+      @java.lang.Override
+      public long getBytes() {
+        return bytes_;
+      }
+      /**
+       * <code>uint64 bytes = 10;</code>
+       * @param value The bytes to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBytes(long value) {
+
+        bytes_ = value;
+        bitField0_ |= 0x00000200;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 bytes = 10;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearBytes() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        bytes_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object sha256_ = "";
+      /**
+       * <pre>
+       * Lowercase hex SHA-256 of the file.
+       * </pre>
+       *
+       * <code>string sha256 = 11 [(.buf.validate.field) = { ... }</code>
+       * @return The sha256.
+       */
+      public java.lang.String getSha256() {
+        java.lang.Object ref = sha256_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          sha256_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Lowercase hex SHA-256 of the file.
+       * </pre>
+       *
+       * <code>string sha256 = 11 [(.buf.validate.field) = { ... }</code>
+       * @return The bytes for sha256.
+       */
+      public com.google.protobuf.ByteString
+          getSha256Bytes() {
+        java.lang.Object ref = sha256_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          sha256_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Lowercase hex SHA-256 of the file.
+       * </pre>
+       *
+       * <code>string sha256 = 11 [(.buf.validate.field) = { ... }</code>
+       * @param value The sha256 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSha256(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        sha256_ = value;
+        bitField0_ |= 0x00000400;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Lowercase hex SHA-256 of the file.
+       * </pre>
+       *
+       * <code>string sha256 = 11 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSha256() {
+        sha256_ = getDefaultInstance().getSha256();
+        bitField0_ = (bitField0_ & ~0x00000400);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Lowercase hex SHA-256 of the file.
+       * </pre>
+       *
+       * <code>string sha256 = 11 [(.buf.validate.field) = { ... }</code>
+       * @param value The bytes for sha256 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSha256Bytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        sha256_ = value;
+        bitField0_ |= 0x00000400;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:jon.cvdump.ShotPlane)
+    }
+
+    // @@protoc_insertion_point(class_scope:jon.cvdump.ShotPlane)
+    private static final jon.cvdump.JonCvDumpArchive.ShotPlane DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new jon.cvdump.JonCvDumpArchive.ShotPlane();
+    }
+
+    public static jon.cvdump.JonCvDumpArchive.ShotPlane getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ShotPlane>
+        PARSER = new com.google.protobuf.AbstractParser<ShotPlane>() {
+      @java.lang.Override
+      public ShotPlane parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<ShotPlane> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ShotPlane> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public jon.cvdump.JonCvDumpArchive.ShotPlane getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ShotCaptureOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:jon.cvdump.ShotCapture)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * "day" | "heat".
+     * </pre>
+     *
+     * <code>string channel = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The channel.
+     */
+    java.lang.String getChannel();
+    /**
+     * <pre>
+     * "day" | "heat".
+     * </pre>
+     *
+     * <code>string channel = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for channel.
+     */
+    com.google.protobuf.ByteString
+        getChannelBytes();
+
+    /**
+     * <code>uint32 generation = 2;</code>
+     * @return The generation.
+     */
+    int getGeneration();
+
+    /**
+     * <code>uint64 pts_ns = 3;</code>
+     * @return The ptsNs.
+     */
+    long getPtsNs();
+
+    /**
+     * <pre>
+     * CLOCK_MONOTONIC — the cross-channel skew key.
+     * </pre>
+     *
+     * <code>uint64 capture_time_ns = 4;</code>
+     * @return The captureTimeNs.
+     */
+    long getCaptureTimeNs();
+
+    /**
+     * <pre>
+     * The 1024-byte control block, verbatim, as snapshotted under the seqlock.
+     * </pre>
+     *
+     * <code>bytes ctl_snapshot = 5;</code>
+     * @return The ctlSnapshot.
+     */
+    com.google.protobuf.ByteString getCtlSnapshot();
+
+    /**
+     * <pre>
+     * Empty when the channel captured nothing — then absent_reason says why.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+     */
+    java.util.List<jon.cvdump.JonCvDumpArchive.ShotPlane> 
+        getPlanesList();
+    /**
+     * <pre>
+     * Empty when the channel captured nothing — then absent_reason says why.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+     */
+    jon.cvdump.JonCvDumpArchive.ShotPlane getPlanes(int index);
+    /**
+     * <pre>
+     * Empty when the channel captured nothing — then absent_reason says why.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+     */
+    int getPlanesCount();
+    /**
+     * <pre>
+     * Empty when the channel captured nothing — then absent_reason says why.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+     */
+    java.util.List<? extends jon.cvdump.JonCvDumpArchive.ShotPlaneOrBuilder> 
+        getPlanesOrBuilderList();
+    /**
+     * <pre>
+     * Empty when the channel captured nothing — then absent_reason says why.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+     */
+    jon.cvdump.JonCvDumpArchive.ShotPlaneOrBuilder getPlanesOrBuilder(
+        int index);
+
+    /**
+     * <code>string absent_reason = 7;</code>
+     * @return The absentReason.
+     */
+    java.lang.String getAbsentReason();
+    /**
+     * <code>string absent_reason = 7;</code>
+     * @return The bytes for absentReason.
+     */
+    com.google.protobuf.ByteString
+        getAbsentReasonBytes();
+  }
+  /**
+   * <pre>
+   * One channel's photo: the frame's identity + the whole control block, and
+   * every plane written for it.
+   * </pre>
+   *
+   * Protobuf type {@code jon.cvdump.ShotCapture}
+   */
+  public static final class ShotCapture extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:jon.cvdump.ShotCapture)
+      ShotCaptureOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        ShotCapture.class.getName());
+    }
+    // Use ShotCapture.newBuilder() to construct.
+    private ShotCapture(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private ShotCapture() {
+      channel_ = "";
+      ctlSnapshot_ = com.google.protobuf.ByteString.EMPTY;
+      planes_ = java.util.Collections.emptyList();
+      absentReason_ = "";
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return jon.cvdump.JonCvDumpArchive.internal_static_jon_cvdump_ShotCapture_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return jon.cvdump.JonCvDumpArchive.internal_static_jon_cvdump_ShotCapture_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              jon.cvdump.JonCvDumpArchive.ShotCapture.class, jon.cvdump.JonCvDumpArchive.ShotCapture.Builder.class);
+    }
+
+    public static final int CHANNEL_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object channel_ = "";
+    /**
+     * <pre>
+     * "day" | "heat".
+     * </pre>
+     *
+     * <code>string channel = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The channel.
+     */
+    @java.lang.Override
+    public java.lang.String getChannel() {
+      java.lang.Object ref = channel_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        channel_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * "day" | "heat".
+     * </pre>
+     *
+     * <code>string channel = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for channel.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getChannelBytes() {
+      java.lang.Object ref = channel_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        channel_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int GENERATION_FIELD_NUMBER = 2;
+    private int generation_ = 0;
+    /**
+     * <code>uint32 generation = 2;</code>
+     * @return The generation.
+     */
+    @java.lang.Override
+    public int getGeneration() {
+      return generation_;
+    }
+
+    public static final int PTS_NS_FIELD_NUMBER = 3;
+    private long ptsNs_ = 0L;
+    /**
+     * <code>uint64 pts_ns = 3;</code>
+     * @return The ptsNs.
+     */
+    @java.lang.Override
+    public long getPtsNs() {
+      return ptsNs_;
+    }
+
+    public static final int CAPTURE_TIME_NS_FIELD_NUMBER = 4;
+    private long captureTimeNs_ = 0L;
+    /**
+     * <pre>
+     * CLOCK_MONOTONIC — the cross-channel skew key.
+     * </pre>
+     *
+     * <code>uint64 capture_time_ns = 4;</code>
+     * @return The captureTimeNs.
+     */
+    @java.lang.Override
+    public long getCaptureTimeNs() {
+      return captureTimeNs_;
+    }
+
+    public static final int CTL_SNAPSHOT_FIELD_NUMBER = 5;
+    private com.google.protobuf.ByteString ctlSnapshot_ = com.google.protobuf.ByteString.EMPTY;
+    /**
+     * <pre>
+     * The 1024-byte control block, verbatim, as snapshotted under the seqlock.
+     * </pre>
+     *
+     * <code>bytes ctl_snapshot = 5;</code>
+     * @return The ctlSnapshot.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getCtlSnapshot() {
+      return ctlSnapshot_;
+    }
+
+    public static final int PLANES_FIELD_NUMBER = 6;
+    @SuppressWarnings("serial")
+    private java.util.List<jon.cvdump.JonCvDumpArchive.ShotPlane> planes_;
+    /**
+     * <pre>
+     * Empty when the channel captured nothing — then absent_reason says why.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+     */
+    @java.lang.Override
+    public java.util.List<jon.cvdump.JonCvDumpArchive.ShotPlane> getPlanesList() {
+      return planes_;
+    }
+    /**
+     * <pre>
+     * Empty when the channel captured nothing — then absent_reason says why.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends jon.cvdump.JonCvDumpArchive.ShotPlaneOrBuilder> 
+        getPlanesOrBuilderList() {
+      return planes_;
+    }
+    /**
+     * <pre>
+     * Empty when the channel captured nothing — then absent_reason says why.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+     */
+    @java.lang.Override
+    public int getPlanesCount() {
+      return planes_.size();
+    }
+    /**
+     * <pre>
+     * Empty when the channel captured nothing — then absent_reason says why.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+     */
+    @java.lang.Override
+    public jon.cvdump.JonCvDumpArchive.ShotPlane getPlanes(int index) {
+      return planes_.get(index);
+    }
+    /**
+     * <pre>
+     * Empty when the channel captured nothing — then absent_reason says why.
+     * </pre>
+     *
+     * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+     */
+    @java.lang.Override
+    public jon.cvdump.JonCvDumpArchive.ShotPlaneOrBuilder getPlanesOrBuilder(
+        int index) {
+      return planes_.get(index);
+    }
+
+    public static final int ABSENT_REASON_FIELD_NUMBER = 7;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object absentReason_ = "";
+    /**
+     * <code>string absent_reason = 7;</code>
+     * @return The absentReason.
+     */
+    @java.lang.Override
+    public java.lang.String getAbsentReason() {
+      java.lang.Object ref = absentReason_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        absentReason_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string absent_reason = 7;</code>
+     * @return The bytes for absentReason.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getAbsentReasonBytes() {
+      java.lang.Object ref = absentReason_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        absentReason_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(channel_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, channel_);
+      }
+      if (generation_ != 0) {
+        output.writeUInt32(2, generation_);
+      }
+      if (ptsNs_ != 0L) {
+        output.writeUInt64(3, ptsNs_);
+      }
+      if (captureTimeNs_ != 0L) {
+        output.writeUInt64(4, captureTimeNs_);
+      }
+      if (!ctlSnapshot_.isEmpty()) {
+        output.writeBytes(5, ctlSnapshot_);
+      }
+      for (int i = 0; i < planes_.size(); i++) {
+        output.writeMessage(6, planes_.get(i));
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(absentReason_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 7, absentReason_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(channel_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, channel_);
+      }
+      if (generation_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, generation_);
+      }
+      if (ptsNs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(3, ptsNs_);
+      }
+      if (captureTimeNs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(4, captureTimeNs_);
+      }
+      if (!ctlSnapshot_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, ctlSnapshot_);
+      }
+      for (int i = 0; i < planes_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, planes_.get(i));
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(absentReason_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(7, absentReason_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof jon.cvdump.JonCvDumpArchive.ShotCapture)) {
+        return super.equals(obj);
+      }
+      jon.cvdump.JonCvDumpArchive.ShotCapture other = (jon.cvdump.JonCvDumpArchive.ShotCapture) obj;
+
+      if (!getChannel()
+          .equals(other.getChannel())) return false;
+      if (getGeneration()
+          != other.getGeneration()) return false;
+      if (getPtsNs()
+          != other.getPtsNs()) return false;
+      if (getCaptureTimeNs()
+          != other.getCaptureTimeNs()) return false;
+      if (!getCtlSnapshot()
+          .equals(other.getCtlSnapshot())) return false;
+      if (!getPlanesList()
+          .equals(other.getPlanesList())) return false;
+      if (!getAbsentReason()
+          .equals(other.getAbsentReason())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + CHANNEL_FIELD_NUMBER;
+      hash = (53 * hash) + getChannel().hashCode();
+      hash = (37 * hash) + GENERATION_FIELD_NUMBER;
+      hash = (53 * hash) + getGeneration();
+      hash = (37 * hash) + PTS_NS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getPtsNs());
+      hash = (37 * hash) + CAPTURE_TIME_NS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getCaptureTimeNs());
+      hash = (37 * hash) + CTL_SNAPSHOT_FIELD_NUMBER;
+      hash = (53 * hash) + getCtlSnapshot().hashCode();
+      if (getPlanesCount() > 0) {
+        hash = (37 * hash) + PLANES_FIELD_NUMBER;
+        hash = (53 * hash) + getPlanesList().hashCode();
+      }
+      hash = (37 * hash) + ABSENT_REASON_FIELD_NUMBER;
+      hash = (53 * hash) + getAbsentReason().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static jon.cvdump.JonCvDumpArchive.ShotCapture parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.cvdump.JonCvDumpArchive.ShotCapture parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.cvdump.JonCvDumpArchive.ShotCapture parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.cvdump.JonCvDumpArchive.ShotCapture parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.cvdump.JonCvDumpArchive.ShotCapture parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.cvdump.JonCvDumpArchive.ShotCapture parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.cvdump.JonCvDumpArchive.ShotCapture parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static jon.cvdump.JonCvDumpArchive.ShotCapture parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static jon.cvdump.JonCvDumpArchive.ShotCapture parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static jon.cvdump.JonCvDumpArchive.ShotCapture parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static jon.cvdump.JonCvDumpArchive.ShotCapture parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static jon.cvdump.JonCvDumpArchive.ShotCapture parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(jon.cvdump.JonCvDumpArchive.ShotCapture prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * One channel's photo: the frame's identity + the whole control block, and
+     * every plane written for it.
+     * </pre>
+     *
+     * Protobuf type {@code jon.cvdump.ShotCapture}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:jon.cvdump.ShotCapture)
+        jon.cvdump.JonCvDumpArchive.ShotCaptureOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return jon.cvdump.JonCvDumpArchive.internal_static_jon_cvdump_ShotCapture_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return jon.cvdump.JonCvDumpArchive.internal_static_jon_cvdump_ShotCapture_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                jon.cvdump.JonCvDumpArchive.ShotCapture.class, jon.cvdump.JonCvDumpArchive.ShotCapture.Builder.class);
+      }
+
+      // Construct using jon.cvdump.JonCvDumpArchive.ShotCapture.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        channel_ = "";
+        generation_ = 0;
+        ptsNs_ = 0L;
+        captureTimeNs_ = 0L;
+        ctlSnapshot_ = com.google.protobuf.ByteString.EMPTY;
+        if (planesBuilder_ == null) {
+          planes_ = java.util.Collections.emptyList();
+        } else {
+          planes_ = null;
+          planesBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
+        absentReason_ = "";
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return jon.cvdump.JonCvDumpArchive.internal_static_jon_cvdump_ShotCapture_descriptor;
+      }
+
+      @java.lang.Override
+      public jon.cvdump.JonCvDumpArchive.ShotCapture getDefaultInstanceForType() {
+        return jon.cvdump.JonCvDumpArchive.ShotCapture.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public jon.cvdump.JonCvDumpArchive.ShotCapture build() {
+        jon.cvdump.JonCvDumpArchive.ShotCapture result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public jon.cvdump.JonCvDumpArchive.ShotCapture buildPartial() {
+        jon.cvdump.JonCvDumpArchive.ShotCapture result = new jon.cvdump.JonCvDumpArchive.ShotCapture(this);
+        buildPartialRepeatedFields(result);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartialRepeatedFields(jon.cvdump.JonCvDumpArchive.ShotCapture result) {
+        if (planesBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) != 0)) {
+            planes_ = java.util.Collections.unmodifiableList(planes_);
+            bitField0_ = (bitField0_ & ~0x00000020);
+          }
+          result.planes_ = planes_;
+        } else {
+          result.planes_ = planesBuilder_.build();
+        }
+      }
+
+      private void buildPartial0(jon.cvdump.JonCvDumpArchive.ShotCapture result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.channel_ = channel_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.generation_ = generation_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.ptsNs_ = ptsNs_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.captureTimeNs_ = captureTimeNs_;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.ctlSnapshot_ = ctlSnapshot_;
+        }
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.absentReason_ = absentReason_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof jon.cvdump.JonCvDumpArchive.ShotCapture) {
+          return mergeFrom((jon.cvdump.JonCvDumpArchive.ShotCapture)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(jon.cvdump.JonCvDumpArchive.ShotCapture other) {
+        if (other == jon.cvdump.JonCvDumpArchive.ShotCapture.getDefaultInstance()) return this;
+        if (!other.getChannel().isEmpty()) {
+          channel_ = other.channel_;
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
+        if (other.getGeneration() != 0) {
+          setGeneration(other.getGeneration());
+        }
+        if (other.getPtsNs() != 0L) {
+          setPtsNs(other.getPtsNs());
+        }
+        if (other.getCaptureTimeNs() != 0L) {
+          setCaptureTimeNs(other.getCaptureTimeNs());
+        }
+        if (other.getCtlSnapshot() != com.google.protobuf.ByteString.EMPTY) {
+          setCtlSnapshot(other.getCtlSnapshot());
+        }
+        if (planesBuilder_ == null) {
+          if (!other.planes_.isEmpty()) {
+            if (planes_.isEmpty()) {
+              planes_ = other.planes_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+            } else {
+              ensurePlanesIsMutable();
+              planes_.addAll(other.planes_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.planes_.isEmpty()) {
+            if (planesBuilder_.isEmpty()) {
+              planesBuilder_.dispose();
+              planesBuilder_ = null;
+              planes_ = other.planes_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+              planesBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getPlanesFieldBuilder() : null;
+            } else {
+              planesBuilder_.addAllMessages(other.planes_);
+            }
+          }
+        }
+        if (!other.getAbsentReason().isEmpty()) {
+          absentReason_ = other.absentReason_;
+          bitField0_ |= 0x00000040;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                channel_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              case 16: {
+                generation_ = input.readUInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              case 24: {
+                ptsNs_ = input.readUInt64();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 24
+              case 32: {
+                captureTimeNs_ = input.readUInt64();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 32
+              case 42: {
+                ctlSnapshot_ = input.readBytes();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 42
+              case 50: {
+                jon.cvdump.JonCvDumpArchive.ShotPlane m =
+                    input.readMessage(
+                        jon.cvdump.JonCvDumpArchive.ShotPlane.parser(),
+                        extensionRegistry);
+                if (planesBuilder_ == null) {
+                  ensurePlanesIsMutable();
+                  planes_.add(m);
+                } else {
+                  planesBuilder_.addMessage(m);
+                }
+                break;
+              } // case 50
+              case 58: {
+                absentReason_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000040;
+                break;
+              } // case 58
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object channel_ = "";
+      /**
+       * <pre>
+       * "day" | "heat".
+       * </pre>
+       *
+       * <code>string channel = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The channel.
+       */
+      public java.lang.String getChannel() {
+        java.lang.Object ref = channel_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          channel_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * "day" | "heat".
+       * </pre>
+       *
+       * <code>string channel = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The bytes for channel.
+       */
+      public com.google.protobuf.ByteString
+          getChannelBytes() {
+        java.lang.Object ref = channel_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          channel_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * "day" | "heat".
+       * </pre>
+       *
+       * <code>string channel = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The channel to set.
+       * @return This builder for chaining.
+       */
+      public Builder setChannel(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        channel_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * "day" | "heat".
+       * </pre>
+       *
+       * <code>string channel = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearChannel() {
+        channel_ = getDefaultInstance().getChannel();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * "day" | "heat".
+       * </pre>
+       *
+       * <code>string channel = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The bytes for channel to set.
+       * @return This builder for chaining.
+       */
+      public Builder setChannelBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        channel_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+
+      private int generation_ ;
+      /**
+       * <code>uint32 generation = 2;</code>
+       * @return The generation.
+       */
+      @java.lang.Override
+      public int getGeneration() {
+        return generation_;
+      }
+      /**
+       * <code>uint32 generation = 2;</code>
+       * @param value The generation to set.
+       * @return This builder for chaining.
+       */
+      public Builder setGeneration(int value) {
+
+        generation_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 generation = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearGeneration() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        generation_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long ptsNs_ ;
+      /**
+       * <code>uint64 pts_ns = 3;</code>
+       * @return The ptsNs.
+       */
+      @java.lang.Override
+      public long getPtsNs() {
+        return ptsNs_;
+      }
+      /**
+       * <code>uint64 pts_ns = 3;</code>
+       * @param value The ptsNs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPtsNs(long value) {
+
+        ptsNs_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 pts_ns = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPtsNs() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        ptsNs_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long captureTimeNs_ ;
+      /**
+       * <pre>
+       * CLOCK_MONOTONIC — the cross-channel skew key.
+       * </pre>
+       *
+       * <code>uint64 capture_time_ns = 4;</code>
+       * @return The captureTimeNs.
+       */
+      @java.lang.Override
+      public long getCaptureTimeNs() {
+        return captureTimeNs_;
+      }
+      /**
+       * <pre>
+       * CLOCK_MONOTONIC — the cross-channel skew key.
+       * </pre>
+       *
+       * <code>uint64 capture_time_ns = 4;</code>
+       * @param value The captureTimeNs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCaptureTimeNs(long value) {
+
+        captureTimeNs_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * CLOCK_MONOTONIC — the cross-channel skew key.
+       * </pre>
+       *
+       * <code>uint64 capture_time_ns = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCaptureTimeNs() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        captureTimeNs_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString ctlSnapshot_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <pre>
+       * The 1024-byte control block, verbatim, as snapshotted under the seqlock.
+       * </pre>
+       *
+       * <code>bytes ctl_snapshot = 5;</code>
+       * @return The ctlSnapshot.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getCtlSnapshot() {
+        return ctlSnapshot_;
+      }
+      /**
+       * <pre>
+       * The 1024-byte control block, verbatim, as snapshotted under the seqlock.
+       * </pre>
+       *
+       * <code>bytes ctl_snapshot = 5;</code>
+       * @param value The ctlSnapshot to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCtlSnapshot(com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        ctlSnapshot_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The 1024-byte control block, verbatim, as snapshotted under the seqlock.
+       * </pre>
+       *
+       * <code>bytes ctl_snapshot = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCtlSnapshot() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        ctlSnapshot_ = getDefaultInstance().getCtlSnapshot();
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<jon.cvdump.JonCvDumpArchive.ShotPlane> planes_ =
+        java.util.Collections.emptyList();
+      private void ensurePlanesIsMutable() {
+        if (!((bitField0_ & 0x00000020) != 0)) {
+          planes_ = new java.util.ArrayList<jon.cvdump.JonCvDumpArchive.ShotPlane>(planes_);
+          bitField0_ |= 0x00000020;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          jon.cvdump.JonCvDumpArchive.ShotPlane, jon.cvdump.JonCvDumpArchive.ShotPlane.Builder, jon.cvdump.JonCvDumpArchive.ShotPlaneOrBuilder> planesBuilder_;
+
+      /**
+       * <pre>
+       * Empty when the channel captured nothing — then absent_reason says why.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+       */
+      public java.util.List<jon.cvdump.JonCvDumpArchive.ShotPlane> getPlanesList() {
+        if (planesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(planes_);
+        } else {
+          return planesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <pre>
+       * Empty when the channel captured nothing — then absent_reason says why.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+       */
+      public int getPlanesCount() {
+        if (planesBuilder_ == null) {
+          return planes_.size();
+        } else {
+          return planesBuilder_.getCount();
+        }
+      }
+      /**
+       * <pre>
+       * Empty when the channel captured nothing — then absent_reason says why.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+       */
+      public jon.cvdump.JonCvDumpArchive.ShotPlane getPlanes(int index) {
+        if (planesBuilder_ == null) {
+          return planes_.get(index);
+        } else {
+          return planesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <pre>
+       * Empty when the channel captured nothing — then absent_reason says why.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+       */
+      public Builder setPlanes(
+          int index, jon.cvdump.JonCvDumpArchive.ShotPlane value) {
+        if (planesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePlanesIsMutable();
+          planes_.set(index, value);
+          onChanged();
+        } else {
+          planesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Empty when the channel captured nothing — then absent_reason says why.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+       */
+      public Builder setPlanes(
+          int index, jon.cvdump.JonCvDumpArchive.ShotPlane.Builder builderForValue) {
+        if (planesBuilder_ == null) {
+          ensurePlanesIsMutable();
+          planes_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          planesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Empty when the channel captured nothing — then absent_reason says why.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+       */
+      public Builder addPlanes(jon.cvdump.JonCvDumpArchive.ShotPlane value) {
+        if (planesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePlanesIsMutable();
+          planes_.add(value);
+          onChanged();
+        } else {
+          planesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Empty when the channel captured nothing — then absent_reason says why.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+       */
+      public Builder addPlanes(
+          int index, jon.cvdump.JonCvDumpArchive.ShotPlane value) {
+        if (planesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePlanesIsMutable();
+          planes_.add(index, value);
+          onChanged();
+        } else {
+          planesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Empty when the channel captured nothing — then absent_reason says why.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+       */
+      public Builder addPlanes(
+          jon.cvdump.JonCvDumpArchive.ShotPlane.Builder builderForValue) {
+        if (planesBuilder_ == null) {
+          ensurePlanesIsMutable();
+          planes_.add(builderForValue.build());
+          onChanged();
+        } else {
+          planesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Empty when the channel captured nothing — then absent_reason says why.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+       */
+      public Builder addPlanes(
+          int index, jon.cvdump.JonCvDumpArchive.ShotPlane.Builder builderForValue) {
+        if (planesBuilder_ == null) {
+          ensurePlanesIsMutable();
+          planes_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          planesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Empty when the channel captured nothing — then absent_reason says why.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+       */
+      public Builder addAllPlanes(
+          java.lang.Iterable<? extends jon.cvdump.JonCvDumpArchive.ShotPlane> values) {
+        if (planesBuilder_ == null) {
+          ensurePlanesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, planes_);
+          onChanged();
+        } else {
+          planesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Empty when the channel captured nothing — then absent_reason says why.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+       */
+      public Builder clearPlanes() {
+        if (planesBuilder_ == null) {
+          planes_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000020);
+          onChanged();
+        } else {
+          planesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Empty when the channel captured nothing — then absent_reason says why.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+       */
+      public Builder removePlanes(int index) {
+        if (planesBuilder_ == null) {
+          ensurePlanesIsMutable();
+          planes_.remove(index);
+          onChanged();
+        } else {
+          planesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Empty when the channel captured nothing — then absent_reason says why.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+       */
+      public jon.cvdump.JonCvDumpArchive.ShotPlane.Builder getPlanesBuilder(
+          int index) {
+        return getPlanesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <pre>
+       * Empty when the channel captured nothing — then absent_reason says why.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+       */
+      public jon.cvdump.JonCvDumpArchive.ShotPlaneOrBuilder getPlanesOrBuilder(
+          int index) {
+        if (planesBuilder_ == null) {
+          return planes_.get(index);  } else {
+          return planesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <pre>
+       * Empty when the channel captured nothing — then absent_reason says why.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+       */
+      public java.util.List<? extends jon.cvdump.JonCvDumpArchive.ShotPlaneOrBuilder> 
+           getPlanesOrBuilderList() {
+        if (planesBuilder_ != null) {
+          return planesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(planes_);
+        }
+      }
+      /**
+       * <pre>
+       * Empty when the channel captured nothing — then absent_reason says why.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+       */
+      public jon.cvdump.JonCvDumpArchive.ShotPlane.Builder addPlanesBuilder() {
+        return getPlanesFieldBuilder().addBuilder(
+            jon.cvdump.JonCvDumpArchive.ShotPlane.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * Empty when the channel captured nothing — then absent_reason says why.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+       */
+      public jon.cvdump.JonCvDumpArchive.ShotPlane.Builder addPlanesBuilder(
+          int index) {
+        return getPlanesFieldBuilder().addBuilder(
+            index, jon.cvdump.JonCvDumpArchive.ShotPlane.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * Empty when the channel captured nothing — then absent_reason says why.
+       * </pre>
+       *
+       * <code>repeated .jon.cvdump.ShotPlane planes = 6;</code>
+       */
+      public java.util.List<jon.cvdump.JonCvDumpArchive.ShotPlane.Builder> 
+           getPlanesBuilderList() {
+        return getPlanesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          jon.cvdump.JonCvDumpArchive.ShotPlane, jon.cvdump.JonCvDumpArchive.ShotPlane.Builder, jon.cvdump.JonCvDumpArchive.ShotPlaneOrBuilder> 
+          getPlanesFieldBuilder() {
+        if (planesBuilder_ == null) {
+          planesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              jon.cvdump.JonCvDumpArchive.ShotPlane, jon.cvdump.JonCvDumpArchive.ShotPlane.Builder, jon.cvdump.JonCvDumpArchive.ShotPlaneOrBuilder>(
+                  planes_,
+                  ((bitField0_ & 0x00000020) != 0),
+                  getParentForChildren(),
+                  isClean());
+          planes_ = null;
+        }
+        return planesBuilder_;
+      }
+
+      private java.lang.Object absentReason_ = "";
+      /**
+       * <code>string absent_reason = 7;</code>
+       * @return The absentReason.
+       */
+      public java.lang.String getAbsentReason() {
+        java.lang.Object ref = absentReason_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          absentReason_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string absent_reason = 7;</code>
+       * @return The bytes for absentReason.
+       */
+      public com.google.protobuf.ByteString
+          getAbsentReasonBytes() {
+        java.lang.Object ref = absentReason_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          absentReason_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string absent_reason = 7;</code>
+       * @param value The absentReason to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAbsentReason(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        absentReason_ = value;
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string absent_reason = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAbsentReason() {
+        absentReason_ = getDefaultInstance().getAbsentReason();
+        bitField0_ = (bitField0_ & ~0x00000040);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string absent_reason = 7;</code>
+       * @param value The bytes for absentReason to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAbsentReasonBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        absentReason_ = value;
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:jon.cvdump.ShotCapture)
+    }
+
+    // @@protoc_insertion_point(class_scope:jon.cvdump.ShotCapture)
+    private static final jon.cvdump.JonCvDumpArchive.ShotCapture DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new jon.cvdump.JonCvDumpArchive.ShotCapture();
+    }
+
+    public static jon.cvdump.JonCvDumpArchive.ShotCapture getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ShotCapture>
+        PARSER = new com.google.protobuf.AbstractParser<ShotCapture>() {
+      @java.lang.Override
+      public ShotCapture parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<ShotCapture> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ShotCapture> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public jon.cvdump.JonCvDumpArchive.ShotCapture getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -19206,6 +22941,16 @@ public final class JonCvDumpArchive {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_jon_cvdump_CvDumpArchive_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_jon_cvdump_ShotPlane_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_jon_cvdump_ShotPlane_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_jon_cvdump_ShotCapture_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_jon_cvdump_ShotCapture_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_jon_cvdump_CaptureWindow_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -19280,7 +23025,7 @@ public final class JonCvDumpArchive {
   static {
     java.lang.String[] descriptorData = {
       "\n\031jon_cv_dump_archive.proto\022\njon.cvdump\032" +
-      "\033buf/validate/validate.proto\"\212\003\n\rCvDumpA" +
+      "\033buf/validate/validate.proto\"\262\003\n\rCvDumpA" +
       "rchive\0221\n\007version\030\001 \001(\0162 .jon.cvdump.Arc" +
       "hiveFormatVersion\022\023\n\002id\030\002 \001(\tB\007\272H\004r\002\020$\022\024" +
       "\n\014generated_at\030\003 \001(\t\022)\n\006window\030\004 \001(\0132\031.j" +
@@ -19290,67 +23035,79 @@ public final class JonCvDumpArchive {
       "achineIdentity\022.\n\tintegrity\030\010 \001(\0132\033.jon." +
       "cvdump.IntegrityReport\022\'\n\005video\030\t \003(\0132\030." +
       "jon.cvdump.VideoChannel\022(\n\007streams\030\n \003(\013" +
-      "2\027.jon.cvdump.StreamGroup\"Y\n\rCaptureWind" +
-      "ow\022\017\n\007t0_wall\030\001 \001(\t\022\017\n\007t1_wall\030\002 \001(\t\022\022\n\n" +
-      "t0_boot_ns\030\003 \001(\003\022\022\n\nt1_boot_ns\030\004 \001(\003\"\242\002\n" +
-      "\017MachineIdentity\022\027\n\nmachine_id\030\001 \001(\tH\000\210\001" +
-      "\001\022\025\n\010hostname\030\002 \001(\tH\001\210\001\001\022\025\n\010hw_model\030\003 \001" +
-      "(\tH\002\210\001\001\022\024\n\007boot_id\030\004 \001(\tH\003\210\001\001\022-\n\006deploy\030" +
-      "\005 \001(\0132\035.jon.cvdump.DeployFingerprint\0222\n\017" +
-      "channels_config\030\006 \003(\0132\031.jon.cvdump.Chann" +
-      "elConfig\022\032\n\022machine_incomplete\030\007 \001(\010B\r\n\013" +
-      "_machine_idB\013\n\t_hostnameB\013\n\t_hw_modelB\n\n" +
-      "\010_boot_id\"e\n\021DeployFingerprint\022\023\n\013finger" +
-      "print\030\001 \001(\t\022\024\n\014jettison_sha\030\002 \001(\t\022\020\n\010des" +
-      "cribe\030\003 \001(\t\022\023\n\013deployed_at\030\004 \001(\t\"|\n\rChan" +
-      "nelConfig\022\017\n\007channel\030\001 \001(\t\022\r\n\005width\030\002 \001(" +
-      "\r\022\016\n\006height\030\003 \001(\r\022\021\n\tfps_limit\030\004 \001(\r\022\022\n\n" +
-      "sensor_fps\030\005 \001(\r\022\024\n\014crop_margins\030\006 \001(\r\"\276" +
-      "\002\n\017IntegrityReport\022)\n\006status\030\001 \001(\0162\031.jon" +
-      ".cvdump.ArchiveStatus\022\027\n\017lapped_segments" +
-      "\030\002 \001(\r\022\031\n\021window_start_lost\030\003 \001(\010\022\032\n\022wri" +
-      "ter_seg_skipped\030\004 \001(\010\022\033\n\023rec_control_unk" +
-      "nown\030\005 \001(\010\022\031\n\021rec_enable_failed\030\006 \001(\010\022 \n" +
-      "\030no_window_video_channels\030\007 \003(\t\022\031\n\021trunc" +
-      "ated_sources\030\010 \003(\t\022\034\n\024telemetry_incomple" +
-      "te\030\t \001(\010\022\035\n\025io_records_incomplete\030\n \001(\010\"" +
-      "K\n\014VideoChannel\022\017\n\007channel\030\001 \001(\t\022*\n\010segm" +
-      "ents\030\002 \003(\0132\030.jon.cvdump.VideoSegment\"\213\001\n" +
-      "\014VideoSegment\022\020\n\010sequence\030\001 \001(\r\022\014\n\004path\030" +
-      "\002 \001(\t\022\r\n\005bytes\030\003 \001(\004\022\030\n\006sha256\030\004 \001(\tB\010\272H" +
-      "\005r\003\230\001@\022\020\n\010start_ns\030\005 \001(\003\022\016\n\006end_ns\030\006 \001(\003" +
-      "\022\020\n\010open_end\030\007 \001(\010\"\220\002\n\013StreamGroup\022$\n\004ki" +
-      "nd\030\001 \001(\0162\026.jon.cvdump.StreamKind\022\027\n\006sour" +
-      "ce\030\002 \001(\tB\007\272H\004r\002\020\001\022\'\n\005codec\030\003 \001(\0162\030.jon.c" +
-      "vdump.ArchiveCodec\022\024\n\014record_count\030\004 \001(\004" +
-      "\022\025\n\rdecoded_bytes\030\005 \001(\004\022 \n\016decoded_sha25" +
-      "6\030\006 \001(\tB\010\272H\005r\003\230\001@\022\021\n\ttruncated\030\007 \001(\010\022&\n\007" +
-      "columns\030\010 \003(\0132\025.jon.cvdump.ColumnDef\022\017\n\007" +
-      "payload\030\t \001(\014\"\'\n\tColumnDef\022\014\n\004name\030\001 \001(\t" +
-      "\022\014\n\004type\030\002 \001(\t\"D\n\022RedisStreamRecords\022.\n\007" +
-      "records\030\001 \003(\0132\035.jon.cvdump.RedisStreamRe" +
-      "cord\"M\n\021RedisStreamRecord\022\n\n\002id\030\001 \001(\t\022,\n" +
-      "\006fields\030\002 \003(\0132\034.jon.cvdump.RedisStreamFi" +
-      "eld\"/\n\020RedisStreamField\022\014\n\004name\030\001 \001(\t\022\r\n" +
-      "\005value\030\002 \001(\014\"\031\n\tTableRows\022\014\n\004rows\030\001 \003(\014*" +
-      "]\n\024ArchiveFormatVersion\022&\n\"ARCHIVE_FORMA" +
-      "T_VERSION_UNSPECIFIED\020\000\022\035\n\031ARCHIVE_FORMA" +
-      "T_VERSION_V3\020\003*E\n\014ArchiveCodec\022\035\n\031ARCHIV" +
-      "E_CODEC_UNSPECIFIED\020\000\022\026\n\022ARCHIVE_CODEC_N" +
-      "ONE\020\001*\262\001\n\nStreamKind\022\033\n\027STREAM_KIND_UNSP" +
-      "ECIFIED\020\000\022\023\n\017STREAM_KIND_CAN\020\001\022\033\n\027STREAM" +
-      "_KIND_ROTARY_UART\020\002\022\031\n\025STREAM_KIND_FRAME" +
-      "_TAP\020\003\022\032\n\026STREAM_KIND_TSDB_TABLE\020\004\022\036\n\032ST" +
-      "REAM_KIND_MOTION_HISTORY\020\005*\203\001\n\rArchiveSt" +
-      "atus\022\036\n\032ARCHIVE_STATUS_UNSPECIFIED\020\000\022\033\n\027" +
-      "ARCHIVE_STATUS_COMPLETE\020\001\022\032\n\026ARCHIVE_STA" +
-      "TUS_PARTIAL\020\002\022\031\n\025ARCHIVE_STATUS_FAILED\020\003" +
-      "*|\n\021SessionProvenance\022\"\n\036SESSION_PROVENA" +
-      "NCE_UNSPECIFIED\020\000\022\037\n\033SESSION_PROVENANCE_" +
-      "EUTROPIA\020\001\022\"\n\036SESSION_PROVENANCE_SYNTHES" +
-      "IZED\020\002BIZGgit-codecommit.eu-central-1.am" +
-      "azonaws.com/v1/repos/jettison/jonp/cvdum" +
-      "pb\006proto3"
+      "2\027.jon.cvdump.StreamGroup\022&\n\005shots\030\013 \003(\013" +
+      "2\027.jon.cvdump.ShotCapture\"\363\001\n\tShotPlane\022" +
+      "\026\n\005plane\030\001 \001(\rB\007\272H\004*\002\030\003\022\013\n\003tag\030\002 \001(\r\022\025\n\r" +
+      "source_format\030\003 \001(\r\022\025\n\004path\030\004 \001(\tB\007\272H\004r\002" +
+      "\020\001\022\031\n\010encoding\030\005 \001(\tB\007\272H\004r\002\020\001\022\r\n\005width\030\006" +
+      " \001(\r\022\016\n\006height\030\007 \001(\r\022\r\n\005pitch\030\010 \001(\r\022\021\n\tu" +
+      "v_offset\030\t \001(\r\022\r\n\005bytes\030\n \001(\004\022(\n\006sha256\030" +
+      "\013 \001(\tB\030\272H\025r\0232\016^[0-9a-f]{64}$\230\001@\"\301\001\n\013Shot" +
+      "Capture\022!\n\007channel\030\001 \001(\tB\020\272H\rr\013R\003dayR\004he" +
+      "at\022\022\n\ngeneration\030\002 \001(\r\022\016\n\006pts_ns\030\003 \001(\004\022\027" +
+      "\n\017capture_time_ns\030\004 \001(\004\022\024\n\014ctl_snapshot\030" +
+      "\005 \001(\014\022%\n\006planes\030\006 \003(\0132\025.jon.cvdump.ShotP" +
+      "lane\022\025\n\rabsent_reason\030\007 \001(\t\"Y\n\rCaptureWi" +
+      "ndow\022\017\n\007t0_wall\030\001 \001(\t\022\017\n\007t1_wall\030\002 \001(\t\022\022" +
+      "\n\nt0_boot_ns\030\003 \001(\003\022\022\n\nt1_boot_ns\030\004 \001(\003\"\242" +
+      "\002\n\017MachineIdentity\022\027\n\nmachine_id\030\001 \001(\tH\000" +
+      "\210\001\001\022\025\n\010hostname\030\002 \001(\tH\001\210\001\001\022\025\n\010hw_model\030\003" +
+      " \001(\tH\002\210\001\001\022\024\n\007boot_id\030\004 \001(\tH\003\210\001\001\022-\n\006deplo" +
+      "y\030\005 \001(\0132\035.jon.cvdump.DeployFingerprint\0222" +
+      "\n\017channels_config\030\006 \003(\0132\031.jon.cvdump.Cha" +
+      "nnelConfig\022\032\n\022machine_incomplete\030\007 \001(\010B\r" +
+      "\n\013_machine_idB\013\n\t_hostnameB\013\n\t_hw_modelB" +
+      "\n\n\010_boot_id\"e\n\021DeployFingerprint\022\023\n\013fing" +
+      "erprint\030\001 \001(\t\022\024\n\014jettison_sha\030\002 \001(\t\022\020\n\010d" +
+      "escribe\030\003 \001(\t\022\023\n\013deployed_at\030\004 \001(\t\"|\n\rCh" +
+      "annelConfig\022\017\n\007channel\030\001 \001(\t\022\r\n\005width\030\002 " +
+      "\001(\r\022\016\n\006height\030\003 \001(\r\022\021\n\tfps_limit\030\004 \001(\r\022\022" +
+      "\n\nsensor_fps\030\005 \001(\r\022\024\n\014crop_margins\030\006 \001(\r" +
+      "\"\276\002\n\017IntegrityReport\022)\n\006status\030\001 \001(\0162\031.j" +
+      "on.cvdump.ArchiveStatus\022\027\n\017lapped_segmen" +
+      "ts\030\002 \001(\r\022\031\n\021window_start_lost\030\003 \001(\010\022\032\n\022w" +
+      "riter_seg_skipped\030\004 \001(\010\022\033\n\023rec_control_u" +
+      "nknown\030\005 \001(\010\022\031\n\021rec_enable_failed\030\006 \001(\010\022" +
+      " \n\030no_window_video_channels\030\007 \003(\t\022\031\n\021tru" +
+      "ncated_sources\030\010 \003(\t\022\034\n\024telemetry_incomp" +
+      "lete\030\t \001(\010\022\035\n\025io_records_incomplete\030\n \001(" +
+      "\010\"K\n\014VideoChannel\022\017\n\007channel\030\001 \001(\t\022*\n\010se" +
+      "gments\030\002 \003(\0132\030.jon.cvdump.VideoSegment\"\213" +
+      "\001\n\014VideoSegment\022\020\n\010sequence\030\001 \001(\r\022\014\n\004pat" +
+      "h\030\002 \001(\t\022\r\n\005bytes\030\003 \001(\004\022\030\n\006sha256\030\004 \001(\tB\010" +
+      "\272H\005r\003\230\001@\022\020\n\010start_ns\030\005 \001(\003\022\016\n\006end_ns\030\006 \001" +
+      "(\003\022\020\n\010open_end\030\007 \001(\010\"\220\002\n\013StreamGroup\022$\n\004" +
+      "kind\030\001 \001(\0162\026.jon.cvdump.StreamKind\022\027\n\006so" +
+      "urce\030\002 \001(\tB\007\272H\004r\002\020\001\022\'\n\005codec\030\003 \001(\0162\030.jon" +
+      ".cvdump.ArchiveCodec\022\024\n\014record_count\030\004 \001" +
+      "(\004\022\025\n\rdecoded_bytes\030\005 \001(\004\022 \n\016decoded_sha" +
+      "256\030\006 \001(\tB\010\272H\005r\003\230\001@\022\021\n\ttruncated\030\007 \001(\010\022&" +
+      "\n\007columns\030\010 \003(\0132\025.jon.cvdump.ColumnDef\022\017" +
+      "\n\007payload\030\t \001(\014\"\'\n\tColumnDef\022\014\n\004name\030\001 \001" +
+      "(\t\022\014\n\004type\030\002 \001(\t\"D\n\022RedisStreamRecords\022." +
+      "\n\007records\030\001 \003(\0132\035.jon.cvdump.RedisStream" +
+      "Record\"M\n\021RedisStreamRecord\022\n\n\002id\030\001 \001(\t\022" +
+      ",\n\006fields\030\002 \003(\0132\034.jon.cvdump.RedisStream" +
+      "Field\"/\n\020RedisStreamField\022\014\n\004name\030\001 \001(\t\022" +
+      "\r\n\005value\030\002 \001(\014\"\031\n\tTableRows\022\014\n\004rows\030\001 \003(" +
+      "\014*]\n\024ArchiveFormatVersion\022&\n\"ARCHIVE_FOR" +
+      "MAT_VERSION_UNSPECIFIED\020\000\022\035\n\031ARCHIVE_FOR" +
+      "MAT_VERSION_V3\020\003*E\n\014ArchiveCodec\022\035\n\031ARCH" +
+      "IVE_CODEC_UNSPECIFIED\020\000\022\026\n\022ARCHIVE_CODEC" +
+      "_NONE\020\001*\262\001\n\nStreamKind\022\033\n\027STREAM_KIND_UN" +
+      "SPECIFIED\020\000\022\023\n\017STREAM_KIND_CAN\020\001\022\033\n\027STRE" +
+      "AM_KIND_ROTARY_UART\020\002\022\031\n\025STREAM_KIND_FRA" +
+      "ME_TAP\020\003\022\032\n\026STREAM_KIND_TSDB_TABLE\020\004\022\036\n\032" +
+      "STREAM_KIND_MOTION_HISTORY\020\005*\203\001\n\rArchive" +
+      "Status\022\036\n\032ARCHIVE_STATUS_UNSPECIFIED\020\000\022\033" +
+      "\n\027ARCHIVE_STATUS_COMPLETE\020\001\022\032\n\026ARCHIVE_S" +
+      "TATUS_PARTIAL\020\002\022\031\n\025ARCHIVE_STATUS_FAILED" +
+      "\020\003*|\n\021SessionProvenance\022\"\n\036SESSION_PROVE" +
+      "NANCE_UNSPECIFIED\020\000\022\037\n\033SESSION_PROVENANC" +
+      "E_EUTROPIA\020\001\022\"\n\036SESSION_PROVENANCE_SYNTH" +
+      "ESIZED\020\002BIZGgit-codecommit.eu-central-1." +
+      "amazonaws.com/v1/repos/jettison/jonp/cvd" +
+      "umpb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -19362,81 +23119,93 @@ public final class JonCvDumpArchive {
     internal_static_jon_cvdump_CvDumpArchive_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_jon_cvdump_CvDumpArchive_descriptor,
-        new java.lang.String[] { "Version", "Id", "GeneratedAt", "Window", "Provenance", "Note", "Machine", "Integrity", "Video", "Streams", });
-    internal_static_jon_cvdump_CaptureWindow_descriptor =
+        new java.lang.String[] { "Version", "Id", "GeneratedAt", "Window", "Provenance", "Note", "Machine", "Integrity", "Video", "Streams", "Shots", });
+    internal_static_jon_cvdump_ShotPlane_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_jon_cvdump_ShotPlane_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_jon_cvdump_ShotPlane_descriptor,
+        new java.lang.String[] { "Plane", "Tag", "SourceFormat", "Path", "Encoding", "Width", "Height", "Pitch", "UvOffset", "Bytes", "Sha256", });
+    internal_static_jon_cvdump_ShotCapture_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_jon_cvdump_ShotCapture_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_jon_cvdump_ShotCapture_descriptor,
+        new java.lang.String[] { "Channel", "Generation", "PtsNs", "CaptureTimeNs", "CtlSnapshot", "Planes", "AbsentReason", });
+    internal_static_jon_cvdump_CaptureWindow_descriptor =
+      getDescriptor().getMessageTypes().get(3);
     internal_static_jon_cvdump_CaptureWindow_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_jon_cvdump_CaptureWindow_descriptor,
         new java.lang.String[] { "T0Wall", "T1Wall", "T0BootNs", "T1BootNs", });
     internal_static_jon_cvdump_MachineIdentity_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_jon_cvdump_MachineIdentity_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_jon_cvdump_MachineIdentity_descriptor,
         new java.lang.String[] { "MachineId", "Hostname", "HwModel", "BootId", "Deploy", "ChannelsConfig", "MachineIncomplete", });
     internal_static_jon_cvdump_DeployFingerprint_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_jon_cvdump_DeployFingerprint_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_jon_cvdump_DeployFingerprint_descriptor,
         new java.lang.String[] { "Fingerprint", "JettisonSha", "Describe", "DeployedAt", });
     internal_static_jon_cvdump_ChannelConfig_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_jon_cvdump_ChannelConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_jon_cvdump_ChannelConfig_descriptor,
         new java.lang.String[] { "Channel", "Width", "Height", "FpsLimit", "SensorFps", "CropMargins", });
     internal_static_jon_cvdump_IntegrityReport_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_jon_cvdump_IntegrityReport_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_jon_cvdump_IntegrityReport_descriptor,
         new java.lang.String[] { "Status", "LappedSegments", "WindowStartLost", "WriterSegSkipped", "RecControlUnknown", "RecEnableFailed", "NoWindowVideoChannels", "TruncatedSources", "TelemetryIncomplete", "IoRecordsIncomplete", });
     internal_static_jon_cvdump_VideoChannel_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_jon_cvdump_VideoChannel_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_jon_cvdump_VideoChannel_descriptor,
         new java.lang.String[] { "Channel", "Segments", });
     internal_static_jon_cvdump_VideoSegment_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_jon_cvdump_VideoSegment_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_jon_cvdump_VideoSegment_descriptor,
         new java.lang.String[] { "Sequence", "Path", "Bytes", "Sha256", "StartNs", "EndNs", "OpenEnd", });
     internal_static_jon_cvdump_StreamGroup_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_jon_cvdump_StreamGroup_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_jon_cvdump_StreamGroup_descriptor,
         new java.lang.String[] { "Kind", "Source", "Codec", "RecordCount", "DecodedBytes", "DecodedSha256", "Truncated", "Columns", "Payload", });
     internal_static_jon_cvdump_ColumnDef_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_jon_cvdump_ColumnDef_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_jon_cvdump_ColumnDef_descriptor,
         new java.lang.String[] { "Name", "Type", });
     internal_static_jon_cvdump_RedisStreamRecords_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_jon_cvdump_RedisStreamRecords_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_jon_cvdump_RedisStreamRecords_descriptor,
         new java.lang.String[] { "Records", });
     internal_static_jon_cvdump_RedisStreamRecord_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_jon_cvdump_RedisStreamRecord_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_jon_cvdump_RedisStreamRecord_descriptor,
         new java.lang.String[] { "Id", "Fields", });
     internal_static_jon_cvdump_RedisStreamField_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_jon_cvdump_RedisStreamField_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_jon_cvdump_RedisStreamField_descriptor,
         new java.lang.String[] { "Name", "Value", });
     internal_static_jon_cvdump_TableRows_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_jon_cvdump_TableRows_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_jon_cvdump_TableRows_descriptor,

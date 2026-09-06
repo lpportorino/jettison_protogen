@@ -188,8 +188,62 @@ message CvDumpArchive {
   repeated VideoChannel video = 9;
 
   // The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-  // of one kind are contiguous. Last field number on purpose: it is the bulk.
+  // of one kind are contiguous. It is the bulk of a capture-window bundle.
   repeated StreamGroup streams = 10;
+
+  // The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+  // channels' rings, as files under shots/ with their geometry, encoding and
+  // provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+  // channel that captured nothing appears with no planes and a reason. Empty
+  // on a capture-window bundle; a photo bundle has empty video + streams.
+  repeated ShotCapture shots = 11;
+}
+
+// One plane of one channel's photo. The output format keys on the plane's
+// FORMAT tag from the control block, never on the plane index.
+message ShotPlane {
+  // Ring plane index (0..3).
+  uint32 plane = 1 [(buf.validate.field).uint32.lte = 3];
+  // SensorRingPlaneTag as the control block carried it: 1 NATIVE, 2 CLAHE,
+  // 3 OPERATOR, 4 RAW.
+  uint32 tag = 2;
+  // The plane's source pixel format (NvBufSurfaceColorFormat, or the RAW
+  // enum), as the control block carried it.
+  uint32 source_format = 3;
+  // Bundle-relative path, e.g. "shots/day_p0_raw.rg12".
+  string path = 4 [(buf.validate.field).string.min_len = 1];
+  // "png8-rgb" | "png8-gray" | "raw-rg12-msb16" | "raw-nv12".
+  string encoding = 5 [(buf.validate.field).string.min_len = 1];
+  uint32 width = 6;
+  uint32 height = 7;
+  // Source pitch in bytes (what the raw encodings preserve verbatim).
+  uint32 pitch = 8;
+  // NV12 UV-plane offset within the source, 0 for single-plane formats.
+  uint32 uv_offset = 9;
+  uint64 bytes = 10;
+  // Lowercase hex SHA-256 of the file.
+  string sha256 = 11 [(buf.validate.field).string = {
+    len: 64
+    pattern: "^[0-9a-f]{64}$"
+  }];
+}
+
+// One channel's photo: the frame's identity + the whole control block, and
+// every plane written for it.
+message ShotCapture {
+  // "day" | "heat".
+  string channel = 1 [(buf.validate.field).string = {
+    in: ["day", "heat"]
+  }];
+  uint32 generation = 2;
+  uint64 pts_ns = 3;
+  // CLOCK_MONOTONIC — the cross-channel skew key.
+  uint64 capture_time_ns = 4;
+  // The 1024-byte control block, verbatim, as snapshotted under the seqlock.
+  bytes ctl_snapshot = 5;
+  // Empty when the channel captured nothing — then absent_reason says why.
+  repeated ShotPlane planes = 6;
+  string absent_reason = 7;
 }
 
 // The capture window in both clock domains.

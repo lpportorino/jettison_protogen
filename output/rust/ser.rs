@@ -2124,6 +2124,24 @@ pub struct JonGuiDataCv {
     pub stab_correction_day: ::core::option::Option<JonGuiDataStabCorrection>,
     #[prost(message, optional, tag = "101")]
     pub stab_correction_heat: ::core::option::Option<JonGuiDataStabCorrection>,
+    /// The cv-dump PHOTO (cmd.CV.DumpShot). Owned by eutropia — it consumes the
+    /// command and patches these on the state plane; manifold never sees them.
+    ///
+    /// Monotonic count of COMPLETED shots since boot — the button's
+    /// proof-of-landing: an increment is the discriminator (the same one the
+    /// photo button uses on its global target_id), never the ack.
+    #[prost(uint32, tag = "110")]
+    pub shot_seq: u32,
+    /// Where the one-at-a-time shot is in its lifecycle — what the button
+    /// renders. A press while it is not IDLE is refused, not queued; defined_only
+    /// because a reader must never render an unknown state as progress.
+    #[prost(enumeration = "jon_gui_data_cv::ShotState", tag = "111")]
+    pub shot_state: i32,
+    /// The bundle uuid of the last shot (a 36-char dashed UUIDv4, the
+    /// cv_dump_sessions primary key and the /api/cvdump/bundle/{name} key); empty
+    /// until the first READY. max_len 36 pins the uuid shape.
+    #[prost(string, tag = "112")]
+    pub shot_id: ::prost::alloc::string::String,
 }
 /// Nested message and enum types in `JonGuiDataCV`.
 pub mod jon_gui_data_cv {
@@ -2172,6 +2190,60 @@ pub mod jon_gui_data_cv {
                 "AUTOFOCUS_STATE_FINE_SWEEP" => Some(Self::FineSweep),
                 "AUTOFOCUS_STATE_CONVERGED" => Some(Self::Converged),
                 "AUTOFOCUS_STATE_FAILED" => Some(Self::Failed),
+                _ => None,
+            }
+        }
+    }
+    /// The cv-dump PHOTO (cmd.CV.DumpShot) lifecycle, one shot at a time.
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum ShotState {
+        Unspecified = 0,
+        /// no shot in flight; a press is accepted
+        Idle = 1,
+        /// waiting for the next RAW-armed frame on each channel
+        Capturing = 2,
+        /// planes copied out; PNG encode + bundle write in progress
+        Writing = 3,
+        /// the bundle is on disk; shot_id names it, shot_seq advanced
+        Ready = 4,
+        /// the shot was abandoned; the bundle carries the reason
+        Failed = 5,
+    }
+    impl ShotState {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                Self::Unspecified => "SHOT_STATE_UNSPECIFIED",
+                Self::Idle => "SHOT_STATE_IDLE",
+                Self::Capturing => "SHOT_STATE_CAPTURING",
+                Self::Writing => "SHOT_STATE_WRITING",
+                Self::Ready => "SHOT_STATE_READY",
+                Self::Failed => "SHOT_STATE_FAILED",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "SHOT_STATE_UNSPECIFIED" => Some(Self::Unspecified),
+                "SHOT_STATE_IDLE" => Some(Self::Idle),
+                "SHOT_STATE_CAPTURING" => Some(Self::Capturing),
+                "SHOT_STATE_WRITING" => Some(Self::Writing),
+                "SHOT_STATE_READY" => Some(Self::Ready),
+                "SHOT_STATE_FAILED" => Some(Self::Failed),
                 _ => None,
             }
         }

@@ -15,7 +15,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_cmd_cv.proto.
  */
 export const file_jon_shared_cmd_cv: GenFile = /*@__PURE__*/
-  fileDesc("Chdqb25fc2hhcmVkX2NtZF9jdi5wcm90bxIGY21kLkNWIvQGCgRSb290Ei4KDnNldF9hdXRvX2ZvY3VzGAEgASgLMhQuY21kLkNWLlNldEF1dG9Gb2N1c0gAEjAKD3N0YXJ0X3RyYWNrX25kYxgCIAEoCzIVLmNtZC5DVi5TdGFydFRyYWNrTkRDSAASJwoKc3RvcF90cmFjaxgDIAEoCzIRLmNtZC5DVi5TdG9wVHJhY2tIABI4ChN2YW1waXJlX21vZGVfZW5hYmxlGAQgASgLMhkuY21kLkNWLlZhbXBpcmVNb2RlRW5hYmxlSAASOgoUdmFtcGlyZV9tb2RlX2Rpc2FibGUYBSABKAsyGi5jbWQuQ1YuVmFtcGlyZU1vZGVEaXNhYmxlSAASRAoZc3RhYmlsaXphdGlvbl9tb2RlX2VuYWJsZRgGIAEoCzIfLmNtZC5DVi5TdGFiaWxpemF0aW9uTW9kZUVuYWJsZUgAEkYKGnN0YWJpbGl6YXRpb25fbW9kZV9kaXNhYmxlGAcgASgLMiAuY21kLkNWLlN0YWJpbGl6YXRpb25Nb2RlRGlzYWJsZUgAEicKCmR1bXBfc3RhcnQYCCABKAsyES5jbWQuQ1YuRHVtcFN0YXJ0SAASJQoJZHVtcF9zdG9wGAkgASgLMhAuY21kLkNWLkR1bXBTdG9wSAASQAoXcmVjb2duaXRpb25fbW9kZV9lbmFibGUYCiABKAsyHS5jbWQuQ1YuUmVjb2duaXRpb25Nb2RlRW5hYmxlSAASQgoYcmVjb2duaXRpb25fbW9kZV9kaXNhYmxlGAsgASgLMh4uY21kLkNWLlJlY29nbml0aW9uTW9kZURpc2FibGVIABI4ChNzdGFydF90cmFja190cmluaXR5GAwgASgLMhkuY21kLkNWLlN0YXJ0VHJhY2tUcmluaXR5SAASNgoSc3RvcF90cmFja190cmluaXR5GA0gASgLMhguY21kLkNWLlN0b3BUcmFja1RyaW5pdHlIABIrCgxicmlkZ2Vfc3RhcnQYFCABKAsyEy5jbWQuQ1YuQnJpZGdlU3RhcnRIABIpCgticmlkZ2Vfc3RvcBgVIAEoCzISLmNtZC5DVi5CcmlkZ2VTdG9wSAASLwoOYnJpZGdlX3Jlc3RhcnQYFiABKAsyFS5jbWQuQ1YuQnJpZGdlUmVzdGFydEgAQgwKA2NtZBIFukgCCAEiEwoRVmFtcGlyZU1vZGVFbmFibGUiCwoJRHVtcFN0YXJ0IgoKCER1bXBTdG9wIhQKElZhbXBpcmVNb2RlRGlzYWJsZSIZChdTdGFiaWxpemF0aW9uTW9kZUVuYWJsZSIaChhTdGFiaWxpemF0aW9uTW9kZURpc2FibGUiFwoVUmVjb2duaXRpb25Nb2RlRW5hYmxlIhgKFlJlY29nbml0aW9uTW9kZURpc2FibGUiVwoMU2V0QXV0b0ZvY3VzEjgKB2NoYW5uZWwYASABKA4yGy5zZXIuSm9uR3VpRGF0YVZpZGVvQ2hhbm5lbEIKukgHggEEEAEgABINCgV2YWx1ZRgCIAEoCCK5AQoNU3RhcnRUcmFja05EQxI4CgdjaGFubmVsGAEgASgOMhsuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxCCrpIB4IBBBABIAASIgoBeBgCIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SIgoBeRgDIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SEgoKZnJhbWVfdGltZRgEIAEoBBISCgpzdGF0ZV90aW1lGAUgASgEIgsKCVN0b3BUcmFjayJ9ChFTdGFydFRyYWNrVHJpbml0eRI4CgdjaGFubmVsGAEgASgOMhsuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxCCrpIB4IBBBABIAASLgoMZXhwZWN0X2JvYXJkGAIgASgLMhguc2VyLlRyaW5pdHlCb2FyZFZlcnNpb24iEgoQU3RvcFRyYWNrVHJpbml0eSINCgtCcmlkZ2VTdGFydCIbCgpCcmlkZ2VTdG9wEg0KBWZvcmNlGAEgASgIIh4KDUJyaWRnZVJlc3RhcnQSDQoFZm9yY2UYASABKAhCSVpHZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC9jbWQvY3ZiBnByb3RvMw", [file_buf_validate_validate, file_jon_shared_data_types, file_opaque_trinity_tracking]);
+  fileDesc("Chdqb25fc2hhcmVkX2NtZF9jdi5wcm90bxIGY21kLkNWIpsHCgRSb290Ei4KDnNldF9hdXRvX2ZvY3VzGAEgASgLMhQuY21kLkNWLlNldEF1dG9Gb2N1c0gAEjAKD3N0YXJ0X3RyYWNrX25kYxgCIAEoCzIVLmNtZC5DVi5TdGFydFRyYWNrTkRDSAASJwoKc3RvcF90cmFjaxgDIAEoCzIRLmNtZC5DVi5TdG9wVHJhY2tIABI4ChN2YW1waXJlX21vZGVfZW5hYmxlGAQgASgLMhkuY21kLkNWLlZhbXBpcmVNb2RlRW5hYmxlSAASOgoUdmFtcGlyZV9tb2RlX2Rpc2FibGUYBSABKAsyGi5jbWQuQ1YuVmFtcGlyZU1vZGVEaXNhYmxlSAASRAoZc3RhYmlsaXphdGlvbl9tb2RlX2VuYWJsZRgGIAEoCzIfLmNtZC5DVi5TdGFiaWxpemF0aW9uTW9kZUVuYWJsZUgAEkYKGnN0YWJpbGl6YXRpb25fbW9kZV9kaXNhYmxlGAcgASgLMiAuY21kLkNWLlN0YWJpbGl6YXRpb25Nb2RlRGlzYWJsZUgAEicKCmR1bXBfc3RhcnQYCCABKAsyES5jbWQuQ1YuRHVtcFN0YXJ0SAASJQoJZHVtcF9zdG9wGAkgASgLMhAuY21kLkNWLkR1bXBTdG9wSAASQAoXcmVjb2duaXRpb25fbW9kZV9lbmFibGUYCiABKAsyHS5jbWQuQ1YuUmVjb2duaXRpb25Nb2RlRW5hYmxlSAASQgoYcmVjb2duaXRpb25fbW9kZV9kaXNhYmxlGAsgASgLMh4uY21kLkNWLlJlY29nbml0aW9uTW9kZURpc2FibGVIABI4ChNzdGFydF90cmFja190cmluaXR5GAwgASgLMhkuY21kLkNWLlN0YXJ0VHJhY2tUcmluaXR5SAASNgoSc3RvcF90cmFja190cmluaXR5GA0gASgLMhguY21kLkNWLlN0b3BUcmFja1RyaW5pdHlIABIlCglkdW1wX3Nob3QYDiABKAsyEC5jbWQuQ1YuRHVtcFNob3RIABIrCgxicmlkZ2Vfc3RhcnQYFCABKAsyEy5jbWQuQ1YuQnJpZGdlU3RhcnRIABIpCgticmlkZ2Vfc3RvcBgVIAEoCzISLmNtZC5DVi5CcmlkZ2VTdG9wSAASLwoOYnJpZGdlX3Jlc3RhcnQYFiABKAsyFS5jbWQuQ1YuQnJpZGdlUmVzdGFydEgAQgwKA2NtZBIFukgCCAEiEwoRVmFtcGlyZU1vZGVFbmFibGUiCwoJRHVtcFN0YXJ0IgoKCER1bXBTdG9wIgoKCER1bXBTaG90IhQKElZhbXBpcmVNb2RlRGlzYWJsZSIZChdTdGFiaWxpemF0aW9uTW9kZUVuYWJsZSIaChhTdGFiaWxpemF0aW9uTW9kZURpc2FibGUiFwoVUmVjb2duaXRpb25Nb2RlRW5hYmxlIhgKFlJlY29nbml0aW9uTW9kZURpc2FibGUiVwoMU2V0QXV0b0ZvY3VzEjgKB2NoYW5uZWwYASABKA4yGy5zZXIuSm9uR3VpRGF0YVZpZGVvQ2hhbm5lbEIKukgHggEEEAEgABINCgV2YWx1ZRgCIAEoCCK5AQoNU3RhcnRUcmFja05EQxI4CgdjaGFubmVsGAEgASgOMhsuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxCCrpIB4IBBBABIAASIgoBeBgCIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SIgoBeRgDIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SEgoKZnJhbWVfdGltZRgEIAEoBBISCgpzdGF0ZV90aW1lGAUgASgEIgsKCVN0b3BUcmFjayJ9ChFTdGFydFRyYWNrVHJpbml0eRI4CgdjaGFubmVsGAEgASgOMhsuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxCCrpIB4IBBBABIAASLgoMZXhwZWN0X2JvYXJkGAIgASgLMhguc2VyLlRyaW5pdHlCb2FyZFZlcnNpb24iEgoQU3RvcFRyYWNrVHJpbml0eSINCgtCcmlkZ2VTdGFydCIbCgpCcmlkZ2VTdG9wEg0KBWZvcmNlGAEgASgIIh4KDUJyaWRnZVJlc3RhcnQSDQoFZm9yY2UYASABKAhCSVpHZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC9jbWQvY3ZiBnByb3RvMw", [file_buf_validate_validate, file_jon_shared_data_types, file_opaque_trinity_tracking]);
 
 /**
  * @generated from message cmd.CV.Root
@@ -106,6 +106,17 @@ export type Root = Message<"cmd.CV.Root"> & {
     case: "stopTrackTrinity";
   } | {
     /**
+     * The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+     * rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+     * ShotCapture). Consumed by eutropia, never forwarded to manifold;
+     * progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+     *
+     * @generated from field: cmd.CV.DumpShot dump_shot = 14;
+     */
+    value: DumpShot;
+    case: "dumpShot";
+  } | {
+    /**
      * CV Bridge container control
      *
      * @generated from field: cmd.CV.BridgeStart bridge_start = 20;
@@ -174,6 +185,24 @@ export const DumpStopSchema: GenMessage<DumpStop> = /*@__PURE__*/
   messageDesc(file_jon_shared_cmd_cv, 3);
 
 /**
+ * Empty on purpose: a shot is always BOTH channels (the artifact's value is
+ * that they are the same instant), every capture parameter already rides the
+ * ring's control block, and the operator note arrives later over
+ * PUT /note/{id} exactly as a dump's does.
+ *
+ * @generated from message cmd.CV.DumpShot
+ */
+export type DumpShot = Message<"cmd.CV.DumpShot"> & {
+};
+
+/**
+ * Describes the message cmd.CV.DumpShot.
+ * Use `create(DumpShotSchema)` to create a new message.
+ */
+export const DumpShotSchema: GenMessage<DumpShot> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_cv, 4);
+
+/**
  * @generated from message cmd.CV.VampireModeDisable
  */
 export type VampireModeDisable = Message<"cmd.CV.VampireModeDisable"> & {
@@ -184,7 +213,7 @@ export type VampireModeDisable = Message<"cmd.CV.VampireModeDisable"> & {
  * Use `create(VampireModeDisableSchema)` to create a new message.
  */
 export const VampireModeDisableSchema: GenMessage<VampireModeDisable> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_cv, 4);
+  messageDesc(file_jon_shared_cmd_cv, 5);
 
 /**
  * @generated from message cmd.CV.StabilizationModeEnable
@@ -197,7 +226,7 @@ export type StabilizationModeEnable = Message<"cmd.CV.StabilizationModeEnable"> 
  * Use `create(StabilizationModeEnableSchema)` to create a new message.
  */
 export const StabilizationModeEnableSchema: GenMessage<StabilizationModeEnable> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_cv, 5);
+  messageDesc(file_jon_shared_cmd_cv, 6);
 
 /**
  * @generated from message cmd.CV.StabilizationModeDisable
@@ -210,7 +239,7 @@ export type StabilizationModeDisable = Message<"cmd.CV.StabilizationModeDisable"
  * Use `create(StabilizationModeDisableSchema)` to create a new message.
  */
 export const StabilizationModeDisableSchema: GenMessage<StabilizationModeDisable> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_cv, 6);
+  messageDesc(file_jon_shared_cmd_cv, 7);
 
 /**
  * @generated from message cmd.CV.RecognitionModeEnable
@@ -223,7 +252,7 @@ export type RecognitionModeEnable = Message<"cmd.CV.RecognitionModeEnable"> & {
  * Use `create(RecognitionModeEnableSchema)` to create a new message.
  */
 export const RecognitionModeEnableSchema: GenMessage<RecognitionModeEnable> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_cv, 7);
+  messageDesc(file_jon_shared_cmd_cv, 8);
 
 /**
  * @generated from message cmd.CV.RecognitionModeDisable
@@ -236,7 +265,7 @@ export type RecognitionModeDisable = Message<"cmd.CV.RecognitionModeDisable"> & 
  * Use `create(RecognitionModeDisableSchema)` to create a new message.
  */
 export const RecognitionModeDisableSchema: GenMessage<RecognitionModeDisable> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_cv, 8);
+  messageDesc(file_jon_shared_cmd_cv, 9);
 
 /**
  * @generated from message cmd.CV.SetAutoFocus
@@ -258,7 +287,7 @@ export type SetAutoFocus = Message<"cmd.CV.SetAutoFocus"> & {
  * Use `create(SetAutoFocusSchema)` to create a new message.
  */
 export const SetAutoFocusSchema: GenMessage<SetAutoFocus> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_cv, 9);
+  messageDesc(file_jon_shared_cmd_cv, 10);
 
 /**
  * @generated from message cmd.CV.StartTrackNDC
@@ -299,7 +328,7 @@ export type StartTrackNDC = Message<"cmd.CV.StartTrackNDC"> & {
  * Use `create(StartTrackNDCSchema)` to create a new message.
  */
 export const StartTrackNDCSchema: GenMessage<StartTrackNDC> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_cv, 10);
+  messageDesc(file_jon_shared_cmd_cv, 11);
 
 /**
  * @generated from message cmd.CV.StopTrack
@@ -312,7 +341,7 @@ export type StopTrack = Message<"cmd.CV.StopTrack"> & {
  * Use `create(StopTrackSchema)` to create a new message.
  */
 export const StopTrackSchema: GenMessage<StopTrack> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_cv, 11);
+  messageDesc(file_jon_shared_cmd_cv, 12);
 
 /**
  * Begin tracking the Ring-Trinity golden fiducial board.
@@ -347,7 +376,7 @@ export type StartTrackTrinity = Message<"cmd.CV.StartTrackTrinity"> & {
  * Use `create(StartTrackTrinitySchema)` to create a new message.
  */
 export const StartTrackTrinitySchema: GenMessage<StartTrackTrinity> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_cv, 12);
+  messageDesc(file_jon_shared_cmd_cv, 13);
 
 /**
  * Stop tracking the Ring-Trinity board.
@@ -362,7 +391,7 @@ export type StopTrackTrinity = Message<"cmd.CV.StopTrackTrinity"> & {
  * Use `create(StopTrackTrinitySchema)` to create a new message.
  */
 export const StopTrackTrinitySchema: GenMessage<StopTrackTrinity> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_cv, 13);
+  messageDesc(file_jon_shared_cmd_cv, 14);
 
 /**
  * CV Bridge container control commands
@@ -379,7 +408,7 @@ export type BridgeStart = Message<"cmd.CV.BridgeStart"> & {
  * Use `create(BridgeStartSchema)` to create a new message.
  */
 export const BridgeStartSchema: GenMessage<BridgeStart> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_cv, 14);
+  messageDesc(file_jon_shared_cmd_cv, 15);
 
 /**
  * @generated from message cmd.CV.BridgeStop
@@ -398,7 +427,7 @@ export type BridgeStop = Message<"cmd.CV.BridgeStop"> & {
  * Use `create(BridgeStopSchema)` to create a new message.
  */
 export const BridgeStopSchema: GenMessage<BridgeStop> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_cv, 15);
+  messageDesc(file_jon_shared_cmd_cv, 16);
 
 /**
  * @generated from message cmd.CV.BridgeRestart
@@ -417,5 +446,5 @@ export type BridgeRestart = Message<"cmd.CV.BridgeRestart"> & {
  * Use `create(BridgeRestartSchema)` to create a new message.
  */
 export const BridgeRestartSchema: GenMessage<BridgeRestart> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_cv, 16);
+  messageDesc(file_jon_shared_cmd_cv, 17);
 

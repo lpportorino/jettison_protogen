@@ -410,8 +410,14 @@ type CvDumpArchive struct {
 	// stored aggregate is free to disagree with its own parts. Sum the segments.
 	Video []*VideoChannel `protobuf:"bytes,9,rep,name=video,proto3" json:"video,omitempty"`
 	// The io-record and telemetry lanes, ORDERED BY (kind, source) so all groups
-	// of one kind are contiguous. Last field number on purpose: it is the bulk.
-	Streams       []*StreamGroup `protobuf:"bytes,10,rep,name=streams,proto3" json:"streams,omitempty"`
+	// of one kind are contiguous. It is the bulk of a capture-window bundle.
+	Streams []*StreamGroup `protobuf:"bytes,10,rep,name=streams,proto3" json:"streams,omitempty"`
+	// The cv-dump PHOTO (cmd.CV.DumpShot): one instant, every plane of both
+	// channels' rings, as files under shots/ with their geometry, encoding and
+	// provenance here. ONE ENTRY PER PROMISED CHANNEL, the VideoChannel rule — a
+	// channel that captured nothing appears with no planes and a reason. Empty
+	// on a capture-window bundle; a photo bundle has empty video + streams.
+	Shots         []*ShotCapture `protobuf:"bytes,11,rep,name=shots,proto3" json:"shots,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -516,6 +522,247 @@ func (x *CvDumpArchive) GetStreams() []*StreamGroup {
 	return nil
 }
 
+func (x *CvDumpArchive) GetShots() []*ShotCapture {
+	if x != nil {
+		return x.Shots
+	}
+	return nil
+}
+
+// One plane of one channel's photo. The output format keys on the plane's
+// FORMAT tag from the control block, never on the plane index.
+type ShotPlane struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Ring plane index (0..3).
+	Plane uint32 `protobuf:"varint,1,opt,name=plane,proto3" json:"plane,omitempty"`
+	// SensorRingPlaneTag as the control block carried it: 1 NATIVE, 2 CLAHE,
+	// 3 OPERATOR, 4 RAW.
+	Tag uint32 `protobuf:"varint,2,opt,name=tag,proto3" json:"tag,omitempty"`
+	// The plane's source pixel format (NvBufSurfaceColorFormat, or the RAW
+	// enum), as the control block carried it.
+	SourceFormat uint32 `protobuf:"varint,3,opt,name=source_format,json=sourceFormat,proto3" json:"source_format,omitempty"`
+	// Bundle-relative path, e.g. "shots/day_p0_raw.rg12".
+	Path string `protobuf:"bytes,4,opt,name=path,proto3" json:"path,omitempty"`
+	// "png8-rgb" | "png8-gray" | "raw-rg12-msb16" | "raw-nv12".
+	Encoding string `protobuf:"bytes,5,opt,name=encoding,proto3" json:"encoding,omitempty"`
+	Width    uint32 `protobuf:"varint,6,opt,name=width,proto3" json:"width,omitempty"`
+	Height   uint32 `protobuf:"varint,7,opt,name=height,proto3" json:"height,omitempty"`
+	// Source pitch in bytes (what the raw encodings preserve verbatim).
+	Pitch uint32 `protobuf:"varint,8,opt,name=pitch,proto3" json:"pitch,omitempty"`
+	// NV12 UV-plane offset within the source, 0 for single-plane formats.
+	UvOffset uint32 `protobuf:"varint,9,opt,name=uv_offset,json=uvOffset,proto3" json:"uv_offset,omitempty"`
+	Bytes    uint64 `protobuf:"varint,10,opt,name=bytes,proto3" json:"bytes,omitempty"`
+	// Lowercase hex SHA-256 of the file.
+	Sha256        string `protobuf:"bytes,11,opt,name=sha256,proto3" json:"sha256,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ShotPlane) Reset() {
+	*x = ShotPlane{}
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ShotPlane) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ShotPlane) ProtoMessage() {}
+
+func (x *ShotPlane) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ShotPlane.ProtoReflect.Descriptor instead.
+func (*ShotPlane) Descriptor() ([]byte, []int) {
+	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *ShotPlane) GetPlane() uint32 {
+	if x != nil {
+		return x.Plane
+	}
+	return 0
+}
+
+func (x *ShotPlane) GetTag() uint32 {
+	if x != nil {
+		return x.Tag
+	}
+	return 0
+}
+
+func (x *ShotPlane) GetSourceFormat() uint32 {
+	if x != nil {
+		return x.SourceFormat
+	}
+	return 0
+}
+
+func (x *ShotPlane) GetPath() string {
+	if x != nil {
+		return x.Path
+	}
+	return ""
+}
+
+func (x *ShotPlane) GetEncoding() string {
+	if x != nil {
+		return x.Encoding
+	}
+	return ""
+}
+
+func (x *ShotPlane) GetWidth() uint32 {
+	if x != nil {
+		return x.Width
+	}
+	return 0
+}
+
+func (x *ShotPlane) GetHeight() uint32 {
+	if x != nil {
+		return x.Height
+	}
+	return 0
+}
+
+func (x *ShotPlane) GetPitch() uint32 {
+	if x != nil {
+		return x.Pitch
+	}
+	return 0
+}
+
+func (x *ShotPlane) GetUvOffset() uint32 {
+	if x != nil {
+		return x.UvOffset
+	}
+	return 0
+}
+
+func (x *ShotPlane) GetBytes() uint64 {
+	if x != nil {
+		return x.Bytes
+	}
+	return 0
+}
+
+func (x *ShotPlane) GetSha256() string {
+	if x != nil {
+		return x.Sha256
+	}
+	return ""
+}
+
+// One channel's photo: the frame's identity + the whole control block, and
+// every plane written for it.
+type ShotCapture struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// "day" | "heat".
+	Channel    string `protobuf:"bytes,1,opt,name=channel,proto3" json:"channel,omitempty"`
+	Generation uint32 `protobuf:"varint,2,opt,name=generation,proto3" json:"generation,omitempty"`
+	PtsNs      uint64 `protobuf:"varint,3,opt,name=pts_ns,json=ptsNs,proto3" json:"pts_ns,omitempty"`
+	// CLOCK_MONOTONIC — the cross-channel skew key.
+	CaptureTimeNs uint64 `protobuf:"varint,4,opt,name=capture_time_ns,json=captureTimeNs,proto3" json:"capture_time_ns,omitempty"`
+	// The 1024-byte control block, verbatim, as snapshotted under the seqlock.
+	CtlSnapshot []byte `protobuf:"bytes,5,opt,name=ctl_snapshot,json=ctlSnapshot,proto3" json:"ctl_snapshot,omitempty"`
+	// Empty when the channel captured nothing — then absent_reason says why.
+	Planes        []*ShotPlane `protobuf:"bytes,6,rep,name=planes,proto3" json:"planes,omitempty"`
+	AbsentReason  string       `protobuf:"bytes,7,opt,name=absent_reason,json=absentReason,proto3" json:"absent_reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ShotCapture) Reset() {
+	*x = ShotCapture{}
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ShotCapture) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ShotCapture) ProtoMessage() {}
+
+func (x *ShotCapture) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ShotCapture.ProtoReflect.Descriptor instead.
+func (*ShotCapture) Descriptor() ([]byte, []int) {
+	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ShotCapture) GetChannel() string {
+	if x != nil {
+		return x.Channel
+	}
+	return ""
+}
+
+func (x *ShotCapture) GetGeneration() uint32 {
+	if x != nil {
+		return x.Generation
+	}
+	return 0
+}
+
+func (x *ShotCapture) GetPtsNs() uint64 {
+	if x != nil {
+		return x.PtsNs
+	}
+	return 0
+}
+
+func (x *ShotCapture) GetCaptureTimeNs() uint64 {
+	if x != nil {
+		return x.CaptureTimeNs
+	}
+	return 0
+}
+
+func (x *ShotCapture) GetCtlSnapshot() []byte {
+	if x != nil {
+		return x.CtlSnapshot
+	}
+	return nil
+}
+
+func (x *ShotCapture) GetPlanes() []*ShotPlane {
+	if x != nil {
+		return x.Planes
+	}
+	return nil
+}
+
+func (x *ShotCapture) GetAbsentReason() string {
+	if x != nil {
+		return x.AbsentReason
+	}
+	return ""
+}
+
 // The capture window in both clock domains.
 //
 // The wall stamps index the redis io-record streams (redis auto-ids are
@@ -535,7 +782,7 @@ type CaptureWindow struct {
 
 func (x *CaptureWindow) Reset() {
 	*x = CaptureWindow{}
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[1]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -547,7 +794,7 @@ func (x *CaptureWindow) String() string {
 func (*CaptureWindow) ProtoMessage() {}
 
 func (x *CaptureWindow) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[1]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -560,7 +807,7 @@ func (x *CaptureWindow) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CaptureWindow.ProtoReflect.Descriptor instead.
 func (*CaptureWindow) Descriptor() ([]byte, []int) {
-	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{1}
+	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *CaptureWindow) GetT0Wall() string {
@@ -623,7 +870,7 @@ type MachineIdentity struct {
 
 func (x *MachineIdentity) Reset() {
 	*x = MachineIdentity{}
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[2]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -635,7 +882,7 @@ func (x *MachineIdentity) String() string {
 func (*MachineIdentity) ProtoMessage() {}
 
 func (x *MachineIdentity) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[2]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -648,7 +895,7 @@ func (x *MachineIdentity) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MachineIdentity.ProtoReflect.Descriptor instead.
 func (*MachineIdentity) Descriptor() ([]byte, []int) {
-	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{2}
+	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *MachineIdentity) GetMachineId() string {
@@ -713,7 +960,7 @@ type DeployFingerprint struct {
 
 func (x *DeployFingerprint) Reset() {
 	*x = DeployFingerprint{}
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[3]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -725,7 +972,7 @@ func (x *DeployFingerprint) String() string {
 func (*DeployFingerprint) ProtoMessage() {}
 
 func (x *DeployFingerprint) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[3]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -738,7 +985,7 @@ func (x *DeployFingerprint) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeployFingerprint.ProtoReflect.Descriptor instead.
 func (*DeployFingerprint) Descriptor() ([]byte, []int) {
-	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{3}
+	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *DeployFingerprint) GetFingerprint() string {
@@ -785,7 +1032,7 @@ type ChannelConfig struct {
 
 func (x *ChannelConfig) Reset() {
 	*x = ChannelConfig{}
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[4]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -797,7 +1044,7 @@ func (x *ChannelConfig) String() string {
 func (*ChannelConfig) ProtoMessage() {}
 
 func (x *ChannelConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[4]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -810,7 +1057,7 @@ func (x *ChannelConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ChannelConfig.ProtoReflect.Descriptor instead.
 func (*ChannelConfig) Descriptor() ([]byte, []int) {
-	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{4}
+	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ChannelConfig) GetChannel() string {
@@ -910,7 +1157,7 @@ type IntegrityReport struct {
 
 func (x *IntegrityReport) Reset() {
 	*x = IntegrityReport{}
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[5]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -922,7 +1169,7 @@ func (x *IntegrityReport) String() string {
 func (*IntegrityReport) ProtoMessage() {}
 
 func (x *IntegrityReport) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[5]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -935,7 +1182,7 @@ func (x *IntegrityReport) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IntegrityReport.ProtoReflect.Descriptor instead.
 func (*IntegrityReport) Descriptor() ([]byte, []int) {
-	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{5}
+	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *IntegrityReport) GetStatus() ArchiveStatus {
@@ -1020,7 +1267,7 @@ type VideoChannel struct {
 
 func (x *VideoChannel) Reset() {
 	*x = VideoChannel{}
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[6]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1032,7 +1279,7 @@ func (x *VideoChannel) String() string {
 func (*VideoChannel) ProtoMessage() {}
 
 func (x *VideoChannel) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[6]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1045,7 +1292,7 @@ func (x *VideoChannel) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VideoChannel.ProtoReflect.Descriptor instead.
 func (*VideoChannel) Descriptor() ([]byte, []int) {
-	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{6}
+	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *VideoChannel) GetChannel() string {
@@ -1089,7 +1336,7 @@ type VideoSegment struct {
 
 func (x *VideoSegment) Reset() {
 	*x = VideoSegment{}
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[7]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1101,7 +1348,7 @@ func (x *VideoSegment) String() string {
 func (*VideoSegment) ProtoMessage() {}
 
 func (x *VideoSegment) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[7]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1114,7 +1361,7 @@ func (x *VideoSegment) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VideoSegment.ProtoReflect.Descriptor instead.
 func (*VideoSegment) Descriptor() ([]byte, []int) {
-	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{7}
+	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *VideoSegment) GetSequence() uint32 {
@@ -1209,7 +1456,7 @@ type StreamGroup struct {
 
 func (x *StreamGroup) Reset() {
 	*x = StreamGroup{}
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[8]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1221,7 +1468,7 @@ func (x *StreamGroup) String() string {
 func (*StreamGroup) ProtoMessage() {}
 
 func (x *StreamGroup) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[8]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1234,7 +1481,7 @@ func (x *StreamGroup) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StreamGroup.ProtoReflect.Descriptor instead.
 func (*StreamGroup) Descriptor() ([]byte, []int) {
-	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{8}
+	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *StreamGroup) GetKind() StreamKind {
@@ -1311,7 +1558,7 @@ type ColumnDef struct {
 
 func (x *ColumnDef) Reset() {
 	*x = ColumnDef{}
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[9]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1323,7 +1570,7 @@ func (x *ColumnDef) String() string {
 func (*ColumnDef) ProtoMessage() {}
 
 func (x *ColumnDef) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[9]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1336,7 +1583,7 @@ func (x *ColumnDef) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ColumnDef.ProtoReflect.Descriptor instead.
 func (*ColumnDef) Descriptor() ([]byte, []int) {
-	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{9}
+	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *ColumnDef) GetName() string {
@@ -1363,7 +1610,7 @@ type RedisStreamRecords struct {
 
 func (x *RedisStreamRecords) Reset() {
 	*x = RedisStreamRecords{}
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[10]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1375,7 +1622,7 @@ func (x *RedisStreamRecords) String() string {
 func (*RedisStreamRecords) ProtoMessage() {}
 
 func (x *RedisStreamRecords) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[10]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1388,7 +1635,7 @@ func (x *RedisStreamRecords) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RedisStreamRecords.ProtoReflect.Descriptor instead.
 func (*RedisStreamRecords) Descriptor() ([]byte, []int) {
-	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{10}
+	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *RedisStreamRecords) GetRecords() []*RedisStreamRecord {
@@ -1414,7 +1661,7 @@ type RedisStreamRecord struct {
 
 func (x *RedisStreamRecord) Reset() {
 	*x = RedisStreamRecord{}
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[11]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1426,7 +1673,7 @@ func (x *RedisStreamRecord) String() string {
 func (*RedisStreamRecord) ProtoMessage() {}
 
 func (x *RedisStreamRecord) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[11]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1439,7 +1686,7 @@ func (x *RedisStreamRecord) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RedisStreamRecord.ProtoReflect.Descriptor instead.
 func (*RedisStreamRecord) Descriptor() ([]byte, []int) {
-	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{11}
+	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *RedisStreamRecord) GetId() string {
@@ -1469,7 +1716,7 @@ type RedisStreamField struct {
 
 func (x *RedisStreamField) Reset() {
 	*x = RedisStreamField{}
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[12]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1481,7 +1728,7 @@ func (x *RedisStreamField) String() string {
 func (*RedisStreamField) ProtoMessage() {}
 
 func (x *RedisStreamField) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[12]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1494,7 +1741,7 @@ func (x *RedisStreamField) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RedisStreamField.ProtoReflect.Descriptor instead.
 func (*RedisStreamField) Descriptor() ([]byte, []int) {
-	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{12}
+	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *RedisStreamField) GetName() string {
@@ -1525,7 +1772,7 @@ type TableRows struct {
 
 func (x *TableRows) Reset() {
 	*x = TableRows{}
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[13]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1537,7 +1784,7 @@ func (x *TableRows) String() string {
 func (*TableRows) ProtoMessage() {}
 
 func (x *TableRows) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_cv_dump_archive_proto_msgTypes[13]
+	mi := &file_jon_cv_dump_archive_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1550,7 +1797,7 @@ func (x *TableRows) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TableRows.ProtoReflect.Descriptor instead.
 func (*TableRows) Descriptor() ([]byte, []int) {
-	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{13}
+	return file_jon_cv_dump_archive_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *TableRows) GetRows() [][]byte {
@@ -1565,7 +1812,7 @@ var File_jon_cv_dump_archive_proto protoreflect.FileDescriptor
 const file_jon_cv_dump_archive_proto_rawDesc = "" +
 	"\n" +
 	"\x19jon_cv_dump_archive.proto\x12\n" +
-	"jon.cvdump\x1a\x1bbuf/validate/validate.proto\"\xe2\x03\n" +
+	"jon.cvdump\x1a\x1bbuf/validate/validate.proto\"\x91\x04\n" +
 	"\rCvDumpArchive\x12:\n" +
 	"\aversion\x18\x01 \x01(\x0e2 .jon.cvdump.ArchiveFormatVersionR\aversion\x12\x17\n" +
 	"\x02id\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x10$R\x02id\x12!\n" +
@@ -1579,7 +1826,31 @@ const file_jon_cv_dump_archive_proto_rawDesc = "" +
 	"\tintegrity\x18\b \x01(\v2\x1b.jon.cvdump.IntegrityReportR\tintegrity\x12.\n" +
 	"\x05video\x18\t \x03(\v2\x18.jon.cvdump.VideoChannelR\x05video\x121\n" +
 	"\astreams\x18\n" +
-	" \x03(\v2\x17.jon.cvdump.StreamGroupR\astreams\"}\n" +
+	" \x03(\v2\x17.jon.cvdump.StreamGroupR\astreams\x12-\n" +
+	"\x05shots\x18\v \x03(\v2\x17.jon.cvdump.ShotCaptureR\x05shots\"\xcc\x02\n" +
+	"\tShotPlane\x12\x1d\n" +
+	"\x05plane\x18\x01 \x01(\rB\a\xbaH\x04*\x02\x18\x03R\x05plane\x12\x10\n" +
+	"\x03tag\x18\x02 \x01(\rR\x03tag\x12#\n" +
+	"\rsource_format\x18\x03 \x01(\rR\fsourceFormat\x12\x1b\n" +
+	"\x04path\x18\x04 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x04path\x12#\n" +
+	"\bencoding\x18\x05 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\bencoding\x12\x14\n" +
+	"\x05width\x18\x06 \x01(\rR\x05width\x12\x16\n" +
+	"\x06height\x18\a \x01(\rR\x06height\x12\x14\n" +
+	"\x05pitch\x18\b \x01(\rR\x05pitch\x12\x1b\n" +
+	"\tuv_offset\x18\t \x01(\rR\buvOffset\x12\x14\n" +
+	"\x05bytes\x18\n" +
+	" \x01(\x04R\x05bytes\x120\n" +
+	"\x06sha256\x18\v \x01(\tB\x18\xbaH\x15r\x132\x0e^[0-9a-f]{64}$\x98\x01@R\x06sha256\"\x8f\x02\n" +
+	"\vShotCapture\x12*\n" +
+	"\achannel\x18\x01 \x01(\tB\x10\xbaH\rr\vR\x03dayR\x04heatR\achannel\x12\x1e\n" +
+	"\n" +
+	"generation\x18\x02 \x01(\rR\n" +
+	"generation\x12\x15\n" +
+	"\x06pts_ns\x18\x03 \x01(\x04R\x05ptsNs\x12&\n" +
+	"\x0fcapture_time_ns\x18\x04 \x01(\x04R\rcaptureTimeNs\x12!\n" +
+	"\fctl_snapshot\x18\x05 \x01(\fR\vctlSnapshot\x12-\n" +
+	"\x06planes\x18\x06 \x03(\v2\x15.jon.cvdump.ShotPlaneR\x06planes\x12#\n" +
+	"\rabsent_reason\x18\a \x01(\tR\fabsentReason\"}\n" +
 	"\rCaptureWindow\x12\x17\n" +
 	"\at0_wall\x18\x01 \x01(\tR\x06t0Wall\x12\x17\n" +
 	"\at1_wall\x18\x02 \x01(\tR\x06t1Wall\x12\x1c\n" +
@@ -1701,7 +1972,7 @@ func file_jon_cv_dump_archive_proto_rawDescGZIP() []byte {
 }
 
 var file_jon_cv_dump_archive_proto_enumTypes = make([]protoimpl.EnumInfo, 5)
-var file_jon_cv_dump_archive_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_jon_cv_dump_archive_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_jon_cv_dump_archive_proto_goTypes = []any{
 	(ArchiveFormatVersion)(0),  // 0: jon.cvdump.ArchiveFormatVersion
 	(ArchiveCodec)(0),          // 1: jon.cvdump.ArchiveCodec
@@ -1709,42 +1980,46 @@ var file_jon_cv_dump_archive_proto_goTypes = []any{
 	(ArchiveStatus)(0),         // 3: jon.cvdump.ArchiveStatus
 	(SessionProvenance)(0),     // 4: jon.cvdump.SessionProvenance
 	(*CvDumpArchive)(nil),      // 5: jon.cvdump.CvDumpArchive
-	(*CaptureWindow)(nil),      // 6: jon.cvdump.CaptureWindow
-	(*MachineIdentity)(nil),    // 7: jon.cvdump.MachineIdentity
-	(*DeployFingerprint)(nil),  // 8: jon.cvdump.DeployFingerprint
-	(*ChannelConfig)(nil),      // 9: jon.cvdump.ChannelConfig
-	(*IntegrityReport)(nil),    // 10: jon.cvdump.IntegrityReport
-	(*VideoChannel)(nil),       // 11: jon.cvdump.VideoChannel
-	(*VideoSegment)(nil),       // 12: jon.cvdump.VideoSegment
-	(*StreamGroup)(nil),        // 13: jon.cvdump.StreamGroup
-	(*ColumnDef)(nil),          // 14: jon.cvdump.ColumnDef
-	(*RedisStreamRecords)(nil), // 15: jon.cvdump.RedisStreamRecords
-	(*RedisStreamRecord)(nil),  // 16: jon.cvdump.RedisStreamRecord
-	(*RedisStreamField)(nil),   // 17: jon.cvdump.RedisStreamField
-	(*TableRows)(nil),          // 18: jon.cvdump.TableRows
+	(*ShotPlane)(nil),          // 6: jon.cvdump.ShotPlane
+	(*ShotCapture)(nil),        // 7: jon.cvdump.ShotCapture
+	(*CaptureWindow)(nil),      // 8: jon.cvdump.CaptureWindow
+	(*MachineIdentity)(nil),    // 9: jon.cvdump.MachineIdentity
+	(*DeployFingerprint)(nil),  // 10: jon.cvdump.DeployFingerprint
+	(*ChannelConfig)(nil),      // 11: jon.cvdump.ChannelConfig
+	(*IntegrityReport)(nil),    // 12: jon.cvdump.IntegrityReport
+	(*VideoChannel)(nil),       // 13: jon.cvdump.VideoChannel
+	(*VideoSegment)(nil),       // 14: jon.cvdump.VideoSegment
+	(*StreamGroup)(nil),        // 15: jon.cvdump.StreamGroup
+	(*ColumnDef)(nil),          // 16: jon.cvdump.ColumnDef
+	(*RedisStreamRecords)(nil), // 17: jon.cvdump.RedisStreamRecords
+	(*RedisStreamRecord)(nil),  // 18: jon.cvdump.RedisStreamRecord
+	(*RedisStreamField)(nil),   // 19: jon.cvdump.RedisStreamField
+	(*TableRows)(nil),          // 20: jon.cvdump.TableRows
 }
 var file_jon_cv_dump_archive_proto_depIdxs = []int32{
 	0,  // 0: jon.cvdump.CvDumpArchive.version:type_name -> jon.cvdump.ArchiveFormatVersion
-	6,  // 1: jon.cvdump.CvDumpArchive.window:type_name -> jon.cvdump.CaptureWindow
+	8,  // 1: jon.cvdump.CvDumpArchive.window:type_name -> jon.cvdump.CaptureWindow
 	4,  // 2: jon.cvdump.CvDumpArchive.provenance:type_name -> jon.cvdump.SessionProvenance
-	7,  // 3: jon.cvdump.CvDumpArchive.machine:type_name -> jon.cvdump.MachineIdentity
-	10, // 4: jon.cvdump.CvDumpArchive.integrity:type_name -> jon.cvdump.IntegrityReport
-	11, // 5: jon.cvdump.CvDumpArchive.video:type_name -> jon.cvdump.VideoChannel
-	13, // 6: jon.cvdump.CvDumpArchive.streams:type_name -> jon.cvdump.StreamGroup
-	8,  // 7: jon.cvdump.MachineIdentity.deploy:type_name -> jon.cvdump.DeployFingerprint
-	9,  // 8: jon.cvdump.MachineIdentity.channels_config:type_name -> jon.cvdump.ChannelConfig
-	3,  // 9: jon.cvdump.IntegrityReport.status:type_name -> jon.cvdump.ArchiveStatus
-	12, // 10: jon.cvdump.VideoChannel.segments:type_name -> jon.cvdump.VideoSegment
-	2,  // 11: jon.cvdump.StreamGroup.kind:type_name -> jon.cvdump.StreamKind
-	1,  // 12: jon.cvdump.StreamGroup.codec:type_name -> jon.cvdump.ArchiveCodec
-	14, // 13: jon.cvdump.StreamGroup.columns:type_name -> jon.cvdump.ColumnDef
-	16, // 14: jon.cvdump.RedisStreamRecords.records:type_name -> jon.cvdump.RedisStreamRecord
-	17, // 15: jon.cvdump.RedisStreamRecord.fields:type_name -> jon.cvdump.RedisStreamField
-	16, // [16:16] is the sub-list for method output_type
-	16, // [16:16] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	9,  // 3: jon.cvdump.CvDumpArchive.machine:type_name -> jon.cvdump.MachineIdentity
+	12, // 4: jon.cvdump.CvDumpArchive.integrity:type_name -> jon.cvdump.IntegrityReport
+	13, // 5: jon.cvdump.CvDumpArchive.video:type_name -> jon.cvdump.VideoChannel
+	15, // 6: jon.cvdump.CvDumpArchive.streams:type_name -> jon.cvdump.StreamGroup
+	7,  // 7: jon.cvdump.CvDumpArchive.shots:type_name -> jon.cvdump.ShotCapture
+	6,  // 8: jon.cvdump.ShotCapture.planes:type_name -> jon.cvdump.ShotPlane
+	10, // 9: jon.cvdump.MachineIdentity.deploy:type_name -> jon.cvdump.DeployFingerprint
+	11, // 10: jon.cvdump.MachineIdentity.channels_config:type_name -> jon.cvdump.ChannelConfig
+	3,  // 11: jon.cvdump.IntegrityReport.status:type_name -> jon.cvdump.ArchiveStatus
+	14, // 12: jon.cvdump.VideoChannel.segments:type_name -> jon.cvdump.VideoSegment
+	2,  // 13: jon.cvdump.StreamGroup.kind:type_name -> jon.cvdump.StreamKind
+	1,  // 14: jon.cvdump.StreamGroup.codec:type_name -> jon.cvdump.ArchiveCodec
+	16, // 15: jon.cvdump.StreamGroup.columns:type_name -> jon.cvdump.ColumnDef
+	18, // 16: jon.cvdump.RedisStreamRecords.records:type_name -> jon.cvdump.RedisStreamRecord
+	19, // 17: jon.cvdump.RedisStreamRecord.fields:type_name -> jon.cvdump.RedisStreamField
+	18, // [18:18] is the sub-list for method output_type
+	18, // [18:18] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_jon_cv_dump_archive_proto_init() }
@@ -1752,14 +2027,14 @@ func file_jon_cv_dump_archive_proto_init() {
 	if File_jon_cv_dump_archive_proto != nil {
 		return
 	}
-	file_jon_cv_dump_archive_proto_msgTypes[2].OneofWrappers = []any{}
+	file_jon_cv_dump_archive_proto_msgTypes[4].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_cv_dump_archive_proto_rawDesc), len(file_jon_cv_dump_archive_proto_rawDesc)),
 			NumEnums:      5,
-			NumMessages:   14,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

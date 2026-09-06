@@ -66,6 +66,9 @@ extern BridgeStartDefaultTypeInternal _BridgeStart_default_instance_;
 class BridgeStop;
 struct BridgeStopDefaultTypeInternal;
 extern BridgeStopDefaultTypeInternal _BridgeStop_default_instance_;
+class DumpShot;
+struct DumpShotDefaultTypeInternal;
+extern DumpShotDefaultTypeInternal _DumpShot_default_instance_;
 class DumpStart;
 struct DumpStartDefaultTypeInternal;
 extern DumpStartDefaultTypeInternal _DumpStart_default_instance_;
@@ -326,7 +329,7 @@ class VampireModeDisable final : public ::google::protobuf::internal::ZeroFields
     return reinterpret_cast<const VampireModeDisable*>(
         &_VampireModeDisable_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 4;
+  static constexpr int kIndexInFileMessages = 5;
   friend void swap(VampireModeDisable& a, VampireModeDisable& b) { a.Swap(&b); }
   inline void Swap(VampireModeDisable* other) {
     if (other == this) return;
@@ -471,7 +474,7 @@ class StopTrackTrinity final : public ::google::protobuf::internal::ZeroFieldsBa
     return reinterpret_cast<const StopTrackTrinity*>(
         &_StopTrackTrinity_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 13;
+  static constexpr int kIndexInFileMessages = 14;
   friend void swap(StopTrackTrinity& a, StopTrackTrinity& b) { a.Swap(&b); }
   inline void Swap(StopTrackTrinity* other) {
     if (other == this) return;
@@ -616,7 +619,7 @@ class StopTrack final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const StopTrack*>(
         &_StopTrack_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 11;
+  static constexpr int kIndexInFileMessages = 12;
   friend void swap(StopTrack& a, StopTrack& b) { a.Swap(&b); }
   inline void Swap(StopTrack* other) {
     if (other == this) return;
@@ -762,7 +765,7 @@ class StartTrackNDC final : public ::google::protobuf::Message
     return reinterpret_cast<const StartTrackNDC*>(
         &_StartTrackNDC_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 10;
+  static constexpr int kIndexInFileMessages = 11;
   friend void swap(StartTrackNDC& a, StartTrackNDC& b) { a.Swap(&b); }
   inline void Swap(StartTrackNDC* other) {
     if (other == this) return;
@@ -999,7 +1002,7 @@ class StabilizationModeEnable final : public ::google::protobuf::internal::ZeroF
     return reinterpret_cast<const StabilizationModeEnable*>(
         &_StabilizationModeEnable_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 5;
+  static constexpr int kIndexInFileMessages = 6;
   friend void swap(StabilizationModeEnable& a, StabilizationModeEnable& b) { a.Swap(&b); }
   inline void Swap(StabilizationModeEnable* other) {
     if (other == this) return;
@@ -1144,7 +1147,7 @@ class StabilizationModeDisable final : public ::google::protobuf::internal::Zero
     return reinterpret_cast<const StabilizationModeDisable*>(
         &_StabilizationModeDisable_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 6;
+  static constexpr int kIndexInFileMessages = 7;
   friend void swap(StabilizationModeDisable& a, StabilizationModeDisable& b) { a.Swap(&b); }
   inline void Swap(StabilizationModeDisable* other) {
     if (other == this) return;
@@ -1290,7 +1293,7 @@ class SetAutoFocus final : public ::google::protobuf::Message
     return reinterpret_cast<const SetAutoFocus*>(
         &_SetAutoFocus_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 9;
+  static constexpr int kIndexInFileMessages = 10;
   friend void swap(SetAutoFocus& a, SetAutoFocus& b) { a.Swap(&b); }
   inline void Swap(SetAutoFocus* other) {
     if (other == this) return;
@@ -1491,7 +1494,7 @@ class RecognitionModeEnable final : public ::google::protobuf::internal::ZeroFie
     return reinterpret_cast<const RecognitionModeEnable*>(
         &_RecognitionModeEnable_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 7;
+  static constexpr int kIndexInFileMessages = 8;
   friend void swap(RecognitionModeEnable& a, RecognitionModeEnable& b) { a.Swap(&b); }
   inline void Swap(RecognitionModeEnable* other) {
     if (other == this) return;
@@ -1636,7 +1639,7 @@ class RecognitionModeDisable final : public ::google::protobuf::internal::ZeroFi
     return reinterpret_cast<const RecognitionModeDisable*>(
         &_RecognitionModeDisable_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 8;
+  static constexpr int kIndexInFileMessages = 9;
   friend void swap(RecognitionModeDisable& a, RecognitionModeDisable& b) { a.Swap(&b); }
   inline void Swap(RecognitionModeDisable* other) {
     if (other == this) return;
@@ -2013,6 +2016,151 @@ class DumpStart final : public ::google::protobuf::internal::ZeroFieldsBase
 };
 // -------------------------------------------------------------------
 
+class DumpShot final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.CV.DumpShot) */ {
+ public:
+  inline DumpShot() : DumpShot(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(DumpShot* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(DumpShot));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR DumpShot(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline DumpShot(const DumpShot& from) : DumpShot(nullptr, from) {}
+  inline DumpShot(DumpShot&& from) noexcept
+      : DumpShot(nullptr, std::move(from)) {}
+  inline DumpShot& operator=(const DumpShot& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline DumpShot& operator=(DumpShot&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const DumpShot& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const DumpShot* internal_default_instance() {
+    return reinterpret_cast<const DumpShot*>(
+        &_DumpShot_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 4;
+  friend void swap(DumpShot& a, DumpShot& b) { a.Swap(&b); }
+  inline void Swap(DumpShot* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(DumpShot* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  DumpShot* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<DumpShot>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const DumpShot& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const DumpShot& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.CV.DumpShot"; }
+
+ protected:
+  explicit DumpShot(::google::protobuf::Arena* arena);
+  DumpShot(::google::protobuf::Arena* arena, const DumpShot& from);
+  DumpShot(::google::protobuf::Arena* arena, DumpShot&& from) noexcept
+      : DumpShot(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.CV.DumpShot)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const DumpShot& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fcv_2eproto;
+};
+// -------------------------------------------------------------------
+
 class BridgeStop final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:cmd.CV.BridgeStop) */ {
  public:
@@ -2072,7 +2220,7 @@ class BridgeStop final : public ::google::protobuf::Message
     return reinterpret_cast<const BridgeStop*>(
         &_BridgeStop_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 15;
+  static constexpr int kIndexInFileMessages = 16;
   friend void swap(BridgeStop& a, BridgeStop& b) { a.Swap(&b); }
   inline void Swap(BridgeStop* other) {
     if (other == this) return;
@@ -2261,7 +2409,7 @@ class BridgeStart final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const BridgeStart*>(
         &_BridgeStart_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 14;
+  static constexpr int kIndexInFileMessages = 15;
   friend void swap(BridgeStart& a, BridgeStart& b) { a.Swap(&b); }
   inline void Swap(BridgeStart* other) {
     if (other == this) return;
@@ -2407,7 +2555,7 @@ class BridgeRestart final : public ::google::protobuf::Message
     return reinterpret_cast<const BridgeRestart*>(
         &_BridgeRestart_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 16;
+  static constexpr int kIndexInFileMessages = 17;
   friend void swap(BridgeRestart& a, BridgeRestart& b) { a.Swap(&b); }
   inline void Swap(BridgeRestart* other) {
     if (other == this) return;
@@ -2597,7 +2745,7 @@ class StartTrackTrinity final : public ::google::protobuf::Message
     return reinterpret_cast<const StartTrackTrinity*>(
         &_StartTrackTrinity_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 12;
+  static constexpr int kIndexInFileMessages = 13;
   friend void swap(StartTrackTrinity& a, StartTrackTrinity& b) { a.Swap(&b); }
   inline void Swap(StartTrackTrinity* other) {
     if (other == this) return;
@@ -2815,6 +2963,7 @@ class Root final : public ::google::protobuf::Message
     kRecognitionModeDisable = 11,
     kStartTrackTrinity = 12,
     kStopTrackTrinity = 13,
+    kDumpShot = 14,
     kBridgeStart = 20,
     kBridgeStop = 21,
     kBridgeRestart = 22,
@@ -2924,6 +3073,7 @@ class Root final : public ::google::protobuf::Message
     kRecognitionModeDisableFieldNumber = 11,
     kStartTrackTrinityFieldNumber = 12,
     kStopTrackTrinityFieldNumber = 13,
+    kDumpShotFieldNumber = 14,
     kBridgeStartFieldNumber = 20,
     kBridgeStopFieldNumber = 21,
     kBridgeRestartFieldNumber = 22,
@@ -3175,6 +3325,25 @@ class Root final : public ::google::protobuf::Message
   ::cmd::CV::StopTrackTrinity* _internal_mutable_stop_track_trinity();
 
   public:
+  // .cmd.CV.DumpShot dump_shot = 14;
+  bool has_dump_shot() const;
+  private:
+  bool _internal_has_dump_shot() const;
+
+  public:
+  void clear_dump_shot() ;
+  const ::cmd::CV::DumpShot& dump_shot() const;
+  PROTOBUF_NODISCARD ::cmd::CV::DumpShot* release_dump_shot();
+  ::cmd::CV::DumpShot* mutable_dump_shot();
+  void set_allocated_dump_shot(::cmd::CV::DumpShot* value);
+  void unsafe_arena_set_allocated_dump_shot(::cmd::CV::DumpShot* value);
+  ::cmd::CV::DumpShot* unsafe_arena_release_dump_shot();
+
+  private:
+  const ::cmd::CV::DumpShot& _internal_dump_shot() const;
+  ::cmd::CV::DumpShot* _internal_mutable_dump_shot();
+
+  public:
   // .cmd.CV.BridgeStart bridge_start = 20;
   bool has_bridge_start() const;
   private:
@@ -3250,6 +3419,7 @@ class Root final : public ::google::protobuf::Message
   void set_has_recognition_mode_disable();
   void set_has_start_track_trinity();
   void set_has_stop_track_trinity();
+  void set_has_dump_shot();
   void set_has_bridge_start();
   void set_has_bridge_stop();
   void set_has_bridge_restart();
@@ -3257,7 +3427,7 @@ class Root final : public ::google::protobuf::Message
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 16, 16,
+      0, 17, 17,
       0, 2>
       _table_;
 
@@ -3291,6 +3461,7 @@ class Root final : public ::google::protobuf::Message
       ::cmd::CV::RecognitionModeDisable* recognition_mode_disable_;
       ::cmd::CV::StartTrackTrinity* start_track_trinity_;
       ::cmd::CV::StopTrackTrinity* stop_track_trinity_;
+      ::cmd::CV::DumpShot* dump_shot_;
       ::cmd::CV::BridgeStart* bridge_start_;
       ::cmd::CV::BridgeStop* bridge_stop_;
       ::cmd::CV::BridgeRestart* bridge_restart_;
@@ -4346,6 +4517,85 @@ inline ::cmd::CV::StopTrackTrinity* Root::mutable_stop_track_trinity() ABSL_ATTR
   return _msg;
 }
 
+// .cmd.CV.DumpShot dump_shot = 14;
+inline bool Root::has_dump_shot() const {
+  return cmd_case() == kDumpShot;
+}
+inline bool Root::_internal_has_dump_shot() const {
+  return cmd_case() == kDumpShot;
+}
+inline void Root::set_has_dump_shot() {
+  _impl_._oneof_case_[0] = kDumpShot;
+}
+inline void Root::clear_dump_shot() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kDumpShot) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.dump_shot_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.dump_shot_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::CV::DumpShot* Root::release_dump_shot() {
+  // @@protoc_insertion_point(field_release:cmd.CV.Root.dump_shot)
+  if (cmd_case() == kDumpShot) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.dump_shot_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.dump_shot_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::CV::DumpShot& Root::_internal_dump_shot() const {
+  return cmd_case() == kDumpShot ? *_impl_.cmd_.dump_shot_ : reinterpret_cast<::cmd::CV::DumpShot&>(::cmd::CV::_DumpShot_default_instance_);
+}
+inline const ::cmd::CV::DumpShot& Root::dump_shot() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.CV.Root.dump_shot)
+  return _internal_dump_shot();
+}
+inline ::cmd::CV::DumpShot* Root::unsafe_arena_release_dump_shot() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.CV.Root.dump_shot)
+  if (cmd_case() == kDumpShot) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.dump_shot_;
+    _impl_.cmd_.dump_shot_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_dump_shot(::cmd::CV::DumpShot* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_dump_shot();
+    _impl_.cmd_.dump_shot_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.CV.Root.dump_shot)
+}
+inline ::cmd::CV::DumpShot* Root::_internal_mutable_dump_shot() {
+  if (cmd_case() != kDumpShot) {
+    clear_cmd();
+    set_has_dump_shot();
+    _impl_.cmd_.dump_shot_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::CV::DumpShot>(GetArena());
+  }
+  return _impl_.cmd_.dump_shot_;
+}
+inline ::cmd::CV::DumpShot* Root::mutable_dump_shot() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::CV::DumpShot* _msg = _internal_mutable_dump_shot();
+  // @@protoc_insertion_point(field_mutable:cmd.CV.Root.dump_shot)
+  return _msg;
+}
+
 // .cmd.CV.BridgeStart bridge_start = 20;
 inline bool Root::has_bridge_start() const {
   return cmd_case() == kBridgeStart;
@@ -4603,6 +4853,10 @@ inline Root::CmdCase Root::cmd_case() const {
 // -------------------------------------------------------------------
 
 // DumpStop
+
+// -------------------------------------------------------------------
+
+// DumpShot
 
 // -------------------------------------------------------------------
 

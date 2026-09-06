@@ -41,6 +41,7 @@ type Root struct {
 	//	*Root_RecognitionModeDisable
 	//	*Root_StartTrackTrinity
 	//	*Root_StopTrackTrinity
+	//	*Root_DumpShot
 	//	*Root_BridgeStart
 	//	*Root_BridgeStop
 	//	*Root_BridgeRestart
@@ -203,6 +204,15 @@ func (x *Root) GetStopTrackTrinity() *StopTrackTrinity {
 	return nil
 }
 
+func (x *Root) GetDumpShot() *DumpShot {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_DumpShot); ok {
+			return x.DumpShot
+		}
+	}
+	return nil
+}
+
 func (x *Root) GetBridgeStart() *BridgeStart {
 	if x != nil {
 		if x, ok := x.Cmd.(*Root_BridgeStart); ok {
@@ -287,6 +297,14 @@ type Root_StopTrackTrinity struct {
 	StopTrackTrinity *StopTrackTrinity `protobuf:"bytes,13,opt,name=stop_track_trinity,json=stopTrackTrinity,proto3,oneof"`
 }
 
+type Root_DumpShot struct {
+	// The cv-dump PHOTO: one instant, every plane of BOTH channels' CUDA-IPC
+	// rings, written as a cv_dump bundle (jon_cv_dump_archive.proto
+	// ShotCapture). Consumed by eutropia, never forwarded to manifold;
+	// progress + result ride JonGuiDataCV.shot_seq/shot_state/shot_id.
+	DumpShot *DumpShot `protobuf:"bytes,14,opt,name=dump_shot,json=dumpShot,proto3,oneof"`
+}
+
 type Root_BridgeStart struct {
 	// CV Bridge container control
 	BridgeStart *BridgeStart `protobuf:"bytes,20,opt,name=bridge_start,json=bridgeStart,proto3,oneof"`
@@ -325,6 +343,8 @@ func (*Root_RecognitionModeDisable) isRoot_Cmd() {}
 func (*Root_StartTrackTrinity) isRoot_Cmd() {}
 
 func (*Root_StopTrackTrinity) isRoot_Cmd() {}
+
+func (*Root_DumpShot) isRoot_Cmd() {}
 
 func (*Root_BridgeStart) isRoot_Cmd() {}
 
@@ -440,6 +460,46 @@ func (*DumpStop) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{3}
 }
 
+// Empty on purpose: a shot is always BOTH channels (the artifact's value is
+// that they are the same instant), every capture parameter already rides the
+// ring's control block, and the operator note arrives later over
+// PUT /note/{id} exactly as a dump's does.
+type DumpShot struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DumpShot) Reset() {
+	*x = DumpShot{}
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DumpShot) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DumpShot) ProtoMessage() {}
+
+func (x *DumpShot) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DumpShot.ProtoReflect.Descriptor instead.
+func (*DumpShot) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{4}
+}
+
 type VampireModeDisable struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -448,7 +508,7 @@ type VampireModeDisable struct {
 
 func (x *VampireModeDisable) Reset() {
 	*x = VampireModeDisable{}
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[4]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -460,7 +520,7 @@ func (x *VampireModeDisable) String() string {
 func (*VampireModeDisable) ProtoMessage() {}
 
 func (x *VampireModeDisable) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[4]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -473,7 +533,7 @@ func (x *VampireModeDisable) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VampireModeDisable.ProtoReflect.Descriptor instead.
 func (*VampireModeDisable) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{4}
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{5}
 }
 
 type StabilizationModeEnable struct {
@@ -484,7 +544,7 @@ type StabilizationModeEnable struct {
 
 func (x *StabilizationModeEnable) Reset() {
 	*x = StabilizationModeEnable{}
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[5]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -496,7 +556,7 @@ func (x *StabilizationModeEnable) String() string {
 func (*StabilizationModeEnable) ProtoMessage() {}
 
 func (x *StabilizationModeEnable) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[5]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -509,7 +569,7 @@ func (x *StabilizationModeEnable) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StabilizationModeEnable.ProtoReflect.Descriptor instead.
 func (*StabilizationModeEnable) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{5}
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{6}
 }
 
 type StabilizationModeDisable struct {
@@ -520,7 +580,7 @@ type StabilizationModeDisable struct {
 
 func (x *StabilizationModeDisable) Reset() {
 	*x = StabilizationModeDisable{}
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[6]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -532,7 +592,7 @@ func (x *StabilizationModeDisable) String() string {
 func (*StabilizationModeDisable) ProtoMessage() {}
 
 func (x *StabilizationModeDisable) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[6]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -545,7 +605,7 @@ func (x *StabilizationModeDisable) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StabilizationModeDisable.ProtoReflect.Descriptor instead.
 func (*StabilizationModeDisable) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{6}
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{7}
 }
 
 type RecognitionModeEnable struct {
@@ -556,7 +616,7 @@ type RecognitionModeEnable struct {
 
 func (x *RecognitionModeEnable) Reset() {
 	*x = RecognitionModeEnable{}
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[7]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -568,7 +628,7 @@ func (x *RecognitionModeEnable) String() string {
 func (*RecognitionModeEnable) ProtoMessage() {}
 
 func (x *RecognitionModeEnable) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[7]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -581,7 +641,7 @@ func (x *RecognitionModeEnable) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RecognitionModeEnable.ProtoReflect.Descriptor instead.
 func (*RecognitionModeEnable) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{7}
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{8}
 }
 
 type RecognitionModeDisable struct {
@@ -592,7 +652,7 @@ type RecognitionModeDisable struct {
 
 func (x *RecognitionModeDisable) Reset() {
 	*x = RecognitionModeDisable{}
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[8]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -604,7 +664,7 @@ func (x *RecognitionModeDisable) String() string {
 func (*RecognitionModeDisable) ProtoMessage() {}
 
 func (x *RecognitionModeDisable) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[8]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -617,7 +677,7 @@ func (x *RecognitionModeDisable) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RecognitionModeDisable.ProtoReflect.Descriptor instead.
 func (*RecognitionModeDisable) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{8}
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{9}
 }
 
 type SetAutoFocus struct {
@@ -630,7 +690,7 @@ type SetAutoFocus struct {
 
 func (x *SetAutoFocus) Reset() {
 	*x = SetAutoFocus{}
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[9]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -642,7 +702,7 @@ func (x *SetAutoFocus) String() string {
 func (*SetAutoFocus) ProtoMessage() {}
 
 func (x *SetAutoFocus) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[9]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -655,7 +715,7 @@ func (x *SetAutoFocus) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetAutoFocus.ProtoReflect.Descriptor instead.
 func (*SetAutoFocus) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{9}
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *SetAutoFocus) GetChannel() types.JonGuiDataVideoChannel {
@@ -686,7 +746,7 @@ type StartTrackNDC struct {
 
 func (x *StartTrackNDC) Reset() {
 	*x = StartTrackNDC{}
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[10]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -698,7 +758,7 @@ func (x *StartTrackNDC) String() string {
 func (*StartTrackNDC) ProtoMessage() {}
 
 func (x *StartTrackNDC) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[10]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -711,7 +771,7 @@ func (x *StartTrackNDC) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StartTrackNDC.ProtoReflect.Descriptor instead.
 func (*StartTrackNDC) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{10}
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *StartTrackNDC) GetChannel() types.JonGuiDataVideoChannel {
@@ -757,7 +817,7 @@ type StopTrack struct {
 
 func (x *StopTrack) Reset() {
 	*x = StopTrack{}
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[11]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -769,7 +829,7 @@ func (x *StopTrack) String() string {
 func (*StopTrack) ProtoMessage() {}
 
 func (x *StopTrack) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[11]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -782,7 +842,7 @@ func (x *StopTrack) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StopTrack.ProtoReflect.Descriptor instead.
 func (*StopTrack) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{11}
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{12}
 }
 
 // Begin tracking the Ring-Trinity golden fiducial board.
@@ -806,7 +866,7 @@ type StartTrackTrinity struct {
 
 func (x *StartTrackTrinity) Reset() {
 	*x = StartTrackTrinity{}
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[12]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -818,7 +878,7 @@ func (x *StartTrackTrinity) String() string {
 func (*StartTrackTrinity) ProtoMessage() {}
 
 func (x *StartTrackTrinity) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[12]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -831,7 +891,7 @@ func (x *StartTrackTrinity) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StartTrackTrinity.ProtoReflect.Descriptor instead.
 func (*StartTrackTrinity) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{12}
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *StartTrackTrinity) GetChannel() types.JonGuiDataVideoChannel {
@@ -857,7 +917,7 @@ type StopTrackTrinity struct {
 
 func (x *StopTrackTrinity) Reset() {
 	*x = StopTrackTrinity{}
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[13]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -869,7 +929,7 @@ func (x *StopTrackTrinity) String() string {
 func (*StopTrackTrinity) ProtoMessage() {}
 
 func (x *StopTrackTrinity) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[13]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -882,7 +942,7 @@ func (x *StopTrackTrinity) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StopTrackTrinity.ProtoReflect.Descriptor instead.
 func (*StopTrackTrinity) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{13}
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{14}
 }
 
 // CV Bridge container control commands
@@ -894,7 +954,7 @@ type BridgeStart struct {
 
 func (x *BridgeStart) Reset() {
 	*x = BridgeStart{}
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[14]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -906,7 +966,7 @@ func (x *BridgeStart) String() string {
 func (*BridgeStart) ProtoMessage() {}
 
 func (x *BridgeStart) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[14]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -919,7 +979,7 @@ func (x *BridgeStart) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BridgeStart.ProtoReflect.Descriptor instead.
 func (*BridgeStart) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{14}
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{15}
 }
 
 type BridgeStop struct {
@@ -931,7 +991,7 @@ type BridgeStop struct {
 
 func (x *BridgeStop) Reset() {
 	*x = BridgeStop{}
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[15]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -943,7 +1003,7 @@ func (x *BridgeStop) String() string {
 func (*BridgeStop) ProtoMessage() {}
 
 func (x *BridgeStop) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[15]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -956,7 +1016,7 @@ func (x *BridgeStop) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BridgeStop.ProtoReflect.Descriptor instead.
 func (*BridgeStop) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{15}
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *BridgeStop) GetForce() bool {
@@ -975,7 +1035,7 @@ type BridgeRestart struct {
 
 func (x *BridgeRestart) Reset() {
 	*x = BridgeRestart{}
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[16]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -987,7 +1047,7 @@ func (x *BridgeRestart) String() string {
 func (*BridgeRestart) ProtoMessage() {}
 
 func (x *BridgeRestart) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[16]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1000,7 +1060,7 @@ func (x *BridgeRestart) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BridgeRestart.ProtoReflect.Descriptor instead.
 func (*BridgeRestart) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{16}
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *BridgeRestart) GetForce() bool {
@@ -1014,7 +1074,7 @@ var File_jon_shared_cmd_cv_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_cv_proto_rawDesc = "" +
 	"\n" +
-	"\x17jon_shared_cmd_cv.proto\x12\x06cmd.CV\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\x1a\x1dopaque/trinity_tracking.proto\"\x87\t\n" +
+	"\x17jon_shared_cmd_cv.proto\x12\x06cmd.CV\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\x1a\x1dopaque/trinity_tracking.proto\"\xb8\t\n" +
 	"\x04Root\x12<\n" +
 	"\x0eset_auto_focus\x18\x01 \x01(\v2\x14.cmd.CV.SetAutoFocusH\x00R\fsetAutoFocus\x12?\n" +
 	"\x0fstart_track_ndc\x18\x02 \x01(\v2\x15.cmd.CV.StartTrackNDCH\x00R\rstartTrackNdc\x122\n" +
@@ -1031,7 +1091,8 @@ const file_jon_shared_cmd_cv_proto_rawDesc = "" +
 	" \x01(\v2\x1d.cmd.CV.RecognitionModeEnableH\x00R\x15recognitionModeEnable\x12Z\n" +
 	"\x18recognition_mode_disable\x18\v \x01(\v2\x1e.cmd.CV.RecognitionModeDisableH\x00R\x16recognitionModeDisable\x12K\n" +
 	"\x13start_track_trinity\x18\f \x01(\v2\x19.cmd.CV.StartTrackTrinityH\x00R\x11startTrackTrinity\x12H\n" +
-	"\x12stop_track_trinity\x18\r \x01(\v2\x18.cmd.CV.StopTrackTrinityH\x00R\x10stopTrackTrinity\x128\n" +
+	"\x12stop_track_trinity\x18\r \x01(\v2\x18.cmd.CV.StopTrackTrinityH\x00R\x10stopTrackTrinity\x12/\n" +
+	"\tdump_shot\x18\x0e \x01(\v2\x10.cmd.CV.DumpShotH\x00R\bdumpShot\x128\n" +
 	"\fbridge_start\x18\x14 \x01(\v2\x13.cmd.CV.BridgeStartH\x00R\vbridgeStart\x125\n" +
 	"\vbridge_stop\x18\x15 \x01(\v2\x12.cmd.CV.BridgeStopH\x00R\n" +
 	"bridgeStop\x12>\n" +
@@ -1040,7 +1101,9 @@ const file_jon_shared_cmd_cv_proto_rawDesc = "" +
 	"\x11VampireModeEnable\"\v\n" +
 	"\tDumpStart\"\n" +
 	"\n" +
-	"\bDumpStop\"\x14\n" +
+	"\bDumpStop\"\n" +
+	"\n" +
+	"\bDumpShot\"\x14\n" +
 	"\x12VampireModeDisable\"\x19\n" +
 	"\x17StabilizationModeEnable\"\x1a\n" +
 	"\x18StabilizationModeDisable\"\x17\n" +
@@ -1086,54 +1149,56 @@ func file_jon_shared_cmd_cv_proto_rawDescGZIP() []byte {
 	return file_jon_shared_cmd_cv_proto_rawDescData
 }
 
-var file_jon_shared_cmd_cv_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_jon_shared_cmd_cv_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_jon_shared_cmd_cv_proto_goTypes = []any{
 	(*Root)(nil),                       // 0: cmd.CV.Root
 	(*VampireModeEnable)(nil),          // 1: cmd.CV.VampireModeEnable
 	(*DumpStart)(nil),                  // 2: cmd.CV.DumpStart
 	(*DumpStop)(nil),                   // 3: cmd.CV.DumpStop
-	(*VampireModeDisable)(nil),         // 4: cmd.CV.VampireModeDisable
-	(*StabilizationModeEnable)(nil),    // 5: cmd.CV.StabilizationModeEnable
-	(*StabilizationModeDisable)(nil),   // 6: cmd.CV.StabilizationModeDisable
-	(*RecognitionModeEnable)(nil),      // 7: cmd.CV.RecognitionModeEnable
-	(*RecognitionModeDisable)(nil),     // 8: cmd.CV.RecognitionModeDisable
-	(*SetAutoFocus)(nil),               // 9: cmd.CV.SetAutoFocus
-	(*StartTrackNDC)(nil),              // 10: cmd.CV.StartTrackNDC
-	(*StopTrack)(nil),                  // 11: cmd.CV.StopTrack
-	(*StartTrackTrinity)(nil),          // 12: cmd.CV.StartTrackTrinity
-	(*StopTrackTrinity)(nil),           // 13: cmd.CV.StopTrackTrinity
-	(*BridgeStart)(nil),                // 14: cmd.CV.BridgeStart
-	(*BridgeStop)(nil),                 // 15: cmd.CV.BridgeStop
-	(*BridgeRestart)(nil),              // 16: cmd.CV.BridgeRestart
-	(types.JonGuiDataVideoChannel)(0),  // 17: ser.JonGuiDataVideoChannel
-	(*opaque.TrinityBoardVersion)(nil), // 18: ser.TrinityBoardVersion
+	(*DumpShot)(nil),                   // 4: cmd.CV.DumpShot
+	(*VampireModeDisable)(nil),         // 5: cmd.CV.VampireModeDisable
+	(*StabilizationModeEnable)(nil),    // 6: cmd.CV.StabilizationModeEnable
+	(*StabilizationModeDisable)(nil),   // 7: cmd.CV.StabilizationModeDisable
+	(*RecognitionModeEnable)(nil),      // 8: cmd.CV.RecognitionModeEnable
+	(*RecognitionModeDisable)(nil),     // 9: cmd.CV.RecognitionModeDisable
+	(*SetAutoFocus)(nil),               // 10: cmd.CV.SetAutoFocus
+	(*StartTrackNDC)(nil),              // 11: cmd.CV.StartTrackNDC
+	(*StopTrack)(nil),                  // 12: cmd.CV.StopTrack
+	(*StartTrackTrinity)(nil),          // 13: cmd.CV.StartTrackTrinity
+	(*StopTrackTrinity)(nil),           // 14: cmd.CV.StopTrackTrinity
+	(*BridgeStart)(nil),                // 15: cmd.CV.BridgeStart
+	(*BridgeStop)(nil),                 // 16: cmd.CV.BridgeStop
+	(*BridgeRestart)(nil),              // 17: cmd.CV.BridgeRestart
+	(types.JonGuiDataVideoChannel)(0),  // 18: ser.JonGuiDataVideoChannel
+	(*opaque.TrinityBoardVersion)(nil), // 19: ser.TrinityBoardVersion
 }
 var file_jon_shared_cmd_cv_proto_depIdxs = []int32{
-	9,  // 0: cmd.CV.Root.set_auto_focus:type_name -> cmd.CV.SetAutoFocus
-	10, // 1: cmd.CV.Root.start_track_ndc:type_name -> cmd.CV.StartTrackNDC
-	11, // 2: cmd.CV.Root.stop_track:type_name -> cmd.CV.StopTrack
+	10, // 0: cmd.CV.Root.set_auto_focus:type_name -> cmd.CV.SetAutoFocus
+	11, // 1: cmd.CV.Root.start_track_ndc:type_name -> cmd.CV.StartTrackNDC
+	12, // 2: cmd.CV.Root.stop_track:type_name -> cmd.CV.StopTrack
 	1,  // 3: cmd.CV.Root.vampire_mode_enable:type_name -> cmd.CV.VampireModeEnable
-	4,  // 4: cmd.CV.Root.vampire_mode_disable:type_name -> cmd.CV.VampireModeDisable
-	5,  // 5: cmd.CV.Root.stabilization_mode_enable:type_name -> cmd.CV.StabilizationModeEnable
-	6,  // 6: cmd.CV.Root.stabilization_mode_disable:type_name -> cmd.CV.StabilizationModeDisable
+	5,  // 4: cmd.CV.Root.vampire_mode_disable:type_name -> cmd.CV.VampireModeDisable
+	6,  // 5: cmd.CV.Root.stabilization_mode_enable:type_name -> cmd.CV.StabilizationModeEnable
+	7,  // 6: cmd.CV.Root.stabilization_mode_disable:type_name -> cmd.CV.StabilizationModeDisable
 	2,  // 7: cmd.CV.Root.dump_start:type_name -> cmd.CV.DumpStart
 	3,  // 8: cmd.CV.Root.dump_stop:type_name -> cmd.CV.DumpStop
-	7,  // 9: cmd.CV.Root.recognition_mode_enable:type_name -> cmd.CV.RecognitionModeEnable
-	8,  // 10: cmd.CV.Root.recognition_mode_disable:type_name -> cmd.CV.RecognitionModeDisable
-	12, // 11: cmd.CV.Root.start_track_trinity:type_name -> cmd.CV.StartTrackTrinity
-	13, // 12: cmd.CV.Root.stop_track_trinity:type_name -> cmd.CV.StopTrackTrinity
-	14, // 13: cmd.CV.Root.bridge_start:type_name -> cmd.CV.BridgeStart
-	15, // 14: cmd.CV.Root.bridge_stop:type_name -> cmd.CV.BridgeStop
-	16, // 15: cmd.CV.Root.bridge_restart:type_name -> cmd.CV.BridgeRestart
-	17, // 16: cmd.CV.SetAutoFocus.channel:type_name -> ser.JonGuiDataVideoChannel
-	17, // 17: cmd.CV.StartTrackNDC.channel:type_name -> ser.JonGuiDataVideoChannel
-	17, // 18: cmd.CV.StartTrackTrinity.channel:type_name -> ser.JonGuiDataVideoChannel
-	18, // 19: cmd.CV.StartTrackTrinity.expect_board:type_name -> ser.TrinityBoardVersion
-	20, // [20:20] is the sub-list for method output_type
-	20, // [20:20] is the sub-list for method input_type
-	20, // [20:20] is the sub-list for extension type_name
-	20, // [20:20] is the sub-list for extension extendee
-	0,  // [0:20] is the sub-list for field type_name
+	8,  // 9: cmd.CV.Root.recognition_mode_enable:type_name -> cmd.CV.RecognitionModeEnable
+	9,  // 10: cmd.CV.Root.recognition_mode_disable:type_name -> cmd.CV.RecognitionModeDisable
+	13, // 11: cmd.CV.Root.start_track_trinity:type_name -> cmd.CV.StartTrackTrinity
+	14, // 12: cmd.CV.Root.stop_track_trinity:type_name -> cmd.CV.StopTrackTrinity
+	4,  // 13: cmd.CV.Root.dump_shot:type_name -> cmd.CV.DumpShot
+	15, // 14: cmd.CV.Root.bridge_start:type_name -> cmd.CV.BridgeStart
+	16, // 15: cmd.CV.Root.bridge_stop:type_name -> cmd.CV.BridgeStop
+	17, // 16: cmd.CV.Root.bridge_restart:type_name -> cmd.CV.BridgeRestart
+	18, // 17: cmd.CV.SetAutoFocus.channel:type_name -> ser.JonGuiDataVideoChannel
+	18, // 18: cmd.CV.StartTrackNDC.channel:type_name -> ser.JonGuiDataVideoChannel
+	18, // 19: cmd.CV.StartTrackTrinity.channel:type_name -> ser.JonGuiDataVideoChannel
+	19, // 20: cmd.CV.StartTrackTrinity.expect_board:type_name -> ser.TrinityBoardVersion
+	21, // [21:21] is the sub-list for method output_type
+	21, // [21:21] is the sub-list for method input_type
+	21, // [21:21] is the sub-list for extension type_name
+	21, // [21:21] is the sub-list for extension extendee
+	0,  // [0:21] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_cmd_cv_proto_init() }
@@ -1155,6 +1220,7 @@ func file_jon_shared_cmd_cv_proto_init() {
 		(*Root_RecognitionModeDisable)(nil),
 		(*Root_StartTrackTrinity)(nil),
 		(*Root_StopTrackTrinity)(nil),
+		(*Root_DumpShot)(nil),
 		(*Root_BridgeStart)(nil),
 		(*Root_BridgeStop)(nil),
 		(*Root_BridgeRestart)(nil),
@@ -1165,7 +1231,7 @@ func file_jon_shared_cmd_cv_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_cmd_cv_proto_rawDesc), len(file_jon_shared_cmd_cv_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   17,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
