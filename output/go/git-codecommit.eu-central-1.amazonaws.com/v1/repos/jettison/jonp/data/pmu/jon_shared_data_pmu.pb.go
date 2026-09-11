@@ -36,7 +36,8 @@ type JonGuiDataPMU struct {
 	InaPower      float64 `protobuf:"fixed64,9,opt,name=ina_power,json=inaPower,proto3" json:"ina_power,omitempty"`
 	InaPowerFault bool    `protobuf:"varint,10,opt,name=ina_power_fault,json=inaPowerFault,proto3" json:"ina_power_fault,omitempty"`
 	// Battery charging status (false = charging enabled by default)
-	ChargeDisabled bool `protobuf:"varint,11,opt,name=charge_disabled,json=chargeDisabled,proto3" json:"charge_disabled,omitempty"`
+	ChargeDisabled bool                          `protobuf:"varint,11,opt,name=charge_disabled,json=chargeDisabled,proto3" json:"charge_disabled,omitempty"`
+	Health         *types.JonGuiDataModuleHealth `protobuf:"bytes,40,opt,name=health,proto3" json:"health,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -141,11 +142,18 @@ func (x *JonGuiDataPMU) GetChargeDisabled() bool {
 	return false
 }
 
+func (x *JonGuiDataPMU) GetHealth() *types.JonGuiDataModuleHealth {
+	if x != nil {
+		return x.Health
+	}
+	return nil
+}
+
 var File_jon_shared_data_pmu_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_pmu_proto_rawDesc = "" +
 	"\n" +
-	"\x19jon_shared_data_pmu.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x9b\x04\n" +
+	"\x19jon_shared_data_pmu.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xd0\x04\n" +
 	"\rJonGuiDataPMU\x12]\n" +
 	"\vtemperature\x18\x01 \x01(\x01B;\xbaH8\x126I\x00\x00\x00\x00\x00\x004\xc0I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x009@I\x00\x00\x00\x00\x00\x00Y@\x19\xc3\xf5(\\\x8f\xa2\x84@)fffff\x12q\xc0R\vtemperature\x12\x1d\n" +
 	"\n" +
@@ -160,7 +168,8 @@ const file_jon_shared_data_pmu_proto_rawDesc = "" +
 	"\tina_power\x18\t \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00j\bA)\x00\x00\x00\x00\x00\x00\x00\x00R\binaPower\x12&\n" +
 	"\x0fina_power_fault\x18\n" +
 	" \x01(\bR\rinaPowerFault\x12'\n" +
-	"\x0fcharge_disabled\x18\v \x01(\bR\x0echargeDisabledJ\x04\b\x02\x10\x03B\x97\x01\n" +
+	"\x0fcharge_disabled\x18\v \x01(\bR\x0echargeDisabled\x123\n" +
+	"\x06health\x18( \x01(\v2\x1b.ser.JonGuiDataModuleHealthR\x06healthJ\x04\b\x02\x10\x03B\x97\x01\n" +
 	"\acom.serB\x15JonSharedDataPmuProtoP\x01ZIgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/pmu\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (
@@ -177,16 +186,18 @@ func file_jon_shared_data_pmu_proto_rawDescGZIP() []byte {
 
 var file_jon_shared_data_pmu_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_jon_shared_data_pmu_proto_goTypes = []any{
-	(*JonGuiDataPMU)(nil),         // 0: ser.JonGuiDataPMU
-	(*types.JonGuiDataMeteo)(nil), // 1: ser.JonGuiDataMeteo
+	(*JonGuiDataPMU)(nil),                // 0: ser.JonGuiDataPMU
+	(*types.JonGuiDataMeteo)(nil),        // 1: ser.JonGuiDataMeteo
+	(*types.JonGuiDataModuleHealth)(nil), // 2: ser.JonGuiDataModuleHealth
 }
 var file_jon_shared_data_pmu_proto_depIdxs = []int32{
 	1, // 0: ser.JonGuiDataPMU.meteo:type_name -> ser.JonGuiDataMeteo
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	2, // 1: ser.JonGuiDataPMU.health:type_name -> ser.JonGuiDataModuleHealth
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_pmu_proto_init() }

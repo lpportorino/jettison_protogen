@@ -28,6 +28,7 @@ Encapsulates the operational state of a Laser Range Finder (LRF) device, trackin
 | 9 | is_started | bool | - |
 | 10 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
 | 11 | scan_mode | int32 | - |
+| 40 | health | [[proto/ser.JonGuiDataModuleHealth]] | - |
 
 
 

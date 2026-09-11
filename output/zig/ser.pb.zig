@@ -325,6 +325,87 @@ pub const JonGuiDataMeteo = struct {
     }
 };
 
+pub const JonGuiDataModuleHealth = struct {
+    queue_cap_0: u32 = 0,
+    peak_depth_0: u32 = 0,
+    dropped_oldest_0: u32 = 0,
+    queue_cap_1: u32 = 0,
+    peak_depth_1: u32 = 0,
+    dropped_oldest_1: u32 = 0,
+
+    pub const _desc_table = .{
+        .queue_cap_0 = fd(1, .{ .scalar = .uint32 }),
+        .peak_depth_0 = fd(2, .{ .scalar = .uint32 }),
+        .dropped_oldest_0 = fd(3, .{ .scalar = .uint32 }),
+        .queue_cap_1 = fd(4, .{ .scalar = .uint32 }),
+        .peak_depth_1 = fd(5, .{ .scalar = .uint32 }),
+        .dropped_oldest_1 = fd(6, .{ .scalar = .uint32 }),
+    };
+
+    /// Encodes the message to the writer
+    /// The allocator is used to generate submessages internally.
+    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
+    pub fn encode(
+        self: @This(),
+        writer: *std.Io.Writer,
+        allocator: std.mem.Allocator,
+    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
+        return protobuf.encode(writer, allocator, self);
+    }
+
+    /// Decodes the message from the bytes read from the reader.
+    pub fn decode(
+        reader: *std.Io.Reader,
+        allocator: std.mem.Allocator,
+    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
+        return protobuf.decode(@This(), reader, allocator);
+    }
+    
+    /// Deinitializes and frees the memory associated with the message.
+    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
+        return protobuf.deinit(allocator, self);
+    }
+
+    /// Duplicates the message.
+    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
+        return protobuf.dupe(@This(), self, allocator);
+    }
+
+    /// Decodes the message from the JSON string.
+    pub fn jsonDecode(
+        input: []const u8,
+        options: std.json.ParseOptions,
+        allocator: std.mem.Allocator,
+    ) !std.json.Parsed(@This()) {
+        return protobuf.json.decode(@This(), input, options, allocator);
+    }
+  
+    /// Encodes the message to a JSON string.
+    pub fn jsonEncode(
+        self: @This(),
+        options: std.json.Stringify.Options,
+        allocator: std.mem.Allocator,
+    ) ![]const u8 {
+        return protobuf.json.encode(self, options, allocator);
+    }
+
+    /// This method is used by std.json
+    /// internally for deserialization. DO NOT RENAME!
+    pub fn jsonParse(
+        allocator: std.mem.Allocator,
+        source: anytype,
+        options: std.json.ParseOptions,
+    ) !@This() {
+        return protobuf.json.parse(@This(), allocator, source, options);
+    }
+
+    /// This method is used by std.json
+    /// internally for serialization. DO NOT RENAME!
+    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
+        return protobuf.json.stringify(@This(), self, jws);
+    }
+};
+
 pub const JonOpaquePayloadVersion = struct {
     major: u32 = 0,
     minor: u32 = 0,
@@ -1444,6 +1525,7 @@ pub const JonGuiDataLrf = struct {
     is_started: bool = false,
     meteo: ?JonGuiDataMeteo = null,
     scan_mode: i32 = 0,
+    health: ?JonGuiDataModuleHealth = null,
 
     pub const _desc_table = .{
         .is_scanning = fd(1, .{ .scalar = .bool }),
@@ -1457,6 +1539,7 @@ pub const JonGuiDataLrf = struct {
         .is_started = fd(9, .{ .scalar = .bool }),
         .meteo = fd(10, .submessage),
         .scan_mode = fd(11, .{ .scalar = .int32 }),
+        .health = fd(40, .submessage),
     };
 
     /// Encodes the message to the writer
@@ -1723,6 +1806,7 @@ pub const JonGuiDataGps = struct {
     timestamp: i64 = 0,
     is_started: bool = false,
     meteo: ?JonGuiDataMeteo = null,
+    health: ?JonGuiDataModuleHealth = null,
 
     pub const _desc_table = .{
         .longitude = fd(1, .{ .scalar = .double }),
@@ -1736,6 +1820,7 @@ pub const JonGuiDataGps = struct {
         .timestamp = fd(9, .{ .scalar = .int64 }),
         .is_started = fd(10, .{ .scalar = .bool }),
         .meteo = fd(11, .submessage),
+        .health = fd(40, .submessage),
     };
 
     /// Encodes the message to the writer
@@ -1812,6 +1897,7 @@ pub const JonGuiDataCompass = struct {
     calibrating: bool = false,
     is_started: bool = false,
     meteo: ?JonGuiDataMeteo = null,
+    health: ?JonGuiDataModuleHealth = null,
 
     pub const _desc_table = .{
         .azimuth = fd(1, .{ .scalar = .double }),
@@ -1823,6 +1909,7 @@ pub const JonGuiDataCompass = struct {
         .calibrating = fd(7, .{ .scalar = .bool }),
         .is_started = fd(8, .{ .scalar = .bool }),
         .meteo = fd(9, .submessage),
+        .health = fd(40, .submessage),
     };
 
     /// Encodes the message to the writer
@@ -1996,6 +2083,7 @@ pub const JonGuiDataRotary = struct {
     tilt_init_status: i32 = 0,
     capture_monotonic_us: u64 = 0,
     is_parked: bool = false,
+    health: ?JonGuiDataModuleHealth = null,
 
     pub const _desc_table = .{
         .azimuth = fd(1, .{ .scalar = .double }),
@@ -2021,6 +2109,7 @@ pub const JonGuiDataRotary = struct {
         .tilt_init_status = fd(21, .{ .scalar = .int32 }),
         .capture_monotonic_us = fd(22, .{ .scalar = .uint64 }),
         .is_parked = fd(23, .{ .scalar = .bool }),
+        .health = fd(40, .submessage),
     };
 
     /// Encodes the message to the writer
@@ -2192,6 +2281,7 @@ pub const JonGuiDataCameraDay = struct {
     capture_monotonic_us: u64 = 0,
     delivered_fps: ?f64 = null,
     content_fps: ?f64 = null,
+    health: ?JonGuiDataModuleHealth = null,
 
     pub const _desc_table = .{
         .focus_pos = fd(1, .{ .scalar = .double }),
@@ -2215,6 +2305,7 @@ pub const JonGuiDataCameraDay = struct {
         .capture_monotonic_us = fd(19, .{ .scalar = .uint64 }),
         .delivered_fps = fd(20, .{ .scalar = .double }),
         .content_fps = fd(21, .{ .scalar = .double }),
+        .health = fd(40, .submessage),
     };
 
     /// Encodes the message to the writer
@@ -2300,6 +2391,7 @@ pub const JonGuiDataCameraHeat = struct {
     capture_monotonic_us: u64 = 0,
     delivered_fps: ?f64 = null,
     content_fps: ?f64 = null,
+    health: ?JonGuiDataModuleHealth = null,
 
     pub const _desc_table = .{
         .zoom_pos = fd(1, .{ .scalar = .double }),
@@ -2320,6 +2412,7 @@ pub const JonGuiDataCameraHeat = struct {
         .capture_monotonic_us = fd(16, .{ .scalar = .uint64 }),
         .delivered_fps = fd(17, .{ .scalar = .double }),
         .content_fps = fd(18, .{ .scalar = .double }),
+        .health = fd(40, .submessage),
     };
 
     /// Encodes the message to the writer
@@ -2644,6 +2737,7 @@ pub const JonGuiDataPower = struct {
     ext_bat_capacity: i32 = 0,
     ext_bat_status: JonGuiDataExtBatStatus = @enumFromInt(0),
     meteo: ?JonGuiDataMeteo = null,
+    health: ?JonGuiDataModuleHealth = null,
 
     pub const _desc_table = .{
         .s0 = fd(1, .submessage),
@@ -2658,6 +2752,7 @@ pub const JonGuiDataPower = struct {
         .ext_bat_capacity = fd(10, .{ .scalar = .int32 }),
         .ext_bat_status = fd(11, .@"enum"),
         .meteo = fd(12, .submessage),
+        .health = fd(40, .submessage),
     };
 
     /// Encodes the message to the writer
@@ -3003,6 +3098,7 @@ pub const JonGuiDataPMU = struct {
     ina_power: f64 = 0,
     ina_power_fault: bool = false,
     charge_disabled: bool = false,
+    health: ?JonGuiDataModuleHealth = null,
 
     pub const _desc_table = .{
         .temperature = fd(1, .{ .scalar = .double }),
@@ -3015,6 +3111,7 @@ pub const JonGuiDataPMU = struct {
         .ina_power = fd(9, .{ .scalar = .double }),
         .ina_power_fault = fd(10, .{ .scalar = .bool }),
         .charge_disabled = fd(11, .{ .scalar = .bool }),
+        .health = fd(40, .submessage),
     };
 
     /// Encodes the message to the writer
@@ -3169,6 +3266,7 @@ pub const JonGuiDataHeater = struct {
     target_temp_channel_0: f32 = 0,
     target_temp_channel_1: f32 = 0,
     target_temp_channel_2: f32 = 0,
+    health: ?JonGuiDataModuleHealth = null,
 
     pub const _desc_table = .{
         .bus_voltage_V = fd(1, .{ .scalar = .float }),
@@ -3181,6 +3279,7 @@ pub const JonGuiDataHeater = struct {
         .target_temp_channel_0 = fd(8, .{ .scalar = .float }),
         .target_temp_channel_1 = fd(9, .{ .scalar = .float }),
         .target_temp_channel_2 = fd(10, .{ .scalar = .float }),
+        .health = fd(40, .submessage),
     };
 
     /// Encodes the message to the writer

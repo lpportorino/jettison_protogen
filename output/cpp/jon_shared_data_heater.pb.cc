@@ -60,6 +60,7 @@ inline constexpr JonGuiDataHeater::Impl_::Impl_(
         channel_0_{nullptr},
         channel_1_{nullptr},
         channel_2_{nullptr},
+        health_{nullptr},
         bus_voltage_v_{0},
         current_a_{0},
         power_w_{0},
@@ -125,6 +126,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataHeater, _impl_.target_temp_channel_0_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataHeater, _impl_.target_temp_channel_1_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataHeater, _impl_.target_temp_channel_2_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataHeater, _impl_.health_),
         ~0u,
         ~0u,
         ~0u,
@@ -135,12 +137,13 @@ const ::uint32_t
         ~0u,
         ~0u,
         ~0u,
+        3,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::ser::JonGuiDataHeaterChannelStatus)},
-        {12, 30, -1, sizeof(::ser::JonGuiDataHeater)},
+        {12, 31, -1, sizeof(::ser::JonGuiDataHeater)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGuiDataHeaterChannelStatus_default_instance_._instance,
@@ -149,40 +152,42 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fshared_5fdata_5fheater_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\034jon_shared_data_heater.proto\022\003ser\032\033buf"
-    "/validate/validate.proto\"\222\001\n\035JonGuiDataH"
-    "eaterChannelStatus\022\023\n\013temperature\030\001 \001(\002\022"
-    "%\n\021applied_voltage_V\030\002 \001(\002B\n\272H\007\n\005-\000\000\000\000\022$"
-    "\n\020target_voltage_V\030\003 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\017\n\007"
-    "enabled\030\004 \001(\010\"\311\003\n\020JonGuiDataHeater\022!\n\rbu"
-    "s_voltage_V\030\001 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\035\n\tcurrent"
-    "_A\030\002 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\033\n\007power_W\030\003 \001(\002B\n\272"
-    "H\007\n\005-\000\000\000\000\0225\n\tchannel_0\030\004 \001(\0132\".ser.JonGu"
-    "iDataHeaterChannelStatus\0225\n\tchannel_1\030\005 "
-    "\001(\0132\".ser.JonGuiDataHeaterChannelStatus\022"
-    "5\n\tchannel_2\030\006 \001(\0132\".ser.JonGuiDataHeate"
-    "rChannelStatus\022!\n\031automatic_control_enab"
-    "led\030\007 \001(\010\022.\n\025target_temp_channel_0\030\010 \001(\002"
-    "B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022.\n\025target_temp_channel"
-    "_1\030\t \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022.\n\025target_temp"
-    "_channel_2\030\n \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000BNZLgit"
-    "-codecommit.eu-central-1.amazonaws.com/v"
-    "1/repos/jettison/jonp/data/heaterb\006proto"
-    "3"
+    "/validate/validate.proto\032\033jon_shared_dat"
+    "a_types.proto\"\222\001\n\035JonGuiDataHeaterChanne"
+    "lStatus\022\023\n\013temperature\030\001 \001(\002\022%\n\021applied_"
+    "voltage_V\030\002 \001(\002B\n\272H\007\n\005-\000\000\000\000\022$\n\020target_vo"
+    "ltage_V\030\003 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\017\n\007enabled\030\004 \001"
+    "(\010\"\366\003\n\020JonGuiDataHeater\022!\n\rbus_voltage_V"
+    "\030\001 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\035\n\tcurrent_A\030\002 \001(\002B\n\272"
+    "H\007\n\005-\000\000\000\000\022\033\n\007power_W\030\003 \001(\002B\n\272H\007\n\005-\000\000\000\000\0225"
+    "\n\tchannel_0\030\004 \001(\0132\".ser.JonGuiDataHeater"
+    "ChannelStatus\0225\n\tchannel_1\030\005 \001(\0132\".ser.J"
+    "onGuiDataHeaterChannelStatus\0225\n\tchannel_"
+    "2\030\006 \001(\0132\".ser.JonGuiDataHeaterChannelSta"
+    "tus\022!\n\031automatic_control_enabled\030\007 \001(\010\022."
+    "\n\025target_temp_channel_0\030\010 \001(\002B\017\272H\014\n\n\035\000\000p"
+    "B-\000\000\000\000\022.\n\025target_temp_channel_1\030\t \001(\002B\017\272"
+    "H\014\n\n\035\000\000pB-\000\000\000\000\022.\n\025target_temp_channel_2\030"
+    "\n \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022+\n\006health\030( \001(\0132\033"
+    ".ser.JonGuiDataModuleHealthBNZLgit-codec"
+    "ommit.eu-central-1.amazonaws.com/v1/repo"
+    "s/jettison/jonp/data/heaterb\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fheater_2eproto_deps[1] =
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fheater_2eproto_deps[2] =
     {
         &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
+        &::descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fheater_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fheater_2eproto = {
     false,
     false,
-    761,
+    835,
     descriptor_table_protodef_jon_5fshared_5fdata_5fheater_2eproto,
     "jon_shared_data_heater.proto",
     &descriptor_table_jon_5fshared_5fdata_5fheater_2eproto_once,
     descriptor_table_jon_5fshared_5fdata_5fheater_2eproto_deps,
-    1,
+    2,
     2,
     schemas,
     file_default_instances,
@@ -480,6 +485,11 @@ class JonGuiDataHeater::_Internal {
       8 * PROTOBUF_FIELD_OFFSET(JonGuiDataHeater, _impl_._has_bits_);
 };
 
+void JonGuiDataHeater::clear_health() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.health_ != nullptr) _impl_.health_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000008u;
+}
 JonGuiDataHeater::JonGuiDataHeater(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -518,6 +528,9 @@ JonGuiDataHeater::JonGuiDataHeater(
   _impl_.channel_2_ = (cached_has_bits & 0x00000004u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataHeaterChannelStatus>(
                               arena, *from._impl_.channel_2_)
                         : nullptr;
+  _impl_.health_ = (cached_has_bits & 0x00000008u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataModuleHealth>(
+                              arena, *from._impl_.health_)
+                        : nullptr;
   ::memcpy(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, bus_voltage_v_),
            reinterpret_cast<const char *>(&from._impl_) +
@@ -553,6 +566,7 @@ inline void JonGuiDataHeater::SharedDtor(MessageLite& self) {
   delete this_._impl_.channel_0_;
   delete this_._impl_.channel_1_;
   delete this_._impl_.channel_2_;
+  delete this_._impl_.health_;
   this_._impl_.~Impl_();
 }
 
@@ -592,16 +606,16 @@ const ::google::protobuf::internal::ClassData* JonGuiDataHeater::GetClassData() 
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<4, 10, 3, 0, 2> JonGuiDataHeater::_table_ = {
+const ::_pbi::TcParseTable<4, 11, 4, 0, 7> JonGuiDataHeater::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(JonGuiDataHeater, _impl_._has_bits_),
     0, // no _extensions_
-    10, 120,  // max_field_number, fast_idx_mask
+    40, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
     4294966272,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    10,  // num_field_entries
-    3,  // num_aux_entries
+    11,  // num_field_entries
+    4,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -647,6 +661,8 @@ const ::_pbi::TcParseTable<4, 10, 3, 0, 2> JonGuiDataHeater::_table_ = {
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
+    40, 0, 1,
+    65534, 10,
     65535, 65535
   }}, {{
     // float bus_voltage_V = 1 [(.buf.validate.field) = {
@@ -679,10 +695,14 @@ const ::_pbi::TcParseTable<4, 10, 3, 0, 2> JonGuiDataHeater::_table_ = {
     // float target_temp_channel_2 = 10 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataHeater, _impl_.target_temp_channel_2_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    // .ser.JonGuiDataModuleHealth health = 40;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataHeater, _impl_.health_), _Internal::kHasBitsOffset + 3, 3,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataHeaterChannelStatus>()},
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataHeaterChannelStatus>()},
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataHeaterChannelStatus>()},
+    {::_pbi::TcParser::GetTable<::ser::JonGuiDataModuleHealth>()},
   }}, {{
   }},
 };
@@ -695,7 +715,7 @@ PROTOBUF_NOINLINE void JonGuiDataHeater::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
+  if (cached_has_bits & 0x0000000fu) {
     if (cached_has_bits & 0x00000001u) {
       ABSL_DCHECK(_impl_.channel_0_ != nullptr);
       _impl_.channel_0_->Clear();
@@ -707,6 +727,10 @@ PROTOBUF_NOINLINE void JonGuiDataHeater::Clear() {
     if (cached_has_bits & 0x00000004u) {
       ABSL_DCHECK(_impl_.channel_2_ != nullptr);
       _impl_.channel_2_->Clear();
+    }
+    if (cached_has_bits & 0x00000008u) {
+      ABSL_DCHECK(_impl_.health_ != nullptr);
+      _impl_.health_->Clear();
     }
   }
   ::memset(&_impl_.bus_voltage_v_, 0, static_cast<::size_t>(
@@ -802,6 +826,13 @@ PROTOBUF_NOINLINE void JonGuiDataHeater::Clear() {
                 10, this_._internal_target_temp_channel_2(), target);
           }
 
+          // .ser.JonGuiDataModuleHealth health = 40;
+          if (cached_has_bits & 0x00000008u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                40, *this_._impl_.health_, this_._impl_.health_->GetCachedSize(), target,
+                stream);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -827,7 +858,7 @@ PROTOBUF_NOINLINE void JonGuiDataHeater::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
           cached_has_bits = this_._impl_._has_bits_[0];
-          if (cached_has_bits & 0x00000007u) {
+          if (cached_has_bits & 0x0000000fu) {
             // .ser.JonGuiDataHeaterChannelStatus channel_0 = 4;
             if (cached_has_bits & 0x00000001u) {
               total_size += 1 +
@@ -842,6 +873,11 @@ PROTOBUF_NOINLINE void JonGuiDataHeater::Clear() {
             if (cached_has_bits & 0x00000004u) {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.channel_2_);
+            }
+            // .ser.JonGuiDataModuleHealth health = 40;
+            if (cached_has_bits & 0x00000008u) {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.health_);
             }
           }
            {
@@ -888,7 +924,7 @@ void JonGuiDataHeater::MergeImpl(::google::protobuf::MessageLite& to_msg, const 
   (void) cached_has_bits;
 
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
+  if (cached_has_bits & 0x0000000fu) {
     if (cached_has_bits & 0x00000001u) {
       ABSL_DCHECK(from._impl_.channel_0_ != nullptr);
       if (_this->_impl_.channel_0_ == nullptr) {
@@ -914,6 +950,15 @@ void JonGuiDataHeater::MergeImpl(::google::protobuf::MessageLite& to_msg, const 
             ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataHeaterChannelStatus>(arena, *from._impl_.channel_2_);
       } else {
         _this->_impl_.channel_2_->MergeFrom(*from._impl_.channel_2_);
+      }
+    }
+    if (cached_has_bits & 0x00000008u) {
+      ABSL_DCHECK(from._impl_.health_ != nullptr);
+      if (_this->_impl_.health_ == nullptr) {
+        _this->_impl_.health_ =
+            ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataModuleHealth>(arena, *from._impl_.health_);
+      } else {
+        _this->_impl_.health_->MergeFrom(*from._impl_.health_);
       }
     }
   }

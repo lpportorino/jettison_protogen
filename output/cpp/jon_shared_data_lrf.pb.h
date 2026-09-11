@@ -886,6 +886,7 @@ class JonGuiDataLrf final : public ::google::protobuf::Message
   enum : int {
     kTargetFieldNumber = 4,
     kMeteoFieldNumber = 10,
+    kHealthFieldNumber = 40,
     kMeasureIdFieldNumber = 3,
     kIsScanningFieldNumber = 1,
     kIsMeasuringFieldNumber = 2,
@@ -924,6 +925,21 @@ class JonGuiDataLrf final : public ::google::protobuf::Message
   private:
   const ::ser::JonGuiDataMeteo& _internal_meteo() const;
   ::ser::JonGuiDataMeteo* _internal_mutable_meteo();
+
+  public:
+  // .ser.JonGuiDataModuleHealth health = 40;
+  bool has_health() const;
+  void clear_health() ;
+  const ::ser::JonGuiDataModuleHealth& health() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataModuleHealth* release_health();
+  ::ser::JonGuiDataModuleHealth* mutable_health();
+  void set_allocated_health(::ser::JonGuiDataModuleHealth* value);
+  void unsafe_arena_set_allocated_health(::ser::JonGuiDataModuleHealth* value);
+  ::ser::JonGuiDataModuleHealth* unsafe_arena_release_health();
+
+  private:
+  const ::ser::JonGuiDataModuleHealth& _internal_health() const;
+  ::ser::JonGuiDataModuleHealth* _internal_mutable_health();
 
   public:
   // int32 measure_id = 3 [(.buf.validate.field) = {
@@ -1021,8 +1037,8 @@ class JonGuiDataLrf final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 11, 2,
-      0, 2>
+      4, 12, 3,
+      0, 7>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -1043,6 +1059,7 @@ class JonGuiDataLrf final : public ::google::protobuf::Message
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::ser::JonGuiDataTarget* target_;
     ::ser::JonGuiDataMeteo* meteo_;
+    ::ser::JonGuiDataModuleHealth* health_;
     ::int32_t measure_id_;
     bool is_scanning_;
     bool is_measuring_;
@@ -1457,6 +1474,97 @@ inline ::int32_t JonGuiDataLrf::_internal_scan_mode() const {
 inline void JonGuiDataLrf::_internal_set_scan_mode(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.scan_mode_ = value;
+}
+
+// .ser.JonGuiDataModuleHealth health = 40;
+inline bool JonGuiDataLrf::has_health() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.health_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataModuleHealth& JonGuiDataLrf::_internal_health() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataModuleHealth* p = _impl_.health_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataModuleHealth&>(::ser::_JonGuiDataModuleHealth_default_instance_);
+}
+inline const ::ser::JonGuiDataModuleHealth& JonGuiDataLrf::health() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataLrf.health)
+  return _internal_health();
+}
+inline void JonGuiDataLrf::unsafe_arena_set_allocated_health(::ser::JonGuiDataModuleHealth* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.health_);
+  }
+  _impl_.health_ = reinterpret_cast<::ser::JonGuiDataModuleHealth*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataLrf.health)
+}
+inline ::ser::JonGuiDataModuleHealth* JonGuiDataLrf::release_health() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  ::ser::JonGuiDataModuleHealth* released = _impl_.health_;
+  _impl_.health_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataModuleHealth* JonGuiDataLrf::unsafe_arena_release_health() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataLrf.health)
+
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  ::ser::JonGuiDataModuleHealth* temp = _impl_.health_;
+  _impl_.health_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataModuleHealth* JonGuiDataLrf::_internal_mutable_health() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.health_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataModuleHealth>(GetArena());
+    _impl_.health_ = reinterpret_cast<::ser::JonGuiDataModuleHealth*>(p);
+  }
+  return _impl_.health_;
+}
+inline ::ser::JonGuiDataModuleHealth* JonGuiDataLrf::mutable_health() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000004u;
+  ::ser::JonGuiDataModuleHealth* _msg = _internal_mutable_health();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataLrf.health)
+  return _msg;
+}
+inline void JonGuiDataLrf::set_allocated_health(::ser::JonGuiDataModuleHealth* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.health_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+
+  _impl_.health_ = reinterpret_cast<::ser::JonGuiDataModuleHealth*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataLrf.health)
 }
 
 // -------------------------------------------------------------------

@@ -53,8 +53,9 @@ type JonGuiDataCameraHeat struct {
 	// cancels the thermal core's idle re-serve exactly. Do not read a 1:1 heat
 	// channel as a broken counter. Content falls below delivery under scan
 	// load, not at rest.
-	DeliveredFps  *float64 `protobuf:"fixed64,17,opt,name=delivered_fps,json=deliveredFps,proto3,oneof" json:"delivered_fps,omitempty"`
-	ContentFps    *float64 `protobuf:"fixed64,18,opt,name=content_fps,json=contentFps,proto3,oneof" json:"content_fps,omitempty"`
+	DeliveredFps  *float64                      `protobuf:"fixed64,17,opt,name=delivered_fps,json=deliveredFps,proto3,oneof" json:"delivered_fps,omitempty"`
+	ContentFps    *float64                      `protobuf:"fixed64,18,opt,name=content_fps,json=contentFps,proto3,oneof" json:"content_fps,omitempty"`
+	Health        *types.JonGuiDataModuleHealth `protobuf:"bytes,40,opt,name=health,proto3" json:"health,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -215,11 +216,18 @@ func (x *JonGuiDataCameraHeat) GetContentFps() float64 {
 	return 0
 }
 
+func (x *JonGuiDataCameraHeat) GetHealth() *types.JonGuiDataModuleHealth {
+	if x != nil {
+		return x.Health
+	}
+	return nil
+}
+
 var File_jon_shared_data_camera_heat_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_camera_heat_proto_rawDesc = "" +
 	"\n" +
-	"!jon_shared_data_camera_heat.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x93\b\n" +
+	"!jon_shared_data_camera_heat.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xc8\b\n" +
 	"\x14JonGuiDataCameraHeat\x122\n" +
 	"\bzoom_pos\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\azoomPos\x12N\n" +
 	"\bagc_mode\x18\x02 \x01(\x0e2'.ser.JonGuiDataVideoChannelHeatAGCModesB\n" +
@@ -247,7 +255,8 @@ const file_jon_shared_data_camera_heat_proto_rawDesc = "" +
 	"\x14capture_monotonic_us\x18\x10 \x01(\x04R\x12captureMonotonicUs\x128\n" +
 	"\rdelivered_fps\x18\x11 \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00H\x00R\fdeliveredFps\x88\x01\x01\x124\n" +
 	"\vcontent_fps\x18\x12 \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00H\x01R\n" +
-	"contentFps\x88\x01\x01B\x10\n" +
+	"contentFps\x88\x01\x01\x123\n" +
+	"\x06health\x18( \x01(\v2\x1b.ser.JonGuiDataModuleHealthR\x06healthB\x10\n" +
 	"\x0e_delivered_fpsB\x0e\n" +
 	"\f_content_fpsB\xa6\x01\n" +
 	"\acom.serB\x1cJonSharedDataCameraHeatProtoP\x01ZQgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/camera_heat\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
@@ -271,17 +280,19 @@ var file_jon_shared_data_camera_heat_proto_goTypes = []any{
 	(types.JonGuiDataVideoChannelHeatFilters)(0),  // 2: ser.JonGuiDataVideoChannelHeatFilters
 	(types.JonGuiDataFxModeHeat)(0),               // 3: ser.JonGuiDataFxModeHeat
 	(*types.JonGuiDataMeteo)(nil),                 // 4: ser.JonGuiDataMeteo
+	(*types.JonGuiDataModuleHealth)(nil),          // 5: ser.JonGuiDataModuleHealth
 }
 var file_jon_shared_data_camera_heat_proto_depIdxs = []int32{
 	1, // 0: ser.JonGuiDataCameraHeat.agc_mode:type_name -> ser.JonGuiDataVideoChannelHeatAGCModes
 	2, // 1: ser.JonGuiDataCameraHeat.filter:type_name -> ser.JonGuiDataVideoChannelHeatFilters
 	3, // 2: ser.JonGuiDataCameraHeat.fx_mode:type_name -> ser.JonGuiDataFxModeHeat
 	4, // 3: ser.JonGuiDataCameraHeat.meteo:type_name -> ser.JonGuiDataMeteo
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	5, // 4: ser.JonGuiDataCameraHeat.health:type_name -> ser.JonGuiDataModuleHealth
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_camera_heat_proto_init() }

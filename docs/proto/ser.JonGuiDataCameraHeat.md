@@ -35,6 +35,7 @@ Represents the complete operational and configuration state of the thermal/infra
 | 16 | capture_monotonic_us | uint64 | - |
 | 17 | delivered_fps | double | >= 0 |
 | 18 | content_fps | double | >= 0 |
+| 40 | health | [[proto/ser.JonGuiDataModuleHealth]] | - |
 
 
 ## Oneofs

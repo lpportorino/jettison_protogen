@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 346 messages, 69 enums, 1137 fields
+**Statistics:** 346 messages, 68 enums, 1148 fields
 
 ## Messages by Package
 
@@ -39,11 +39,6 @@ If the container is already running, this command has no effect. The bridge_stat
 Gracefully shuts down the CV Bridge container. The bridge_status field will transition to STOPPING, then to STOPPED once the container exits. The last_exit_reason will be set to NORMAL.
 
 When the CV Bridge is stopped, fanout operates in bypass mode - state continues to flow but without CV enrichment (autofocus metrics will be stale/default).
-- [[proto/cmd.CV.DumpShot|DumpShot]] — Takes the cv-dump PHOTO: ONE instant, every plane of BOTH channels' CUDA-IPC rings — the RAW pre-ISP frame, the native raster, the CLAHE plane and the operator picture — written as a cv_dump bundle whose `archive.pb` carries one `ShotCapture` per channel (with the whole 1024-byte control block verbatim) and one `ShotPlane` per file (`shots/day_p0_raw.rg12`, `shots/day_p1_native.png`, …). Only available in factory mode (URL parameter ui=factory), beside DumpStart.
-
-The message is EMPTY on purpose. A shot is always both channels — the artifact's value is that they are the same instant, and a channel that is powered off appears in the bundle with no planes and a reason rather than being chosen away. Every capture parameter (zoom, fx mode, the ISP tokens) already rides the ring's control block, and the operator note arrives later over `PUT /note/{id}` exactly as a dump's does.
-
-Consumed by eutropia at its command flow and never forwarded to manifold. Progress and result ride the STATE plane: [[proto/ser.JonGuiDataCV#shot_state]] (what the button renders), [[proto/ser.JonGuiDataCV#shot_seq]] (the increment that proves the shot landed) and [[proto/ser.JonGuiDataCV#shot_id]] (the bundle to link). A press while `shot_state` is not `IDLE` is refused, not queued.
 - [[proto/cmd.CV.DumpStart|DumpStart]] — Initiates recording of computer vision frame data to disk for debugging and analysis purposes. Only available in factory mode (URL parameter ui=factory). The state is tracked via data.System.cvDumping boolean field.
 - [[proto/cmd.CV.DumpStop|DumpStop]] — Stops the computer vision frame dumping process that was previously initiated with DumpStart, ceasing the export of CV data to disk. Sets the cvDumping state to false when processed.
 - [[proto/cmd.CV.RecognitionModeDisable|RecognitionModeDisable]] — Disables the AI-powered computer vision recognition mode, stopping automatic object detection and classification in the video feed. Paired with [[proto/cmd.CV.RecognitionModeEnable]]; the two back a single toggle rather than two independent buttons.
@@ -386,6 +381,7 @@ That split is why a fact an opaque payload already carries can also appear here,
 - [[proto/ser.JonGuiDataHeaterChannelStatus|JonGuiDataHeaterChannelStatus]] — Status of an individual heater channel. Reports current temperature (°C), applied and target voltages for PWM control, and enabled state.
 - [[proto/ser.JonGuiDataLrf|JonGuiDataLrf]] — Encapsulates the operational state of a Laser Range Finder (LRF) device, tracking scanning/measuring modes, measurement progress, laser pointer modes, fog mode, refinement status, and targeting data including precise georeferenced measurements with target/observer coordinates and distances.
 - [[proto/ser.JonGuiDataMeteo|JonGuiDataMeteo]] — Represents environmental sensor data containing atmospheric measurements: temperature (in degrees Celsius), humidity (as a percentage), and pressure (in Pascal units). Used for ballistics calculations and system monitoring across multiple subsystems.
+- [[proto/ser.JonGuiDataModuleHealth|JonGuiDataModuleHealth]]
 - [[proto/ser.JonGuiDataPMU|JonGuiDataPMU]] — Power Management Unit status. Reports battery/power system state including temperature, voltage, current sensor (INA) readings, heater state, charging status, and environmental data.
 - [[proto/ser.JonGuiDataPower|JonGuiDataPower]] — Represents real-time power distribution state across all 8 system channels (GPS, Compass, LRF, Day Camera, Thermal Camera, ORIN NUC, Thermal Core, and Heater), with each channel tracking voltage, current, power consumption, on/off state, and fault alarm status.
 - [[proto/ser.JonGuiDataPowerModule|JonGuiDataPowerModule]] — Represents the real-time power state and telemetry for a single power distribution channel, tracking voltage, current, power consumption, on/off state, and alarm status. Used to monitor individual hardware subsystems for power management and diagnostics.
@@ -581,7 +577,6 @@ consumers, not two copies of one fact.
 - [[proto/ser.SamTrackingState|SamTrackingState]]
 - [[proto/ser.SamTrackingStatus|SamTrackingStatus]]
 - [[proto/ui.ScaleMode|ScaleMode]]
-- [[proto/ser.JonGuiDataCV.ShotState|ShotState]] — The lifecycle of the one-at-a-time cv-dump PHOTO ([[proto/cmd.CV.DumpShot]]), published by eutropia on [[proto/ser.JonGuiDataCV#shot_state]]. A press is accepted only in `IDLE`; `READY` and `FAILED` are the terminal states of the last shot and give way to `IDLE` on the next accepted press.
 - [[proto/ui.StylePropertyType|StylePropertyType]]
 - [[proto/ui.SubjectType|SubjectType]]
 - [[proto/ui.TextAlign|TextAlign]]

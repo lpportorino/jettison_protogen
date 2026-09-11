@@ -36,6 +36,7 @@ type JonGuiDataLrf struct {
 	IsStarted             bool                                  `protobuf:"varint,9,opt,name=is_started,json=isStarted,proto3" json:"is_started,omitempty"`
 	Meteo                 *types.JonGuiDataMeteo                `protobuf:"bytes,10,opt,name=meteo,proto3" json:"meteo,omitempty"`
 	ScanMode              int32                                 `protobuf:"varint,11,opt,name=scan_mode,json=scanMode,proto3" json:"scan_mode,omitempty"` // Scanning mode frequency (0=off, 1=1Hz, 2=2Hz, 3=4Hz)
+	Health                *types.JonGuiDataModuleHealth         `protobuf:"bytes,40,opt,name=health,proto3" json:"health,omitempty"`
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
@@ -145,6 +146,13 @@ func (x *JonGuiDataLrf) GetScanMode() int32 {
 		return x.ScanMode
 	}
 	return 0
+}
+
+func (x *JonGuiDataLrf) GetHealth() *types.JonGuiDataModuleHealth {
+	if x != nil {
+		return x.Health
+	}
+	return nil
 }
 
 type JonGuiDataTarget struct {
@@ -430,7 +438,7 @@ var File_jon_shared_data_lrf_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_lrf_proto_rawDesc = "" +
 	"\n" +
-	"\x19jon_shared_data_lrf.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xe6\x03\n" +
+	"\x19jon_shared_data_lrf.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x9b\x04\n" +
 	"\rJonGuiDataLrf\x12\x1f\n" +
 	"\vis_scanning\x18\x01 \x01(\bR\n" +
 	"isScanning\x12!\n" +
@@ -447,7 +455,8 @@ const file_jon_shared_data_lrf_proto_rawDesc = "" +
 	"is_started\x18\t \x01(\bR\tisStarted\x12*\n" +
 	"\x05meteo\x18\n" +
 	" \x01(\v2\x14.ser.JonGuiDataMeteoR\x05meteo\x12\x1b\n" +
-	"\tscan_mode\x18\v \x01(\x05R\bscanMode\"\xbc\t\n" +
+	"\tscan_mode\x18\v \x01(\x05R\bscanMode\x123\n" +
+	"\x06health\x18( \x01(\v2\x1b.ser.JonGuiDataModuleHealthR\x06health\"\xbc\t\n" +
 	"\x10JonGuiDataTarget\x12%\n" +
 	"\ttimestamp\x18\x01 \x01(\x03B\a\xbaH\x04\"\x02(\x00R\ttimestamp\x12B\n" +
 	"\x10target_longitude\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\x0ftargetLongitude\x12@\n" +
@@ -509,21 +518,23 @@ var file_jon_shared_data_lrf_proto_goTypes = []any{
 	(*RgbColor)(nil),                           // 2: ser.RgbColor
 	(types.JonGuiDatatLrfLaserPointerModes)(0), // 3: ser.JonGuiDatatLrfLaserPointerModes
 	(*types.JonGuiDataMeteo)(nil),              // 4: ser.JonGuiDataMeteo
-	(types.JonGuiDataGpsFixType)(0),            // 5: ser.JonGuiDataGpsFixType
-	(types.JonGuiDataTargetType)(0),            // 6: ser.JonGuiDataTargetType
+	(*types.JonGuiDataModuleHealth)(nil),       // 5: ser.JonGuiDataModuleHealth
+	(types.JonGuiDataGpsFixType)(0),            // 6: ser.JonGuiDataGpsFixType
+	(types.JonGuiDataTargetType)(0),            // 7: ser.JonGuiDataTargetType
 }
 var file_jon_shared_data_lrf_proto_depIdxs = []int32{
 	1, // 0: ser.JonGuiDataLrf.target:type_name -> ser.JonGuiDataTarget
 	3, // 1: ser.JonGuiDataLrf.pointer_mode:type_name -> ser.JonGuiDatatLrfLaserPointerModes
 	4, // 2: ser.JonGuiDataLrf.meteo:type_name -> ser.JonGuiDataMeteo
-	5, // 3: ser.JonGuiDataTarget.observer_fix_type:type_name -> ser.JonGuiDataGpsFixType
-	2, // 4: ser.JonGuiDataTarget.target_color:type_name -> ser.RgbColor
-	6, // 5: ser.JonGuiDataTarget.capture_type:type_name -> ser.JonGuiDataTargetType
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	5, // 3: ser.JonGuiDataLrf.health:type_name -> ser.JonGuiDataModuleHealth
+	6, // 4: ser.JonGuiDataTarget.observer_fix_type:type_name -> ser.JonGuiDataGpsFixType
+	2, // 5: ser.JonGuiDataTarget.target_color:type_name -> ser.RgbColor
+	7, // 6: ser.JonGuiDataTarget.capture_type:type_name -> ser.JonGuiDataTargetType
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_lrf_proto_init() }

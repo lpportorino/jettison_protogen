@@ -38,4 +38,6 @@ message JonGuiDataPMU {
 
   // Battery charging status (false = charging enabled by default)
   bool charge_disabled = 11;
+
+  JonGuiDataModuleHealth health = 40;
 }

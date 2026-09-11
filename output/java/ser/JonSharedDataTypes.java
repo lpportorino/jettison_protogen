@@ -4125,6 +4125,812 @@ public final class JonSharedDataTypes {
 
   }
 
+  public interface JonGuiDataModuleHealthOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ser.JonGuiDataModuleHealth)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>uint32 queue_cap_0 = 1;</code>
+     * @return The queueCap0.
+     */
+    int getQueueCap0();
+
+    /**
+     * <code>uint32 peak_depth_0 = 2;</code>
+     * @return The peakDepth0.
+     */
+    int getPeakDepth0();
+
+    /**
+     * <code>uint32 dropped_oldest_0 = 3;</code>
+     * @return The droppedOldest0.
+     */
+    int getDroppedOldest0();
+
+    /**
+     * <code>uint32 queue_cap_1 = 4;</code>
+     * @return The queueCap1.
+     */
+    int getQueueCap1();
+
+    /**
+     * <code>uint32 peak_depth_1 = 5;</code>
+     * @return The peakDepth1.
+     */
+    int getPeakDepth1();
+
+    /**
+     * <code>uint32 dropped_oldest_1 = 6;</code>
+     * @return The droppedOldest1.
+     */
+    int getDroppedOldest1();
+  }
+  /**
+   * <pre>
+   * Per-module CAN-FD queue health. Each queue channel reports its configured
+   * capacity, its peak observed depth, and the count of oldest entries dropped
+   * on overflow; a module carries at most two such channels.
+   * </pre>
+   *
+   * Protobuf type {@code ser.JonGuiDataModuleHealth}
+   */
+  public static final class JonGuiDataModuleHealth extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ser.JonGuiDataModuleHealth)
+      JonGuiDataModuleHealthOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        JonGuiDataModuleHealth.class.getName());
+    }
+    // Use JonGuiDataModuleHealth.newBuilder() to construct.
+    private JonGuiDataModuleHealth(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private JonGuiDataModuleHealth() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataModuleHealth_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataModuleHealth_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ser.JonSharedDataTypes.JonGuiDataModuleHealth.class, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder.class);
+    }
+
+    public static final int QUEUE_CAP_0_FIELD_NUMBER = 1;
+    private int queueCap0_ = 0;
+    /**
+     * <code>uint32 queue_cap_0 = 1;</code>
+     * @return The queueCap0.
+     */
+    @java.lang.Override
+    public int getQueueCap0() {
+      return queueCap0_;
+    }
+
+    public static final int PEAK_DEPTH_0_FIELD_NUMBER = 2;
+    private int peakDepth0_ = 0;
+    /**
+     * <code>uint32 peak_depth_0 = 2;</code>
+     * @return The peakDepth0.
+     */
+    @java.lang.Override
+    public int getPeakDepth0() {
+      return peakDepth0_;
+    }
+
+    public static final int DROPPED_OLDEST_0_FIELD_NUMBER = 3;
+    private int droppedOldest0_ = 0;
+    /**
+     * <code>uint32 dropped_oldest_0 = 3;</code>
+     * @return The droppedOldest0.
+     */
+    @java.lang.Override
+    public int getDroppedOldest0() {
+      return droppedOldest0_;
+    }
+
+    public static final int QUEUE_CAP_1_FIELD_NUMBER = 4;
+    private int queueCap1_ = 0;
+    /**
+     * <code>uint32 queue_cap_1 = 4;</code>
+     * @return The queueCap1.
+     */
+    @java.lang.Override
+    public int getQueueCap1() {
+      return queueCap1_;
+    }
+
+    public static final int PEAK_DEPTH_1_FIELD_NUMBER = 5;
+    private int peakDepth1_ = 0;
+    /**
+     * <code>uint32 peak_depth_1 = 5;</code>
+     * @return The peakDepth1.
+     */
+    @java.lang.Override
+    public int getPeakDepth1() {
+      return peakDepth1_;
+    }
+
+    public static final int DROPPED_OLDEST_1_FIELD_NUMBER = 6;
+    private int droppedOldest1_ = 0;
+    /**
+     * <code>uint32 dropped_oldest_1 = 6;</code>
+     * @return The droppedOldest1.
+     */
+    @java.lang.Override
+    public int getDroppedOldest1() {
+      return droppedOldest1_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (queueCap0_ != 0) {
+        output.writeUInt32(1, queueCap0_);
+      }
+      if (peakDepth0_ != 0) {
+        output.writeUInt32(2, peakDepth0_);
+      }
+      if (droppedOldest0_ != 0) {
+        output.writeUInt32(3, droppedOldest0_);
+      }
+      if (queueCap1_ != 0) {
+        output.writeUInt32(4, queueCap1_);
+      }
+      if (peakDepth1_ != 0) {
+        output.writeUInt32(5, peakDepth1_);
+      }
+      if (droppedOldest1_ != 0) {
+        output.writeUInt32(6, droppedOldest1_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (queueCap0_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, queueCap0_);
+      }
+      if (peakDepth0_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, peakDepth0_);
+      }
+      if (droppedOldest0_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(3, droppedOldest0_);
+      }
+      if (queueCap1_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(4, queueCap1_);
+      }
+      if (peakDepth1_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(5, peakDepth1_);
+      }
+      if (droppedOldest1_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(6, droppedOldest1_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ser.JonSharedDataTypes.JonGuiDataModuleHealth)) {
+        return super.equals(obj);
+      }
+      ser.JonSharedDataTypes.JonGuiDataModuleHealth other = (ser.JonSharedDataTypes.JonGuiDataModuleHealth) obj;
+
+      if (getQueueCap0()
+          != other.getQueueCap0()) return false;
+      if (getPeakDepth0()
+          != other.getPeakDepth0()) return false;
+      if (getDroppedOldest0()
+          != other.getDroppedOldest0()) return false;
+      if (getQueueCap1()
+          != other.getQueueCap1()) return false;
+      if (getPeakDepth1()
+          != other.getPeakDepth1()) return false;
+      if (getDroppedOldest1()
+          != other.getDroppedOldest1()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + QUEUE_CAP_0_FIELD_NUMBER;
+      hash = (53 * hash) + getQueueCap0();
+      hash = (37 * hash) + PEAK_DEPTH_0_FIELD_NUMBER;
+      hash = (53 * hash) + getPeakDepth0();
+      hash = (37 * hash) + DROPPED_OLDEST_0_FIELD_NUMBER;
+      hash = (53 * hash) + getDroppedOldest0();
+      hash = (37 * hash) + QUEUE_CAP_1_FIELD_NUMBER;
+      hash = (53 * hash) + getQueueCap1();
+      hash = (37 * hash) + PEAK_DEPTH_1_FIELD_NUMBER;
+      hash = (53 * hash) + getPeakDepth1();
+      hash = (37 * hash) + DROPPED_OLDEST_1_FIELD_NUMBER;
+      hash = (53 * hash) + getDroppedOldest1();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataModuleHealth parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataModuleHealth parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataModuleHealth parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataModuleHealth parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataModuleHealth parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataModuleHealth parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataModuleHealth parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataModuleHealth parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataModuleHealth parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataModuleHealth parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataModuleHealth parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataModuleHealth parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ser.JonSharedDataTypes.JonGuiDataModuleHealth prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Per-module CAN-FD queue health. Each queue channel reports its configured
+     * capacity, its peak observed depth, and the count of oldest entries dropped
+     * on overflow; a module carries at most two such channels.
+     * </pre>
+     *
+     * Protobuf type {@code ser.JonGuiDataModuleHealth}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ser.JonGuiDataModuleHealth)
+        ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataModuleHealth_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataModuleHealth_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ser.JonSharedDataTypes.JonGuiDataModuleHealth.class, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder.class);
+      }
+
+      // Construct using ser.JonSharedDataTypes.JonGuiDataModuleHealth.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        queueCap0_ = 0;
+        peakDepth0_ = 0;
+        droppedOldest0_ = 0;
+        queueCap1_ = 0;
+        peakDepth1_ = 0;
+        droppedOldest1_ = 0;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataModuleHealth_descriptor;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealth getDefaultInstanceForType() {
+        return ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealth build() {
+        ser.JonSharedDataTypes.JonGuiDataModuleHealth result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealth buildPartial() {
+        ser.JonSharedDataTypes.JonGuiDataModuleHealth result = new ser.JonSharedDataTypes.JonGuiDataModuleHealth(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ser.JonSharedDataTypes.JonGuiDataModuleHealth result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.queueCap0_ = queueCap0_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.peakDepth0_ = peakDepth0_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.droppedOldest0_ = droppedOldest0_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.queueCap1_ = queueCap1_;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.peakDepth1_ = peakDepth1_;
+        }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.droppedOldest1_ = droppedOldest1_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ser.JonSharedDataTypes.JonGuiDataModuleHealth) {
+          return mergeFrom((ser.JonSharedDataTypes.JonGuiDataModuleHealth)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ser.JonSharedDataTypes.JonGuiDataModuleHealth other) {
+        if (other == ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance()) return this;
+        if (other.getQueueCap0() != 0) {
+          setQueueCap0(other.getQueueCap0());
+        }
+        if (other.getPeakDepth0() != 0) {
+          setPeakDepth0(other.getPeakDepth0());
+        }
+        if (other.getDroppedOldest0() != 0) {
+          setDroppedOldest0(other.getDroppedOldest0());
+        }
+        if (other.getQueueCap1() != 0) {
+          setQueueCap1(other.getQueueCap1());
+        }
+        if (other.getPeakDepth1() != 0) {
+          setPeakDepth1(other.getPeakDepth1());
+        }
+        if (other.getDroppedOldest1() != 0) {
+          setDroppedOldest1(other.getDroppedOldest1());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                queueCap0_ = input.readUInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 16: {
+                peakDepth0_ = input.readUInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              case 24: {
+                droppedOldest0_ = input.readUInt32();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 24
+              case 32: {
+                queueCap1_ = input.readUInt32();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 32
+              case 40: {
+                peakDepth1_ = input.readUInt32();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 40
+              case 48: {
+                droppedOldest1_ = input.readUInt32();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 48
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int queueCap0_ ;
+      /**
+       * <code>uint32 queue_cap_0 = 1;</code>
+       * @return The queueCap0.
+       */
+      @java.lang.Override
+      public int getQueueCap0() {
+        return queueCap0_;
+      }
+      /**
+       * <code>uint32 queue_cap_0 = 1;</code>
+       * @param value The queueCap0 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setQueueCap0(int value) {
+
+        queueCap0_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 queue_cap_0 = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearQueueCap0() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        queueCap0_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int peakDepth0_ ;
+      /**
+       * <code>uint32 peak_depth_0 = 2;</code>
+       * @return The peakDepth0.
+       */
+      @java.lang.Override
+      public int getPeakDepth0() {
+        return peakDepth0_;
+      }
+      /**
+       * <code>uint32 peak_depth_0 = 2;</code>
+       * @param value The peakDepth0 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPeakDepth0(int value) {
+
+        peakDepth0_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 peak_depth_0 = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPeakDepth0() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        peakDepth0_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int droppedOldest0_ ;
+      /**
+       * <code>uint32 dropped_oldest_0 = 3;</code>
+       * @return The droppedOldest0.
+       */
+      @java.lang.Override
+      public int getDroppedOldest0() {
+        return droppedOldest0_;
+      }
+      /**
+       * <code>uint32 dropped_oldest_0 = 3;</code>
+       * @param value The droppedOldest0 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDroppedOldest0(int value) {
+
+        droppedOldest0_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 dropped_oldest_0 = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDroppedOldest0() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        droppedOldest0_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int queueCap1_ ;
+      /**
+       * <code>uint32 queue_cap_1 = 4;</code>
+       * @return The queueCap1.
+       */
+      @java.lang.Override
+      public int getQueueCap1() {
+        return queueCap1_;
+      }
+      /**
+       * <code>uint32 queue_cap_1 = 4;</code>
+       * @param value The queueCap1 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setQueueCap1(int value) {
+
+        queueCap1_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 queue_cap_1 = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearQueueCap1() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        queueCap1_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int peakDepth1_ ;
+      /**
+       * <code>uint32 peak_depth_1 = 5;</code>
+       * @return The peakDepth1.
+       */
+      @java.lang.Override
+      public int getPeakDepth1() {
+        return peakDepth1_;
+      }
+      /**
+       * <code>uint32 peak_depth_1 = 5;</code>
+       * @param value The peakDepth1 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPeakDepth1(int value) {
+
+        peakDepth1_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 peak_depth_1 = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPeakDepth1() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        peakDepth1_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int droppedOldest1_ ;
+      /**
+       * <code>uint32 dropped_oldest_1 = 6;</code>
+       * @return The droppedOldest1.
+       */
+      @java.lang.Override
+      public int getDroppedOldest1() {
+        return droppedOldest1_;
+      }
+      /**
+       * <code>uint32 dropped_oldest_1 = 6;</code>
+       * @param value The droppedOldest1 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDroppedOldest1(int value) {
+
+        droppedOldest1_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 dropped_oldest_1 = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDroppedOldest1() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        droppedOldest1_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ser.JonGuiDataModuleHealth)
+    }
+
+    // @@protoc_insertion_point(class_scope:ser.JonGuiDataModuleHealth)
+    private static final ser.JonSharedDataTypes.JonGuiDataModuleHealth DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ser.JonSharedDataTypes.JonGuiDataModuleHealth();
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataModuleHealth getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<JonGuiDataModuleHealth>
+        PARSER = new com.google.protobuf.AbstractParser<JonGuiDataModuleHealth>() {
+      @java.lang.Override
+      public JonGuiDataModuleHealth parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<JonGuiDataModuleHealth> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<JonGuiDataModuleHealth> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataModuleHealth getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface JonOpaquePayloadVersionOrBuilder extends
       // @@protoc_insertion_point(interface_extends:ser.JonOpaquePayloadVersion)
       com.google.protobuf.MessageOrBuilder {
@@ -11130,6 +11936,11 @@ public final class JonSharedDataTypes {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ser_JonGuiDataMeteo_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ser_JonGuiDataModuleHealth_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ser_JonGuiDataModuleHealth_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ser_JonOpaquePayloadVersion_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -11183,195 +11994,199 @@ public final class JonSharedDataTypes {
       "teo\022,\n\013temperature\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\300b@" +
       ")fffff\022q\300\022)\n\010humidity\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000" +
       "\000Y@)\000\000\000\000\000\000\000\000\022)\n\010pressure\030\003 \001(\001B\027\272H\024\022\022\031\000\000" +
-      "\000\000\000L\375@)\000\000\000\000\000\000\000\000\"F\n\027JonOpaquePayloadVersi" +
-      "on\022\r\n\005major\030\001 \001(\r\022\r\n\005minor\030\002 \001(\r\022\r\n\005buil" +
-      "d\030\003 \001(\004\"\314\001\n\020JonOpaquePayload\022g\n\ttype_uui" +
-      "d\030\001 \001(\tBT\272HQrO2M^[0-9a-fA-F]{8}-[0-9a-fA" +
-      "-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-" +
-      "9a-fA-F]{12}$\0225\n\007version\030\002 \001(\0132\034.ser.Jon" +
-      "OpaquePayloadVersionB\006\272H\003\310\001\001\022\030\n\007payload\030" +
-      "\003 \001(\014B\007\272H\004z\002\020\001\"\243\001\n\rJonGuiDataROI\022#\n\002x1\030\001" +
-      " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(" +
-      "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027" +
-      "\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024" +
-      "\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\"i\n\023JonGuiDataSharpn" +
-      "ess\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000" +
-      "\000\000\000\022\024\n\014derivative_1\030\002 \001(\001\022\024\n\014derivative_" +
-      "2\030\003 \001(\001\"L\n\021JonGuiDataVector3\022\021\n\001x\030\001 \001(\001B" +
-      "\006\272H\003\310\001\001\022\021\n\001y\030\002 \001(\001B\006\272H\003\310\001\001\022\021\n\001z\030\003 \001(\001B\006\272" +
-      "H\003\310\001\001\"b\n\024JonGuiDataQuaternion\022\021\n\001w\030\001 \001(\001" +
-      "B\006\272H\003\310\001\001\022\021\n\001x\030\002 \001(\001B\006\272H\003\310\001\001\022\021\n\001y\030\003 \001(\001B\006" +
-      "\272H\003\310\001\001\022\021\n\001z\030\004 \001(\001B\006\272H\003\310\001\001\"\364\001\n\025JonGuiData" +
-      "Transform3D\0220\n\010position\030\001 \001(\0132\026.ser.JonG" +
-      "uiDataVector3B\006\272H\003\310\001\001\0226\n\013orientation\030\002 \001" +
-      "(\0132\031.ser.JonGuiDataQuaternionB\006\272H\003\310\001\001\0227\n" +
-      "\017linear_velocity\030\003 \001(\0132\026.ser.JonGuiDataV" +
-      "ector3B\006\272H\003\310\001\001\0228\n\020angular_velocity\030\004 \001(\013" +
-      "2\026.ser.JonGuiDataVector3B\006\272H\003\310\001\001\"\325\003\n\027Jon" +
-      "GuiDataTrackedObject\022f\n\004uuid\030\001 \001(\tBX\272HUr" +
-      "S\020$\030$2M^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0" +
-      "-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{" +
-      "12}$\0225\n\ttransform\030\002 \001(\0132\032.ser.JonGuiData" +
-      "Transform3DB\006\272H\003\310\001\001\0220\n\014bounding_box\030\003 \001(" +
-      "\0132\022.ser.JonGuiDataROIB\006\272H\003\310\001\001\022E\n\005state\030\004" +
-      " \001(\0162*.ser.JonGuiDataTrackedObject.Track" +
-      "ingStateB\n\272H\007\202\001\004\020\001 \000\"\241\001\n\rTrackingState\022\036" +
-      "\n\032TRACKING_STATE_UNSPECIFIED\020\000\022\034\n\030TRACKI" +
-      "NG_STATE_ACQUIRING\020\001\022\033\n\027TRACKING_STATE_T" +
-      "RACKING\020\002\022\034\n\030TRACKING_STATE_PREDICTED\020\003\022" +
-      "\027\n\023TRACKING_STATE_LOST\020\004*\263\002\n!JonGuiDataV" +
-      "ideoChannelHeatFilters\0226\n2JON_GUI_DATA_V" +
-      "IDEO_CHANNEL_HEAT_FILTER_UNSPECIFIED\020\000\0224" +
-      "\n0JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER" +
-      "_HOT_WHITE\020\001\0224\n0JON_GUI_DATA_VIDEO_CHANN" +
-      "EL_HEAT_FILTER_HOT_BLACK\020\002\0220\n,JON_GUI_DA" +
-      "TA_VIDEO_CHANNEL_HEAT_FILTER_SEPIA\020\003\0228\n4" +
-      "JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_S" +
-      "EPIA_INVERSE\020\004*\356\001\n\"JonGuiDataVideoChanne" +
-      "lHeatAGCModes\0228\n4JON_GUI_DATA_VIDEO_CHAN" +
-      "NEL_HEAT_AGC_MODE_UNSPECIFIED\020\000\022.\n*JON_G" +
-      "UI_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE_1\020\001\022" +
-      ".\n*JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_M" +
-      "ODE_2\020\002\022.\n*JON_GUI_DATA_VIDEO_CHANNEL_HE" +
-      "AT_AGC_MODE_3\020\003*\320\001\n\022JonGuiDataGpsUnits\022&" +
-      "\n\"JON_GUI_DATA_GPS_UNITS_UNSPECIFIED\020\000\022*" +
-      "\n&JON_GUI_DATA_GPS_UNITS_DECIMAL_DEGREES" +
-      "\020\001\0222\n.JON_GUI_DATA_GPS_UNITS_DEGREES_MIN" +
-      "UTES_SECONDS\020\002\0222\n.JON_GUI_DATA_GPS_UNITS" +
-      "_DEGREES_DECIMAL_MINUTES\020\003*\361\001\n\024JonGuiDat" +
-      "aGpsFixType\022)\n%JON_GUI_DATA_GPS_FIX_TYPE" +
-      "_UNSPECIFIED\020\000\022\"\n\036JON_GUI_DATA_GPS_FIX_T" +
-      "YPE_NONE\020\001\022 \n\034JON_GUI_DATA_GPS_FIX_TYPE_" +
-      "1D\020\002\022 \n\034JON_GUI_DATA_GPS_FIX_TYPE_2D\020\003\022 " +
-      "\n\034JON_GUI_DATA_GPS_FIX_TYPE_3D\020\004\022$\n JON_" +
-      "GUI_DATA_GPS_FIX_TYPE_MANUAL\020\005*\333\001\n\026JonGu" +
-      "iDataCompassUnits\022*\n&JON_GUI_DATA_COMPAS" +
-      "S_UNITS_UNSPECIFIED\020\000\022&\n\"JON_GUI_DATA_CO" +
-      "MPASS_UNITS_DEGREES\020\001\022#\n\037JON_GUI_DATA_CO" +
-      "MPASS_UNITS_MILS\020\002\022#\n\037JON_GUI_DATA_COMPA" +
-      "SS_UNITS_GRAD\020\003\022#\n\037JON_GUI_DATA_COMPASS_" +
-      "UNITS_MRAD\020\004*\337\003\n\035JonGuiDataAccumulatorSt" +
-      "ateIdx\022.\n*JON_GUI_DATA_ACCUMULATOR_STATE" +
-      "_UNSPECIFIED\020\000\022*\n&JON_GUI_DATA_ACCUMULAT" +
-      "OR_STATE_UNKNOWN\020\001\022(\n$JON_GUI_DATA_ACCUM" +
-      "ULATOR_STATE_EMPTY\020\002\022$\n JON_GUI_DATA_ACC" +
-      "UMULATOR_STATE_1\020\003\022$\n JON_GUI_DATA_ACCUM" +
-      "ULATOR_STATE_2\020\004\022$\n JON_GUI_DATA_ACCUMUL" +
-      "ATOR_STATE_3\020\005\022$\n JON_GUI_DATA_ACCUMULAT" +
-      "OR_STATE_4\020\006\022$\n JON_GUI_DATA_ACCUMULATOR" +
-      "_STATE_5\020\007\022$\n JON_GUI_DATA_ACCUMULATOR_S" +
-      "TATE_6\020\010\022\'\n#JON_GUI_DATA_ACCUMULATOR_STA" +
-      "TE_FULL\020\t\022+\n\'JON_GUI_DATA_ACCUMULATOR_ST" +
-      "ATE_CHARGING\020\n*\217\001\n\025JonGuiDataTimeFormats" +
-      "\022(\n$JON_GUI_DATA_TIME_FORMAT_UNSPECIFIED" +
-      "\020\000\022\"\n\036JON_GUI_DATA_TIME_FORMAT_H_M_S\020\001\022(" +
-      "\n$JON_GUI_DATA_TIME_FORMAT_Y_m_D_H_M_S\020\002" +
-      "*\254\001\n\031JonGuiDataRotaryDirection\022-\n)JON_GU" +
-      "I_DATA_ROTARY_DIRECTION_UNSPECIFIED\020\000\022+\n" +
-      "\'JON_GUI_DATA_ROTARY_DIRECTION_CLOCKWISE" +
-      "\020\001\0223\n/JON_GUI_DATA_ROTARY_DIRECTION_COUN" +
-      "TER_CLOCKWISE\020\002*\352\002\n\026JonGuiDataLrfScanMod" +
-      "es\022*\n&JON_GUI_DATA_LRF_SCAN_MODE_UNSPECI" +
-      "FIED\020\000\022.\n*JON_GUI_DATA_LRF_SCAN_MODE_1_H" +
-      "Z_CONTINUOUS\020\001\022.\n*JON_GUI_DATA_LRF_SCAN_" +
-      "MODE_4_HZ_CONTINUOUS\020\002\022/\n+JON_GUI_DATA_L" +
-      "RF_SCAN_MODE_10_HZ_CONTINUOUS\020\003\022/\n+JON_G" +
-      "UI_DATA_LRF_SCAN_MODE_20_HZ_CONTINUOUS\020\004" +
-      "\0220\n,JON_GUI_DATA_LRF_SCAN_MODE_100_HZ_CO" +
-      "NTINUOUS\020\005\0220\n,JON_GUI_DATA_LRF_SCAN_MODE" +
-      "_200_HZ_CONTINUOUS\020\006*\337\001\n\037JonGuiDatatLrfL" +
-      "aserPointerModes\0223\n/JON_GUI_DATA_LRF_LAS" +
-      "ER_POINTER_MODE_UNSPECIFIED\020\000\022+\n\'JON_GUI" +
-      "_DATA_LRF_LASER_POINTER_MODE_OFF\020\001\022,\n(JO" +
-      "N_GUI_DATA_LRF_LASER_POINTER_MODE_ON_1\020\002" +
-      "\022,\n(JON_GUI_DATA_LRF_LASER_POINTER_MODE_" +
-      "ON_2\020\003*\211\001\n\024JonGuiDataTargetType\022(\n$JON_G" +
-      "UI_DATA_TARGET_TYPE_UNSPECIFIED\020\000\022#\n\037JON" +
-      "_GUI_DATA_TARGET_TYPE_TARGET\020\001\022\"\n\036JON_GU" +
-      "I_DATA_TARGET_TYPE_PHOTO\020\002*\362\002\n JonGuiDat" +
-      "aCompassCalibrateStatus\0225\n1JON_GUI_DATA_" +
-      "COMPASS_CALIBRATE_STATUS_UNSPECIFIED\020\000\0229" +
-      "\n5JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_" +
-      "NOT_CALIBRATING\020\001\022;\n7JON_GUI_DATA_COMPAS" +
-      "S_CALIBRATE_STATUS_CALIBRATING_SHORT\020\002\022:" +
-      "\n6JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_" +
-      "CALIBRATING_LONG\020\003\0222\n.JON_GUI_DATA_COMPA" +
-      "SS_CALIBRATE_STATUS_FINISHED\020\004\022/\n+JON_GU" +
-      "I_DATA_COMPASS_CALIBRATE_STATUS_ERROR\020\005*" +
-      "\270\002\n\024JonGuiDataRotaryMode\022(\n$JON_GUI_DATA" +
-      "_ROTARY_MODE_UNSPECIFIED\020\000\022+\n\'JON_GUI_DA" +
-      "TA_ROTARY_MODE_INITIALIZATION\020\001\022\"\n\036JON_G" +
-      "UI_DATA_ROTARY_MODE_SPEED\020\002\022%\n!JON_GUI_D" +
-      "ATA_ROTARY_MODE_POSITION\020\003\022*\n&JON_GUI_DA" +
-      "TA_ROTARY_MODE_STABILIZATION\020\004\022&\n\"JON_GU" +
-      "I_DATA_ROTARY_MODE_TARGETING\020\005\022*\n&JON_GU" +
-      "I_DATA_ROTARY_MODE_VIDEO_TRACKER\020\006*\215\001\n\026J" +
-      "onGuiDataVideoChannel\022*\n&JON_GUI_DATA_VI" +
-      "DEO_CHANNEL_UNSPECIFIED\020\000\022#\n\037JON_GUI_DAT" +
-      "A_VIDEO_CHANNEL_HEAT\020\001\022\"\n\036JON_GUI_DATA_V" +
-      "IDEO_CHANNEL_DAY\020\002*\373\001\n\026JonGuiDataRecOsdS" +
-      "creen\022+\n\'JON_GUI_DATA_REC_OSD_SCREEN_UNS" +
-      "PECIFIED\020\000\022$\n JON_GUI_DATA_REC_OSD_SCREE" +
-      "N_MAIN\020\001\022+\n\'JON_GUI_DATA_REC_OSD_SCREEN_" +
-      "LRF_MEASURE\020\002\022*\n&JON_GUI_DATA_REC_OSD_SC" +
-      "REEN_LRF_RESULT\020\003\0225\n1JON_GUI_DATA_REC_OS" +
-      "D_SCREEN_LRF_RESULT_SIMPLIFIED\020\004*\373\001\n\023Jon" +
-      "GuiDataFxModeDay\022$\n JON_GUI_DATA_FX_MODE" +
-      "_DAY_DEFAULT\020\000\022\036\n\032JON_GUI_DATA_FX_MODE_D" +
-      "AY_A\020\001\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_B\020\002\022\036" +
-      "\n\032JON_GUI_DATA_FX_MODE_DAY_C\020\003\022\036\n\032JON_GU" +
-      "I_DATA_FX_MODE_DAY_D\020\004\022\036\n\032JON_GUI_DATA_F" +
-      "X_MODE_DAY_E\020\005\022\036\n\032JON_GUI_DATA_FX_MODE_D" +
-      "AY_F\020\006*\203\002\n\024JonGuiDataFxModeHeat\022%\n!JON_G" +
-      "UI_DATA_FX_MODE_HEAT_DEFAULT\020\000\022\037\n\033JON_GU" +
-      "I_DATA_FX_MODE_HEAT_A\020\001\022\037\n\033JON_GUI_DATA_" +
-      "FX_MODE_HEAT_B\020\002\022\037\n\033JON_GUI_DATA_FX_MODE" +
-      "_HEAT_C\020\003\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_D" +
-      "\020\004\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_E\020\005\022\037\n\033J" +
-      "ON_GUI_DATA_FX_MODE_HEAT_F\020\006*\365\001\n\035JonGuiD" +
-      "ataSystemLocalizations\0220\n,JON_GUI_DATA_S" +
-      "YSTEM_LOCALIZATION_UNSPECIFIED\020\000\022\'\n#JON_" +
-      "GUI_DATA_SYSTEM_LOCALIZATION_EN\020\001\022\'\n#JON" +
-      "_GUI_DATA_SYSTEM_LOCALIZATION_UA\020\002\022\'\n#JO" +
-      "N_GUI_DATA_SYSTEM_LOCALIZATION_AR\020\003\022\'\n#J" +
-      "ON_GUI_DATA_SYSTEM_LOCALIZATION_CS\020\004*\355\001\n" +
-      "\024JonGuiDataClientType\022(\n$JON_GUI_DATA_CL" +
-      "IENT_TYPE_UNSPECIFIED\020\000\022(\n$JON_GUI_DATA_" +
-      "CLIENT_TYPE_INTERNAL_CV\020\001\022*\n&JON_GUI_DAT" +
-      "A_CLIENT_TYPE_LOCAL_NETWORK\020\002\0222\n.JON_GUI" +
-      "_DATA_CLIENT_TYPE_CERTIFICATE_PROTECTED\020" +
-      "\003\022!\n\035JON_GUI_DATA_CLIENT_TYPE_LIRA\020\004*\346\001\n" +
-      "\023JonGuiDataClientApp\022\'\n#JON_GUI_DATA_CLI" +
-      "ENT_APP_UNSPECIFIED\020\000\022&\n\"JON_GUI_DATA_CL" +
-      "IENT_APP_BROWSER_UI\020\001\022\'\n#JON_GUI_DATA_CL" +
-      "IENT_APP_BROWSER_MAP\020\002\022*\n&JON_GUI_DATA_C" +
-      "LIENT_APP_DESKTOP_NATIVE\020\003\022)\n%JON_GUI_DA" +
-      "TA_CLIENT_APP_MOBILE_NATIVE\020\004*\307\001\n\026JonGui" +
-      "DataExtBatStatus\022+\n\'JON_GUI_DATA_EXT_BAT" +
-      "_STATUS_UNSPECIFIED\020\000\022(\n$JON_GUI_DATA_EX" +
-      "T_BAT_STATUS_CHARGING\020\001\022+\n\'JON_GUI_DATA_" +
-      "EXT_BAT_STATUS_DISCHARGING\020\002\022)\n%JON_GUI_" +
-      "DATA_EXT_BAT_STATUS_BALANCING\020\003*\301\001\n\025JonG" +
-      "uiDataStateSource\022)\n%JON_GUI_DATA_STATE_" +
-      "SOURCE_UNSPECIFIED\020\000\022*\n&JON_GUI_DATA_STA" +
-      "TE_SOURCE_DAY_PIPELINE\020\001\022+\n\'JON_GUI_DATA" +
-      "_STATE_SOURCE_HEAT_PIPELINE\020\002\022$\n JON_GUI" +
-      "_DATA_STATE_SOURCE_SYSTEM\020\003*\323\001\n\026JonGuiDa" +
-      "taDriveProgram\022#\n\037JON_GUI_DATA_DRIVE_PRO" +
-      "GRAM_NONE\020\000\022#\n\037JON_GUI_DATA_DRIVE_PROGRA" +
-      "M_SCAN\020\001\022\"\n\036JON_GUI_DATA_DRIVE_PROGRAM_P" +
-      "OI\020\002\022#\n\037JON_GUI_DATA_DRIVE_PROGRAM_PARK\020" +
-      "\003\022&\n\"JON_GUI_DATA_DRIVE_PROGRAM_COMPASS\020" +
-      "\004*\231\002\n\024JonGuiDataDriveState\022(\n$JON_GUI_DA" +
-      "TA_DRIVE_STATE_UNSPECIFIED\020\000\022!\n\035JON_GUI_" +
-      "DATA_DRIVE_STATE_IDLE\020\001\022\"\n\036JON_GUI_DATA_" +
-      "DRIVE_STATE_ARMED\020\002\022$\n JON_GUI_DATA_DRIV" +
-      "E_STATE_RUNNING\020\003\022#\n\037JON_GUI_DATA_DRIVE_" +
-      "STATE_PAUSED\020\004\022!\n\035JON_GUI_DATA_DRIVE_STA" +
-      "TE_DONE\020\005\022\"\n\036JON_GUI_DATA_DRIVE_STATE_FA" +
-      "ULT\020\006BHZFgit-codecommit.eu-central-1.ama" +
-      "zonaws.com/v1/repos/jettison/jonp/typesb" +
-      "\006proto3"
+      "\000\000\000L\375@)\000\000\000\000\000\000\000\000\"\242\001\n\026JonGuiDataModuleHeal" +
+      "th\022\023\n\013queue_cap_0\030\001 \001(\r\022\024\n\014peak_depth_0\030" +
+      "\002 \001(\r\022\030\n\020dropped_oldest_0\030\003 \001(\r\022\023\n\013queue" +
+      "_cap_1\030\004 \001(\r\022\024\n\014peak_depth_1\030\005 \001(\r\022\030\n\020dr" +
+      "opped_oldest_1\030\006 \001(\r\"F\n\027JonOpaquePayload" +
+      "Version\022\r\n\005major\030\001 \001(\r\022\r\n\005minor\030\002 \001(\r\022\r\n" +
+      "\005build\030\003 \001(\004\"\314\001\n\020JonOpaquePayload\022g\n\ttyp" +
+      "e_uuid\030\001 \001(\tBT\272HQrO2M^[0-9a-fA-F]{8}-[0-" +
+      "9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4" +
+      "}-[0-9a-fA-F]{12}$\0225\n\007version\030\002 \001(\0132\034.se" +
+      "r.JonOpaquePayloadVersionB\006\272H\003\310\001\001\022\030\n\007pay" +
+      "load\030\003 \001(\014B\007\272H\004z\002\020\001\"\243\001\n\rJonGuiDataROI\022#\n" +
+      "\002x1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1" +
+      "\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 " +
+      "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001" +
+      "B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\"i\n\023JonGuiDataS" +
+      "harpness\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)" +
+      "\000\000\000\000\000\000\000\000\022\024\n\014derivative_1\030\002 \001(\001\022\024\n\014deriva" +
+      "tive_2\030\003 \001(\001\"L\n\021JonGuiDataVector3\022\021\n\001x\030\001" +
+      " \001(\001B\006\272H\003\310\001\001\022\021\n\001y\030\002 \001(\001B\006\272H\003\310\001\001\022\021\n\001z\030\003 \001" +
+      "(\001B\006\272H\003\310\001\001\"b\n\024JonGuiDataQuaternion\022\021\n\001w\030" +
+      "\001 \001(\001B\006\272H\003\310\001\001\022\021\n\001x\030\002 \001(\001B\006\272H\003\310\001\001\022\021\n\001y\030\003 " +
+      "\001(\001B\006\272H\003\310\001\001\022\021\n\001z\030\004 \001(\001B\006\272H\003\310\001\001\"\364\001\n\025JonGu" +
+      "iDataTransform3D\0220\n\010position\030\001 \001(\0132\026.ser" +
+      ".JonGuiDataVector3B\006\272H\003\310\001\001\0226\n\013orientatio" +
+      "n\030\002 \001(\0132\031.ser.JonGuiDataQuaternionB\006\272H\003\310" +
+      "\001\001\0227\n\017linear_velocity\030\003 \001(\0132\026.ser.JonGui" +
+      "DataVector3B\006\272H\003\310\001\001\0228\n\020angular_velocity\030" +
+      "\004 \001(\0132\026.ser.JonGuiDataVector3B\006\272H\003\310\001\001\"\325\003" +
+      "\n\027JonGuiDataTrackedObject\022f\n\004uuid\030\001 \001(\tB" +
+      "X\272HUrS\020$\030$2M^[0-9a-fA-F]{8}-[0-9a-fA-F]{" +
+      "4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-f" +
+      "A-F]{12}$\0225\n\ttransform\030\002 \001(\0132\032.ser.JonGu" +
+      "iDataTransform3DB\006\272H\003\310\001\001\0220\n\014bounding_box" +
+      "\030\003 \001(\0132\022.ser.JonGuiDataROIB\006\272H\003\310\001\001\022E\n\005st" +
+      "ate\030\004 \001(\0162*.ser.JonGuiDataTrackedObject." +
+      "TrackingStateB\n\272H\007\202\001\004\020\001 \000\"\241\001\n\rTrackingSt" +
+      "ate\022\036\n\032TRACKING_STATE_UNSPECIFIED\020\000\022\034\n\030T" +
+      "RACKING_STATE_ACQUIRING\020\001\022\033\n\027TRACKING_ST" +
+      "ATE_TRACKING\020\002\022\034\n\030TRACKING_STATE_PREDICT" +
+      "ED\020\003\022\027\n\023TRACKING_STATE_LOST\020\004*\263\002\n!JonGui" +
+      "DataVideoChannelHeatFilters\0226\n2JON_GUI_D" +
+      "ATA_VIDEO_CHANNEL_HEAT_FILTER_UNSPECIFIE" +
+      "D\020\000\0224\n0JON_GUI_DATA_VIDEO_CHANNEL_HEAT_F" +
+      "ILTER_HOT_WHITE\020\001\0224\n0JON_GUI_DATA_VIDEO_" +
+      "CHANNEL_HEAT_FILTER_HOT_BLACK\020\002\0220\n,JON_G" +
+      "UI_DATA_VIDEO_CHANNEL_HEAT_FILTER_SEPIA\020" +
+      "\003\0228\n4JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FIL" +
+      "TER_SEPIA_INVERSE\020\004*\356\001\n\"JonGuiDataVideoC" +
+      "hannelHeatAGCModes\0228\n4JON_GUI_DATA_VIDEO" +
+      "_CHANNEL_HEAT_AGC_MODE_UNSPECIFIED\020\000\022.\n*" +
+      "JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE" +
+      "_1\020\001\022.\n*JON_GUI_DATA_VIDEO_CHANNEL_HEAT_" +
+      "AGC_MODE_2\020\002\022.\n*JON_GUI_DATA_VIDEO_CHANN" +
+      "EL_HEAT_AGC_MODE_3\020\003*\320\001\n\022JonGuiDataGpsUn" +
+      "its\022&\n\"JON_GUI_DATA_GPS_UNITS_UNSPECIFIE" +
+      "D\020\000\022*\n&JON_GUI_DATA_GPS_UNITS_DECIMAL_DE" +
+      "GREES\020\001\0222\n.JON_GUI_DATA_GPS_UNITS_DEGREE" +
+      "S_MINUTES_SECONDS\020\002\0222\n.JON_GUI_DATA_GPS_" +
+      "UNITS_DEGREES_DECIMAL_MINUTES\020\003*\361\001\n\024JonG" +
+      "uiDataGpsFixType\022)\n%JON_GUI_DATA_GPS_FIX" +
+      "_TYPE_UNSPECIFIED\020\000\022\"\n\036JON_GUI_DATA_GPS_" +
+      "FIX_TYPE_NONE\020\001\022 \n\034JON_GUI_DATA_GPS_FIX_" +
+      "TYPE_1D\020\002\022 \n\034JON_GUI_DATA_GPS_FIX_TYPE_2" +
+      "D\020\003\022 \n\034JON_GUI_DATA_GPS_FIX_TYPE_3D\020\004\022$\n" +
+      " JON_GUI_DATA_GPS_FIX_TYPE_MANUAL\020\005*\333\001\n\026" +
+      "JonGuiDataCompassUnits\022*\n&JON_GUI_DATA_C" +
+      "OMPASS_UNITS_UNSPECIFIED\020\000\022&\n\"JON_GUI_DA" +
+      "TA_COMPASS_UNITS_DEGREES\020\001\022#\n\037JON_GUI_DA" +
+      "TA_COMPASS_UNITS_MILS\020\002\022#\n\037JON_GUI_DATA_" +
+      "COMPASS_UNITS_GRAD\020\003\022#\n\037JON_GUI_DATA_COM" +
+      "PASS_UNITS_MRAD\020\004*\337\003\n\035JonGuiDataAccumula" +
+      "torStateIdx\022.\n*JON_GUI_DATA_ACCUMULATOR_" +
+      "STATE_UNSPECIFIED\020\000\022*\n&JON_GUI_DATA_ACCU" +
+      "MULATOR_STATE_UNKNOWN\020\001\022(\n$JON_GUI_DATA_" +
+      "ACCUMULATOR_STATE_EMPTY\020\002\022$\n JON_GUI_DAT" +
+      "A_ACCUMULATOR_STATE_1\020\003\022$\n JON_GUI_DATA_" +
+      "ACCUMULATOR_STATE_2\020\004\022$\n JON_GUI_DATA_AC" +
+      "CUMULATOR_STATE_3\020\005\022$\n JON_GUI_DATA_ACCU" +
+      "MULATOR_STATE_4\020\006\022$\n JON_GUI_DATA_ACCUMU" +
+      "LATOR_STATE_5\020\007\022$\n JON_GUI_DATA_ACCUMULA" +
+      "TOR_STATE_6\020\010\022\'\n#JON_GUI_DATA_ACCUMULATO" +
+      "R_STATE_FULL\020\t\022+\n\'JON_GUI_DATA_ACCUMULAT" +
+      "OR_STATE_CHARGING\020\n*\217\001\n\025JonGuiDataTimeFo" +
+      "rmats\022(\n$JON_GUI_DATA_TIME_FORMAT_UNSPEC" +
+      "IFIED\020\000\022\"\n\036JON_GUI_DATA_TIME_FORMAT_H_M_" +
+      "S\020\001\022(\n$JON_GUI_DATA_TIME_FORMAT_Y_m_D_H_" +
+      "M_S\020\002*\254\001\n\031JonGuiDataRotaryDirection\022-\n)J" +
+      "ON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED" +
+      "\020\000\022+\n\'JON_GUI_DATA_ROTARY_DIRECTION_CLOC" +
+      "KWISE\020\001\0223\n/JON_GUI_DATA_ROTARY_DIRECTION" +
+      "_COUNTER_CLOCKWISE\020\002*\352\002\n\026JonGuiDataLrfSc" +
+      "anModes\022*\n&JON_GUI_DATA_LRF_SCAN_MODE_UN" +
+      "SPECIFIED\020\000\022.\n*JON_GUI_DATA_LRF_SCAN_MOD" +
+      "E_1_HZ_CONTINUOUS\020\001\022.\n*JON_GUI_DATA_LRF_" +
+      "SCAN_MODE_4_HZ_CONTINUOUS\020\002\022/\n+JON_GUI_D" +
+      "ATA_LRF_SCAN_MODE_10_HZ_CONTINUOUS\020\003\022/\n+" +
+      "JON_GUI_DATA_LRF_SCAN_MODE_20_HZ_CONTINU" +
+      "OUS\020\004\0220\n,JON_GUI_DATA_LRF_SCAN_MODE_100_" +
+      "HZ_CONTINUOUS\020\005\0220\n,JON_GUI_DATA_LRF_SCAN" +
+      "_MODE_200_HZ_CONTINUOUS\020\006*\337\001\n\037JonGuiData" +
+      "tLrfLaserPointerModes\0223\n/JON_GUI_DATA_LR" +
+      "F_LASER_POINTER_MODE_UNSPECIFIED\020\000\022+\n\'JO" +
+      "N_GUI_DATA_LRF_LASER_POINTER_MODE_OFF\020\001\022" +
+      ",\n(JON_GUI_DATA_LRF_LASER_POINTER_MODE_O" +
+      "N_1\020\002\022,\n(JON_GUI_DATA_LRF_LASER_POINTER_" +
+      "MODE_ON_2\020\003*\211\001\n\024JonGuiDataTargetType\022(\n$" +
+      "JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED\020\000\022#" +
+      "\n\037JON_GUI_DATA_TARGET_TYPE_TARGET\020\001\022\"\n\036J" +
+      "ON_GUI_DATA_TARGET_TYPE_PHOTO\020\002*\362\002\n JonG" +
+      "uiDataCompassCalibrateStatus\0225\n1JON_GUI_" +
+      "DATA_COMPASS_CALIBRATE_STATUS_UNSPECIFIE" +
+      "D\020\000\0229\n5JON_GUI_DATA_COMPASS_CALIBRATE_ST" +
+      "ATUS_NOT_CALIBRATING\020\001\022;\n7JON_GUI_DATA_C" +
+      "OMPASS_CALIBRATE_STATUS_CALIBRATING_SHOR" +
+      "T\020\002\022:\n6JON_GUI_DATA_COMPASS_CALIBRATE_ST" +
+      "ATUS_CALIBRATING_LONG\020\003\0222\n.JON_GUI_DATA_" +
+      "COMPASS_CALIBRATE_STATUS_FINISHED\020\004\022/\n+J" +
+      "ON_GUI_DATA_COMPASS_CALIBRATE_STATUS_ERR" +
+      "OR\020\005*\270\002\n\024JonGuiDataRotaryMode\022(\n$JON_GUI" +
+      "_DATA_ROTARY_MODE_UNSPECIFIED\020\000\022+\n\'JON_G" +
+      "UI_DATA_ROTARY_MODE_INITIALIZATION\020\001\022\"\n\036" +
+      "JON_GUI_DATA_ROTARY_MODE_SPEED\020\002\022%\n!JON_" +
+      "GUI_DATA_ROTARY_MODE_POSITION\020\003\022*\n&JON_G" +
+      "UI_DATA_ROTARY_MODE_STABILIZATION\020\004\022&\n\"J" +
+      "ON_GUI_DATA_ROTARY_MODE_TARGETING\020\005\022*\n&J" +
+      "ON_GUI_DATA_ROTARY_MODE_VIDEO_TRACKER\020\006*" +
+      "\215\001\n\026JonGuiDataVideoChannel\022*\n&JON_GUI_DA" +
+      "TA_VIDEO_CHANNEL_UNSPECIFIED\020\000\022#\n\037JON_GU" +
+      "I_DATA_VIDEO_CHANNEL_HEAT\020\001\022\"\n\036JON_GUI_D" +
+      "ATA_VIDEO_CHANNEL_DAY\020\002*\373\001\n\026JonGuiDataRe" +
+      "cOsdScreen\022+\n\'JON_GUI_DATA_REC_OSD_SCREE" +
+      "N_UNSPECIFIED\020\000\022$\n JON_GUI_DATA_REC_OSD_" +
+      "SCREEN_MAIN\020\001\022+\n\'JON_GUI_DATA_REC_OSD_SC" +
+      "REEN_LRF_MEASURE\020\002\022*\n&JON_GUI_DATA_REC_O" +
+      "SD_SCREEN_LRF_RESULT\020\003\0225\n1JON_GUI_DATA_R" +
+      "EC_OSD_SCREEN_LRF_RESULT_SIMPLIFIED\020\004*\373\001" +
+      "\n\023JonGuiDataFxModeDay\022$\n JON_GUI_DATA_FX" +
+      "_MODE_DAY_DEFAULT\020\000\022\036\n\032JON_GUI_DATA_FX_M" +
+      "ODE_DAY_A\020\001\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_" +
+      "B\020\002\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_C\020\003\022\036\n\032J" +
+      "ON_GUI_DATA_FX_MODE_DAY_D\020\004\022\036\n\032JON_GUI_D" +
+      "ATA_FX_MODE_DAY_E\020\005\022\036\n\032JON_GUI_DATA_FX_M" +
+      "ODE_DAY_F\020\006*\203\002\n\024JonGuiDataFxModeHeat\022%\n!" +
+      "JON_GUI_DATA_FX_MODE_HEAT_DEFAULT\020\000\022\037\n\033J" +
+      "ON_GUI_DATA_FX_MODE_HEAT_A\020\001\022\037\n\033JON_GUI_" +
+      "DATA_FX_MODE_HEAT_B\020\002\022\037\n\033JON_GUI_DATA_FX" +
+      "_MODE_HEAT_C\020\003\022\037\n\033JON_GUI_DATA_FX_MODE_H" +
+      "EAT_D\020\004\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_E\020\005" +
+      "\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_F\020\006*\365\001\n\035Jo" +
+      "nGuiDataSystemLocalizations\0220\n,JON_GUI_D" +
+      "ATA_SYSTEM_LOCALIZATION_UNSPECIFIED\020\000\022\'\n" +
+      "#JON_GUI_DATA_SYSTEM_LOCALIZATION_EN\020\001\022\'" +
+      "\n#JON_GUI_DATA_SYSTEM_LOCALIZATION_UA\020\002\022" +
+      "\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATION_AR\020\003" +
+      "\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATION_CS\020" +
+      "\004*\355\001\n\024JonGuiDataClientType\022(\n$JON_GUI_DA" +
+      "TA_CLIENT_TYPE_UNSPECIFIED\020\000\022(\n$JON_GUI_" +
+      "DATA_CLIENT_TYPE_INTERNAL_CV\020\001\022*\n&JON_GU" +
+      "I_DATA_CLIENT_TYPE_LOCAL_NETWORK\020\002\0222\n.JO" +
+      "N_GUI_DATA_CLIENT_TYPE_CERTIFICATE_PROTE" +
+      "CTED\020\003\022!\n\035JON_GUI_DATA_CLIENT_TYPE_LIRA\020" +
+      "\004*\346\001\n\023JonGuiDataClientApp\022\'\n#JON_GUI_DAT" +
+      "A_CLIENT_APP_UNSPECIFIED\020\000\022&\n\"JON_GUI_DA" +
+      "TA_CLIENT_APP_BROWSER_UI\020\001\022\'\n#JON_GUI_DA" +
+      "TA_CLIENT_APP_BROWSER_MAP\020\002\022*\n&JON_GUI_D" +
+      "ATA_CLIENT_APP_DESKTOP_NATIVE\020\003\022)\n%JON_G" +
+      "UI_DATA_CLIENT_APP_MOBILE_NATIVE\020\004*\307\001\n\026J" +
+      "onGuiDataExtBatStatus\022+\n\'JON_GUI_DATA_EX" +
+      "T_BAT_STATUS_UNSPECIFIED\020\000\022(\n$JON_GUI_DA" +
+      "TA_EXT_BAT_STATUS_CHARGING\020\001\022+\n\'JON_GUI_" +
+      "DATA_EXT_BAT_STATUS_DISCHARGING\020\002\022)\n%JON" +
+      "_GUI_DATA_EXT_BAT_STATUS_BALANCING\020\003*\301\001\n" +
+      "\025JonGuiDataStateSource\022)\n%JON_GUI_DATA_S" +
+      "TATE_SOURCE_UNSPECIFIED\020\000\022*\n&JON_GUI_DAT" +
+      "A_STATE_SOURCE_DAY_PIPELINE\020\001\022+\n\'JON_GUI" +
+      "_DATA_STATE_SOURCE_HEAT_PIPELINE\020\002\022$\n JO" +
+      "N_GUI_DATA_STATE_SOURCE_SYSTEM\020\003*\323\001\n\026Jon" +
+      "GuiDataDriveProgram\022#\n\037JON_GUI_DATA_DRIV" +
+      "E_PROGRAM_NONE\020\000\022#\n\037JON_GUI_DATA_DRIVE_P" +
+      "ROGRAM_SCAN\020\001\022\"\n\036JON_GUI_DATA_DRIVE_PROG" +
+      "RAM_POI\020\002\022#\n\037JON_GUI_DATA_DRIVE_PROGRAM_" +
+      "PARK\020\003\022&\n\"JON_GUI_DATA_DRIVE_PROGRAM_COM" +
+      "PASS\020\004*\231\002\n\024JonGuiDataDriveState\022(\n$JON_G" +
+      "UI_DATA_DRIVE_STATE_UNSPECIFIED\020\000\022!\n\035JON" +
+      "_GUI_DATA_DRIVE_STATE_IDLE\020\001\022\"\n\036JON_GUI_" +
+      "DATA_DRIVE_STATE_ARMED\020\002\022$\n JON_GUI_DATA" +
+      "_DRIVE_STATE_RUNNING\020\003\022#\n\037JON_GUI_DATA_D" +
+      "RIVE_STATE_PAUSED\020\004\022!\n\035JON_GUI_DATA_DRIV" +
+      "E_STATE_DONE\020\005\022\"\n\036JON_GUI_DATA_DRIVE_STA" +
+      "TE_FAULT\020\006BHZFgit-codecommit.eu-central-" +
+      "1.amazonaws.com/v1/repos/jettison/jonp/t" +
+      "ypesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -11384,50 +12199,56 @@ public final class JonSharedDataTypes {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataMeteo_descriptor,
         new java.lang.String[] { "Temperature", "Humidity", "Pressure", });
-    internal_static_ser_JonOpaquePayloadVersion_descriptor =
+    internal_static_ser_JonGuiDataModuleHealth_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_ser_JonGuiDataModuleHealth_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ser_JonGuiDataModuleHealth_descriptor,
+        new java.lang.String[] { "QueueCap0", "PeakDepth0", "DroppedOldest0", "QueueCap1", "PeakDepth1", "DroppedOldest1", });
+    internal_static_ser_JonOpaquePayloadVersion_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_ser_JonOpaquePayloadVersion_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonOpaquePayloadVersion_descriptor,
         new java.lang.String[] { "Major", "Minor", "Build", });
     internal_static_ser_JonOpaquePayload_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_ser_JonOpaquePayload_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonOpaquePayload_descriptor,
         new java.lang.String[] { "TypeUuid", "Version", "Payload", });
     internal_static_ser_JonGuiDataROI_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_ser_JonGuiDataROI_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataROI_descriptor,
         new java.lang.String[] { "X1", "Y1", "X2", "Y2", });
     internal_static_ser_JonGuiDataSharpness_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_ser_JonGuiDataSharpness_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataSharpness_descriptor,
         new java.lang.String[] { "Value", "Derivative1", "Derivative2", });
     internal_static_ser_JonGuiDataVector3_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_ser_JonGuiDataVector3_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataVector3_descriptor,
         new java.lang.String[] { "X", "Y", "Z", });
     internal_static_ser_JonGuiDataQuaternion_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_ser_JonGuiDataQuaternion_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataQuaternion_descriptor,
         new java.lang.String[] { "W", "X", "Y", "Z", });
     internal_static_ser_JonGuiDataTransform3D_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_ser_JonGuiDataTransform3D_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataTransform3D_descriptor,
         new java.lang.String[] { "Position", "Orientation", "LinearVelocity", "AngularVelocity", });
     internal_static_ser_JonGuiDataTrackedObject_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_ser_JonGuiDataTrackedObject_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataTrackedObject_descriptor,

@@ -25,6 +25,8 @@ typedef struct _ser_JonGuiDataPMU {
     bool ina_power_fault;
     /* Battery charging status (false = charging enabled by default) */
     bool charge_disabled;
+    bool has_health;
+    ser_JonGuiDataModuleHealth health;
 } ser_JonGuiDataPMU;
 
 
@@ -33,8 +35,8 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataPMU_init_default           {0, 0, false, ser_JonGuiDataMeteo_init_default, 0, 0, 0, 0, 0, 0, 0}
-#define ser_JonGuiDataPMU_init_zero              {0, 0, false, ser_JonGuiDataMeteo_init_zero, 0, 0, 0, 0, 0, 0, 0}
+#define ser_JonGuiDataPMU_init_default           {0, 0, false, ser_JonGuiDataMeteo_init_default, 0, 0, 0, 0, 0, 0, 0, false, ser_JonGuiDataModuleHealth_init_default}
+#define ser_JonGuiDataPMU_init_zero              {0, 0, false, ser_JonGuiDataMeteo_init_zero, 0, 0, 0, 0, 0, 0, 0, false, ser_JonGuiDataModuleHealth_init_zero}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataPMU_temperature_tag        1
@@ -47,6 +49,7 @@ extern "C" {
 #define ser_JonGuiDataPMU_ina_power_tag          9
 #define ser_JonGuiDataPMU_ina_power_fault_tag    10
 #define ser_JonGuiDataPMU_charge_disabled_tag    11
+#define ser_JonGuiDataPMU_health_tag             40
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataPMU_FIELDLIST(X, a) \
@@ -59,10 +62,12 @@ X(a, STATIC,   SINGULAR, DOUBLE,   ina_voltage,       7) \
 X(a, STATIC,   SINGULAR, DOUBLE,   ina_current,       8) \
 X(a, STATIC,   SINGULAR, DOUBLE,   ina_power,         9) \
 X(a, STATIC,   SINGULAR, BOOL,     ina_power_fault,  10) \
-X(a, STATIC,   SINGULAR, BOOL,     charge_disabled,  11)
+X(a, STATIC,   SINGULAR, BOOL,     charge_disabled,  11) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  health,           40)
 #define ser_JonGuiDataPMU_CALLBACK NULL
 #define ser_JonGuiDataPMU_DEFAULT NULL
 #define ser_JonGuiDataPMU_meteo_MSGTYPE ser_JonGuiDataMeteo
+#define ser_JonGuiDataPMU_health_MSGTYPE ser_JonGuiDataModuleHealth
 
 extern const pb_msgdesc_t ser_JonGuiDataPMU_msg;
 
@@ -71,7 +76,7 @@ extern const pb_msgdesc_t ser_JonGuiDataPMU_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_PMU_PB_H_MAX_SIZE    ser_JonGuiDataPMU_size
-#define ser_JonGuiDataPMU_size                   82
+#define ser_JonGuiDataPMU_size                   121
 
 #ifdef __cplusplus
 } /* extern "C" */

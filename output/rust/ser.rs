@@ -8,6 +8,24 @@ pub struct JonGuiDataMeteo {
     #[prost(double, tag = "3")]
     pub pressure: f64,
 }
+/// Per-module CAN-FD queue health. Each queue channel reports its configured
+/// capacity, its peak observed depth, and the count of oldest entries dropped
+/// on overflow; a module carries at most two such channels.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct JonGuiDataModuleHealth {
+    #[prost(uint32, tag = "1")]
+    pub queue_cap_0: u32,
+    #[prost(uint32, tag = "2")]
+    pub peak_depth_0: u32,
+    #[prost(uint32, tag = "3")]
+    pub dropped_oldest_0: u32,
+    #[prost(uint32, tag = "4")]
+    pub queue_cap_1: u32,
+    #[prost(uint32, tag = "5")]
+    pub peak_depth_1: u32,
+    #[prost(uint32, tag = "6")]
+    pub dropped_oldest_1: u32,
+}
 /// Structured version for opaque payloads.
 /// Enables simple numeric comparison without string parsing.
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -1531,6 +1549,8 @@ pub struct JonGuiDataLrf {
     /// Scanning mode frequency (0=off, 1=1Hz, 2=2Hz, 3=4Hz)
     #[prost(int32, tag = "11")]
     pub scan_mode: i32,
+    #[prost(message, optional, tag = "40")]
+    pub health: ::core::option::Option<JonGuiDataModuleHealth>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataTarget {
@@ -1624,6 +1644,8 @@ pub struct JonGuiDataGps {
     pub is_started: bool,
     #[prost(message, optional, tag = "11")]
     pub meteo: ::core::option::Option<JonGuiDataMeteo>,
+    #[prost(message, optional, tag = "40")]
+    pub health: ::core::option::Option<JonGuiDataModuleHealth>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataCompass {
@@ -1645,6 +1667,8 @@ pub struct JonGuiDataCompass {
     pub is_started: bool,
     #[prost(message, optional, tag = "9")]
     pub meteo: ::core::option::Option<JonGuiDataMeteo>,
+    #[prost(message, optional, tag = "40")]
+    pub health: ::core::option::Option<JonGuiDataModuleHealth>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataCompassCalibration {
@@ -1738,6 +1762,8 @@ pub struct JonGuiDataRotary {
     /// rotate-to-GPS are dropped by the rotary interlock.
     #[prost(bool, tag = "23")]
     pub is_parked: bool,
+    #[prost(message, optional, tag = "40")]
+    pub health: ::core::option::Option<JonGuiDataModuleHealth>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct ScanNode {
@@ -1807,6 +1833,8 @@ pub struct JonGuiDataCameraDay {
     pub delivered_fps: ::core::option::Option<f64>,
     #[prost(double, optional, tag = "21")]
     pub content_fps: ::core::option::Option<f64>,
+    #[prost(message, optional, tag = "40")]
+    pub health: ::core::option::Option<JonGuiDataModuleHealth>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataCameraHeat {
@@ -1858,6 +1886,8 @@ pub struct JonGuiDataCameraHeat {
     pub delivered_fps: ::core::option::Option<f64>,
     #[prost(double, optional, tag = "18")]
     pub content_fps: ::core::option::Option<f64>,
+    #[prost(message, optional, tag = "40")]
+    pub health: ::core::option::Option<JonGuiDataModuleHealth>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataRecOsd {
@@ -1953,6 +1983,8 @@ pub struct JonGuiDataPower {
     /// Internal meteo sensor data (temperature, humidity, pressure)
     #[prost(message, optional, tag = "12")]
     pub meteo: ::core::option::Option<JonGuiDataMeteo>,
+    #[prost(message, optional, tag = "40")]
+    pub health: ::core::option::Option<JonGuiDataModuleHealth>,
 }
 /// CV Gateway state enrichment — the CV subsystem's per-tick state on the STATE
 /// plane: autofocus metrics and sweep status, ROIs, CV bridge health, camera
@@ -2408,6 +2440,8 @@ pub struct JonGuiDataPmu {
     /// Battery charging status (false = charging enabled by default)
     #[prost(bool, tag = "11")]
     pub charge_disabled: bool,
+    #[prost(message, optional, tag = "40")]
+    pub health: ::core::option::Option<JonGuiDataModuleHealth>,
 }
 /// HeaterChannelStatus represents the state of a single heating channel
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -2448,6 +2482,8 @@ pub struct JonGuiDataHeater {
     pub target_temp_channel_1: f32,
     #[prost(float, tag = "10")]
     pub target_temp_channel_2: f32,
+    #[prost(message, optional, tag = "40")]
+    pub health: ::core::option::Option<JonGuiDataModuleHealth>,
 }
 /// Status of the sandboxed drive programs (scan / POI / park) hosted by
 /// eutropia's DriveHost. Published every state tick from the owning program's

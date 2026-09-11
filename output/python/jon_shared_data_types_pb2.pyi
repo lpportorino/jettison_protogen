@@ -337,6 +337,22 @@ class JonGuiDataMeteo(_message.Message):
     pressure: float
     def __init__(self, temperature: _Optional[float] = ..., humidity: _Optional[float] = ..., pressure: _Optional[float] = ...) -> None: ...
 
+class JonGuiDataModuleHealth(_message.Message):
+    __slots__ = ("queue_cap_0", "peak_depth_0", "dropped_oldest_0", "queue_cap_1", "peak_depth_1", "dropped_oldest_1")
+    QUEUE_CAP_0_FIELD_NUMBER: _ClassVar[int]
+    PEAK_DEPTH_0_FIELD_NUMBER: _ClassVar[int]
+    DROPPED_OLDEST_0_FIELD_NUMBER: _ClassVar[int]
+    QUEUE_CAP_1_FIELD_NUMBER: _ClassVar[int]
+    PEAK_DEPTH_1_FIELD_NUMBER: _ClassVar[int]
+    DROPPED_OLDEST_1_FIELD_NUMBER: _ClassVar[int]
+    queue_cap_0: int
+    peak_depth_0: int
+    dropped_oldest_0: int
+    queue_cap_1: int
+    peak_depth_1: int
+    dropped_oldest_1: int
+    def __init__(self, queue_cap_0: _Optional[int] = ..., peak_depth_0: _Optional[int] = ..., dropped_oldest_0: _Optional[int] = ..., queue_cap_1: _Optional[int] = ..., peak_depth_1: _Optional[int] = ..., dropped_oldest_1: _Optional[int] = ...) -> None: ...
+
 class JonOpaquePayloadVersion(_message.Message):
     __slots__ = ("major", "minor", "build")
     MAJOR_FIELD_NUMBER: _ClassVar[int]

@@ -30,6 +30,7 @@ inline constexpr JonGuiDataPMU::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         meteo_{nullptr},
+        health_{nullptr},
         temperature_{0},
         voltage_{0},
         ina_voltage_{0},
@@ -85,6 +86,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPMU, _impl_.ina_power_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPMU, _impl_.ina_power_fault_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPMU, _impl_.charge_disabled_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPMU, _impl_.health_),
         ~0u,
         ~0u,
         0,
@@ -95,11 +97,12 @@ const ::uint32_t
         ~0u,
         ~0u,
         ~0u,
+        1,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, 18, -1, sizeof(::ser::JonGuiDataPMU)},
+        {0, 19, -1, sizeof(::ser::JonGuiDataPMU)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGuiDataPMU_default_instance_._instance,
@@ -108,7 +111,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fpmu_2eproto[] ABSL_AT
     protodesc_cold) = {
     "\n\031jon_shared_data_pmu.proto\022\003ser\032\033buf/va"
     "lidate/validate.proto\032\033jon_shared_data_t"
-    "ypes.proto\"\240\003\n\rJonGuiDataPMU\022P\n\013temperat"
+    "ypes.proto\"\315\003\n\rJonGuiDataPMU\022P\n\013temperat"
     "ure\030\001 \001(\001B;\272H8\0226\031\303\365(\\\217\242\204@)fffff\022q\300I\000\000\000\000\000"
     "\0004\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\0009@I\000\000\000\000\000\000Y@\022\022\n\nis_sta"
     "rted\030\003 \001(\010\022#\n\005meteo\030\004 \001(\0132\024.ser.JonGuiDa"
@@ -118,9 +121,10 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fpmu_2eproto[] ABSL_AT
     "\000\000\000\022,\n\013ina_current\030\010 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\210\303@"
     ")\000\000\000\000\000\210\303\300\022*\n\tina_power\030\t \001(\001B\027\272H\024\022\022\031\000\000\000\000"
     "\000j\010A)\000\000\000\000\000\000\000\000\022\027\n\017ina_power_fault\030\n \001(\010\022\027"
-    "\n\017charge_disabled\030\013 \001(\010J\004\010\002\020\003BKZIgit-cod"
-    "ecommit.eu-central-1.amazonaws.com/v1/re"
-    "pos/jettison/jonp/data/pmub\006proto3"
+    "\n\017charge_disabled\030\013 \001(\010\022+\n\006health\030( \001(\0132"
+    "\033.ser.JonGuiDataModuleHealthJ\004\010\002\020\003BKZIgi"
+    "t-codecommit.eu-central-1.amazonaws.com/"
+    "v1/repos/jettison/jonp/data/pmub\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fpmu_2eproto_deps[2] =
     {
@@ -131,7 +135,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fpmu_2eproto_once
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fpmu_2eproto = {
     false,
     false,
-    594,
+    639,
     descriptor_table_protodef_jon_5fshared_5fdata_5fpmu_2eproto,
     "jon_shared_data_pmu.proto",
     &descriptor_table_jon_5fshared_5fdata_5fpmu_2eproto_once,
@@ -159,6 +163,11 @@ void JonGuiDataPMU::clear_meteo() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.meteo_ != nullptr) _impl_.meteo_->Clear();
   _impl_._has_bits_[0] &= ~0x00000001u;
+}
+void JonGuiDataPMU::clear_health() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.health_ != nullptr) _impl_.health_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
 }
 JonGuiDataPMU::JonGuiDataPMU(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
@@ -191,6 +200,9 @@ JonGuiDataPMU::JonGuiDataPMU(
   ::uint32_t cached_has_bits = _impl_._has_bits_[0];
   _impl_.meteo_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(
                               arena, *from._impl_.meteo_)
+                        : nullptr;
+  _impl_.health_ = (cached_has_bits & 0x00000002u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataModuleHealth>(
+                              arena, *from._impl_.health_)
                         : nullptr;
   ::memcpy(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, temperature_),
@@ -225,6 +237,7 @@ inline void JonGuiDataPMU::SharedDtor(MessageLite& self) {
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   delete this_._impl_.meteo_;
+  delete this_._impl_.health_;
   this_._impl_.~Impl_();
 }
 
@@ -264,16 +277,16 @@ const ::google::protobuf::internal::ClassData* JonGuiDataPMU::GetClassData() con
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<4, 10, 1, 0, 2> JonGuiDataPMU::_table_ = {
+const ::_pbi::TcParseTable<4, 11, 2, 0, 7> JonGuiDataPMU::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_._has_bits_),
     0, // no _extensions_
-    11, 120,  // max_field_number, fast_idx_mask
+    40, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
     4294965250,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    10,  // num_field_entries
-    1,  // num_aux_entries
+    11,  // num_field_entries
+    2,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -319,6 +332,8 @@ const ::_pbi::TcParseTable<4, 10, 1, 0, 2> JonGuiDataPMU::_table_ = {
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
+    40, 0, 1,
+    65534, 10,
     65535, 65535
   }}, {{
     // double temperature = 1 [(.buf.validate.field) = {
@@ -351,8 +366,12 @@ const ::_pbi::TcParseTable<4, 10, 1, 0, 2> JonGuiDataPMU::_table_ = {
     // bool charge_disabled = 11;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.charge_disabled_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
+    // .ser.JonGuiDataModuleHealth health = 40;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.health_), _Internal::kHasBitsOffset + 1, 1,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataMeteo>()},
+    {::_pbi::TcParser::GetTable<::ser::JonGuiDataModuleHealth>()},
   }}, {{
   }},
 };
@@ -365,9 +384,15 @@ PROTOBUF_NOINLINE void JonGuiDataPMU::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    ABSL_DCHECK(_impl_.meteo_ != nullptr);
-    _impl_.meteo_->Clear();
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(_impl_.meteo_ != nullptr);
+      _impl_.meteo_->Clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(_impl_.health_ != nullptr);
+      _impl_.health_->Clear();
+    }
   }
   ::memset(&_impl_.temperature_, 0, static_cast<::size_t>(
       reinterpret_cast<char*>(&_impl_.charge_disabled_) -
@@ -462,6 +487,13 @@ PROTOBUF_NOINLINE void JonGuiDataPMU::Clear() {
                 11, this_._internal_charge_disabled(), target);
           }
 
+          // .ser.JonGuiDataModuleHealth health = 40;
+          if (cached_has_bits & 0x00000002u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                40, *this_._impl_.health_, this_._impl_.health_->GetCachedSize(), target,
+                stream);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -486,12 +518,17 @@ PROTOBUF_NOINLINE void JonGuiDataPMU::Clear() {
           (void)cached_has_bits;
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
-           {
+          cached_has_bits = this_._impl_._has_bits_[0];
+          if (cached_has_bits & 0x00000003u) {
             // .ser.JonGuiDataMeteo meteo = 4;
-            cached_has_bits = this_._impl_._has_bits_[0];
             if (cached_has_bits & 0x00000001u) {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.meteo_);
+            }
+            // .ser.JonGuiDataModuleHealth health = 40;
+            if (cached_has_bits & 0x00000002u) {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.health_);
             }
           }
            {
@@ -546,13 +583,24 @@ void JonGuiDataPMU::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::g
   (void) cached_has_bits;
 
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    ABSL_DCHECK(from._impl_.meteo_ != nullptr);
-    if (_this->_impl_.meteo_ == nullptr) {
-      _this->_impl_.meteo_ =
-          ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(arena, *from._impl_.meteo_);
-    } else {
-      _this->_impl_.meteo_->MergeFrom(*from._impl_.meteo_);
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(from._impl_.meteo_ != nullptr);
+      if (_this->_impl_.meteo_ == nullptr) {
+        _this->_impl_.meteo_ =
+            ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(arena, *from._impl_.meteo_);
+      } else {
+        _this->_impl_.meteo_->MergeFrom(*from._impl_.meteo_);
+      }
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(from._impl_.health_ != nullptr);
+      if (_this->_impl_.health_ == nullptr) {
+        _this->_impl_.health_ =
+            ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataModuleHealth>(arena, *from._impl_.health_);
+      } else {
+        _this->_impl_.health_->MergeFrom(*from._impl_.health_);
+      }
     }
   }
   if (::absl::bit_cast<::uint64_t>(from._internal_temperature()) != 0) {

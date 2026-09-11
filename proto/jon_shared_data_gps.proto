@@ -37,4 +37,6 @@ message JonGuiDataGps {
   int64 timestamp = 9;  // GPS timestamp from satellite (Unix time in seconds)
   bool is_started = 10;
   JonGuiDataMeteo meteo = 11;
+
+  JonGuiDataModuleHealth health = 40;
 }

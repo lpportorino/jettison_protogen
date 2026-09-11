@@ -6,7 +6,7 @@
 #error Regenerate this file with the current version of nanopb generator.
 #endif
 
-PB_BIND(ser_JonGuiDataLrf, ser_JonGuiDataLrf, AUTO)
+PB_BIND(ser_JonGuiDataLrf, ser_JonGuiDataLrf, 2)
 
 
 PB_BIND(ser_JonGuiDataTarget, ser_JonGuiDataTarget, AUTO)

@@ -24,16 +24,17 @@ const (
 )
 
 type JonGuiDataCompass struct {
-	state               protoimpl.MessageState `protogen:"open.v1"`
-	Azimuth             float64                `protobuf:"fixed64,1,opt,name=azimuth,proto3" json:"azimuth,omitempty"`
-	Elevation           float64                `protobuf:"fixed64,2,opt,name=elevation,proto3" json:"elevation,omitempty"`
-	Bank                float64                `protobuf:"fixed64,3,opt,name=bank,proto3" json:"bank,omitempty"`
-	OffsetAzimuth       float64                `protobuf:"fixed64,4,opt,name=offsetAzimuth,proto3" json:"offsetAzimuth,omitempty"`
-	OffsetElevation     float64                `protobuf:"fixed64,5,opt,name=offsetElevation,proto3" json:"offsetElevation,omitempty"`
-	MagneticDeclination float64                `protobuf:"fixed64,6,opt,name=magneticDeclination,proto3" json:"magneticDeclination,omitempty"`
-	Calibrating         bool                   `protobuf:"varint,7,opt,name=calibrating,proto3" json:"calibrating,omitempty"`
-	IsStarted           bool                   `protobuf:"varint,8,opt,name=is_started,json=isStarted,proto3" json:"is_started,omitempty"`
-	Meteo               *types.JonGuiDataMeteo `protobuf:"bytes,9,opt,name=meteo,proto3" json:"meteo,omitempty"`
+	state               protoimpl.MessageState        `protogen:"open.v1"`
+	Azimuth             float64                       `protobuf:"fixed64,1,opt,name=azimuth,proto3" json:"azimuth,omitempty"`
+	Elevation           float64                       `protobuf:"fixed64,2,opt,name=elevation,proto3" json:"elevation,omitempty"`
+	Bank                float64                       `protobuf:"fixed64,3,opt,name=bank,proto3" json:"bank,omitempty"`
+	OffsetAzimuth       float64                       `protobuf:"fixed64,4,opt,name=offsetAzimuth,proto3" json:"offsetAzimuth,omitempty"`
+	OffsetElevation     float64                       `protobuf:"fixed64,5,opt,name=offsetElevation,proto3" json:"offsetElevation,omitempty"`
+	MagneticDeclination float64                       `protobuf:"fixed64,6,opt,name=magneticDeclination,proto3" json:"magneticDeclination,omitempty"`
+	Calibrating         bool                          `protobuf:"varint,7,opt,name=calibrating,proto3" json:"calibrating,omitempty"`
+	IsStarted           bool                          `protobuf:"varint,8,opt,name=is_started,json=isStarted,proto3" json:"is_started,omitempty"`
+	Meteo               *types.JonGuiDataMeteo        `protobuf:"bytes,9,opt,name=meteo,proto3" json:"meteo,omitempty"`
+	Health              *types.JonGuiDataModuleHealth `protobuf:"bytes,40,opt,name=health,proto3" json:"health,omitempty"`
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -131,11 +132,18 @@ func (x *JonGuiDataCompass) GetMeteo() *types.JonGuiDataMeteo {
 	return nil
 }
 
+func (x *JonGuiDataCompass) GetHealth() *types.JonGuiDataModuleHealth {
+	if x != nil {
+		return x.Health
+	}
+	return nil
+}
+
 var File_jon_shared_data_compass_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_compass_proto_rawDesc = "" +
 	"\n" +
-	"\x1djon_shared_data_compass.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x8f\x05\n" +
+	"\x1djon_shared_data_compass.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xc4\x05\n" +
 	"\x11JonGuiDataCompass\x12U\n" +
 	"\aazimuth\x18\x01 \x01(\x01B;\xbaH8\x126I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\xa0V@I\x00\x00\x00\x00\x00\x80f@I\x00\x00\x00\x00\x00\xe0p@\x11\x00\x00\x00\x00\x00\x80v@)\x00\x00\x00\x00\x00\x00\x00\x00R\aazimuth\x12P\n" +
 	"\televation\x18\x02 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x80F\xc0I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80F@\x19\x00\x00\x00\x00\x00\x80V@)\x00\x00\x00\x00\x00\x80V\xc0R\televation\x12F\n" +
@@ -146,7 +154,8 @@ const file_jon_shared_data_compass_proto_rawDesc = "" +
 	"\vcalibrating\x18\a \x01(\bR\vcalibrating\x12\x1d\n" +
 	"\n" +
 	"is_started\x18\b \x01(\bR\tisStarted\x12*\n" +
-	"\x05meteo\x18\t \x01(\v2\x14.ser.JonGuiDataMeteoR\x05meteoB\x9f\x01\n" +
+	"\x05meteo\x18\t \x01(\v2\x14.ser.JonGuiDataMeteoR\x05meteo\x123\n" +
+	"\x06health\x18( \x01(\v2\x1b.ser.JonGuiDataModuleHealthR\x06healthB\x9f\x01\n" +
 	"\acom.serB\x19JonSharedDataCompassProtoP\x01ZMgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/compass\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (
@@ -163,16 +172,18 @@ func file_jon_shared_data_compass_proto_rawDescGZIP() []byte {
 
 var file_jon_shared_data_compass_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_jon_shared_data_compass_proto_goTypes = []any{
-	(*JonGuiDataCompass)(nil),     // 0: ser.JonGuiDataCompass
-	(*types.JonGuiDataMeteo)(nil), // 1: ser.JonGuiDataMeteo
+	(*JonGuiDataCompass)(nil),            // 0: ser.JonGuiDataCompass
+	(*types.JonGuiDataMeteo)(nil),        // 1: ser.JonGuiDataMeteo
+	(*types.JonGuiDataModuleHealth)(nil), // 2: ser.JonGuiDataModuleHealth
 }
 var file_jon_shared_data_compass_proto_depIdxs = []int32{
 	1, // 0: ser.JonGuiDataCompass.meteo:type_name -> ser.JonGuiDataMeteo
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	2, // 1: ser.JonGuiDataCompass.health:type_name -> ser.JonGuiDataModuleHealth
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_compass_proto_init() }

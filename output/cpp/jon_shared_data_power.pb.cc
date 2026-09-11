@@ -67,6 +67,7 @@ inline constexpr JonGuiDataPower::Impl_::Impl_(
         s6_{nullptr},
         s7_{nullptr},
         meteo_{nullptr},
+        health_{nullptr},
         accumulator_state_{static_cast< ::ser::JonGuiDataAccumulatorStateIdx >(0)},
         ext_bat_capacity_{0},
         ext_bat_status_{static_cast< ::ser::JonGuiDataExtBatStatus >(0)} {}
@@ -131,6 +132,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPower, _impl_.ext_bat_capacity_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPower, _impl_.ext_bat_status_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPower, _impl_.meteo_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPower, _impl_.health_),
         0,
         1,
         2,
@@ -143,12 +145,13 @@ const ::uint32_t
         ~0u,
         ~0u,
         8,
+        9,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::ser::JonGuiDataPowerModule)},
-        {13, 33, -1, sizeof(::ser::JonGuiDataPower)},
+        {13, 34, -1, sizeof(::ser::JonGuiDataPower)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGuiDataPowerModule_default_instance_._instance,
@@ -164,7 +167,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fpower_2eproto[] ABSL_
     " \001(\001B2\272H/\022-\031\000\000\000\000\000\000I@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000"
     "\000\000\000\000\000\340\?I\000\000\000\000\000\000\004@\022A\n\005power\030\003 \001(\001B2\272H/\022-\031\000"
     "\000\000\000\000@\177@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\030@I\000\000\000\000\000"
-    "\000>@\022\r\n\005is_on\030\004 \001(\010\022\021\n\thas_alarm\030\005 \001(\010\"\204\004"
+    "\000>@\022\r\n\005is_on\030\004 \001(\010\022\021\n\thas_alarm\030\005 \001(\010\"\261\004"
     "\n\017JonGuiDataPower\022&\n\002s0\030\001 \001(\0132\032.ser.JonG"
     "uiDataPowerModule\022&\n\002s1\030\002 \001(\0132\032.ser.JonG"
     "uiDataPowerModule\022&\n\002s2\030\003 \001(\0132\032.ser.JonG"
@@ -177,10 +180,11 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fpower_2eproto[] ABSL_
     " \001(\0162\".ser.JonGuiDataAccumulatorStateIdx"
     "\022\030\n\020ext_bat_capacity\030\n \001(\005\0223\n\016ext_bat_st"
     "atus\030\013 \001(\0162\033.ser.JonGuiDataExtBatStatus\022"
-    "#\n\005meteo\030\014 \001(\0132\024.ser.JonGuiDataMeteoBMZK"
-    "git-codecommit.eu-central-1.amazonaws.co"
-    "m/v1/repos/jettison/jonp/data/powerb\006pro"
-    "to3"
+    "#\n\005meteo\030\014 \001(\0132\024.ser.JonGuiDataMeteo\022+\n\006"
+    "health\030( \001(\0132\033.ser.JonGuiDataModuleHealt"
+    "hBMZKgit-codecommit.eu-central-1.amazona"
+    "ws.com/v1/repos/jettison/jonp/data/power"
+    "b\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fpower_2eproto_deps[2] =
     {
@@ -191,7 +195,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fpower_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fpower_2eproto = {
     false,
     false,
-    963,
+    1008,
     descriptor_table_protodef_jon_5fshared_5fdata_5fpower_2eproto,
     "jon_shared_data_power.proto",
     &descriptor_table_jon_5fshared_5fdata_5fpower_2eproto_once,
@@ -522,6 +526,11 @@ void JonGuiDataPower::clear_meteo() {
   if (_impl_.meteo_ != nullptr) _impl_.meteo_->Clear();
   _impl_._has_bits_[0] &= ~0x00000100u;
 }
+void JonGuiDataPower::clear_health() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.health_ != nullptr) _impl_.health_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000200u;
+}
 JonGuiDataPower::JonGuiDataPower(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -578,6 +587,9 @@ JonGuiDataPower::JonGuiDataPower(
   _impl_.meteo_ = (cached_has_bits & 0x00000100u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(
                               arena, *from._impl_.meteo_)
                         : nullptr;
+  _impl_.health_ = (cached_has_bits & 0x00000200u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataModuleHealth>(
+                              arena, *from._impl_.health_)
+                        : nullptr;
   ::memcpy(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, accumulator_state_),
            reinterpret_cast<const char *>(&from._impl_) +
@@ -619,6 +631,7 @@ inline void JonGuiDataPower::SharedDtor(MessageLite& self) {
   delete this_._impl_.s6_;
   delete this_._impl_.s7_;
   delete this_._impl_.meteo_;
+  delete this_._impl_.health_;
   this_._impl_.~Impl_();
 }
 
@@ -658,16 +671,16 @@ const ::google::protobuf::internal::ClassData* JonGuiDataPower::GetClassData() c
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<4, 12, 9, 0, 2> JonGuiDataPower::_table_ = {
+const ::_pbi::TcParseTable<4, 13, 10, 0, 7> JonGuiDataPower::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(JonGuiDataPower, _impl_._has_bits_),
     0, // no _extensions_
-    12, 120,  // max_field_number, fast_idx_mask
+    40, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
     4294963200,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    12,  // num_field_entries
-    9,  // num_aux_entries
+    13,  // num_field_entries
+    10,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -717,6 +730,8 @@ const ::_pbi::TcParseTable<4, 12, 9, 0, 2> JonGuiDataPower::_table_ = {
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
+    40, 0, 1,
+    65534, 12,
     65535, 65535
   }}, {{
     // .ser.JonGuiDataPowerModule s0 = 1;
@@ -755,6 +770,9 @@ const ::_pbi::TcParseTable<4, 12, 9, 0, 2> JonGuiDataPower::_table_ = {
     // .ser.JonGuiDataMeteo meteo = 12;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataPower, _impl_.meteo_), _Internal::kHasBitsOffset + 8, 8,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .ser.JonGuiDataModuleHealth health = 40;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataPower, _impl_.health_), _Internal::kHasBitsOffset + 9, 9,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataPowerModule>()},
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataPowerModule>()},
@@ -765,6 +783,7 @@ const ::_pbi::TcParseTable<4, 12, 9, 0, 2> JonGuiDataPower::_table_ = {
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataPowerModule>()},
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataPowerModule>()},
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataMeteo>()},
+    {::_pbi::TcParser::GetTable<::ser::JonGuiDataModuleHealth>()},
   }}, {{
   }},
 };
@@ -811,9 +830,15 @@ PROTOBUF_NOINLINE void JonGuiDataPower::Clear() {
       _impl_.s7_->Clear();
     }
   }
-  if (cached_has_bits & 0x00000100u) {
-    ABSL_DCHECK(_impl_.meteo_ != nullptr);
-    _impl_.meteo_->Clear();
+  if (cached_has_bits & 0x00000300u) {
+    if (cached_has_bits & 0x00000100u) {
+      ABSL_DCHECK(_impl_.meteo_ != nullptr);
+      _impl_.meteo_->Clear();
+    }
+    if (cached_has_bits & 0x00000200u) {
+      ABSL_DCHECK(_impl_.health_ != nullptr);
+      _impl_.health_->Clear();
+    }
   }
   ::memset(&_impl_.accumulator_state_, 0, static_cast<::size_t>(
       reinterpret_cast<char*>(&_impl_.ext_bat_status_) -
@@ -922,6 +947,13 @@ PROTOBUF_NOINLINE void JonGuiDataPower::Clear() {
                 stream);
           }
 
+          // .ser.JonGuiDataModuleHealth health = 40;
+          if (cached_has_bits & 0x00000200u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                40, *this_._impl_.health_, this_._impl_.health_->GetCachedSize(), target,
+                stream);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -989,11 +1021,16 @@ PROTOBUF_NOINLINE void JonGuiDataPower::Clear() {
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.s7_);
             }
           }
-           {
+          if (cached_has_bits & 0x00000300u) {
             // .ser.JonGuiDataMeteo meteo = 12;
             if (cached_has_bits & 0x00000100u) {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.meteo_);
+            }
+            // .ser.JonGuiDataModuleHealth health = 40;
+            if (cached_has_bits & 0x00000200u) {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.health_);
             }
           }
            {
@@ -1101,13 +1138,24 @@ void JonGuiDataPower::MergeImpl(::google::protobuf::MessageLite& to_msg, const :
       }
     }
   }
-  if (cached_has_bits & 0x00000100u) {
-    ABSL_DCHECK(from._impl_.meteo_ != nullptr);
-    if (_this->_impl_.meteo_ == nullptr) {
-      _this->_impl_.meteo_ =
-          ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(arena, *from._impl_.meteo_);
-    } else {
-      _this->_impl_.meteo_->MergeFrom(*from._impl_.meteo_);
+  if (cached_has_bits & 0x00000300u) {
+    if (cached_has_bits & 0x00000100u) {
+      ABSL_DCHECK(from._impl_.meteo_ != nullptr);
+      if (_this->_impl_.meteo_ == nullptr) {
+        _this->_impl_.meteo_ =
+            ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(arena, *from._impl_.meteo_);
+      } else {
+        _this->_impl_.meteo_->MergeFrom(*from._impl_.meteo_);
+      }
+    }
+    if (cached_has_bits & 0x00000200u) {
+      ABSL_DCHECK(from._impl_.health_ != nullptr);
+      if (_this->_impl_.health_ == nullptr) {
+        _this->_impl_.health_ =
+            ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataModuleHealth>(arena, *from._impl_.health_);
+      } else {
+        _this->_impl_.health_->MergeFrom(*from._impl_.health_);
+      }
     }
   }
   if (from._internal_accumulator_state() != 0) {

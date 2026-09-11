@@ -29,6 +29,7 @@ Represents real-time power distribution state across all 8 system channels (GPS,
 | 10 | ext_bat_capacity | int32 | - |
 | 11 | ext_bat_status | [[proto/ser.JonGuiDataExtBatStatus]] | - |
 | 12 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
+| 40 | health | [[proto/ser.JonGuiDataModuleHealth]] | - |
 
 
 

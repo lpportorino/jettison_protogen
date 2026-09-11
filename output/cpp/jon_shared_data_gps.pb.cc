@@ -30,6 +30,7 @@ inline constexpr JonGuiDataGps::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         meteo_{nullptr},
+        health_{nullptr},
         longitude_{0},
         latitude_{0},
         altitude_{0},
@@ -87,6 +88,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataGps, _impl_.timestamp_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataGps, _impl_.is_started_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataGps, _impl_.meteo_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataGps, _impl_.health_),
         ~0u,
         ~0u,
         ~0u,
@@ -98,11 +100,12 @@ const ::uint32_t
         ~0u,
         ~0u,
         0,
+        1,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, 19, -1, sizeof(::ser::JonGuiDataGps)},
+        {0, 20, -1, sizeof(::ser::JonGuiDataGps)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGuiDataGps_default_instance_._instance,
@@ -111,7 +114,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fgps_2eproto[] ABSL_AT
     protodesc_cold) = {
     "\n\031jon_shared_data_gps.proto\022\003ser\032\033buf/va"
     "lidate/validate.proto\032\033jon_shared_data_t"
-    "ypes.proto\"\217\003\n\rJonGuiDataGps\022*\n\tlongitud"
+    "ypes.proto\"\274\003\n\rJonGuiDataGps\022*\n\tlongitud"
     "e\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022)\n\010lati"
     "tude\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\020\n\010a"
     "ltitude\030\003 \001(\001\0221\n\020manual_longitude\030\004 \001(\001B"
@@ -121,9 +124,10 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fgps_2eproto[] ABSL_AT
     "ser.JonGuiDataGpsFixTypeB\n\272H\007\202\001\004\020\001 \000\022\022\n\n"
     "use_manual\030\010 \001(\010\022\021\n\ttimestamp\030\t \001(\003\022\022\n\ni"
     "s_started\030\n \001(\010\022#\n\005meteo\030\013 \001(\0132\024.ser.Jon"
-    "GuiDataMeteoBKZIgit-codecommit.eu-centra"
-    "l-1.amazonaws.com/v1/repos/jettison/jonp"
-    "/data/gpsb\006proto3"
+    "GuiDataMeteo\022+\n\006health\030( \001(\0132\033.ser.JonGu"
+    "iDataModuleHealthBKZIgit-codecommit.eu-c"
+    "entral-1.amazonaws.com/v1/repos/jettison"
+    "/jonp/data/gpsb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fgps_2eproto_deps[2] =
     {
@@ -134,7 +138,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fgps_2eproto_once
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fgps_2eproto = {
     false,
     false,
-    577,
+    622,
     descriptor_table_protodef_jon_5fshared_5fdata_5fgps_2eproto,
     "jon_shared_data_gps.proto",
     &descriptor_table_jon_5fshared_5fdata_5fgps_2eproto_once,
@@ -162,6 +166,11 @@ void JonGuiDataGps::clear_meteo() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.meteo_ != nullptr) _impl_.meteo_->Clear();
   _impl_._has_bits_[0] &= ~0x00000001u;
+}
+void JonGuiDataGps::clear_health() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.health_ != nullptr) _impl_.health_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
 }
 JonGuiDataGps::JonGuiDataGps(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
@@ -194,6 +203,9 @@ JonGuiDataGps::JonGuiDataGps(
   ::uint32_t cached_has_bits = _impl_._has_bits_[0];
   _impl_.meteo_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(
                               arena, *from._impl_.meteo_)
+                        : nullptr;
+  _impl_.health_ = (cached_has_bits & 0x00000002u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataModuleHealth>(
+                              arena, *from._impl_.health_)
                         : nullptr;
   ::memcpy(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, longitude_),
@@ -228,6 +240,7 @@ inline void JonGuiDataGps::SharedDtor(MessageLite& self) {
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   delete this_._impl_.meteo_;
+  delete this_._impl_.health_;
   this_._impl_.~Impl_();
 }
 
@@ -267,16 +280,16 @@ const ::google::protobuf::internal::ClassData* JonGuiDataGps::GetClassData() con
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<4, 11, 1, 0, 2> JonGuiDataGps::_table_ = {
+const ::_pbi::TcParseTable<4, 12, 2, 0, 7> JonGuiDataGps::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(JonGuiDataGps, _impl_._has_bits_),
     0, // no _extensions_
-    11, 120,  // max_field_number, fast_idx_mask
+    40, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
     4294965248,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    11,  // num_field_entries
-    1,  // num_aux_entries
+    12,  // num_field_entries
+    2,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -324,6 +337,8 @@ const ::_pbi::TcParseTable<4, 11, 1, 0, 2> JonGuiDataGps::_table_ = {
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
+    40, 0, 1,
+    65534, 11,
     65535, 65535
   }}, {{
     // double longitude = 1 [(.buf.validate.field) = {
@@ -359,8 +374,12 @@ const ::_pbi::TcParseTable<4, 11, 1, 0, 2> JonGuiDataGps::_table_ = {
     // .ser.JonGuiDataMeteo meteo = 11;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataGps, _impl_.meteo_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .ser.JonGuiDataModuleHealth health = 40;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataGps, _impl_.health_), _Internal::kHasBitsOffset + 1, 1,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataMeteo>()},
+    {::_pbi::TcParser::GetTable<::ser::JonGuiDataModuleHealth>()},
   }}, {{
   }},
 };
@@ -373,9 +392,15 @@ PROTOBUF_NOINLINE void JonGuiDataGps::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    ABSL_DCHECK(_impl_.meteo_ != nullptr);
-    _impl_.meteo_->Clear();
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(_impl_.meteo_ != nullptr);
+      _impl_.meteo_->Clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(_impl_.health_ != nullptr);
+      _impl_.health_->Clear();
+    }
   }
   ::memset(&_impl_.longitude_, 0, static_cast<::size_t>(
       reinterpret_cast<char*>(&_impl_.timestamp_) -
@@ -477,6 +502,13 @@ PROTOBUF_NOINLINE void JonGuiDataGps::Clear() {
                 stream);
           }
 
+          // .ser.JonGuiDataModuleHealth health = 40;
+          if (cached_has_bits & 0x00000002u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                40, *this_._impl_.health_, this_._impl_.health_->GetCachedSize(), target,
+                stream);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -501,12 +533,17 @@ PROTOBUF_NOINLINE void JonGuiDataGps::Clear() {
           (void)cached_has_bits;
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
-           {
+          cached_has_bits = this_._impl_._has_bits_[0];
+          if (cached_has_bits & 0x00000003u) {
             // .ser.JonGuiDataMeteo meteo = 11;
-            cached_has_bits = this_._impl_._has_bits_[0];
             if (cached_has_bits & 0x00000001u) {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.meteo_);
+            }
+            // .ser.JonGuiDataModuleHealth health = 40;
+            if (cached_has_bits & 0x00000002u) {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.health_);
             }
           }
            {
@@ -567,13 +604,24 @@ void JonGuiDataGps::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::g
   (void) cached_has_bits;
 
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    ABSL_DCHECK(from._impl_.meteo_ != nullptr);
-    if (_this->_impl_.meteo_ == nullptr) {
-      _this->_impl_.meteo_ =
-          ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(arena, *from._impl_.meteo_);
-    } else {
-      _this->_impl_.meteo_->MergeFrom(*from._impl_.meteo_);
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(from._impl_.meteo_ != nullptr);
+      if (_this->_impl_.meteo_ == nullptr) {
+        _this->_impl_.meteo_ =
+            ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(arena, *from._impl_.meteo_);
+      } else {
+        _this->_impl_.meteo_->MergeFrom(*from._impl_.meteo_);
+      }
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(from._impl_.health_ != nullptr);
+      if (_this->_impl_.health_ == nullptr) {
+        _this->_impl_.health_ =
+            ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataModuleHealth>(arena, *from._impl_.health_);
+      } else {
+        _this->_impl_.health_->MergeFrom(*from._impl_.health_);
+      }
     }
   }
   if (::absl::bit_cast<::uint64_t>(from._internal_longitude()) != 0) {

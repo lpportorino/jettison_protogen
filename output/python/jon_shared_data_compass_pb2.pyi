@@ -6,7 +6,7 @@ from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Opti
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class JonGuiDataCompass(_message.Message):
-    __slots__ = ("azimuth", "elevation", "bank", "offsetAzimuth", "offsetElevation", "magneticDeclination", "calibrating", "is_started", "meteo")
+    __slots__ = ("azimuth", "elevation", "bank", "offsetAzimuth", "offsetElevation", "magneticDeclination", "calibrating", "is_started", "meteo", "health")
     AZIMUTH_FIELD_NUMBER: _ClassVar[int]
     ELEVATION_FIELD_NUMBER: _ClassVar[int]
     BANK_FIELD_NUMBER: _ClassVar[int]
@@ -16,6 +16,7 @@ class JonGuiDataCompass(_message.Message):
     CALIBRATING_FIELD_NUMBER: _ClassVar[int]
     IS_STARTED_FIELD_NUMBER: _ClassVar[int]
     METEO_FIELD_NUMBER: _ClassVar[int]
+    HEALTH_FIELD_NUMBER: _ClassVar[int]
     azimuth: float
     elevation: float
     bank: float
@@ -25,4 +26,5 @@ class JonGuiDataCompass(_message.Message):
     calibrating: bool
     is_started: bool
     meteo: _jon_shared_data_types_pb2.JonGuiDataMeteo
-    def __init__(self, azimuth: _Optional[float] = ..., elevation: _Optional[float] = ..., bank: _Optional[float] = ..., offsetAzimuth: _Optional[float] = ..., offsetElevation: _Optional[float] = ..., magneticDeclination: _Optional[float] = ..., calibrating: bool = ..., is_started: bool = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ...) -> None: ...
+    health: _jon_shared_data_types_pb2.JonGuiDataModuleHealth
+    def __init__(self, azimuth: _Optional[float] = ..., elevation: _Optional[float] = ..., bank: _Optional[float] = ..., offsetAzimuth: _Optional[float] = ..., offsetElevation: _Optional[float] = ..., magneticDeclination: _Optional[float] = ..., calibrating: bool = ..., is_started: bool = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ..., health: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataModuleHealth, _Mapping]] = ...) -> None: ...

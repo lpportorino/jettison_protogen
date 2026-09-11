@@ -45,4 +45,6 @@ message JonGuiDataPower {
 
   // Internal meteo sensor data (temperature, humidity, pressure)
   JonGuiDataMeteo meteo = 12;
+
+  JonGuiDataModuleHealth health = 40;
 }

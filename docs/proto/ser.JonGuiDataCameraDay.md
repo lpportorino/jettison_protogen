@@ -38,6 +38,7 @@ Captures the complete operational state of the day camera, including normalized 
 | 19 | capture_monotonic_us | uint64 | - |
 | 20 | delivered_fps | double | >= 0 |
 | 21 | content_fps | double | >= 0 |
+| 40 | health | [[proto/ser.JonGuiDataModuleHealth]] | - |
 
 
 ## Oneofs

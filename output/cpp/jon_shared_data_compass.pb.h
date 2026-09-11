@@ -217,6 +217,7 @@ class JonGuiDataCompass final : public ::google::protobuf::Message
   // accessors -------------------------------------------------------
   enum : int {
     kMeteoFieldNumber = 9,
+    kHealthFieldNumber = 40,
     kAzimuthFieldNumber = 1,
     kElevationFieldNumber = 2,
     kBankFieldNumber = 3,
@@ -239,6 +240,21 @@ class JonGuiDataCompass final : public ::google::protobuf::Message
   private:
   const ::ser::JonGuiDataMeteo& _internal_meteo() const;
   ::ser::JonGuiDataMeteo* _internal_mutable_meteo();
+
+  public:
+  // .ser.JonGuiDataModuleHealth health = 40;
+  bool has_health() const;
+  void clear_health() ;
+  const ::ser::JonGuiDataModuleHealth& health() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataModuleHealth* release_health();
+  ::ser::JonGuiDataModuleHealth* mutable_health();
+  void set_allocated_health(::ser::JonGuiDataModuleHealth* value);
+  void unsafe_arena_set_allocated_health(::ser::JonGuiDataModuleHealth* value);
+  ::ser::JonGuiDataModuleHealth* unsafe_arena_release_health();
+
+  private:
+  const ::ser::JonGuiDataModuleHealth& _internal_health() const;
+  ::ser::JonGuiDataModuleHealth* _internal_mutable_health();
 
   public:
   // double azimuth = 1 [(.buf.validate.field) = {
@@ -326,8 +342,8 @@ class JonGuiDataCompass final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 9, 1,
-      0, 2>
+      4, 10, 2,
+      0, 7>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -347,6 +363,7 @@ class JonGuiDataCompass final : public ::google::protobuf::Message
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::ser::JonGuiDataMeteo* meteo_;
+    ::ser::JonGuiDataModuleHealth* health_;
     double azimuth_;
     double elevation_;
     double bank_;
@@ -642,6 +659,97 @@ inline void JonGuiDataCompass::set_allocated_meteo(::ser::JonGuiDataMeteo* value
 
   _impl_.meteo_ = reinterpret_cast<::ser::JonGuiDataMeteo*>(value);
   // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCompass.meteo)
+}
+
+// .ser.JonGuiDataModuleHealth health = 40;
+inline bool JonGuiDataCompass::has_health() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.health_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataModuleHealth& JonGuiDataCompass::_internal_health() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataModuleHealth* p = _impl_.health_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataModuleHealth&>(::ser::_JonGuiDataModuleHealth_default_instance_);
+}
+inline const ::ser::JonGuiDataModuleHealth& JonGuiDataCompass::health() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCompass.health)
+  return _internal_health();
+}
+inline void JonGuiDataCompass::unsafe_arena_set_allocated_health(::ser::JonGuiDataModuleHealth* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.health_);
+  }
+  _impl_.health_ = reinterpret_cast<::ser::JonGuiDataModuleHealth*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataCompass.health)
+}
+inline ::ser::JonGuiDataModuleHealth* JonGuiDataCompass::release_health() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ser::JonGuiDataModuleHealth* released = _impl_.health_;
+  _impl_.health_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataModuleHealth* JonGuiDataCompass::unsafe_arena_release_health() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataCompass.health)
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ser::JonGuiDataModuleHealth* temp = _impl_.health_;
+  _impl_.health_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataModuleHealth* JonGuiDataCompass::_internal_mutable_health() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.health_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataModuleHealth>(GetArena());
+    _impl_.health_ = reinterpret_cast<::ser::JonGuiDataModuleHealth*>(p);
+  }
+  return _impl_.health_;
+}
+inline ::ser::JonGuiDataModuleHealth* JonGuiDataCompass::mutable_health() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  ::ser::JonGuiDataModuleHealth* _msg = _internal_mutable_health();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCompass.health)
+  return _msg;
+}
+inline void JonGuiDataCompass::set_allocated_health(::ser::JonGuiDataModuleHealth* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.health_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+
+  _impl_.health_ = reinterpret_cast<::ser::JonGuiDataModuleHealth*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCompass.health)
 }
 
 #ifdef __GNUC__

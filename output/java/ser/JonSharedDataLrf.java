@@ -121,6 +121,21 @@ public final class JonSharedDataLrf {
      * @return The scanMode.
      */
     int getScanMode();
+
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return Whether the health field is set.
+     */
+    boolean hasHealth();
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return The health.
+     */
+    ser.JonSharedDataTypes.JonGuiDataModuleHealth getHealth();
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder getHealthOrBuilder();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataLrf}
@@ -323,6 +338,32 @@ public final class JonSharedDataLrf {
       return scanMode_;
     }
 
+    public static final int HEALTH_FIELD_NUMBER = 40;
+    private ser.JonSharedDataTypes.JonGuiDataModuleHealth health_;
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return Whether the health field is set.
+     */
+    @java.lang.Override
+    public boolean hasHealth() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return The health.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataModuleHealth getHealth() {
+      return health_ == null ? ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+    }
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder getHealthOrBuilder() {
+      return health_ == null ? ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -369,6 +410,9 @@ public final class JonSharedDataLrf {
       }
       if (scanMode_ != 0) {
         output.writeInt32(11, scanMode_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeMessage(40, getHealth());
       }
       getUnknownFields().writeTo(output);
     }
@@ -423,6 +467,10 @@ public final class JonSharedDataLrf {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(11, scanMode_);
       }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(40, getHealth());
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -465,6 +513,11 @@ public final class JonSharedDataLrf {
       }
       if (getScanMode()
           != other.getScanMode()) return false;
+      if (hasHealth() != other.hasHealth()) return false;
+      if (hasHealth()) {
+        if (!getHealth()
+            .equals(other.getHealth())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -508,6 +561,10 @@ public final class JonSharedDataLrf {
       }
       hash = (37 * hash) + SCAN_MODE_FIELD_NUMBER;
       hash = (53 * hash) + getScanMode();
+      if (hasHealth()) {
+        hash = (37 * hash) + HEALTH_FIELD_NUMBER;
+        hash = (53 * hash) + getHealth().hashCode();
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -640,6 +697,7 @@ public final class JonSharedDataLrf {
                 .alwaysUseFieldBuilders) {
           getTargetFieldBuilder();
           getMeteoFieldBuilder();
+          getHealthFieldBuilder();
         }
       }
       @java.lang.Override
@@ -665,6 +723,11 @@ public final class JonSharedDataLrf {
           meteoBuilder_ = null;
         }
         scanMode_ = 0;
+        health_ = null;
+        if (healthBuilder_ != null) {
+          healthBuilder_.dispose();
+          healthBuilder_ = null;
+        }
         return this;
       }
 
@@ -738,6 +801,12 @@ public final class JonSharedDataLrf {
         if (((from_bitField0_ & 0x00000400) != 0)) {
           result.scanMode_ = scanMode_;
         }
+        if (((from_bitField0_ & 0x00000800) != 0)) {
+          result.health_ = healthBuilder_ == null
+              ? health_
+              : healthBuilder_.build();
+          to_bitField0_ |= 0x00000004;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -785,6 +854,9 @@ public final class JonSharedDataLrf {
         }
         if (other.getScanMode() != 0) {
           setScanMode(other.getScanMode());
+        }
+        if (other.hasHealth()) {
+          mergeHealth(other.getHealth());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -871,6 +943,13 @@ public final class JonSharedDataLrf {
                 bitField0_ |= 0x00000400;
                 break;
               } // case 88
+              case 322: {
+                input.readMessage(
+                    getHealthFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000800;
+                break;
+              } // case 322
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1449,6 +1528,127 @@ public final class JonSharedDataLrf {
         scanMode_ = 0;
         onChanged();
         return this;
+      }
+
+      private ser.JonSharedDataTypes.JonGuiDataModuleHealth health_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataModuleHealth, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder, ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder> healthBuilder_;
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       * @return Whether the health field is set.
+       */
+      public boolean hasHealth() {
+        return ((bitField0_ & 0x00000800) != 0);
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       * @return The health.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealth getHealth() {
+        if (healthBuilder_ == null) {
+          return health_ == null ? ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+        } else {
+          return healthBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder setHealth(ser.JonSharedDataTypes.JonGuiDataModuleHealth value) {
+        if (healthBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          health_ = value;
+        } else {
+          healthBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000800;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder setHealth(
+          ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder builderForValue) {
+        if (healthBuilder_ == null) {
+          health_ = builderForValue.build();
+        } else {
+          healthBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000800;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder mergeHealth(ser.JonSharedDataTypes.JonGuiDataModuleHealth value) {
+        if (healthBuilder_ == null) {
+          if (((bitField0_ & 0x00000800) != 0) &&
+            health_ != null &&
+            health_ != ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance()) {
+            getHealthBuilder().mergeFrom(value);
+          } else {
+            health_ = value;
+          }
+        } else {
+          healthBuilder_.mergeFrom(value);
+        }
+        if (health_ != null) {
+          bitField0_ |= 0x00000800;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder clearHealth() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        health_ = null;
+        if (healthBuilder_ != null) {
+          healthBuilder_.dispose();
+          healthBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder getHealthBuilder() {
+        bitField0_ |= 0x00000800;
+        onChanged();
+        return getHealthFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder getHealthOrBuilder() {
+        if (healthBuilder_ != null) {
+          return healthBuilder_.getMessageOrBuilder();
+        } else {
+          return health_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataModuleHealth, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder, ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder> 
+          getHealthFieldBuilder() {
+        if (healthBuilder_ == null) {
+          healthBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataModuleHealth, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder, ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder>(
+                  getHealth(),
+                  getParentForChildren(),
+                  isClean());
+          health_ = null;
+        }
+        return healthBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataLrf)
@@ -4398,7 +4598,7 @@ public final class JonSharedDataLrf {
     java.lang.String[] descriptorData = {
       "\n\031jon_shared_data_lrf.proto\022\003ser\032\033buf/va" +
       "lidate/validate.proto\032\033jon_shared_data_t" +
-      "ypes.proto\"\336\002\n\rJonGuiDataLrf\022\023\n\013is_scann" +
+      "ypes.proto\"\213\003\n\rJonGuiDataLrf\022\023\n\013is_scann" +
       "ing\030\001 \001(\010\022\024\n\014is_measuring\030\002 \001(\010\022\033\n\nmeasu" +
       "re_id\030\003 \001(\005B\007\272H\004\032\002(\000\022%\n\006target\030\004 \001(\0132\025.s" +
       "er.JonGuiDataTarget\022D\n\014pointer_mode\030\005 \001(" +
@@ -4407,34 +4607,35 @@ public final class JonSharedDataLrf {
       "refining\030\007 \001(\010\022\037\n\027is_continuous_measurin" +
       "g\030\010 \001(\010\022\022\n\nis_started\030\t \001(\010\022#\n\005meteo\030\n \001" +
       "(\0132\024.ser.JonGuiDataMeteo\022\021\n\tscan_mode\030\013 " +
-      "\001(\005\"\210\007\n\020JonGuiDataTarget\022\032\n\ttimestamp\030\001 " +
-      "\001(\003B\007\272H\004\"\002(\000\0221\n\020target_longitude\030\002 \001(\001B\027" +
-      "\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\0220\n\017target_latitu" +
-      "de\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\027\n\017tar" +
-      "get_altitude\030\004 \001(\001\0223\n\022observer_longitude" +
-      "\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\0222\n\021obser" +
-      "ver_latitude\030\006 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000" +
-      "\200V\300\022\031\n\021observer_altitude\030\007 \001(\001\0221\n\020observ" +
-      "er_azimuth\030\010 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000" +
-      "\000\0223\n\022observer_elevation\030\t \001(\001B\027\272H\024\022\022\031\000\000\000" +
-      "\000\000\200V@)\000\000\000\000\000\200V\300\022.\n\robserver_bank\030\n \001(\001B\027\272" +
-      "H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022,\n\013distance_2d\030\013 " +
-      "\001(\001B\027\272H\024\022\022\031\000\000\000\000\200\204\036A)\000\000\000\000\000\000\000\000\022,\n\013distance" +
-      "_3b\030\014 \001(\001B\027\272H\024\022\022\031\000\000\000\000\200\204\036A)\000\000\000\000\000\000\000\000\022+\n\ndi" +
-      "stance_c\030\026 \001(\001B\027\272H\024\022\022\031\000\000\000\000\200\204\036A)\000\000\000\000\000\000\000\000\022" +
-      "@\n\021observer_fix_type\030\r \001(\0162\031.ser.JonGuiD" +
-      "ataGpsFixTypeB\n\272H\007\202\001\004\020\001 \000\022\033\n\nsession_id\030" +
-      "\016 \001(\005B\007\272H\004\032\002(\000\022\032\n\ttarget_id\030\017 \001(\005B\007\272H\004\032\002" +
-      "(\000\022#\n\014target_color\030\020 \001(\0132\r.ser.RgbColor\022" +
-      "\022\n\nuuid_part1\030\022 \001(\005\022\022\n\nuuid_part2\030\023 \001(\005\022" +
-      "\022\n\nuuid_part3\030\024 \001(\005\022\022\n\nuuid_part4\030\025 \001(\005\022" +
-      "9\n\014capture_type\030\027 \001(\0162\031.ser.JonGuiDataTa" +
-      "rgetTypeB\010\272H\005\202\001\002\020\001J\004\010\021\020\022R\004type\"X\n\010RgbCol" +
-      "or\022\027\n\003red\030\001 \001(\rB\n\272H\007*\005\030\377\001(\000\022\031\n\005green\030\002 \001" +
-      "(\rB\n\272H\007*\005\030\377\001(\000\022\030\n\004blue\030\003 \001(\rB\n\272H\007*\005\030\377\001(\000" +
-      "BKZIgit-codecommit.eu-central-1.amazonaw" +
-      "s.com/v1/repos/jettison/jonp/data/lrfb\006p" +
-      "roto3"
+      "\001(\005\022+\n\006health\030( \001(\0132\033.ser.JonGuiDataModu" +
+      "leHealth\"\210\007\n\020JonGuiDataTarget\022\032\n\ttimesta" +
+      "mp\030\001 \001(\003B\007\272H\004\"\002(\000\0221\n\020target_longitude\030\002 " +
+      "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\0220\n\017target_l" +
+      "atitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\027" +
+      "\n\017target_altitude\030\004 \001(\001\0223\n\022observer_long" +
+      "itude\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\0222\n\021" +
+      "observer_latitude\030\006 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)" +
+      "\000\000\000\000\000\200V\300\022\031\n\021observer_altitude\030\007 \001(\001\0221\n\020o" +
+      "bserver_azimuth\030\010 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000" +
+      "\000\000\000\000\000\000\0223\n\022observer_elevation\030\t \001(\001B\027\272H\024\022" +
+      "\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022.\n\robserver_bank\030\n \001" +
+      "(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022,\n\013distance_" +
+      "2d\030\013 \001(\001B\027\272H\024\022\022\031\000\000\000\000\200\204\036A)\000\000\000\000\000\000\000\000\022,\n\013dis" +
+      "tance_3b\030\014 \001(\001B\027\272H\024\022\022\031\000\000\000\000\200\204\036A)\000\000\000\000\000\000\000\000\022" +
+      "+\n\ndistance_c\030\026 \001(\001B\027\272H\024\022\022\031\000\000\000\000\200\204\036A)\000\000\000\000" +
+      "\000\000\000\000\022@\n\021observer_fix_type\030\r \001(\0162\031.ser.Jo" +
+      "nGuiDataGpsFixTypeB\n\272H\007\202\001\004\020\001 \000\022\033\n\nsessio" +
+      "n_id\030\016 \001(\005B\007\272H\004\032\002(\000\022\032\n\ttarget_id\030\017 \001(\005B\007" +
+      "\272H\004\032\002(\000\022#\n\014target_color\030\020 \001(\0132\r.ser.RgbC" +
+      "olor\022\022\n\nuuid_part1\030\022 \001(\005\022\022\n\nuuid_part2\030\023" +
+      " \001(\005\022\022\n\nuuid_part3\030\024 \001(\005\022\022\n\nuuid_part4\030\025" +
+      " \001(\005\0229\n\014capture_type\030\027 \001(\0162\031.ser.JonGuiD" +
+      "ataTargetTypeB\010\272H\005\202\001\002\020\001J\004\010\021\020\022R\004type\"X\n\010R" +
+      "gbColor\022\027\n\003red\030\001 \001(\rB\n\272H\007*\005\030\377\001(\000\022\031\n\005gree" +
+      "n\030\002 \001(\rB\n\272H\007*\005\030\377\001(\000\022\030\n\004blue\030\003 \001(\rB\n\272H\007*\005" +
+      "\030\377\001(\000BKZIgit-codecommit.eu-central-1.ama" +
+      "zonaws.com/v1/repos/jettison/jonp/data/l" +
+      "rfb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -4447,7 +4648,7 @@ public final class JonSharedDataLrf {
     internal_static_ser_JonGuiDataLrf_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataLrf_descriptor,
-        new java.lang.String[] { "IsScanning", "IsMeasuring", "MeasureId", "Target", "PointerMode", "FogModeEnabled", "IsRefining", "IsContinuousMeasuring", "IsStarted", "Meteo", "ScanMode", });
+        new java.lang.String[] { "IsScanning", "IsMeasuring", "MeasureId", "Target", "PointerMode", "FogModeEnabled", "IsRefining", "IsContinuousMeasuring", "IsStarted", "Meteo", "ScanMode", "Health", });
     internal_static_ser_JonGuiDataTarget_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_ser_JonGuiDataTarget_fieldAccessorTable = new

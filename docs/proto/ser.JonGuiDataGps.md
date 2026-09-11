@@ -28,6 +28,7 @@ Represents the complete GPS positioning state of the system, including both auto
 | 9 | timestamp | int64 | - |
 | 10 | is_started | bool | - |
 | 11 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
+| 40 | health | [[proto/ser.JonGuiDataModuleHealth]] | - |
 
 
 

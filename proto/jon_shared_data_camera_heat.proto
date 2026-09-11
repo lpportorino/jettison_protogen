@@ -68,4 +68,6 @@ message JonGuiDataCameraHeat {
   // load, not at rest.
   optional double delivered_fps = 17 [(buf.validate.field).double.gte = 0.0];
   optional double content_fps = 18 [(buf.validate.field).double.gte = 0.0];
+
+  JonGuiDataModuleHealth health = 40;
 }

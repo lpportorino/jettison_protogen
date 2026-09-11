@@ -51,8 +51,9 @@ type JonGuiDataCameraDay struct {
 	// nothing is arriving, which is a measurement rather than an absence.
 	// delivered_fps counts frames handed on, content_fps only frames whose
 	// content changed. Every other frame rate on this system reports the former.
-	DeliveredFps  *float64 `protobuf:"fixed64,20,opt,name=delivered_fps,json=deliveredFps,proto3,oneof" json:"delivered_fps,omitempty"`
-	ContentFps    *float64 `protobuf:"fixed64,21,opt,name=content_fps,json=contentFps,proto3,oneof" json:"content_fps,omitempty"`
+	DeliveredFps  *float64                      `protobuf:"fixed64,20,opt,name=delivered_fps,json=deliveredFps,proto3,oneof" json:"delivered_fps,omitempty"`
+	ContentFps    *float64                      `protobuf:"fixed64,21,opt,name=content_fps,json=contentFps,proto3,oneof" json:"content_fps,omitempty"`
+	Health        *types.JonGuiDataModuleHealth `protobuf:"bytes,40,opt,name=health,proto3" json:"health,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -234,11 +235,18 @@ func (x *JonGuiDataCameraDay) GetContentFps() float64 {
 	return 0
 }
 
+func (x *JonGuiDataCameraDay) GetHealth() *types.JonGuiDataModuleHealth {
+	if x != nil {
+		return x.Health
+	}
+	return nil
+}
+
 var File_jon_shared_data_camera_day_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_camera_day_proto_rawDesc = "" +
 	"\n" +
-	" jon_shared_data_camera_day.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x8e\t\n" +
+	" jon_shared_data_camera_day.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xc3\t\n" +
 	"\x13JonGuiDataCameraDay\x124\n" +
 	"\tfocus_pos\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\bfocusPos\x122\n" +
 	"\bzoom_pos\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\azoomPos\x122\n" +
@@ -266,7 +274,8 @@ const file_jon_shared_data_camera_day_proto_rawDesc = "" +
 	"\x14capture_monotonic_us\x18\x13 \x01(\x04R\x12captureMonotonicUs\x128\n" +
 	"\rdelivered_fps\x18\x14 \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00H\x02R\fdeliveredFps\x88\x01\x01\x124\n" +
 	"\vcontent_fps\x18\x15 \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00H\x03R\n" +
-	"contentFps\x88\x01\x01B\x0e\n" +
+	"contentFps\x88\x01\x01\x123\n" +
+	"\x06health\x18( \x01(\v2\x1b.ser.JonGuiDataModuleHealthR\x06healthB\x0e\n" +
 	"\f_sensor_gainB\v\n" +
 	"\t_exposureB\x10\n" +
 	"\x0e_delivered_fpsB\x0e\n" +
@@ -287,18 +296,20 @@ func file_jon_shared_data_camera_day_proto_rawDescGZIP() []byte {
 
 var file_jon_shared_data_camera_day_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_jon_shared_data_camera_day_proto_goTypes = []any{
-	(*JonGuiDataCameraDay)(nil),    // 0: ser.JonGuiDataCameraDay
-	(types.JonGuiDataFxModeDay)(0), // 1: ser.JonGuiDataFxModeDay
-	(*types.JonGuiDataMeteo)(nil),  // 2: ser.JonGuiDataMeteo
+	(*JonGuiDataCameraDay)(nil),          // 0: ser.JonGuiDataCameraDay
+	(types.JonGuiDataFxModeDay)(0),       // 1: ser.JonGuiDataFxModeDay
+	(*types.JonGuiDataMeteo)(nil),        // 2: ser.JonGuiDataMeteo
+	(*types.JonGuiDataModuleHealth)(nil), // 3: ser.JonGuiDataModuleHealth
 }
 var file_jon_shared_data_camera_day_proto_depIdxs = []int32{
 	1, // 0: ser.JonGuiDataCameraDay.fx_mode:type_name -> ser.JonGuiDataFxModeDay
 	2, // 1: ser.JonGuiDataCameraDay.meteo:type_name -> ser.JonGuiDataMeteo
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	3, // 2: ser.JonGuiDataCameraDay.health:type_name -> ser.JonGuiDataModuleHealth
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_camera_day_proto_init() }

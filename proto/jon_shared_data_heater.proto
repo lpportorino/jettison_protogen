@@ -4,6 +4,8 @@ option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison
 
 package ser;
 
+import "jon_shared_data_types.proto";
+
 // HeaterChannelStatus represents the state of a single heating channel
 message JonGuiDataHeaterChannelStatus {
   float temperature = 1;
@@ -36,4 +38,6 @@ message JonGuiDataHeater {
   float target_temp_channel_0 = 8 [(buf.validate.field).float = {gte: 0, lte: 60}];
   float target_temp_channel_1 = 9 [(buf.validate.field).float = {gte: 0, lte: 60}];
   float target_temp_channel_2 = 10 [(buf.validate.field).float = {gte: 0, lte: 60}];
+
+  JonGuiDataModuleHealth health = 40;
 }

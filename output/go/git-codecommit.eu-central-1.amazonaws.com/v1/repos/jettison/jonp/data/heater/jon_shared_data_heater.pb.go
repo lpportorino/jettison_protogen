@@ -8,6 +8,7 @@ package heater
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
+	types "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/types"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -102,9 +103,10 @@ type JonGuiDataHeater struct {
 	Channel_2               *JonGuiDataHeaterChannelStatus `protobuf:"bytes,6,opt,name=channel_2,json=channel2,proto3" json:"channel_2,omitempty"` // Heat camera glass (60W)
 	AutomaticControlEnabled bool                           `protobuf:"varint,7,opt,name=automatic_control_enabled,json=automaticControlEnabled,proto3" json:"automatic_control_enabled,omitempty"`
 	// Target temperatures for PID control (persisted via state storage)
-	TargetTempChannel_0 float32 `protobuf:"fixed32,8,opt,name=target_temp_channel_0,json=targetTempChannel0,proto3" json:"target_temp_channel_0,omitempty"`
-	TargetTempChannel_1 float32 `protobuf:"fixed32,9,opt,name=target_temp_channel_1,json=targetTempChannel1,proto3" json:"target_temp_channel_1,omitempty"`
-	TargetTempChannel_2 float32 `protobuf:"fixed32,10,opt,name=target_temp_channel_2,json=targetTempChannel2,proto3" json:"target_temp_channel_2,omitempty"`
+	TargetTempChannel_0 float32                       `protobuf:"fixed32,8,opt,name=target_temp_channel_0,json=targetTempChannel0,proto3" json:"target_temp_channel_0,omitempty"`
+	TargetTempChannel_1 float32                       `protobuf:"fixed32,9,opt,name=target_temp_channel_1,json=targetTempChannel1,proto3" json:"target_temp_channel_1,omitempty"`
+	TargetTempChannel_2 float32                       `protobuf:"fixed32,10,opt,name=target_temp_channel_2,json=targetTempChannel2,proto3" json:"target_temp_channel_2,omitempty"`
+	Health              *types.JonGuiDataModuleHealth `protobuf:"bytes,40,opt,name=health,proto3" json:"health,omitempty"`
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -209,11 +211,18 @@ func (x *JonGuiDataHeater) GetTargetTempChannel_2() float32 {
 	return 0
 }
 
+func (x *JonGuiDataHeater) GetHealth() *types.JonGuiDataModuleHealth {
+	if x != nil {
+		return x.Health
+	}
+	return nil
+}
+
 var File_jon_shared_data_heater_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_heater_proto_rawDesc = "" +
 	"\n" +
-	"\x1cjon_shared_data_heater.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\"\xc9\x01\n" +
+	"\x1cjon_shared_data_heater.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xc9\x01\n" +
 	"\x1dJonGuiDataHeaterChannelStatus\x12 \n" +
 	"\vtemperature\x18\x01 \x01(\x02R\vtemperature\x126\n" +
 	"\x11applied_voltage_V\x18\x02 \x01(\x02B\n" +
@@ -222,7 +231,7 @@ const file_jon_shared_data_heater_proto_rawDesc = "" +
 	"\x10target_voltage_V\x18\x03 \x01(\x02B\n" +
 	"\xbaH\a\n" +
 	"\x05-\x00\x00\x00\x00R\x0etargetVoltageV\x12\x18\n" +
-	"\aenabled\x18\x04 \x01(\bR\aenabled\"\xdb\x04\n" +
+	"\aenabled\x18\x04 \x01(\bR\aenabled\"\x90\x05\n" +
 	"\x10JonGuiDataHeater\x12.\n" +
 	"\rbus_voltage_V\x18\x01 \x01(\x02B\n" +
 	"\xbaH\a\n" +
@@ -246,7 +255,8 @@ const file_jon_shared_data_heater_proto_rawDesc = "" +
 	"\x15target_temp_channel_2\x18\n" +
 	" \x01(\x02B\x0f\xbaH\f\n" +
 	"\n" +
-	"\x1d\x00\x00pB-\x00\x00\x00\x00R\x12targetTempChannel2B\x9d\x01\n" +
+	"\x1d\x00\x00pB-\x00\x00\x00\x00R\x12targetTempChannel2\x123\n" +
+	"\x06health\x18( \x01(\v2\x1b.ser.JonGuiDataModuleHealthR\x06healthB\x9d\x01\n" +
 	"\acom.serB\x18JonSharedDataHeaterProtoP\x01ZLgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/heater\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (
@@ -265,16 +275,18 @@ var file_jon_shared_data_heater_proto_msgTypes = make([]protoimpl.MessageInfo, 2
 var file_jon_shared_data_heater_proto_goTypes = []any{
 	(*JonGuiDataHeaterChannelStatus)(nil), // 0: ser.JonGuiDataHeaterChannelStatus
 	(*JonGuiDataHeater)(nil),              // 1: ser.JonGuiDataHeater
+	(*types.JonGuiDataModuleHealth)(nil),  // 2: ser.JonGuiDataModuleHealth
 }
 var file_jon_shared_data_heater_proto_depIdxs = []int32{
 	0, // 0: ser.JonGuiDataHeater.channel_0:type_name -> ser.JonGuiDataHeaterChannelStatus
 	0, // 1: ser.JonGuiDataHeater.channel_1:type_name -> ser.JonGuiDataHeaterChannelStatus
 	0, // 2: ser.JonGuiDataHeater.channel_2:type_name -> ser.JonGuiDataHeaterChannelStatus
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	2, // 3: ser.JonGuiDataHeater.health:type_name -> ser.JonGuiDataModuleHealth
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_heater_proto_init() }

@@ -463,6 +463,33 @@ public object JonGuiDataPowerKt {
 
     public val JonGuiDataPowerKt.Dsl.meteoOrNull: ser.JonSharedDataTypes.JonGuiDataMeteo?
       get() = _builder.meteoOrNull
+
+    /**
+     * `.ser.JonGuiDataModuleHealth health = 40;`
+     */
+    public var health: ser.JonSharedDataTypes.JonGuiDataModuleHealth
+      @JvmName("getHealth")
+      get() = _builder.health
+      @JvmName("setHealth")
+      set(value) {
+        _builder.health = value
+      }
+    /**
+     * `.ser.JonGuiDataModuleHealth health = 40;`
+     */
+    public fun clearHealth() {
+      _builder.clearHealth()
+    }
+    /**
+     * `.ser.JonGuiDataModuleHealth health = 40;`
+     * @return Whether the health field is set.
+     */
+    public fun hasHealth(): kotlin.Boolean {
+      return _builder.hasHealth()
+    }
+
+    public val JonGuiDataPowerKt.Dsl.healthOrNull: ser.JonSharedDataTypes.JonGuiDataModuleHealth?
+      get() = _builder.healthOrNull
   }
 }
 @kotlin.jvm.JvmSynthetic
@@ -495,4 +522,7 @@ public val ser.JonSharedDataPower.JonGuiDataPowerOrBuilder.s7OrNull: ser.JonShar
 
 public val ser.JonSharedDataPower.JonGuiDataPowerOrBuilder.meteoOrNull: ser.JonSharedDataTypes.JonGuiDataMeteo?
   get() = if (hasMeteo()) getMeteo() else null
+
+public val ser.JonSharedDataPower.JonGuiDataPowerOrBuilder.healthOrNull: ser.JonSharedDataTypes.JonGuiDataModuleHealth?
+  get() = if (hasHealth()) getHealth() else null
 

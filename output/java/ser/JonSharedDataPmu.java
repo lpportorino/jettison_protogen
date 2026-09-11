@@ -105,6 +105,21 @@ public final class JonSharedDataPmu {
      * @return The chargeDisabled.
      */
     boolean getChargeDisabled();
+
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return Whether the health field is set.
+     */
+    boolean hasHealth();
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return The health.
+     */
+    ser.JonSharedDataTypes.JonGuiDataModuleHealth getHealth();
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder getHealthOrBuilder();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataPMU}
@@ -277,6 +292,32 @@ public final class JonSharedDataPmu {
       return chargeDisabled_;
     }
 
+    public static final int HEALTH_FIELD_NUMBER = 40;
+    private ser.JonSharedDataTypes.JonGuiDataModuleHealth health_;
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return Whether the health field is set.
+     */
+    @java.lang.Override
+    public boolean hasHealth() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return The health.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataModuleHealth getHealth() {
+      return health_ == null ? ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+    }
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder getHealthOrBuilder() {
+      return health_ == null ? ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -320,6 +361,9 @@ public final class JonSharedDataPmu {
       }
       if (chargeDisabled_ != false) {
         output.writeBool(11, chargeDisabled_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeMessage(40, getHealth());
       }
       getUnknownFields().writeTo(output);
     }
@@ -370,6 +414,10 @@ public final class JonSharedDataPmu {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(11, chargeDisabled_);
       }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(40, getHealth());
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -413,6 +461,11 @@ public final class JonSharedDataPmu {
           != other.getInaPowerFault()) return false;
       if (getChargeDisabled()
           != other.getChargeDisabled()) return false;
+      if (hasHealth() != other.hasHealth()) return false;
+      if (hasHealth()) {
+        if (!getHealth()
+            .equals(other.getHealth())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -455,6 +508,10 @@ public final class JonSharedDataPmu {
       hash = (37 * hash) + CHARGE_DISABLED_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getChargeDisabled());
+      if (hasHealth()) {
+        hash = (37 * hash) + HEALTH_FIELD_NUMBER;
+        hash = (53 * hash) + getHealth().hashCode();
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -586,6 +643,7 @@ public final class JonSharedDataPmu {
         if (com.google.protobuf.GeneratedMessage
                 .alwaysUseFieldBuilders) {
           getMeteoFieldBuilder();
+          getHealthFieldBuilder();
         }
       }
       @java.lang.Override
@@ -606,6 +664,11 @@ public final class JonSharedDataPmu {
         inaPower_ = 0D;
         inaPowerFault_ = false;
         chargeDisabled_ = false;
+        health_ = null;
+        if (healthBuilder_ != null) {
+          healthBuilder_.dispose();
+          healthBuilder_ = null;
+        }
         return this;
       }
 
@@ -673,6 +736,12 @@ public final class JonSharedDataPmu {
         if (((from_bitField0_ & 0x00000200) != 0)) {
           result.chargeDisabled_ = chargeDisabled_;
         }
+        if (((from_bitField0_ & 0x00000400) != 0)) {
+          result.health_ = healthBuilder_ == null
+              ? health_
+              : healthBuilder_.build();
+          to_bitField0_ |= 0x00000002;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -717,6 +786,9 @@ public final class JonSharedDataPmu {
         }
         if (other.getChargeDisabled() != false) {
           setChargeDisabled(other.getChargeDisabled());
+        }
+        if (other.hasHealth()) {
+          mergeHealth(other.getHealth());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -796,6 +868,13 @@ public final class JonSharedDataPmu {
                 bitField0_ |= 0x00000200;
                 break;
               } // case 88
+              case 322: {
+                input.readMessage(
+                    getHealthFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000400;
+                break;
+              } // case 322
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1246,6 +1325,127 @@ public final class JonSharedDataPmu {
         return this;
       }
 
+      private ser.JonSharedDataTypes.JonGuiDataModuleHealth health_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataModuleHealth, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder, ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder> healthBuilder_;
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       * @return Whether the health field is set.
+       */
+      public boolean hasHealth() {
+        return ((bitField0_ & 0x00000400) != 0);
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       * @return The health.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealth getHealth() {
+        if (healthBuilder_ == null) {
+          return health_ == null ? ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+        } else {
+          return healthBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder setHealth(ser.JonSharedDataTypes.JonGuiDataModuleHealth value) {
+        if (healthBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          health_ = value;
+        } else {
+          healthBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000400;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder setHealth(
+          ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder builderForValue) {
+        if (healthBuilder_ == null) {
+          health_ = builderForValue.build();
+        } else {
+          healthBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000400;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder mergeHealth(ser.JonSharedDataTypes.JonGuiDataModuleHealth value) {
+        if (healthBuilder_ == null) {
+          if (((bitField0_ & 0x00000400) != 0) &&
+            health_ != null &&
+            health_ != ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance()) {
+            getHealthBuilder().mergeFrom(value);
+          } else {
+            health_ = value;
+          }
+        } else {
+          healthBuilder_.mergeFrom(value);
+        }
+        if (health_ != null) {
+          bitField0_ |= 0x00000400;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder clearHealth() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        health_ = null;
+        if (healthBuilder_ != null) {
+          healthBuilder_.dispose();
+          healthBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder getHealthBuilder() {
+        bitField0_ |= 0x00000400;
+        onChanged();
+        return getHealthFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder getHealthOrBuilder() {
+        if (healthBuilder_ != null) {
+          return healthBuilder_.getMessageOrBuilder();
+        } else {
+          return health_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataModuleHealth, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder, ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder> 
+          getHealthFieldBuilder() {
+        if (healthBuilder_ == null) {
+          healthBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataModuleHealth, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder, ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder>(
+                  getHealth(),
+                  getParentForChildren(),
+                  isClean());
+          health_ = null;
+        }
+        return healthBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataPMU)
     }
 
@@ -1313,7 +1513,7 @@ public final class JonSharedDataPmu {
     java.lang.String[] descriptorData = {
       "\n\031jon_shared_data_pmu.proto\022\003ser\032\033buf/va" +
       "lidate/validate.proto\032\033jon_shared_data_t" +
-      "ypes.proto\"\240\003\n\rJonGuiDataPMU\022P\n\013temperat" +
+      "ypes.proto\"\315\003\n\rJonGuiDataPMU\022P\n\013temperat" +
       "ure\030\001 \001(\001B;\272H8\0226\031\303\365(\\\217\242\204@)fffff\022q\300I\000\000\000\000\000" +
       "\0004\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\0009@I\000\000\000\000\000\000Y@\022\022\n\nis_sta" +
       "rted\030\003 \001(\010\022#\n\005meteo\030\004 \001(\0132\024.ser.JonGuiDa" +
@@ -1323,9 +1523,10 @@ public final class JonSharedDataPmu {
       "\000\000\000\022,\n\013ina_current\030\010 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\210\303@" +
       ")\000\000\000\000\000\210\303\300\022*\n\tina_power\030\t \001(\001B\027\272H\024\022\022\031\000\000\000\000" +
       "\000j\010A)\000\000\000\000\000\000\000\000\022\027\n\017ina_power_fault\030\n \001(\010\022\027" +
-      "\n\017charge_disabled\030\013 \001(\010J\004\010\002\020\003BKZIgit-cod" +
-      "ecommit.eu-central-1.amazonaws.com/v1/re" +
-      "pos/jettison/jonp/data/pmub\006proto3"
+      "\n\017charge_disabled\030\013 \001(\010\022+\n\006health\030( \001(\0132" +
+      "\033.ser.JonGuiDataModuleHealthJ\004\010\002\020\003BKZIgi" +
+      "t-codecommit.eu-central-1.amazonaws.com/" +
+      "v1/repos/jettison/jonp/data/pmub\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1338,7 +1539,7 @@ public final class JonSharedDataPmu {
     internal_static_ser_JonGuiDataPMU_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataPMU_descriptor,
-        new java.lang.String[] { "Temperature", "IsStarted", "Meteo", "Voltage", "HeaterPowerState", "InaVoltage", "InaCurrent", "InaPower", "InaPowerFault", "ChargeDisabled", });
+        new java.lang.String[] { "Temperature", "IsStarted", "Meteo", "Voltage", "HeaterPowerState", "InaVoltage", "InaCurrent", "InaPower", "InaPowerFault", "ChargeDisabled", "Health", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

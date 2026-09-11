@@ -30,6 +30,7 @@
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
 #include "buf/validate/validate.pb.h"
+#include "jon_shared_data_types.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Must be included last.
@@ -447,6 +448,7 @@ class JonGuiDataHeater final : public ::google::protobuf::Message
     kChannel0FieldNumber = 4,
     kChannel1FieldNumber = 5,
     kChannel2FieldNumber = 6,
+    kHealthFieldNumber = 40,
     kBusVoltageVFieldNumber = 1,
     kCurrentAFieldNumber = 2,
     kPowerWFieldNumber = 3,
@@ -498,6 +500,21 @@ class JonGuiDataHeater final : public ::google::protobuf::Message
   private:
   const ::ser::JonGuiDataHeaterChannelStatus& _internal_channel_2() const;
   ::ser::JonGuiDataHeaterChannelStatus* _internal_mutable_channel_2();
+
+  public:
+  // .ser.JonGuiDataModuleHealth health = 40;
+  bool has_health() const;
+  void clear_health() ;
+  const ::ser::JonGuiDataModuleHealth& health() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataModuleHealth* release_health();
+  ::ser::JonGuiDataModuleHealth* mutable_health();
+  void set_allocated_health(::ser::JonGuiDataModuleHealth* value);
+  void unsafe_arena_set_allocated_health(::ser::JonGuiDataModuleHealth* value);
+  ::ser::JonGuiDataModuleHealth* unsafe_arena_release_health();
+
+  private:
+  const ::ser::JonGuiDataModuleHealth& _internal_health() const;
+  ::ser::JonGuiDataModuleHealth* _internal_mutable_health();
 
   public:
   // float bus_voltage_V = 1 [(.buf.validate.field) = {
@@ -575,8 +592,8 @@ class JonGuiDataHeater final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 10, 3,
-      0, 2>
+      4, 11, 4,
+      0, 7>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -598,6 +615,7 @@ class JonGuiDataHeater final : public ::google::protobuf::Message
     ::ser::JonGuiDataHeaterChannelStatus* channel_0_;
     ::ser::JonGuiDataHeaterChannelStatus* channel_1_;
     ::ser::JonGuiDataHeaterChannelStatus* channel_2_;
+    ::ser::JonGuiDataModuleHealth* health_;
     float bus_voltage_v_;
     float current_a_;
     float power_w_;
@@ -1159,6 +1177,97 @@ inline float JonGuiDataHeater::_internal_target_temp_channel_2() const {
 inline void JonGuiDataHeater::_internal_set_target_temp_channel_2(float value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_temp_channel_2_ = value;
+}
+
+// .ser.JonGuiDataModuleHealth health = 40;
+inline bool JonGuiDataHeater::has_health() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.health_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataModuleHealth& JonGuiDataHeater::_internal_health() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataModuleHealth* p = _impl_.health_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataModuleHealth&>(::ser::_JonGuiDataModuleHealth_default_instance_);
+}
+inline const ::ser::JonGuiDataModuleHealth& JonGuiDataHeater::health() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataHeater.health)
+  return _internal_health();
+}
+inline void JonGuiDataHeater::unsafe_arena_set_allocated_health(::ser::JonGuiDataModuleHealth* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.health_);
+  }
+  _impl_.health_ = reinterpret_cast<::ser::JonGuiDataModuleHealth*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000008u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000008u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataHeater.health)
+}
+inline ::ser::JonGuiDataModuleHealth* JonGuiDataHeater::release_health() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000008u;
+  ::ser::JonGuiDataModuleHealth* released = _impl_.health_;
+  _impl_.health_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataModuleHealth* JonGuiDataHeater::unsafe_arena_release_health() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataHeater.health)
+
+  _impl_._has_bits_[0] &= ~0x00000008u;
+  ::ser::JonGuiDataModuleHealth* temp = _impl_.health_;
+  _impl_.health_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataModuleHealth* JonGuiDataHeater::_internal_mutable_health() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.health_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataModuleHealth>(GetArena());
+    _impl_.health_ = reinterpret_cast<::ser::JonGuiDataModuleHealth*>(p);
+  }
+  return _impl_.health_;
+}
+inline ::ser::JonGuiDataModuleHealth* JonGuiDataHeater::mutable_health() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000008u;
+  ::ser::JonGuiDataModuleHealth* _msg = _internal_mutable_health();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataHeater.health)
+  return _msg;
+}
+inline void JonGuiDataHeater::set_allocated_health(::ser::JonGuiDataModuleHealth* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.health_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000008u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000008u;
+  }
+
+  _impl_.health_ = reinterpret_cast<::ser::JonGuiDataModuleHealth*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataHeater.health)
 }
 
 #ifdef __GNUC__

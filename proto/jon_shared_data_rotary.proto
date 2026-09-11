@@ -105,6 +105,8 @@ message JonGuiDataRotary {
   // Start or Unpark clears it). While true, operator/tracker axis moves and
   // rotate-to-GPS are dropped by the rotary interlock.
   bool is_parked = 23;
+
+  JonGuiDataModuleHealth health = 40;
 }
 
 message ScanNode {

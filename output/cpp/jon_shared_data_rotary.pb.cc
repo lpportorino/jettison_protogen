@@ -62,6 +62,7 @@ inline constexpr JonGuiDataRotary::Impl_::Impl_(
       : _cached_size_{0},
         current_scan_node_{nullptr},
         meteo_{nullptr},
+        health_{nullptr},
         azimuth_{0},
         azimuth_speed_{0},
         elevation_{0},
@@ -142,6 +143,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataRotary, _impl_.tilt_init_status_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataRotary, _impl_.capture_monotonic_us_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataRotary, _impl_.is_parked_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataRotary, _impl_.health_),
         ~0u,
         ~0u,
         ~0u,
@@ -165,6 +167,7 @@ const ::uint32_t
         ~0u,
         ~0u,
         ~0u,
+        2,
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::ser::ScanNode, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -184,8 +187,8 @@ const ::uint32_t
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, 31, -1, sizeof(::ser::JonGuiDataRotary)},
-        {54, -1, -1, sizeof(::ser::ScanNode)},
+        {0, 32, -1, sizeof(::ser::JonGuiDataRotary)},
+        {56, -1, -1, sizeof(::ser::ScanNode)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGuiDataRotary_default_instance_._instance,
@@ -195,7 +198,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5frotary_2eproto[] ABSL
     protodesc_cold) = {
     "\n\034jon_shared_data_rotary.proto\022\003ser\032\033buf"
     "/validate/validate.proto\032\033jon_shared_dat"
-    "a_types.proto\"\274\t\n\020JonGuiDataRotary\022L\n\007az"
+    "a_types.proto\"\351\t\n\020JonGuiDataRotary\022L\n\007az"
     "imuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000\000\000"
     "\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022[\n\razim"
     "uth_speed\030\002 \001(\001BD\272HA\022\?\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277"
@@ -225,16 +228,17 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5frotary_2eproto[] ABSL
     " \001(\0132\024.ser.JonGuiDataMeteo\022\"\n\017pan_init_s"
     "tatus\030\024 \001(\005B\t\272H\006\032\004\030\016(\000\022#\n\020tilt_init_stat"
     "us\030\025 \001(\005B\t\272H\006\032\004\030\016(\000\022\034\n\024capture_monotonic"
-    "_us\030\026 \001(\004\022\021\n\tis_parked\030\027 \001(\010\"\211\002\n\010ScanNod"
-    "e\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoomTabl"
-    "eValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTableVa"
-    "lue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001B\027\272H\024"
-    "\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televation\030\005 \001(\001B"
-    "\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030\006 \001(\001"
-    "B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000"
-    "\000\000\000\000\000\360\?!\000\000\000\000\000\000\000\000BNZLgit-codecommit.eu-ce"
-    "ntral-1.amazonaws.com/v1/repos/jettison/"
-    "jonp/data/rotaryb\006proto3"
+    "_us\030\026 \001(\004\022\021\n\tis_parked\030\027 \001(\010\022+\n\006health\030("
+    " \001(\0132\033.ser.JonGuiDataModuleHealth\"\211\002\n\010Sc"
+    "anNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoo"
+    "mTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTa"
+    "bleValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001"
+    "B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televation\030\005"
+    " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030"
+    "\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H"
+    "\024\022\022\031\000\000\000\000\000\000\360\?!\000\000\000\000\000\000\000\000BNZLgit-codecommit."
+    "eu-central-1.amazonaws.com/v1/repos/jett"
+    "ison/jonp/data/rotaryb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5frotary_2eproto_deps[2] =
     {
@@ -245,7 +249,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5frotary_2eproto_o
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5frotary_2eproto = {
     false,
     false,
-    1664,
+    1709,
     descriptor_table_protodef_jon_5fshared_5fdata_5frotary_2eproto,
     "jon_shared_data_rotary.proto",
     &descriptor_table_jon_5fshared_5fdata_5frotary_2eproto_once,
@@ -273,6 +277,11 @@ void JonGuiDataRotary::clear_meteo() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.meteo_ != nullptr) _impl_.meteo_->Clear();
   _impl_._has_bits_[0] &= ~0x00000002u;
+}
+void JonGuiDataRotary::clear_health() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.health_ != nullptr) _impl_.health_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000004u;
 }
 JonGuiDataRotary::JonGuiDataRotary(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
@@ -309,6 +318,9 @@ JonGuiDataRotary::JonGuiDataRotary(
   _impl_.meteo_ = (cached_has_bits & 0x00000002u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(
                               arena, *from._impl_.meteo_)
                         : nullptr;
+  _impl_.health_ = (cached_has_bits & 0x00000004u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataModuleHealth>(
+                              arena, *from._impl_.health_)
+                        : nullptr;
   ::memcpy(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, azimuth_),
            reinterpret_cast<const char *>(&from._impl_) +
@@ -343,6 +355,7 @@ inline void JonGuiDataRotary::SharedDtor(MessageLite& self) {
   ABSL_DCHECK(this_.GetArena() == nullptr);
   delete this_._impl_.current_scan_node_;
   delete this_._impl_.meteo_;
+  delete this_._impl_.health_;
   this_._impl_.~Impl_();
 }
 
@@ -382,16 +395,16 @@ const ::google::protobuf::internal::ClassData* JonGuiDataRotary::GetClassData() 
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<5, 23, 2, 0, 2> JonGuiDataRotary::_table_ = {
+const ::_pbi::TcParseTable<5, 24, 3, 0, 7> JonGuiDataRotary::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_._has_bits_),
     0, // no _extensions_
-    23, 248,  // max_field_number, fast_idx_mask
+    40, 248,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
     4286578688,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    23,  // num_field_entries
-    2,  // num_aux_entries
+    24,  // num_field_entries
+    3,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -470,7 +483,9 @@ const ::_pbi::TcParseTable<5, 23, 2, 0, 2> JonGuiDataRotary::_table_ = {
     // bool is_parked = 23;
     {::_pbi::TcParser::FastV8S2,
      {440, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.is_parked_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // .ser.JonGuiDataModuleHealth health = 40;
+    {::_pbi::TcParser::FastMtS2,
+     {706, 2, 2, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.health_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -479,6 +494,8 @@ const ::_pbi::TcParseTable<5, 23, 2, 0, 2> JonGuiDataRotary::_table_ = {
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
+    40, 0, 1,
+    65534, 23,
     65535, 65535
   }}, {{
     // double azimuth = 1 [(.buf.validate.field) = {
@@ -550,9 +567,13 @@ const ::_pbi::TcParseTable<5, 23, 2, 0, 2> JonGuiDataRotary::_table_ = {
     // bool is_parked = 23;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.is_parked_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
+    // .ser.JonGuiDataModuleHealth health = 40;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.health_), _Internal::kHasBitsOffset + 2, 2,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ser::ScanNode>()},
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataMeteo>()},
+    {::_pbi::TcParser::GetTable<::ser::JonGuiDataModuleHealth>()},
   }}, {{
   }},
 };
@@ -565,7 +586,7 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
+  if (cached_has_bits & 0x00000007u) {
     if (cached_has_bits & 0x00000001u) {
       ABSL_DCHECK(_impl_.current_scan_node_ != nullptr);
       _impl_.current_scan_node_->Clear();
@@ -573,6 +594,10 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
     if (cached_has_bits & 0x00000002u) {
       ABSL_DCHECK(_impl_.meteo_ != nullptr);
       _impl_.meteo_->Clear();
+    }
+    if (cached_has_bits & 0x00000004u) {
+      ABSL_DCHECK(_impl_.health_ != nullptr);
+      _impl_.health_->Clear();
     }
   }
   ::memset(&_impl_.azimuth_, 0, static_cast<::size_t>(
@@ -759,6 +784,13 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
                 23, this_._internal_is_parked(), target);
           }
 
+          // .ser.JonGuiDataModuleHealth health = 40;
+          if (cached_has_bits & 0x00000004u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                40, *this_._impl_.health_, this_._impl_.health_->GetCachedSize(), target,
+                stream);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -784,7 +816,7 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
           cached_has_bits = this_._impl_._has_bits_[0];
-          if (cached_has_bits & 0x00000003u) {
+          if (cached_has_bits & 0x00000007u) {
             // .ser.ScanNode current_scan_node = 17;
             if (cached_has_bits & 0x00000001u) {
               total_size += 2 +
@@ -794,6 +826,11 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
             if (cached_has_bits & 0x00000002u) {
               total_size += 2 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.meteo_);
+            }
+            // .ser.JonGuiDataModuleHealth health = 40;
+            if (cached_has_bits & 0x00000004u) {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.health_);
             }
           }
            {
@@ -902,7 +939,7 @@ void JonGuiDataRotary::MergeImpl(::google::protobuf::MessageLite& to_msg, const 
   (void) cached_has_bits;
 
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
+  if (cached_has_bits & 0x00000007u) {
     if (cached_has_bits & 0x00000001u) {
       ABSL_DCHECK(from._impl_.current_scan_node_ != nullptr);
       if (_this->_impl_.current_scan_node_ == nullptr) {
@@ -919,6 +956,15 @@ void JonGuiDataRotary::MergeImpl(::google::protobuf::MessageLite& to_msg, const 
             ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(arena, *from._impl_.meteo_);
       } else {
         _this->_impl_.meteo_->MergeFrom(*from._impl_.meteo_);
+      }
+    }
+    if (cached_has_bits & 0x00000004u) {
+      ABSL_DCHECK(from._impl_.health_ != nullptr);
+      if (_this->_impl_.health_ == nullptr) {
+        _this->_impl_.health_ =
+            ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataModuleHealth>(arena, *from._impl_.health_);
+      } else {
+        _this->_impl_.health_->MergeFrom(*from._impl_.health_);
       }
     }
   }

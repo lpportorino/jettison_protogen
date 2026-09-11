@@ -221,6 +221,21 @@ public final class JonSharedDataRotary {
      * @return The isParked.
      */
     boolean getIsParked();
+
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return Whether the health field is set.
+     */
+    boolean hasHealth();
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return The health.
+     */
+    ser.JonSharedDataTypes.JonGuiDataModuleHealth getHealth();
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder getHealthOrBuilder();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataRotary}
@@ -583,6 +598,32 @@ public final class JonSharedDataRotary {
       return isParked_;
     }
 
+    public static final int HEALTH_FIELD_NUMBER = 40;
+    private ser.JonSharedDataTypes.JonGuiDataModuleHealth health_;
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return Whether the health field is set.
+     */
+    @java.lang.Override
+    public boolean hasHealth() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return The health.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataModuleHealth getHealth() {
+      return health_ == null ? ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+    }
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder getHealthOrBuilder() {
+      return health_ == null ? ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -665,6 +706,9 @@ public final class JonSharedDataRotary {
       }
       if (isParked_ != false) {
         output.writeBool(23, isParked_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeMessage(40, getHealth());
       }
       getUnknownFields().writeTo(output);
     }
@@ -767,6 +811,10 @@ public final class JonSharedDataRotary {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(23, isParked_);
       }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(40, getHealth());
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -842,6 +890,11 @@ public final class JonSharedDataRotary {
           != other.getCaptureMonotonicUs()) return false;
       if (getIsParked()
           != other.getIsParked()) return false;
+      if (hasHealth() != other.hasHealth()) return false;
+      if (hasHealth()) {
+        if (!getHealth()
+            .equals(other.getHealth())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -919,6 +972,10 @@ public final class JonSharedDataRotary {
       hash = (37 * hash) + IS_PARKED_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getIsParked());
+      if (hasHealth()) {
+        hash = (37 * hash) + HEALTH_FIELD_NUMBER;
+        hash = (53 * hash) + getHealth().hashCode();
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1051,6 +1108,7 @@ public final class JonSharedDataRotary {
                 .alwaysUseFieldBuilders) {
           getCurrentScanNodeFieldBuilder();
           getMeteoFieldBuilder();
+          getHealthFieldBuilder();
         }
       }
       @java.lang.Override
@@ -1088,6 +1146,11 @@ public final class JonSharedDataRotary {
         tiltInitStatus_ = 0;
         captureMonotonicUs_ = 0L;
         isParked_ = false;
+        health_ = null;
+        if (healthBuilder_ != null) {
+          healthBuilder_.dispose();
+          healthBuilder_ = null;
+        }
         return this;
       }
 
@@ -1197,6 +1260,12 @@ public final class JonSharedDataRotary {
         if (((from_bitField0_ & 0x00400000) != 0)) {
           result.isParked_ = isParked_;
         }
+        if (((from_bitField0_ & 0x00800000) != 0)) {
+          result.health_ = healthBuilder_ == null
+              ? health_
+              : healthBuilder_.build();
+          to_bitField0_ |= 0x00000004;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -1280,6 +1349,9 @@ public final class JonSharedDataRotary {
         }
         if (other.getIsParked() != false) {
           setIsParked(other.getIsParked());
+        }
+        if (other.hasHealth()) {
+          mergeHealth(other.getHealth());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1426,6 +1498,13 @@ public final class JonSharedDataRotary {
                 bitField0_ |= 0x00400000;
                 break;
               } // case 184
+              case 322: {
+                input.readMessage(
+                    getHealthFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00800000;
+                break;
+              } // case 322
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -2474,6 +2553,127 @@ public final class JonSharedDataRotary {
         return this;
       }
 
+      private ser.JonSharedDataTypes.JonGuiDataModuleHealth health_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataModuleHealth, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder, ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder> healthBuilder_;
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       * @return Whether the health field is set.
+       */
+      public boolean hasHealth() {
+        return ((bitField0_ & 0x00800000) != 0);
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       * @return The health.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealth getHealth() {
+        if (healthBuilder_ == null) {
+          return health_ == null ? ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+        } else {
+          return healthBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder setHealth(ser.JonSharedDataTypes.JonGuiDataModuleHealth value) {
+        if (healthBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          health_ = value;
+        } else {
+          healthBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00800000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder setHealth(
+          ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder builderForValue) {
+        if (healthBuilder_ == null) {
+          health_ = builderForValue.build();
+        } else {
+          healthBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00800000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder mergeHealth(ser.JonSharedDataTypes.JonGuiDataModuleHealth value) {
+        if (healthBuilder_ == null) {
+          if (((bitField0_ & 0x00800000) != 0) &&
+            health_ != null &&
+            health_ != ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance()) {
+            getHealthBuilder().mergeFrom(value);
+          } else {
+            health_ = value;
+          }
+        } else {
+          healthBuilder_.mergeFrom(value);
+        }
+        if (health_ != null) {
+          bitField0_ |= 0x00800000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder clearHealth() {
+        bitField0_ = (bitField0_ & ~0x00800000);
+        health_ = null;
+        if (healthBuilder_ != null) {
+          healthBuilder_.dispose();
+          healthBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder getHealthBuilder() {
+        bitField0_ |= 0x00800000;
+        onChanged();
+        return getHealthFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder getHealthOrBuilder() {
+        if (healthBuilder_ != null) {
+          return healthBuilder_.getMessageOrBuilder();
+        } else {
+          return health_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataModuleHealth, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder, ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder> 
+          getHealthFieldBuilder() {
+        if (healthBuilder_ == null) {
+          healthBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataModuleHealth, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder, ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder>(
+                  getHealth(),
+                  getParentForChildren(),
+                  isClean());
+          health_ = null;
+        }
+        return healthBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataRotary)
     }
 
@@ -3420,7 +3620,7 @@ public final class JonSharedDataRotary {
     java.lang.String[] descriptorData = {
       "\n\034jon_shared_data_rotary.proto\022\003ser\032\033buf" +
       "/validate/validate.proto\032\033jon_shared_dat" +
-      "a_types.proto\"\274\t\n\020JonGuiDataRotary\022L\n\007az" +
+      "a_types.proto\"\351\t\n\020JonGuiDataRotary\022L\n\007az" +
       "imuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000\000\000" +
       "\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022[\n\razim" +
       "uth_speed\030\002 \001(\001BD\272HA\022?\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277" +
@@ -3450,16 +3650,17 @@ public final class JonSharedDataRotary {
       " \001(\0132\024.ser.JonGuiDataMeteo\022\"\n\017pan_init_s" +
       "tatus\030\024 \001(\005B\t\272H\006\032\004\030\016(\000\022#\n\020tilt_init_stat" +
       "us\030\025 \001(\005B\t\272H\006\032\004\030\016(\000\022\034\n\024capture_monotonic" +
-      "_us\030\026 \001(\004\022\021\n\tis_parked\030\027 \001(\010\"\211\002\n\010ScanNod" +
-      "e\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoomTabl" +
-      "eValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTableVa" +
-      "lue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001B\027\272H\024" +
-      "\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televation\030\005 \001(\001B" +
-      "\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030\006 \001(\001" +
-      "B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000" +
-      "\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000BNZLgit-codecommit.eu-ce" +
-      "ntral-1.amazonaws.com/v1/repos/jettison/" +
-      "jonp/data/rotaryb\006proto3"
+      "_us\030\026 \001(\004\022\021\n\tis_parked\030\027 \001(\010\022+\n\006health\030(" +
+      " \001(\0132\033.ser.JonGuiDataModuleHealth\"\211\002\n\010Sc" +
+      "anNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoo" +
+      "mTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTa" +
+      "bleValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001" +
+      "B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televation\030\005" +
+      " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030" +
+      "\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H" +
+      "\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000BNZLgit-codecommit." +
+      "eu-central-1.amazonaws.com/v1/repos/jett" +
+      "ison/jonp/data/rotaryb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3472,7 +3673,7 @@ public final class JonSharedDataRotary {
     internal_static_ser_JonGuiDataRotary_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataRotary_descriptor,
-        new java.lang.String[] { "Azimuth", "AzimuthSpeed", "Elevation", "ElevationSpeed", "PlatformAzimuth", "PlatformElevation", "PlatformBank", "IsMoving", "Mode", "IsScanning", "IsScanningPaused", "UseRotaryAsCompass", "ScanTarget", "ScanTargetMax", "SunAzimuth", "SunElevation", "CurrentScanNode", "IsStarted", "Meteo", "PanInitStatus", "TiltInitStatus", "CaptureMonotonicUs", "IsParked", });
+        new java.lang.String[] { "Azimuth", "AzimuthSpeed", "Elevation", "ElevationSpeed", "PlatformAzimuth", "PlatformElevation", "PlatformBank", "IsMoving", "Mode", "IsScanning", "IsScanningPaused", "UseRotaryAsCompass", "ScanTarget", "ScanTargetMax", "SunAzimuth", "SunElevation", "CurrentScanNode", "IsStarted", "Meteo", "PanInitStatus", "TiltInitStatus", "CaptureMonotonicUs", "IsParked", "Health", });
     internal_static_ser_ScanNode_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_ser_ScanNode_fieldAccessorTable = new

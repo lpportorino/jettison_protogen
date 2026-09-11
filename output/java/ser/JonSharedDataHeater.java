@@ -820,6 +820,21 @@ public final class JonSharedDataHeater {
      * @return The targetTempChannel2.
      */
     float getTargetTempChannel2();
+
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return Whether the health field is set.
+     */
+    boolean hasHealth();
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return The health.
+     */
+    ser.JonSharedDataTypes.JonGuiDataModuleHealth getHealth();
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder getHealthOrBuilder();
   }
   /**
    * <pre>
@@ -1058,6 +1073,32 @@ public final class JonSharedDataHeater {
       return targetTempChannel2_;
     }
 
+    public static final int HEALTH_FIELD_NUMBER = 40;
+    private ser.JonSharedDataTypes.JonGuiDataModuleHealth health_;
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return Whether the health field is set.
+     */
+    @java.lang.Override
+    public boolean hasHealth() {
+      return ((bitField0_ & 0x00000008) != 0);
+    }
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return The health.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataModuleHealth getHealth() {
+      return health_ == null ? ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+    }
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder getHealthOrBuilder() {
+      return health_ == null ? ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1101,6 +1142,9 @@ public final class JonSharedDataHeater {
       }
       if (java.lang.Float.floatToRawIntBits(targetTempChannel2_) != 0) {
         output.writeFloat(10, targetTempChannel2_);
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        output.writeMessage(40, getHealth());
       }
       getUnknownFields().writeTo(output);
     }
@@ -1150,6 +1194,10 @@ public final class JonSharedDataHeater {
       if (java.lang.Float.floatToRawIntBits(targetTempChannel2_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(10, targetTempChannel2_);
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(40, getHealth());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1201,6 +1249,11 @@ public final class JonSharedDataHeater {
       if (java.lang.Float.floatToIntBits(getTargetTempChannel2())
           != java.lang.Float.floatToIntBits(
               other.getTargetTempChannel2())) return false;
+      if (hasHealth() != other.hasHealth()) return false;
+      if (hasHealth()) {
+        if (!getHealth()
+            .equals(other.getHealth())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -1245,6 +1298,10 @@ public final class JonSharedDataHeater {
       hash = (37 * hash) + TARGET_TEMP_CHANNEL_2_FIELD_NUMBER;
       hash = (53 * hash) + java.lang.Float.floatToIntBits(
           getTargetTempChannel2());
+      if (hasHealth()) {
+        hash = (37 * hash) + HEALTH_FIELD_NUMBER;
+        hash = (53 * hash) + getHealth().hashCode();
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1382,6 +1439,7 @@ public final class JonSharedDataHeater {
           getChannel0FieldBuilder();
           getChannel1FieldBuilder();
           getChannel2FieldBuilder();
+          getHealthFieldBuilder();
         }
       }
       @java.lang.Override
@@ -1410,6 +1468,11 @@ public final class JonSharedDataHeater {
         targetTempChannel0_ = 0F;
         targetTempChannel1_ = 0F;
         targetTempChannel2_ = 0F;
+        health_ = null;
+        if (healthBuilder_ != null) {
+          healthBuilder_.dispose();
+          healthBuilder_ = null;
+        }
         return this;
       }
 
@@ -1483,6 +1546,12 @@ public final class JonSharedDataHeater {
         if (((from_bitField0_ & 0x00000200) != 0)) {
           result.targetTempChannel2_ = targetTempChannel2_;
         }
+        if (((from_bitField0_ & 0x00000400) != 0)) {
+          result.health_ = healthBuilder_ == null
+              ? health_
+              : healthBuilder_.build();
+          to_bitField0_ |= 0x00000008;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -1527,6 +1596,9 @@ public final class JonSharedDataHeater {
         }
         if (other.getTargetTempChannel2() != 0F) {
           setTargetTempChannel2(other.getTargetTempChannel2());
+        }
+        if (other.hasHealth()) {
+          mergeHealth(other.getHealth());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1610,6 +1682,13 @@ public final class JonSharedDataHeater {
                 bitField0_ |= 0x00000200;
                 break;
               } // case 85
+              case 322: {
+                input.readMessage(
+                    getHealthFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000400;
+                break;
+              } // case 322
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -2334,6 +2413,127 @@ public final class JonSharedDataHeater {
         return this;
       }
 
+      private ser.JonSharedDataTypes.JonGuiDataModuleHealth health_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataModuleHealth, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder, ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder> healthBuilder_;
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       * @return Whether the health field is set.
+       */
+      public boolean hasHealth() {
+        return ((bitField0_ & 0x00000400) != 0);
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       * @return The health.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealth getHealth() {
+        if (healthBuilder_ == null) {
+          return health_ == null ? ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+        } else {
+          return healthBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder setHealth(ser.JonSharedDataTypes.JonGuiDataModuleHealth value) {
+        if (healthBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          health_ = value;
+        } else {
+          healthBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000400;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder setHealth(
+          ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder builderForValue) {
+        if (healthBuilder_ == null) {
+          health_ = builderForValue.build();
+        } else {
+          healthBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000400;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder mergeHealth(ser.JonSharedDataTypes.JonGuiDataModuleHealth value) {
+        if (healthBuilder_ == null) {
+          if (((bitField0_ & 0x00000400) != 0) &&
+            health_ != null &&
+            health_ != ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance()) {
+            getHealthBuilder().mergeFrom(value);
+          } else {
+            health_ = value;
+          }
+        } else {
+          healthBuilder_.mergeFrom(value);
+        }
+        if (health_ != null) {
+          bitField0_ |= 0x00000400;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder clearHealth() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        health_ = null;
+        if (healthBuilder_ != null) {
+          healthBuilder_.dispose();
+          healthBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder getHealthBuilder() {
+        bitField0_ |= 0x00000400;
+        onChanged();
+        return getHealthFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder getHealthOrBuilder() {
+        if (healthBuilder_ != null) {
+          return healthBuilder_.getMessageOrBuilder();
+        } else {
+          return health_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataModuleHealth, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder, ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder> 
+          getHealthFieldBuilder() {
+        if (healthBuilder_ == null) {
+          healthBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataModuleHealth, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder, ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder>(
+                  getHealth(),
+                  getParentForChildren(),
+                  isClean());
+          health_ = null;
+        }
+        return healthBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataHeater)
     }
 
@@ -2405,30 +2605,32 @@ public final class JonSharedDataHeater {
   static {
     java.lang.String[] descriptorData = {
       "\n\034jon_shared_data_heater.proto\022\003ser\032\033buf" +
-      "/validate/validate.proto\"\222\001\n\035JonGuiDataH" +
-      "eaterChannelStatus\022\023\n\013temperature\030\001 \001(\002\022" +
-      "%\n\021applied_voltage_V\030\002 \001(\002B\n\272H\007\n\005-\000\000\000\000\022$" +
-      "\n\020target_voltage_V\030\003 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\017\n\007" +
-      "enabled\030\004 \001(\010\"\311\003\n\020JonGuiDataHeater\022!\n\rbu" +
-      "s_voltage_V\030\001 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\035\n\tcurrent" +
-      "_A\030\002 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\033\n\007power_W\030\003 \001(\002B\n\272" +
-      "H\007\n\005-\000\000\000\000\0225\n\tchannel_0\030\004 \001(\0132\".ser.JonGu" +
-      "iDataHeaterChannelStatus\0225\n\tchannel_1\030\005 " +
-      "\001(\0132\".ser.JonGuiDataHeaterChannelStatus\022" +
-      "5\n\tchannel_2\030\006 \001(\0132\".ser.JonGuiDataHeate" +
-      "rChannelStatus\022!\n\031automatic_control_enab" +
-      "led\030\007 \001(\010\022.\n\025target_temp_channel_0\030\010 \001(\002" +
-      "B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022.\n\025target_temp_channel" +
-      "_1\030\t \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022.\n\025target_temp" +
-      "_channel_2\030\n \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000BNZLgit" +
-      "-codecommit.eu-central-1.amazonaws.com/v" +
-      "1/repos/jettison/jonp/data/heaterb\006proto" +
-      "3"
+      "/validate/validate.proto\032\033jon_shared_dat" +
+      "a_types.proto\"\222\001\n\035JonGuiDataHeaterChanne" +
+      "lStatus\022\023\n\013temperature\030\001 \001(\002\022%\n\021applied_" +
+      "voltage_V\030\002 \001(\002B\n\272H\007\n\005-\000\000\000\000\022$\n\020target_vo" +
+      "ltage_V\030\003 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\017\n\007enabled\030\004 \001" +
+      "(\010\"\366\003\n\020JonGuiDataHeater\022!\n\rbus_voltage_V" +
+      "\030\001 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\035\n\tcurrent_A\030\002 \001(\002B\n\272" +
+      "H\007\n\005-\000\000\000\000\022\033\n\007power_W\030\003 \001(\002B\n\272H\007\n\005-\000\000\000\000\0225" +
+      "\n\tchannel_0\030\004 \001(\0132\".ser.JonGuiDataHeater" +
+      "ChannelStatus\0225\n\tchannel_1\030\005 \001(\0132\".ser.J" +
+      "onGuiDataHeaterChannelStatus\0225\n\tchannel_" +
+      "2\030\006 \001(\0132\".ser.JonGuiDataHeaterChannelSta" +
+      "tus\022!\n\031automatic_control_enabled\030\007 \001(\010\022." +
+      "\n\025target_temp_channel_0\030\010 \001(\002B\017\272H\014\n\n\035\000\000p" +
+      "B-\000\000\000\000\022.\n\025target_temp_channel_1\030\t \001(\002B\017\272" +
+      "H\014\n\n\035\000\000pB-\000\000\000\000\022.\n\025target_temp_channel_2\030" +
+      "\n \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022+\n\006health\030( \001(\0132\033" +
+      ".ser.JonGuiDataModuleHealthBNZLgit-codec" +
+      "ommit.eu-central-1.amazonaws.com/v1/repo" +
+      "s/jettison/jonp/data/heaterb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           build.buf.validate.ValidateProto.getDescriptor(),
+          ser.JonSharedDataTypes.getDescriptor(),
         });
     internal_static_ser_JonGuiDataHeaterChannelStatus_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -2441,9 +2643,10 @@ public final class JonSharedDataHeater {
     internal_static_ser_JonGuiDataHeater_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataHeater_descriptor,
-        new java.lang.String[] { "BusVoltageV", "CurrentA", "PowerW", "Channel0", "Channel1", "Channel2", "AutomaticControlEnabled", "TargetTempChannel0", "TargetTempChannel1", "TargetTempChannel2", });
+        new java.lang.String[] { "BusVoltageV", "CurrentA", "PowerW", "Channel0", "Channel1", "Channel2", "AutomaticControlEnabled", "TargetTempChannel0", "TargetTempChannel1", "TargetTempChannel2", "Health", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
+    ser.JonSharedDataTypes.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();
     registry.add(build.buf.validate.ValidateProto.field);

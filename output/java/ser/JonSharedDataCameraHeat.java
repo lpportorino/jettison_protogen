@@ -202,6 +202,21 @@ public final class JonSharedDataCameraHeat {
      * @return The contentFps.
      */
     double getContentFps();
+
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return Whether the health field is set.
+     */
+    boolean hasHealth();
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return The health.
+     */
+    ser.JonSharedDataTypes.JonGuiDataModuleHealth getHealth();
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder getHealthOrBuilder();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataCameraHeat}
@@ -526,6 +541,32 @@ public final class JonSharedDataCameraHeat {
       return contentFps_;
     }
 
+    public static final int HEALTH_FIELD_NUMBER = 40;
+    private ser.JonSharedDataTypes.JonGuiDataModuleHealth health_;
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return Whether the health field is set.
+     */
+    @java.lang.Override
+    public boolean hasHealth() {
+      return ((bitField0_ & 0x00000008) != 0);
+    }
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return The health.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataModuleHealth getHealth() {
+      return health_ == null ? ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+    }
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder getHealthOrBuilder() {
+      return health_ == null ? ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -593,6 +634,9 @@ public final class JonSharedDataCameraHeat {
       }
       if (((bitField0_ & 0x00000004) != 0)) {
         output.writeDouble(18, contentFps_);
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        output.writeMessage(40, getHealth());
       }
       getUnknownFields().writeTo(output);
     }
@@ -675,6 +719,10 @@ public final class JonSharedDataCameraHeat {
         size += com.google.protobuf.CodedOutputStream
           .computeDoubleSize(18, contentFps_);
       }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(40, getHealth());
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -739,6 +787,11 @@ public final class JonSharedDataCameraHeat {
             != java.lang.Double.doubleToLongBits(
                 other.getContentFps())) return false;
       }
+      if (hasHealth() != other.hasHealth()) return false;
+      if (hasHealth()) {
+        if (!getHealth()
+            .equals(other.getHealth())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -802,6 +855,10 @@ public final class JonSharedDataCameraHeat {
         hash = (37 * hash) + CONTENT_FPS_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
             java.lang.Double.doubleToLongBits(getContentFps()));
+      }
+      if (hasHealth()) {
+        hash = (37 * hash) + HEALTH_FIELD_NUMBER;
+        hash = (53 * hash) + getHealth().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -934,6 +991,7 @@ public final class JonSharedDataCameraHeat {
         if (com.google.protobuf.GeneratedMessage
                 .alwaysUseFieldBuilders) {
           getMeteoFieldBuilder();
+          getHealthFieldBuilder();
         }
       }
       @java.lang.Override
@@ -962,6 +1020,11 @@ public final class JonSharedDataCameraHeat {
         captureMonotonicUs_ = 0L;
         deliveredFps_ = 0D;
         contentFps_ = 0D;
+        health_ = null;
+        if (healthBuilder_ != null) {
+          healthBuilder_.dispose();
+          healthBuilder_ = null;
+        }
         return this;
       }
 
@@ -1055,6 +1118,12 @@ public final class JonSharedDataCameraHeat {
           result.contentFps_ = contentFps_;
           to_bitField0_ |= 0x00000004;
         }
+        if (((from_bitField0_ & 0x00040000) != 0)) {
+          result.health_ = healthBuilder_ == null
+              ? health_
+              : healthBuilder_.build();
+          to_bitField0_ |= 0x00000008;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -1123,6 +1192,9 @@ public final class JonSharedDataCameraHeat {
         }
         if (other.hasContentFps()) {
           setContentFps(other.getContentFps());
+        }
+        if (other.hasHealth()) {
+          mergeHealth(other.getHealth());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1242,6 +1314,13 @@ public final class JonSharedDataCameraHeat {
                 bitField0_ |= 0x00020000;
                 break;
               } // case 145
+              case 322: {
+                input.readMessage(
+                    getHealthFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00040000;
+                break;
+              } // case 322
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -2071,6 +2150,127 @@ public final class JonSharedDataCameraHeat {
         return this;
       }
 
+      private ser.JonSharedDataTypes.JonGuiDataModuleHealth health_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataModuleHealth, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder, ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder> healthBuilder_;
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       * @return Whether the health field is set.
+       */
+      public boolean hasHealth() {
+        return ((bitField0_ & 0x00040000) != 0);
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       * @return The health.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealth getHealth() {
+        if (healthBuilder_ == null) {
+          return health_ == null ? ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+        } else {
+          return healthBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder setHealth(ser.JonSharedDataTypes.JonGuiDataModuleHealth value) {
+        if (healthBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          health_ = value;
+        } else {
+          healthBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00040000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder setHealth(
+          ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder builderForValue) {
+        if (healthBuilder_ == null) {
+          health_ = builderForValue.build();
+        } else {
+          healthBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00040000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder mergeHealth(ser.JonSharedDataTypes.JonGuiDataModuleHealth value) {
+        if (healthBuilder_ == null) {
+          if (((bitField0_ & 0x00040000) != 0) &&
+            health_ != null &&
+            health_ != ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance()) {
+            getHealthBuilder().mergeFrom(value);
+          } else {
+            health_ = value;
+          }
+        } else {
+          healthBuilder_.mergeFrom(value);
+        }
+        if (health_ != null) {
+          bitField0_ |= 0x00040000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder clearHealth() {
+        bitField0_ = (bitField0_ & ~0x00040000);
+        health_ = null;
+        if (healthBuilder_ != null) {
+          healthBuilder_.dispose();
+          healthBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder getHealthBuilder() {
+        bitField0_ |= 0x00040000;
+        onChanged();
+        return getHealthFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder getHealthOrBuilder() {
+        if (healthBuilder_ != null) {
+          return healthBuilder_.getMessageOrBuilder();
+        } else {
+          return health_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataModuleHealth, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder, ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder> 
+          getHealthFieldBuilder() {
+        if (healthBuilder_ == null) {
+          healthBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataModuleHealth, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder, ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder>(
+                  getHealth(),
+                  getParentForChildren(),
+                  isClean());
+          health_ = null;
+        }
+        return healthBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataCameraHeat)
     }
 
@@ -2138,7 +2338,7 @@ public final class JonSharedDataCameraHeat {
     java.lang.String[] descriptorData = {
       "\n!jon_shared_data_camera_heat.proto\022\003ser" +
       "\032\033buf/validate/validate.proto\032\033jon_share" +
-      "d_data_types.proto\"\251\006\n\024JonGuiDataCameraH" +
+      "d_data_types.proto\"\326\006\n\024JonGuiDataCameraH" +
       "eat\022)\n\010zoom_pos\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000" +
       "\000\000\000\000\000\000\022E\n\010agc_mode\030\002 \001(\0162\'.ser.JonGuiDat" +
       "aVideoChannelHeatAGCModesB\n\272H\007\202\001\004\020\001 \000\022B\n" +
@@ -2157,11 +2357,12 @@ public final class JonSharedDataCameraHeat {
       "\001(\010\022#\n\005meteo\030\017 \001(\0132\024.ser.JonGuiDataMeteo" +
       "\022\034\n\024capture_monotonic_us\030\020 \001(\004\022*\n\rdelive" +
       "red_fps\030\021 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000H\000\210\001\001\022(\n\013co" +
-      "ntent_fps\030\022 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000H\001\210\001\001B\020\n\016" +
-      "_delivered_fpsB\016\n\014_content_fpsBSZQgit-co" +
-      "decommit.eu-central-1.amazonaws.com/v1/r" +
-      "epos/jettison/jonp/data/camera_heatb\006pro" +
-      "to3"
+      "ntent_fps\030\022 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000H\001\210\001\001\022+\n\006" +
+      "health\030( \001(\0132\033.ser.JonGuiDataModuleHealt" +
+      "hB\020\n\016_delivered_fpsB\016\n\014_content_fpsBSZQg" +
+      "it-codecommit.eu-central-1.amazonaws.com" +
+      "/v1/repos/jettison/jonp/data/camera_heat" +
+      "b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2174,7 +2375,7 @@ public final class JonSharedDataCameraHeat {
     internal_static_ser_JonGuiDataCameraHeat_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataCameraHeat_descriptor,
-        new java.lang.String[] { "ZoomPos", "AgcMode", "Filter", "AutoFocus", "ZoomTablePos", "ZoomTablePosMax", "DdeLevel", "DdeEnabled", "FxMode", "DigitalZoomLevel", "ClaheLevel", "HorizontalFovDegrees", "VerticalFovDegrees", "IsStarted", "Meteo", "CaptureMonotonicUs", "DeliveredFps", "ContentFps", });
+        new java.lang.String[] { "ZoomPos", "AgcMode", "Filter", "AutoFocus", "ZoomTablePos", "ZoomTablePosMax", "DdeLevel", "DdeEnabled", "FxMode", "DigitalZoomLevel", "ClaheLevel", "HorizontalFovDegrees", "VerticalFovDegrees", "IsStarted", "Meteo", "CaptureMonotonicUs", "DeliveredFps", "ContentFps", "Health", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

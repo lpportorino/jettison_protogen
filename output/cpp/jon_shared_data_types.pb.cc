@@ -163,6 +163,36 @@ struct JonGuiDataQuaternionDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 JonGuiDataQuaternionDefaultTypeInternal _JonGuiDataQuaternion_default_instance_;
 
+inline constexpr JonGuiDataModuleHealth::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : queue_cap_0_{0u},
+        peak_depth_0_{0u},
+        dropped_oldest_0_{0u},
+        queue_cap_1_{0u},
+        peak_depth_1_{0u},
+        dropped_oldest_1_{0u},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR JonGuiDataModuleHealth::JonGuiDataModuleHealth(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct JonGuiDataModuleHealthDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR JonGuiDataModuleHealthDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~JonGuiDataModuleHealthDefaultTypeInternal() {}
+  union {
+    JonGuiDataModuleHealth _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 JonGuiDataModuleHealthDefaultTypeInternal _JonGuiDataModuleHealth_default_instance_;
+
 inline constexpr JonGuiDataMeteo::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : temperature_{0},
@@ -297,6 +327,20 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataMeteo, _impl_.humidity_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataMeteo, _impl_.pressure_),
         ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataModuleHealth, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataModuleHealth, _impl_.queue_cap_0_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataModuleHealth, _impl_.peak_depth_0_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataModuleHealth, _impl_.dropped_oldest_0_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataModuleHealth, _impl_.queue_cap_1_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataModuleHealth, _impl_.peak_depth_1_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataModuleHealth, _impl_.dropped_oldest_1_),
+        ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::ser::JonOpaquePayloadVersion, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
@@ -404,17 +448,19 @@ const ::uint32_t
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::ser::JonGuiDataMeteo)},
-        {11, -1, -1, sizeof(::ser::JonOpaquePayloadVersion)},
-        {22, 33, -1, sizeof(::ser::JonOpaquePayload)},
-        {36, -1, -1, sizeof(::ser::JonGuiDataROI)},
-        {48, -1, -1, sizeof(::ser::JonGuiDataSharpness)},
-        {59, -1, -1, sizeof(::ser::JonGuiDataVector3)},
-        {70, -1, -1, sizeof(::ser::JonGuiDataQuaternion)},
-        {82, 94, -1, sizeof(::ser::JonGuiDataTransform3D)},
-        {98, 110, -1, sizeof(::ser::JonGuiDataTrackedObject)},
+        {11, -1, -1, sizeof(::ser::JonGuiDataModuleHealth)},
+        {25, -1, -1, sizeof(::ser::JonOpaquePayloadVersion)},
+        {36, 47, -1, sizeof(::ser::JonOpaquePayload)},
+        {50, -1, -1, sizeof(::ser::JonGuiDataROI)},
+        {62, -1, -1, sizeof(::ser::JonGuiDataSharpness)},
+        {73, -1, -1, sizeof(::ser::JonGuiDataVector3)},
+        {84, -1, -1, sizeof(::ser::JonGuiDataQuaternion)},
+        {96, 108, -1, sizeof(::ser::JonGuiDataTransform3D)},
+        {112, 124, -1, sizeof(::ser::JonGuiDataTrackedObject)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGuiDataMeteo_default_instance_._instance,
+    &::ser::_JonGuiDataModuleHealth_default_instance_._instance,
     &::ser::_JonOpaquePayloadVersion_default_instance_._instance,
     &::ser::_JonOpaquePayload_default_instance_._instance,
     &::ser::_JonGuiDataROI_default_instance_._instance,
@@ -431,195 +477,199 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5ftypes_2eproto[] ABSL_
     "teo\022,\n\013temperature\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\300b@"
     ")fffff\022q\300\022)\n\010humidity\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000"
     "\000Y@)\000\000\000\000\000\000\000\000\022)\n\010pressure\030\003 \001(\001B\027\272H\024\022\022\031\000\000"
-    "\000\000\000L\375@)\000\000\000\000\000\000\000\000\"F\n\027JonOpaquePayloadVersi"
-    "on\022\r\n\005major\030\001 \001(\r\022\r\n\005minor\030\002 \001(\r\022\r\n\005buil"
-    "d\030\003 \001(\004\"\314\001\n\020JonOpaquePayload\022g\n\ttype_uui"
-    "d\030\001 \001(\tBT\272HQrO2M^[0-9a-fA-F]{8}-[0-9a-fA"
-    "-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-"
-    "9a-fA-F]{12}$\0225\n\007version\030\002 \001(\0132\034.ser.Jon"
-    "OpaquePayloadVersionB\006\272H\003\310\001\001\022\030\n\007payload\030"
-    "\003 \001(\014B\007\272H\004z\002\020\001\"\243\001\n\rJonGuiDataROI\022#\n\002x1\030\001"
-    " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001("
-    "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027"
-    "\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024"
-    "\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\"i\n\023JonGuiDataSharpn"
-    "ess\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000"
-    "\000\000\000\022\024\n\014derivative_1\030\002 \001(\001\022\024\n\014derivative_"
-    "2\030\003 \001(\001\"L\n\021JonGuiDataVector3\022\021\n\001x\030\001 \001(\001B"
-    "\006\272H\003\310\001\001\022\021\n\001y\030\002 \001(\001B\006\272H\003\310\001\001\022\021\n\001z\030\003 \001(\001B\006\272"
-    "H\003\310\001\001\"b\n\024JonGuiDataQuaternion\022\021\n\001w\030\001 \001(\001"
-    "B\006\272H\003\310\001\001\022\021\n\001x\030\002 \001(\001B\006\272H\003\310\001\001\022\021\n\001y\030\003 \001(\001B\006"
-    "\272H\003\310\001\001\022\021\n\001z\030\004 \001(\001B\006\272H\003\310\001\001\"\364\001\n\025JonGuiData"
-    "Transform3D\0220\n\010position\030\001 \001(\0132\026.ser.JonG"
-    "uiDataVector3B\006\272H\003\310\001\001\0226\n\013orientation\030\002 \001"
-    "(\0132\031.ser.JonGuiDataQuaternionB\006\272H\003\310\001\001\0227\n"
-    "\017linear_velocity\030\003 \001(\0132\026.ser.JonGuiDataV"
-    "ector3B\006\272H\003\310\001\001\0228\n\020angular_velocity\030\004 \001(\013"
-    "2\026.ser.JonGuiDataVector3B\006\272H\003\310\001\001\"\325\003\n\027Jon"
-    "GuiDataTrackedObject\022f\n\004uuid\030\001 \001(\tBX\272HUr"
-    "S\020$\030$2M^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0"
-    "-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{"
-    "12}$\0225\n\ttransform\030\002 \001(\0132\032.ser.JonGuiData"
-    "Transform3DB\006\272H\003\310\001\001\0220\n\014bounding_box\030\003 \001("
-    "\0132\022.ser.JonGuiDataROIB\006\272H\003\310\001\001\022E\n\005state\030\004"
-    " \001(\0162*.ser.JonGuiDataTrackedObject.Track"
-    "ingStateB\n\272H\007\202\001\004\020\001 \000\"\241\001\n\rTrackingState\022\036"
-    "\n\032TRACKING_STATE_UNSPECIFIED\020\000\022\034\n\030TRACKI"
-    "NG_STATE_ACQUIRING\020\001\022\033\n\027TRACKING_STATE_T"
-    "RACKING\020\002\022\034\n\030TRACKING_STATE_PREDICTED\020\003\022"
-    "\027\n\023TRACKING_STATE_LOST\020\004*\263\002\n!JonGuiDataV"
-    "ideoChannelHeatFilters\0226\n2JON_GUI_DATA_V"
-    "IDEO_CHANNEL_HEAT_FILTER_UNSPECIFIED\020\000\0224"
-    "\n0JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER"
-    "_HOT_WHITE\020\001\0224\n0JON_GUI_DATA_VIDEO_CHANN"
-    "EL_HEAT_FILTER_HOT_BLACK\020\002\0220\n,JON_GUI_DA"
-    "TA_VIDEO_CHANNEL_HEAT_FILTER_SEPIA\020\003\0228\n4"
-    "JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_S"
-    "EPIA_INVERSE\020\004*\356\001\n\"JonGuiDataVideoChanne"
-    "lHeatAGCModes\0228\n4JON_GUI_DATA_VIDEO_CHAN"
-    "NEL_HEAT_AGC_MODE_UNSPECIFIED\020\000\022.\n*JON_G"
-    "UI_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE_1\020\001\022"
-    ".\n*JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_M"
-    "ODE_2\020\002\022.\n*JON_GUI_DATA_VIDEO_CHANNEL_HE"
-    "AT_AGC_MODE_3\020\003*\320\001\n\022JonGuiDataGpsUnits\022&"
-    "\n\"JON_GUI_DATA_GPS_UNITS_UNSPECIFIED\020\000\022*"
-    "\n&JON_GUI_DATA_GPS_UNITS_DECIMAL_DEGREES"
-    "\020\001\0222\n.JON_GUI_DATA_GPS_UNITS_DEGREES_MIN"
-    "UTES_SECONDS\020\002\0222\n.JON_GUI_DATA_GPS_UNITS"
-    "_DEGREES_DECIMAL_MINUTES\020\003*\361\001\n\024JonGuiDat"
-    "aGpsFixType\022)\n%JON_GUI_DATA_GPS_FIX_TYPE"
-    "_UNSPECIFIED\020\000\022\"\n\036JON_GUI_DATA_GPS_FIX_T"
-    "YPE_NONE\020\001\022 \n\034JON_GUI_DATA_GPS_FIX_TYPE_"
-    "1D\020\002\022 \n\034JON_GUI_DATA_GPS_FIX_TYPE_2D\020\003\022 "
-    "\n\034JON_GUI_DATA_GPS_FIX_TYPE_3D\020\004\022$\n JON_"
-    "GUI_DATA_GPS_FIX_TYPE_MANUAL\020\005*\333\001\n\026JonGu"
-    "iDataCompassUnits\022*\n&JON_GUI_DATA_COMPAS"
-    "S_UNITS_UNSPECIFIED\020\000\022&\n\"JON_GUI_DATA_CO"
-    "MPASS_UNITS_DEGREES\020\001\022#\n\037JON_GUI_DATA_CO"
-    "MPASS_UNITS_MILS\020\002\022#\n\037JON_GUI_DATA_COMPA"
-    "SS_UNITS_GRAD\020\003\022#\n\037JON_GUI_DATA_COMPASS_"
-    "UNITS_MRAD\020\004*\337\003\n\035JonGuiDataAccumulatorSt"
-    "ateIdx\022.\n*JON_GUI_DATA_ACCUMULATOR_STATE"
-    "_UNSPECIFIED\020\000\022*\n&JON_GUI_DATA_ACCUMULAT"
-    "OR_STATE_UNKNOWN\020\001\022(\n$JON_GUI_DATA_ACCUM"
-    "ULATOR_STATE_EMPTY\020\002\022$\n JON_GUI_DATA_ACC"
-    "UMULATOR_STATE_1\020\003\022$\n JON_GUI_DATA_ACCUM"
-    "ULATOR_STATE_2\020\004\022$\n JON_GUI_DATA_ACCUMUL"
-    "ATOR_STATE_3\020\005\022$\n JON_GUI_DATA_ACCUMULAT"
-    "OR_STATE_4\020\006\022$\n JON_GUI_DATA_ACCUMULATOR"
-    "_STATE_5\020\007\022$\n JON_GUI_DATA_ACCUMULATOR_S"
-    "TATE_6\020\010\022\'\n#JON_GUI_DATA_ACCUMULATOR_STA"
-    "TE_FULL\020\t\022+\n\'JON_GUI_DATA_ACCUMULATOR_ST"
-    "ATE_CHARGING\020\n*\217\001\n\025JonGuiDataTimeFormats"
-    "\022(\n$JON_GUI_DATA_TIME_FORMAT_UNSPECIFIED"
-    "\020\000\022\"\n\036JON_GUI_DATA_TIME_FORMAT_H_M_S\020\001\022("
-    "\n$JON_GUI_DATA_TIME_FORMAT_Y_m_D_H_M_S\020\002"
-    "*\254\001\n\031JonGuiDataRotaryDirection\022-\n)JON_GU"
-    "I_DATA_ROTARY_DIRECTION_UNSPECIFIED\020\000\022+\n"
-    "\'JON_GUI_DATA_ROTARY_DIRECTION_CLOCKWISE"
-    "\020\001\0223\n/JON_GUI_DATA_ROTARY_DIRECTION_COUN"
-    "TER_CLOCKWISE\020\002*\352\002\n\026JonGuiDataLrfScanMod"
-    "es\022*\n&JON_GUI_DATA_LRF_SCAN_MODE_UNSPECI"
-    "FIED\020\000\022.\n*JON_GUI_DATA_LRF_SCAN_MODE_1_H"
-    "Z_CONTINUOUS\020\001\022.\n*JON_GUI_DATA_LRF_SCAN_"
-    "MODE_4_HZ_CONTINUOUS\020\002\022/\n+JON_GUI_DATA_L"
-    "RF_SCAN_MODE_10_HZ_CONTINUOUS\020\003\022/\n+JON_G"
-    "UI_DATA_LRF_SCAN_MODE_20_HZ_CONTINUOUS\020\004"
-    "\0220\n,JON_GUI_DATA_LRF_SCAN_MODE_100_HZ_CO"
-    "NTINUOUS\020\005\0220\n,JON_GUI_DATA_LRF_SCAN_MODE"
-    "_200_HZ_CONTINUOUS\020\006*\337\001\n\037JonGuiDatatLrfL"
-    "aserPointerModes\0223\n/JON_GUI_DATA_LRF_LAS"
-    "ER_POINTER_MODE_UNSPECIFIED\020\000\022+\n\'JON_GUI"
-    "_DATA_LRF_LASER_POINTER_MODE_OFF\020\001\022,\n(JO"
-    "N_GUI_DATA_LRF_LASER_POINTER_MODE_ON_1\020\002"
-    "\022,\n(JON_GUI_DATA_LRF_LASER_POINTER_MODE_"
-    "ON_2\020\003*\211\001\n\024JonGuiDataTargetType\022(\n$JON_G"
-    "UI_DATA_TARGET_TYPE_UNSPECIFIED\020\000\022#\n\037JON"
-    "_GUI_DATA_TARGET_TYPE_TARGET\020\001\022\"\n\036JON_GU"
-    "I_DATA_TARGET_TYPE_PHOTO\020\002*\362\002\n JonGuiDat"
-    "aCompassCalibrateStatus\0225\n1JON_GUI_DATA_"
-    "COMPASS_CALIBRATE_STATUS_UNSPECIFIED\020\000\0229"
-    "\n5JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_"
-    "NOT_CALIBRATING\020\001\022;\n7JON_GUI_DATA_COMPAS"
-    "S_CALIBRATE_STATUS_CALIBRATING_SHORT\020\002\022:"
-    "\n6JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_"
-    "CALIBRATING_LONG\020\003\0222\n.JON_GUI_DATA_COMPA"
-    "SS_CALIBRATE_STATUS_FINISHED\020\004\022/\n+JON_GU"
-    "I_DATA_COMPASS_CALIBRATE_STATUS_ERROR\020\005*"
-    "\270\002\n\024JonGuiDataRotaryMode\022(\n$JON_GUI_DATA"
-    "_ROTARY_MODE_UNSPECIFIED\020\000\022+\n\'JON_GUI_DA"
-    "TA_ROTARY_MODE_INITIALIZATION\020\001\022\"\n\036JON_G"
-    "UI_DATA_ROTARY_MODE_SPEED\020\002\022%\n!JON_GUI_D"
-    "ATA_ROTARY_MODE_POSITION\020\003\022*\n&JON_GUI_DA"
-    "TA_ROTARY_MODE_STABILIZATION\020\004\022&\n\"JON_GU"
-    "I_DATA_ROTARY_MODE_TARGETING\020\005\022*\n&JON_GU"
-    "I_DATA_ROTARY_MODE_VIDEO_TRACKER\020\006*\215\001\n\026J"
-    "onGuiDataVideoChannel\022*\n&JON_GUI_DATA_VI"
-    "DEO_CHANNEL_UNSPECIFIED\020\000\022#\n\037JON_GUI_DAT"
-    "A_VIDEO_CHANNEL_HEAT\020\001\022\"\n\036JON_GUI_DATA_V"
-    "IDEO_CHANNEL_DAY\020\002*\373\001\n\026JonGuiDataRecOsdS"
-    "creen\022+\n\'JON_GUI_DATA_REC_OSD_SCREEN_UNS"
-    "PECIFIED\020\000\022$\n JON_GUI_DATA_REC_OSD_SCREE"
-    "N_MAIN\020\001\022+\n\'JON_GUI_DATA_REC_OSD_SCREEN_"
-    "LRF_MEASURE\020\002\022*\n&JON_GUI_DATA_REC_OSD_SC"
-    "REEN_LRF_RESULT\020\003\0225\n1JON_GUI_DATA_REC_OS"
-    "D_SCREEN_LRF_RESULT_SIMPLIFIED\020\004*\373\001\n\023Jon"
-    "GuiDataFxModeDay\022$\n JON_GUI_DATA_FX_MODE"
-    "_DAY_DEFAULT\020\000\022\036\n\032JON_GUI_DATA_FX_MODE_D"
-    "AY_A\020\001\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_B\020\002\022\036"
-    "\n\032JON_GUI_DATA_FX_MODE_DAY_C\020\003\022\036\n\032JON_GU"
-    "I_DATA_FX_MODE_DAY_D\020\004\022\036\n\032JON_GUI_DATA_F"
-    "X_MODE_DAY_E\020\005\022\036\n\032JON_GUI_DATA_FX_MODE_D"
-    "AY_F\020\006*\203\002\n\024JonGuiDataFxModeHeat\022%\n!JON_G"
-    "UI_DATA_FX_MODE_HEAT_DEFAULT\020\000\022\037\n\033JON_GU"
-    "I_DATA_FX_MODE_HEAT_A\020\001\022\037\n\033JON_GUI_DATA_"
-    "FX_MODE_HEAT_B\020\002\022\037\n\033JON_GUI_DATA_FX_MODE"
-    "_HEAT_C\020\003\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_D"
-    "\020\004\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_E\020\005\022\037\n\033J"
-    "ON_GUI_DATA_FX_MODE_HEAT_F\020\006*\365\001\n\035JonGuiD"
-    "ataSystemLocalizations\0220\n,JON_GUI_DATA_S"
-    "YSTEM_LOCALIZATION_UNSPECIFIED\020\000\022\'\n#JON_"
-    "GUI_DATA_SYSTEM_LOCALIZATION_EN\020\001\022\'\n#JON"
-    "_GUI_DATA_SYSTEM_LOCALIZATION_UA\020\002\022\'\n#JO"
-    "N_GUI_DATA_SYSTEM_LOCALIZATION_AR\020\003\022\'\n#J"
-    "ON_GUI_DATA_SYSTEM_LOCALIZATION_CS\020\004*\355\001\n"
-    "\024JonGuiDataClientType\022(\n$JON_GUI_DATA_CL"
-    "IENT_TYPE_UNSPECIFIED\020\000\022(\n$JON_GUI_DATA_"
-    "CLIENT_TYPE_INTERNAL_CV\020\001\022*\n&JON_GUI_DAT"
-    "A_CLIENT_TYPE_LOCAL_NETWORK\020\002\0222\n.JON_GUI"
-    "_DATA_CLIENT_TYPE_CERTIFICATE_PROTECTED\020"
-    "\003\022!\n\035JON_GUI_DATA_CLIENT_TYPE_LIRA\020\004*\346\001\n"
-    "\023JonGuiDataClientApp\022\'\n#JON_GUI_DATA_CLI"
-    "ENT_APP_UNSPECIFIED\020\000\022&\n\"JON_GUI_DATA_CL"
-    "IENT_APP_BROWSER_UI\020\001\022\'\n#JON_GUI_DATA_CL"
-    "IENT_APP_BROWSER_MAP\020\002\022*\n&JON_GUI_DATA_C"
-    "LIENT_APP_DESKTOP_NATIVE\020\003\022)\n%JON_GUI_DA"
-    "TA_CLIENT_APP_MOBILE_NATIVE\020\004*\307\001\n\026JonGui"
-    "DataExtBatStatus\022+\n\'JON_GUI_DATA_EXT_BAT"
-    "_STATUS_UNSPECIFIED\020\000\022(\n$JON_GUI_DATA_EX"
-    "T_BAT_STATUS_CHARGING\020\001\022+\n\'JON_GUI_DATA_"
-    "EXT_BAT_STATUS_DISCHARGING\020\002\022)\n%JON_GUI_"
-    "DATA_EXT_BAT_STATUS_BALANCING\020\003*\301\001\n\025JonG"
-    "uiDataStateSource\022)\n%JON_GUI_DATA_STATE_"
-    "SOURCE_UNSPECIFIED\020\000\022*\n&JON_GUI_DATA_STA"
-    "TE_SOURCE_DAY_PIPELINE\020\001\022+\n\'JON_GUI_DATA"
-    "_STATE_SOURCE_HEAT_PIPELINE\020\002\022$\n JON_GUI"
-    "_DATA_STATE_SOURCE_SYSTEM\020\003*\323\001\n\026JonGuiDa"
-    "taDriveProgram\022#\n\037JON_GUI_DATA_DRIVE_PRO"
-    "GRAM_NONE\020\000\022#\n\037JON_GUI_DATA_DRIVE_PROGRA"
-    "M_SCAN\020\001\022\"\n\036JON_GUI_DATA_DRIVE_PROGRAM_P"
-    "OI\020\002\022#\n\037JON_GUI_DATA_DRIVE_PROGRAM_PARK\020"
-    "\003\022&\n\"JON_GUI_DATA_DRIVE_PROGRAM_COMPASS\020"
-    "\004*\231\002\n\024JonGuiDataDriveState\022(\n$JON_GUI_DA"
-    "TA_DRIVE_STATE_UNSPECIFIED\020\000\022!\n\035JON_GUI_"
-    "DATA_DRIVE_STATE_IDLE\020\001\022\"\n\036JON_GUI_DATA_"
-    "DRIVE_STATE_ARMED\020\002\022$\n JON_GUI_DATA_DRIV"
-    "E_STATE_RUNNING\020\003\022#\n\037JON_GUI_DATA_DRIVE_"
-    "STATE_PAUSED\020\004\022!\n\035JON_GUI_DATA_DRIVE_STA"
-    "TE_DONE\020\005\022\"\n\036JON_GUI_DATA_DRIVE_STATE_FA"
-    "ULT\020\006BHZFgit-codecommit.eu-central-1.ama"
-    "zonaws.com/v1/repos/jettison/jonp/typesb"
-    "\006proto3"
+    "\000\000\000L\375@)\000\000\000\000\000\000\000\000\"\242\001\n\026JonGuiDataModuleHeal"
+    "th\022\023\n\013queue_cap_0\030\001 \001(\r\022\024\n\014peak_depth_0\030"
+    "\002 \001(\r\022\030\n\020dropped_oldest_0\030\003 \001(\r\022\023\n\013queue"
+    "_cap_1\030\004 \001(\r\022\024\n\014peak_depth_1\030\005 \001(\r\022\030\n\020dr"
+    "opped_oldest_1\030\006 \001(\r\"F\n\027JonOpaquePayload"
+    "Version\022\r\n\005major\030\001 \001(\r\022\r\n\005minor\030\002 \001(\r\022\r\n"
+    "\005build\030\003 \001(\004\"\314\001\n\020JonOpaquePayload\022g\n\ttyp"
+    "e_uuid\030\001 \001(\tBT\272HQrO2M^[0-9a-fA-F]{8}-[0-"
+    "9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4"
+    "}-[0-9a-fA-F]{12}$\0225\n\007version\030\002 \001(\0132\034.se"
+    "r.JonOpaquePayloadVersionB\006\272H\003\310\001\001\022\030\n\007pay"
+    "load\030\003 \001(\014B\007\272H\004z\002\020\001\"\243\001\n\rJonGuiDataROI\022#\n"
+    "\002x1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y1"
+    "\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 "
+    "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001"
+    "B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\"i\n\023JonGuiDataS"
+    "harpness\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)"
+    "\000\000\000\000\000\000\000\000\022\024\n\014derivative_1\030\002 \001(\001\022\024\n\014deriva"
+    "tive_2\030\003 \001(\001\"L\n\021JonGuiDataVector3\022\021\n\001x\030\001"
+    " \001(\001B\006\272H\003\310\001\001\022\021\n\001y\030\002 \001(\001B\006\272H\003\310\001\001\022\021\n\001z\030\003 \001"
+    "(\001B\006\272H\003\310\001\001\"b\n\024JonGuiDataQuaternion\022\021\n\001w\030"
+    "\001 \001(\001B\006\272H\003\310\001\001\022\021\n\001x\030\002 \001(\001B\006\272H\003\310\001\001\022\021\n\001y\030\003 "
+    "\001(\001B\006\272H\003\310\001\001\022\021\n\001z\030\004 \001(\001B\006\272H\003\310\001\001\"\364\001\n\025JonGu"
+    "iDataTransform3D\0220\n\010position\030\001 \001(\0132\026.ser"
+    ".JonGuiDataVector3B\006\272H\003\310\001\001\0226\n\013orientatio"
+    "n\030\002 \001(\0132\031.ser.JonGuiDataQuaternionB\006\272H\003\310"
+    "\001\001\0227\n\017linear_velocity\030\003 \001(\0132\026.ser.JonGui"
+    "DataVector3B\006\272H\003\310\001\001\0228\n\020angular_velocity\030"
+    "\004 \001(\0132\026.ser.JonGuiDataVector3B\006\272H\003\310\001\001\"\325\003"
+    "\n\027JonGuiDataTrackedObject\022f\n\004uuid\030\001 \001(\tB"
+    "X\272HUrS\020$\030$2M^[0-9a-fA-F]{8}-[0-9a-fA-F]{"
+    "4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-f"
+    "A-F]{12}$\0225\n\ttransform\030\002 \001(\0132\032.ser.JonGu"
+    "iDataTransform3DB\006\272H\003\310\001\001\0220\n\014bounding_box"
+    "\030\003 \001(\0132\022.ser.JonGuiDataROIB\006\272H\003\310\001\001\022E\n\005st"
+    "ate\030\004 \001(\0162*.ser.JonGuiDataTrackedObject."
+    "TrackingStateB\n\272H\007\202\001\004\020\001 \000\"\241\001\n\rTrackingSt"
+    "ate\022\036\n\032TRACKING_STATE_UNSPECIFIED\020\000\022\034\n\030T"
+    "RACKING_STATE_ACQUIRING\020\001\022\033\n\027TRACKING_ST"
+    "ATE_TRACKING\020\002\022\034\n\030TRACKING_STATE_PREDICT"
+    "ED\020\003\022\027\n\023TRACKING_STATE_LOST\020\004*\263\002\n!JonGui"
+    "DataVideoChannelHeatFilters\0226\n2JON_GUI_D"
+    "ATA_VIDEO_CHANNEL_HEAT_FILTER_UNSPECIFIE"
+    "D\020\000\0224\n0JON_GUI_DATA_VIDEO_CHANNEL_HEAT_F"
+    "ILTER_HOT_WHITE\020\001\0224\n0JON_GUI_DATA_VIDEO_"
+    "CHANNEL_HEAT_FILTER_HOT_BLACK\020\002\0220\n,JON_G"
+    "UI_DATA_VIDEO_CHANNEL_HEAT_FILTER_SEPIA\020"
+    "\003\0228\n4JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FIL"
+    "TER_SEPIA_INVERSE\020\004*\356\001\n\"JonGuiDataVideoC"
+    "hannelHeatAGCModes\0228\n4JON_GUI_DATA_VIDEO"
+    "_CHANNEL_HEAT_AGC_MODE_UNSPECIFIED\020\000\022.\n*"
+    "JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE"
+    "_1\020\001\022.\n*JON_GUI_DATA_VIDEO_CHANNEL_HEAT_"
+    "AGC_MODE_2\020\002\022.\n*JON_GUI_DATA_VIDEO_CHANN"
+    "EL_HEAT_AGC_MODE_3\020\003*\320\001\n\022JonGuiDataGpsUn"
+    "its\022&\n\"JON_GUI_DATA_GPS_UNITS_UNSPECIFIE"
+    "D\020\000\022*\n&JON_GUI_DATA_GPS_UNITS_DECIMAL_DE"
+    "GREES\020\001\0222\n.JON_GUI_DATA_GPS_UNITS_DEGREE"
+    "S_MINUTES_SECONDS\020\002\0222\n.JON_GUI_DATA_GPS_"
+    "UNITS_DEGREES_DECIMAL_MINUTES\020\003*\361\001\n\024JonG"
+    "uiDataGpsFixType\022)\n%JON_GUI_DATA_GPS_FIX"
+    "_TYPE_UNSPECIFIED\020\000\022\"\n\036JON_GUI_DATA_GPS_"
+    "FIX_TYPE_NONE\020\001\022 \n\034JON_GUI_DATA_GPS_FIX_"
+    "TYPE_1D\020\002\022 \n\034JON_GUI_DATA_GPS_FIX_TYPE_2"
+    "D\020\003\022 \n\034JON_GUI_DATA_GPS_FIX_TYPE_3D\020\004\022$\n"
+    " JON_GUI_DATA_GPS_FIX_TYPE_MANUAL\020\005*\333\001\n\026"
+    "JonGuiDataCompassUnits\022*\n&JON_GUI_DATA_C"
+    "OMPASS_UNITS_UNSPECIFIED\020\000\022&\n\"JON_GUI_DA"
+    "TA_COMPASS_UNITS_DEGREES\020\001\022#\n\037JON_GUI_DA"
+    "TA_COMPASS_UNITS_MILS\020\002\022#\n\037JON_GUI_DATA_"
+    "COMPASS_UNITS_GRAD\020\003\022#\n\037JON_GUI_DATA_COM"
+    "PASS_UNITS_MRAD\020\004*\337\003\n\035JonGuiDataAccumula"
+    "torStateIdx\022.\n*JON_GUI_DATA_ACCUMULATOR_"
+    "STATE_UNSPECIFIED\020\000\022*\n&JON_GUI_DATA_ACCU"
+    "MULATOR_STATE_UNKNOWN\020\001\022(\n$JON_GUI_DATA_"
+    "ACCUMULATOR_STATE_EMPTY\020\002\022$\n JON_GUI_DAT"
+    "A_ACCUMULATOR_STATE_1\020\003\022$\n JON_GUI_DATA_"
+    "ACCUMULATOR_STATE_2\020\004\022$\n JON_GUI_DATA_AC"
+    "CUMULATOR_STATE_3\020\005\022$\n JON_GUI_DATA_ACCU"
+    "MULATOR_STATE_4\020\006\022$\n JON_GUI_DATA_ACCUMU"
+    "LATOR_STATE_5\020\007\022$\n JON_GUI_DATA_ACCUMULA"
+    "TOR_STATE_6\020\010\022\'\n#JON_GUI_DATA_ACCUMULATO"
+    "R_STATE_FULL\020\t\022+\n\'JON_GUI_DATA_ACCUMULAT"
+    "OR_STATE_CHARGING\020\n*\217\001\n\025JonGuiDataTimeFo"
+    "rmats\022(\n$JON_GUI_DATA_TIME_FORMAT_UNSPEC"
+    "IFIED\020\000\022\"\n\036JON_GUI_DATA_TIME_FORMAT_H_M_"
+    "S\020\001\022(\n$JON_GUI_DATA_TIME_FORMAT_Y_m_D_H_"
+    "M_S\020\002*\254\001\n\031JonGuiDataRotaryDirection\022-\n)J"
+    "ON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED"
+    "\020\000\022+\n\'JON_GUI_DATA_ROTARY_DIRECTION_CLOC"
+    "KWISE\020\001\0223\n/JON_GUI_DATA_ROTARY_DIRECTION"
+    "_COUNTER_CLOCKWISE\020\002*\352\002\n\026JonGuiDataLrfSc"
+    "anModes\022*\n&JON_GUI_DATA_LRF_SCAN_MODE_UN"
+    "SPECIFIED\020\000\022.\n*JON_GUI_DATA_LRF_SCAN_MOD"
+    "E_1_HZ_CONTINUOUS\020\001\022.\n*JON_GUI_DATA_LRF_"
+    "SCAN_MODE_4_HZ_CONTINUOUS\020\002\022/\n+JON_GUI_D"
+    "ATA_LRF_SCAN_MODE_10_HZ_CONTINUOUS\020\003\022/\n+"
+    "JON_GUI_DATA_LRF_SCAN_MODE_20_HZ_CONTINU"
+    "OUS\020\004\0220\n,JON_GUI_DATA_LRF_SCAN_MODE_100_"
+    "HZ_CONTINUOUS\020\005\0220\n,JON_GUI_DATA_LRF_SCAN"
+    "_MODE_200_HZ_CONTINUOUS\020\006*\337\001\n\037JonGuiData"
+    "tLrfLaserPointerModes\0223\n/JON_GUI_DATA_LR"
+    "F_LASER_POINTER_MODE_UNSPECIFIED\020\000\022+\n\'JO"
+    "N_GUI_DATA_LRF_LASER_POINTER_MODE_OFF\020\001\022"
+    ",\n(JON_GUI_DATA_LRF_LASER_POINTER_MODE_O"
+    "N_1\020\002\022,\n(JON_GUI_DATA_LRF_LASER_POINTER_"
+    "MODE_ON_2\020\003*\211\001\n\024JonGuiDataTargetType\022(\n$"
+    "JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED\020\000\022#"
+    "\n\037JON_GUI_DATA_TARGET_TYPE_TARGET\020\001\022\"\n\036J"
+    "ON_GUI_DATA_TARGET_TYPE_PHOTO\020\002*\362\002\n JonG"
+    "uiDataCompassCalibrateStatus\0225\n1JON_GUI_"
+    "DATA_COMPASS_CALIBRATE_STATUS_UNSPECIFIE"
+    "D\020\000\0229\n5JON_GUI_DATA_COMPASS_CALIBRATE_ST"
+    "ATUS_NOT_CALIBRATING\020\001\022;\n7JON_GUI_DATA_C"
+    "OMPASS_CALIBRATE_STATUS_CALIBRATING_SHOR"
+    "T\020\002\022:\n6JON_GUI_DATA_COMPASS_CALIBRATE_ST"
+    "ATUS_CALIBRATING_LONG\020\003\0222\n.JON_GUI_DATA_"
+    "COMPASS_CALIBRATE_STATUS_FINISHED\020\004\022/\n+J"
+    "ON_GUI_DATA_COMPASS_CALIBRATE_STATUS_ERR"
+    "OR\020\005*\270\002\n\024JonGuiDataRotaryMode\022(\n$JON_GUI"
+    "_DATA_ROTARY_MODE_UNSPECIFIED\020\000\022+\n\'JON_G"
+    "UI_DATA_ROTARY_MODE_INITIALIZATION\020\001\022\"\n\036"
+    "JON_GUI_DATA_ROTARY_MODE_SPEED\020\002\022%\n!JON_"
+    "GUI_DATA_ROTARY_MODE_POSITION\020\003\022*\n&JON_G"
+    "UI_DATA_ROTARY_MODE_STABILIZATION\020\004\022&\n\"J"
+    "ON_GUI_DATA_ROTARY_MODE_TARGETING\020\005\022*\n&J"
+    "ON_GUI_DATA_ROTARY_MODE_VIDEO_TRACKER\020\006*"
+    "\215\001\n\026JonGuiDataVideoChannel\022*\n&JON_GUI_DA"
+    "TA_VIDEO_CHANNEL_UNSPECIFIED\020\000\022#\n\037JON_GU"
+    "I_DATA_VIDEO_CHANNEL_HEAT\020\001\022\"\n\036JON_GUI_D"
+    "ATA_VIDEO_CHANNEL_DAY\020\002*\373\001\n\026JonGuiDataRe"
+    "cOsdScreen\022+\n\'JON_GUI_DATA_REC_OSD_SCREE"
+    "N_UNSPECIFIED\020\000\022$\n JON_GUI_DATA_REC_OSD_"
+    "SCREEN_MAIN\020\001\022+\n\'JON_GUI_DATA_REC_OSD_SC"
+    "REEN_LRF_MEASURE\020\002\022*\n&JON_GUI_DATA_REC_O"
+    "SD_SCREEN_LRF_RESULT\020\003\0225\n1JON_GUI_DATA_R"
+    "EC_OSD_SCREEN_LRF_RESULT_SIMPLIFIED\020\004*\373\001"
+    "\n\023JonGuiDataFxModeDay\022$\n JON_GUI_DATA_FX"
+    "_MODE_DAY_DEFAULT\020\000\022\036\n\032JON_GUI_DATA_FX_M"
+    "ODE_DAY_A\020\001\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_"
+    "B\020\002\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_C\020\003\022\036\n\032J"
+    "ON_GUI_DATA_FX_MODE_DAY_D\020\004\022\036\n\032JON_GUI_D"
+    "ATA_FX_MODE_DAY_E\020\005\022\036\n\032JON_GUI_DATA_FX_M"
+    "ODE_DAY_F\020\006*\203\002\n\024JonGuiDataFxModeHeat\022%\n!"
+    "JON_GUI_DATA_FX_MODE_HEAT_DEFAULT\020\000\022\037\n\033J"
+    "ON_GUI_DATA_FX_MODE_HEAT_A\020\001\022\037\n\033JON_GUI_"
+    "DATA_FX_MODE_HEAT_B\020\002\022\037\n\033JON_GUI_DATA_FX"
+    "_MODE_HEAT_C\020\003\022\037\n\033JON_GUI_DATA_FX_MODE_H"
+    "EAT_D\020\004\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_E\020\005"
+    "\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_F\020\006*\365\001\n\035Jo"
+    "nGuiDataSystemLocalizations\0220\n,JON_GUI_D"
+    "ATA_SYSTEM_LOCALIZATION_UNSPECIFIED\020\000\022\'\n"
+    "#JON_GUI_DATA_SYSTEM_LOCALIZATION_EN\020\001\022\'"
+    "\n#JON_GUI_DATA_SYSTEM_LOCALIZATION_UA\020\002\022"
+    "\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATION_AR\020\003"
+    "\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATION_CS\020"
+    "\004*\355\001\n\024JonGuiDataClientType\022(\n$JON_GUI_DA"
+    "TA_CLIENT_TYPE_UNSPECIFIED\020\000\022(\n$JON_GUI_"
+    "DATA_CLIENT_TYPE_INTERNAL_CV\020\001\022*\n&JON_GU"
+    "I_DATA_CLIENT_TYPE_LOCAL_NETWORK\020\002\0222\n.JO"
+    "N_GUI_DATA_CLIENT_TYPE_CERTIFICATE_PROTE"
+    "CTED\020\003\022!\n\035JON_GUI_DATA_CLIENT_TYPE_LIRA\020"
+    "\004*\346\001\n\023JonGuiDataClientApp\022\'\n#JON_GUI_DAT"
+    "A_CLIENT_APP_UNSPECIFIED\020\000\022&\n\"JON_GUI_DA"
+    "TA_CLIENT_APP_BROWSER_UI\020\001\022\'\n#JON_GUI_DA"
+    "TA_CLIENT_APP_BROWSER_MAP\020\002\022*\n&JON_GUI_D"
+    "ATA_CLIENT_APP_DESKTOP_NATIVE\020\003\022)\n%JON_G"
+    "UI_DATA_CLIENT_APP_MOBILE_NATIVE\020\004*\307\001\n\026J"
+    "onGuiDataExtBatStatus\022+\n\'JON_GUI_DATA_EX"
+    "T_BAT_STATUS_UNSPECIFIED\020\000\022(\n$JON_GUI_DA"
+    "TA_EXT_BAT_STATUS_CHARGING\020\001\022+\n\'JON_GUI_"
+    "DATA_EXT_BAT_STATUS_DISCHARGING\020\002\022)\n%JON"
+    "_GUI_DATA_EXT_BAT_STATUS_BALANCING\020\003*\301\001\n"
+    "\025JonGuiDataStateSource\022)\n%JON_GUI_DATA_S"
+    "TATE_SOURCE_UNSPECIFIED\020\000\022*\n&JON_GUI_DAT"
+    "A_STATE_SOURCE_DAY_PIPELINE\020\001\022+\n\'JON_GUI"
+    "_DATA_STATE_SOURCE_HEAT_PIPELINE\020\002\022$\n JO"
+    "N_GUI_DATA_STATE_SOURCE_SYSTEM\020\003*\323\001\n\026Jon"
+    "GuiDataDriveProgram\022#\n\037JON_GUI_DATA_DRIV"
+    "E_PROGRAM_NONE\020\000\022#\n\037JON_GUI_DATA_DRIVE_P"
+    "ROGRAM_SCAN\020\001\022\"\n\036JON_GUI_DATA_DRIVE_PROG"
+    "RAM_POI\020\002\022#\n\037JON_GUI_DATA_DRIVE_PROGRAM_"
+    "PARK\020\003\022&\n\"JON_GUI_DATA_DRIVE_PROGRAM_COM"
+    "PASS\020\004*\231\002\n\024JonGuiDataDriveState\022(\n$JON_G"
+    "UI_DATA_DRIVE_STATE_UNSPECIFIED\020\000\022!\n\035JON"
+    "_GUI_DATA_DRIVE_STATE_IDLE\020\001\022\"\n\036JON_GUI_"
+    "DATA_DRIVE_STATE_ARMED\020\002\022$\n JON_GUI_DATA"
+    "_DRIVE_STATE_RUNNING\020\003\022#\n\037JON_GUI_DATA_D"
+    "RIVE_STATE_PAUSED\020\004\022!\n\035JON_GUI_DATA_DRIV"
+    "E_STATE_DONE\020\005\022\"\n\036JON_GUI_DATA_DRIVE_STA"
+    "TE_FAULT\020\006BHZFgit-codecommit.eu-central-"
+    "1.amazonaws.com/v1/repos/jettison/jonp/t"
+    "ypesb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_deps[1] =
     {
@@ -629,13 +679,13 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto = {
     false,
     false,
-    7727,
+    7892,
     descriptor_table_protodef_jon_5fshared_5fdata_5ftypes_2eproto,
     "jon_shared_data_types.proto",
     &descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_once,
     descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_deps,
     1,
-    9,
+    10,
     schemas,
     file_default_instances,
     TableStruct_jon_5fshared_5fdata_5ftypes_2eproto::offsets,
@@ -1140,6 +1190,333 @@ void JonGuiDataMeteo::InternalSwap(JonGuiDataMeteo* PROTOBUF_RESTRICT other) {
 }
 
 ::google::protobuf::Metadata JonGuiDataMeteo::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class JonGuiDataModuleHealth::_Internal {
+ public:
+};
+
+JonGuiDataModuleHealth::JonGuiDataModuleHealth(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:ser.JonGuiDataModuleHealth)
+}
+JonGuiDataModuleHealth::JonGuiDataModuleHealth(
+    ::google::protobuf::Arena* arena, const JonGuiDataModuleHealth& from)
+    : JonGuiDataModuleHealth(arena) {
+  MergeFrom(from);
+}
+inline PROTOBUF_NDEBUG_INLINE JonGuiDataModuleHealth::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
+inline void JonGuiDataModuleHealth::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, queue_cap_0_),
+           0,
+           offsetof(Impl_, dropped_oldest_1_) -
+               offsetof(Impl_, queue_cap_0_) +
+               sizeof(Impl_::dropped_oldest_1_));
+}
+JonGuiDataModuleHealth::~JonGuiDataModuleHealth() {
+  // @@protoc_insertion_point(destructor:ser.JonGuiDataModuleHealth)
+  SharedDtor(*this);
+}
+inline void JonGuiDataModuleHealth::SharedDtor(MessageLite& self) {
+  JonGuiDataModuleHealth& this_ = static_cast<JonGuiDataModuleHealth&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* JonGuiDataModuleHealth::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) JonGuiDataModuleHealth(arena);
+}
+constexpr auto JonGuiDataModuleHealth::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(JonGuiDataModuleHealth),
+                                            alignof(JonGuiDataModuleHealth));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull JonGuiDataModuleHealth::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_JonGuiDataModuleHealth_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &JonGuiDataModuleHealth::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<JonGuiDataModuleHealth>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &JonGuiDataModuleHealth::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<JonGuiDataModuleHealth>(), &JonGuiDataModuleHealth::ByteSizeLong,
+            &JonGuiDataModuleHealth::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(JonGuiDataModuleHealth, _impl_._cached_size_),
+        false,
+    },
+    &JonGuiDataModuleHealth::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* JonGuiDataModuleHealth::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<3, 6, 0, 0, 2> JonGuiDataModuleHealth::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    6, 56,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967232,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    6,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::ser::JonGuiDataModuleHealth>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // uint32 queue_cap_0 = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataModuleHealth, _impl_.queue_cap_0_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataModuleHealth, _impl_.queue_cap_0_)}},
+    // uint32 peak_depth_0 = 2;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataModuleHealth, _impl_.peak_depth_0_), 63>(),
+     {16, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataModuleHealth, _impl_.peak_depth_0_)}},
+    // uint32 dropped_oldest_0 = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataModuleHealth, _impl_.dropped_oldest_0_), 63>(),
+     {24, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataModuleHealth, _impl_.dropped_oldest_0_)}},
+    // uint32 queue_cap_1 = 4;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataModuleHealth, _impl_.queue_cap_1_), 63>(),
+     {32, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataModuleHealth, _impl_.queue_cap_1_)}},
+    // uint32 peak_depth_1 = 5;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataModuleHealth, _impl_.peak_depth_1_), 63>(),
+     {40, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataModuleHealth, _impl_.peak_depth_1_)}},
+    // uint32 dropped_oldest_1 = 6;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataModuleHealth, _impl_.dropped_oldest_1_), 63>(),
+     {48, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataModuleHealth, _impl_.dropped_oldest_1_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // uint32 queue_cap_0 = 1;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataModuleHealth, _impl_.queue_cap_0_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint32 peak_depth_0 = 2;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataModuleHealth, _impl_.peak_depth_0_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint32 dropped_oldest_0 = 3;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataModuleHealth, _impl_.dropped_oldest_0_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint32 queue_cap_1 = 4;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataModuleHealth, _impl_.queue_cap_1_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint32 peak_depth_1 = 5;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataModuleHealth, _impl_.peak_depth_1_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint32 dropped_oldest_1 = 6;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataModuleHealth, _impl_.dropped_oldest_1_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+  }},
+  // no aux_entries
+  {{
+  }},
+};
+
+PROTOBUF_NOINLINE void JonGuiDataModuleHealth::Clear() {
+// @@protoc_insertion_point(message_clear_start:ser.JonGuiDataModuleHealth)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&_impl_.queue_cap_0_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.dropped_oldest_1_) -
+      reinterpret_cast<char*>(&_impl_.queue_cap_0_)) + sizeof(_impl_.dropped_oldest_1_));
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* JonGuiDataModuleHealth::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const JonGuiDataModuleHealth& this_ = static_cast<const JonGuiDataModuleHealth&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* JonGuiDataModuleHealth::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const JonGuiDataModuleHealth& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:ser.JonGuiDataModuleHealth)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // uint32 queue_cap_0 = 1;
+          if (this_._internal_queue_cap_0() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                1, this_._internal_queue_cap_0(), target);
+          }
+
+          // uint32 peak_depth_0 = 2;
+          if (this_._internal_peak_depth_0() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                2, this_._internal_peak_depth_0(), target);
+          }
+
+          // uint32 dropped_oldest_0 = 3;
+          if (this_._internal_dropped_oldest_0() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                3, this_._internal_dropped_oldest_0(), target);
+          }
+
+          // uint32 queue_cap_1 = 4;
+          if (this_._internal_queue_cap_1() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                4, this_._internal_queue_cap_1(), target);
+          }
+
+          // uint32 peak_depth_1 = 5;
+          if (this_._internal_peak_depth_1() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                5, this_._internal_peak_depth_1(), target);
+          }
+
+          // uint32 dropped_oldest_1 = 6;
+          if (this_._internal_dropped_oldest_1() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                6, this_._internal_dropped_oldest_1(), target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:ser.JonGuiDataModuleHealth)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t JonGuiDataModuleHealth::ByteSizeLong(const MessageLite& base) {
+          const JonGuiDataModuleHealth& this_ = static_cast<const JonGuiDataModuleHealth&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t JonGuiDataModuleHealth::ByteSizeLong() const {
+          const JonGuiDataModuleHealth& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:ser.JonGuiDataModuleHealth)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+           {
+            // uint32 queue_cap_0 = 1;
+            if (this_._internal_queue_cap_0() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_queue_cap_0());
+            }
+            // uint32 peak_depth_0 = 2;
+            if (this_._internal_peak_depth_0() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_peak_depth_0());
+            }
+            // uint32 dropped_oldest_0 = 3;
+            if (this_._internal_dropped_oldest_0() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_dropped_oldest_0());
+            }
+            // uint32 queue_cap_1 = 4;
+            if (this_._internal_queue_cap_1() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_queue_cap_1());
+            }
+            // uint32 peak_depth_1 = 5;
+            if (this_._internal_peak_depth_1() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_peak_depth_1());
+            }
+            // uint32 dropped_oldest_1 = 6;
+            if (this_._internal_dropped_oldest_1() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_dropped_oldest_1());
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void JonGuiDataModuleHealth::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<JonGuiDataModuleHealth*>(&to_msg);
+  auto& from = static_cast<const JonGuiDataModuleHealth&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ser.JonGuiDataModuleHealth)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_queue_cap_0() != 0) {
+    _this->_impl_.queue_cap_0_ = from._impl_.queue_cap_0_;
+  }
+  if (from._internal_peak_depth_0() != 0) {
+    _this->_impl_.peak_depth_0_ = from._impl_.peak_depth_0_;
+  }
+  if (from._internal_dropped_oldest_0() != 0) {
+    _this->_impl_.dropped_oldest_0_ = from._impl_.dropped_oldest_0_;
+  }
+  if (from._internal_queue_cap_1() != 0) {
+    _this->_impl_.queue_cap_1_ = from._impl_.queue_cap_1_;
+  }
+  if (from._internal_peak_depth_1() != 0) {
+    _this->_impl_.peak_depth_1_ = from._impl_.peak_depth_1_;
+  }
+  if (from._internal_dropped_oldest_1() != 0) {
+    _this->_impl_.dropped_oldest_1_ = from._impl_.dropped_oldest_1_;
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void JonGuiDataModuleHealth::CopyFrom(const JonGuiDataModuleHealth& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ser.JonGuiDataModuleHealth)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void JonGuiDataModuleHealth::InternalSwap(JonGuiDataModuleHealth* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(JonGuiDataModuleHealth, _impl_.dropped_oldest_1_)
+      + sizeof(JonGuiDataModuleHealth::_impl_.dropped_oldest_1_)
+      - PROTOBUF_FIELD_OFFSET(JonGuiDataModuleHealth, _impl_.queue_cap_0_)>(
+          reinterpret_cast<char*>(&_impl_.queue_cap_0_),
+          reinterpret_cast<char*>(&other->_impl_.queue_cap_0_));
+}
+
+::google::protobuf::Metadata JonGuiDataModuleHealth::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================

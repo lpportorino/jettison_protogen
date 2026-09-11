@@ -130,6 +130,18 @@ message JonGuiDataMeteo {
   }];
 }
 
+// Per-module CAN-FD queue health. Each queue channel reports its configured
+// capacity, its peak observed depth, and the count of oldest entries dropped
+// on overflow; a module carries at most two such channels.
+message JonGuiDataModuleHealth {
+  uint32 queue_cap_0 = 1;
+  uint32 peak_depth_0 = 2;
+  uint32 dropped_oldest_0 = 3;
+  uint32 queue_cap_1 = 4;
+  uint32 peak_depth_1 = 5;
+  uint32 dropped_oldest_1 = 6;
+}
+
 enum JonGuiDataVideoChannel {
   JON_GUI_DATA_VIDEO_CHANNEL_UNSPECIFIED = 0;
   JON_GUI_DATA_VIDEO_CHANNEL_HEAT = 1;

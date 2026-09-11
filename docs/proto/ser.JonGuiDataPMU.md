@@ -27,6 +27,7 @@ Power Management Unit status. Reports battery/power system state including tempe
 | 9 | ina_power | double | >= 0, <= 200000 |
 | 10 | ina_power_fault | bool | - |
 | 11 | charge_disabled | bool | - |
+| 40 | health | [[proto/ser.JonGuiDataModuleHealth]] | - |
 
 
 

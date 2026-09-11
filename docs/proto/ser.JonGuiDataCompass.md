@@ -26,6 +26,7 @@ Represents the real-time orientation and calibration state of a compass sensor, 
 | 7 | calibrating | bool | - |
 | 8 | is_started | bool | - |
 | 9 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
+| 40 | health | [[proto/ser.JonGuiDataModuleHealth]] | - |
 
 
 

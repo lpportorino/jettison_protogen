@@ -6,7 +6,7 @@ from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Opti
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class JonGuiDataLrf(_message.Message):
-    __slots__ = ("is_scanning", "is_measuring", "measure_id", "target", "pointer_mode", "fogModeEnabled", "is_refining", "is_continuous_measuring", "is_started", "meteo", "scan_mode")
+    __slots__ = ("is_scanning", "is_measuring", "measure_id", "target", "pointer_mode", "fogModeEnabled", "is_refining", "is_continuous_measuring", "is_started", "meteo", "scan_mode", "health")
     IS_SCANNING_FIELD_NUMBER: _ClassVar[int]
     IS_MEASURING_FIELD_NUMBER: _ClassVar[int]
     MEASURE_ID_FIELD_NUMBER: _ClassVar[int]
@@ -18,6 +18,7 @@ class JonGuiDataLrf(_message.Message):
     IS_STARTED_FIELD_NUMBER: _ClassVar[int]
     METEO_FIELD_NUMBER: _ClassVar[int]
     SCAN_MODE_FIELD_NUMBER: _ClassVar[int]
+    HEALTH_FIELD_NUMBER: _ClassVar[int]
     is_scanning: bool
     is_measuring: bool
     measure_id: int
@@ -29,7 +30,8 @@ class JonGuiDataLrf(_message.Message):
     is_started: bool
     meteo: _jon_shared_data_types_pb2.JonGuiDataMeteo
     scan_mode: int
-    def __init__(self, is_scanning: bool = ..., is_measuring: bool = ..., measure_id: _Optional[int] = ..., target: _Optional[_Union[JonGuiDataTarget, _Mapping]] = ..., pointer_mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDatatLrfLaserPointerModes, str]] = ..., fogModeEnabled: bool = ..., is_refining: bool = ..., is_continuous_measuring: bool = ..., is_started: bool = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ..., scan_mode: _Optional[int] = ...) -> None: ...
+    health: _jon_shared_data_types_pb2.JonGuiDataModuleHealth
+    def __init__(self, is_scanning: bool = ..., is_measuring: bool = ..., measure_id: _Optional[int] = ..., target: _Optional[_Union[JonGuiDataTarget, _Mapping]] = ..., pointer_mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDatatLrfLaserPointerModes, str]] = ..., fogModeEnabled: bool = ..., is_refining: bool = ..., is_continuous_measuring: bool = ..., is_started: bool = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ..., scan_mode: _Optional[int] = ..., health: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataModuleHealth, _Mapping]] = ...) -> None: ...
 
 class JonGuiDataTarget(_message.Message):
     __slots__ = ("timestamp", "target_longitude", "target_latitude", "target_altitude", "observer_longitude", "observer_latitude", "observer_altitude", "observer_azimuth", "observer_elevation", "observer_bank", "distance_2d", "distance_3b", "distance_c", "observer_fix_type", "session_id", "target_id", "target_color", "uuid_part1", "uuid_part2", "uuid_part3", "uuid_part4", "capture_type")

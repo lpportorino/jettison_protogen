@@ -30,6 +30,7 @@ inline constexpr JonGuiDataCameraDay::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         meteo_{nullptr},
+        health_{nullptr},
         focus_pos_{0},
         zoom_pos_{0},
         iris_pos_{0},
@@ -107,6 +108,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraDay, _impl_.capture_monotonic_us_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraDay, _impl_.delivered_fps_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraDay, _impl_.content_fps_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraDay, _impl_.health_),
         ~0u,
         ~0u,
         ~0u,
@@ -123,16 +125,17 @@ const ::uint32_t
         ~0u,
         ~0u,
         0,
-        1,
         2,
-        ~0u,
         3,
+        ~0u,
         4,
+        5,
+        1,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, 29, -1, sizeof(::ser::JonGuiDataCameraDay)},
+        {0, 30, -1, sizeof(::ser::JonGuiDataCameraDay)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGuiDataCameraDay_default_instance_._instance,
@@ -141,7 +144,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fcamera_5fday_2eproto[
     protodesc_cold) = {
     "\n jon_shared_data_camera_day.proto\022\003ser\032"
     "\033buf/validate/validate.proto\032\033jon_shared"
-    "_data_types.proto\"\376\006\n\023JonGuiDataCameraDa"
+    "_data_types.proto\"\253\007\n\023JonGuiDataCameraDa"
     "y\022*\n\tfocus_pos\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000"
     "\000\000\000\000\000\022)\n\010zoom_pos\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)"
     "\000\000\000\000\000\000\000\000\022)\n\010iris_pos\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000"
@@ -162,11 +165,12 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fcamera_5fday_2eproto[
     "\?)\000\000\000\000\000\000\000\000H\001\210\001\001\022\034\n\024capture_monotonic_us\030"
     "\023 \001(\004\022*\n\rdelivered_fps\030\024 \001(\001B\016\272H\013\022\t)\000\000\000\000"
     "\000\000\000\000H\002\210\001\001\022(\n\013content_fps\030\025 \001(\001B\016\272H\013\022\t)\000\000"
-    "\000\000\000\000\000\000H\003\210\001\001B\016\n\014_sensor_gainB\013\n\t_exposure"
-    "B\020\n\016_delivered_fpsB\016\n\014_content_fpsBRZPgi"
-    "t-codecommit.eu-central-1.amazonaws.com/"
-    "v1/repos/jettison/jonp/data/camera_dayb\006"
-    "proto3"
+    "\000\000\000\000\000\000H\003\210\001\001\022+\n\006health\030( \001(\0132\033.ser.JonGui"
+    "DataModuleHealthB\016\n\014_sensor_gainB\013\n\t_exp"
+    "osureB\020\n\016_delivered_fpsB\016\n\014_content_fpsB"
+    "RZPgit-codecommit.eu-central-1.amazonaws"
+    ".com/v1/repos/jettison/jonp/data/camera_"
+    "dayb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2eproto_deps[2] =
     {
@@ -177,7 +181,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2ep
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2eproto = {
     false,
     false,
-    1086,
+    1131,
     descriptor_table_protodef_jon_5fshared_5fdata_5fcamera_5fday_2eproto,
     "jon_shared_data_camera_day.proto",
     &descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2eproto_once,
@@ -205,6 +209,11 @@ void JonGuiDataCameraDay::clear_meteo() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.meteo_ != nullptr) _impl_.meteo_->Clear();
   _impl_._has_bits_[0] &= ~0x00000001u;
+}
+void JonGuiDataCameraDay::clear_health() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.health_ != nullptr) _impl_.health_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
 }
 JonGuiDataCameraDay::JonGuiDataCameraDay(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
@@ -237,6 +246,9 @@ JonGuiDataCameraDay::JonGuiDataCameraDay(
   ::uint32_t cached_has_bits = _impl_._has_bits_[0];
   _impl_.meteo_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(
                               arena, *from._impl_.meteo_)
+                        : nullptr;
+  _impl_.health_ = (cached_has_bits & 0x00000002u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataModuleHealth>(
+                              arena, *from._impl_.health_)
                         : nullptr;
   ::memcpy(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, focus_pos_),
@@ -271,6 +283,7 @@ inline void JonGuiDataCameraDay::SharedDtor(MessageLite& self) {
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   delete this_._impl_.meteo_;
+  delete this_._impl_.health_;
   this_._impl_.~Impl_();
 }
 
@@ -310,16 +323,16 @@ const ::google::protobuf::internal::ClassData* JonGuiDataCameraDay::GetClassData
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<5, 21, 1, 0, 2> JonGuiDataCameraDay::_table_ = {
+const ::_pbi::TcParseTable<5, 22, 2, 0, 7> JonGuiDataCameraDay::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_._has_bits_),
     0, // no _extensions_
-    21, 248,  // max_field_number, fast_idx_mask
+    40, 248,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
     4292870144,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    21,  // num_field_entries
-    1,  // num_aux_entries
+    22,  // num_field_entries
+    2,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -379,22 +392,24 @@ const ::_pbi::TcParseTable<5, 21, 1, 0, 2> JonGuiDataCameraDay::_table_ = {
      {386, 0, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.meteo_)}},
     // optional double sensor_gain = 17 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S2,
-     {393, 1, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.sensor_gain_)}},
+     {393, 2, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.sensor_gain_)}},
     // optional double exposure = 18 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S2,
-     {401, 2, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.exposure_)}},
+     {401, 3, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.exposure_)}},
     // uint64 capture_monotonic_us = 19;
     {::_pbi::TcParser::FastV64S2,
      {408, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.capture_monotonic_us_)}},
     // optional double delivered_fps = 20 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S2,
-     {417, 3, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.delivered_fps_)}},
+     {417, 4, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.delivered_fps_)}},
     // optional double content_fps = 21 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S2,
-     {425, 4, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.content_fps_)}},
+     {425, 5, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.content_fps_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // .ser.JonGuiDataModuleHealth health = 40;
+    {::_pbi::TcParser::FastMtS2,
+     {706, 1, 1, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.health_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -403,6 +418,8 @@ const ::_pbi::TcParseTable<5, 21, 1, 0, 2> JonGuiDataCameraDay::_table_ = {
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
+    40, 0, 1,
+    65534, 21,
     65535, 65535
   }}, {{
     // double focus_pos = 1 [(.buf.validate.field) = {
@@ -454,22 +471,26 @@ const ::_pbi::TcParseTable<5, 21, 1, 0, 2> JonGuiDataCameraDay::_table_ = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.meteo_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // optional double sensor_gain = 17 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.sensor_gain_), _Internal::kHasBitsOffset + 1, 0,
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.sensor_gain_), _Internal::kHasBitsOffset + 2, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kDouble)},
     // optional double exposure = 18 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.exposure_), _Internal::kHasBitsOffset + 2, 0,
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.exposure_), _Internal::kHasBitsOffset + 3, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kDouble)},
     // uint64 capture_monotonic_us = 19;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.capture_monotonic_us_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
     // optional double delivered_fps = 20 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.delivered_fps_), _Internal::kHasBitsOffset + 3, 0,
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.delivered_fps_), _Internal::kHasBitsOffset + 4, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kDouble)},
     // optional double content_fps = 21 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.content_fps_), _Internal::kHasBitsOffset + 4, 0,
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.content_fps_), _Internal::kHasBitsOffset + 5, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kDouble)},
+    // .ser.JonGuiDataModuleHealth health = 40;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.health_), _Internal::kHasBitsOffset + 1, 1,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataMeteo>()},
+    {::_pbi::TcParser::GetTable<::ser::JonGuiDataModuleHealth>()},
   }}, {{
   }},
 };
@@ -482,20 +503,26 @@ PROTOBUF_NOINLINE void JonGuiDataCameraDay::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    ABSL_DCHECK(_impl_.meteo_ != nullptr);
-    _impl_.meteo_->Clear();
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(_impl_.meteo_ != nullptr);
+      _impl_.meteo_->Clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(_impl_.health_ != nullptr);
+      _impl_.health_->Clear();
+    }
   }
   ::memset(&_impl_.focus_pos_, 0, static_cast<::size_t>(
       reinterpret_cast<char*>(&_impl_.vertical_fov_degrees_) -
       reinterpret_cast<char*>(&_impl_.focus_pos_)) + sizeof(_impl_.vertical_fov_degrees_));
-  if (cached_has_bits & 0x00000006u) {
+  if (cached_has_bits & 0x0000000cu) {
     ::memset(&_impl_.sensor_gain_, 0, static_cast<::size_t>(
         reinterpret_cast<char*>(&_impl_.exposure_) -
         reinterpret_cast<char*>(&_impl_.sensor_gain_)) + sizeof(_impl_.exposure_));
   }
   _impl_.capture_monotonic_us_ = ::uint64_t{0u};
-  if (cached_has_bits & 0x00000018u) {
+  if (cached_has_bits & 0x00000030u) {
     ::memset(&_impl_.delivered_fps_, 0, static_cast<::size_t>(
         reinterpret_cast<char*>(&_impl_.content_fps_) -
         reinterpret_cast<char*>(&_impl_.delivered_fps_)) + sizeof(_impl_.content_fps_));
@@ -634,14 +661,14 @@ PROTOBUF_NOINLINE void JonGuiDataCameraDay::Clear() {
           }
 
           // optional double sensor_gain = 17 [(.buf.validate.field) = {
-          if (cached_has_bits & 0x00000002u) {
+          if (cached_has_bits & 0x00000004u) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 17, this_._internal_sensor_gain(), target);
           }
 
           // optional double exposure = 18 [(.buf.validate.field) = {
-          if (cached_has_bits & 0x00000004u) {
+          if (cached_has_bits & 0x00000008u) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 18, this_._internal_exposure(), target);
@@ -655,17 +682,24 @@ PROTOBUF_NOINLINE void JonGuiDataCameraDay::Clear() {
           }
 
           // optional double delivered_fps = 20 [(.buf.validate.field) = {
-          if (cached_has_bits & 0x00000008u) {
+          if (cached_has_bits & 0x00000010u) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 20, this_._internal_delivered_fps(), target);
           }
 
           // optional double content_fps = 21 [(.buf.validate.field) = {
-          if (cached_has_bits & 0x00000010u) {
+          if (cached_has_bits & 0x00000020u) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 21, this_._internal_content_fps(), target);
+          }
+
+          // .ser.JonGuiDataModuleHealth health = 40;
+          if (cached_has_bits & 0x00000002u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                40, *this_._impl_.health_, this_._impl_.health_->GetCachedSize(), target,
+                stream);
           }
 
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
@@ -692,12 +726,17 @@ PROTOBUF_NOINLINE void JonGuiDataCameraDay::Clear() {
           (void)cached_has_bits;
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
-           {
+          cached_has_bits = this_._impl_._has_bits_[0];
+          if (cached_has_bits & 0x00000003u) {
             // .ser.JonGuiDataMeteo meteo = 16;
-            cached_has_bits = this_._impl_._has_bits_[0];
             if (cached_has_bits & 0x00000001u) {
               total_size += 2 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.meteo_);
+            }
+            // .ser.JonGuiDataModuleHealth health = 40;
+            if (cached_has_bits & 0x00000002u) {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.health_);
             }
           }
            {
@@ -761,13 +800,13 @@ PROTOBUF_NOINLINE void JonGuiDataCameraDay::Clear() {
               total_size += 9;
             }
           }
-          if (cached_has_bits & 0x00000006u) {
+          if (cached_has_bits & 0x0000000cu) {
             // optional double sensor_gain = 17 [(.buf.validate.field) = {
-            if (cached_has_bits & 0x00000002u) {
+            if (cached_has_bits & 0x00000004u) {
               total_size += 10;
             }
             // optional double exposure = 18 [(.buf.validate.field) = {
-            if (cached_has_bits & 0x00000004u) {
+            if (cached_has_bits & 0x00000008u) {
               total_size += 10;
             }
           }
@@ -778,13 +817,13 @@ PROTOBUF_NOINLINE void JonGuiDataCameraDay::Clear() {
                                               this_._internal_capture_monotonic_us());
             }
           }
-          if (cached_has_bits & 0x00000018u) {
+          if (cached_has_bits & 0x00000030u) {
             // optional double delivered_fps = 20 [(.buf.validate.field) = {
-            if (cached_has_bits & 0x00000008u) {
+            if (cached_has_bits & 0x00000010u) {
               total_size += 10;
             }
             // optional double content_fps = 21 [(.buf.validate.field) = {
-            if (cached_has_bits & 0x00000010u) {
+            if (cached_has_bits & 0x00000020u) {
               total_size += 10;
             }
           }
@@ -808,13 +847,24 @@ void JonGuiDataCameraDay::MergeImpl(::google::protobuf::MessageLite& to_msg, con
   (void) cached_has_bits;
 
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    ABSL_DCHECK(from._impl_.meteo_ != nullptr);
-    if (_this->_impl_.meteo_ == nullptr) {
-      _this->_impl_.meteo_ =
-          ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(arena, *from._impl_.meteo_);
-    } else {
-      _this->_impl_.meteo_->MergeFrom(*from._impl_.meteo_);
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(from._impl_.meteo_ != nullptr);
+      if (_this->_impl_.meteo_ == nullptr) {
+        _this->_impl_.meteo_ =
+            ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(arena, *from._impl_.meteo_);
+      } else {
+        _this->_impl_.meteo_->MergeFrom(*from._impl_.meteo_);
+      }
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(from._impl_.health_ != nullptr);
+      if (_this->_impl_.health_ == nullptr) {
+        _this->_impl_.health_ =
+            ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataModuleHealth>(arena, *from._impl_.health_);
+      } else {
+        _this->_impl_.health_->MergeFrom(*from._impl_.health_);
+      }
     }
   }
   if (::absl::bit_cast<::uint64_t>(from._internal_focus_pos()) != 0) {
@@ -859,22 +909,22 @@ void JonGuiDataCameraDay::MergeImpl(::google::protobuf::MessageLite& to_msg, con
   if (::absl::bit_cast<::uint64_t>(from._internal_vertical_fov_degrees()) != 0) {
     _this->_impl_.vertical_fov_degrees_ = from._impl_.vertical_fov_degrees_;
   }
-  if (cached_has_bits & 0x00000006u) {
-    if (cached_has_bits & 0x00000002u) {
+  if (cached_has_bits & 0x0000000cu) {
+    if (cached_has_bits & 0x00000004u) {
       _this->_impl_.sensor_gain_ = from._impl_.sensor_gain_;
     }
-    if (cached_has_bits & 0x00000004u) {
+    if (cached_has_bits & 0x00000008u) {
       _this->_impl_.exposure_ = from._impl_.exposure_;
     }
   }
   if (from._internal_capture_monotonic_us() != 0) {
     _this->_impl_.capture_monotonic_us_ = from._impl_.capture_monotonic_us_;
   }
-  if (cached_has_bits & 0x00000018u) {
-    if (cached_has_bits & 0x00000008u) {
+  if (cached_has_bits & 0x00000030u) {
+    if (cached_has_bits & 0x00000010u) {
       _this->_impl_.delivered_fps_ = from._impl_.delivered_fps_;
     }
-    if (cached_has_bits & 0x00000010u) {
+    if (cached_has_bits & 0x00000020u) {
       _this->_impl_.content_fps_ = from._impl_.content_fps_;
     }
   }

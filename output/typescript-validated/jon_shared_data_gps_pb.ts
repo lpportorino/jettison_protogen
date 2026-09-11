@@ -5,7 +5,7 @@
 import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
 import { file_buf_validate_validate } from "./buf/validate/validate_pb";
-import type { JonGuiDataGpsFixType, JonGuiDataMeteo } from "./jon_shared_data_types_pb";
+import type { JonGuiDataGpsFixType, JonGuiDataMeteo, JonGuiDataModuleHealth } from "./jon_shared_data_types_pb";
 import { file_jon_shared_data_types } from "./jon_shared_data_types_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -13,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_data_gps.proto.
  */
 export const file_jon_shared_data_gps: GenFile = /*@__PURE__*/
-  fileDesc("Chlqb25fc2hhcmVkX2RhdGFfZ3BzLnByb3RvEgNzZXIijwMKDUpvbkd1aURhdGFHcHMSKgoJbG9uZ2l0dWRlGAEgASgBQhe6SBQSEhkAAAAAAIBmQCkAAAAAAIBmwBIpCghsYXRpdHVkZRgCIAEoAUIXukgUEhIZAAAAAACAVkApAAAAAACAVsASEAoIYWx0aXR1ZGUYAyABKAESMQoQbWFudWFsX2xvbmdpdHVkZRgEIAEoAUIXukgUEhIZAAAAAACAZkApAAAAAACAZsASMAoPbWFudWFsX2xhdGl0dWRlGAUgASgBQhe6SBQSEhkAAAAAAIBWQCkAAAAAAIBWwBIXCg9tYW51YWxfYWx0aXR1ZGUYBiABKAESNwoIZml4X3R5cGUYByABKA4yGS5zZXIuSm9uR3VpRGF0YUdwc0ZpeFR5cGVCCrpIB4IBBBABIAASEgoKdXNlX21hbnVhbBgIIAEoCBIRCgl0aW1lc3RhbXAYCSABKAMSEgoKaXNfc3RhcnRlZBgKIAEoCBIjCgVtZXRlbxgLIAEoCzIULnNlci5Kb25HdWlEYXRhTWV0ZW9CS1pJZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC9kYXRhL2dwc2IGcHJvdG8z", [file_buf_validate_validate, file_jon_shared_data_types]);
+  fileDesc("Chlqb25fc2hhcmVkX2RhdGFfZ3BzLnByb3RvEgNzZXIivAMKDUpvbkd1aURhdGFHcHMSKgoJbG9uZ2l0dWRlGAEgASgBQhe6SBQSEhkAAAAAAIBmQCkAAAAAAIBmwBIpCghsYXRpdHVkZRgCIAEoAUIXukgUEhIZAAAAAACAVkApAAAAAACAVsASEAoIYWx0aXR1ZGUYAyABKAESMQoQbWFudWFsX2xvbmdpdHVkZRgEIAEoAUIXukgUEhIZAAAAAACAZkApAAAAAACAZsASMAoPbWFudWFsX2xhdGl0dWRlGAUgASgBQhe6SBQSEhkAAAAAAIBWQCkAAAAAAIBWwBIXCg9tYW51YWxfYWx0aXR1ZGUYBiABKAESNwoIZml4X3R5cGUYByABKA4yGS5zZXIuSm9uR3VpRGF0YUdwc0ZpeFR5cGVCCrpIB4IBBBABIAASEgoKdXNlX21hbnVhbBgIIAEoCBIRCgl0aW1lc3RhbXAYCSABKAMSEgoKaXNfc3RhcnRlZBgKIAEoCBIjCgVtZXRlbxgLIAEoCzIULnNlci5Kb25HdWlEYXRhTWV0ZW8SKwoGaGVhbHRoGCggASgLMhsuc2VyLkpvbkd1aURhdGFNb2R1bGVIZWFsdGhCS1pJZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC9kYXRhL2dwc2IGcHJvdG8z", [file_buf_validate_validate, file_jon_shared_data_types]);
 
 /**
  * @generated from message ser.JonGuiDataGps
@@ -81,6 +81,11 @@ export type JonGuiDataGps = Message<"ser.JonGuiDataGps"> & {
    * @generated from field: ser.JonGuiDataMeteo meteo = 11;
    */
   meteo?: JonGuiDataMeteo | undefined;
+
+  /**
+   * @generated from field: ser.JonGuiDataModuleHealth health = 40;
+   */
+  health?: JonGuiDataModuleHealth | undefined;
 };
 
 /**

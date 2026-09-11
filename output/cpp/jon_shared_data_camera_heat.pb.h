@@ -217,6 +217,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   // accessors -------------------------------------------------------
   enum : int {
     kMeteoFieldNumber = 15,
+    kHealthFieldNumber = 40,
     kZoomPosFieldNumber = 1,
     kAgcModeFieldNumber = 2,
     kFilterFieldNumber = 3,
@@ -248,6 +249,21 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   private:
   const ::ser::JonGuiDataMeteo& _internal_meteo() const;
   ::ser::JonGuiDataMeteo* _internal_mutable_meteo();
+
+  public:
+  // .ser.JonGuiDataModuleHealth health = 40;
+  bool has_health() const;
+  void clear_health() ;
+  const ::ser::JonGuiDataModuleHealth& health() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataModuleHealth* release_health();
+  ::ser::JonGuiDataModuleHealth* mutable_health();
+  void set_allocated_health(::ser::JonGuiDataModuleHealth* value);
+  void unsafe_arena_set_allocated_health(::ser::JonGuiDataModuleHealth* value);
+  ::ser::JonGuiDataModuleHealth* unsafe_arena_release_health();
+
+  private:
+  const ::ser::JonGuiDataModuleHealth& _internal_health() const;
+  ::ser::JonGuiDataModuleHealth* _internal_mutable_health();
 
   public:
   // double zoom_pos = 1 [(.buf.validate.field) = {
@@ -427,8 +443,8 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 18, 1,
-      0, 2>
+      5, 19, 2,
+      0, 7>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -448,6 +464,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::ser::JonGuiDataMeteo* meteo_;
+    ::ser::JonGuiDataModuleHealth* health_;
     double zoom_pos_;
     int agc_mode_;
     int filter_;
@@ -910,13 +927,13 @@ inline void JonGuiDataCameraHeat::_internal_set_capture_monotonic_us(::uint64_t 
 
 // optional double delivered_fps = 17 [(.buf.validate.field) = {
 inline bool JonGuiDataCameraHeat::has_delivered_fps() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
   return value;
 }
 inline void JonGuiDataCameraHeat::clear_delivered_fps() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.delivered_fps_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000002u;
+  _impl_._has_bits_[0] &= ~0x00000004u;
 }
 inline double JonGuiDataCameraHeat::delivered_fps() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraHeat.delivered_fps)
@@ -924,7 +941,7 @@ inline double JonGuiDataCameraHeat::delivered_fps() const {
 }
 inline void JonGuiDataCameraHeat::set_delivered_fps(double value) {
   _internal_set_delivered_fps(value);
-  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_._has_bits_[0] |= 0x00000004u;
   // @@protoc_insertion_point(field_set:ser.JonGuiDataCameraHeat.delivered_fps)
 }
 inline double JonGuiDataCameraHeat::_internal_delivered_fps() const {
@@ -938,13 +955,13 @@ inline void JonGuiDataCameraHeat::_internal_set_delivered_fps(double value) {
 
 // optional double content_fps = 18 [(.buf.validate.field) = {
 inline bool JonGuiDataCameraHeat::has_content_fps() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
   return value;
 }
 inline void JonGuiDataCameraHeat::clear_content_fps() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.content_fps_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000004u;
+  _impl_._has_bits_[0] &= ~0x00000008u;
 }
 inline double JonGuiDataCameraHeat::content_fps() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraHeat.content_fps)
@@ -952,7 +969,7 @@ inline double JonGuiDataCameraHeat::content_fps() const {
 }
 inline void JonGuiDataCameraHeat::set_content_fps(double value) {
   _internal_set_content_fps(value);
-  _impl_._has_bits_[0] |= 0x00000004u;
+  _impl_._has_bits_[0] |= 0x00000008u;
   // @@protoc_insertion_point(field_set:ser.JonGuiDataCameraHeat.content_fps)
 }
 inline double JonGuiDataCameraHeat::_internal_content_fps() const {
@@ -962,6 +979,97 @@ inline double JonGuiDataCameraHeat::_internal_content_fps() const {
 inline void JonGuiDataCameraHeat::_internal_set_content_fps(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.content_fps_ = value;
+}
+
+// .ser.JonGuiDataModuleHealth health = 40;
+inline bool JonGuiDataCameraHeat::has_health() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.health_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataModuleHealth& JonGuiDataCameraHeat::_internal_health() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataModuleHealth* p = _impl_.health_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataModuleHealth&>(::ser::_JonGuiDataModuleHealth_default_instance_);
+}
+inline const ::ser::JonGuiDataModuleHealth& JonGuiDataCameraHeat::health() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraHeat.health)
+  return _internal_health();
+}
+inline void JonGuiDataCameraHeat::unsafe_arena_set_allocated_health(::ser::JonGuiDataModuleHealth* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.health_);
+  }
+  _impl_.health_ = reinterpret_cast<::ser::JonGuiDataModuleHealth*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataCameraHeat.health)
+}
+inline ::ser::JonGuiDataModuleHealth* JonGuiDataCameraHeat::release_health() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ser::JonGuiDataModuleHealth* released = _impl_.health_;
+  _impl_.health_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataModuleHealth* JonGuiDataCameraHeat::unsafe_arena_release_health() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataCameraHeat.health)
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ser::JonGuiDataModuleHealth* temp = _impl_.health_;
+  _impl_.health_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataModuleHealth* JonGuiDataCameraHeat::_internal_mutable_health() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.health_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataModuleHealth>(GetArena());
+    _impl_.health_ = reinterpret_cast<::ser::JonGuiDataModuleHealth*>(p);
+  }
+  return _impl_.health_;
+}
+inline ::ser::JonGuiDataModuleHealth* JonGuiDataCameraHeat::mutable_health() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  ::ser::JonGuiDataModuleHealth* _msg = _internal_mutable_health();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCameraHeat.health)
+  return _msg;
+}
+inline void JonGuiDataCameraHeat::set_allocated_health(::ser::JonGuiDataModuleHealth* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.health_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+
+  _impl_.health_ = reinterpret_cast<::ser::JonGuiDataModuleHealth*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCameraHeat.health)
 }
 
 #ifdef __GNUC__

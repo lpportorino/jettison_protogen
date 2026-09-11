@@ -1416,7 +1416,7 @@ func (x JonGuiDataTrackedObject_TrackingState) Number() protoreflect.EnumNumber 
 
 // Deprecated: Use JonGuiDataTrackedObject_TrackingState.Descriptor instead.
 func (JonGuiDataTrackedObject_TrackingState) EnumDescriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{8, 0}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{9, 0}
 }
 
 type JonGuiDataMeteo struct {
@@ -1479,6 +1479,93 @@ func (x *JonGuiDataMeteo) GetPressure() float64 {
 	return 0
 }
 
+// Per-module CAN-FD queue health. Each queue channel reports its configured
+// capacity, its peak observed depth, and the count of oldest entries dropped
+// on overflow; a module carries at most two such channels.
+type JonGuiDataModuleHealth struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	QueueCap_0      uint32                 `protobuf:"varint,1,opt,name=queue_cap_0,json=queueCap0,proto3" json:"queue_cap_0,omitempty"`
+	PeakDepth_0     uint32                 `protobuf:"varint,2,opt,name=peak_depth_0,json=peakDepth0,proto3" json:"peak_depth_0,omitempty"`
+	DroppedOldest_0 uint32                 `protobuf:"varint,3,opt,name=dropped_oldest_0,json=droppedOldest0,proto3" json:"dropped_oldest_0,omitempty"`
+	QueueCap_1      uint32                 `protobuf:"varint,4,opt,name=queue_cap_1,json=queueCap1,proto3" json:"queue_cap_1,omitempty"`
+	PeakDepth_1     uint32                 `protobuf:"varint,5,opt,name=peak_depth_1,json=peakDepth1,proto3" json:"peak_depth_1,omitempty"`
+	DroppedOldest_1 uint32                 `protobuf:"varint,6,opt,name=dropped_oldest_1,json=droppedOldest1,proto3" json:"dropped_oldest_1,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *JonGuiDataModuleHealth) Reset() {
+	*x = JonGuiDataModuleHealth{}
+	mi := &file_jon_shared_data_types_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *JonGuiDataModuleHealth) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*JonGuiDataModuleHealth) ProtoMessage() {}
+
+func (x *JonGuiDataModuleHealth) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_data_types_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use JonGuiDataModuleHealth.ProtoReflect.Descriptor instead.
+func (*JonGuiDataModuleHealth) Descriptor() ([]byte, []int) {
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *JonGuiDataModuleHealth) GetQueueCap_0() uint32 {
+	if x != nil {
+		return x.QueueCap_0
+	}
+	return 0
+}
+
+func (x *JonGuiDataModuleHealth) GetPeakDepth_0() uint32 {
+	if x != nil {
+		return x.PeakDepth_0
+	}
+	return 0
+}
+
+func (x *JonGuiDataModuleHealth) GetDroppedOldest_0() uint32 {
+	if x != nil {
+		return x.DroppedOldest_0
+	}
+	return 0
+}
+
+func (x *JonGuiDataModuleHealth) GetQueueCap_1() uint32 {
+	if x != nil {
+		return x.QueueCap_1
+	}
+	return 0
+}
+
+func (x *JonGuiDataModuleHealth) GetPeakDepth_1() uint32 {
+	if x != nil {
+		return x.PeakDepth_1
+	}
+	return 0
+}
+
+func (x *JonGuiDataModuleHealth) GetDroppedOldest_1() uint32 {
+	if x != nil {
+		return x.DroppedOldest_1
+	}
+	return 0
+}
+
 // Structured version for opaque payloads.
 // Enables simple numeric comparison without string parsing.
 type JonOpaquePayloadVersion struct {
@@ -1492,7 +1579,7 @@ type JonOpaquePayloadVersion struct {
 
 func (x *JonOpaquePayloadVersion) Reset() {
 	*x = JonOpaquePayloadVersion{}
-	mi := &file_jon_shared_data_types_proto_msgTypes[1]
+	mi := &file_jon_shared_data_types_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1504,7 +1591,7 @@ func (x *JonOpaquePayloadVersion) String() string {
 func (*JonOpaquePayloadVersion) ProtoMessage() {}
 
 func (x *JonOpaquePayloadVersion) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_data_types_proto_msgTypes[1]
+	mi := &file_jon_shared_data_types_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1517,7 +1604,7 @@ func (x *JonOpaquePayloadVersion) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use JonOpaquePayloadVersion.ProtoReflect.Descriptor instead.
 func (*JonOpaquePayloadVersion) Descriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{1}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *JonOpaquePayloadVersion) GetMajor() uint32 {
@@ -1558,7 +1645,7 @@ type JonOpaquePayload struct {
 
 func (x *JonOpaquePayload) Reset() {
 	*x = JonOpaquePayload{}
-	mi := &file_jon_shared_data_types_proto_msgTypes[2]
+	mi := &file_jon_shared_data_types_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1570,7 +1657,7 @@ func (x *JonOpaquePayload) String() string {
 func (*JonOpaquePayload) ProtoMessage() {}
 
 func (x *JonOpaquePayload) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_data_types_proto_msgTypes[2]
+	mi := &file_jon_shared_data_types_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1583,7 +1670,7 @@ func (x *JonOpaquePayload) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use JonOpaquePayload.ProtoReflect.Descriptor instead.
 func (*JonOpaquePayload) Descriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{2}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *JonOpaquePayload) GetTypeUuid() string {
@@ -1622,7 +1709,7 @@ type JonGuiDataROI struct {
 
 func (x *JonGuiDataROI) Reset() {
 	*x = JonGuiDataROI{}
-	mi := &file_jon_shared_data_types_proto_msgTypes[3]
+	mi := &file_jon_shared_data_types_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1634,7 +1721,7 @@ func (x *JonGuiDataROI) String() string {
 func (*JonGuiDataROI) ProtoMessage() {}
 
 func (x *JonGuiDataROI) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_data_types_proto_msgTypes[3]
+	mi := &file_jon_shared_data_types_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1647,7 +1734,7 @@ func (x *JonGuiDataROI) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use JonGuiDataROI.ProtoReflect.Descriptor instead.
 func (*JonGuiDataROI) Descriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{3}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *JonGuiDataROI) GetX1() float64 {
@@ -1691,7 +1778,7 @@ type JonGuiDataSharpness struct {
 
 func (x *JonGuiDataSharpness) Reset() {
 	*x = JonGuiDataSharpness{}
-	mi := &file_jon_shared_data_types_proto_msgTypes[4]
+	mi := &file_jon_shared_data_types_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1703,7 +1790,7 @@ func (x *JonGuiDataSharpness) String() string {
 func (*JonGuiDataSharpness) ProtoMessage() {}
 
 func (x *JonGuiDataSharpness) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_data_types_proto_msgTypes[4]
+	mi := &file_jon_shared_data_types_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1716,7 +1803,7 @@ func (x *JonGuiDataSharpness) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use JonGuiDataSharpness.ProtoReflect.Descriptor instead.
 func (*JonGuiDataSharpness) Descriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{4}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *JonGuiDataSharpness) GetValue() float64 {
@@ -1752,7 +1839,7 @@ type JonGuiDataVector3 struct {
 
 func (x *JonGuiDataVector3) Reset() {
 	*x = JonGuiDataVector3{}
-	mi := &file_jon_shared_data_types_proto_msgTypes[5]
+	mi := &file_jon_shared_data_types_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1764,7 +1851,7 @@ func (x *JonGuiDataVector3) String() string {
 func (*JonGuiDataVector3) ProtoMessage() {}
 
 func (x *JonGuiDataVector3) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_data_types_proto_msgTypes[5]
+	mi := &file_jon_shared_data_types_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1777,7 +1864,7 @@ func (x *JonGuiDataVector3) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use JonGuiDataVector3.ProtoReflect.Descriptor instead.
 func (*JonGuiDataVector3) Descriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{5}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *JonGuiDataVector3) GetX() float64 {
@@ -1815,7 +1902,7 @@ type JonGuiDataQuaternion struct {
 
 func (x *JonGuiDataQuaternion) Reset() {
 	*x = JonGuiDataQuaternion{}
-	mi := &file_jon_shared_data_types_proto_msgTypes[6]
+	mi := &file_jon_shared_data_types_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1827,7 +1914,7 @@ func (x *JonGuiDataQuaternion) String() string {
 func (*JonGuiDataQuaternion) ProtoMessage() {}
 
 func (x *JonGuiDataQuaternion) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_data_types_proto_msgTypes[6]
+	mi := &file_jon_shared_data_types_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1840,7 +1927,7 @@ func (x *JonGuiDataQuaternion) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use JonGuiDataQuaternion.ProtoReflect.Descriptor instead.
 func (*JonGuiDataQuaternion) Descriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{6}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *JonGuiDataQuaternion) GetW() float64 {
@@ -1885,7 +1972,7 @@ type JonGuiDataTransform3D struct {
 
 func (x *JonGuiDataTransform3D) Reset() {
 	*x = JonGuiDataTransform3D{}
-	mi := &file_jon_shared_data_types_proto_msgTypes[7]
+	mi := &file_jon_shared_data_types_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1897,7 +1984,7 @@ func (x *JonGuiDataTransform3D) String() string {
 func (*JonGuiDataTransform3D) ProtoMessage() {}
 
 func (x *JonGuiDataTransform3D) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_data_types_proto_msgTypes[7]
+	mi := &file_jon_shared_data_types_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1910,7 +1997,7 @@ func (x *JonGuiDataTransform3D) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use JonGuiDataTransform3D.ProtoReflect.Descriptor instead.
 func (*JonGuiDataTransform3D) Descriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{7}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *JonGuiDataTransform3D) GetPosition() *JonGuiDataVector3 {
@@ -1960,7 +2047,7 @@ type JonGuiDataTrackedObject struct {
 
 func (x *JonGuiDataTrackedObject) Reset() {
 	*x = JonGuiDataTrackedObject{}
-	mi := &file_jon_shared_data_types_proto_msgTypes[8]
+	mi := &file_jon_shared_data_types_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1972,7 +2059,7 @@ func (x *JonGuiDataTrackedObject) String() string {
 func (*JonGuiDataTrackedObject) ProtoMessage() {}
 
 func (x *JonGuiDataTrackedObject) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_data_types_proto_msgTypes[8]
+	mi := &file_jon_shared_data_types_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1985,7 +2072,7 @@ func (x *JonGuiDataTrackedObject) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use JonGuiDataTrackedObject.ProtoReflect.Descriptor instead.
 func (*JonGuiDataTrackedObject) Descriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{8}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *JonGuiDataTrackedObject) GetUuid() string {
@@ -2024,7 +2111,16 @@ const file_jon_shared_data_types_proto_rawDesc = "" +
 	"\x0fJonGuiDataMeteo\x129\n" +
 	"\vtemperature\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\xc0b@)fffff\x12q\xc0R\vtemperature\x123\n" +
 	"\bhumidity\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00\x00\x00R\bhumidity\x123\n" +
-	"\bpressure\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00L\xfd@)\x00\x00\x00\x00\x00\x00\x00\x00R\bpressure\"[\n" +
+	"\bpressure\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00L\xfd@)\x00\x00\x00\x00\x00\x00\x00\x00R\bpressure\"\xf0\x01\n" +
+	"\x16JonGuiDataModuleHealth\x12\x1e\n" +
+	"\vqueue_cap_0\x18\x01 \x01(\rR\tqueueCap0\x12 \n" +
+	"\fpeak_depth_0\x18\x02 \x01(\rR\n" +
+	"peakDepth0\x12(\n" +
+	"\x10dropped_oldest_0\x18\x03 \x01(\rR\x0edroppedOldest0\x12\x1e\n" +
+	"\vqueue_cap_1\x18\x04 \x01(\rR\tqueueCap1\x12 \n" +
+	"\fpeak_depth_1\x18\x05 \x01(\rR\n" +
+	"peakDepth1\x12(\n" +
+	"\x10dropped_oldest_1\x18\x06 \x01(\rR\x0edroppedOldest1\"[\n" +
 	"\x17JonOpaquePayloadVersion\x12\x14\n" +
 	"\x05major\x18\x01 \x01(\rR\x05major\x12\x14\n" +
 	"\x05minor\x18\x02 \x01(\rR\x05minor\x12\x14\n" +
@@ -2233,7 +2329,7 @@ func file_jon_shared_data_types_proto_rawDescGZIP() []byte {
 }
 
 var file_jon_shared_data_types_proto_enumTypes = make([]protoimpl.EnumInfo, 25)
-var file_jon_shared_data_types_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_jon_shared_data_types_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_jon_shared_data_types_proto_goTypes = []any{
 	(JonGuiDataVideoChannelHeatFilters)(0),     // 0: ser.JonGuiDataVideoChannelHeatFilters
 	(JonGuiDataVideoChannelHeatAGCModes)(0),    // 1: ser.JonGuiDataVideoChannelHeatAGCModes
@@ -2261,23 +2357,24 @@ var file_jon_shared_data_types_proto_goTypes = []any{
 	(JonGuiDataDriveState)(0),                  // 23: ser.JonGuiDataDriveState
 	(JonGuiDataTrackedObject_TrackingState)(0), // 24: ser.JonGuiDataTrackedObject.TrackingState
 	(*JonGuiDataMeteo)(nil),                    // 25: ser.JonGuiDataMeteo
-	(*JonOpaquePayloadVersion)(nil),            // 26: ser.JonOpaquePayloadVersion
-	(*JonOpaquePayload)(nil),                   // 27: ser.JonOpaquePayload
-	(*JonGuiDataROI)(nil),                      // 28: ser.JonGuiDataROI
-	(*JonGuiDataSharpness)(nil),                // 29: ser.JonGuiDataSharpness
-	(*JonGuiDataVector3)(nil),                  // 30: ser.JonGuiDataVector3
-	(*JonGuiDataQuaternion)(nil),               // 31: ser.JonGuiDataQuaternion
-	(*JonGuiDataTransform3D)(nil),              // 32: ser.JonGuiDataTransform3D
-	(*JonGuiDataTrackedObject)(nil),            // 33: ser.JonGuiDataTrackedObject
+	(*JonGuiDataModuleHealth)(nil),             // 26: ser.JonGuiDataModuleHealth
+	(*JonOpaquePayloadVersion)(nil),            // 27: ser.JonOpaquePayloadVersion
+	(*JonOpaquePayload)(nil),                   // 28: ser.JonOpaquePayload
+	(*JonGuiDataROI)(nil),                      // 29: ser.JonGuiDataROI
+	(*JonGuiDataSharpness)(nil),                // 30: ser.JonGuiDataSharpness
+	(*JonGuiDataVector3)(nil),                  // 31: ser.JonGuiDataVector3
+	(*JonGuiDataQuaternion)(nil),               // 32: ser.JonGuiDataQuaternion
+	(*JonGuiDataTransform3D)(nil),              // 33: ser.JonGuiDataTransform3D
+	(*JonGuiDataTrackedObject)(nil),            // 34: ser.JonGuiDataTrackedObject
 }
 var file_jon_shared_data_types_proto_depIdxs = []int32{
-	26, // 0: ser.JonOpaquePayload.version:type_name -> ser.JonOpaquePayloadVersion
-	30, // 1: ser.JonGuiDataTransform3D.position:type_name -> ser.JonGuiDataVector3
-	31, // 2: ser.JonGuiDataTransform3D.orientation:type_name -> ser.JonGuiDataQuaternion
-	30, // 3: ser.JonGuiDataTransform3D.linear_velocity:type_name -> ser.JonGuiDataVector3
-	30, // 4: ser.JonGuiDataTransform3D.angular_velocity:type_name -> ser.JonGuiDataVector3
-	32, // 5: ser.JonGuiDataTrackedObject.transform:type_name -> ser.JonGuiDataTransform3D
-	28, // 6: ser.JonGuiDataTrackedObject.bounding_box:type_name -> ser.JonGuiDataROI
+	27, // 0: ser.JonOpaquePayload.version:type_name -> ser.JonOpaquePayloadVersion
+	31, // 1: ser.JonGuiDataTransform3D.position:type_name -> ser.JonGuiDataVector3
+	32, // 2: ser.JonGuiDataTransform3D.orientation:type_name -> ser.JonGuiDataQuaternion
+	31, // 3: ser.JonGuiDataTransform3D.linear_velocity:type_name -> ser.JonGuiDataVector3
+	31, // 4: ser.JonGuiDataTransform3D.angular_velocity:type_name -> ser.JonGuiDataVector3
+	33, // 5: ser.JonGuiDataTrackedObject.transform:type_name -> ser.JonGuiDataTransform3D
+	29, // 6: ser.JonGuiDataTrackedObject.bounding_box:type_name -> ser.JonGuiDataROI
 	24, // 7: ser.JonGuiDataTrackedObject.state:type_name -> ser.JonGuiDataTrackedObject.TrackingState
 	8,  // [8:8] is the sub-list for method output_type
 	8,  // [8:8] is the sub-list for method input_type
@@ -2297,7 +2394,7 @@ func file_jon_shared_data_types_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_data_types_proto_rawDesc), len(file_jon_shared_data_types_proto_rawDesc)),
 			NumEnums:      25,
-			NumMessages:   9,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

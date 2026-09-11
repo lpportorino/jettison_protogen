@@ -1149,6 +1149,21 @@ public final class JonSharedDataPower {
      * <code>.ser.JonGuiDataMeteo meteo = 12;</code>
      */
     ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder();
+
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return Whether the health field is set.
+     */
+    boolean hasHealth();
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return The health.
+     */
+    ser.JonSharedDataTypes.JonGuiDataModuleHealth getHealth();
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder getHealthOrBuilder();
   }
   /**
    * <pre>
@@ -1595,6 +1610,32 @@ public final class JonSharedDataPower {
       return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
     }
 
+    public static final int HEALTH_FIELD_NUMBER = 40;
+    private ser.JonSharedDataTypes.JonGuiDataModuleHealth health_;
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return Whether the health field is set.
+     */
+    @java.lang.Override
+    public boolean hasHealth() {
+      return ((bitField0_ & 0x00000200) != 0);
+    }
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     * @return The health.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataModuleHealth getHealth() {
+      return health_ == null ? ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+    }
+    /**
+     * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder getHealthOrBuilder() {
+      return health_ == null ? ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1644,6 +1685,9 @@ public final class JonSharedDataPower {
       }
       if (((bitField0_ & 0x00000100) != 0)) {
         output.writeMessage(12, getMeteo());
+      }
+      if (((bitField0_ & 0x00000200) != 0)) {
+        output.writeMessage(40, getHealth());
       }
       getUnknownFields().writeTo(output);
     }
@@ -1701,6 +1745,10 @@ public final class JonSharedDataPower {
       if (((bitField0_ & 0x00000100) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(12, getMeteo());
+      }
+      if (((bitField0_ & 0x00000200) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(40, getHealth());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1766,6 +1814,11 @@ public final class JonSharedDataPower {
         if (!getMeteo()
             .equals(other.getMeteo())) return false;
       }
+      if (hasHealth() != other.hasHealth()) return false;
+      if (hasHealth()) {
+        if (!getHealth()
+            .equals(other.getHealth())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -1818,6 +1871,10 @@ public final class JonSharedDataPower {
       if (hasMeteo()) {
         hash = (37 * hash) + METEO_FIELD_NUMBER;
         hash = (53 * hash) + getMeteo().hashCode();
+      }
+      if (hasHealth()) {
+        hash = (37 * hash) + HEALTH_FIELD_NUMBER;
+        hash = (53 * hash) + getHealth().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -1962,6 +2019,7 @@ public final class JonSharedDataPower {
           getS6FieldBuilder();
           getS7FieldBuilder();
           getMeteoFieldBuilder();
+          getHealthFieldBuilder();
         }
       }
       @java.lang.Override
@@ -2015,6 +2073,11 @@ public final class JonSharedDataPower {
         if (meteoBuilder_ != null) {
           meteoBuilder_.dispose();
           meteoBuilder_ = null;
+        }
+        health_ = null;
+        if (healthBuilder_ != null) {
+          healthBuilder_.dispose();
+          healthBuilder_ = null;
         }
         return this;
       }
@@ -2113,6 +2176,12 @@ public final class JonSharedDataPower {
               : meteoBuilder_.build();
           to_bitField0_ |= 0x00000100;
         }
+        if (((from_bitField0_ & 0x00001000) != 0)) {
+          result.health_ = healthBuilder_ == null
+              ? health_
+              : healthBuilder_.build();
+          to_bitField0_ |= 0x00000200;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -2163,6 +2232,9 @@ public final class JonSharedDataPower {
         }
         if (other.hasMeteo()) {
           mergeMeteo(other.getMeteo());
+        }
+        if (other.hasHealth()) {
+          mergeHealth(other.getHealth());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -2268,6 +2340,13 @@ public final class JonSharedDataPower {
                 bitField0_ |= 0x00000800;
                 break;
               } // case 98
+              case 322: {
+                input.readMessage(
+                    getHealthFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00001000;
+                break;
+              } // case 322
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -3868,6 +3947,127 @@ public final class JonSharedDataPower {
         return meteoBuilder_;
       }
 
+      private ser.JonSharedDataTypes.JonGuiDataModuleHealth health_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataModuleHealth, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder, ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder> healthBuilder_;
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       * @return Whether the health field is set.
+       */
+      public boolean hasHealth() {
+        return ((bitField0_ & 0x00001000) != 0);
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       * @return The health.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealth getHealth() {
+        if (healthBuilder_ == null) {
+          return health_ == null ? ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+        } else {
+          return healthBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder setHealth(ser.JonSharedDataTypes.JonGuiDataModuleHealth value) {
+        if (healthBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          health_ = value;
+        } else {
+          healthBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00001000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder setHealth(
+          ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder builderForValue) {
+        if (healthBuilder_ == null) {
+          health_ = builderForValue.build();
+        } else {
+          healthBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00001000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder mergeHealth(ser.JonSharedDataTypes.JonGuiDataModuleHealth value) {
+        if (healthBuilder_ == null) {
+          if (((bitField0_ & 0x00001000) != 0) &&
+            health_ != null &&
+            health_ != ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance()) {
+            getHealthBuilder().mergeFrom(value);
+          } else {
+            health_ = value;
+          }
+        } else {
+          healthBuilder_.mergeFrom(value);
+        }
+        if (health_ != null) {
+          bitField0_ |= 0x00001000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public Builder clearHealth() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        health_ = null;
+        if (healthBuilder_ != null) {
+          healthBuilder_.dispose();
+          healthBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder getHealthBuilder() {
+        bitField0_ |= 0x00001000;
+        onChanged();
+        return getHealthFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder getHealthOrBuilder() {
+        if (healthBuilder_ != null) {
+          return healthBuilder_.getMessageOrBuilder();
+        } else {
+          return health_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance() : health_;
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataModuleHealth, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder, ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder> 
+          getHealthFieldBuilder() {
+        if (healthBuilder_ == null) {
+          healthBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataModuleHealth, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder, ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder>(
+                  getHealth(),
+                  getParentForChildren(),
+                  isClean());
+          health_ = null;
+        }
+        return healthBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataPower)
     }
 
@@ -3946,7 +4146,7 @@ public final class JonSharedDataPower {
       " \001(\001B2\272H/\022-\031\000\000\000\000\000\000I@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000" +
       "\000\000\000\000\000\340?I\000\000\000\000\000\000\004@\022A\n\005power\030\003 \001(\001B2\272H/\022-\031\000" +
       "\000\000\000\000@\177@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\030@I\000\000\000\000\000" +
-      "\000>@\022\r\n\005is_on\030\004 \001(\010\022\021\n\thas_alarm\030\005 \001(\010\"\204\004" +
+      "\000>@\022\r\n\005is_on\030\004 \001(\010\022\021\n\thas_alarm\030\005 \001(\010\"\261\004" +
       "\n\017JonGuiDataPower\022&\n\002s0\030\001 \001(\0132\032.ser.JonG" +
       "uiDataPowerModule\022&\n\002s1\030\002 \001(\0132\032.ser.JonG" +
       "uiDataPowerModule\022&\n\002s2\030\003 \001(\0132\032.ser.JonG" +
@@ -3959,10 +4159,11 @@ public final class JonSharedDataPower {
       " \001(\0162\".ser.JonGuiDataAccumulatorStateIdx" +
       "\022\030\n\020ext_bat_capacity\030\n \001(\005\0223\n\016ext_bat_st" +
       "atus\030\013 \001(\0162\033.ser.JonGuiDataExtBatStatus\022" +
-      "#\n\005meteo\030\014 \001(\0132\024.ser.JonGuiDataMeteoBMZK" +
-      "git-codecommit.eu-central-1.amazonaws.co" +
-      "m/v1/repos/jettison/jonp/data/powerb\006pro" +
-      "to3"
+      "#\n\005meteo\030\014 \001(\0132\024.ser.JonGuiDataMeteo\022+\n\006" +
+      "health\030( \001(\0132\033.ser.JonGuiDataModuleHealt" +
+      "hBMZKgit-codecommit.eu-central-1.amazona" +
+      "ws.com/v1/repos/jettison/jonp/data/power" +
+      "b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3981,7 +4182,7 @@ public final class JonSharedDataPower {
     internal_static_ser_JonGuiDataPower_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataPower_descriptor,
-        new java.lang.String[] { "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "AccumulatorState", "ExtBatCapacity", "ExtBatStatus", "Meteo", });
+        new java.lang.String[] { "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "AccumulatorState", "ExtBatCapacity", "ExtBatStatus", "Meteo", "Health", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

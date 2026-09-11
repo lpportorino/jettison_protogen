@@ -67,6 +67,8 @@ typedef struct _ser_JonGuiDataRotary {
  Start or Unpark clears it). While true, operator/tracker axis moves and
  rotate-to-GPS are dropped by the rotary interlock. */
     bool is_parked;
+    bool has_health;
+    ser_JonGuiDataModuleHealth health;
 } ser_JonGuiDataRotary;
 
 
@@ -75,9 +77,9 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataRotary_init_default        {0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataRotaryMode_MIN, 0, 0, 0, 0, 0, 0, 0, false, ser_ScanNode_init_default, 0, false, ser_JonGuiDataMeteo_init_default, 0, 0, 0, 0}
+#define ser_JonGuiDataRotary_init_default        {0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataRotaryMode_MIN, 0, 0, 0, 0, 0, 0, 0, false, ser_ScanNode_init_default, 0, false, ser_JonGuiDataMeteo_init_default, 0, 0, 0, 0, false, ser_JonGuiDataModuleHealth_init_default}
 #define ser_ScanNode_init_default                {0, 0, 0, 0, 0, 0, 0}
-#define ser_JonGuiDataRotary_init_zero           {0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataRotaryMode_MIN, 0, 0, 0, 0, 0, 0, 0, false, ser_ScanNode_init_zero, 0, false, ser_JonGuiDataMeteo_init_zero, 0, 0, 0, 0}
+#define ser_JonGuiDataRotary_init_zero           {0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataRotaryMode_MIN, 0, 0, 0, 0, 0, 0, 0, false, ser_ScanNode_init_zero, 0, false, ser_JonGuiDataMeteo_init_zero, 0, 0, 0, 0, false, ser_JonGuiDataModuleHealth_init_zero}
 #define ser_ScanNode_init_zero                   {0, 0, 0, 0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
@@ -111,6 +113,7 @@ extern "C" {
 #define ser_JonGuiDataRotary_tilt_init_status_tag 21
 #define ser_JonGuiDataRotary_capture_monotonic_us_tag 22
 #define ser_JonGuiDataRotary_is_parked_tag       23
+#define ser_JonGuiDataRotary_health_tag          40
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataRotary_FIELDLIST(X, a) \
@@ -136,11 +139,13 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  meteo,            19) \
 X(a, STATIC,   SINGULAR, INT32,    pan_init_status,  20) \
 X(a, STATIC,   SINGULAR, INT32,    tilt_init_status,  21) \
 X(a, STATIC,   SINGULAR, UINT64,   capture_monotonic_us,  22) \
-X(a, STATIC,   SINGULAR, BOOL,     is_parked,        23)
+X(a, STATIC,   SINGULAR, BOOL,     is_parked,        23) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  health,           40)
 #define ser_JonGuiDataRotary_CALLBACK NULL
 #define ser_JonGuiDataRotary_DEFAULT NULL
 #define ser_JonGuiDataRotary_current_scan_node_MSGTYPE ser_ScanNode
 #define ser_JonGuiDataRotary_meteo_MSGTYPE ser_JonGuiDataMeteo
+#define ser_JonGuiDataRotary_health_MSGTYPE ser_JonGuiDataModuleHealth
 
 #define ser_ScanNode_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, INT32,    index,             1) \
@@ -162,7 +167,7 @@ extern const pb_msgdesc_t ser_ScanNode_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_ROTARY_PB_H_MAX_SIZE ser_JonGuiDataRotary_size
-#define ser_JonGuiDataRotary_size                258
+#define ser_JonGuiDataRotary_size                297
 #define ser_ScanNode_size                        69
 
 #ifdef __cplusplus

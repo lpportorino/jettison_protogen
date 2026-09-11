@@ -259,6 +259,33 @@ public object JonGuiDataGpsKt {
 
     public val JonGuiDataGpsKt.Dsl.meteoOrNull: ser.JonSharedDataTypes.JonGuiDataMeteo?
       get() = _builder.meteoOrNull
+
+    /**
+     * `.ser.JonGuiDataModuleHealth health = 40;`
+     */
+    public var health: ser.JonSharedDataTypes.JonGuiDataModuleHealth
+      @JvmName("getHealth")
+      get() = _builder.health
+      @JvmName("setHealth")
+      set(value) {
+        _builder.health = value
+      }
+    /**
+     * `.ser.JonGuiDataModuleHealth health = 40;`
+     */
+    public fun clearHealth() {
+      _builder.clearHealth()
+    }
+    /**
+     * `.ser.JonGuiDataModuleHealth health = 40;`
+     * @return Whether the health field is set.
+     */
+    public fun hasHealth(): kotlin.Boolean {
+      return _builder.hasHealth()
+    }
+
+    public val JonGuiDataGpsKt.Dsl.healthOrNull: ser.JonSharedDataTypes.JonGuiDataModuleHealth?
+      get() = _builder.healthOrNull
   }
 }
 @kotlin.jvm.JvmSynthetic
@@ -267,4 +294,7 @@ public inline fun ser.JonSharedDataGps.JonGuiDataGps.copy(block: `ser`.JonGuiDat
 
 public val ser.JonSharedDataGps.JonGuiDataGpsOrBuilder.meteoOrNull: ser.JonSharedDataTypes.JonGuiDataMeteo?
   get() = if (hasMeteo()) getMeteo() else null
+
+public val ser.JonSharedDataGps.JonGuiDataGpsOrBuilder.healthOrNull: ser.JonSharedDataTypes.JonGuiDataModuleHealth?
+  get() = if (hasHealth()) getHealth() else null
 
