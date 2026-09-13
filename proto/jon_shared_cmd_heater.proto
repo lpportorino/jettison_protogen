@@ -14,6 +14,7 @@ message Root {
     EnableAutomaticControl enable_automatic_control = 5;
     DisableAutomaticControl disable_automatic_control = 6;
     SetAutomaticControlParams set_automatic_control_params = 7;
+    SetSystemPower set_system_power = 8;
   }
 }
 
@@ -65,4 +66,23 @@ message SetAutomaticControlParams {
   AutomaticControlChannelParams channel_0 = 1;
   AutomaticControlChannelParams channel_1 = 2;
   AutomaticControlChannelParams channel_2 = 3;
+}
+
+// SetSystemPower carries the whole-system power draw that the heater's zone
+// budget is computed against. It is a MEASUREMENT relayed to the heater node,
+// not an operator setting: its source is the PMU's INA236 monitor
+// (ser.JonGuiDataPMU.ina_power, in milliwatts, divided by 1000). The node
+// subtracts its own draw (ser.JonGuiDataHeater.power_W) from this figure and
+// shares what remains of its whole-system current ceiling, at its measured
+// rail voltage, between the three zones. A figure the node has not received
+// recently is budgeted as absent, and every control step that runs that way
+// is counted in ser.JonGuiDataHeater.budget_unrelayed_steps.
+message SetSystemPower {
+  // Whole-system power draw in watts.
+  //
+  // gte 0: the INA236 power register is a magnitude, and ina_power is itself
+  // bounded gte 0. lte 200: the largest value ina_power's own validator admits
+  // (lte 200000 mW), so every relay of a validated PMU reading fits and a
+  // figure no PMU publish can carry does not.
+  float system_power_W = 1 [(buf.validate.field).float = {gte: 0, lte: 200}];
 }

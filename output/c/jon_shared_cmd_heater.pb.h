@@ -64,6 +64,25 @@ typedef struct _cmd_Heater_SetAutomaticControlParams {
     cmd_Heater_AutomaticControlChannelParams channel_2;
 } cmd_Heater_SetAutomaticControlParams;
 
+/* SetSystemPower carries the whole-system power draw that the heater's zone
+ budget is computed against. It is a MEASUREMENT relayed to the heater node,
+ not an operator setting: its source is the PMU's INA236 monitor
+ (ser.JonGuiDataPMU.ina_power, in milliwatts, divided by 1000). The node
+ subtracts its own draw (ser.JonGuiDataHeater.power_W) from this figure and
+ shares what remains of its whole-system current ceiling, at its measured
+ rail voltage, between the three zones. A figure the node has not received
+ recently is budgeted as absent, and every control step that runs that way
+ is counted in ser.JonGuiDataHeater.budget_unrelayed_steps. */
+typedef struct _cmd_Heater_SetSystemPower {
+    /* Whole-system power draw in watts.
+
+ gte 0: the INA236 power register is a magnitude, and ina_power is itself
+ bounded gte 0. lte 200: the largest value ina_power's own validator admits
+ (lte 200000 mW), so every relay of a validated PMU reading fits and a
+ figure no PMU publish can carry does not. */
+    float system_power_W;
+} cmd_Heater_SetSystemPower;
+
 typedef struct _cmd_Heater_Root {
     pb_size_t which_cmd;
     union {
@@ -74,6 +93,7 @@ typedef struct _cmd_Heater_Root {
         cmd_Heater_EnableAutomaticControl enable_automatic_control;
         cmd_Heater_DisableAutomaticControl disable_automatic_control;
         cmd_Heater_SetAutomaticControlParams set_automatic_control_params;
+        cmd_Heater_SetSystemPower set_system_power;
     } cmd;
 } cmd_Heater_Root;
 
@@ -92,6 +112,7 @@ extern "C" {
 #define cmd_Heater_DisableAutomaticControl_init_default {0}
 #define cmd_Heater_AutomaticControlChannelParams_init_default {0}
 #define cmd_Heater_SetAutomaticControlParams_init_default {false, cmd_Heater_AutomaticControlChannelParams_init_default, false, cmd_Heater_AutomaticControlChannelParams_init_default, false, cmd_Heater_AutomaticControlChannelParams_init_default}
+#define cmd_Heater_SetSystemPower_init_default   {0}
 #define cmd_Heater_Root_init_zero                {0, {cmd_Heater_Start_init_zero}}
 #define cmd_Heater_Start_init_zero               {0}
 #define cmd_Heater_Stop_init_zero                {0}
@@ -101,6 +122,7 @@ extern "C" {
 #define cmd_Heater_DisableAutomaticControl_init_zero {0}
 #define cmd_Heater_AutomaticControlChannelParams_init_zero {0}
 #define cmd_Heater_SetAutomaticControlParams_init_zero {false, cmd_Heater_AutomaticControlChannelParams_init_zero, false, cmd_Heater_AutomaticControlChannelParams_init_zero, false, cmd_Heater_AutomaticControlChannelParams_init_zero}
+#define cmd_Heater_SetSystemPower_init_zero      {0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define cmd_Heater_SetHeating_target_0_tag       1
@@ -113,6 +135,7 @@ extern "C" {
 #define cmd_Heater_SetAutomaticControlParams_channel_0_tag 1
 #define cmd_Heater_SetAutomaticControlParams_channel_1_tag 2
 #define cmd_Heater_SetAutomaticControlParams_channel_2_tag 3
+#define cmd_Heater_SetSystemPower_system_power_W_tag 1
 #define cmd_Heater_Root_start_tag                1
 #define cmd_Heater_Root_stop_tag                 2
 #define cmd_Heater_Root_set_heating_tag          3
@@ -120,6 +143,7 @@ extern "C" {
 #define cmd_Heater_Root_enable_automatic_control_tag 5
 #define cmd_Heater_Root_disable_automatic_control_tag 6
 #define cmd_Heater_Root_set_automatic_control_params_tag 7
+#define cmd_Heater_Root_set_system_power_tag     8
 
 /* Struct field encoding specification for nanopb */
 #define cmd_Heater_Root_FIELDLIST(X, a) \
@@ -129,7 +153,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,set_heating,cmd.set_heating),   3) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,get_status,cmd.get_status),   4) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,enable_automatic_control,cmd.enable_automatic_control),   5) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,disable_automatic_control,cmd.disable_automatic_control),   6) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,set_automatic_control_params,cmd.set_automatic_control_params),   7)
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,set_automatic_control_params,cmd.set_automatic_control_params),   7) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,set_system_power,cmd.set_system_power),   8)
 #define cmd_Heater_Root_CALLBACK NULL
 #define cmd_Heater_Root_DEFAULT NULL
 #define cmd_Heater_Root_cmd_start_MSGTYPE cmd_Heater_Start
@@ -139,6 +164,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,set_automatic_control_params,cmd.set_aut
 #define cmd_Heater_Root_cmd_enable_automatic_control_MSGTYPE cmd_Heater_EnableAutomaticControl
 #define cmd_Heater_Root_cmd_disable_automatic_control_MSGTYPE cmd_Heater_DisableAutomaticControl
 #define cmd_Heater_Root_cmd_set_automatic_control_params_MSGTYPE cmd_Heater_SetAutomaticControlParams
+#define cmd_Heater_Root_cmd_set_system_power_MSGTYPE cmd_Heater_SetSystemPower
 
 #define cmd_Heater_Start_FIELDLIST(X, a) \
 
@@ -190,6 +216,11 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  channel_2,         3)
 #define cmd_Heater_SetAutomaticControlParams_channel_1_MSGTYPE cmd_Heater_AutomaticControlChannelParams
 #define cmd_Heater_SetAutomaticControlParams_channel_2_MSGTYPE cmd_Heater_AutomaticControlChannelParams
 
+#define cmd_Heater_SetSystemPower_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, FLOAT,    system_power_W,    1)
+#define cmd_Heater_SetSystemPower_CALLBACK NULL
+#define cmd_Heater_SetSystemPower_DEFAULT NULL
+
 extern const pb_msgdesc_t cmd_Heater_Root_msg;
 extern const pb_msgdesc_t cmd_Heater_Start_msg;
 extern const pb_msgdesc_t cmd_Heater_Stop_msg;
@@ -199,6 +230,7 @@ extern const pb_msgdesc_t cmd_Heater_EnableAutomaticControl_msg;
 extern const pb_msgdesc_t cmd_Heater_DisableAutomaticControl_msg;
 extern const pb_msgdesc_t cmd_Heater_AutomaticControlChannelParams_msg;
 extern const pb_msgdesc_t cmd_Heater_SetAutomaticControlParams_msg;
+extern const pb_msgdesc_t cmd_Heater_SetSystemPower_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define cmd_Heater_Root_fields &cmd_Heater_Root_msg
@@ -210,6 +242,7 @@ extern const pb_msgdesc_t cmd_Heater_SetAutomaticControlParams_msg;
 #define cmd_Heater_DisableAutomaticControl_fields &cmd_Heater_DisableAutomaticControl_msg
 #define cmd_Heater_AutomaticControlChannelParams_fields &cmd_Heater_AutomaticControlChannelParams_msg
 #define cmd_Heater_SetAutomaticControlParams_fields &cmd_Heater_SetAutomaticControlParams_msg
+#define cmd_Heater_SetSystemPower_fields &cmd_Heater_SetSystemPower_msg
 
 /* Maximum encoded size of messages (where known) */
 #define CMD_HEATER_JON_SHARED_CMD_HEATER_PB_H_MAX_SIZE cmd_Heater_Root_size
@@ -220,6 +253,7 @@ extern const pb_msgdesc_t cmd_Heater_SetAutomaticControlParams_msg;
 #define cmd_Heater_Root_size                     32
 #define cmd_Heater_SetAutomaticControlParams_size 21
 #define cmd_Heater_SetHeating_size               30
+#define cmd_Heater_SetSystemPower_size           5
 #define cmd_Heater_Start_size                    0
 #define cmd_Heater_Stop_size                     0
 

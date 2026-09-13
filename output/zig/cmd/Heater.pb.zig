@@ -16,6 +16,7 @@ pub const Root = struct {
       enable_automatic_control,
       disable_automatic_control,
       set_automatic_control_params,
+      set_system_power,
     };
     pub const cmd_union = union(_cmd_case) {
       start: Start,
@@ -25,6 +26,7 @@ pub const Root = struct {
       enable_automatic_control: EnableAutomaticControl,
       disable_automatic_control: DisableAutomaticControl,
       set_automatic_control_params: SetAutomaticControlParams,
+      set_system_power: SetSystemPower,
     pub const _desc_table  = .{
         .start = fd(1, .submessage),
         .stop = fd(2, .submessage),
@@ -33,6 +35,7 @@ pub const Root = struct {
         .enable_automatic_control = fd(5, .submessage),
         .disable_automatic_control = fd(6, .submessage),
         .set_automatic_control_params = fd(7, .submessage),
+        .set_system_power = fd(8, .submessage),
       };
     };
 
@@ -610,6 +613,77 @@ pub const SetAutomaticControlParams = struct {
         .channel_0 = fd(1, .submessage),
         .channel_1 = fd(2, .submessage),
         .channel_2 = fd(3, .submessage),
+    };
+
+    /// Encodes the message to the writer
+    /// The allocator is used to generate submessages internally.
+    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
+    pub fn encode(
+        self: @This(),
+        writer: *std.Io.Writer,
+        allocator: std.mem.Allocator,
+    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
+        return protobuf.encode(writer, allocator, self);
+    }
+
+    /// Decodes the message from the bytes read from the reader.
+    pub fn decode(
+        reader: *std.Io.Reader,
+        allocator: std.mem.Allocator,
+    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
+        return protobuf.decode(@This(), reader, allocator);
+    }
+    
+    /// Deinitializes and frees the memory associated with the message.
+    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
+        return protobuf.deinit(allocator, self);
+    }
+
+    /// Duplicates the message.
+    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
+        return protobuf.dupe(@This(), self, allocator);
+    }
+
+    /// Decodes the message from the JSON string.
+    pub fn jsonDecode(
+        input: []const u8,
+        options: std.json.ParseOptions,
+        allocator: std.mem.Allocator,
+    ) !std.json.Parsed(@This()) {
+        return protobuf.json.decode(@This(), input, options, allocator);
+    }
+  
+    /// Encodes the message to a JSON string.
+    pub fn jsonEncode(
+        self: @This(),
+        options: std.json.Stringify.Options,
+        allocator: std.mem.Allocator,
+    ) ![]const u8 {
+        return protobuf.json.encode(self, options, allocator);
+    }
+
+    /// This method is used by std.json
+    /// internally for deserialization. DO NOT RENAME!
+    pub fn jsonParse(
+        allocator: std.mem.Allocator,
+        source: anytype,
+        options: std.json.ParseOptions,
+    ) !@This() {
+        return protobuf.json.parse(@This(), allocator, source, options);
+    }
+
+    /// This method is used by std.json
+    /// internally for serialization. DO NOT RENAME!
+    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
+        return protobuf.json.stringify(@This(), self, jws);
+    }
+};
+
+pub const SetSystemPower = struct {
+    system_power_W: f32 = 0,
+
+    pub const _desc_table = .{
+        .system_power_W = fd(1, .{ .scalar = .float }),
     };
 
     /// Encodes the message to the writer

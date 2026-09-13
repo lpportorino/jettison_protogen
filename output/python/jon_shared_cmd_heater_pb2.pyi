@@ -5,7 +5,7 @@ from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Opti
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class Root(_message.Message):
-    __slots__ = ("start", "stop", "set_heating", "get_status", "enable_automatic_control", "disable_automatic_control", "set_automatic_control_params")
+    __slots__ = ("start", "stop", "set_heating", "get_status", "enable_automatic_control", "disable_automatic_control", "set_automatic_control_params", "set_system_power")
     START_FIELD_NUMBER: _ClassVar[int]
     STOP_FIELD_NUMBER: _ClassVar[int]
     SET_HEATING_FIELD_NUMBER: _ClassVar[int]
@@ -13,6 +13,7 @@ class Root(_message.Message):
     ENABLE_AUTOMATIC_CONTROL_FIELD_NUMBER: _ClassVar[int]
     DISABLE_AUTOMATIC_CONTROL_FIELD_NUMBER: _ClassVar[int]
     SET_AUTOMATIC_CONTROL_PARAMS_FIELD_NUMBER: _ClassVar[int]
+    SET_SYSTEM_POWER_FIELD_NUMBER: _ClassVar[int]
     start: Start
     stop: Stop
     set_heating: SetHeating
@@ -20,7 +21,8 @@ class Root(_message.Message):
     enable_automatic_control: EnableAutomaticControl
     disable_automatic_control: DisableAutomaticControl
     set_automatic_control_params: SetAutomaticControlParams
-    def __init__(self, start: _Optional[_Union[Start, _Mapping]] = ..., stop: _Optional[_Union[Stop, _Mapping]] = ..., set_heating: _Optional[_Union[SetHeating, _Mapping]] = ..., get_status: _Optional[_Union[GetStatus, _Mapping]] = ..., enable_automatic_control: _Optional[_Union[EnableAutomaticControl, _Mapping]] = ..., disable_automatic_control: _Optional[_Union[DisableAutomaticControl, _Mapping]] = ..., set_automatic_control_params: _Optional[_Union[SetAutomaticControlParams, _Mapping]] = ...) -> None: ...
+    set_system_power: SetSystemPower
+    def __init__(self, start: _Optional[_Union[Start, _Mapping]] = ..., stop: _Optional[_Union[Stop, _Mapping]] = ..., set_heating: _Optional[_Union[SetHeating, _Mapping]] = ..., get_status: _Optional[_Union[GetStatus, _Mapping]] = ..., enable_automatic_control: _Optional[_Union[EnableAutomaticControl, _Mapping]] = ..., disable_automatic_control: _Optional[_Union[DisableAutomaticControl, _Mapping]] = ..., set_automatic_control_params: _Optional[_Union[SetAutomaticControlParams, _Mapping]] = ..., set_system_power: _Optional[_Union[SetSystemPower, _Mapping]] = ...) -> None: ...
 
 class Start(_message.Message):
     __slots__ = ()
@@ -73,3 +75,9 @@ class SetAutomaticControlParams(_message.Message):
     channel_1: AutomaticControlChannelParams
     channel_2: AutomaticControlChannelParams
     def __init__(self, channel_0: _Optional[_Union[AutomaticControlChannelParams, _Mapping]] = ..., channel_1: _Optional[_Union[AutomaticControlChannelParams, _Mapping]] = ..., channel_2: _Optional[_Union[AutomaticControlChannelParams, _Mapping]] = ...) -> None: ...
+
+class SetSystemPower(_message.Message):
+    __slots__ = ("system_power_W",)
+    SYSTEM_POWER_W_FIELD_NUMBER: _ClassVar[int]
+    system_power_W: float
+    def __init__(self, system_power_W: _Optional[float] = ...) -> None: ...

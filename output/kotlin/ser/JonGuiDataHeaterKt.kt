@@ -277,6 +277,39 @@ public object JonGuiDataHeaterKt {
     }
 
     /**
+     * ```
+     * Control steps the power budget has run without a fresh relayed
+     * whole-system power figure (cmd.Heater.SetSystemPower), counted since the
+     * heater guest started. It stays flat while the relayed figure is fresh, and
+     * while automatic control is off or no device reading has arrived, because
+     * no control step runs then.
+     * ```
+     *
+     * `uint32 budget_unrelayed_steps = 11;`
+     */
+    public var budgetUnrelayedSteps: kotlin.Int
+      @JvmName("getBudgetUnrelayedSteps")
+      get() = _builder.budgetUnrelayedSteps
+      @JvmName("setBudgetUnrelayedSteps")
+      set(value) {
+        _builder.budgetUnrelayedSteps = value
+      }
+    /**
+     * ```
+     * Control steps the power budget has run without a fresh relayed
+     * whole-system power figure (cmd.Heater.SetSystemPower), counted since the
+     * heater guest started. It stays flat while the relayed figure is fresh, and
+     * while automatic control is off or no device reading has arrived, because
+     * no control step runs then.
+     * ```
+     *
+     * `uint32 budget_unrelayed_steps = 11;`
+     */
+    public fun clearBudgetUnrelayedSteps() {
+      _builder.clearBudgetUnrelayedSteps()
+    }
+
+    /**
      * `.ser.JonGuiDataModuleHealth health = 40;`
      */
     public var health: ser.JonSharedDataTypes.JonGuiDataModuleHealth

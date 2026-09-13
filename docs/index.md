@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 346 messages, 68 enums, 1148 fields
+**Statistics:** 347 messages, 68 enums, 1151 fields
 
 ## Messages by Package
 
@@ -194,6 +194,7 @@ The readback is `vampire_mode` (#19) on [[proto/ser.JonGuiDataSystem]], which go
 - [[proto/cmd.Heater.Root|Root]] — Root command container for the heater subsystem. Contains all heater-related commands as a required oneof.
 - [[proto/cmd.Heater.SetAutomaticControlParams|SetAutomaticControlParams]] — Configures target temperatures for the PID-based automatic heating control system across all three heater channels. Each channel parameter contains a `target_temperature` (0--60 C) that the PID controller will regulate toward. Only channels present in the message are updated; omitted channels retain their previous targets. On receipt the heater module resets PID integral and derivative accumulators for all channels to prevent windup when targets change, and persists the new targets to manifold state storage so they survive restarts.
 - [[proto/cmd.Heater.SetHeating|SetHeating]] — Sets target temperatures and acceptable error margins for each of the three independent heating zones. The heater controller will attempt to maintain each zone at its target temperature within the specified error threshold.
+- [[proto/cmd.Heater.SetSystemPower|SetSystemPower]] — Relays the whole-system power draw, in watts, to the heater node, whose zone power budget subtracts it. The figure is a measurement rather than an operator setting: it is the PMU's INA236 reading (`ina_power` on [[proto/ser.JonGuiDataPMU]], in milliwatts, divided by 1000). The node subtracts its own draw (`power_W` on [[proto/ser.JonGuiDataHeater]]) and shares what remains of its whole-system current ceiling, at its measured rail voltage, between the three zones. A figure the node has not received recently is budgeted as 0 W, and each control step that runs that way is counted in `budget_unrelayed_steps` on [[proto/ser.JonGuiDataHeater]].
 - [[proto/cmd.Heater.Start|Start]] — Starts the heater subsystem, enabling temperature monitoring and heating control for all zones.
 - [[proto/cmd.Heater.Stop|Stop]] — Stops the heater subsystem, disabling all heating zones and temperature control.
 

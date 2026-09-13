@@ -16,6 +16,7 @@ export interface Root {
   enableAutomaticControl?: EnableAutomaticControl | undefined;
   disableAutomaticControl?: DisableAutomaticControl | undefined;
   setAutomaticControlParams?: SetAutomaticControlParams | undefined;
+  setSystemPower?: SetSystemPower | undefined;
 }
 
 /** Start initiates communication with the heater controller */
@@ -66,6 +67,29 @@ export interface SetAutomaticControlParams {
   channel2: AutomaticControlChannelParams | undefined;
 }
 
+/**
+ * SetSystemPower carries the whole-system power draw that the heater's zone
+ * budget is computed against. It is a MEASUREMENT relayed to the heater node,
+ * not an operator setting: its source is the PMU's INA236 monitor
+ * (ser.JonGuiDataPMU.ina_power, in milliwatts, divided by 1000). The node
+ * subtracts its own draw (ser.JonGuiDataHeater.power_W) from this figure and
+ * shares what remains of its whole-system current ceiling, at its measured
+ * rail voltage, between the three zones. A figure the node has not received
+ * recently is budgeted as absent, and every control step that runs that way
+ * is counted in ser.JonGuiDataHeater.budget_unrelayed_steps.
+ */
+export interface SetSystemPower {
+  /**
+   * Whole-system power draw in watts.
+   *
+   * gte 0: the INA236 power register is a magnitude, and ina_power is itself
+   * bounded gte 0. lte 200: the largest value ina_power's own validator admits
+   * (lte 200000 mW), so every relay of a validated PMU reading fits and a
+   * figure no PMU publish can carry does not.
+   */
+  systemPowerW: number;
+}
+
 function createBaseRoot(): Root {
   return {
     start: undefined,
@@ -75,6 +99,7 @@ function createBaseRoot(): Root {
     enableAutomaticControl: undefined,
     disableAutomaticControl: undefined,
     setAutomaticControlParams: undefined,
+    setSystemPower: undefined,
   };
 }
 
@@ -100,6 +125,9 @@ export const Root: MessageFns<Root> = {
     }
     if (message.setAutomaticControlParams !== undefined) {
       SetAutomaticControlParams.encode(message.setAutomaticControlParams, writer.uint32(58).fork()).join();
+    }
+    if (message.setSystemPower !== undefined) {
+      SetSystemPower.encode(message.setSystemPower, writer.uint32(66).fork()).join();
     }
     return writer;
   },
@@ -173,6 +201,14 @@ export const Root: MessageFns<Root> = {
             message.setAutomaticControlParams = SetAutomaticControlParams.decode(reader, reader.uint32());
             continue;
           }
+          case 8: {
+            if (tag !== 66) {
+              break;
+            }
+
+            message.setSystemPower = SetSystemPower.decode(reader, reader.uint32());
+            continue;
+          }
         }
         if ((tag & 7) === 4 || tag === 0) {
           break;
@@ -214,6 +250,11 @@ export const Root: MessageFns<Root> = {
         : isSet(object.set_automatic_control_params)
         ? SetAutomaticControlParams.fromJSON(object.set_automatic_control_params)
         : undefined,
+      setSystemPower: isSet(object.setSystemPower)
+        ? SetSystemPower.fromJSON(object.setSystemPower)
+        : isSet(object.set_system_power)
+        ? SetSystemPower.fromJSON(object.set_system_power)
+        : undefined,
     };
   },
 
@@ -239,6 +280,9 @@ export const Root: MessageFns<Root> = {
     }
     if (message.setAutomaticControlParams !== undefined) {
       obj.setAutomaticControlParams = SetAutomaticControlParams.toJSON(message.setAutomaticControlParams);
+    }
+    if (message.setSystemPower !== undefined) {
+      obj.setSystemPower = SetSystemPower.toJSON(message.setSystemPower);
     }
     return obj;
   },
@@ -268,6 +312,9 @@ export const Root: MessageFns<Root> = {
       (object.setAutomaticControlParams !== undefined && object.setAutomaticControlParams !== null)
         ? SetAutomaticControlParams.fromPartial(object.setAutomaticControlParams)
         : undefined;
+    message.setSystemPower = (object.setSystemPower !== undefined && object.setSystemPower !== null)
+      ? SetSystemPower.fromPartial(object.setSystemPower)
+      : undefined;
     return message;
   },
 };
@@ -895,6 +942,79 @@ export const SetAutomaticControlParams: MessageFns<SetAutomaticControlParams> = 
     message.channel2 = (object.channel2 !== undefined && object.channel2 !== null)
       ? AutomaticControlChannelParams.fromPartial(object.channel2)
       : undefined;
+    return message;
+  },
+};
+
+function createBaseSetSystemPower(): SetSystemPower {
+  return { systemPowerW: 0 };
+}
+
+export const SetSystemPower: MessageFns<SetSystemPower> = {
+  encode(message: SetSystemPower, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.systemPowerW !== 0) {
+      writer.uint32(13).float(message.systemPowerW);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): SetSystemPower {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const previousRecursionDepth = (reader as any).__tsProtoDecodeDepth ?? 0;
+    if (previousRecursionDepth >= 100) {
+      throw new globalThis.Error("protobuf decode recursion limit exceeded");
+    }
+    (reader as any).__tsProtoDecodeDepth = previousRecursionDepth + 1;
+    try {
+      const end = length === undefined ? reader.len : reader.pos + length;
+      const message = createBaseSetSystemPower();
+      while (reader.pos < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1: {
+            if (tag !== 13) {
+              break;
+            }
+
+            message.systemPowerW = reader.float();
+            continue;
+          }
+        }
+        if ((tag & 7) === 4 || tag === 0) {
+          break;
+        }
+        reader.skip(tag & 7);
+      }
+      return message;
+    } finally {
+      (reader as any).__tsProtoDecodeDepth = previousRecursionDepth;
+    }
+  },
+
+  fromJSON(object: any): SetSystemPower {
+    return {
+      systemPowerW: isSet(object.systemPowerW)
+        ? globalThis.Number(object.systemPowerW)
+        : isSet(object.system_power_W)
+        ? globalThis.Number(object.system_power_W)
+        : 0,
+    };
+  },
+
+  toJSON(message: SetSystemPower): unknown {
+    const obj: any = {};
+    if (message.systemPowerW !== 0) {
+      obj.systemPowerW = message.systemPowerW;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SetSystemPower>, I>>(base?: I): SetSystemPower {
+    return SetSystemPower.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<SetSystemPower>, I>>(object: I): SetSystemPower {
+    const message = createBaseSetSystemPower();
+    message.systemPowerW = object.systemPowerW ?? 0;
     return message;
   },
 };

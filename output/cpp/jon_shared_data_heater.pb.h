@@ -456,6 +456,7 @@ class JonGuiDataHeater final : public ::google::protobuf::Message
     kTargetTempChannel0FieldNumber = 8,
     kTargetTempChannel1FieldNumber = 9,
     kTargetTempChannel2FieldNumber = 10,
+    kBudgetUnrelayedStepsFieldNumber = 11,
   };
   // .ser.JonGuiDataHeaterChannelStatus channel_0 = 4;
   bool has_channel_0() const;
@@ -587,12 +588,22 @@ class JonGuiDataHeater final : public ::google::protobuf::Message
   void _internal_set_target_temp_channel_2(float value);
 
   public:
+  // uint32 budget_unrelayed_steps = 11;
+  void clear_budget_unrelayed_steps() ;
+  ::uint32_t budget_unrelayed_steps() const;
+  void set_budget_unrelayed_steps(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_budget_unrelayed_steps() const;
+  void _internal_set_budget_unrelayed_steps(::uint32_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataHeater)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 11, 4,
+      4, 12, 4,
       0, 7>
       _table_;
 
@@ -623,6 +634,7 @@ class JonGuiDataHeater final : public ::google::protobuf::Message
     float target_temp_channel_0_;
     float target_temp_channel_1_;
     float target_temp_channel_2_;
+    ::uint32_t budget_unrelayed_steps_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -1177,6 +1189,28 @@ inline float JonGuiDataHeater::_internal_target_temp_channel_2() const {
 inline void JonGuiDataHeater::_internal_set_target_temp_channel_2(float value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_temp_channel_2_ = value;
+}
+
+// uint32 budget_unrelayed_steps = 11;
+inline void JonGuiDataHeater::clear_budget_unrelayed_steps() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.budget_unrelayed_steps_ = 0u;
+}
+inline ::uint32_t JonGuiDataHeater::budget_unrelayed_steps() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataHeater.budget_unrelayed_steps)
+  return _internal_budget_unrelayed_steps();
+}
+inline void JonGuiDataHeater::set_budget_unrelayed_steps(::uint32_t value) {
+  _internal_set_budget_unrelayed_steps(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataHeater.budget_unrelayed_steps)
+}
+inline ::uint32_t JonGuiDataHeater::_internal_budget_unrelayed_steps() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.budget_unrelayed_steps_;
+}
+inline void JonGuiDataHeater::_internal_set_budget_unrelayed_steps(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.budget_unrelayed_steps_ = value;
 }
 
 // .ser.JonGuiDataModuleHealth health = 40;

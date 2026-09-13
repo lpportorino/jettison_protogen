@@ -33,6 +33,7 @@ type Root struct {
 	//	*Root_EnableAutomaticControl
 	//	*Root_DisableAutomaticControl
 	//	*Root_SetAutomaticControlParams
+	//	*Root_SetSystemPower
 	Cmd           isRoot_Cmd `protobuf_oneof:"cmd"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -138,6 +139,15 @@ func (x *Root) GetSetAutomaticControlParams() *SetAutomaticControlParams {
 	return nil
 }
 
+func (x *Root) GetSetSystemPower() *SetSystemPower {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_SetSystemPower); ok {
+			return x.SetSystemPower
+		}
+	}
+	return nil
+}
+
 type isRoot_Cmd interface {
 	isRoot_Cmd()
 }
@@ -170,6 +180,10 @@ type Root_SetAutomaticControlParams struct {
 	SetAutomaticControlParams *SetAutomaticControlParams `protobuf:"bytes,7,opt,name=set_automatic_control_params,json=setAutomaticControlParams,proto3,oneof"`
 }
 
+type Root_SetSystemPower struct {
+	SetSystemPower *SetSystemPower `protobuf:"bytes,8,opt,name=set_system_power,json=setSystemPower,proto3,oneof"`
+}
+
 func (*Root_Start) isRoot_Cmd() {}
 
 func (*Root_Stop) isRoot_Cmd() {}
@@ -183,6 +197,8 @@ func (*Root_EnableAutomaticControl) isRoot_Cmd() {}
 func (*Root_DisableAutomaticControl) isRoot_Cmd() {}
 
 func (*Root_SetAutomaticControlParams) isRoot_Cmd() {}
+
+func (*Root_SetSystemPower) isRoot_Cmd() {}
 
 // Start initiates communication with the heater controller
 type Start struct {
@@ -564,12 +580,71 @@ func (x *SetAutomaticControlParams) GetChannel_2() *AutomaticControlChannelParam
 	return nil
 }
 
+// SetSystemPower carries the whole-system power draw that the heater's zone
+// budget is computed against. It is a MEASUREMENT relayed to the heater node,
+// not an operator setting: its source is the PMU's INA236 monitor
+// (ser.JonGuiDataPMU.ina_power, in milliwatts, divided by 1000). The node
+// subtracts its own draw (ser.JonGuiDataHeater.power_W) from this figure and
+// shares what remains of its whole-system current ceiling, at its measured
+// rail voltage, between the three zones. A figure the node has not received
+// recently is budgeted as absent, and every control step that runs that way
+// is counted in ser.JonGuiDataHeater.budget_unrelayed_steps.
+type SetSystemPower struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Whole-system power draw in watts.
+	//
+	// gte 0: the INA236 power register is a magnitude, and ina_power is itself
+	// bounded gte 0. lte 200: the largest value ina_power's own validator admits
+	// (lte 200000 mW), so every relay of a validated PMU reading fits and a
+	// figure no PMU publish can carry does not.
+	SystemPower_W float32 `protobuf:"fixed32,1,opt,name=system_power_W,json=systemPowerW,proto3" json:"system_power_W,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SetSystemPower) Reset() {
+	*x = SetSystemPower{}
+	mi := &file_jon_shared_cmd_heater_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SetSystemPower) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetSystemPower) ProtoMessage() {}
+
+func (x *SetSystemPower) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_heater_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetSystemPower.ProtoReflect.Descriptor instead.
+func (*SetSystemPower) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_heater_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *SetSystemPower) GetSystemPower_W() float32 {
+	if x != nil {
+		return x.SystemPower_W
+	}
+	return 0
+}
+
 var File_jon_shared_cmd_heater_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_heater_proto_rawDesc = "" +
 	"\n" +
 	"\x1bjon_shared_cmd_heater.proto\x12\n" +
-	"cmd.Heater\x1a\x1bbuf/validate/validate.proto\"\x87\x04\n" +
+	"cmd.Heater\x1a\x1bbuf/validate/validate.proto\"\xcf\x04\n" +
 	"\x04Root\x12)\n" +
 	"\x05start\x18\x01 \x01(\v2\x11.cmd.Heater.StartH\x00R\x05start\x12&\n" +
 	"\x04stop\x18\x02 \x01(\v2\x10.cmd.Heater.StopH\x00R\x04stop\x129\n" +
@@ -579,7 +654,8 @@ const file_jon_shared_cmd_heater_proto_rawDesc = "" +
 	"get_status\x18\x04 \x01(\v2\x15.cmd.Heater.GetStatusH\x00R\tgetStatus\x12^\n" +
 	"\x18enable_automatic_control\x18\x05 \x01(\v2\".cmd.Heater.EnableAutomaticControlH\x00R\x16enableAutomaticControl\x12a\n" +
 	"\x19disable_automatic_control\x18\x06 \x01(\v2#.cmd.Heater.DisableAutomaticControlH\x00R\x17disableAutomaticControl\x12h\n" +
-	"\x1cset_automatic_control_params\x18\a \x01(\v2%.cmd.Heater.SetAutomaticControlParamsH\x00R\x19setAutomaticControlParamsB\f\n" +
+	"\x1cset_automatic_control_params\x18\a \x01(\v2%.cmd.Heater.SetAutomaticControlParamsH\x00R\x19setAutomaticControlParams\x12F\n" +
+	"\x10set_system_power\x18\b \x01(\v2\x1a.cmd.Heater.SetSystemPowerH\x00R\x0esetSystemPowerB\f\n" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"\a\n" +
 	"\x05Start\"\x06\n" +
 	"\x04Stop\"\xa9\x02\n" +
@@ -616,7 +692,11 @@ const file_jon_shared_cmd_heater_proto_rawDesc = "" +
 	"\x19SetAutomaticControlParams\x12F\n" +
 	"\tchannel_0\x18\x01 \x01(\v2).cmd.Heater.AutomaticControlChannelParamsR\bchannel0\x12F\n" +
 	"\tchannel_1\x18\x02 \x01(\v2).cmd.Heater.AutomaticControlChannelParamsR\bchannel1\x12F\n" +
-	"\tchannel_2\x18\x03 \x01(\v2).cmd.Heater.AutomaticControlChannelParamsR\bchannel2B\xbf\x01\n" +
+	"\tchannel_2\x18\x03 \x01(\v2).cmd.Heater.AutomaticControlChannelParamsR\bchannel2\"G\n" +
+	"\x0eSetSystemPower\x125\n" +
+	"\x0esystem_power_W\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
+	"\n" +
+	"\x1d\x00\x00HC-\x00\x00\x00\x00R\fsystemPowerWB\xbf\x01\n" +
 	"\x0ecom.cmd.HeaterB\x17JonSharedCmdHeaterProtoP\x01ZKgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/heater\xa2\x02\x03CHX\xaa\x02\n" +
 	"Cmd.Heater\xca\x02\n" +
 	"Cmd\\Heater\xe2\x02\x16Cmd\\Heater\\GPBMetadata\xea\x02\vCmd::Heaterb\x06proto3"
@@ -633,7 +713,7 @@ func file_jon_shared_cmd_heater_proto_rawDescGZIP() []byte {
 	return file_jon_shared_cmd_heater_proto_rawDescData
 }
 
-var file_jon_shared_cmd_heater_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_jon_shared_cmd_heater_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_jon_shared_cmd_heater_proto_goTypes = []any{
 	(*Root)(nil),                          // 0: cmd.Heater.Root
 	(*Start)(nil),                         // 1: cmd.Heater.Start
@@ -644,6 +724,7 @@ var file_jon_shared_cmd_heater_proto_goTypes = []any{
 	(*DisableAutomaticControl)(nil),       // 6: cmd.Heater.DisableAutomaticControl
 	(*AutomaticControlChannelParams)(nil), // 7: cmd.Heater.AutomaticControlChannelParams
 	(*SetAutomaticControlParams)(nil),     // 8: cmd.Heater.SetAutomaticControlParams
+	(*SetSystemPower)(nil),                // 9: cmd.Heater.SetSystemPower
 }
 var file_jon_shared_cmd_heater_proto_depIdxs = []int32{
 	1,  // 0: cmd.Heater.Root.start:type_name -> cmd.Heater.Start
@@ -653,14 +734,15 @@ var file_jon_shared_cmd_heater_proto_depIdxs = []int32{
 	5,  // 4: cmd.Heater.Root.enable_automatic_control:type_name -> cmd.Heater.EnableAutomaticControl
 	6,  // 5: cmd.Heater.Root.disable_automatic_control:type_name -> cmd.Heater.DisableAutomaticControl
 	8,  // 6: cmd.Heater.Root.set_automatic_control_params:type_name -> cmd.Heater.SetAutomaticControlParams
-	7,  // 7: cmd.Heater.SetAutomaticControlParams.channel_0:type_name -> cmd.Heater.AutomaticControlChannelParams
-	7,  // 8: cmd.Heater.SetAutomaticControlParams.channel_1:type_name -> cmd.Heater.AutomaticControlChannelParams
-	7,  // 9: cmd.Heater.SetAutomaticControlParams.channel_2:type_name -> cmd.Heater.AutomaticControlChannelParams
-	10, // [10:10] is the sub-list for method output_type
-	10, // [10:10] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	9,  // 7: cmd.Heater.Root.set_system_power:type_name -> cmd.Heater.SetSystemPower
+	7,  // 8: cmd.Heater.SetAutomaticControlParams.channel_0:type_name -> cmd.Heater.AutomaticControlChannelParams
+	7,  // 9: cmd.Heater.SetAutomaticControlParams.channel_1:type_name -> cmd.Heater.AutomaticControlChannelParams
+	7,  // 10: cmd.Heater.SetAutomaticControlParams.channel_2:type_name -> cmd.Heater.AutomaticControlChannelParams
+	11, // [11:11] is the sub-list for method output_type
+	11, // [11:11] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_cmd_heater_proto_init() }
@@ -676,6 +758,7 @@ func file_jon_shared_cmd_heater_proto_init() {
 		(*Root_EnableAutomaticControl)(nil),
 		(*Root_DisableAutomaticControl)(nil),
 		(*Root_SetAutomaticControlParams)(nil),
+		(*Root_SetSystemPower)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -683,7 +766,7 @@ func file_jon_shared_cmd_heater_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_cmd_heater_proto_rawDesc), len(file_jon_shared_cmd_heater_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

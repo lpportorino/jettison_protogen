@@ -11,7 +11,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_cmd_heater.proto.
  */
 export const file_jon_shared_cmd_heater: GenFile = /*@__PURE__*/
-  fileDesc("Chtqb25fc2hhcmVkX2NtZF9oZWF0ZXIucHJvdG8SCmNtZC5IZWF0ZXIilwMKBFJvb3QSIgoFc3RhcnQYASABKAsyES5jbWQuSGVhdGVyLlN0YXJ0SAASIAoEc3RvcBgCIAEoCzIQLmNtZC5IZWF0ZXIuU3RvcEgAEi0KC3NldF9oZWF0aW5nGAMgASgLMhYuY21kLkhlYXRlci5TZXRIZWF0aW5nSAASKwoKZ2V0X3N0YXR1cxgEIAEoCzIVLmNtZC5IZWF0ZXIuR2V0U3RhdHVzSAASRgoYZW5hYmxlX2F1dG9tYXRpY19jb250cm9sGAUgASgLMiIuY21kLkhlYXRlci5FbmFibGVBdXRvbWF0aWNDb250cm9sSAASSAoZZGlzYWJsZV9hdXRvbWF0aWNfY29udHJvbBgGIAEoCzIjLmNtZC5IZWF0ZXIuRGlzYWJsZUF1dG9tYXRpY0NvbnRyb2xIABJNChxzZXRfYXV0b21hdGljX2NvbnRyb2xfcGFyYW1zGAcgASgLMiUuY21kLkhlYXRlci5TZXRBdXRvbWF0aWNDb250cm9sUGFyYW1zSABCDAoDY21kEgW6SAIIASIHCgVTdGFydCIGCgRTdG9wIuoBCgpTZXRIZWF0aW5nEiEKCHRhcmdldF8wGAEgASgCQg+6SAwKCh0AAHBCLQAAAAASIQoIdGFyZ2V0XzEYAiABKAJCD7pIDAoKHQAAcEItAAAAABIhCgh0YXJnZXRfMhgDIAEoAkIPukgMCgodAABwQi0AAAAAEiUKDHRlbXBfZXJyb3JfMBgEIAEoAkIPukgMCgodAAAgQi0AAAAAEiUKDHRlbXBfZXJyb3JfMRgFIAEoAkIPukgMCgodAAAgQi0AAAAAEiUKDHRlbXBfZXJyb3JfMhgGIAEoAkIPukgMCgodAAAgQi0AAAAAIgsKCUdldFN0YXR1cyIYChZFbmFibGVBdXRvbWF0aWNDb250cm9sIhkKF0Rpc2FibGVBdXRvbWF0aWNDb250cm9sIl4KHUF1dG9tYXRpY0NvbnRyb2xDaGFubmVsUGFyYW1zEisKEnRhcmdldF90ZW1wZXJhdHVyZRgBIAEoAkIPukgMCgodAABwQi0AAAAASgQIAhADSgQIAxAESgQIBBAFItUBChlTZXRBdXRvbWF0aWNDb250cm9sUGFyYW1zEjwKCWNoYW5uZWxfMBgBIAEoCzIpLmNtZC5IZWF0ZXIuQXV0b21hdGljQ29udHJvbENoYW5uZWxQYXJhbXMSPAoJY2hhbm5lbF8xGAIgASgLMikuY21kLkhlYXRlci5BdXRvbWF0aWNDb250cm9sQ2hhbm5lbFBhcmFtcxI8CgljaGFubmVsXzIYAyABKAsyKS5jbWQuSGVhdGVyLkF1dG9tYXRpY0NvbnRyb2xDaGFubmVsUGFyYW1zQk1aS2dpdC1jb2RlY29tbWl0LmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tL3YxL3JlcG9zL2pldHRpc29uL2pvbnAvY21kL2hlYXRlcmIGcHJvdG8z", [file_buf_validate_validate]);
+  fileDesc("Chtqb25fc2hhcmVkX2NtZF9oZWF0ZXIucHJvdG8SCmNtZC5IZWF0ZXIizwMKBFJvb3QSIgoFc3RhcnQYASABKAsyES5jbWQuSGVhdGVyLlN0YXJ0SAASIAoEc3RvcBgCIAEoCzIQLmNtZC5IZWF0ZXIuU3RvcEgAEi0KC3NldF9oZWF0aW5nGAMgASgLMhYuY21kLkhlYXRlci5TZXRIZWF0aW5nSAASKwoKZ2V0X3N0YXR1cxgEIAEoCzIVLmNtZC5IZWF0ZXIuR2V0U3RhdHVzSAASRgoYZW5hYmxlX2F1dG9tYXRpY19jb250cm9sGAUgASgLMiIuY21kLkhlYXRlci5FbmFibGVBdXRvbWF0aWNDb250cm9sSAASSAoZZGlzYWJsZV9hdXRvbWF0aWNfY29udHJvbBgGIAEoCzIjLmNtZC5IZWF0ZXIuRGlzYWJsZUF1dG9tYXRpY0NvbnRyb2xIABJNChxzZXRfYXV0b21hdGljX2NvbnRyb2xfcGFyYW1zGAcgASgLMiUuY21kLkhlYXRlci5TZXRBdXRvbWF0aWNDb250cm9sUGFyYW1zSAASNgoQc2V0X3N5c3RlbV9wb3dlchgIIAEoCzIaLmNtZC5IZWF0ZXIuU2V0U3lzdGVtUG93ZXJIAEIMCgNjbWQSBbpIAggBIgcKBVN0YXJ0IgYKBFN0b3Ai6gEKClNldEhlYXRpbmcSIQoIdGFyZ2V0XzAYASABKAJCD7pIDAoKHQAAcEItAAAAABIhCgh0YXJnZXRfMRgCIAEoAkIPukgMCgodAABwQi0AAAAAEiEKCHRhcmdldF8yGAMgASgCQg+6SAwKCh0AAHBCLQAAAAASJQoMdGVtcF9lcnJvcl8wGAQgASgCQg+6SAwKCh0AACBCLQAAAAASJQoMdGVtcF9lcnJvcl8xGAUgASgCQg+6SAwKCh0AACBCLQAAAAASJQoMdGVtcF9lcnJvcl8yGAYgASgCQg+6SAwKCh0AACBCLQAAAAAiCwoJR2V0U3RhdHVzIhgKFkVuYWJsZUF1dG9tYXRpY0NvbnRyb2wiGQoXRGlzYWJsZUF1dG9tYXRpY0NvbnRyb2wiXgodQXV0b21hdGljQ29udHJvbENoYW5uZWxQYXJhbXMSKwoSdGFyZ2V0X3RlbXBlcmF0dXJlGAEgASgCQg+6SAwKCh0AAHBCLQAAAABKBAgCEANKBAgDEARKBAgEEAUi1QEKGVNldEF1dG9tYXRpY0NvbnRyb2xQYXJhbXMSPAoJY2hhbm5lbF8wGAEgASgLMikuY21kLkhlYXRlci5BdXRvbWF0aWNDb250cm9sQ2hhbm5lbFBhcmFtcxI8CgljaGFubmVsXzEYAiABKAsyKS5jbWQuSGVhdGVyLkF1dG9tYXRpY0NvbnRyb2xDaGFubmVsUGFyYW1zEjwKCWNoYW5uZWxfMhgDIAEoCzIpLmNtZC5IZWF0ZXIuQXV0b21hdGljQ29udHJvbENoYW5uZWxQYXJhbXMiOQoOU2V0U3lzdGVtUG93ZXISJwoOc3lzdGVtX3Bvd2VyX1cYASABKAJCD7pIDAoKHQAASEMtAAAAAEJNWktnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2NtZC9oZWF0ZXJiBnByb3RvMw", [file_buf_validate_validate]);
 
 /**
  * @generated from message cmd.Heater.Root
@@ -62,6 +62,12 @@ export type Root = Message<"cmd.Heater.Root"> & {
      */
     value: SetAutomaticControlParams;
     case: "setAutomaticControlParams";
+  } | {
+    /**
+     * @generated from field: cmd.Heater.SetSystemPower set_system_power = 8;
+     */
+    value: SetSystemPower;
+    case: "setSystemPower";
   } | { case: undefined; value?: undefined };
 };
 
@@ -245,4 +251,38 @@ export type SetAutomaticControlParams = Message<"cmd.Heater.SetAutomaticControlP
  */
 export const SetAutomaticControlParamsSchema: GenMessage<SetAutomaticControlParams> = /*@__PURE__*/
   messageDesc(file_jon_shared_cmd_heater, 8);
+
+/**
+ * SetSystemPower carries the whole-system power draw that the heater's zone
+ * budget is computed against. It is a MEASUREMENT relayed to the heater node,
+ * not an operator setting: its source is the PMU's INA236 monitor
+ * (ser.JonGuiDataPMU.ina_power, in milliwatts, divided by 1000). The node
+ * subtracts its own draw (ser.JonGuiDataHeater.power_W) from this figure and
+ * shares what remains of its whole-system current ceiling, at its measured
+ * rail voltage, between the three zones. A figure the node has not received
+ * recently is budgeted as absent, and every control step that runs that way
+ * is counted in ser.JonGuiDataHeater.budget_unrelayed_steps.
+ *
+ * @generated from message cmd.Heater.SetSystemPower
+ */
+export type SetSystemPower = Message<"cmd.Heater.SetSystemPower"> & {
+  /**
+   * Whole-system power draw in watts.
+   *
+   * gte 0: the INA236 power register is a magnitude, and ina_power is itself
+   * bounded gte 0. lte 200: the largest value ina_power's own validator admits
+   * (lte 200000 mW), so every relay of a validated PMU reading fits and a
+   * figure no PMU publish can carry does not.
+   *
+   * @generated from field: float system_power_W = 1;
+   */
+  systemPowerW: number;
+};
+
+/**
+ * Describes the message cmd.Heater.SetSystemPower.
+ * Use `create(SetSystemPowerSchema)` to create a new message.
+ */
+export const SetSystemPowerSchema: GenMessage<SetSystemPower> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_heater, 9);
 

@@ -103,12 +103,18 @@ type JonGuiDataHeater struct {
 	Channel_2               *JonGuiDataHeaterChannelStatus `protobuf:"bytes,6,opt,name=channel_2,json=channel2,proto3" json:"channel_2,omitempty"` // Heat camera glass (60W)
 	AutomaticControlEnabled bool                           `protobuf:"varint,7,opt,name=automatic_control_enabled,json=automaticControlEnabled,proto3" json:"automatic_control_enabled,omitempty"`
 	// Target temperatures for PID control (persisted via state storage)
-	TargetTempChannel_0 float32                       `protobuf:"fixed32,8,opt,name=target_temp_channel_0,json=targetTempChannel0,proto3" json:"target_temp_channel_0,omitempty"`
-	TargetTempChannel_1 float32                       `protobuf:"fixed32,9,opt,name=target_temp_channel_1,json=targetTempChannel1,proto3" json:"target_temp_channel_1,omitempty"`
-	TargetTempChannel_2 float32                       `protobuf:"fixed32,10,opt,name=target_temp_channel_2,json=targetTempChannel2,proto3" json:"target_temp_channel_2,omitempty"`
-	Health              *types.JonGuiDataModuleHealth `protobuf:"bytes,40,opt,name=health,proto3" json:"health,omitempty"`
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
+	TargetTempChannel_0 float32 `protobuf:"fixed32,8,opt,name=target_temp_channel_0,json=targetTempChannel0,proto3" json:"target_temp_channel_0,omitempty"`
+	TargetTempChannel_1 float32 `protobuf:"fixed32,9,opt,name=target_temp_channel_1,json=targetTempChannel1,proto3" json:"target_temp_channel_1,omitempty"`
+	TargetTempChannel_2 float32 `protobuf:"fixed32,10,opt,name=target_temp_channel_2,json=targetTempChannel2,proto3" json:"target_temp_channel_2,omitempty"`
+	// Control steps the power budget has run without a fresh relayed
+	// whole-system power figure (cmd.Heater.SetSystemPower), counted since the
+	// heater guest started. It stays flat while the relayed figure is fresh, and
+	// while automatic control is off or no device reading has arrived, because
+	// no control step runs then.
+	BudgetUnrelayedSteps uint32                        `protobuf:"varint,11,opt,name=budget_unrelayed_steps,json=budgetUnrelayedSteps,proto3" json:"budget_unrelayed_steps,omitempty"`
+	Health               *types.JonGuiDataModuleHealth `protobuf:"bytes,40,opt,name=health,proto3" json:"health,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *JonGuiDataHeater) Reset() {
@@ -211,6 +217,13 @@ func (x *JonGuiDataHeater) GetTargetTempChannel_2() float32 {
 	return 0
 }
 
+func (x *JonGuiDataHeater) GetBudgetUnrelayedSteps() uint32 {
+	if x != nil {
+		return x.BudgetUnrelayedSteps
+	}
+	return 0
+}
+
 func (x *JonGuiDataHeater) GetHealth() *types.JonGuiDataModuleHealth {
 	if x != nil {
 		return x.Health
@@ -231,7 +244,7 @@ const file_jon_shared_data_heater_proto_rawDesc = "" +
 	"\x10target_voltage_V\x18\x03 \x01(\x02B\n" +
 	"\xbaH\a\n" +
 	"\x05-\x00\x00\x00\x00R\x0etargetVoltageV\x12\x18\n" +
-	"\aenabled\x18\x04 \x01(\bR\aenabled\"\x90\x05\n" +
+	"\aenabled\x18\x04 \x01(\bR\aenabled\"\xc6\x05\n" +
 	"\x10JonGuiDataHeater\x12.\n" +
 	"\rbus_voltage_V\x18\x01 \x01(\x02B\n" +
 	"\xbaH\a\n" +
@@ -255,7 +268,8 @@ const file_jon_shared_data_heater_proto_rawDesc = "" +
 	"\x15target_temp_channel_2\x18\n" +
 	" \x01(\x02B\x0f\xbaH\f\n" +
 	"\n" +
-	"\x1d\x00\x00pB-\x00\x00\x00\x00R\x12targetTempChannel2\x123\n" +
+	"\x1d\x00\x00pB-\x00\x00\x00\x00R\x12targetTempChannel2\x124\n" +
+	"\x16budget_unrelayed_steps\x18\v \x01(\rR\x14budgetUnrelayedSteps\x123\n" +
 	"\x06health\x18( \x01(\v2\x1b.ser.JonGuiDataModuleHealthR\x06healthB\x9d\x01\n" +
 	"\acom.serB\x18JonSharedDataHeaterProtoP\x01ZLgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/heater\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 

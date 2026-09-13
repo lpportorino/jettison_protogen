@@ -134,6 +134,21 @@ public final class JonSharedCmdHeater {
      */
     cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParamsOrBuilder getSetAutomaticControlParamsOrBuilder();
 
+    /**
+     * <code>.cmd.Heater.SetSystemPower set_system_power = 8;</code>
+     * @return Whether the setSystemPower field is set.
+     */
+    boolean hasSetSystemPower();
+    /**
+     * <code>.cmd.Heater.SetSystemPower set_system_power = 8;</code>
+     * @return The setSystemPower.
+     */
+    cmd.Heater.JonSharedCmdHeater.SetSystemPower getSetSystemPower();
+    /**
+     * <code>.cmd.Heater.SetSystemPower set_system_power = 8;</code>
+     */
+    cmd.Heater.JonSharedCmdHeater.SetSystemPowerOrBuilder getSetSystemPowerOrBuilder();
+
     cmd.Heater.JonSharedCmdHeater.Root.CmdCase getCmdCase();
   }
   /**
@@ -186,6 +201,7 @@ public final class JonSharedCmdHeater {
       ENABLE_AUTOMATIC_CONTROL(5),
       DISABLE_AUTOMATIC_CONTROL(6),
       SET_AUTOMATIC_CONTROL_PARAMS(7),
+      SET_SYSTEM_POWER(8),
       CMD_NOT_SET(0);
       private final int value;
       private CmdCase(int value) {
@@ -210,6 +226,7 @@ public final class JonSharedCmdHeater {
           case 5: return ENABLE_AUTOMATIC_CONTROL;
           case 6: return DISABLE_AUTOMATIC_CONTROL;
           case 7: return SET_AUTOMATIC_CONTROL_PARAMS;
+          case 8: return SET_SYSTEM_POWER;
           case 0: return CMD_NOT_SET;
           default: return null;
         }
@@ -442,6 +459,37 @@ public final class JonSharedCmdHeater {
       return cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.getDefaultInstance();
     }
 
+    public static final int SET_SYSTEM_POWER_FIELD_NUMBER = 8;
+    /**
+     * <code>.cmd.Heater.SetSystemPower set_system_power = 8;</code>
+     * @return Whether the setSystemPower field is set.
+     */
+    @java.lang.Override
+    public boolean hasSetSystemPower() {
+      return cmdCase_ == 8;
+    }
+    /**
+     * <code>.cmd.Heater.SetSystemPower set_system_power = 8;</code>
+     * @return The setSystemPower.
+     */
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.SetSystemPower getSetSystemPower() {
+      if (cmdCase_ == 8) {
+         return (cmd.Heater.JonSharedCmdHeater.SetSystemPower) cmd_;
+      }
+      return cmd.Heater.JonSharedCmdHeater.SetSystemPower.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.Heater.SetSystemPower set_system_power = 8;</code>
+     */
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.SetSystemPowerOrBuilder getSetSystemPowerOrBuilder() {
+      if (cmdCase_ == 8) {
+         return (cmd.Heater.JonSharedCmdHeater.SetSystemPower) cmd_;
+      }
+      return cmd.Heater.JonSharedCmdHeater.SetSystemPower.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -476,6 +524,9 @@ public final class JonSharedCmdHeater {
       }
       if (cmdCase_ == 7) {
         output.writeMessage(7, (cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams) cmd_);
+      }
+      if (cmdCase_ == 8) {
+        output.writeMessage(8, (cmd.Heater.JonSharedCmdHeater.SetSystemPower) cmd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -513,6 +564,10 @@ public final class JonSharedCmdHeater {
       if (cmdCase_ == 7) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, (cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams) cmd_);
+      }
+      if (cmdCase_ == 8) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, (cmd.Heater.JonSharedCmdHeater.SetSystemPower) cmd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -559,6 +614,10 @@ public final class JonSharedCmdHeater {
           if (!getSetAutomaticControlParams()
               .equals(other.getSetAutomaticControlParams())) return false;
           break;
+        case 8:
+          if (!getSetSystemPower()
+              .equals(other.getSetSystemPower())) return false;
+          break;
         case 0:
         default:
       }
@@ -601,6 +660,10 @@ public final class JonSharedCmdHeater {
         case 7:
           hash = (37 * hash) + SET_AUTOMATIC_CONTROL_PARAMS_FIELD_NUMBER;
           hash = (53 * hash) + getSetAutomaticControlParams().hashCode();
+          break;
+        case 8:
+          hash = (37 * hash) + SET_SYSTEM_POWER_FIELD_NUMBER;
+          hash = (53 * hash) + getSetSystemPower().hashCode();
           break;
         case 0:
         default:
@@ -757,6 +820,9 @@ public final class JonSharedCmdHeater {
         if (setAutomaticControlParamsBuilder_ != null) {
           setAutomaticControlParamsBuilder_.clear();
         }
+        if (setSystemPowerBuilder_ != null) {
+          setSystemPowerBuilder_.clear();
+        }
         cmdCase_ = 0;
         cmd_ = null;
         return this;
@@ -826,6 +892,10 @@ public final class JonSharedCmdHeater {
             setAutomaticControlParamsBuilder_ != null) {
           result.cmd_ = setAutomaticControlParamsBuilder_.build();
         }
+        if (cmdCase_ == 8 &&
+            setSystemPowerBuilder_ != null) {
+          result.cmd_ = setSystemPowerBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -867,6 +937,10 @@ public final class JonSharedCmdHeater {
           }
           case SET_AUTOMATIC_CONTROL_PARAMS: {
             mergeSetAutomaticControlParams(other.getSetAutomaticControlParams());
+            break;
+          }
+          case SET_SYSTEM_POWER: {
+            mergeSetSystemPower(other.getSetSystemPower());
             break;
           }
           case CMD_NOT_SET: {
@@ -948,6 +1022,13 @@ public final class JonSharedCmdHeater {
                 cmdCase_ = 7;
                 break;
               } // case 58
+              case 66: {
+                input.readMessage(
+                    getSetSystemPowerFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 8;
+                break;
+              } // case 66
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1972,6 +2053,148 @@ public final class JonSharedCmdHeater {
         cmdCase_ = 7;
         onChanged();
         return setAutomaticControlParamsBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Heater.JonSharedCmdHeater.SetSystemPower, cmd.Heater.JonSharedCmdHeater.SetSystemPower.Builder, cmd.Heater.JonSharedCmdHeater.SetSystemPowerOrBuilder> setSystemPowerBuilder_;
+      /**
+       * <code>.cmd.Heater.SetSystemPower set_system_power = 8;</code>
+       * @return Whether the setSystemPower field is set.
+       */
+      @java.lang.Override
+      public boolean hasSetSystemPower() {
+        return cmdCase_ == 8;
+      }
+      /**
+       * <code>.cmd.Heater.SetSystemPower set_system_power = 8;</code>
+       * @return The setSystemPower.
+       */
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.SetSystemPower getSetSystemPower() {
+        if (setSystemPowerBuilder_ == null) {
+          if (cmdCase_ == 8) {
+            return (cmd.Heater.JonSharedCmdHeater.SetSystemPower) cmd_;
+          }
+          return cmd.Heater.JonSharedCmdHeater.SetSystemPower.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 8) {
+            return setSystemPowerBuilder_.getMessage();
+          }
+          return cmd.Heater.JonSharedCmdHeater.SetSystemPower.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.Heater.SetSystemPower set_system_power = 8;</code>
+       */
+      public Builder setSetSystemPower(cmd.Heater.JonSharedCmdHeater.SetSystemPower value) {
+        if (setSystemPowerBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          setSystemPowerBuilder_.setMessage(value);
+        }
+        cmdCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.SetSystemPower set_system_power = 8;</code>
+       */
+      public Builder setSetSystemPower(
+          cmd.Heater.JonSharedCmdHeater.SetSystemPower.Builder builderForValue) {
+        if (setSystemPowerBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          setSystemPowerBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.SetSystemPower set_system_power = 8;</code>
+       */
+      public Builder mergeSetSystemPower(cmd.Heater.JonSharedCmdHeater.SetSystemPower value) {
+        if (setSystemPowerBuilder_ == null) {
+          if (cmdCase_ == 8 &&
+              cmd_ != cmd.Heater.JonSharedCmdHeater.SetSystemPower.getDefaultInstance()) {
+            cmd_ = cmd.Heater.JonSharedCmdHeater.SetSystemPower.newBuilder((cmd.Heater.JonSharedCmdHeater.SetSystemPower) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 8) {
+            setSystemPowerBuilder_.mergeFrom(value);
+          } else {
+            setSystemPowerBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.SetSystemPower set_system_power = 8;</code>
+       */
+      public Builder clearSetSystemPower() {
+        if (setSystemPowerBuilder_ == null) {
+          if (cmdCase_ == 8) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 8) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          setSystemPowerBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.SetSystemPower set_system_power = 8;</code>
+       */
+      public cmd.Heater.JonSharedCmdHeater.SetSystemPower.Builder getSetSystemPowerBuilder() {
+        return getSetSystemPowerFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.Heater.SetSystemPower set_system_power = 8;</code>
+       */
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.SetSystemPowerOrBuilder getSetSystemPowerOrBuilder() {
+        if ((cmdCase_ == 8) && (setSystemPowerBuilder_ != null)) {
+          return setSystemPowerBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 8) {
+            return (cmd.Heater.JonSharedCmdHeater.SetSystemPower) cmd_;
+          }
+          return cmd.Heater.JonSharedCmdHeater.SetSystemPower.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.Heater.SetSystemPower set_system_power = 8;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Heater.JonSharedCmdHeater.SetSystemPower, cmd.Heater.JonSharedCmdHeater.SetSystemPower.Builder, cmd.Heater.JonSharedCmdHeater.SetSystemPowerOrBuilder> 
+          getSetSystemPowerFieldBuilder() {
+        if (setSystemPowerBuilder_ == null) {
+          if (!(cmdCase_ == 8)) {
+            cmd_ = cmd.Heater.JonSharedCmdHeater.SetSystemPower.getDefaultInstance();
+          }
+          setSystemPowerBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.Heater.JonSharedCmdHeater.SetSystemPower, cmd.Heater.JonSharedCmdHeater.SetSystemPower.Builder, cmd.Heater.JonSharedCmdHeater.SetSystemPowerOrBuilder>(
+                  (cmd.Heater.JonSharedCmdHeater.SetSystemPower) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 8;
+        onChanged();
+        return setSystemPowerBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:cmd.Heater.Root)
@@ -6138,6 +6361,511 @@ public final class JonSharedCmdHeater {
 
   }
 
+  public interface SetSystemPowerOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.Heater.SetSystemPower)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Whole-system power draw in watts.
+     *
+     * gte 0: the INA236 power register is a magnitude, and ina_power is itself
+     * bounded gte 0. lte 200: the largest value ina_power's own validator admits
+     * (lte 200000 mW), so every relay of a validated PMU reading fits and a
+     * figure no PMU publish can carry does not.
+     * </pre>
+     *
+     * <code>float system_power_W = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The systemPowerW.
+     */
+    float getSystemPowerW();
+  }
+  /**
+   * <pre>
+   * SetSystemPower carries the whole-system power draw that the heater's zone
+   * budget is computed against. It is a MEASUREMENT relayed to the heater node,
+   * not an operator setting: its source is the PMU's INA236 monitor
+   * (ser.JonGuiDataPMU.ina_power, in milliwatts, divided by 1000). The node
+   * subtracts its own draw (ser.JonGuiDataHeater.power_W) from this figure and
+   * shares what remains of its whole-system current ceiling, at its measured
+   * rail voltage, between the three zones. A figure the node has not received
+   * recently is budgeted as absent, and every control step that runs that way
+   * is counted in ser.JonGuiDataHeater.budget_unrelayed_steps.
+   * </pre>
+   *
+   * Protobuf type {@code cmd.Heater.SetSystemPower}
+   */
+  public static final class SetSystemPower extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.Heater.SetSystemPower)
+      SetSystemPowerOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        SetSystemPower.class.getName());
+    }
+    // Use SetSystemPower.newBuilder() to construct.
+    private SetSystemPower(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private SetSystemPower() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_SetSystemPower_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_SetSystemPower_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.Heater.JonSharedCmdHeater.SetSystemPower.class, cmd.Heater.JonSharedCmdHeater.SetSystemPower.Builder.class);
+    }
+
+    public static final int SYSTEM_POWER_W_FIELD_NUMBER = 1;
+    private float systemPowerW_ = 0F;
+    /**
+     * <pre>
+     * Whole-system power draw in watts.
+     *
+     * gte 0: the INA236 power register is a magnitude, and ina_power is itself
+     * bounded gte 0. lte 200: the largest value ina_power's own validator admits
+     * (lte 200000 mW), so every relay of a validated PMU reading fits and a
+     * figure no PMU publish can carry does not.
+     * </pre>
+     *
+     * <code>float system_power_W = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The systemPowerW.
+     */
+    @java.lang.Override
+    public float getSystemPowerW() {
+      return systemPowerW_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (java.lang.Float.floatToRawIntBits(systemPowerW_) != 0) {
+        output.writeFloat(1, systemPowerW_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (java.lang.Float.floatToRawIntBits(systemPowerW_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(1, systemPowerW_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.Heater.JonSharedCmdHeater.SetSystemPower)) {
+        return super.equals(obj);
+      }
+      cmd.Heater.JonSharedCmdHeater.SetSystemPower other = (cmd.Heater.JonSharedCmdHeater.SetSystemPower) obj;
+
+      if (java.lang.Float.floatToIntBits(getSystemPowerW())
+          != java.lang.Float.floatToIntBits(
+              other.getSystemPowerW())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SYSTEM_POWER_W_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getSystemPowerW());
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.SetSystemPower parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.SetSystemPower parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.SetSystemPower parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.SetSystemPower parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.SetSystemPower parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.SetSystemPower parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.SetSystemPower parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.SetSystemPower parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.SetSystemPower parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.SetSystemPower parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.SetSystemPower parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.SetSystemPower parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.Heater.JonSharedCmdHeater.SetSystemPower prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * SetSystemPower carries the whole-system power draw that the heater's zone
+     * budget is computed against. It is a MEASUREMENT relayed to the heater node,
+     * not an operator setting: its source is the PMU's INA236 monitor
+     * (ser.JonGuiDataPMU.ina_power, in milliwatts, divided by 1000). The node
+     * subtracts its own draw (ser.JonGuiDataHeater.power_W) from this figure and
+     * shares what remains of its whole-system current ceiling, at its measured
+     * rail voltage, between the three zones. A figure the node has not received
+     * recently is budgeted as absent, and every control step that runs that way
+     * is counted in ser.JonGuiDataHeater.budget_unrelayed_steps.
+     * </pre>
+     *
+     * Protobuf type {@code cmd.Heater.SetSystemPower}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.Heater.SetSystemPower)
+        cmd.Heater.JonSharedCmdHeater.SetSystemPowerOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_SetSystemPower_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_SetSystemPower_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.Heater.JonSharedCmdHeater.SetSystemPower.class, cmd.Heater.JonSharedCmdHeater.SetSystemPower.Builder.class);
+      }
+
+      // Construct using cmd.Heater.JonSharedCmdHeater.SetSystemPower.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        systemPowerW_ = 0F;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_SetSystemPower_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.SetSystemPower getDefaultInstanceForType() {
+        return cmd.Heater.JonSharedCmdHeater.SetSystemPower.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.SetSystemPower build() {
+        cmd.Heater.JonSharedCmdHeater.SetSystemPower result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.SetSystemPower buildPartial() {
+        cmd.Heater.JonSharedCmdHeater.SetSystemPower result = new cmd.Heater.JonSharedCmdHeater.SetSystemPower(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.Heater.JonSharedCmdHeater.SetSystemPower result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.systemPowerW_ = systemPowerW_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.Heater.JonSharedCmdHeater.SetSystemPower) {
+          return mergeFrom((cmd.Heater.JonSharedCmdHeater.SetSystemPower)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.Heater.JonSharedCmdHeater.SetSystemPower other) {
+        if (other == cmd.Heater.JonSharedCmdHeater.SetSystemPower.getDefaultInstance()) return this;
+        if (other.getSystemPowerW() != 0F) {
+          setSystemPowerW(other.getSystemPowerW());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 13: {
+                systemPowerW_ = input.readFloat();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 13
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private float systemPowerW_ ;
+      /**
+       * <pre>
+       * Whole-system power draw in watts.
+       *
+       * gte 0: the INA236 power register is a magnitude, and ina_power is itself
+       * bounded gte 0. lte 200: the largest value ina_power's own validator admits
+       * (lte 200000 mW), so every relay of a validated PMU reading fits and a
+       * figure no PMU publish can carry does not.
+       * </pre>
+       *
+       * <code>float system_power_W = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The systemPowerW.
+       */
+      @java.lang.Override
+      public float getSystemPowerW() {
+        return systemPowerW_;
+      }
+      /**
+       * <pre>
+       * Whole-system power draw in watts.
+       *
+       * gte 0: the INA236 power register is a magnitude, and ina_power is itself
+       * bounded gte 0. lte 200: the largest value ina_power's own validator admits
+       * (lte 200000 mW), so every relay of a validated PMU reading fits and a
+       * figure no PMU publish can carry does not.
+       * </pre>
+       *
+       * <code>float system_power_W = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The systemPowerW to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSystemPowerW(float value) {
+
+        systemPowerW_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Whole-system power draw in watts.
+       *
+       * gte 0: the INA236 power register is a magnitude, and ina_power is itself
+       * bounded gte 0. lte 200: the largest value ina_power's own validator admits
+       * (lte 200000 mW), so every relay of a validated PMU reading fits and a
+       * figure no PMU publish can carry does not.
+       * </pre>
+       *
+       * <code>float system_power_W = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSystemPowerW() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        systemPowerW_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.Heater.SetSystemPower)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.Heater.SetSystemPower)
+    private static final cmd.Heater.JonSharedCmdHeater.SetSystemPower DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.Heater.JonSharedCmdHeater.SetSystemPower();
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.SetSystemPower getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SetSystemPower>
+        PARSER = new com.google.protobuf.AbstractParser<SetSystemPower>() {
+      @java.lang.Override
+      public SetSystemPower parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<SetSystemPower> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SetSystemPower> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.SetSystemPower getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_cmd_Heater_Root_descriptor;
   private static final 
@@ -6183,6 +6911,11 @@ public final class JonSharedCmdHeater {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_Heater_SetAutomaticControlParams_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_Heater_SetSystemPower_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_Heater_SetSystemPower_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -6193,7 +6926,7 @@ public final class JonSharedCmdHeater {
   static {
     java.lang.String[] descriptorData = {
       "\n\033jon_shared_cmd_heater.proto\022\ncmd.Heate" +
-      "r\032\033buf/validate/validate.proto\"\227\003\n\004Root\022" +
+      "r\032\033buf/validate/validate.proto\"\317\003\n\004Root\022" +
       "\"\n\005start\030\001 \001(\0132\021.cmd.Heater.StartH\000\022 \n\004s" +
       "top\030\002 \001(\0132\020.cmd.Heater.StopH\000\022-\n\013set_hea" +
       "ting\030\003 \001(\0132\026.cmd.Heater.SetHeatingH\000\022+\n\n" +
@@ -6203,25 +6936,28 @@ public final class JonSharedCmdHeater {
       "able_automatic_control\030\006 \001(\0132#.cmd.Heate" +
       "r.DisableAutomaticControlH\000\022M\n\034set_autom" +
       "atic_control_params\030\007 \001(\0132%.cmd.Heater.S" +
-      "etAutomaticControlParamsH\000B\014\n\003cmd\022\005\272H\002\010\001" +
-      "\"\007\n\005Start\"\006\n\004Stop\"\352\001\n\nSetHeating\022!\n\010targ" +
-      "et_0\030\001 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022!\n\010target_1\030" +
-      "\002 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022!\n\010target_2\030\003 \001(\002" +
-      "B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022%\n\014temp_error_0\030\004 \001(\002B" +
-      "\017\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_error_1\030\005 \001(\002B\017" +
-      "\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_error_2\030\006 \001(\002B\017\272" +
-      "H\014\n\n\035\000\000 B-\000\000\000\000\"\013\n\tGetStatus\"\030\n\026EnableAut" +
-      "omaticControl\"\031\n\027DisableAutomaticControl" +
-      "\"^\n\035AutomaticControlChannelParams\022+\n\022tar" +
-      "get_temperature\030\001 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000J\004" +
-      "\010\002\020\003J\004\010\003\020\004J\004\010\004\020\005\"\325\001\n\031SetAutomaticControl" +
-      "Params\022<\n\tchannel_0\030\001 \001(\0132).cmd.Heater.A" +
-      "utomaticControlChannelParams\022<\n\tchannel_" +
-      "1\030\002 \001(\0132).cmd.Heater.AutomaticControlCha" +
-      "nnelParams\022<\n\tchannel_2\030\003 \001(\0132).cmd.Heat" +
-      "er.AutomaticControlChannelParamsBMZKgit-" +
-      "codecommit.eu-central-1.amazonaws.com/v1" +
-      "/repos/jettison/jonp/cmd/heaterb\006proto3"
+      "etAutomaticControlParamsH\000\0226\n\020set_system" +
+      "_power\030\010 \001(\0132\032.cmd.Heater.SetSystemPower" +
+      "H\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004Stop\"\352\001\n\nSe" +
+      "tHeating\022!\n\010target_0\030\001 \001(\002B\017\272H\014\n\n\035\000\000pB-\000" +
+      "\000\000\000\022!\n\010target_1\030\002 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022!" +
+      "\n\010target_2\030\003 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022%\n\014tem" +
+      "p_error_0\030\004 \001(\002B\017\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp" +
+      "_error_1\030\005 \001(\002B\017\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_" +
+      "error_2\030\006 \001(\002B\017\272H\014\n\n\035\000\000 B-\000\000\000\000\"\013\n\tGetSta" +
+      "tus\"\030\n\026EnableAutomaticControl\"\031\n\027Disable" +
+      "AutomaticControl\"^\n\035AutomaticControlChan" +
+      "nelParams\022+\n\022target_temperature\030\001 \001(\002B\017\272" +
+      "H\014\n\n\035\000\000pB-\000\000\000\000J\004\010\002\020\003J\004\010\003\020\004J\004\010\004\020\005\"\325\001\n\031Set" +
+      "AutomaticControlParams\022<\n\tchannel_0\030\001 \001(" +
+      "\0132).cmd.Heater.AutomaticControlChannelPa" +
+      "rams\022<\n\tchannel_1\030\002 \001(\0132).cmd.Heater.Aut" +
+      "omaticControlChannelParams\022<\n\tchannel_2\030" +
+      "\003 \001(\0132).cmd.Heater.AutomaticControlChann" +
+      "elParams\"9\n\016SetSystemPower\022\'\n\016system_pow" +
+      "er_W\030\001 \001(\002B\017\272H\014\n\n\035\000\000HC-\000\000\000\000BMZKgit-codec" +
+      "ommit.eu-central-1.amazonaws.com/v1/repo" +
+      "s/jettison/jonp/cmd/heaterb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -6233,7 +6969,7 @@ public final class JonSharedCmdHeater {
     internal_static_cmd_Heater_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_Heater_Root_descriptor,
-        new java.lang.String[] { "Start", "Stop", "SetHeating", "GetStatus", "EnableAutomaticControl", "DisableAutomaticControl", "SetAutomaticControlParams", "Cmd", });
+        new java.lang.String[] { "Start", "Stop", "SetHeating", "GetStatus", "EnableAutomaticControl", "DisableAutomaticControl", "SetAutomaticControlParams", "SetSystemPower", "Cmd", });
     internal_static_cmd_Heater_Start_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_Heater_Start_fieldAccessorTable = new
@@ -6282,6 +7018,12 @@ public final class JonSharedCmdHeater {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_Heater_SetAutomaticControlParams_descriptor,
         new java.lang.String[] { "Channel0", "Channel1", "Channel2", });
+    internal_static_cmd_Heater_SetSystemPower_descriptor =
+      getDescriptor().getMessageTypes().get(9);
+    internal_static_cmd_Heater_SetSystemPower_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_Heater_SetSystemPower_descriptor,
+        new java.lang.String[] { "SystemPowerW", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =

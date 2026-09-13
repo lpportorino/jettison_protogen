@@ -195,6 +195,30 @@ public object RootKt {
     public fun hasSetAutomaticControlParams(): kotlin.Boolean {
       return _builder.hasSetAutomaticControlParams()
     }
+
+    /**
+     * `.cmd.Heater.SetSystemPower set_system_power = 8;`
+     */
+    public var setSystemPower: cmd.Heater.JonSharedCmdHeater.SetSystemPower
+      @JvmName("getSetSystemPower")
+      get() = _builder.setSystemPower
+      @JvmName("setSetSystemPower")
+      set(value) {
+        _builder.setSystemPower = value
+      }
+    /**
+     * `.cmd.Heater.SetSystemPower set_system_power = 8;`
+     */
+    public fun clearSetSystemPower() {
+      _builder.clearSetSystemPower()
+    }
+    /**
+     * `.cmd.Heater.SetSystemPower set_system_power = 8;`
+     * @return Whether the setSystemPower field is set.
+     */
+    public fun hasSetSystemPower(): kotlin.Boolean {
+      return _builder.hasSetSystemPower()
+    }
     public val cmdCase: cmd.Heater.JonSharedCmdHeater.Root.CmdCase
     @kotlin.jvm.JvmName("getCmdCase")
       get() = _builder.getCmdCase()
@@ -228,4 +252,7 @@ public val cmd.Heater.JonSharedCmdHeater.RootOrBuilder.disableAutomaticControlOr
 
 public val cmd.Heater.JonSharedCmdHeater.RootOrBuilder.setAutomaticControlParamsOrNull: cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams?
   get() = if (hasSetAutomaticControlParams()) getSetAutomaticControlParams() else null
+
+public val cmd.Heater.JonSharedCmdHeater.RootOrBuilder.setSystemPowerOrNull: cmd.Heater.JonSharedCmdHeater.SetSystemPower?
+  get() = if (hasSetSystemPower()) getSetSystemPower() else null
 

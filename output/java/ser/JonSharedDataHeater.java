@@ -822,6 +822,20 @@ public final class JonSharedDataHeater {
     float getTargetTempChannel2();
 
     /**
+     * <pre>
+     * Control steps the power budget has run without a fresh relayed
+     * whole-system power figure (cmd.Heater.SetSystemPower), counted since the
+     * heater guest started. It stays flat while the relayed figure is fresh, and
+     * while automatic control is off or no device reading has arrived, because
+     * no control step runs then.
+     * </pre>
+     *
+     * <code>uint32 budget_unrelayed_steps = 11;</code>
+     * @return The budgetUnrelayedSteps.
+     */
+    int getBudgetUnrelayedSteps();
+
+    /**
      * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
      * @return Whether the health field is set.
      */
@@ -1073,6 +1087,25 @@ public final class JonSharedDataHeater {
       return targetTempChannel2_;
     }
 
+    public static final int BUDGET_UNRELAYED_STEPS_FIELD_NUMBER = 11;
+    private int budgetUnrelayedSteps_ = 0;
+    /**
+     * <pre>
+     * Control steps the power budget has run without a fresh relayed
+     * whole-system power figure (cmd.Heater.SetSystemPower), counted since the
+     * heater guest started. It stays flat while the relayed figure is fresh, and
+     * while automatic control is off or no device reading has arrived, because
+     * no control step runs then.
+     * </pre>
+     *
+     * <code>uint32 budget_unrelayed_steps = 11;</code>
+     * @return The budgetUnrelayedSteps.
+     */
+    @java.lang.Override
+    public int getBudgetUnrelayedSteps() {
+      return budgetUnrelayedSteps_;
+    }
+
     public static final int HEALTH_FIELD_NUMBER = 40;
     private ser.JonSharedDataTypes.JonGuiDataModuleHealth health_;
     /**
@@ -1143,6 +1176,9 @@ public final class JonSharedDataHeater {
       if (java.lang.Float.floatToRawIntBits(targetTempChannel2_) != 0) {
         output.writeFloat(10, targetTempChannel2_);
       }
+      if (budgetUnrelayedSteps_ != 0) {
+        output.writeUInt32(11, budgetUnrelayedSteps_);
+      }
       if (((bitField0_ & 0x00000008) != 0)) {
         output.writeMessage(40, getHealth());
       }
@@ -1194,6 +1230,10 @@ public final class JonSharedDataHeater {
       if (java.lang.Float.floatToRawIntBits(targetTempChannel2_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(10, targetTempChannel2_);
+      }
+      if (budgetUnrelayedSteps_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(11, budgetUnrelayedSteps_);
       }
       if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
@@ -1249,6 +1289,8 @@ public final class JonSharedDataHeater {
       if (java.lang.Float.floatToIntBits(getTargetTempChannel2())
           != java.lang.Float.floatToIntBits(
               other.getTargetTempChannel2())) return false;
+      if (getBudgetUnrelayedSteps()
+          != other.getBudgetUnrelayedSteps()) return false;
       if (hasHealth() != other.hasHealth()) return false;
       if (hasHealth()) {
         if (!getHealth()
@@ -1298,6 +1340,8 @@ public final class JonSharedDataHeater {
       hash = (37 * hash) + TARGET_TEMP_CHANNEL_2_FIELD_NUMBER;
       hash = (53 * hash) + java.lang.Float.floatToIntBits(
           getTargetTempChannel2());
+      hash = (37 * hash) + BUDGET_UNRELAYED_STEPS_FIELD_NUMBER;
+      hash = (53 * hash) + getBudgetUnrelayedSteps();
       if (hasHealth()) {
         hash = (37 * hash) + HEALTH_FIELD_NUMBER;
         hash = (53 * hash) + getHealth().hashCode();
@@ -1468,6 +1512,7 @@ public final class JonSharedDataHeater {
         targetTempChannel0_ = 0F;
         targetTempChannel1_ = 0F;
         targetTempChannel2_ = 0F;
+        budgetUnrelayedSteps_ = 0;
         health_ = null;
         if (healthBuilder_ != null) {
           healthBuilder_.dispose();
@@ -1547,6 +1592,9 @@ public final class JonSharedDataHeater {
           result.targetTempChannel2_ = targetTempChannel2_;
         }
         if (((from_bitField0_ & 0x00000400) != 0)) {
+          result.budgetUnrelayedSteps_ = budgetUnrelayedSteps_;
+        }
+        if (((from_bitField0_ & 0x00000800) != 0)) {
           result.health_ = healthBuilder_ == null
               ? health_
               : healthBuilder_.build();
@@ -1596,6 +1644,9 @@ public final class JonSharedDataHeater {
         }
         if (other.getTargetTempChannel2() != 0F) {
           setTargetTempChannel2(other.getTargetTempChannel2());
+        }
+        if (other.getBudgetUnrelayedSteps() != 0) {
+          setBudgetUnrelayedSteps(other.getBudgetUnrelayedSteps());
         }
         if (other.hasHealth()) {
           mergeHealth(other.getHealth());
@@ -1682,11 +1733,16 @@ public final class JonSharedDataHeater {
                 bitField0_ |= 0x00000200;
                 break;
               } // case 85
+              case 88: {
+                budgetUnrelayedSteps_ = input.readUInt32();
+                bitField0_ |= 0x00000400;
+                break;
+              } // case 88
               case 322: {
                 input.readMessage(
                     getHealthFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00000400;
+                bitField0_ |= 0x00000800;
                 break;
               } // case 322
               default: {
@@ -2413,6 +2469,62 @@ public final class JonSharedDataHeater {
         return this;
       }
 
+      private int budgetUnrelayedSteps_ ;
+      /**
+       * <pre>
+       * Control steps the power budget has run without a fresh relayed
+       * whole-system power figure (cmd.Heater.SetSystemPower), counted since the
+       * heater guest started. It stays flat while the relayed figure is fresh, and
+       * while automatic control is off or no device reading has arrived, because
+       * no control step runs then.
+       * </pre>
+       *
+       * <code>uint32 budget_unrelayed_steps = 11;</code>
+       * @return The budgetUnrelayedSteps.
+       */
+      @java.lang.Override
+      public int getBudgetUnrelayedSteps() {
+        return budgetUnrelayedSteps_;
+      }
+      /**
+       * <pre>
+       * Control steps the power budget has run without a fresh relayed
+       * whole-system power figure (cmd.Heater.SetSystemPower), counted since the
+       * heater guest started. It stays flat while the relayed figure is fresh, and
+       * while automatic control is off or no device reading has arrived, because
+       * no control step runs then.
+       * </pre>
+       *
+       * <code>uint32 budget_unrelayed_steps = 11;</code>
+       * @param value The budgetUnrelayedSteps to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBudgetUnrelayedSteps(int value) {
+
+        budgetUnrelayedSteps_ = value;
+        bitField0_ |= 0x00000400;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Control steps the power budget has run without a fresh relayed
+       * whole-system power figure (cmd.Heater.SetSystemPower), counted since the
+       * heater guest started. It stays flat while the relayed figure is fresh, and
+       * while automatic control is off or no device reading has arrived, because
+       * no control step runs then.
+       * </pre>
+       *
+       * <code>uint32 budget_unrelayed_steps = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearBudgetUnrelayedSteps() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        budgetUnrelayedSteps_ = 0;
+        onChanged();
+        return this;
+      }
+
       private ser.JonSharedDataTypes.JonGuiDataModuleHealth health_;
       private com.google.protobuf.SingleFieldBuilder<
           ser.JonSharedDataTypes.JonGuiDataModuleHealth, ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder, ser.JonSharedDataTypes.JonGuiDataModuleHealthOrBuilder> healthBuilder_;
@@ -2421,7 +2533,7 @@ public final class JonSharedDataHeater {
        * @return Whether the health field is set.
        */
       public boolean hasHealth() {
-        return ((bitField0_ & 0x00000400) != 0);
+        return ((bitField0_ & 0x00000800) != 0);
       }
       /**
        * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
@@ -2446,7 +2558,7 @@ public final class JonSharedDataHeater {
         } else {
           healthBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00000800;
         onChanged();
         return this;
       }
@@ -2460,7 +2572,7 @@ public final class JonSharedDataHeater {
         } else {
           healthBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00000800;
         onChanged();
         return this;
       }
@@ -2469,7 +2581,7 @@ public final class JonSharedDataHeater {
        */
       public Builder mergeHealth(ser.JonSharedDataTypes.JonGuiDataModuleHealth value) {
         if (healthBuilder_ == null) {
-          if (((bitField0_ & 0x00000400) != 0) &&
+          if (((bitField0_ & 0x00000800) != 0) &&
             health_ != null &&
             health_ != ser.JonSharedDataTypes.JonGuiDataModuleHealth.getDefaultInstance()) {
             getHealthBuilder().mergeFrom(value);
@@ -2480,7 +2592,7 @@ public final class JonSharedDataHeater {
           healthBuilder_.mergeFrom(value);
         }
         if (health_ != null) {
-          bitField0_ |= 0x00000400;
+          bitField0_ |= 0x00000800;
           onChanged();
         }
         return this;
@@ -2489,7 +2601,7 @@ public final class JonSharedDataHeater {
        * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
        */
       public Builder clearHealth() {
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000800);
         health_ = null;
         if (healthBuilder_ != null) {
           healthBuilder_.dispose();
@@ -2502,7 +2614,7 @@ public final class JonSharedDataHeater {
        * <code>.ser.JonGuiDataModuleHealth health = 40;</code>
        */
       public ser.JonSharedDataTypes.JonGuiDataModuleHealth.Builder getHealthBuilder() {
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00000800;
         onChanged();
         return getHealthFieldBuilder().getBuilder();
       }
@@ -2610,7 +2722,7 @@ public final class JonSharedDataHeater {
       "lStatus\022\023\n\013temperature\030\001 \001(\002\022%\n\021applied_" +
       "voltage_V\030\002 \001(\002B\n\272H\007\n\005-\000\000\000\000\022$\n\020target_vo" +
       "ltage_V\030\003 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\017\n\007enabled\030\004 \001" +
-      "(\010\"\366\003\n\020JonGuiDataHeater\022!\n\rbus_voltage_V" +
+      "(\010\"\226\004\n\020JonGuiDataHeater\022!\n\rbus_voltage_V" +
       "\030\001 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\035\n\tcurrent_A\030\002 \001(\002B\n\272" +
       "H\007\n\005-\000\000\000\000\022\033\n\007power_W\030\003 \001(\002B\n\272H\007\n\005-\000\000\000\000\0225" +
       "\n\tchannel_0\030\004 \001(\0132\".ser.JonGuiDataHeater" +
@@ -2621,10 +2733,11 @@ public final class JonSharedDataHeater {
       "\n\025target_temp_channel_0\030\010 \001(\002B\017\272H\014\n\n\035\000\000p" +
       "B-\000\000\000\000\022.\n\025target_temp_channel_1\030\t \001(\002B\017\272" +
       "H\014\n\n\035\000\000pB-\000\000\000\000\022.\n\025target_temp_channel_2\030" +
-      "\n \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022+\n\006health\030( \001(\0132\033" +
-      ".ser.JonGuiDataModuleHealthBNZLgit-codec" +
-      "ommit.eu-central-1.amazonaws.com/v1/repo" +
-      "s/jettison/jonp/data/heaterb\006proto3"
+      "\n \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022\036\n\026budget_unrelay" +
+      "ed_steps\030\013 \001(\r\022+\n\006health\030( \001(\0132\033.ser.Jon" +
+      "GuiDataModuleHealthBNZLgit-codecommit.eu" +
+      "-central-1.amazonaws.com/v1/repos/jettis" +
+      "on/jonp/data/heaterb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2643,7 +2756,7 @@ public final class JonSharedDataHeater {
     internal_static_ser_JonGuiDataHeater_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataHeater_descriptor,
-        new java.lang.String[] { "BusVoltageV", "CurrentA", "PowerW", "Channel0", "Channel1", "Channel2", "AutomaticControlEnabled", "TargetTempChannel0", "TargetTempChannel1", "TargetTempChannel2", "Health", });
+        new java.lang.String[] { "BusVoltageV", "CurrentA", "PowerW", "Channel0", "Channel1", "Channel2", "AutomaticControlEnabled", "TargetTempChannel0", "TargetTempChannel1", "TargetTempChannel2", "BudgetUnrelayedSteps", "Health", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

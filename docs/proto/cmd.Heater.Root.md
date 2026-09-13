@@ -24,6 +24,7 @@ Root command container for the heater subsystem. Contains all heater-related com
 | 5 | enable_automatic_control | [[proto/cmd.Heater.EnableAutomaticControl]] | - |
 | 6 | disable_automatic_control | [[proto/cmd.Heater.DisableAutomaticControl]] | - |
 | 7 | set_automatic_control_params | [[proto/cmd.Heater.SetAutomaticControlParams]] | - |
+| 8 | set_system_power | [[proto/cmd.Heater.SetSystemPower]] | - |
 
 
 ## Oneofs
@@ -31,7 +32,7 @@ Root command container for the heater subsystem. Contains all heater-related com
 
 ### cmd (required)
 
-Fields: #1, #2, #3, #4, #5, #6, #7
+Fields: #1, #2, #3, #4, #5, #6, #7, #8
 
 
 

@@ -3266,6 +3266,7 @@ pub const JonGuiDataHeater = struct {
     target_temp_channel_0: f32 = 0,
     target_temp_channel_1: f32 = 0,
     target_temp_channel_2: f32 = 0,
+    budget_unrelayed_steps: u32 = 0,
     health: ?JonGuiDataModuleHealth = null,
 
     pub const _desc_table = .{
@@ -3279,6 +3280,7 @@ pub const JonGuiDataHeater = struct {
         .target_temp_channel_0 = fd(8, .{ .scalar = .float }),
         .target_temp_channel_1 = fd(9, .{ .scalar = .float }),
         .target_temp_channel_2 = fd(10, .{ .scalar = .float }),
+        .budget_unrelayed_steps = fd(11, .{ .scalar = .uint32 }),
         .health = fd(40, .submessage),
     };
 

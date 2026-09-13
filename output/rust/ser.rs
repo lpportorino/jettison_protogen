@@ -2482,6 +2482,13 @@ pub struct JonGuiDataHeater {
     pub target_temp_channel_1: f32,
     #[prost(float, tag = "10")]
     pub target_temp_channel_2: f32,
+    /// Control steps the power budget has run without a fresh relayed
+    /// whole-system power figure (cmd.Heater.SetSystemPower), counted since the
+    /// heater guest started. It stays flat while the relayed figure is fresh, and
+    /// while automatic control is off or no device reading has arrived, because
+    /// no control step runs then.
+    #[prost(uint32, tag = "11")]
+    pub budget_unrelayed_steps: u32,
     #[prost(message, optional, tag = "40")]
     pub health: ::core::option::Option<JonGuiDataModuleHealth>,
 }

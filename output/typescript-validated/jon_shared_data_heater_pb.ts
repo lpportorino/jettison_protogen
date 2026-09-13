@@ -13,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_data_heater.proto.
  */
 export const file_jon_shared_data_heater: GenFile = /*@__PURE__*/
-  fileDesc("Chxqb25fc2hhcmVkX2RhdGFfaGVhdGVyLnByb3RvEgNzZXIikgEKHUpvbkd1aURhdGFIZWF0ZXJDaGFubmVsU3RhdHVzEhMKC3RlbXBlcmF0dXJlGAEgASgCEiUKEWFwcGxpZWRfdm9sdGFnZV9WGAIgASgCQgq6SAcKBS0AAAAAEiQKEHRhcmdldF92b2x0YWdlX1YYAyABKAJCCrpIBwoFLQAAAAASDwoHZW5hYmxlZBgEIAEoCCL2AwoQSm9uR3VpRGF0YUhlYXRlchIhCg1idXNfdm9sdGFnZV9WGAEgASgCQgq6SAcKBS0AAAAAEh0KCWN1cnJlbnRfQRgCIAEoAkIKukgHCgUtAAAAABIbCgdwb3dlcl9XGAMgASgCQgq6SAcKBS0AAAAAEjUKCWNoYW5uZWxfMBgEIAEoCzIiLnNlci5Kb25HdWlEYXRhSGVhdGVyQ2hhbm5lbFN0YXR1cxI1CgljaGFubmVsXzEYBSABKAsyIi5zZXIuSm9uR3VpRGF0YUhlYXRlckNoYW5uZWxTdGF0dXMSNQoJY2hhbm5lbF8yGAYgASgLMiIuc2VyLkpvbkd1aURhdGFIZWF0ZXJDaGFubmVsU3RhdHVzEiEKGWF1dG9tYXRpY19jb250cm9sX2VuYWJsZWQYByABKAgSLgoVdGFyZ2V0X3RlbXBfY2hhbm5lbF8wGAggASgCQg+6SAwKCh0AAHBCLQAAAAASLgoVdGFyZ2V0X3RlbXBfY2hhbm5lbF8xGAkgASgCQg+6SAwKCh0AAHBCLQAAAAASLgoVdGFyZ2V0X3RlbXBfY2hhbm5lbF8yGAogASgCQg+6SAwKCh0AAHBCLQAAAAASKwoGaGVhbHRoGCggASgLMhsuc2VyLkpvbkd1aURhdGFNb2R1bGVIZWFsdGhCTlpMZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC9kYXRhL2hlYXRlcmIGcHJvdG8z", [file_buf_validate_validate, file_jon_shared_data_types]);
+  fileDesc("Chxqb25fc2hhcmVkX2RhdGFfaGVhdGVyLnByb3RvEgNzZXIikgEKHUpvbkd1aURhdGFIZWF0ZXJDaGFubmVsU3RhdHVzEhMKC3RlbXBlcmF0dXJlGAEgASgCEiUKEWFwcGxpZWRfdm9sdGFnZV9WGAIgASgCQgq6SAcKBS0AAAAAEiQKEHRhcmdldF92b2x0YWdlX1YYAyABKAJCCrpIBwoFLQAAAAASDwoHZW5hYmxlZBgEIAEoCCKWBAoQSm9uR3VpRGF0YUhlYXRlchIhCg1idXNfdm9sdGFnZV9WGAEgASgCQgq6SAcKBS0AAAAAEh0KCWN1cnJlbnRfQRgCIAEoAkIKukgHCgUtAAAAABIbCgdwb3dlcl9XGAMgASgCQgq6SAcKBS0AAAAAEjUKCWNoYW5uZWxfMBgEIAEoCzIiLnNlci5Kb25HdWlEYXRhSGVhdGVyQ2hhbm5lbFN0YXR1cxI1CgljaGFubmVsXzEYBSABKAsyIi5zZXIuSm9uR3VpRGF0YUhlYXRlckNoYW5uZWxTdGF0dXMSNQoJY2hhbm5lbF8yGAYgASgLMiIuc2VyLkpvbkd1aURhdGFIZWF0ZXJDaGFubmVsU3RhdHVzEiEKGWF1dG9tYXRpY19jb250cm9sX2VuYWJsZWQYByABKAgSLgoVdGFyZ2V0X3RlbXBfY2hhbm5lbF8wGAggASgCQg+6SAwKCh0AAHBCLQAAAAASLgoVdGFyZ2V0X3RlbXBfY2hhbm5lbF8xGAkgASgCQg+6SAwKCh0AAHBCLQAAAAASLgoVdGFyZ2V0X3RlbXBfY2hhbm5lbF8yGAogASgCQg+6SAwKCh0AAHBCLQAAAAASHgoWYnVkZ2V0X3VucmVsYXllZF9zdGVwcxgLIAEoDRIrCgZoZWFsdGgYKCABKAsyGy5zZXIuSm9uR3VpRGF0YU1vZHVsZUhlYWx0aEJOWkxnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2RhdGEvaGVhdGVyYgZwcm90bzM", [file_buf_validate_validate, file_jon_shared_data_types]);
 
 /**
  * HeaterChannelStatus represents the state of a single heating channel
@@ -112,6 +112,17 @@ export type JonGuiDataHeater = Message<"ser.JonGuiDataHeater"> & {
    * @generated from field: float target_temp_channel_2 = 10;
    */
   targetTempChannel2: number;
+
+  /**
+   * Control steps the power budget has run without a fresh relayed
+   * whole-system power figure (cmd.Heater.SetSystemPower), counted since the
+   * heater guest started. It stays flat while the relayed figure is fresh, and
+   * while automatic control is off or no device reading has arrived, because
+   * no control step runs then.
+   *
+   * @generated from field: uint32 budget_unrelayed_steps = 11;
+   */
+  budgetUnrelayedSteps: number;
 
   /**
    * @generated from field: ser.JonGuiDataModuleHealth health = 40;

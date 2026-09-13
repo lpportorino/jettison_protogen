@@ -27,6 +27,7 @@ Heater subsystem status. Reports overall bus power consumption (voltage, current
 | 8 | target_temp_channel_0 | float | >= 0, <= 60 |
 | 9 | target_temp_channel_1 | float | >= 0, <= 60 |
 | 10 | target_temp_channel_2 | float | >= 0, <= 60 |
+| 11 | budget_unrelayed_steps | uint32 | - |
 | 40 | health | [[proto/ser.JonGuiDataModuleHealth]] | - |
 
 
@@ -78,6 +79,11 @@ Target temperature setpoint in degrees Celsius
 ### target_temp_channel_2 (#10)
 
 Target temperature setpoint in degrees Celsius
+
+
+### budget_unrelayed_steps (#11)
+
+Count of heater control steps whose zone power budget ran without a fresh relayed whole-system power figure ([[proto/cmd.Heater.SetSystemPower]]), since the heater guest started. Such a step budgets the rest of the system as drawing 0 W. The count stays flat while the relayed figure is fresh, and while automatic control is off or no device reading has arrived, because no control step runs then.
 
 
 

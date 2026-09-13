@@ -33,4 +33,7 @@ PB_BIND(cmd_Heater_AutomaticControlChannelParams, cmd_Heater_AutomaticControlCha
 PB_BIND(cmd_Heater_SetAutomaticControlParams, cmd_Heater_SetAutomaticControlParams, AUTO)
 
 
+PB_BIND(cmd_Heater_SetSystemPower, cmd_Heater_SetSystemPower, AUTO)
+
+
 

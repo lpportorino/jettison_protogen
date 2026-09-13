@@ -76,6 +76,9 @@ extern SetAutomaticControlParamsDefaultTypeInternal _SetAutomaticControlParams_d
 class SetHeating;
 struct SetHeatingDefaultTypeInternal;
 extern SetHeatingDefaultTypeInternal _SetHeating_default_instance_;
+class SetSystemPower;
+struct SetSystemPowerDefaultTypeInternal;
+extern SetSystemPowerDefaultTypeInternal _SetSystemPower_default_instance_;
 class Start;
 struct StartDefaultTypeInternal;
 extern StartDefaultTypeInternal _Start_default_instance_;
@@ -383,6 +386,196 @@ class Start final : public ::google::protobuf::internal::ZeroFieldsBase
                           const Start& from_msg);
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fheater_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SetSystemPower final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.Heater.SetSystemPower) */ {
+ public:
+  inline SetSystemPower() : SetSystemPower(nullptr) {}
+  ~SetSystemPower() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(SetSystemPower* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(SetSystemPower));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR SetSystemPower(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline SetSystemPower(const SetSystemPower& from) : SetSystemPower(nullptr, from) {}
+  inline SetSystemPower(SetSystemPower&& from) noexcept
+      : SetSystemPower(nullptr, std::move(from)) {}
+  inline SetSystemPower& operator=(const SetSystemPower& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SetSystemPower& operator=(SetSystemPower&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SetSystemPower& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SetSystemPower* internal_default_instance() {
+    return reinterpret_cast<const SetSystemPower*>(
+        &_SetSystemPower_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 9;
+  friend void swap(SetSystemPower& a, SetSystemPower& b) { a.Swap(&b); }
+  inline void Swap(SetSystemPower* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SetSystemPower* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SetSystemPower* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<SetSystemPower>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const SetSystemPower& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const SetSystemPower& from) { SetSystemPower::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(SetSystemPower* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.Heater.SetSystemPower"; }
+
+ protected:
+  explicit SetSystemPower(::google::protobuf::Arena* arena);
+  SetSystemPower(::google::protobuf::Arena* arena, const SetSystemPower& from);
+  SetSystemPower(::google::protobuf::Arena* arena, SetSystemPower&& from) noexcept
+      : SetSystemPower(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kSystemPowerWFieldNumber = 1,
+  };
+  // float system_power_W = 1 [(.buf.validate.field) = {
+  void clear_system_power_w() ;
+  float system_power_w() const;
+  void set_system_power_w(float value);
+
+  private:
+  float _internal_system_power_w() const;
+  void _internal_set_system_power_w(float value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.Heater.SetSystemPower)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const SetSystemPower& from_msg);
+    float system_power_w_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
   friend struct ::TableStruct_jon_5fshared_5fcmd_5fheater_2eproto;
 };
 // -------------------------------------------------------------------
@@ -1555,6 +1748,7 @@ class Root final : public ::google::protobuf::Message
     kEnableAutomaticControl = 5,
     kDisableAutomaticControl = 6,
     kSetAutomaticControlParams = 7,
+    kSetSystemPower = 8,
     CMD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -1655,6 +1849,7 @@ class Root final : public ::google::protobuf::Message
     kEnableAutomaticControlFieldNumber = 5,
     kDisableAutomaticControlFieldNumber = 6,
     kSetAutomaticControlParamsFieldNumber = 7,
+    kSetSystemPowerFieldNumber = 8,
   };
   // .cmd.Heater.Start start = 1;
   bool has_start() const;
@@ -1789,6 +1984,25 @@ class Root final : public ::google::protobuf::Message
   ::cmd::Heater::SetAutomaticControlParams* _internal_mutable_set_automatic_control_params();
 
   public:
+  // .cmd.Heater.SetSystemPower set_system_power = 8;
+  bool has_set_system_power() const;
+  private:
+  bool _internal_has_set_system_power() const;
+
+  public:
+  void clear_set_system_power() ;
+  const ::cmd::Heater::SetSystemPower& set_system_power() const;
+  PROTOBUF_NODISCARD ::cmd::Heater::SetSystemPower* release_set_system_power();
+  ::cmd::Heater::SetSystemPower* mutable_set_system_power();
+  void set_allocated_set_system_power(::cmd::Heater::SetSystemPower* value);
+  void unsafe_arena_set_allocated_set_system_power(::cmd::Heater::SetSystemPower* value);
+  ::cmd::Heater::SetSystemPower* unsafe_arena_release_set_system_power();
+
+  private:
+  const ::cmd::Heater::SetSystemPower& _internal_set_system_power() const;
+  ::cmd::Heater::SetSystemPower* _internal_mutable_set_system_power();
+
+  public:
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:cmd.Heater.Root)
@@ -1801,11 +2015,12 @@ class Root final : public ::google::protobuf::Message
   void set_has_enable_automatic_control();
   void set_has_disable_automatic_control();
   void set_has_set_automatic_control_params();
+  void set_has_set_system_power();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 7, 7,
+      0, 8, 8,
       0, 2>
       _table_;
 
@@ -1833,6 +2048,7 @@ class Root final : public ::google::protobuf::Message
       ::cmd::Heater::EnableAutomaticControl* enable_automatic_control_;
       ::cmd::Heater::DisableAutomaticControl* disable_automatic_control_;
       ::cmd::Heater::SetAutomaticControlParams* set_automatic_control_params_;
+      ::cmd::Heater::SetSystemPower* set_system_power_;
     } cmd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -2411,6 +2627,85 @@ inline ::cmd::Heater::SetAutomaticControlParams* Root::mutable_set_automatic_con
   return _msg;
 }
 
+// .cmd.Heater.SetSystemPower set_system_power = 8;
+inline bool Root::has_set_system_power() const {
+  return cmd_case() == kSetSystemPower;
+}
+inline bool Root::_internal_has_set_system_power() const {
+  return cmd_case() == kSetSystemPower;
+}
+inline void Root::set_has_set_system_power() {
+  _impl_._oneof_case_[0] = kSetSystemPower;
+}
+inline void Root::clear_set_system_power() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kSetSystemPower) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.set_system_power_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.set_system_power_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::Heater::SetSystemPower* Root::release_set_system_power() {
+  // @@protoc_insertion_point(field_release:cmd.Heater.Root.set_system_power)
+  if (cmd_case() == kSetSystemPower) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.set_system_power_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.set_system_power_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::Heater::SetSystemPower& Root::_internal_set_system_power() const {
+  return cmd_case() == kSetSystemPower ? *_impl_.cmd_.set_system_power_ : reinterpret_cast<::cmd::Heater::SetSystemPower&>(::cmd::Heater::_SetSystemPower_default_instance_);
+}
+inline const ::cmd::Heater::SetSystemPower& Root::set_system_power() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.Heater.Root.set_system_power)
+  return _internal_set_system_power();
+}
+inline ::cmd::Heater::SetSystemPower* Root::unsafe_arena_release_set_system_power() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.Heater.Root.set_system_power)
+  if (cmd_case() == kSetSystemPower) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.set_system_power_;
+    _impl_.cmd_.set_system_power_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_set_system_power(::cmd::Heater::SetSystemPower* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_set_system_power();
+    _impl_.cmd_.set_system_power_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.Heater.Root.set_system_power)
+}
+inline ::cmd::Heater::SetSystemPower* Root::_internal_mutable_set_system_power() {
+  if (cmd_case() != kSetSystemPower) {
+    clear_cmd();
+    set_has_set_system_power();
+    _impl_.cmd_.set_system_power_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::Heater::SetSystemPower>(GetArena());
+  }
+  return _impl_.cmd_.set_system_power_;
+}
+inline ::cmd::Heater::SetSystemPower* Root::mutable_set_system_power() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::Heater::SetSystemPower* _msg = _internal_mutable_set_system_power();
+  // @@protoc_insertion_point(field_mutable:cmd.Heater.Root.set_system_power)
+  return _msg;
+}
+
 inline bool Root::has_cmd() const {
   return cmd_case() != CMD_NOT_SET;
 }
@@ -2892,6 +3187,32 @@ inline void SetAutomaticControlParams::set_allocated_channel_2(::cmd::Heater::Au
 
   _impl_.channel_2_ = reinterpret_cast<::cmd::Heater::AutomaticControlChannelParams*>(value);
   // @@protoc_insertion_point(field_set_allocated:cmd.Heater.SetAutomaticControlParams.channel_2)
+}
+
+// -------------------------------------------------------------------
+
+// SetSystemPower
+
+// float system_power_W = 1 [(.buf.validate.field) = {
+inline void SetSystemPower::clear_system_power_w() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.system_power_w_ = 0;
+}
+inline float SetSystemPower::system_power_w() const {
+  // @@protoc_insertion_point(field_get:cmd.Heater.SetSystemPower.system_power_W)
+  return _internal_system_power_w();
+}
+inline void SetSystemPower::set_system_power_w(float value) {
+  _internal_set_system_power_w(value);
+  // @@protoc_insertion_point(field_set:cmd.Heater.SetSystemPower.system_power_W)
+}
+inline float SetSystemPower::_internal_system_power_w() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.system_power_w_;
+}
+inline void SetSystemPower::_internal_set_system_power_w(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.system_power_w_ = value;
 }
 
 #ifdef __GNUC__
