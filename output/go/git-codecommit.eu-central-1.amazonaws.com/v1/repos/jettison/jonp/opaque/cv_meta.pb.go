@@ -185,15 +185,14 @@ func (x *CvChannelMeta) GetExposureValid() bool {
 	return false
 }
 
-// Aggregated CV metadata payload - combines all SHM sources at 60fps.
+// Aggregated CV metadata payload at 60fps.
 // Injected by cv-gateway into JonGUIState.opaque_payloads.
 //
 // Sources:
-// - /jon_shm_rotary (rotary turret state)
-// - /jon_shm_cam_day (day camera settings)
-// - /jon_shm_cam_heat (thermal camera settings)
-// - /jon_cuda_ipc_day (day channel CUDA IPC metadata)
-// - /jon_cuda_ipc_heat (heat channel CUDA IPC metadata)
+//   - the state hub, in-process (rotary turret state, day camera settings,
+//     thermal camera settings)
+//   - /jon_cuda_ipc_day (day channel CUDA IPC metadata)
+//   - /jon_cuda_ipc_heat (heat channel CUDA IPC metadata)
 //
 // UUID: 019c3e33-d52d-7552-b36b-6fdcaa5d59b8
 type CvMeta struct {
@@ -204,7 +203,7 @@ type CvMeta struct {
 	// Bits: 0=rotary, 1=cam_day, 2=cam_heat, 3=cuda_day, 4=cuda_heat
 	// Valid range: 0-31 (5 bits)
 	UpdatedSources uint32 `protobuf:"varint,2,opt,name=updated_sources,json=updatedSources,proto3" json:"updated_sources,omitempty"`
-	// Embedded state messages (full copies from SHMs)
+	// Embedded state messages handed over by the state hub
 	// These are validated by their own proto definitions
 	CameraDay  *camera_day.JonGuiDataCameraDay   `protobuf:"bytes,3,opt,name=camera_day,json=cameraDay,proto3" json:"camera_day,omitempty"`
 	CameraHeat *camera_heat.JonGuiDataCameraHeat `protobuf:"bytes,4,opt,name=camera_heat,json=cameraHeat,proto3" json:"camera_heat,omitempty"`

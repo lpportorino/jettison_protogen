@@ -11,13 +11,12 @@ public inline fun cvMeta(block: ser.CvMetaKt.Dsl.() -> kotlin.Unit): ser.CvMetaO
   ser.CvMetaKt.Dsl._create(ser.CvMetaOuterClass.CvMeta.newBuilder()).apply { block() }._build()
 /**
  * ```
- * Aggregated CV metadata payload - combines all SHM sources at 60fps.
+ * Aggregated CV metadata payload at 60fps.
  * Injected by cv-gateway into JonGUIState.opaque_payloads.
  *
  * Sources:
- * - /jon_shm_rotary (rotary turret state)
- * - /jon_shm_cam_day (day camera settings)
- * - /jon_shm_cam_heat (thermal camera settings)
+ * - the state hub, in-process (rotary turret state, day camera settings,
+ * thermal camera settings)
  * - /jon_cuda_ipc_day (day channel CUDA IPC metadata)
  * - /jon_cuda_ipc_heat (heat channel CUDA IPC metadata)
  *
@@ -98,7 +97,7 @@ public object CvMetaKt {
 
     /**
      * ```
-     * Embedded state messages (full copies from SHMs)
+     * Embedded state messages handed over by the state hub
      * These are validated by their own proto definitions
      * ```
      *
@@ -113,7 +112,7 @@ public object CvMetaKt {
       }
     /**
      * ```
-     * Embedded state messages (full copies from SHMs)
+     * Embedded state messages handed over by the state hub
      * These are validated by their own proto definitions
      * ```
      *
@@ -124,7 +123,7 @@ public object CvMetaKt {
     }
     /**
      * ```
-     * Embedded state messages (full copies from SHMs)
+     * Embedded state messages handed over by the state hub
      * These are validated by their own proto definitions
      * ```
      *

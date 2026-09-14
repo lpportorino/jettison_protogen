@@ -42,13 +42,12 @@ typedef struct _ser_CvChannelMeta {
     bool exposure_valid;
 } ser_CvChannelMeta;
 
-/* Aggregated CV metadata payload - combines all SHM sources at 60fps.
+/* Aggregated CV metadata payload at 60fps.
  Injected by cv-gateway into JonGUIState.opaque_payloads.
 
  Sources:
- - /jon_shm_rotary (rotary turret state)
- - /jon_shm_cam_day (day camera settings)
- - /jon_shm_cam_heat (thermal camera settings)
+ - the state hub, in-process (rotary turret state, day camera settings,
+   thermal camera settings)
  - /jon_cuda_ipc_day (day channel CUDA IPC metadata)
  - /jon_cuda_ipc_heat (heat channel CUDA IPC metadata)
 
@@ -60,7 +59,7 @@ typedef struct _ser_CvMeta {
  Bits: 0=rotary, 1=cam_day, 2=cam_heat, 3=cuda_day, 4=cuda_heat
  Valid range: 0-31 (5 bits) */
     uint32_t updated_sources;
-    /* Embedded state messages (full copies from SHMs)
+    /* Embedded state messages handed over by the state hub
  These are validated by their own proto definitions */
     bool has_camera_day;
     ser_JonGuiDataCameraDay camera_day;

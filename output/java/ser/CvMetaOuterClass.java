@@ -2078,7 +2078,7 @@ public final class CvMetaOuterClass {
 
     /**
      * <pre>
-     * Embedded state messages (full copies from SHMs)
+     * Embedded state messages handed over by the state hub
      * These are validated by their own proto definitions
      * </pre>
      *
@@ -2088,7 +2088,7 @@ public final class CvMetaOuterClass {
     boolean hasCameraDay();
     /**
      * <pre>
-     * Embedded state messages (full copies from SHMs)
+     * Embedded state messages handed over by the state hub
      * These are validated by their own proto definitions
      * </pre>
      *
@@ -2098,7 +2098,7 @@ public final class CvMetaOuterClass {
     ser.JonSharedDataCameraDay.JonGuiDataCameraDay getCameraDay();
     /**
      * <pre>
-     * Embedded state messages (full copies from SHMs)
+     * Embedded state messages handed over by the state hub
      * These are validated by their own proto definitions
      * </pre>
      *
@@ -2180,13 +2180,12 @@ public final class CvMetaOuterClass {
   }
   /**
    * <pre>
-   * Aggregated CV metadata payload - combines all SHM sources at 60fps.
+   * Aggregated CV metadata payload at 60fps.
    * Injected by cv-gateway into JonGUIState.opaque_payloads.
    *
    * Sources:
-   * - /jon_shm_rotary (rotary turret state)
-   * - /jon_shm_cam_day (day camera settings)
-   * - /jon_shm_cam_heat (thermal camera settings)
+   * - the state hub, in-process (rotary turret state, day camera settings,
+   * thermal camera settings)
    * - /jon_cuda_ipc_day (day channel CUDA IPC metadata)
    * - /jon_cuda_ipc_heat (heat channel CUDA IPC metadata)
    *
@@ -2266,7 +2265,7 @@ public final class CvMetaOuterClass {
     private ser.JonSharedDataCameraDay.JonGuiDataCameraDay cameraDay_;
     /**
      * <pre>
-     * Embedded state messages (full copies from SHMs)
+     * Embedded state messages handed over by the state hub
      * These are validated by their own proto definitions
      * </pre>
      *
@@ -2279,7 +2278,7 @@ public final class CvMetaOuterClass {
     }
     /**
      * <pre>
-     * Embedded state messages (full copies from SHMs)
+     * Embedded state messages handed over by the state hub
      * These are validated by their own proto definitions
      * </pre>
      *
@@ -2292,7 +2291,7 @@ public final class CvMetaOuterClass {
     }
     /**
      * <pre>
-     * Embedded state messages (full copies from SHMs)
+     * Embedded state messages handed over by the state hub
      * These are validated by their own proto definitions
      * </pre>
      *
@@ -2670,13 +2669,12 @@ public final class CvMetaOuterClass {
     }
     /**
      * <pre>
-     * Aggregated CV metadata payload - combines all SHM sources at 60fps.
+     * Aggregated CV metadata payload at 60fps.
      * Injected by cv-gateway into JonGUIState.opaque_payloads.
      *
      * Sources:
-     * - /jon_shm_rotary (rotary turret state)
-     * - /jon_shm_cam_day (day camera settings)
-     * - /jon_shm_cam_heat (thermal camera settings)
+     * - the state hub, in-process (rotary turret state, day camera settings,
+     * thermal camera settings)
      * - /jon_cuda_ipc_day (day channel CUDA IPC metadata)
      * - /jon_cuda_ipc_heat (heat channel CUDA IPC metadata)
      *
@@ -3046,7 +3044,7 @@ public final class CvMetaOuterClass {
           ser.JonSharedDataCameraDay.JonGuiDataCameraDay, ser.JonSharedDataCameraDay.JonGuiDataCameraDay.Builder, ser.JonSharedDataCameraDay.JonGuiDataCameraDayOrBuilder> cameraDayBuilder_;
       /**
        * <pre>
-       * Embedded state messages (full copies from SHMs)
+       * Embedded state messages handed over by the state hub
        * These are validated by their own proto definitions
        * </pre>
        *
@@ -3058,7 +3056,7 @@ public final class CvMetaOuterClass {
       }
       /**
        * <pre>
-       * Embedded state messages (full copies from SHMs)
+       * Embedded state messages handed over by the state hub
        * These are validated by their own proto definitions
        * </pre>
        *
@@ -3074,7 +3072,7 @@ public final class CvMetaOuterClass {
       }
       /**
        * <pre>
-       * Embedded state messages (full copies from SHMs)
+       * Embedded state messages handed over by the state hub
        * These are validated by their own proto definitions
        * </pre>
        *
@@ -3095,7 +3093,7 @@ public final class CvMetaOuterClass {
       }
       /**
        * <pre>
-       * Embedded state messages (full copies from SHMs)
+       * Embedded state messages handed over by the state hub
        * These are validated by their own proto definitions
        * </pre>
        *
@@ -3114,7 +3112,7 @@ public final class CvMetaOuterClass {
       }
       /**
        * <pre>
-       * Embedded state messages (full copies from SHMs)
+       * Embedded state messages handed over by the state hub
        * These are validated by their own proto definitions
        * </pre>
        *
@@ -3140,7 +3138,7 @@ public final class CvMetaOuterClass {
       }
       /**
        * <pre>
-       * Embedded state messages (full copies from SHMs)
+       * Embedded state messages handed over by the state hub
        * These are validated by their own proto definitions
        * </pre>
        *
@@ -3158,7 +3156,7 @@ public final class CvMetaOuterClass {
       }
       /**
        * <pre>
-       * Embedded state messages (full copies from SHMs)
+       * Embedded state messages handed over by the state hub
        * These are validated by their own proto definitions
        * </pre>
        *
@@ -3171,7 +3169,7 @@ public final class CvMetaOuterClass {
       }
       /**
        * <pre>
-       * Embedded state messages (full copies from SHMs)
+       * Embedded state messages handed over by the state hub
        * These are validated by their own proto definitions
        * </pre>
        *
@@ -3187,7 +3185,7 @@ public final class CvMetaOuterClass {
       }
       /**
        * <pre>
-       * Embedded state messages (full copies from SHMs)
+       * Embedded state messages handed over by the state hub
        * These are validated by their own proto definitions
        * </pre>
        *

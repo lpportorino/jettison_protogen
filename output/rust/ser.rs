@@ -2633,13 +2633,12 @@ pub struct CvChannelMeta {
     #[prost(bool, tag = "14")]
     pub exposure_valid: bool,
 }
-/// Aggregated CV metadata payload - combines all SHM sources at 60fps.
+/// Aggregated CV metadata payload at 60fps.
 /// Injected by cv-gateway into JonGUIState.opaque_payloads.
 ///
 /// Sources:
-/// - /jon_shm_rotary (rotary turret state)
-/// - /jon_shm_cam_day (day camera settings)
-/// - /jon_shm_cam_heat (thermal camera settings)
+/// - the state hub, in-process (rotary turret state, day camera settings,
+///    thermal camera settings)
 /// - /jon_cuda_ipc_day (day channel CUDA IPC metadata)
 /// - /jon_cuda_ipc_heat (heat channel CUDA IPC metadata)
 ///
@@ -2654,7 +2653,7 @@ pub struct CvMeta {
     /// Valid range: 0-31 (5 bits)
     #[prost(uint32, tag = "2")]
     pub updated_sources: u32,
-    /// Embedded state messages (full copies from SHMs)
+    /// Embedded state messages handed over by the state hub
     /// These are validated by their own proto definitions
     #[prost(message, optional, tag = "3")]
     pub camera_day: ::core::option::Option<JonGuiDataCameraDay>,

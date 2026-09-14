@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-Aggregated CV metadata payload combining all shared-memory sources at 60fps. Populated by the cv-gateway native library (`libbezoar_cv_meta.so`), which runs 5 background threads that block on futex to read from SHM segments (`/jon_shm_rotary`, `/jon_shm_cam_day`, `/jon_shm_cam_heat`, `/jon_cuda_ipc_day`, `/jon_cuda_ipc_heat`). The aggregated proto is encoded via nanopb on the critical read path (~10us latency) and published to the DataBus by CvMetaModule. The StateEnricherModule then injects it into `JonGUIState.opaque_payloads` (UUID `019c3e33-d52d-7552-b36b-6fdcaa5d59b8`) and patches top-level state fields with sharpness scores and sensor gain from the embedded channel metadata.
+Aggregated CV metadata payload at 60fps. It combines the rotary turret state and the day and thermal camera settings, handed over in-process by the state hub, with per-channel CUDA IPC metadata from `/jon_cuda_ipc_day` and `/jon_cuda_ipc_heat`. The payload reaches consumers inside `JonGUIState.opaque_payloads` (UUID `019c3e33-d52d-7552-b36b-6fdcaa5d59b8`), and the top-level state fields for sharpness scores and sensor gain are patched from the embedded channel metadata.
 
 ## Fields
 
@@ -63,7 +63,7 @@ Correlation timestamp taken from `CLOCK_MONOTONIC` at the moment the native libr
 
 ### updated_sources (#2)
 
-Freshness bitmask indicating which of the 5 SHM sources provided valid data in this read cycle. Bit 0 = rotary (`/jon_shm_rotary`), bit 1 = cam_day (`/jon_shm_cam_day`), bit 2 = cam_heat (`/jon_shm_cam_heat`), bit 3 = cuda_day (`/jon_cuda_ipc_day`), bit 4 = cuda_heat (`/jon_cuda_ipc_heat`). A value of 31 (0x1F) means all 5 sources have valid data. Consumers can check individual bits to determine which embedded sub-messages contain fresh data.
+Freshness bitmask indicating which of the 5 sources provided valid data in this cycle. Bit 0 = rotary, bit 1 = cam_day, bit 2 = cam_heat — the three the state hub hands over in-process — then bit 3 = cuda_day (`/jon_cuda_ipc_day`), bit 4 = cuda_heat (`/jon_cuda_ipc_heat`). A value of 31 (0x1F) means all 5 sources have valid data. Consumers can check individual bits to determine which embedded sub-messages contain fresh data.
 
 
 #### Metadata
@@ -73,17 +73,17 @@ Freshness bitmask indicating which of the 5 SHM sources provided valid data in t
 
 ### camera_day (#3)
 
-Full copy of the day camera settings read from `/jon_shm_cam_day`. Embedded as-is from the seqlock-protected cache; validated by its own proto definition. The StateEnricherModule uses `channel_day.sensor_gain` (from the CUDA IPC channel, not this field) to patch `camera_day.sensor_gain` in the top-level state.
+The day camera settings, handed over in-process by the state hub and embedded as-is; validated by its own proto definition. The top-level `camera_day.sensor_gain` is patched from `channel_day.sensor_gain` (the CUDA IPC channel), not from this field.
 
 
 ### camera_heat (#4)
 
-Full copy of the thermal camera settings read from `/jon_shm_cam_heat`. Embedded as-is from the seqlock-protected cache; validated by its own proto definition.
+The thermal camera settings, handed over in-process by the state hub and embedded as-is; validated by its own proto definition.
 
 
 ### rotary (#5)
 
-Full copy of the rotary turret state read from `/jon_shm_rotary`. Embedded as-is from the seqlock-protected cache; validated by its own proto definition.
+The rotary turret state, handed over in-process by the state hub and embedded as-is; validated by its own proto definition.
 
 
 ### channel_day (#6)
