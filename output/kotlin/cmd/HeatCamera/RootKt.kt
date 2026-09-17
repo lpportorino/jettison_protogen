@@ -867,6 +867,30 @@ public object RootKt {
     public fun hasFxRoi(): kotlin.Boolean {
       return _builder.hasFxRoi()
     }
+
+    /**
+     * `.cmd.HeatCamera.SceneAuto scene_auto = 39;`
+     */
+    public var sceneAuto: cmd.HeatCamera.JonSharedCmdHeatCamera.SceneAuto
+      @JvmName("getSceneAuto")
+      get() = _builder.sceneAuto
+      @JvmName("setSceneAuto")
+      set(value) {
+        _builder.sceneAuto = value
+      }
+    /**
+     * `.cmd.HeatCamera.SceneAuto scene_auto = 39;`
+     */
+    public fun clearSceneAuto() {
+      _builder.clearSceneAuto()
+    }
+    /**
+     * `.cmd.HeatCamera.SceneAuto scene_auto = 39;`
+     * @return Whether the sceneAuto field is set.
+     */
+    public fun hasSceneAuto(): kotlin.Boolean {
+      return _builder.hasSceneAuto()
+    }
     public val cmdCase: cmd.HeatCamera.JonSharedCmdHeatCamera.Root.CmdCase
     @kotlin.jvm.JvmName("getCmdCase")
       get() = _builder.getCmdCase()
@@ -984,4 +1008,7 @@ public val cmd.HeatCamera.JonSharedCmdHeatCamera.RootOrBuilder.zoomRoiOrNull: cm
 
 public val cmd.HeatCamera.JonSharedCmdHeatCamera.RootOrBuilder.fxRoiOrNull: cmd.HeatCamera.JonSharedCmdHeatCamera.FxROI?
   get() = if (hasFxRoi()) getFxRoi() else null
+
+public val cmd.HeatCamera.JonSharedCmdHeatCamera.RootOrBuilder.sceneAutoOrNull: cmd.HeatCamera.JonSharedCmdHeatCamera.SceneAuto?
+  get() = if (hasSceneAuto()) getSceneAuto() else null
 

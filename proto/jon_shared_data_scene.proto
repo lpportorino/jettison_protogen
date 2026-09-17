@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/scene";
+
+import "jon_shared_data_types.proto";
+
+package ser;
+
+// What the FULL-AUTO scene classifier thinks the world is, per channel.
+//
+// Published every state tick by eutropia's `Isp3aHost` from the `scene_day`
+// guest's output block (`mods/isp3a/scene/`) — the third sandboxed 3A guest,
+// beside `ae_day` and `awb_day`. It is a REPORT, never a control surface: the
+// operator's own latch is `cmd.DayCamera.SceneAuto` / `cmd.HeatCamera.SceneAuto`
+// and the mode the pipeline actually runs stays `camera_day.fx_mode` /
+// `camera_heat.fx_mode`.
+//
+// ⚠ READ `shadow` FIRST. While it is true the guest computes, publishes and
+// logs, and drives NOTHING — no `reload_params`, no mode change. `day_mode` is
+// then the mode it WOULD select, not one it has caused, and an operator seeing
+// a `day_class` that disagrees with the running `fx_mode` is seeing the system
+// working as designed. Every other field means the same thing in both regimes,
+// which is what makes the shadow judgement comparable with the acting one.
+//
+// A class scores 0..1 per tick; the incumbent (`day_class`) changes only when
+// a challenger (`day_challenger`) beats it by a margin for a dwell, and the
+// guest never evaluates at all during an AE or AWB transient. `day_hold_s` is
+// how long the current challenger has been holding and `day_hold_reason` says
+// which rule is holding it, so a UI can show a pending switch rather than a
+// silent one.
+message JonGuiDataScene {
+  // The operator's day full-auto latch (`cmd.DayCamera.SceneAuto.enable`).
+  //
+  // While this is false the classifier still runs and still publishes — it is
+  // a scene report, not a mode driver — so the scores below are live either
+  // way. What the latch gates is the ACT, which `shadow` currently forbids
+  // regardless.
+  bool day_auto = 1;
+  // The class the guest currently holds for the day channel. UNSPECIFIED means
+  // it has no usable input (see `day_hold_reason`), not "no scene".
+  JonGuiDataSceneClass day_class = 2 [(buf.validate.field).enum = {
+    defined_only: true
+  }];
+  // The class currently beating the incumbent, if any — UNSPECIFIED when the
+  // incumbent is also the best-scoring class. A UI shows this as a pending
+  // switch; it is NOT a decision.
+  JonGuiDataSceneClass day_challenger = 3 [(buf.validate.field).enum = {
+    defined_only: true
+  }];
+  // How long the challenger has held its lead, in whole seconds. 0 when there
+  // is no challenger. Reaching the configured dwell is what promotes it.
+  uint32 day_hold_s = 4;
+  // WHY the incumbent has not changed, as a short stable ASCII token, never
+  // prose: one of `ok` (no challenger), `dwell` (a challenger is leading but
+  // has not held long enough), `margin` (leading by less than the margin),
+  // `transient` (an AE or AWB transient — the guest does not evaluate at all),
+  // `ratelimit` (a switch happened too recently), `noinput` (no usable
+  // statistics), `init` (nothing decided yet). The vocabulary is the guest's
+  // (`mods/isp3a/scene/scene.c`), written straight into the ABI rather than
+  // mapped by the host, so there is no second copy of it to drift.
+  string day_hold_reason = 5 [(buf.validate.field).string.max_len = 15];
+  // The day FX mode this class maps to — what the guest WOULD select. Not a
+  // command, and while `shadow` is true not a cause of anything either.
+  //
+  // `*_DEFAULT` (0) is legal here, unlike in `cmd.DayCamera.SetFxMode`: a
+  // publish before the first decision legitimately reports the default.
+  JonGuiDataFxModeDay day_mode = 6 [(buf.validate.field).enum = {
+    defined_only: true
+  }];
+  // One score per day class in `JonGuiDataSceneClass` order, starting at DAY —
+  // index 0 = DAY, 1 = DUSK, 2 = NIGHT, 3 = FOG, 4 = OVERCAST. UNSPECIFIED is
+  // never scored, so the list is one shorter than the enum.
+  //
+  // EMPTY (not zeroed) when the guest scored nothing this tick: a vector of
+  // zeros is a measurement and absence is not, and the two must not print the
+  // same. `day_hold_reason` then says why.
+  repeated float day_scores = 7 [(buf.validate.field).repeated = {
+    max_items: 5,
+    items: {
+      float: {gte: 0.0, lte: 1.0}
+    }
+  }];
+  // The operator's heat full-auto latch (`cmd.HeatCamera.SceneAuto.enable`).
+  bool heat_auto = 8;
+  // The class the guest currently holds for the thermal channel.
+  //
+  // ⚠ UNSPECIFIED with `heat_hold_reason` = `noinput` is the EXPECTED state on
+  // every box today, and it is a statement about the telemetry rather than
+  // about the scene: the pre-AGC signal the heat classifier needs is not
+  // published by anything (see `JonGuiDataHeatSceneClass`). Do not read it as
+  // a fault, and do not fill it from post-AGC contrast.
+  JonGuiDataHeatSceneClass heat_class = 9 [(buf.validate.field).enum = {
+    defined_only: true
+  }];
+  // The thermal class beating the incumbent, if any.
+  JonGuiDataHeatSceneClass heat_challenger = 10 [(buf.validate.field).enum = {
+    defined_only: true
+  }];
+  // How long the thermal challenger has held its lead, in whole seconds.
+  uint32 heat_hold_s = 11;
+  // Why the thermal incumbent has not changed — the same token vocabulary as
+  // `day_hold_reason`.
+  string heat_hold_reason = 12 [(buf.validate.field).string.max_len = 15];
+  // The heat FX mode this class maps to — what the guest WOULD select.
+  JonGuiDataFxModeHeat heat_mode = 13 [(buf.validate.field).enum = {
+    defined_only: true
+  }];
+  // One score per thermal class in enum order, starting at HIGH_CONTRAST —
+  // index 0 = HIGH_CONTRAST, 1 = LOW_CONTRAST. EMPTY when nothing was scored.
+  repeated float heat_scores = 14 [(buf.validate.field).repeated = {
+    max_items: 2,
+    items: {
+      float: {gte: 0.0, lte: 1.0}
+    }
+  }];
+  // TRUE while the guest only observes: it computes, publishes this block and
+  // logs its decisions, and emits no `reload_params` and no mode command.
+  //
+  // The guest asserts it from its own output flags rather than the host
+  // asserting it about the guest, so the bit describes what the code that
+  // could act says it did — which is the only version of the claim worth
+  // publishing. A `scene_day` build with no act path at all reports it
+  // unconditionally.
+  bool shadow = 15;
+}

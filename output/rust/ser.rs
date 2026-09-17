@@ -1186,6 +1186,96 @@ impl JonGuiDataDriveState {
         }
     }
 }
+/// ── FULL-AUTO SCENE MODE ─────────────────────────────────────────────────────
+///
+/// What the day scene IS, as the `scene_day` classifier guest scores it
+/// (`mods/isp3a/scene/`). The guest publishes a score per class every tick and
+/// an incumbent that changes only when a challenger beats it by a margin for a
+/// dwell; UNSPECIFIED is what it publishes while it has no usable input, and is
+/// never a score.
+///
+/// The five classes are the operator's own vocabulary for the day look modes
+/// (`camera_day`'s Daytime / Dusk / Fog / Cloudy / IR-Night), so a class maps
+/// onto an existing `JonGuiDataFxModeDay` rather than introducing a sixth mode.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum JonGuiDataSceneClass {
+    Unspecified = 0,
+    Day = 1,
+    Dusk = 2,
+    Night = 3,
+    Fog = 4,
+    Overcast = 5,
+}
+impl JonGuiDataSceneClass {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Unspecified => "JON_GUI_DATA_SCENE_CLASS_UNSPECIFIED",
+            Self::Day => "JON_GUI_DATA_SCENE_CLASS_DAY",
+            Self::Dusk => "JON_GUI_DATA_SCENE_CLASS_DUSK",
+            Self::Night => "JON_GUI_DATA_SCENE_CLASS_NIGHT",
+            Self::Fog => "JON_GUI_DATA_SCENE_CLASS_FOG",
+            Self::Overcast => "JON_GUI_DATA_SCENE_CLASS_OVERCAST",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "JON_GUI_DATA_SCENE_CLASS_UNSPECIFIED" => Some(Self::Unspecified),
+            "JON_GUI_DATA_SCENE_CLASS_DAY" => Some(Self::Day),
+            "JON_GUI_DATA_SCENE_CLASS_DUSK" => Some(Self::Dusk),
+            "JON_GUI_DATA_SCENE_CLASS_NIGHT" => Some(Self::Night),
+            "JON_GUI_DATA_SCENE_CLASS_FOG" => Some(Self::Fog),
+            "JON_GUI_DATA_SCENE_CLASS_OVERCAST" => Some(Self::Overcast),
+            _ => None,
+        }
+    }
+}
+/// What the THERMAL scene is, in the only two classes the heat FX modes
+/// distinguish.
+///
+/// ⚠ Scored from the scene's thermal dynamic range BEFORE the camera's own AGC,
+/// never from post-AGC contrast — the core's AGC histogram mapping, DDE and NUC
+/// destroy any radiometric meaning, so a contrast measured after them describes
+/// the AGC and not the scene. The proxy the guest is designed around is the
+/// core's AGC gain/level telemetry, which NO surface publishes today
+/// (`CvChannelMeta` says so out loud: "Sensor gain (day camera only; heat
+/// channel sets gain_valid=false)"). Until it does, the guest publishes
+/// UNSPECIFIED with its hold reason, rather than a class derived from the one
+/// signal the design forbids.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum JonGuiDataHeatSceneClass {
+    Unspecified = 0,
+    HighContrast = 1,
+    LowContrast = 2,
+}
+impl JonGuiDataHeatSceneClass {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Unspecified => "JON_GUI_DATA_HEAT_SCENE_CLASS_UNSPECIFIED",
+            Self::HighContrast => "JON_GUI_DATA_HEAT_SCENE_CLASS_HIGH_CONTRAST",
+            Self::LowContrast => "JON_GUI_DATA_HEAT_SCENE_CLASS_LOW_CONTRAST",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "JON_GUI_DATA_HEAT_SCENE_CLASS_UNSPECIFIED" => Some(Self::Unspecified),
+            "JON_GUI_DATA_HEAT_SCENE_CLASS_HIGH_CONTRAST" => Some(Self::HighContrast),
+            "JON_GUI_DATA_HEAT_SCENE_CLASS_LOW_CONTRAST" => Some(Self::LowContrast),
+            _ => None,
+        }
+    }
+}
 /// Full-precision pose of the Ring-Trinity golden fiducial board.
 /// Injected into JonGUIState.opaque_payloads by the trinity tracker at track rate.
 ///
@@ -2487,6 +2577,117 @@ pub struct JonGuiDataDrive {
     #[prost(uint32, tag = "9")]
     pub rejected_commands: u32,
 }
+/// What the FULL-AUTO scene classifier thinks the world is, per channel.
+///
+/// Published every state tick by eutropia's `Isp3aHost` from the `scene_day`
+/// guest's output block (`mods/isp3a/scene/`) — the third sandboxed 3A guest,
+/// beside `ae_day` and `awb_day`. It is a REPORT, never a control surface: the
+/// operator's own latch is `cmd.DayCamera.SceneAuto` / `cmd.HeatCamera.SceneAuto`
+/// and the mode the pipeline actually runs stays `camera_day.fx_mode` /
+/// `camera_heat.fx_mode`.
+///
+/// ⚠ READ `shadow` FIRST. While it is true the guest computes, publishes and
+/// logs, and drives NOTHING — no `reload_params`, no mode change. `day_mode` is
+/// then the mode it WOULD select, not one it has caused, and an operator seeing
+/// a `day_class` that disagrees with the running `fx_mode` is seeing the system
+/// working as designed. Every other field means the same thing in both regimes,
+/// which is what makes the shadow judgement comparable with the acting one.
+///
+/// A class scores 0..1 per tick; the incumbent (`day_class`) changes only when
+/// a challenger (`day_challenger`) beats it by a margin for a dwell, and the
+/// guest never evaluates at all during an AE or AWB transient. `day_hold_s` is
+/// how long the current challenger has been holding and `day_hold_reason` says
+/// which rule is holding it, so a UI can show a pending switch rather than a
+/// silent one.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct JonGuiDataScene {
+    /// The operator's day full-auto latch (`cmd.DayCamera.SceneAuto.enable`).
+    ///
+    /// While this is false the classifier still runs and still publishes — it is
+    /// a scene report, not a mode driver — so the scores below are live either
+    /// way. What the latch gates is the ACT, which `shadow` currently forbids
+    /// regardless.
+    #[prost(bool, tag = "1")]
+    pub day_auto: bool,
+    /// The class the guest currently holds for the day channel. UNSPECIFIED means
+    /// it has no usable input (see `day_hold_reason`), not "no scene".
+    #[prost(enumeration = "JonGuiDataSceneClass", tag = "2")]
+    pub day_class: i32,
+    /// The class currently beating the incumbent, if any — UNSPECIFIED when the
+    /// incumbent is also the best-scoring class. A UI shows this as a pending
+    /// switch; it is NOT a decision.
+    #[prost(enumeration = "JonGuiDataSceneClass", tag = "3")]
+    pub day_challenger: i32,
+    /// How long the challenger has held its lead, in whole seconds. 0 when there
+    /// is no challenger. Reaching the configured dwell is what promotes it.
+    #[prost(uint32, tag = "4")]
+    pub day_hold_s: u32,
+    /// WHY the incumbent has not changed, as a short stable ASCII token, never
+    /// prose: one of `ok` (no challenger), `dwell` (a challenger is leading but
+    /// has not held long enough), `margin` (leading by less than the margin),
+    /// `transient` (an AE or AWB transient — the guest does not evaluate at all),
+    /// `ratelimit` (a switch happened too recently), `noinput` (no usable
+    /// statistics), `init` (nothing decided yet). The vocabulary is the guest's
+    /// (`mods/isp3a/scene/scene.c`), written straight into the ABI rather than
+    /// mapped by the host, so there is no second copy of it to drift.
+    #[prost(string, tag = "5")]
+    pub day_hold_reason: ::prost::alloc::string::String,
+    /// The day FX mode this class maps to — what the guest WOULD select. Not a
+    /// command, and while `shadow` is true not a cause of anything either.
+    ///
+    /// `*_DEFAULT` (0) is legal here, unlike in `cmd.DayCamera.SetFxMode`: a
+    /// publish before the first decision legitimately reports the default.
+    #[prost(enumeration = "JonGuiDataFxModeDay", tag = "6")]
+    pub day_mode: i32,
+    /// One score per day class in `JonGuiDataSceneClass` order, starting at DAY —
+    /// index 0 = DAY, 1 = DUSK, 2 = NIGHT, 3 = FOG, 4 = OVERCAST. UNSPECIFIED is
+    /// never scored, so the list is one shorter than the enum.
+    ///
+    /// EMPTY (not zeroed) when the guest scored nothing this tick: a vector of
+    /// zeros is a measurement and absence is not, and the two must not print the
+    /// same. `day_hold_reason` then says why.
+    #[prost(float, repeated, tag = "7")]
+    pub day_scores: ::prost::alloc::vec::Vec<f32>,
+    /// The operator's heat full-auto latch (`cmd.HeatCamera.SceneAuto.enable`).
+    #[prost(bool, tag = "8")]
+    pub heat_auto: bool,
+    /// The class the guest currently holds for the thermal channel.
+    ///
+    /// ⚠ UNSPECIFIED with `heat_hold_reason` = `noinput` is the EXPECTED state on
+    /// every box today, and it is a statement about the telemetry rather than
+    /// about the scene: the pre-AGC signal the heat classifier needs is not
+    /// published by anything (see `JonGuiDataHeatSceneClass`). Do not read it as
+    /// a fault, and do not fill it from post-AGC contrast.
+    #[prost(enumeration = "JonGuiDataHeatSceneClass", tag = "9")]
+    pub heat_class: i32,
+    /// The thermal class beating the incumbent, if any.
+    #[prost(enumeration = "JonGuiDataHeatSceneClass", tag = "10")]
+    pub heat_challenger: i32,
+    /// How long the thermal challenger has held its lead, in whole seconds.
+    #[prost(uint32, tag = "11")]
+    pub heat_hold_s: u32,
+    /// Why the thermal incumbent has not changed — the same token vocabulary as
+    /// `day_hold_reason`.
+    #[prost(string, tag = "12")]
+    pub heat_hold_reason: ::prost::alloc::string::String,
+    /// The heat FX mode this class maps to — what the guest WOULD select.
+    #[prost(enumeration = "JonGuiDataFxModeHeat", tag = "13")]
+    pub heat_mode: i32,
+    /// One score per thermal class in enum order, starting at HIGH_CONTRAST —
+    /// index 0 = HIGH_CONTRAST, 1 = LOW_CONTRAST. EMPTY when nothing was scored.
+    #[prost(float, repeated, tag = "14")]
+    pub heat_scores: ::prost::alloc::vec::Vec<f32>,
+    /// TRUE while the guest only observes: it computes, publishes this block and
+    /// logs its decisions, and emits no `reload_params` and no mode command.
+    ///
+    /// The guest asserts it from its own output flags rather than the host
+    /// asserting it about the guest, so the bit describes what the code that
+    /// could act says it did — which is the only version of the claim worth
+    /// publishing. A `scene_day` build with no act path at all reports it
+    /// unconditionally.
+    #[prost(bool, tag = "15")]
+    pub shadow: bool,
+}
 /// Root message
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct JonGuiState {
@@ -2546,6 +2747,12 @@ pub struct JonGuiState {
     pub heater: ::core::option::Option<JonGuiDataHeater>,
     #[prost(message, optional, tag = "30")]
     pub drive: ::core::option::Option<JonGuiDataDrive>,
+    /// The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+    /// guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+    /// runs no classifier publishes no block, and an absent block is a
+    /// classifier that is not running rather than a scene of UNSPECIFIED.
+    #[prost(message, optional, tag = "31")]
+    pub scene: ::core::option::Option<JonGuiDataScene>,
 }
 /// Per-channel CUDA IPC metadata (frame timing + sharpness pyramid + sensor gain).
 /// Populated from /jon_cuda_ipc_day and /jon_cuda_ipc_heat shared memory.

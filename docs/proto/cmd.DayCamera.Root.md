@@ -39,6 +39,7 @@ Root container message for all day camera control commands using a required oneo
 | 20 | zoom_roi | [[proto/cmd.DayCamera.ZoomROI]] | - |
 | 21 | fx_roi | [[proto/cmd.DayCamera.FxROI]] | - |
 | 22 | set_auto_gain | [[proto/cmd.DayCamera.SetAutoGain]] | - |
+| 23 | scene_auto | [[proto/cmd.DayCamera.SceneAuto]] | - |
 
 
 ## Oneofs
@@ -46,7 +47,7 @@ Root container message for all day camera control commands using a required oneo
 
 ### cmd (required)
 
-Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11, #12, #13, #14, #15, #16, #17, #18, #19, #20, #21, #22
+Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11, #12, #13, #14, #15, #16, #17, #18, #19, #20, #21, #22, #23
 
 
 

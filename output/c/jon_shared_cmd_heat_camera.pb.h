@@ -200,6 +200,28 @@ typedef struct _cmd_HeatCamera_FxROI {
     uint64_t state_time; /* System monotonic time from state when user performed action */
 } cmd_HeatCamera_FxROI;
 
+/* FULL-AUTO SCENE MODE for the heat channel — the operator's latch, and only
+ the latch.
+
+ `enable` true hands the heat look mode to eutropia's `scene_day` classifier
+ guest (`mods/isp3a/scene/`); false takes it back. It commands no mode and
+ changes no picture by itself: the guest decides WHICH mode and WHEN, and
+ publishes what it decided as `heat_class / heat_challenger / heat_scores` on
+ `JonGuiDataScene` (`state.scene`).
+
+ ⚠ WHILE THE GUEST IS IN SHADOW (`JonGuiDataScene.shadow` true) this latch
+ changes exactly one published boolean and nothing else — the guest emits no
+ `reload_params` in either position. Read the state block, never this command,
+ to find out what the classifier is doing.
+
+ A message of this name exists in BOTH `cmd.DayCamera` and `cmd.HeatCamera`,
+ as `SetFxMode`, `Photo`, `Start`, `Stop` and `FocusROI` already do: the two
+ packages are disjoint, and the Day twin is
+ `cmd.DayCamera.SceneAuto`. */
+typedef struct _cmd_HeatCamera_SceneAuto {
+    bool enable;
+} cmd_HeatCamera_SceneAuto;
+
 typedef struct _cmd_HeatCamera_Root {
     pb_size_t which_cmd;
     union {
@@ -238,6 +260,7 @@ typedef struct _cmd_HeatCamera_Root {
         cmd_HeatCamera_TrackROI track_roi;
         cmd_HeatCamera_ZoomROI zoom_roi;
         cmd_HeatCamera_FxROI fx_roi;
+        cmd_HeatCamera_SceneAuto scene_auto;
     } cmd;
 } cmd_HeatCamera_Root;
 
@@ -288,6 +311,7 @@ extern "C" {
 #define cmd_HeatCamera_TrackROI_init_default     {0, 0, 0, 0, 0, 0}
 #define cmd_HeatCamera_ZoomROI_init_default      {0, 0, 0, 0, 0, 0}
 #define cmd_HeatCamera_FxROI_init_default        {0, 0, 0, 0, 0, 0}
+#define cmd_HeatCamera_SceneAuto_init_default    {0}
 #define cmd_HeatCamera_Root_init_zero            {0, {cmd_HeatCamera_Zoom_init_zero}}
 #define cmd_HeatCamera_SetFxMode_init_zero       {_ser_JonGuiDataFxModeHeat_MIN}
 #define cmd_HeatCamera_SetClaheLevel_init_zero   {0}
@@ -329,6 +353,7 @@ extern "C" {
 #define cmd_HeatCamera_TrackROI_init_zero        {0, 0, 0, 0, 0, 0}
 #define cmd_HeatCamera_ZoomROI_init_zero         {0, 0, 0, 0, 0, 0}
 #define cmd_HeatCamera_FxROI_init_zero           {0, 0, 0, 0, 0, 0}
+#define cmd_HeatCamera_SceneAuto_init_zero       {0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define cmd_HeatCamera_SetFxMode_mode_tag        1
@@ -369,6 +394,7 @@ extern "C" {
 #define cmd_HeatCamera_FxROI_y2_tag              4
 #define cmd_HeatCamera_FxROI_frame_time_tag      5
 #define cmd_HeatCamera_FxROI_state_time_tag      6
+#define cmd_HeatCamera_SceneAuto_enable_tag      1
 #define cmd_HeatCamera_Root_zoom_tag             1
 #define cmd_HeatCamera_Root_set_agc_tag          2
 #define cmd_HeatCamera_Root_set_filter_tag       3
@@ -404,6 +430,7 @@ extern "C" {
 #define cmd_HeatCamera_Root_track_roi_tag        36
 #define cmd_HeatCamera_Root_zoom_roi_tag         37
 #define cmd_HeatCamera_Root_fx_roi_tag           38
+#define cmd_HeatCamera_Root_scene_auto_tag       39
 
 /* Struct field encoding specification for nanopb */
 #define cmd_HeatCamera_Root_FIELDLIST(X, a) \
@@ -441,7 +468,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,shift_clahe_level,cmd.shift_clahe_level)
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,focus_roi,cmd.focus_roi),  35) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,track_roi,cmd.track_roi),  36) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,zoom_roi,cmd.zoom_roi),  37) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,fx_roi,cmd.fx_roi),  38)
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,fx_roi,cmd.fx_roi),  38) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scene_auto,cmd.scene_auto),  39)
 #define cmd_HeatCamera_Root_CALLBACK NULL
 #define cmd_HeatCamera_Root_DEFAULT NULL
 #define cmd_HeatCamera_Root_cmd_zoom_MSGTYPE cmd_HeatCamera_Zoom
@@ -479,6 +507,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,fx_roi,cmd.fx_roi),  38)
 #define cmd_HeatCamera_Root_cmd_track_roi_MSGTYPE cmd_HeatCamera_TrackROI
 #define cmd_HeatCamera_Root_cmd_zoom_roi_MSGTYPE cmd_HeatCamera_ZoomROI
 #define cmd_HeatCamera_Root_cmd_fx_roi_MSGTYPE cmd_HeatCamera_FxROI
+#define cmd_HeatCamera_Root_cmd_scene_auto_MSGTYPE cmd_HeatCamera_SceneAuto
 
 #define cmd_HeatCamera_SetFxMode_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    mode,              1)
@@ -705,6 +734,11 @@ X(a, STATIC,   SINGULAR, UINT64,   state_time,        6)
 #define cmd_HeatCamera_FxROI_CALLBACK NULL
 #define cmd_HeatCamera_FxROI_DEFAULT NULL
 
+#define cmd_HeatCamera_SceneAuto_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, BOOL,     enable,            1)
+#define cmd_HeatCamera_SceneAuto_CALLBACK NULL
+#define cmd_HeatCamera_SceneAuto_DEFAULT NULL
+
 extern const pb_msgdesc_t cmd_HeatCamera_Root_msg;
 extern const pb_msgdesc_t cmd_HeatCamera_SetFxMode_msg;
 extern const pb_msgdesc_t cmd_HeatCamera_SetClaheLevel_msg;
@@ -746,6 +780,7 @@ extern const pb_msgdesc_t cmd_HeatCamera_FocusROI_msg;
 extern const pb_msgdesc_t cmd_HeatCamera_TrackROI_msg;
 extern const pb_msgdesc_t cmd_HeatCamera_ZoomROI_msg;
 extern const pb_msgdesc_t cmd_HeatCamera_FxROI_msg;
+extern const pb_msgdesc_t cmd_HeatCamera_SceneAuto_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define cmd_HeatCamera_Root_fields &cmd_HeatCamera_Root_msg
@@ -789,6 +824,7 @@ extern const pb_msgdesc_t cmd_HeatCamera_FxROI_msg;
 #define cmd_HeatCamera_TrackROI_fields &cmd_HeatCamera_TrackROI_msg
 #define cmd_HeatCamera_ZoomROI_fields &cmd_HeatCamera_ZoomROI_msg
 #define cmd_HeatCamera_FxROI_fields &cmd_HeatCamera_FxROI_msg
+#define cmd_HeatCamera_SceneAuto_fields &cmd_HeatCamera_SceneAuto_msg
 
 /* Maximum encoded size of messages (where known) */
 #define CMD_HEATCAMERA_JON_SHARED_CMD_HEAT_CAMERA_PB_H_MAX_SIZE cmd_HeatCamera_Root_size
@@ -813,6 +849,7 @@ extern const pb_msgdesc_t cmd_HeatCamera_FxROI_msg;
 #define cmd_HeatCamera_ResetZoom_size            0
 #define cmd_HeatCamera_Root_size                 61
 #define cmd_HeatCamera_SaveToTable_size          0
+#define cmd_HeatCamera_SceneAuto_size            2
 #define cmd_HeatCamera_SetAGC_size               2
 #define cmd_HeatCamera_SetAutoFocus_size         2
 #define cmd_HeatCamera_SetCalibMode_size         0

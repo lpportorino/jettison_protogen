@@ -201,6 +201,21 @@ class JonGuiDataDriveState(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     JON_GUI_DATA_DRIVE_STATE_PAUSED: _ClassVar[JonGuiDataDriveState]
     JON_GUI_DATA_DRIVE_STATE_DONE: _ClassVar[JonGuiDataDriveState]
     JON_GUI_DATA_DRIVE_STATE_FAULT: _ClassVar[JonGuiDataDriveState]
+
+class JonGuiDataSceneClass(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    JON_GUI_DATA_SCENE_CLASS_UNSPECIFIED: _ClassVar[JonGuiDataSceneClass]
+    JON_GUI_DATA_SCENE_CLASS_DAY: _ClassVar[JonGuiDataSceneClass]
+    JON_GUI_DATA_SCENE_CLASS_DUSK: _ClassVar[JonGuiDataSceneClass]
+    JON_GUI_DATA_SCENE_CLASS_NIGHT: _ClassVar[JonGuiDataSceneClass]
+    JON_GUI_DATA_SCENE_CLASS_FOG: _ClassVar[JonGuiDataSceneClass]
+    JON_GUI_DATA_SCENE_CLASS_OVERCAST: _ClassVar[JonGuiDataSceneClass]
+
+class JonGuiDataHeatSceneClass(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    JON_GUI_DATA_HEAT_SCENE_CLASS_UNSPECIFIED: _ClassVar[JonGuiDataHeatSceneClass]
+    JON_GUI_DATA_HEAT_SCENE_CLASS_HIGH_CONTRAST: _ClassVar[JonGuiDataHeatSceneClass]
+    JON_GUI_DATA_HEAT_SCENE_CLASS_LOW_CONTRAST: _ClassVar[JonGuiDataHeatSceneClass]
 JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_UNSPECIFIED: JonGuiDataVideoChannelHeatFilters
 JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_WHITE: JonGuiDataVideoChannelHeatFilters
 JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_BLACK: JonGuiDataVideoChannelHeatFilters
@@ -326,6 +341,15 @@ JON_GUI_DATA_DRIVE_STATE_RUNNING: JonGuiDataDriveState
 JON_GUI_DATA_DRIVE_STATE_PAUSED: JonGuiDataDriveState
 JON_GUI_DATA_DRIVE_STATE_DONE: JonGuiDataDriveState
 JON_GUI_DATA_DRIVE_STATE_FAULT: JonGuiDataDriveState
+JON_GUI_DATA_SCENE_CLASS_UNSPECIFIED: JonGuiDataSceneClass
+JON_GUI_DATA_SCENE_CLASS_DAY: JonGuiDataSceneClass
+JON_GUI_DATA_SCENE_CLASS_DUSK: JonGuiDataSceneClass
+JON_GUI_DATA_SCENE_CLASS_NIGHT: JonGuiDataSceneClass
+JON_GUI_DATA_SCENE_CLASS_FOG: JonGuiDataSceneClass
+JON_GUI_DATA_SCENE_CLASS_OVERCAST: JonGuiDataSceneClass
+JON_GUI_DATA_HEAT_SCENE_CLASS_UNSPECIFIED: JonGuiDataHeatSceneClass
+JON_GUI_DATA_HEAT_SCENE_CLASS_HIGH_CONTRAST: JonGuiDataHeatSceneClass
+JON_GUI_DATA_HEAT_SCENE_CLASS_LOW_CONTRAST: JonGuiDataHeatSceneClass
 
 class JonGuiDataMeteo(_message.Message):
     __slots__ = ("temperature", "humidity", "pressure")

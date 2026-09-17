@@ -394,6 +394,42 @@ public final class JonSharedData {
      * <code>.ser.JonGuiDataDrive drive = 30;</code>
      */
     ser.JonSharedDataDrive.JonGuiDataDriveOrBuilder getDriveOrBuilder();
+
+    /**
+     * <pre>
+     * The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+     * guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+     * runs no classifier publishes no block, and an absent block is a
+     * classifier that is not running rather than a scene of UNSPECIFIED.
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataScene scene = 31;</code>
+     * @return Whether the scene field is set.
+     */
+    boolean hasScene();
+    /**
+     * <pre>
+     * The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+     * guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+     * runs no classifier publishes no block, and an absent block is a
+     * classifier that is not running rather than a scene of UNSPECIFIED.
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataScene scene = 31;</code>
+     * @return The scene.
+     */
+    ser.JonSharedDataScene.JonGuiDataScene getScene();
+    /**
+     * <pre>
+     * The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+     * guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+     * runs no classifier publishes no block, and an absent block is a
+     * classifier that is not running rather than a scene of UNSPECIFIED.
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataScene scene = 31;</code>
+     */
+    ser.JonSharedDataScene.JonGuiDataSceneOrBuilder getSceneOrBuilder();
   }
   /**
    * <pre>
@@ -1046,6 +1082,53 @@ public final class JonSharedData {
       return drive_ == null ? ser.JonSharedDataDrive.JonGuiDataDrive.getDefaultInstance() : drive_;
     }
 
+    public static final int SCENE_FIELD_NUMBER = 31;
+    private ser.JonSharedDataScene.JonGuiDataScene scene_;
+    /**
+     * <pre>
+     * The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+     * guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+     * runs no classifier publishes no block, and an absent block is a
+     * classifier that is not running rather than a scene of UNSPECIFIED.
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataScene scene = 31;</code>
+     * @return Whether the scene field is set.
+     */
+    @java.lang.Override
+    public boolean hasScene() {
+      return ((bitField0_ & 0x00020000) != 0);
+    }
+    /**
+     * <pre>
+     * The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+     * guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+     * runs no classifier publishes no block, and an absent block is a
+     * classifier that is not running rather than a scene of UNSPECIFIED.
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataScene scene = 31;</code>
+     * @return The scene.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataScene.JonGuiDataScene getScene() {
+      return scene_ == null ? ser.JonSharedDataScene.JonGuiDataScene.getDefaultInstance() : scene_;
+    }
+    /**
+     * <pre>
+     * The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+     * guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+     * runs no classifier publishes no block, and an absent block is a
+     * classifier that is not running rather than a scene of UNSPECIFIED.
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataScene scene = 31;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataScene.JonGuiDataSceneOrBuilder getSceneOrBuilder() {
+      return scene_ == null ? ser.JonSharedDataScene.JonGuiDataScene.getDefaultInstance() : scene_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1134,6 +1217,9 @@ public final class JonSharedData {
       }
       if (((bitField0_ & 0x00010000) != 0)) {
         output.writeMessage(30, getDrive());
+      }
+      if (((bitField0_ & 0x00020000) != 0)) {
+        output.writeMessage(31, getScene());
       }
       getUnknownFields().writeTo(output);
     }
@@ -1243,6 +1329,10 @@ public final class JonSharedData {
       if (((bitField0_ & 0x00010000) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(30, getDrive());
+      }
+      if (((bitField0_ & 0x00020000) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(31, getScene());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1359,6 +1449,11 @@ public final class JonSharedData {
         if (!getDrive()
             .equals(other.getDrive())) return false;
       }
+      if (hasScene() != other.hasScene()) return false;
+      if (hasScene()) {
+        if (!getScene()
+            .equals(other.getScene())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -1460,6 +1555,10 @@ public final class JonSharedData {
       if (hasDrive()) {
         hash = (37 * hash) + DRIVE_FIELD_NUMBER;
         hash = (53 * hash) + getDrive().hashCode();
+      }
+      if (hasScene()) {
+        hash = (37 * hash) + SCENE_FIELD_NUMBER;
+        hash = (53 * hash) + getScene().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -1613,6 +1712,7 @@ public final class JonSharedData {
           getPmuFieldBuilder();
           getHeaterFieldBuilder();
           getDriveFieldBuilder();
+          getSceneFieldBuilder();
         }
       }
       @java.lang.Override
@@ -1717,6 +1817,11 @@ public final class JonSharedData {
         if (driveBuilder_ != null) {
           driveBuilder_.dispose();
           driveBuilder_ = null;
+        }
+        scene_ = null;
+        if (sceneBuilder_ != null) {
+          sceneBuilder_.dispose();
+          sceneBuilder_ = null;
         }
         return this;
       }
@@ -1888,6 +1993,12 @@ public final class JonSharedData {
               : driveBuilder_.build();
           to_bitField0_ |= 0x00010000;
         }
+        if (((from_bitField0_ & 0x02000000) != 0)) {
+          result.scene_ = sceneBuilder_ == null
+              ? scene_
+              : sceneBuilder_.build();
+          to_bitField0_ |= 0x00020000;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -2000,6 +2111,9 @@ public final class JonSharedData {
         }
         if (other.hasDrive()) {
           mergeDrive(other.getDrive());
+        }
+        if (other.hasScene()) {
+          mergeScene(other.getScene());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -2194,6 +2308,13 @@ public final class JonSharedData {
                 bitField0_ |= 0x01000000;
                 break;
               } // case 242
+              case 250: {
+                input.readMessage(
+                    getSceneFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x02000000;
+                break;
+              } // case 250
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -4885,6 +5006,190 @@ public final class JonSharedData {
         return driveBuilder_;
       }
 
+      private ser.JonSharedDataScene.JonGuiDataScene scene_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataScene.JonGuiDataScene, ser.JonSharedDataScene.JonGuiDataScene.Builder, ser.JonSharedDataScene.JonGuiDataSceneOrBuilder> sceneBuilder_;
+      /**
+       * <pre>
+       * The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+       * guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+       * runs no classifier publishes no block, and an absent block is a
+       * classifier that is not running rather than a scene of UNSPECIFIED.
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataScene scene = 31;</code>
+       * @return Whether the scene field is set.
+       */
+      public boolean hasScene() {
+        return ((bitField0_ & 0x02000000) != 0);
+      }
+      /**
+       * <pre>
+       * The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+       * guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+       * runs no classifier publishes no block, and an absent block is a
+       * classifier that is not running rather than a scene of UNSPECIFIED.
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataScene scene = 31;</code>
+       * @return The scene.
+       */
+      public ser.JonSharedDataScene.JonGuiDataScene getScene() {
+        if (sceneBuilder_ == null) {
+          return scene_ == null ? ser.JonSharedDataScene.JonGuiDataScene.getDefaultInstance() : scene_;
+        } else {
+          return sceneBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+       * guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+       * runs no classifier publishes no block, and an absent block is a
+       * classifier that is not running rather than a scene of UNSPECIFIED.
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataScene scene = 31;</code>
+       */
+      public Builder setScene(ser.JonSharedDataScene.JonGuiDataScene value) {
+        if (sceneBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          scene_ = value;
+        } else {
+          sceneBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x02000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+       * guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+       * runs no classifier publishes no block, and an absent block is a
+       * classifier that is not running rather than a scene of UNSPECIFIED.
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataScene scene = 31;</code>
+       */
+      public Builder setScene(
+          ser.JonSharedDataScene.JonGuiDataScene.Builder builderForValue) {
+        if (sceneBuilder_ == null) {
+          scene_ = builderForValue.build();
+        } else {
+          sceneBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x02000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+       * guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+       * runs no classifier publishes no block, and an absent block is a
+       * classifier that is not running rather than a scene of UNSPECIFIED.
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataScene scene = 31;</code>
+       */
+      public Builder mergeScene(ser.JonSharedDataScene.JonGuiDataScene value) {
+        if (sceneBuilder_ == null) {
+          if (((bitField0_ & 0x02000000) != 0) &&
+            scene_ != null &&
+            scene_ != ser.JonSharedDataScene.JonGuiDataScene.getDefaultInstance()) {
+            getSceneBuilder().mergeFrom(value);
+          } else {
+            scene_ = value;
+          }
+        } else {
+          sceneBuilder_.mergeFrom(value);
+        }
+        if (scene_ != null) {
+          bitField0_ |= 0x02000000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+       * guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+       * runs no classifier publishes no block, and an absent block is a
+       * classifier that is not running rather than a scene of UNSPECIFIED.
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataScene scene = 31;</code>
+       */
+      public Builder clearScene() {
+        bitField0_ = (bitField0_ & ~0x02000000);
+        scene_ = null;
+        if (sceneBuilder_ != null) {
+          sceneBuilder_.dispose();
+          sceneBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+       * guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+       * runs no classifier publishes no block, and an absent block is a
+       * classifier that is not running rather than a scene of UNSPECIFIED.
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataScene scene = 31;</code>
+       */
+      public ser.JonSharedDataScene.JonGuiDataScene.Builder getSceneBuilder() {
+        bitField0_ |= 0x02000000;
+        onChanged();
+        return getSceneFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+       * guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+       * runs no classifier publishes no block, and an absent block is a
+       * classifier that is not running rather than a scene of UNSPECIFIED.
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataScene scene = 31;</code>
+       */
+      public ser.JonSharedDataScene.JonGuiDataSceneOrBuilder getSceneOrBuilder() {
+        if (sceneBuilder_ != null) {
+          return sceneBuilder_.getMessageOrBuilder();
+        } else {
+          return scene_ == null ?
+              ser.JonSharedDataScene.JonGuiDataScene.getDefaultInstance() : scene_;
+        }
+      }
+      /**
+       * <pre>
+       * The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+       * guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+       * runs no classifier publishes no block, and an absent block is a
+       * classifier that is not running rather than a scene of UNSPECIFIED.
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataScene scene = 31;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataScene.JonGuiDataScene, ser.JonSharedDataScene.JonGuiDataScene.Builder, ser.JonSharedDataScene.JonGuiDataSceneOrBuilder> 
+          getSceneFieldBuilder() {
+        if (sceneBuilder_ == null) {
+          sceneBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataScene.JonGuiDataScene, ser.JonSharedDataScene.JonGuiDataScene.Builder, ser.JonSharedDataScene.JonGuiDataSceneOrBuilder>(
+                  getScene(),
+                  getParentForChildren(),
+                  isClean());
+          scene_ = null;
+        }
+        return sceneBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGUIState)
     }
 
@@ -4964,39 +5269,41 @@ public final class JonSharedData {
       "oto\032\033jon_shared_data_power.proto\032\030jon_sh" +
       "ared_data_cv.proto\032\031jon_shared_data_pmu." +
       "proto\032\034jon_shared_data_heater.proto\032\033jon" +
-      "_shared_data_drive.proto\"\263\t\n\013JonGUIState" +
-      "\022\'\n\020protocol_version\030\001 \001(\rB\r\272H\n*\010\030\377\377\377\377\007 " +
-      "\000\022)\n\030system_monotonic_time_us\030\002 \001(\004B\007\272H\004" +
-      "2\002(\000\022<\n\014state_source\030\003 \001(\0162\032.ser.JonGuiD" +
-      "ataStateSourceB\n\272H\007\202\001\004\020\001 \000\022!\n\020frame_pts_" +
-      "day_ns\030\004 \001(\004B\007\272H\0042\002(\000\022\"\n\021frame_pts_heat_" +
-      "ns\030\005 \001(\004B\007\272H\0042\002(\000\022\'\n\026frame_monotonic_day" +
-      "_us\030\006 \001(\004B\007\272H\0042\002(\000\022(\n\027frame_monotonic_he" +
-      "at_us\030\007 \001(\004B\007\272H\0042\002(\000\022.\n\017opaque_payloads\030" +
-      "\010 \003(\0132\025.ser.JonOpaquePayload\022-\n\006system\030\r" +
-      " \001(\0132\025.ser.JonGuiDataSystemB\006\272H\003\310\001\001\0224\n\016m" +
-      "eteo_internal\030\016 \001(\0132\024.ser.JonGuiDataMete" +
-      "oB\006\272H\003\310\001\001\022\'\n\003lrf\030\017 \001(\0132\022.ser.JonGuiDataL" +
-      "rfB\006\272H\003\310\001\001\022)\n\004time\030\020 \001(\0132\023.ser.JonGuiDat" +
-      "aTimeB\006\272H\003\310\001\001\022\'\n\003gps\030\021 \001(\0132\022.ser.JonGuiD" +
-      "ataGpsB\006\272H\003\310\001\001\022/\n\007compass\030\022 \001(\0132\026.ser.Jo" +
-      "nGuiDataCompassB\006\272H\003\310\001\001\022-\n\006rotary\030\023 \001(\0132" +
-      "\025.ser.JonGuiDataRotaryB\006\272H\003\310\001\001\0224\n\ncamera" +
-      "_day\030\024 \001(\0132\030.ser.JonGuiDataCameraDayB\006\272H" +
-      "\003\310\001\001\0226\n\013camera_heat\030\025 \001(\0132\031.ser.JonGuiDa" +
-      "taCameraHeatB\006\272H\003\310\001\001\022F\n\023compass_calibrat" +
-      "ion\030\026 \001(\0132!.ser.JonGuiDataCompassCalibra" +
-      "tionB\006\272H\003\310\001\001\022.\n\007rec_osd\030\027 \001(\0132\025.ser.JonG" +
-      "uiDataRecOsdB\006\272H\003\310\001\001\022A\n\021actual_space_tim" +
-      "e\030\031 \001(\0132\036.ser.JonGuiDataActualSpaceTimeB" +
-      "\006\272H\003\310\001\001\022+\n\005power\030\032 \001(\0132\024.ser.JonGuiDataP" +
-      "owerB\006\272H\003\310\001\001\022\035\n\002cv\030\033 \001(\0132\021.ser.JonGuiDat" +
-      "aCV\022\'\n\003pmu\030\034 \001(\0132\022.ser.JonGuiDataPMUB\006\272H" +
-      "\003\310\001\001\022%\n\006heater\030\035 \001(\0132\025.ser.JonGuiDataHea" +
-      "ter\022#\n\005drive\030\036 \001(\0132\024.ser.JonGuiDataDrive" +
-      "J\004\010\t\020\nJ\004\010\n\020\013J\004\010\013\020\014J\004\010\014\020\rJ\004\010\030\020\031BGZEgit-co" +
-      "decommit.eu-central-1.amazonaws.com/v1/r" +
-      "epos/jettison/jonp/datab\006proto3"
+      "_shared_data_drive.proto\032\033jon_shared_dat" +
+      "a_scene.proto\"\330\t\n\013JonGUIState\022\'\n\020protoco" +
+      "l_version\030\001 \001(\rB\r\272H\n*\010\030\377\377\377\377\007 \000\022)\n\030system" +
+      "_monotonic_time_us\030\002 \001(\004B\007\272H\0042\002(\000\022<\n\014sta" +
+      "te_source\030\003 \001(\0162\032.ser.JonGuiDataStateSou" +
+      "rceB\n\272H\007\202\001\004\020\001 \000\022!\n\020frame_pts_day_ns\030\004 \001(" +
+      "\004B\007\272H\0042\002(\000\022\"\n\021frame_pts_heat_ns\030\005 \001(\004B\007\272" +
+      "H\0042\002(\000\022\'\n\026frame_monotonic_day_us\030\006 \001(\004B\007" +
+      "\272H\0042\002(\000\022(\n\027frame_monotonic_heat_us\030\007 \001(\004" +
+      "B\007\272H\0042\002(\000\022.\n\017opaque_payloads\030\010 \003(\0132\025.ser" +
+      ".JonOpaquePayload\022-\n\006system\030\r \001(\0132\025.ser." +
+      "JonGuiDataSystemB\006\272H\003\310\001\001\0224\n\016meteo_intern" +
+      "al\030\016 \001(\0132\024.ser.JonGuiDataMeteoB\006\272H\003\310\001\001\022\'" +
+      "\n\003lrf\030\017 \001(\0132\022.ser.JonGuiDataLrfB\006\272H\003\310\001\001\022" +
+      ")\n\004time\030\020 \001(\0132\023.ser.JonGuiDataTimeB\006\272H\003\310" +
+      "\001\001\022\'\n\003gps\030\021 \001(\0132\022.ser.JonGuiDataGpsB\006\272H\003" +
+      "\310\001\001\022/\n\007compass\030\022 \001(\0132\026.ser.JonGuiDataCom" +
+      "passB\006\272H\003\310\001\001\022-\n\006rotary\030\023 \001(\0132\025.ser.JonGu" +
+      "iDataRotaryB\006\272H\003\310\001\001\0224\n\ncamera_day\030\024 \001(\0132" +
+      "\030.ser.JonGuiDataCameraDayB\006\272H\003\310\001\001\0226\n\013cam" +
+      "era_heat\030\025 \001(\0132\031.ser.JonGuiDataCameraHea" +
+      "tB\006\272H\003\310\001\001\022F\n\023compass_calibration\030\026 \001(\0132!" +
+      ".ser.JonGuiDataCompassCalibrationB\006\272H\003\310\001" +
+      "\001\022.\n\007rec_osd\030\027 \001(\0132\025.ser.JonGuiDataRecOs" +
+      "dB\006\272H\003\310\001\001\022A\n\021actual_space_time\030\031 \001(\0132\036.s" +
+      "er.JonGuiDataActualSpaceTimeB\006\272H\003\310\001\001\022+\n\005" +
+      "power\030\032 \001(\0132\024.ser.JonGuiDataPowerB\006\272H\003\310\001" +
+      "\001\022\035\n\002cv\030\033 \001(\0132\021.ser.JonGuiDataCV\022\'\n\003pmu\030" +
+      "\034 \001(\0132\022.ser.JonGuiDataPMUB\006\272H\003\310\001\001\022%\n\006hea" +
+      "ter\030\035 \001(\0132\025.ser.JonGuiDataHeater\022#\n\005driv" +
+      "e\030\036 \001(\0132\024.ser.JonGuiDataDrive\022#\n\005scene\030\037" +
+      " \001(\0132\024.ser.JonGuiDataSceneJ\004\010\t\020\nJ\004\010\n\020\013J\004" +
+      "\010\013\020\014J\004\010\014\020\rJ\004\010\030\020\031BGZEgit-codecommit.eu-ce" +
+      "ntral-1.amazonaws.com/v1/repos/jettison/" +
+      "jonp/datab\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -5019,13 +5326,14 @@ public final class JonSharedData {
           ser.JonSharedDataPmu.getDescriptor(),
           ser.JonSharedDataHeater.getDescriptor(),
           ser.JonSharedDataDrive.getDescriptor(),
+          ser.JonSharedDataScene.getDescriptor(),
         });
     internal_static_ser_JonGUIState_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_ser_JonGUIState_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGUIState_descriptor,
-        new java.lang.String[] { "ProtocolVersion", "SystemMonotonicTimeUs", "StateSource", "FramePtsDayNs", "FramePtsHeatNs", "FrameMonotonicDayUs", "FrameMonotonicHeatUs", "OpaquePayloads", "System", "MeteoInternal", "Lrf", "Time", "Gps", "Compass", "Rotary", "CameraDay", "CameraHeat", "CompassCalibration", "RecOsd", "ActualSpaceTime", "Power", "Cv", "Pmu", "Heater", "Drive", });
+        new java.lang.String[] { "ProtocolVersion", "SystemMonotonicTimeUs", "StateSource", "FramePtsDayNs", "FramePtsHeatNs", "FrameMonotonicDayUs", "FrameMonotonicHeatUs", "OpaquePayloads", "System", "MeteoInternal", "Lrf", "Time", "Gps", "Compass", "Rotary", "CameraDay", "CameraHeat", "CompassCalibration", "RecOsd", "ActualSpaceTime", "Power", "Cv", "Pmu", "Heater", "Drive", "Scene", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();
@@ -5045,6 +5353,7 @@ public final class JonSharedData {
     ser.JonSharedDataPmu.getDescriptor();
     ser.JonSharedDataHeater.getDescriptor();
     ser.JonSharedDataDrive.getDescriptor();
+    ser.JonSharedDataScene.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();
     registry.add(build.buf.validate.ValidateProto.field);

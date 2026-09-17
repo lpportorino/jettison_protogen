@@ -756,6 +756,54 @@ public object JonGUIStateKt {
 
     public val JonGUIStateKt.Dsl.driveOrNull: ser.JonSharedDataDrive.JonGuiDataDrive?
       get() = _builder.driveOrNull
+
+    /**
+     * ```
+     * The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+     * guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+     * runs no classifier publishes no block, and an absent block is a
+     * classifier that is not running rather than a scene of UNSPECIFIED.
+     * ```
+     *
+     * `.ser.JonGuiDataScene scene = 31;`
+     */
+    public var scene: ser.JonSharedDataScene.JonGuiDataScene
+      @JvmName("getScene")
+      get() = _builder.scene
+      @JvmName("setScene")
+      set(value) {
+        _builder.scene = value
+      }
+    /**
+     * ```
+     * The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+     * guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+     * runs no classifier publishes no block, and an absent block is a
+     * classifier that is not running rather than a scene of UNSPECIFIED.
+     * ```
+     *
+     * `.ser.JonGuiDataScene scene = 31;`
+     */
+    public fun clearScene() {
+      _builder.clearScene()
+    }
+    /**
+     * ```
+     * The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+     * guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+     * runs no classifier publishes no block, and an absent block is a
+     * classifier that is not running rather than a scene of UNSPECIFIED.
+     * ```
+     *
+     * `.ser.JonGuiDataScene scene = 31;`
+     * @return Whether the scene field is set.
+     */
+    public fun hasScene(): kotlin.Boolean {
+      return _builder.hasScene()
+    }
+
+    public val JonGUIStateKt.Dsl.sceneOrNull: ser.JonSharedDataScene.JonGuiDataScene?
+      get() = _builder.sceneOrNull
   }
 }
 @kotlin.jvm.JvmSynthetic
@@ -812,4 +860,7 @@ public val ser.JonSharedData.JonGUIStateOrBuilder.heaterOrNull: ser.JonSharedDat
 
 public val ser.JonSharedData.JonGUIStateOrBuilder.driveOrNull: ser.JonSharedDataDrive.JonGuiDataDrive?
   get() = if (hasDrive()) getDrive() else null
+
+public val ser.JonSharedData.JonGUIStateOrBuilder.sceneOrNull: ser.JonSharedDataScene.JonGuiDataScene?
+  get() = if (hasScene()) getScene() else null
 

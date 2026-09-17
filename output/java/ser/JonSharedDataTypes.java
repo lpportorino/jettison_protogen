@@ -3541,6 +3541,314 @@ public final class JonSharedDataTypes {
     // @@protoc_insertion_point(enum_scope:ser.JonGuiDataDriveState)
   }
 
+  /**
+   * <pre>
+   * ── FULL-AUTO SCENE MODE ─────────────────────────────────────────────────────
+   *
+   * What the day scene IS, as the `scene_day` classifier guest scores it
+   * (`mods/isp3a/scene/`). The guest publishes a score per class every tick and
+   * an incumbent that changes only when a challenger beats it by a margin for a
+   * dwell; UNSPECIFIED is what it publishes while it has no usable input, and is
+   * never a score.
+   *
+   * The five classes are the operator's own vocabulary for the day look modes
+   * (`camera_day`'s Daytime / Dusk / Fog / Cloudy / IR-Night), so a class maps
+   * onto an existing `JonGuiDataFxModeDay` rather than introducing a sixth mode.
+   * </pre>
+   *
+   * Protobuf enum {@code ser.JonGuiDataSceneClass}
+   */
+  public enum JonGuiDataSceneClass
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>JON_GUI_DATA_SCENE_CLASS_UNSPECIFIED = 0;</code>
+     */
+    JON_GUI_DATA_SCENE_CLASS_UNSPECIFIED(0),
+    /**
+     * <code>JON_GUI_DATA_SCENE_CLASS_DAY = 1;</code>
+     */
+    JON_GUI_DATA_SCENE_CLASS_DAY(1),
+    /**
+     * <code>JON_GUI_DATA_SCENE_CLASS_DUSK = 2;</code>
+     */
+    JON_GUI_DATA_SCENE_CLASS_DUSK(2),
+    /**
+     * <code>JON_GUI_DATA_SCENE_CLASS_NIGHT = 3;</code>
+     */
+    JON_GUI_DATA_SCENE_CLASS_NIGHT(3),
+    /**
+     * <code>JON_GUI_DATA_SCENE_CLASS_FOG = 4;</code>
+     */
+    JON_GUI_DATA_SCENE_CLASS_FOG(4),
+    /**
+     * <code>JON_GUI_DATA_SCENE_CLASS_OVERCAST = 5;</code>
+     */
+    JON_GUI_DATA_SCENE_CLASS_OVERCAST(5),
+    UNRECOGNIZED(-1),
+    ;
+
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        JonGuiDataSceneClass.class.getName());
+    }
+    /**
+     * <code>JON_GUI_DATA_SCENE_CLASS_UNSPECIFIED = 0;</code>
+     */
+    public static final int JON_GUI_DATA_SCENE_CLASS_UNSPECIFIED_VALUE = 0;
+    /**
+     * <code>JON_GUI_DATA_SCENE_CLASS_DAY = 1;</code>
+     */
+    public static final int JON_GUI_DATA_SCENE_CLASS_DAY_VALUE = 1;
+    /**
+     * <code>JON_GUI_DATA_SCENE_CLASS_DUSK = 2;</code>
+     */
+    public static final int JON_GUI_DATA_SCENE_CLASS_DUSK_VALUE = 2;
+    /**
+     * <code>JON_GUI_DATA_SCENE_CLASS_NIGHT = 3;</code>
+     */
+    public static final int JON_GUI_DATA_SCENE_CLASS_NIGHT_VALUE = 3;
+    /**
+     * <code>JON_GUI_DATA_SCENE_CLASS_FOG = 4;</code>
+     */
+    public static final int JON_GUI_DATA_SCENE_CLASS_FOG_VALUE = 4;
+    /**
+     * <code>JON_GUI_DATA_SCENE_CLASS_OVERCAST = 5;</code>
+     */
+    public static final int JON_GUI_DATA_SCENE_CLASS_OVERCAST_VALUE = 5;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static JonGuiDataSceneClass valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static JonGuiDataSceneClass forNumber(int value) {
+      switch (value) {
+        case 0: return JON_GUI_DATA_SCENE_CLASS_UNSPECIFIED;
+        case 1: return JON_GUI_DATA_SCENE_CLASS_DAY;
+        case 2: return JON_GUI_DATA_SCENE_CLASS_DUSK;
+        case 3: return JON_GUI_DATA_SCENE_CLASS_NIGHT;
+        case 4: return JON_GUI_DATA_SCENE_CLASS_FOG;
+        case 5: return JON_GUI_DATA_SCENE_CLASS_OVERCAST;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<JonGuiDataSceneClass>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        JonGuiDataSceneClass> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<JonGuiDataSceneClass>() {
+            public JonGuiDataSceneClass findValueByNumber(int number) {
+              return JonGuiDataSceneClass.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return ser.JonSharedDataTypes.getDescriptor().getEnumTypes().get(24);
+    }
+
+    private static final JonGuiDataSceneClass[] VALUES = values();
+
+    public static JonGuiDataSceneClass valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private JonGuiDataSceneClass(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:ser.JonGuiDataSceneClass)
+  }
+
+  /**
+   * <pre>
+   * What the THERMAL scene is, in the only two classes the heat FX modes
+   * distinguish.
+   *
+   * ⚠ Scored from the scene's thermal dynamic range BEFORE the camera's own AGC,
+   * never from post-AGC contrast — the core's AGC histogram mapping, DDE and NUC
+   * destroy any radiometric meaning, so a contrast measured after them describes
+   * the AGC and not the scene. The proxy the guest is designed around is the
+   * core's AGC gain/level telemetry, which NO surface publishes today
+   * (`CvChannelMeta` says so out loud: "Sensor gain (day camera only; heat
+   * channel sets gain_valid=false)"). Until it does, the guest publishes
+   * UNSPECIFIED with its hold reason, rather than a class derived from the one
+   * signal the design forbids.
+   * </pre>
+   *
+   * Protobuf enum {@code ser.JonGuiDataHeatSceneClass}
+   */
+  public enum JonGuiDataHeatSceneClass
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>JON_GUI_DATA_HEAT_SCENE_CLASS_UNSPECIFIED = 0;</code>
+     */
+    JON_GUI_DATA_HEAT_SCENE_CLASS_UNSPECIFIED(0),
+    /**
+     * <code>JON_GUI_DATA_HEAT_SCENE_CLASS_HIGH_CONTRAST = 1;</code>
+     */
+    JON_GUI_DATA_HEAT_SCENE_CLASS_HIGH_CONTRAST(1),
+    /**
+     * <code>JON_GUI_DATA_HEAT_SCENE_CLASS_LOW_CONTRAST = 2;</code>
+     */
+    JON_GUI_DATA_HEAT_SCENE_CLASS_LOW_CONTRAST(2),
+    UNRECOGNIZED(-1),
+    ;
+
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        JonGuiDataHeatSceneClass.class.getName());
+    }
+    /**
+     * <code>JON_GUI_DATA_HEAT_SCENE_CLASS_UNSPECIFIED = 0;</code>
+     */
+    public static final int JON_GUI_DATA_HEAT_SCENE_CLASS_UNSPECIFIED_VALUE = 0;
+    /**
+     * <code>JON_GUI_DATA_HEAT_SCENE_CLASS_HIGH_CONTRAST = 1;</code>
+     */
+    public static final int JON_GUI_DATA_HEAT_SCENE_CLASS_HIGH_CONTRAST_VALUE = 1;
+    /**
+     * <code>JON_GUI_DATA_HEAT_SCENE_CLASS_LOW_CONTRAST = 2;</code>
+     */
+    public static final int JON_GUI_DATA_HEAT_SCENE_CLASS_LOW_CONTRAST_VALUE = 2;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static JonGuiDataHeatSceneClass valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static JonGuiDataHeatSceneClass forNumber(int value) {
+      switch (value) {
+        case 0: return JON_GUI_DATA_HEAT_SCENE_CLASS_UNSPECIFIED;
+        case 1: return JON_GUI_DATA_HEAT_SCENE_CLASS_HIGH_CONTRAST;
+        case 2: return JON_GUI_DATA_HEAT_SCENE_CLASS_LOW_CONTRAST;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<JonGuiDataHeatSceneClass>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        JonGuiDataHeatSceneClass> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<JonGuiDataHeatSceneClass>() {
+            public JonGuiDataHeatSceneClass findValueByNumber(int number) {
+              return JonGuiDataHeatSceneClass.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return ser.JonSharedDataTypes.getDescriptor().getEnumTypes().get(25);
+    }
+
+    private static final JonGuiDataHeatSceneClass[] VALUES = values();
+
+    public static JonGuiDataHeatSceneClass valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private JonGuiDataHeatSceneClass(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:ser.JonGuiDataHeatSceneClass)
+  }
+
   public interface JonGuiDataMeteoOrBuilder extends
       // @@protoc_insertion_point(interface_extends:ser.JonGuiDataMeteo)
       com.google.protobuf.MessageOrBuilder {
@@ -11369,9 +11677,19 @@ public final class JonSharedDataTypes {
       "E_STATE_RUNNING\020\003\022#\n\037JON_GUI_DATA_DRIVE_" +
       "STATE_PAUSED\020\004\022!\n\035JON_GUI_DATA_DRIVE_STA" +
       "TE_DONE\020\005\022\"\n\036JON_GUI_DATA_DRIVE_STATE_FA" +
-      "ULT\020\006BHZFgit-codecommit.eu-central-1.ama" +
-      "zonaws.com/v1/repos/jettison/jonp/typesb" +
-      "\006proto3"
+      "ULT\020\006*\362\001\n\024JonGuiDataSceneClass\022(\n$JON_GU" +
+      "I_DATA_SCENE_CLASS_UNSPECIFIED\020\000\022 \n\034JON_" +
+      "GUI_DATA_SCENE_CLASS_DAY\020\001\022!\n\035JON_GUI_DA" +
+      "TA_SCENE_CLASS_DUSK\020\002\022\"\n\036JON_GUI_DATA_SC" +
+      "ENE_CLASS_NIGHT\020\003\022 \n\034JON_GUI_DATA_SCENE_" +
+      "CLASS_FOG\020\004\022%\n!JON_GUI_DATA_SCENE_CLASS_" +
+      "OVERCAST\020\005*\252\001\n\030JonGuiDataHeatSceneClass\022" +
+      "-\n)JON_GUI_DATA_HEAT_SCENE_CLASS_UNSPECI" +
+      "FIED\020\000\022/\n+JON_GUI_DATA_HEAT_SCENE_CLASS_" +
+      "HIGH_CONTRAST\020\001\022.\n*JON_GUI_DATA_HEAT_SCE" +
+      "NE_CLASS_LOW_CONTRAST\020\002BHZFgit-codecommi" +
+      "t.eu-central-1.amazonaws.com/v1/repos/je" +
+      "ttison/jonp/typesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

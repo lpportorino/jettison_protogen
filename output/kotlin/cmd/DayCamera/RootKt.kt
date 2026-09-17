@@ -555,6 +555,30 @@ public object RootKt {
     public fun hasSetAutoGain(): kotlin.Boolean {
       return _builder.hasSetAutoGain()
     }
+
+    /**
+     * `.cmd.DayCamera.SceneAuto scene_auto = 23;`
+     */
+    public var sceneAuto: cmd.DayCamera.JonSharedCmdDayCamera.SceneAuto
+      @JvmName("getSceneAuto")
+      get() = _builder.sceneAuto
+      @JvmName("setSceneAuto")
+      set(value) {
+        _builder.sceneAuto = value
+      }
+    /**
+     * `.cmd.DayCamera.SceneAuto scene_auto = 23;`
+     */
+    public fun clearSceneAuto() {
+      _builder.clearSceneAuto()
+    }
+    /**
+     * `.cmd.DayCamera.SceneAuto scene_auto = 23;`
+     * @return Whether the sceneAuto field is set.
+     */
+    public fun hasSceneAuto(): kotlin.Boolean {
+      return _builder.hasSceneAuto()
+    }
     public val cmdCase: cmd.DayCamera.JonSharedCmdDayCamera.Root.CmdCase
     @kotlin.jvm.JvmName("getCmdCase")
       get() = _builder.getCmdCase()
@@ -633,4 +657,7 @@ public val cmd.DayCamera.JonSharedCmdDayCamera.RootOrBuilder.fxRoiOrNull: cmd.Da
 
 public val cmd.DayCamera.JonSharedCmdDayCamera.RootOrBuilder.setAutoGainOrNull: cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain?
   get() = if (hasSetAutoGain()) getSetAutoGain() else null
+
+public val cmd.DayCamera.JonSharedCmdDayCamera.RootOrBuilder.sceneAutoOrNull: cmd.DayCamera.JonSharedCmdDayCamera.SceneAuto?
+  get() = if (hasSceneAuto()) getSceneAuto() else null
 

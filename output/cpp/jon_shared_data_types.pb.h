@@ -993,6 +993,77 @@ inline bool JonGuiDataDriveState_Parse(absl::string_view name, JonGuiDataDriveSt
   return ::google::protobuf::internal::ParseNamedEnum<JonGuiDataDriveState>(
       JonGuiDataDriveState_descriptor(), name, value);
 }
+enum JonGuiDataSceneClass : int {
+  JON_GUI_DATA_SCENE_CLASS_UNSPECIFIED = 0,
+  JON_GUI_DATA_SCENE_CLASS_DAY = 1,
+  JON_GUI_DATA_SCENE_CLASS_DUSK = 2,
+  JON_GUI_DATA_SCENE_CLASS_NIGHT = 3,
+  JON_GUI_DATA_SCENE_CLASS_FOG = 4,
+  JON_GUI_DATA_SCENE_CLASS_OVERCAST = 5,
+  JonGuiDataSceneClass_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  JonGuiDataSceneClass_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool JonGuiDataSceneClass_IsValid(int value);
+extern const uint32_t JonGuiDataSceneClass_internal_data_[];
+constexpr JonGuiDataSceneClass JonGuiDataSceneClass_MIN = static_cast<JonGuiDataSceneClass>(0);
+constexpr JonGuiDataSceneClass JonGuiDataSceneClass_MAX = static_cast<JonGuiDataSceneClass>(5);
+constexpr int JonGuiDataSceneClass_ARRAYSIZE = 5 + 1;
+const ::google::protobuf::EnumDescriptor*
+JonGuiDataSceneClass_descriptor();
+template <typename T>
+const std::string& JonGuiDataSceneClass_Name(T value) {
+  static_assert(std::is_same<T, JonGuiDataSceneClass>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to JonGuiDataSceneClass_Name().");
+  return JonGuiDataSceneClass_Name(static_cast<JonGuiDataSceneClass>(value));
+}
+template <>
+inline const std::string& JonGuiDataSceneClass_Name(JonGuiDataSceneClass value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<JonGuiDataSceneClass_descriptor,
+                                                 0, 5>(
+      static_cast<int>(value));
+}
+inline bool JonGuiDataSceneClass_Parse(absl::string_view name, JonGuiDataSceneClass* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<JonGuiDataSceneClass>(
+      JonGuiDataSceneClass_descriptor(), name, value);
+}
+enum JonGuiDataHeatSceneClass : int {
+  JON_GUI_DATA_HEAT_SCENE_CLASS_UNSPECIFIED = 0,
+  JON_GUI_DATA_HEAT_SCENE_CLASS_HIGH_CONTRAST = 1,
+  JON_GUI_DATA_HEAT_SCENE_CLASS_LOW_CONTRAST = 2,
+  JonGuiDataHeatSceneClass_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  JonGuiDataHeatSceneClass_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool JonGuiDataHeatSceneClass_IsValid(int value);
+extern const uint32_t JonGuiDataHeatSceneClass_internal_data_[];
+constexpr JonGuiDataHeatSceneClass JonGuiDataHeatSceneClass_MIN = static_cast<JonGuiDataHeatSceneClass>(0);
+constexpr JonGuiDataHeatSceneClass JonGuiDataHeatSceneClass_MAX = static_cast<JonGuiDataHeatSceneClass>(2);
+constexpr int JonGuiDataHeatSceneClass_ARRAYSIZE = 2 + 1;
+const ::google::protobuf::EnumDescriptor*
+JonGuiDataHeatSceneClass_descriptor();
+template <typename T>
+const std::string& JonGuiDataHeatSceneClass_Name(T value) {
+  static_assert(std::is_same<T, JonGuiDataHeatSceneClass>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to JonGuiDataHeatSceneClass_Name().");
+  return JonGuiDataHeatSceneClass_Name(static_cast<JonGuiDataHeatSceneClass>(value));
+}
+template <>
+inline const std::string& JonGuiDataHeatSceneClass_Name(JonGuiDataHeatSceneClass value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<JonGuiDataHeatSceneClass_descriptor,
+                                                 0, 2>(
+      static_cast<int>(value));
+}
+inline bool JonGuiDataHeatSceneClass_Parse(absl::string_view name, JonGuiDataHeatSceneClass* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<JonGuiDataHeatSceneClass>(
+      JonGuiDataHeatSceneClass_descriptor(), name, value);
+}
 
 // ===================================================================
 
@@ -4536,6 +4607,18 @@ struct is_proto_enum<::ser::JonGuiDataDriveState> : std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor<::ser::JonGuiDataDriveState>() {
   return ::ser::JonGuiDataDriveState_descriptor();
+}
+template <>
+struct is_proto_enum<::ser::JonGuiDataSceneClass> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::ser::JonGuiDataSceneClass>() {
+  return ::ser::JonGuiDataSceneClass_descriptor();
+}
+template <>
+struct is_proto_enum<::ser::JonGuiDataHeatSceneClass> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::ser::JonGuiDataHeatSceneClass>() {
+  return ::ser::JonGuiDataHeatSceneClass_descriptor();
 }
 
 }  // namespace protobuf

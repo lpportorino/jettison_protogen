@@ -279,7 +279,7 @@ struct JonGuiDataTrackedObjectDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 JonGuiDataTrackedObjectDefaultTypeInternal _JonGuiDataTrackedObject_default_instance_;
 }  // namespace ser
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[25];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[27];
 static constexpr const ::_pb::ServiceDescriptor**
     file_level_service_descriptors_jon_5fshared_5fdata_5ftypes_2eproto = nullptr;
 const ::uint32_t
@@ -617,9 +617,19 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5ftypes_2eproto[] ABSL_
     "E_STATE_RUNNING\020\003\022#\n\037JON_GUI_DATA_DRIVE_"
     "STATE_PAUSED\020\004\022!\n\035JON_GUI_DATA_DRIVE_STA"
     "TE_DONE\020\005\022\"\n\036JON_GUI_DATA_DRIVE_STATE_FA"
-    "ULT\020\006BHZFgit-codecommit.eu-central-1.ama"
-    "zonaws.com/v1/repos/jettison/jonp/typesb"
-    "\006proto3"
+    "ULT\020\006*\362\001\n\024JonGuiDataSceneClass\022(\n$JON_GU"
+    "I_DATA_SCENE_CLASS_UNSPECIFIED\020\000\022 \n\034JON_"
+    "GUI_DATA_SCENE_CLASS_DAY\020\001\022!\n\035JON_GUI_DA"
+    "TA_SCENE_CLASS_DUSK\020\002\022\"\n\036JON_GUI_DATA_SC"
+    "ENE_CLASS_NIGHT\020\003\022 \n\034JON_GUI_DATA_SCENE_"
+    "CLASS_FOG\020\004\022%\n!JON_GUI_DATA_SCENE_CLASS_"
+    "OVERCAST\020\005*\252\001\n\030JonGuiDataHeatSceneClass\022"
+    "-\n)JON_GUI_DATA_HEAT_SCENE_CLASS_UNSPECI"
+    "FIED\020\000\022/\n+JON_GUI_DATA_HEAT_SCENE_CLASS_"
+    "HIGH_CONTRAST\020\001\022.\n*JON_GUI_DATA_HEAT_SCE"
+    "NE_CLASS_LOW_CONTRAST\020\002BHZFgit-codecommi"
+    "t.eu-central-1.amazonaws.com/v1/repos/je"
+    "ttison/jonp/typesb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_deps[1] =
     {
@@ -629,7 +639,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto = {
     false,
     false,
-    7727,
+    8145,
     descriptor_table_protodef_jon_5fshared_5fdata_5ftypes_2eproto,
     "jon_shared_data_types.proto",
     &descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_once,
@@ -881,6 +891,24 @@ PROTOBUF_CONSTINIT const uint32_t JonGuiDataDriveState_internal_data_[] = {
     458752u, 0u, };
 bool JonGuiDataDriveState_IsValid(int value) {
   return 0 <= value && value <= 6;
+}
+const ::google::protobuf::EnumDescriptor* JonGuiDataSceneClass_descriptor() {
+  ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto);
+  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[25];
+}
+PROTOBUF_CONSTINIT const uint32_t JonGuiDataSceneClass_internal_data_[] = {
+    393216u, 0u, };
+bool JonGuiDataSceneClass_IsValid(int value) {
+  return 0 <= value && value <= 5;
+}
+const ::google::protobuf::EnumDescriptor* JonGuiDataHeatSceneClass_descriptor() {
+  ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto);
+  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[26];
+}
+PROTOBUF_CONSTINIT const uint32_t JonGuiDataHeatSceneClass_internal_data_[] = {
+    196608u, 0u, };
+bool JonGuiDataHeatSceneClass_IsValid(int value) {
+  return 0 <= value && value <= 2;
 }
 // ===================================================================
 

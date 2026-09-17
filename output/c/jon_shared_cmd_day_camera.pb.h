@@ -211,6 +211,28 @@ typedef struct _cmd_DayCamera_FxROI {
     uint64_t state_time; /* System monotonic time from state when user performed action */
 } cmd_DayCamera_FxROI;
 
+/* FULL-AUTO SCENE MODE for the day channel — the operator's latch, and only
+ the latch.
+
+ `enable` true hands the day look mode to eutropia's `scene_day` classifier
+ guest (`mods/isp3a/scene/`); false takes it back. It commands no mode and
+ changes no picture by itself: the guest decides WHICH mode and WHEN, and
+ publishes what it decided as `day_class / day_challenger / day_scores` on
+ `JonGuiDataScene` (`state.scene`).
+
+ ⚠ WHILE THE GUEST IS IN SHADOW (`JonGuiDataScene.shadow` true) this latch
+ changes exactly one published boolean and nothing else — the guest emits no
+ `reload_params` in either position. Read the state block, never this command,
+ to find out what the classifier is doing.
+
+ A message of this name exists in BOTH `cmd.DayCamera` and `cmd.HeatCamera`,
+ as `SetFxMode`, `Photo`, `Start`, `Stop` and `FocusROI` already do: the two
+ packages are disjoint, and the Heat twin is
+ `cmd.HeatCamera.SceneAuto`. */
+typedef struct _cmd_DayCamera_SceneAuto {
+    bool enable;
+} cmd_DayCamera_SceneAuto;
+
 typedef struct _cmd_DayCamera_Root {
     pb_size_t which_cmd;
     union {
@@ -236,6 +258,7 @@ typedef struct _cmd_DayCamera_Root {
         cmd_DayCamera_ZoomROI zoom_roi;
         cmd_DayCamera_FxROI fx_roi;
         cmd_DayCamera_SetAutoGain set_auto_gain;
+        cmd_DayCamera_SceneAuto scene_auto;
     } cmd;
 } cmd_DayCamera_Root;
 
@@ -284,6 +307,7 @@ extern "C" {
 #define cmd_DayCamera_TrackROI_init_default      {0, 0, 0, 0, 0, 0}
 #define cmd_DayCamera_ZoomROI_init_default       {0, 0, 0, 0, 0, 0}
 #define cmd_DayCamera_FxROI_init_default         {0, 0, 0, 0, 0, 0}
+#define cmd_DayCamera_SceneAuto_init_default     {0}
 #define cmd_DayCamera_SetValue_init_zero         {0}
 #define cmd_DayCamera_Move_init_zero             {0, 0}
 #define cmd_DayCamera_Offset_init_zero           {0}
@@ -323,6 +347,7 @@ extern "C" {
 #define cmd_DayCamera_TrackROI_init_zero         {0, 0, 0, 0, 0, 0}
 #define cmd_DayCamera_ZoomROI_init_zero          {0, 0, 0, 0, 0, 0}
 #define cmd_DayCamera_FxROI_init_zero            {0, 0, 0, 0, 0, 0}
+#define cmd_DayCamera_SceneAuto_init_zero        {0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define cmd_DayCamera_SetValue_value_tag         1
@@ -381,6 +406,7 @@ extern "C" {
 #define cmd_DayCamera_FxROI_y2_tag               4
 #define cmd_DayCamera_FxROI_frame_time_tag       5
 #define cmd_DayCamera_FxROI_state_time_tag       6
+#define cmd_DayCamera_SceneAuto_enable_tag       1
 #define cmd_DayCamera_Root_focus_tag             1
 #define cmd_DayCamera_Root_zoom_tag              2
 #define cmd_DayCamera_Root_set_iris_tag          3
@@ -403,6 +429,7 @@ extern "C" {
 #define cmd_DayCamera_Root_zoom_roi_tag          20
 #define cmd_DayCamera_Root_fx_roi_tag            21
 #define cmd_DayCamera_Root_set_auto_gain_tag     22
+#define cmd_DayCamera_Root_scene_auto_tag        23
 
 /* Struct field encoding specification for nanopb */
 #define cmd_DayCamera_SetValue_FIELDLIST(X, a) \
@@ -453,7 +480,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,focus_roi,cmd.focus_roi),  18) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,track_roi,cmd.track_roi),  19) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,zoom_roi,cmd.zoom_roi),  20) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,fx_roi,cmd.fx_roi),  21) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,set_auto_gain,cmd.set_auto_gain),  22)
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,set_auto_gain,cmd.set_auto_gain),  22) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scene_auto,cmd.scene_auto),  23)
 #define cmd_DayCamera_Root_CALLBACK NULL
 #define cmd_DayCamera_Root_DEFAULT NULL
 #define cmd_DayCamera_Root_cmd_focus_MSGTYPE cmd_DayCamera_Focus
@@ -478,6 +506,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,set_auto_gain,cmd.set_auto_gain),  22)
 #define cmd_DayCamera_Root_cmd_zoom_roi_MSGTYPE cmd_DayCamera_ZoomROI
 #define cmd_DayCamera_Root_cmd_fx_roi_MSGTYPE cmd_DayCamera_FxROI
 #define cmd_DayCamera_Root_cmd_set_auto_gain_MSGTYPE cmd_DayCamera_SetAutoGain
+#define cmd_DayCamera_Root_cmd_scene_auto_MSGTYPE cmd_DayCamera_SceneAuto
 
 #define cmd_DayCamera_GetPos_FIELDLIST(X, a) \
 
@@ -700,6 +729,11 @@ X(a, STATIC,   SINGULAR, UINT64,   state_time,        6)
 #define cmd_DayCamera_FxROI_CALLBACK NULL
 #define cmd_DayCamera_FxROI_DEFAULT NULL
 
+#define cmd_DayCamera_SceneAuto_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, BOOL,     enable,            1)
+#define cmd_DayCamera_SceneAuto_CALLBACK NULL
+#define cmd_DayCamera_SceneAuto_DEFAULT NULL
+
 extern const pb_msgdesc_t cmd_DayCamera_SetValue_msg;
 extern const pb_msgdesc_t cmd_DayCamera_Move_msg;
 extern const pb_msgdesc_t cmd_DayCamera_Offset_msg;
@@ -739,6 +773,7 @@ extern const pb_msgdesc_t cmd_DayCamera_FocusROI_msg;
 extern const pb_msgdesc_t cmd_DayCamera_TrackROI_msg;
 extern const pb_msgdesc_t cmd_DayCamera_ZoomROI_msg;
 extern const pb_msgdesc_t cmd_DayCamera_FxROI_msg;
+extern const pb_msgdesc_t cmd_DayCamera_SceneAuto_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define cmd_DayCamera_SetValue_fields &cmd_DayCamera_SetValue_msg
@@ -780,6 +815,7 @@ extern const pb_msgdesc_t cmd_DayCamera_FxROI_msg;
 #define cmd_DayCamera_TrackROI_fields &cmd_DayCamera_TrackROI_msg
 #define cmd_DayCamera_ZoomROI_fields &cmd_DayCamera_ZoomROI_msg
 #define cmd_DayCamera_FxROI_fields &cmd_DayCamera_FxROI_msg
+#define cmd_DayCamera_SceneAuto_fields &cmd_DayCamera_SceneAuto_msg
 
 /* Maximum encoded size of messages (where known) */
 #define CMD_DAYCAMERA_JON_SHARED_CMD_DAY_CAMERA_PB_H_MAX_SIZE cmd_DayCamera_Root_size
@@ -805,6 +841,7 @@ extern const pb_msgdesc_t cmd_DayCamera_FxROI_msg;
 #define cmd_DayCamera_Root_size                  61
 #define cmd_DayCamera_SaveToTableFocus_size      0
 #define cmd_DayCamera_SaveToTable_size           0
+#define cmd_DayCamera_SceneAuto_size             2
 #define cmd_DayCamera_SetAutoGain_size           2
 #define cmd_DayCamera_SetAutoIris_size           2
 #define cmd_DayCamera_SetClaheLevel_size         9

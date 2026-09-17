@@ -1363,6 +1363,136 @@ func (JonGuiDataDriveState) EnumDescriptor() ([]byte, []int) {
 	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{23}
 }
 
+// ── FULL-AUTO SCENE MODE ─────────────────────────────────────────────────────
+//
+// What the day scene IS, as the `scene_day` classifier guest scores it
+// (`mods/isp3a/scene/`). The guest publishes a score per class every tick and
+// an incumbent that changes only when a challenger beats it by a margin for a
+// dwell; UNSPECIFIED is what it publishes while it has no usable input, and is
+// never a score.
+//
+// The five classes are the operator's own vocabulary for the day look modes
+// (`camera_day`'s Daytime / Dusk / Fog / Cloudy / IR-Night), so a class maps
+// onto an existing `JonGuiDataFxModeDay` rather than introducing a sixth mode.
+type JonGuiDataSceneClass int32
+
+const (
+	JonGuiDataSceneClass_JON_GUI_DATA_SCENE_CLASS_UNSPECIFIED JonGuiDataSceneClass = 0
+	JonGuiDataSceneClass_JON_GUI_DATA_SCENE_CLASS_DAY         JonGuiDataSceneClass = 1
+	JonGuiDataSceneClass_JON_GUI_DATA_SCENE_CLASS_DUSK        JonGuiDataSceneClass = 2
+	JonGuiDataSceneClass_JON_GUI_DATA_SCENE_CLASS_NIGHT       JonGuiDataSceneClass = 3
+	JonGuiDataSceneClass_JON_GUI_DATA_SCENE_CLASS_FOG         JonGuiDataSceneClass = 4
+	JonGuiDataSceneClass_JON_GUI_DATA_SCENE_CLASS_OVERCAST    JonGuiDataSceneClass = 5
+)
+
+// Enum value maps for JonGuiDataSceneClass.
+var (
+	JonGuiDataSceneClass_name = map[int32]string{
+		0: "JON_GUI_DATA_SCENE_CLASS_UNSPECIFIED",
+		1: "JON_GUI_DATA_SCENE_CLASS_DAY",
+		2: "JON_GUI_DATA_SCENE_CLASS_DUSK",
+		3: "JON_GUI_DATA_SCENE_CLASS_NIGHT",
+		4: "JON_GUI_DATA_SCENE_CLASS_FOG",
+		5: "JON_GUI_DATA_SCENE_CLASS_OVERCAST",
+	}
+	JonGuiDataSceneClass_value = map[string]int32{
+		"JON_GUI_DATA_SCENE_CLASS_UNSPECIFIED": 0,
+		"JON_GUI_DATA_SCENE_CLASS_DAY":         1,
+		"JON_GUI_DATA_SCENE_CLASS_DUSK":        2,
+		"JON_GUI_DATA_SCENE_CLASS_NIGHT":       3,
+		"JON_GUI_DATA_SCENE_CLASS_FOG":         4,
+		"JON_GUI_DATA_SCENE_CLASS_OVERCAST":    5,
+	}
+)
+
+func (x JonGuiDataSceneClass) Enum() *JonGuiDataSceneClass {
+	p := new(JonGuiDataSceneClass)
+	*p = x
+	return p
+}
+
+func (x JonGuiDataSceneClass) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (JonGuiDataSceneClass) Descriptor() protoreflect.EnumDescriptor {
+	return file_jon_shared_data_types_proto_enumTypes[24].Descriptor()
+}
+
+func (JonGuiDataSceneClass) Type() protoreflect.EnumType {
+	return &file_jon_shared_data_types_proto_enumTypes[24]
+}
+
+func (x JonGuiDataSceneClass) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use JonGuiDataSceneClass.Descriptor instead.
+func (JonGuiDataSceneClass) EnumDescriptor() ([]byte, []int) {
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{24}
+}
+
+// What the THERMAL scene is, in the only two classes the heat FX modes
+// distinguish.
+//
+// ⚠ Scored from the scene's thermal dynamic range BEFORE the camera's own AGC,
+// never from post-AGC contrast — the core's AGC histogram mapping, DDE and NUC
+// destroy any radiometric meaning, so a contrast measured after them describes
+// the AGC and not the scene. The proxy the guest is designed around is the
+// core's AGC gain/level telemetry, which NO surface publishes today
+// (`CvChannelMeta` says so out loud: "Sensor gain (day camera only; heat
+// channel sets gain_valid=false)"). Until it does, the guest publishes
+// UNSPECIFIED with its hold reason, rather than a class derived from the one
+// signal the design forbids.
+type JonGuiDataHeatSceneClass int32
+
+const (
+	JonGuiDataHeatSceneClass_JON_GUI_DATA_HEAT_SCENE_CLASS_UNSPECIFIED   JonGuiDataHeatSceneClass = 0
+	JonGuiDataHeatSceneClass_JON_GUI_DATA_HEAT_SCENE_CLASS_HIGH_CONTRAST JonGuiDataHeatSceneClass = 1
+	JonGuiDataHeatSceneClass_JON_GUI_DATA_HEAT_SCENE_CLASS_LOW_CONTRAST  JonGuiDataHeatSceneClass = 2
+)
+
+// Enum value maps for JonGuiDataHeatSceneClass.
+var (
+	JonGuiDataHeatSceneClass_name = map[int32]string{
+		0: "JON_GUI_DATA_HEAT_SCENE_CLASS_UNSPECIFIED",
+		1: "JON_GUI_DATA_HEAT_SCENE_CLASS_HIGH_CONTRAST",
+		2: "JON_GUI_DATA_HEAT_SCENE_CLASS_LOW_CONTRAST",
+	}
+	JonGuiDataHeatSceneClass_value = map[string]int32{
+		"JON_GUI_DATA_HEAT_SCENE_CLASS_UNSPECIFIED":   0,
+		"JON_GUI_DATA_HEAT_SCENE_CLASS_HIGH_CONTRAST": 1,
+		"JON_GUI_DATA_HEAT_SCENE_CLASS_LOW_CONTRAST":  2,
+	}
+)
+
+func (x JonGuiDataHeatSceneClass) Enum() *JonGuiDataHeatSceneClass {
+	p := new(JonGuiDataHeatSceneClass)
+	*p = x
+	return p
+}
+
+func (x JonGuiDataHeatSceneClass) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (JonGuiDataHeatSceneClass) Descriptor() protoreflect.EnumDescriptor {
+	return file_jon_shared_data_types_proto_enumTypes[25].Descriptor()
+}
+
+func (JonGuiDataHeatSceneClass) Type() protoreflect.EnumType {
+	return &file_jon_shared_data_types_proto_enumTypes[25]
+}
+
+func (x JonGuiDataHeatSceneClass) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use JonGuiDataHeatSceneClass.Descriptor instead.
+func (JonGuiDataHeatSceneClass) EnumDescriptor() ([]byte, []int) {
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{25}
+}
+
 // Tracking state
 type JonGuiDataTrackedObject_TrackingState int32
 
@@ -1403,11 +1533,11 @@ func (x JonGuiDataTrackedObject_TrackingState) String() string {
 }
 
 func (JonGuiDataTrackedObject_TrackingState) Descriptor() protoreflect.EnumDescriptor {
-	return file_jon_shared_data_types_proto_enumTypes[24].Descriptor()
+	return file_jon_shared_data_types_proto_enumTypes[26].Descriptor()
 }
 
 func (JonGuiDataTrackedObject_TrackingState) Type() protoreflect.EnumType {
-	return &file_jon_shared_data_types_proto_enumTypes[24]
+	return &file_jon_shared_data_types_proto_enumTypes[26]
 }
 
 func (x JonGuiDataTrackedObject_TrackingState) Number() protoreflect.EnumNumber {
@@ -2217,7 +2347,18 @@ const file_jon_shared_data_types_proto_rawDesc = "" +
 	" JON_GUI_DATA_DRIVE_STATE_RUNNING\x10\x03\x12#\n" +
 	"\x1fJON_GUI_DATA_DRIVE_STATE_PAUSED\x10\x04\x12!\n" +
 	"\x1dJON_GUI_DATA_DRIVE_STATE_DONE\x10\x05\x12\"\n" +
-	"\x1eJON_GUI_DATA_DRIVE_STATE_FAULT\x10\x06B\x96\x01\n" +
+	"\x1eJON_GUI_DATA_DRIVE_STATE_FAULT\x10\x06*\xf2\x01\n" +
+	"\x14JonGuiDataSceneClass\x12(\n" +
+	"$JON_GUI_DATA_SCENE_CLASS_UNSPECIFIED\x10\x00\x12 \n" +
+	"\x1cJON_GUI_DATA_SCENE_CLASS_DAY\x10\x01\x12!\n" +
+	"\x1dJON_GUI_DATA_SCENE_CLASS_DUSK\x10\x02\x12\"\n" +
+	"\x1eJON_GUI_DATA_SCENE_CLASS_NIGHT\x10\x03\x12 \n" +
+	"\x1cJON_GUI_DATA_SCENE_CLASS_FOG\x10\x04\x12%\n" +
+	"!JON_GUI_DATA_SCENE_CLASS_OVERCAST\x10\x05*\xaa\x01\n" +
+	"\x18JonGuiDataHeatSceneClass\x12-\n" +
+	")JON_GUI_DATA_HEAT_SCENE_CLASS_UNSPECIFIED\x10\x00\x12/\n" +
+	"+JON_GUI_DATA_HEAT_SCENE_CLASS_HIGH_CONTRAST\x10\x01\x12.\n" +
+	"*JON_GUI_DATA_HEAT_SCENE_CLASS_LOW_CONTRAST\x10\x02B\x96\x01\n" +
 	"\acom.serB\x17JonSharedDataTypesProtoP\x01ZFgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/types\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (
@@ -2232,7 +2373,7 @@ func file_jon_shared_data_types_proto_rawDescGZIP() []byte {
 	return file_jon_shared_data_types_proto_rawDescData
 }
 
-var file_jon_shared_data_types_proto_enumTypes = make([]protoimpl.EnumInfo, 25)
+var file_jon_shared_data_types_proto_enumTypes = make([]protoimpl.EnumInfo, 27)
 var file_jon_shared_data_types_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_jon_shared_data_types_proto_goTypes = []any{
 	(JonGuiDataVideoChannelHeatFilters)(0),     // 0: ser.JonGuiDataVideoChannelHeatFilters
@@ -2259,26 +2400,28 @@ var file_jon_shared_data_types_proto_goTypes = []any{
 	(JonGuiDataStateSource)(0),                 // 21: ser.JonGuiDataStateSource
 	(JonGuiDataDriveProgram)(0),                // 22: ser.JonGuiDataDriveProgram
 	(JonGuiDataDriveState)(0),                  // 23: ser.JonGuiDataDriveState
-	(JonGuiDataTrackedObject_TrackingState)(0), // 24: ser.JonGuiDataTrackedObject.TrackingState
-	(*JonGuiDataMeteo)(nil),                    // 25: ser.JonGuiDataMeteo
-	(*JonOpaquePayloadVersion)(nil),            // 26: ser.JonOpaquePayloadVersion
-	(*JonOpaquePayload)(nil),                   // 27: ser.JonOpaquePayload
-	(*JonGuiDataROI)(nil),                      // 28: ser.JonGuiDataROI
-	(*JonGuiDataSharpness)(nil),                // 29: ser.JonGuiDataSharpness
-	(*JonGuiDataVector3)(nil),                  // 30: ser.JonGuiDataVector3
-	(*JonGuiDataQuaternion)(nil),               // 31: ser.JonGuiDataQuaternion
-	(*JonGuiDataTransform3D)(nil),              // 32: ser.JonGuiDataTransform3D
-	(*JonGuiDataTrackedObject)(nil),            // 33: ser.JonGuiDataTrackedObject
+	(JonGuiDataSceneClass)(0),                  // 24: ser.JonGuiDataSceneClass
+	(JonGuiDataHeatSceneClass)(0),              // 25: ser.JonGuiDataHeatSceneClass
+	(JonGuiDataTrackedObject_TrackingState)(0), // 26: ser.JonGuiDataTrackedObject.TrackingState
+	(*JonGuiDataMeteo)(nil),                    // 27: ser.JonGuiDataMeteo
+	(*JonOpaquePayloadVersion)(nil),            // 28: ser.JonOpaquePayloadVersion
+	(*JonOpaquePayload)(nil),                   // 29: ser.JonOpaquePayload
+	(*JonGuiDataROI)(nil),                      // 30: ser.JonGuiDataROI
+	(*JonGuiDataSharpness)(nil),                // 31: ser.JonGuiDataSharpness
+	(*JonGuiDataVector3)(nil),                  // 32: ser.JonGuiDataVector3
+	(*JonGuiDataQuaternion)(nil),               // 33: ser.JonGuiDataQuaternion
+	(*JonGuiDataTransform3D)(nil),              // 34: ser.JonGuiDataTransform3D
+	(*JonGuiDataTrackedObject)(nil),            // 35: ser.JonGuiDataTrackedObject
 }
 var file_jon_shared_data_types_proto_depIdxs = []int32{
-	26, // 0: ser.JonOpaquePayload.version:type_name -> ser.JonOpaquePayloadVersion
-	30, // 1: ser.JonGuiDataTransform3D.position:type_name -> ser.JonGuiDataVector3
-	31, // 2: ser.JonGuiDataTransform3D.orientation:type_name -> ser.JonGuiDataQuaternion
-	30, // 3: ser.JonGuiDataTransform3D.linear_velocity:type_name -> ser.JonGuiDataVector3
-	30, // 4: ser.JonGuiDataTransform3D.angular_velocity:type_name -> ser.JonGuiDataVector3
-	32, // 5: ser.JonGuiDataTrackedObject.transform:type_name -> ser.JonGuiDataTransform3D
-	28, // 6: ser.JonGuiDataTrackedObject.bounding_box:type_name -> ser.JonGuiDataROI
-	24, // 7: ser.JonGuiDataTrackedObject.state:type_name -> ser.JonGuiDataTrackedObject.TrackingState
+	28, // 0: ser.JonOpaquePayload.version:type_name -> ser.JonOpaquePayloadVersion
+	32, // 1: ser.JonGuiDataTransform3D.position:type_name -> ser.JonGuiDataVector3
+	33, // 2: ser.JonGuiDataTransform3D.orientation:type_name -> ser.JonGuiDataQuaternion
+	32, // 3: ser.JonGuiDataTransform3D.linear_velocity:type_name -> ser.JonGuiDataVector3
+	32, // 4: ser.JonGuiDataTransform3D.angular_velocity:type_name -> ser.JonGuiDataVector3
+	34, // 5: ser.JonGuiDataTrackedObject.transform:type_name -> ser.JonGuiDataTransform3D
+	30, // 6: ser.JonGuiDataTrackedObject.bounding_box:type_name -> ser.JonGuiDataROI
+	26, // 7: ser.JonGuiDataTrackedObject.state:type_name -> ser.JonGuiDataTrackedObject.TrackingState
 	8,  // [8:8] is the sub-list for method output_type
 	8,  // [8:8] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name
@@ -2296,7 +2439,7 @@ func file_jon_shared_data_types_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_data_types_proto_rawDesc), len(file_jon_shared_data_types_proto_rawDesc)),
-			NumEnums:      25,
+			NumEnums:      27,
 			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,
