@@ -13,7 +13,7 @@ type: message
 
 What the FULL-AUTO scene classifier thinks the world is, per channel. Published every state tick by eutropia's `Isp3aHost` from the `scene_day` guest (`mods/isp3a/scene/`, the third sandboxed 3A guest beside `ae_day` and `awb_day`). It is a REPORT, never a control surface: the operator's latch is `cmd.DayCamera.SceneAuto` / `cmd.HeatCamera.SceneAuto`, and the mode the pipeline actually runs stays `JonGuiDataCameraDay.fx_mode` / `JonGuiDataCameraHeat.fx_mode`.
 
-Read `shadow` first. While it is true the guest computes, publishes and logs, and drives nothing; `day_mode` is then the mode it WOULD select, so a `day_class` disagreeing with the running `fx_mode` is the system working as designed. A class scores 0..1 per tick; the incumbent changes only when a challenger beats it by a margin for a dwell, and the guest never evaluates during an AE or AWB transient.
+Read `shadow` first: it says whether ANYTHING is acting on the picture. While it is true, `day_mode` is the mode auto WOULD select and nothing is driving it, so a `day_class` disagreeing with the running `fx_mode` is the system working as designed. While it is false the host is commanding that mode through `cmd.{Day,Heat}Camera.SetFxMode`. Either way the RUNNING mode stays `camera_{day,heat}.fx_mode` — nothing in this block is a readback. A class scores 0..1 per tick; the incumbent changes only when a challenger beats it by a margin for a dwell, and the guest never evaluates during an AE or AWB transient.
 
 ## Fields
 
@@ -43,7 +43,7 @@ Read `shadow` first. While it is true the guest computes, publishes and logs, an
 
 ### day_auto (#1)
 
-The operator's day full-auto latch, as last commanded by `cmd.DayCamera.SceneAuto.enable`. While false the classifier still runs and still publishes — it is a scene report, not a mode driver — so the scores below are live either way. The latch gates the ACT, which `shadow` currently forbids regardless.
+The operator's day full-auto latch, as last commanded by `cmd.DayCamera.SceneAuto.enable`. While false the classifier still runs and still publishes — it is a scene report, not a mode driver — so the scores below are live either way. What the latch gates is the ACT: with it on, and the guest's report settled, the host emits `cmd.DayCamera.SetFxMode` for `day_mode`. With it off nothing is commanded, and `shadow` says so.
 
 
 ### day_class (#2)
@@ -68,7 +68,7 @@ WHY the incumbent has not changed, as a short stable ASCII token never longer th
 
 ### day_mode (#6)
 
-The day FX mode the held class maps to — what the guest WOULD select, as a `JonGuiDataFxModeDay`. Not a command, and while `shadow` is true not a cause of anything. `DEFAULT` (0) is legal here, unlike in `cmd.DayCamera.SetFxMode`: a publish before the first decision legitimately reports the default. Constrained to defined enum values.
+The day FX mode the held class maps to, as a `JonGuiDataFxModeDay`. Read it with `shadow`: true means this is what auto WOULD select and nothing is driving it; false means it is what auto is driving the camera toward. Never a readback — the running mode is `camera_day.fx_mode`. `DEFAULT` (0) is legal here, unlike in `cmd.DayCamera.SetFxMode`: a publish before the first decision legitimately reports the default. Constrained to defined enum values.
 
 
 ### day_scores (#7)
@@ -113,7 +113,11 @@ One score in 0..1 per thermal class in `JonGuiDataHeatSceneClass` order starting
 
 ### shadow (#15)
 
-TRUE while the guest only observes: it computes, publishes this block and logs its decisions, and emits no `reload_params` and no mode command. The guest asserts it from its own output flags rather than the host asserting it about the guest, so the bit describes what the code that could act says it did. A `scene_day` build with no act path reports it unconditionally.
+NOTHING IS ACTING ON THE PICTURE. True while neither channel is armed, false as soon as one is — where a channel is armed when its `*_auto` latch is on AND the guest is not reporting `noinput` for it.
+
+So `shadow` false means some mode on this device is being chosen by the classifier rather than by the operator, and a UI must render the modes as automatic. `shadow` true means every mode is whatever was last set by hand, whichever way the latches read: the thermal half reports `noinput` on every box today (nothing publishes the pre-AGC drive it needs), so turning the heat latch on by itself does NOT clear this bit.
+
+⚠ It is NOT the guest's own shadow bit. The WASM classifier has no act path at all — it emits no command record and no `reload_params`, and asserts `ISP3A_OF_SCENE_SHADOW` about itself unconditionally on every build there is. Publishing that bit here would read as "nothing is acting" on a device whose mode the host is driving. The guest's own bit is not lost: it rides eutropia's `3A scene` log line as `guest_shadow`, beside the host's `day_armed` / `heat_armed`.
 
 
 

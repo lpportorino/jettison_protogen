@@ -2605,8 +2605,9 @@ pub struct JonGuiDataScene {
     ///
     /// While this is false the classifier still runs and still publishes — it is
     /// a scene report, not a mode driver — so the scores below are live either
-    /// way. What the latch gates is the ACT, which `shadow` currently forbids
-    /// regardless.
+    /// way. What the latch gates is the ACT: with it on, and the guest's report
+    /// settled, the HOST emits `cmd.DayCamera.SetFxMode` for `day_mode`. With it
+    /// off nothing is commanded, and `shadow` says so.
     #[prost(bool, tag = "1")]
     pub day_auto: bool,
     /// The class the guest currently holds for the day channel. UNSPECIFIED means
@@ -2632,8 +2633,12 @@ pub struct JonGuiDataScene {
     /// mapped by the host, so there is no second copy of it to drift.
     #[prost(string, tag = "5")]
     pub day_hold_reason: ::prost::alloc::string::String,
-    /// The day FX mode this class maps to — what the guest WOULD select. Not a
-    /// command, and while `shadow` is true not a cause of anything either.
+    /// The day FX mode this class maps to.
+    ///
+    /// Read it with `shadow`: while `shadow` is true this is what auto WOULD
+    /// select and nothing is driving it, and while `shadow` is false it is what
+    /// auto is driving the camera toward. Either way the RUNNING mode stays
+    /// `camera_day.fx_mode` — this field is never a readback.
     ///
     /// `*_DEFAULT` (0) is legal here, unlike in `cmd.DayCamera.SetFxMode`: a
     /// publish before the first decision legitimately reports the default.
@@ -2677,14 +2682,25 @@ pub struct JonGuiDataScene {
     /// index 0 = HIGH_CONTRAST, 1 = LOW_CONTRAST. EMPTY when nothing was scored.
     #[prost(float, repeated, tag = "14")]
     pub heat_scores: ::prost::alloc::vec::Vec<f32>,
-    /// TRUE while the guest only observes: it computes, publishes this block and
-    /// logs its decisions, and emits no `reload_params` and no mode command.
+    /// NOTHING IS ACTING ON THE PICTURE. True while neither channel is armed,
+    /// false as soon as one is — where a channel is armed when its `*_auto` latch
+    /// is on AND the guest is not reporting `noinput` for it.
     ///
-    /// The guest asserts it from its own output flags rather than the host
-    /// asserting it about the guest, so the bit describes what the code that
-    /// could act says it did — which is the only version of the claim worth
-    /// publishing. A `scene_day` build with no act path at all reports it
-    /// unconditionally.
+    /// So `shadow` false means some mode on this device is being chosen by the
+    /// classifier rather than by the operator, and a UI must render the modes as
+    /// automatic. `shadow` true means every mode is whatever was last set by
+    /// hand, whichever way the latches read: the thermal half reports `noinput`
+    /// on every box today (nothing publishes the pre-AGC drive it needs), so
+    /// turning the heat latch on by itself does NOT clear this bit.
+    ///
+    /// ⚠ IT IS NOT THE GUEST'S OWN SHADOW BIT. The WASM classifier has no act
+    /// path at all — it emits no command record and no `reload_params`, and
+    /// asserts `ISP3A_OF_SCENE_SHADOW` about itself unconditionally on every
+    /// build there is. Publishing that bit here would read as "nothing is
+    /// acting" on a device whose mode the host is driving, which is the single
+    /// most misleading thing this block could say. The guest's own bit is not
+    /// lost — it rides eutropia's `3A scene` log line as `guest_shadow`, beside
+    /// the host's `day_armed` / `heat_armed`.
     #[prost(bool, tag = "15")]
     pub shadow: bool,
 }
