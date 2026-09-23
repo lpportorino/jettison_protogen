@@ -6,7 +6,8 @@
 # into the bytes it writes (protoc-gen-go puts its own version in every file
 # header), so its output is a function of Dockerfile.base as much as of proto/.
 # A pin bumped without a regeneration, or a regeneration run on an image built
-# from different pins, moves 48 files that ten consumer repositories vendor.
+# from different pins, moves every file of output/go, which ten consumer
+# repositories vendor.
 # This is the check that says so, and it is the re-runnable evidence behind any
 # claim that a change to the leg was byte-neutral.
 #
@@ -16,11 +17,15 @@
 #   1. PROTOC_GEN_GO_VERSION      — pinned
 #   2. PROTOC_GEN_GO_GRPC_VERSION — pinned, and inert today (no proto declares a
 #                                   service, so this plugin emits no file)
-#   3. the protovalidate clone    — NOT PINNED. Dockerfile.base clones it at
-#      default-branch HEAD, and buf/validate/validate.pb.go — one of the 48 — is
-#      generated from it. An upstream commit there moves a vendored file with no
-#      change in this repo at all. If this check goes red on exactly that one
-#      file and nothing else, suspect the clone before you suspect a pin.
+#   3. PROTOVALIDATE_REF          — pinned; buf/validate/validate.pb.go is
+#      generated from that clone. A WARM image built before the pin landed still
+#      carries whatever HEAD was on its build day, so if this check goes red on
+#      exactly that one file and nothing else, rebuild the base image
+#      (`make rebuild-base`) before you suspect the tree.
+#
+# THE TWO go.mod FILES ARE PART OF THE COMPARISON. The leg writes them itself
+# (the "Go module manifests" block of GO_SCRIPT), so a regeneration can no
+# longer drop them and a hand edit to either one reds here.
 #
 # HOST-ONLY. It drives `docker run`, and the toolchain image ships no docker
 # CLI, so this cannot run inside tools/uber.sh.
@@ -40,6 +45,7 @@
 #   tools/go_leg_repro.sh --allow-network # same, without --network none
 #   tools/go_leg_repro.sh --image IMG     # compare against a specific image
 #   tools/go_leg_repro.sh --canary        # prove this check can FAIL (see below)
+#   tools/go_leg_repro.sh --writer-canary # prove the LEG's manifest writer holds (see below)
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -52,7 +58,8 @@ while [ $# -gt 0 ]; do
     --image) IMAGE="${2:?--image needs a value}"; shift 2 ;;
     --allow-network) NET_ARGS=(); shift ;;
     --canary) MODE="canary"; shift ;;
-    -h|--help) sed -n '2,31p' "${BASH_SOURCE[0]}"; exit 0 ;;
+    --writer-canary) MODE="writer-canary"; shift ;;
+    -h|--help) sed -n '2,48p' "${BASH_SOURCE[0]}"; exit 0 ;;
     *) printf 'go-leg-repro: unknown argument %s\n' "$1" >&2; exit 2 ;;
   esac
 done
@@ -92,8 +99,14 @@ generate_into() {
   # cleanup failure whose exit status REPLACES the verdict — measured here: a
   # green comparison exited 1 because the EXIT trap could not remove the temp
   # tree. Generation and chown are one payload so a failure of either is seen.
+  #
+  # STRICTNESS PARITY: generate-protos.sh's run_generation prepends
+  # `set -euo pipefail` to every payload, so the leg runs strict there; this
+  # check runs it the same way, or a leg that only fails under -u / pipefail
+  # would pass here and break the real generator.
   local payload
-  payload="$GO_SCRIPT
+  payload="set -euo pipefail
+$GO_SCRIPT
 chown -R $(id -u):$(id -g) /workspace/output"
   # Run BARE. A pipeline would report the FILTER's status and a failed
   # generation would read as success.
@@ -286,9 +299,135 @@ canary() {
   return 1
 }
 
+# ── writer canary ────────────────────────────────────────────────────────────
+#
+# The canary above proves the COMPARISON can fail. This one proves the LEG's own
+# go.mod writer behaves, which the comparison cannot: it runs the real payload,
+# with the same `set -euo pipefail` preamble generate-protos.sh prepends, and
+# asserts on the leg's exit status and its own ERROR text.
+#
+#   1. The leg runs TWICE into one output directory and both runs pass. buf does
+#      not rewrite an unchanged file, so a writer that judged the output
+#      directory would find nothing new on the second run and die there.
+#   2. After a one-comment proto edit, into that same populated directory, it
+#      still passes and the manifests still equal the committed ones.
+#   3. A go_package outside the pinned module is refused.
+#   4-7. Its four output checks each refuse when their condition is planted
+#      into the payload right after `buf generate`: a foreign import, a
+#      generated tree with no protobuf import (the non-vacuity floor), a header
+#      whose protoc-gen-go version disagrees with the build info, and a .pb.go
+#      outside both modules a go.mod is written for.
+# Every planted input is asserted present before its verdict is believed.
+
+# run_leg <out-dir> <proto-dir> <payload>: run the leg, print its output, return its status.
+run_leg() {
+  docker run --rm --network none \
+    -v "$2:/workspace/proto:ro" -v "$1:/workspace/output:rw" \
+    -v "$ROOT/scripts:/workspace/scripts:ro" -w /workspace \
+    --entrypoint /bin/bash "$IMAGE" -c "trap 'chown -R $(id -u):$(id -g) /workspace/output' EXIT
+set -euo pipefail
+$3" 2>&1
+}
+
+# plant <snippet>: the payload with <snippet> inserted right after `buf generate`.
+plant() {
+  local marker=$'\nbuf generate\n'
+  [[ "$GO_SCRIPT" == *"$marker"* ]] || err "the payload has no 'buf generate' line to plant after"
+  printf '%s' "${GO_SCRIPT/"$marker"/"$marker$1"$'\n'}"
+}
+
+writer_canary() {
+  local work pass=0 fail=0 out rc payload jonp_mod pv_mod
+  work="$(mktemp -d)"
+  # shellcheck disable=SC2064  # expand $work now
+  trap "rm -rf '$work'" RETURN
+  command -v docker >/dev/null 2>&1 || err "docker is not on PATH; this check is host-only"
+  docker image inspect "$IMAGE" >/dev/null 2>&1 || err "image $IMAGE is absent — build it with: make build"
+  jonp_mod="$(cd "$ROOT/output/go" && find . -path '*/jonp/go.mod' | sed 's|^\./||')"
+  pv_mod="$(cd "$ROOT/output/go" && find . -path '*/protovalidate/*/go.mod' | sed 's|^\./||')"
+  [ -n "$jonp_mod" ] && [ -n "$pv_mod" ] || err "the committed tree has no go.mod pair to compare against"
+
+  ok()  { green "  ok   $1"; pass=$((pass + 1)); }
+  bad() { red "  FAIL $1"; fail=$((fail + 1)); }
+  gomods_match() {
+    cmp -s "$1/$jonp_mod" "$ROOT/output/go/$jonp_mod" && cmp -s "$1/$pv_mod" "$ROOT/output/go/$pv_mod"
+  }
+  # expect_pass <label> <rc> <out-dir> / expect_refusal <label> <rc> <needle> <output>
+  expect_pass() {
+    if [ "$2" -eq 0 ] && gomods_match "$3"; then ok "$1 (exit 0, both go.mod equal the committed ones)"
+    else bad "$1 — exit $2, manifests match: $(gomods_match "$3" && echo yes || echo no)"; fi
+  }
+  expect_refusal() {
+    if [ "$2" -ne 0 ] && grep -qF "$3" <<<"$4"; then ok "$1 (exit $2, names: $3)"
+    else bad "$1 — exit $2, expected a refusal naming [$3]; last line: $(tail -n 1 <<<"$4")"; fi
+  }
+
+  # 1. twice into one directory
+  mkdir -p "$work/twice"
+  set +e; run_leg "$work/twice" "$ROOT/proto" "$GO_SCRIPT" >/dev/null; rc=$?; set -e
+  expect_pass "run 1 into an empty directory" "$rc" "$work/twice"
+  set +e; run_leg "$work/twice" "$ROOT/proto" "$GO_SCRIPT" >/dev/null; rc=$?; set -e
+  expect_pass "run 2 into the SAME, now populated, directory" "$rc" "$work/twice"
+
+  # 2. one-comment proto edit, same populated directory
+  cp -r "$ROOT/proto" "$work/proto-comment"
+  local victim
+  victim="$(cd "$work/proto-comment" && grep -rl '^option go_package' --include='*.proto' . | grep -v '/test/' | sort | sed -n 1p)"
+  [ -n "$victim" ] || err "writer canary fixture: no proto with a go_package to edit"
+  printf '\n// planted by go_leg_repro --writer-canary\n' >>"$work/proto-comment/$victim"
+  grep -q 'planted by go_leg_repro --writer-canary' "$work/proto-comment/$victim" \
+    || err "writer canary fixture: the comment did not land in $victim"
+  set +e; run_leg "$work/twice" "$work/proto-comment" "$GO_SCRIPT" >/dev/null; rc=$?; set -e
+  expect_pass "after a one-comment edit to $victim, same directory" "$rc" "$work/twice"
+
+  # 3. go_package outside the pinned module
+  cp -r "$ROOT/proto" "$work/proto-foreign"
+  sed -i -E '0,/^option go_package *= *"[^"]*"/s//option go_package = "git-codecommit.eu-central-1.amazonaws.com\/v1\/repos\/jettison\/other"/' \
+    "$work/proto-foreign/$victim"
+  grep -q 'repos/jettison/other"' "$work/proto-foreign/$victim" \
+    || err "writer canary fixture: the foreign go_package did not land in $victim"
+  mkdir -p "$work/foreign"
+  set +e; out="$(run_leg "$work/foreign" "$work/proto-foreign" "$GO_SCRIPT")"; rc=$?; set -e
+  expect_refusal "a go_package outside JONP_MODULE" "$rc" "is outside the pinned module" "$out"
+
+  # 4-6. the writer's self-checks, each planted alone
+  local -a labels=(
+    "a foreign import in a generated file"
+    "a generated tree with no protobuf import"
+    "a header version that disagrees with the build info"
+    "a generated file outside both modules")
+  local -a snippets=(
+    'printf "package x\n\nimport (\n\tf \"example.org/foreign/pkg\"\n)\n" > "$GO_LEG_OUT/$JONP_MODULE/planted.pb.go"'
+    'find "$GO_LEG_OUT" -name "*.pb.go" -exec sed -i "/google.golang.org\\/protobuf/d" {} +'
+    'find "$GO_LEG_OUT" -name "validate.pb.go" -exec sed -i "s|^//\(.*\)protoc-gen-go v|//\1protoc-gen-go v0.0.0-planted-|" {} +'
+    'mkdir -p "$GO_LEG_OUT/example.org/stray" && printf "package stray\n" > "$GO_LEG_OUT/example.org/stray/stray.pb.go"')
+  local -a needles=(
+    "which belongs to no module this leg can version"
+    "the import extraction broke"
+    "does not carry protoc-gen-go"
+    "generated files outside both modules")
+  local k
+  for k in "${!snippets[@]}"; do
+    payload="$(plant "${snippets[$k]}")"
+    grep -qF "${snippets[$k]}" <<<"$payload" || err "writer canary: planting case $((k + 4)) did not land"
+    mkdir -p "$work/plant$k"
+    set +e; out="$(run_leg "$work/plant$k" "$ROOT/proto" "$payload")"; rc=$?; set -e
+    expect_refusal "${labels[$k]}" "$rc" "${needles[$k]}" "$out"
+  done
+
+  printf '\n'
+  if [ "$fail" -eq 0 ]; then green "[go-leg-repro writer-canary] ALL GREEN — $pass assertion(s)"; return 0; fi
+  red "[go-leg-repro writer-canary] $fail assertion(s) FAILED, $pass passed"
+  return 1
+}
+
 # ── main ─────────────────────────────────────────────────────────────────────
 
 extract_payload
+if [ "$MODE" = "writer-canary" ]; then
+  writer_canary
+  exit $?
+fi
 FRESH="$(mktemp -d)"
 earned=0
 # THE TRAP MUST NOT REWRITE THE VERDICT. A bare `trap rm -rf ... EXIT` hands the

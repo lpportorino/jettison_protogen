@@ -625,12 +625,15 @@ the same two plugins as LOCAL binaries pinned in `Dockerfile.base`
 (`PROTOC_GEN_GO_VERSION`/`PROTOC_GEN_GO_GRPC_VERSION`), so the leg makes no
 registry request, needs no credential, and behaves identically in a repo build
 and a fork build. The switch was proved byte-neutral: a local run reproduced
-all 48 committed files exactly.
+every committed file under `output/go` exactly — `make go-leg-repro` re-derives
+that claim on demand, which is why no count is quoted here.
 
 **Because the pin decides the bytes, bumping it is a REGENERATION.**
 `protoc-gen-go` stamps its own version into every file header, so a plugin bump
-rewrites all 48 `.pb.go` files with no proto change behind it. Land the bump and
-the regenerated output together.
+rewrites every `.pb.go` file with no proto change behind it. Land the bump and
+the regenerated output together. The same holds for `PROTOVALIDATE_REF`, the
+pinned protovalidate commit every validate-aware leg copies `validate.proto`
+from.
 
 **The Go leg is now fully offline; the whole target is not.**
 `TYPESCRIPT_SCRIPT` runs `npm install ts-proto` and `RUST_SCRIPT` runs
@@ -698,6 +701,30 @@ that has the origin, not from the clone you are authoring in.
   `protoc-gen-go-grpc` off the image PATH, pinned in `Dockerfile.base`. It is the
   only leg whose plugin versions are stamped into the generated files, so those
   two pins are wire-visible in a way a compiler pin is not.
+  **It also WRITES the two Go module manifests** (`output/go/**/go.mod`), because
+  `buf generate` emits none, and a manifest no leg produces is one a
+  regeneration can drop — which leaves a consumer that `replace`s the jonp module
+  into this tree unable to build. Every value in them is derived inside the leg
+  except three named pins at the top of `GO_SCRIPT` — the jonp module path (an
+  identity every go_package is checked against), the `go` directive and the BSR
+  commit of the protovalidate SDK version — each carrying why nothing in the
+  image can compute it.
+  The leg generates into an EMPTY scratch directory and copies the result into
+  `output/go`, because buf does not rewrite an unchanged file and the output
+  directory is always populated; `make go-leg-writer-canary` runs the leg twice
+  into one directory and once after a one-comment proto edit, and refuses a
+  go_package outside the pinned module plus four planted output conditions —
+  a foreign import, no protobuf import, a header version that disagrees with
+  the plugin's build info, and a `.pb.go` outside both modules.
+  **`make generate` refuses a stale image before any leg runs.**
+  `tools/image_pin_check.sh` compares the generator image's protovalidate
+  commit and `protoc-gen-go` version against `Dockerfile.base`, because a base
+  image built before a pin moved would otherwise regenerate with the old input
+  and nothing downstream would notice; the fix it prints is
+  `make rebuild-base`. It checks those two pins only — the script header says
+  why the grpc plugin pin reaches no committed byte — so a change to any other
+  `Dockerfile.base` pin still needs `make rebuild-base` by hand.
+  `make image-pin-check-canary` proves each clause fires.
   `make go-leg-repro` ([`tools/go_leg_repro.sh`](./tools/go_leg_repro.sh))
   re-runs just that leg into a temp directory, offline, and fails if the result
   is not byte-identical to `output/go`; `make go-leg-repro-canary` proves it can
