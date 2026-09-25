@@ -122,6 +122,9 @@ extern SaveToTableDefaultTypeInternal _SaveToTable_default_instance_;
 class SaveToTableFocus;
 struct SaveToTableFocusDefaultTypeInternal;
 extern SaveToTableFocusDefaultTypeInternal _SaveToTableFocus_default_instance_;
+class SceneAuto;
+struct SceneAutoDefaultTypeInternal;
+extern SceneAutoDefaultTypeInternal _SceneAuto_default_instance_;
 class SetAutoGain;
 struct SetAutoGainDefaultTypeInternal;
 extern SetAutoGainDefaultTypeInternal _SetAutoGain_default_instance_;
@@ -3160,6 +3163,196 @@ class SetAutoGain final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SetAutoGain& from_msg);
     bool value_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fday_5fcamera_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SceneAuto final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.DayCamera.SceneAuto) */ {
+ public:
+  inline SceneAuto() : SceneAuto(nullptr) {}
+  ~SceneAuto() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(SceneAuto* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(SceneAuto));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR SceneAuto(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline SceneAuto(const SceneAuto& from) : SceneAuto(nullptr, from) {}
+  inline SceneAuto(SceneAuto&& from) noexcept
+      : SceneAuto(nullptr, std::move(from)) {}
+  inline SceneAuto& operator=(const SceneAuto& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SceneAuto& operator=(SceneAuto&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SceneAuto& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SceneAuto* internal_default_instance() {
+    return reinterpret_cast<const SceneAuto*>(
+        &_SceneAuto_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 39;
+  friend void swap(SceneAuto& a, SceneAuto& b) { a.Swap(&b); }
+  inline void Swap(SceneAuto* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SceneAuto* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SceneAuto* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<SceneAuto>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const SceneAuto& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const SceneAuto& from) { SceneAuto::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(SceneAuto* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.DayCamera.SceneAuto"; }
+
+ protected:
+  explicit SceneAuto(::google::protobuf::Arena* arena);
+  SceneAuto(::google::protobuf::Arena* arena, const SceneAuto& from);
+  SceneAuto(::google::protobuf::Arena* arena, SceneAuto&& from) noexcept
+      : SceneAuto(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kEnableFieldNumber = 1,
+  };
+  // bool enable = 1;
+  void clear_enable() ;
+  bool enable() const;
+  void set_enable(bool value);
+
+  private:
+  bool _internal_enable() const;
+  void _internal_set_enable(bool value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.DayCamera.SceneAuto)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const SceneAuto& from_msg);
+    bool enable_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -7275,6 +7468,7 @@ class Root final : public ::google::protobuf::Message
     kZoomRoi = 20,
     kFxRoi = 21,
     kSetAutoGain = 22,
+    kSceneAuto = 23,
     CMD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -7390,6 +7584,7 @@ class Root final : public ::google::protobuf::Message
     kZoomRoiFieldNumber = 20,
     kFxRoiFieldNumber = 21,
     kSetAutoGainFieldNumber = 22,
+    kSceneAutoFieldNumber = 23,
   };
   // .cmd.DayCamera.Focus focus = 1;
   bool has_focus() const;
@@ -7809,6 +8004,25 @@ class Root final : public ::google::protobuf::Message
   ::cmd::DayCamera::SetAutoGain* _internal_mutable_set_auto_gain();
 
   public:
+  // .cmd.DayCamera.SceneAuto scene_auto = 23;
+  bool has_scene_auto() const;
+  private:
+  bool _internal_has_scene_auto() const;
+
+  public:
+  void clear_scene_auto() ;
+  const ::cmd::DayCamera::SceneAuto& scene_auto() const;
+  PROTOBUF_NODISCARD ::cmd::DayCamera::SceneAuto* release_scene_auto();
+  ::cmd::DayCamera::SceneAuto* mutable_scene_auto();
+  void set_allocated_scene_auto(::cmd::DayCamera::SceneAuto* value);
+  void unsafe_arena_set_allocated_scene_auto(::cmd::DayCamera::SceneAuto* value);
+  ::cmd::DayCamera::SceneAuto* unsafe_arena_release_scene_auto();
+
+  private:
+  const ::cmd::DayCamera::SceneAuto& _internal_scene_auto() const;
+  ::cmd::DayCamera::SceneAuto* _internal_mutable_scene_auto();
+
+  public:
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:cmd.DayCamera.Root)
@@ -7836,11 +8050,12 @@ class Root final : public ::google::protobuf::Message
   void set_has_zoom_roi();
   void set_has_fx_roi();
   void set_has_set_auto_gain();
+  void set_has_scene_auto();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 22, 22,
+      0, 23, 23,
       0, 2>
       _table_;
 
@@ -7883,6 +8098,7 @@ class Root final : public ::google::protobuf::Message
       ::cmd::DayCamera::ZoomROI* zoom_roi_;
       ::cmd::DayCamera::FxROI* fx_roi_;
       ::cmd::DayCamera::SetAutoGain* set_auto_gain_;
+      ::cmd::DayCamera::SceneAuto* scene_auto_;
     } cmd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -9795,6 +10011,85 @@ inline ::cmd::DayCamera::SetAutoGain* Root::_internal_mutable_set_auto_gain() {
 inline ::cmd::DayCamera::SetAutoGain* Root::mutable_set_auto_gain() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   ::cmd::DayCamera::SetAutoGain* _msg = _internal_mutable_set_auto_gain();
   // @@protoc_insertion_point(field_mutable:cmd.DayCamera.Root.set_auto_gain)
+  return _msg;
+}
+
+// .cmd.DayCamera.SceneAuto scene_auto = 23;
+inline bool Root::has_scene_auto() const {
+  return cmd_case() == kSceneAuto;
+}
+inline bool Root::_internal_has_scene_auto() const {
+  return cmd_case() == kSceneAuto;
+}
+inline void Root::set_has_scene_auto() {
+  _impl_._oneof_case_[0] = kSceneAuto;
+}
+inline void Root::clear_scene_auto() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kSceneAuto) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.scene_auto_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.scene_auto_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::DayCamera::SceneAuto* Root::release_scene_auto() {
+  // @@protoc_insertion_point(field_release:cmd.DayCamera.Root.scene_auto)
+  if (cmd_case() == kSceneAuto) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.scene_auto_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.scene_auto_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::DayCamera::SceneAuto& Root::_internal_scene_auto() const {
+  return cmd_case() == kSceneAuto ? *_impl_.cmd_.scene_auto_ : reinterpret_cast<::cmd::DayCamera::SceneAuto&>(::cmd::DayCamera::_SceneAuto_default_instance_);
+}
+inline const ::cmd::DayCamera::SceneAuto& Root::scene_auto() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.DayCamera.Root.scene_auto)
+  return _internal_scene_auto();
+}
+inline ::cmd::DayCamera::SceneAuto* Root::unsafe_arena_release_scene_auto() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.DayCamera.Root.scene_auto)
+  if (cmd_case() == kSceneAuto) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.scene_auto_;
+    _impl_.cmd_.scene_auto_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_scene_auto(::cmd::DayCamera::SceneAuto* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_scene_auto();
+    _impl_.cmd_.scene_auto_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.DayCamera.Root.scene_auto)
+}
+inline ::cmd::DayCamera::SceneAuto* Root::_internal_mutable_scene_auto() {
+  if (cmd_case() != kSceneAuto) {
+    clear_cmd();
+    set_has_scene_auto();
+    _impl_.cmd_.scene_auto_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::DayCamera::SceneAuto>(GetArena());
+  }
+  return _impl_.cmd_.scene_auto_;
+}
+inline ::cmd::DayCamera::SceneAuto* Root::mutable_scene_auto() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::DayCamera::SceneAuto* _msg = _internal_mutable_scene_auto();
+  // @@protoc_insertion_point(field_mutable:cmd.DayCamera.Root.scene_auto)
   return _msg;
 }
 
@@ -12138,6 +12433,32 @@ inline ::uint64_t FxROI::_internal_state_time() const {
 inline void FxROI::_internal_set_state_time(::uint64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.state_time_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// SceneAuto
+
+// bool enable = 1;
+inline void SceneAuto::clear_enable() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.enable_ = false;
+}
+inline bool SceneAuto::enable() const {
+  // @@protoc_insertion_point(field_get:cmd.DayCamera.SceneAuto.enable)
+  return _internal_enable();
+}
+inline void SceneAuto::set_enable(bool value) {
+  _internal_set_enable(value);
+  // @@protoc_insertion_point(field_set:cmd.DayCamera.SceneAuto.enable)
+}
+inline bool SceneAuto::_internal_enable() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.enable_;
+}
+inline void SceneAuto::_internal_set_enable(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.enable_ = value;
 }
 
 #ifdef __GNUC__

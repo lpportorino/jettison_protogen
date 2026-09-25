@@ -19,6 +19,7 @@ import "jon_shared_data_cv.proto";
 import "jon_shared_data_pmu.proto";
 import "jon_shared_data_heater.proto";
 import "jon_shared_data_drive.proto";
+import "jon_shared_data_scene.proto";
 
 package ser;
 
@@ -70,4 +71,9 @@ message JonGUIState {
   JonGuiDataPMU pmu = 28 [(buf.validate.field).required = true];
   JonGuiDataHeater heater = 29;
   JonGuiDataDrive drive = 30;
+  // The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+  // guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+  // runs no classifier publishes no block, and an absent block is a
+  // classifier that is not running rather than a scene of UNSPECIFIED.
+  JonGuiDataScene scene = 31;
 }

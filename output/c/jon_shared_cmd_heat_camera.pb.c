@@ -129,6 +129,9 @@ PB_BIND(cmd_HeatCamera_ZoomROI, cmd_HeatCamera_ZoomROI, AUTO)
 PB_BIND(cmd_HeatCamera_FxROI, cmd_HeatCamera_FxROI, AUTO)
 
 
+PB_BIND(cmd_HeatCamera_SceneAuto, cmd_HeatCamera_SceneAuto, AUTO)
+
+
 
 #ifndef PB_CONVERT_DOUBLE_FLOAT
 /* On some platforms (such as AVR), double is really float.

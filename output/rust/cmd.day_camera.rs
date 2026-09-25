@@ -30,7 +30,7 @@ pub struct ShiftClaheLevel {
 pub struct Root {
     #[prost(
         oneof = "root::Cmd",
-        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22"
+        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23"
     )]
     pub cmd: ::core::option::Option<root::Cmd>,
 }
@@ -82,6 +82,8 @@ pub mod root {
         FxRoi(super::FxRoi),
         #[prost(message, tag = "22")]
         SetAutoGain(super::SetAutoGain),
+        #[prost(message, tag = "23")]
+        SceneAuto(super::SceneAuto),
     }
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -286,4 +288,27 @@ pub struct FxRoi {
     /// System monotonic time from state when user performed action
     #[prost(uint64, tag = "6")]
     pub state_time: u64,
+}
+/// FULL-AUTO SCENE MODE for the day channel — the operator's latch, and only
+/// the latch.
+///
+/// `enable` true hands the day look mode to eutropia's `scene_day` classifier
+/// guest (`mods/isp3a/scene/`); false takes it back. It commands no mode and
+/// changes no picture by itself: the guest decides WHICH mode and WHEN, and
+/// publishes what it decided as `day_class / day_challenger / day_scores` on
+/// `JonGuiDataScene` (`state.scene`).
+///
+/// ⚠ WHILE THE GUEST IS IN SHADOW (`JonGuiDataScene.shadow` true) this latch
+/// changes exactly one published boolean and nothing else — the guest emits no
+/// `reload_params` in either position. Read the state block, never this command,
+/// to find out what the classifier is doing.
+///
+/// A message of this name exists in BOTH `cmd.DayCamera` and `cmd.HeatCamera`,
+/// as `SetFxMode`, `Photo`, `Start`, `Stop` and `FocusROI` already do: the two
+/// packages are disjoint, and the Heat twin is
+/// `cmd.HeatCamera.SceneAuto`.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct SceneAuto {
+    #[prost(bool, tag = "1")]
+    pub enable: bool,
 }

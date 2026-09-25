@@ -22,6 +22,7 @@ import (
 	power "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/power"
 	rec_osd "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/rec_osd"
 	rotary "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/rotary"
+	scene "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/scene"
 	system "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/system"
 	time "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/time"
 	types "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/types"
@@ -68,8 +69,13 @@ type JonGUIState struct {
 	Pmu                *pmu.JonGuiDataPMU                                `protobuf:"bytes,28,opt,name=pmu,proto3" json:"pmu,omitempty"`
 	Heater             *heater.JonGuiDataHeater                          `protobuf:"bytes,29,opt,name=heater,proto3" json:"heater,omitempty"`
 	Drive              *drive.JonGuiDataDrive                            `protobuf:"bytes,30,opt,name=drive,proto3" json:"drive,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	// The FULL-AUTO scene classifier's report (eutropia's `scene_day`
+	// guest). Optional, like `cv`, `heater` and `drive` above: a peer that
+	// runs no classifier publishes no block, and an absent block is a
+	// classifier that is not running rather than a scene of UNSPECIFIED.
+	Scene         *scene.JonGuiDataScene `protobuf:"bytes,31,opt,name=scene,proto3" json:"scene,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *JonGUIState) Reset() {
@@ -277,11 +283,18 @@ func (x *JonGUIState) GetDrive() *drive.JonGuiDataDrive {
 	return nil
 }
 
+func (x *JonGUIState) GetScene() *scene.JonGuiDataScene {
+	if x != nil {
+		return x.Scene
+	}
+	return nil
+}
+
 var File_jon_shared_data_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_proto_rawDesc = "" +
 	"\n" +
-	"\x15jon_shared_data.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\x1a\x1ajon_shared_data_time.proto\x1a\x1cjon_shared_data_system.proto\x1a\x19jon_shared_data_lrf.proto\x1a\x19jon_shared_data_gps.proto\x1a\x1djon_shared_data_compass.proto\x1a)jon_shared_data_compass_calibration.proto\x1a\x1cjon_shared_data_rotary.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1djon_shared_data_rec_osd.proto\x1a'jon_shared_data_actual_space_time.proto\x1a\x1bjon_shared_data_power.proto\x1a\x18jon_shared_data_cv.proto\x1a\x19jon_shared_data_pmu.proto\x1a\x1cjon_shared_data_heater.proto\x1a\x1bjon_shared_data_drive.proto\"\xdd\v\n" +
+	"\x15jon_shared_data.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\x1a\x1ajon_shared_data_time.proto\x1a\x1cjon_shared_data_system.proto\x1a\x19jon_shared_data_lrf.proto\x1a\x19jon_shared_data_gps.proto\x1a\x1djon_shared_data_compass.proto\x1a)jon_shared_data_compass_calibration.proto\x1a\x1cjon_shared_data_rotary.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1djon_shared_data_rec_osd.proto\x1a'jon_shared_data_actual_space_time.proto\x1a\x1bjon_shared_data_power.proto\x1a\x18jon_shared_data_cv.proto\x1a\x19jon_shared_data_pmu.proto\x1a\x1cjon_shared_data_heater.proto\x1a\x1bjon_shared_data_drive.proto\x1a\x1bjon_shared_data_scene.proto\"\x89\f\n" +
 	"\vJonGUIState\x128\n" +
 	"\x10protocol_version\x18\x01 \x01(\rB\r\xbaH\n" +
 	"*\b\x18\xff\xff\xff\xff\a \x00R\x0fprotocolVersion\x12@\n" +
@@ -311,7 +324,8 @@ const file_jon_shared_data_proto_rawDesc = "" +
 	"\x02cv\x18\x1b \x01(\v2\x11.ser.JonGuiDataCVR\x02cv\x12,\n" +
 	"\x03pmu\x18\x1c \x01(\v2\x12.ser.JonGuiDataPMUB\x06\xbaH\x03\xc8\x01\x01R\x03pmu\x12-\n" +
 	"\x06heater\x18\x1d \x01(\v2\x15.ser.JonGuiDataHeaterR\x06heater\x12*\n" +
-	"\x05drive\x18\x1e \x01(\v2\x14.ser.JonGuiDataDriveR\x05driveJ\x04\b\t\x10\n" +
+	"\x05drive\x18\x1e \x01(\v2\x14.ser.JonGuiDataDriveR\x05drive\x12*\n" +
+	"\x05scene\x18\x1f \x01(\v2\x14.ser.JonGuiDataSceneR\x05sceneJ\x04\b\t\x10\n" +
 	"J\x04\b\n" +
 	"\x10\vJ\x04\b\v\x10\fJ\x04\b\f\x10\rJ\x04\b\x18\x10\x19B\x90\x01\n" +
 	"\acom.serB\x12JonSharedDataProtoP\x01ZEgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
@@ -350,6 +364,7 @@ var file_jon_shared_data_proto_goTypes = []any{
 	(*pmu.JonGuiDataPMU)(nil),                                // 17: ser.JonGuiDataPMU
 	(*heater.JonGuiDataHeater)(nil),                          // 18: ser.JonGuiDataHeater
 	(*drive.JonGuiDataDrive)(nil),                            // 19: ser.JonGuiDataDrive
+	(*scene.JonGuiDataScene)(nil),                            // 20: ser.JonGuiDataScene
 }
 var file_jon_shared_data_proto_depIdxs = []int32{
 	1,  // 0: ser.JonGUIState.state_source:type_name -> ser.JonGuiDataStateSource
@@ -371,11 +386,12 @@ var file_jon_shared_data_proto_depIdxs = []int32{
 	17, // 16: ser.JonGUIState.pmu:type_name -> ser.JonGuiDataPMU
 	18, // 17: ser.JonGUIState.heater:type_name -> ser.JonGuiDataHeater
 	19, // 18: ser.JonGUIState.drive:type_name -> ser.JonGuiDataDrive
-	19, // [19:19] is the sub-list for method output_type
-	19, // [19:19] is the sub-list for method input_type
-	19, // [19:19] is the sub-list for extension type_name
-	19, // [19:19] is the sub-list for extension extendee
-	0,  // [0:19] is the sub-list for field type_name
+	20, // 19: ser.JonGUIState.scene:type_name -> ser.JonGuiDataScene
+	20, // [20:20] is the sub-list for method output_type
+	20, // [20:20] is the sub-list for method input_type
+	20, // [20:20] is the sub-list for extension type_name
+	20, // [20:20] is the sub-list for extension extendee
+	0,  // [0:20] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_proto_init() }

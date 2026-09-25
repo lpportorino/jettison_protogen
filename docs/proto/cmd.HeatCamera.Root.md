@@ -52,6 +52,7 @@ Root message container for all thermal camera commands using a required oneof pa
 | 36 | track_roi | [[proto/cmd.HeatCamera.TrackROI]] | - |
 | 37 | zoom_roi | [[proto/cmd.HeatCamera.ZoomROI]] | - |
 | 38 | fx_roi | [[proto/cmd.HeatCamera.FxROI]] | - |
+| 39 | scene_auto | [[proto/cmd.HeatCamera.SceneAuto]] | - |
 
 
 ## Oneofs
@@ -59,7 +60,7 @@ Root message container for all thermal camera commands using a required oneof pa
 
 ### cmd (required)
 
-Fields: #1, #2, #3, #4, #5, #6, #10, #11, #12, #13, #14, #15, #16, #17, #18, #19, #20, #21, #22, #23, #24, #25, #26, #27, #28, #29, #30, #31, #32, #33, #34, #35, #36, #37, #38
+Fields: #1, #2, #3, #4, #5, #6, #10, #11, #12, #13, #14, #15, #16, #17, #18, #19, #20, #21, #22, #23, #24, #25, #26, #27, #28, #29, #30, #31, #32, #33, #34, #35, #36, #37, #38, #39
 
 
 

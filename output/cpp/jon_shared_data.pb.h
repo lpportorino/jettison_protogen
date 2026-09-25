@@ -47,6 +47,7 @@
 #include "jon_shared_data_pmu.pb.h"
 #include "jon_shared_data_heater.pb.h"
 #include "jon_shared_data_drive.pb.h"
+#include "jon_shared_data_scene.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Must be included last.
@@ -250,6 +251,7 @@ class JonGUIState final : public ::google::protobuf::Message
     kPmuFieldNumber = 28,
     kHeaterFieldNumber = 29,
     kDriveFieldNumber = 30,
+    kSceneFieldNumber = 31,
     kSystemMonotonicTimeUsFieldNumber = 2,
     kProtocolVersionFieldNumber = 1,
     kStateSourceFieldNumber = 3,
@@ -530,6 +532,21 @@ class JonGUIState final : public ::google::protobuf::Message
   ::ser::JonGuiDataDrive* _internal_mutable_drive();
 
   public:
+  // .ser.JonGuiDataScene scene = 31;
+  bool has_scene() const;
+  void clear_scene() ;
+  const ::ser::JonGuiDataScene& scene() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataScene* release_scene();
+  ::ser::JonGuiDataScene* mutable_scene();
+  void set_allocated_scene(::ser::JonGuiDataScene* value);
+  void unsafe_arena_set_allocated_scene(::ser::JonGuiDataScene* value);
+  ::ser::JonGuiDataScene* unsafe_arena_release_scene();
+
+  private:
+  const ::ser::JonGuiDataScene& _internal_scene() const;
+  ::ser::JonGuiDataScene* _internal_mutable_scene();
+
+  public:
   // uint64 system_monotonic_time_us = 2 [(.buf.validate.field) = {
   void clear_system_monotonic_time_us() ;
   ::uint64_t system_monotonic_time_us() const;
@@ -605,7 +622,7 @@ class JonGUIState final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 25, 18,
+      5, 26, 19,
       0, 2>
       _table_;
 
@@ -643,6 +660,7 @@ class JonGUIState final : public ::google::protobuf::Message
     ::ser::JonGuiDataPMU* pmu_;
     ::ser::JonGuiDataHeater* heater_;
     ::ser::JonGuiDataDrive* drive_;
+    ::ser::JonGuiDataScene* scene_;
     ::uint64_t system_monotonic_time_us_;
     ::uint32_t protocol_version_;
     int state_source_;
@@ -2416,6 +2434,97 @@ inline void JonGUIState::set_allocated_drive(::ser::JonGuiDataDrive* value) {
 
   _impl_.drive_ = reinterpret_cast<::ser::JonGuiDataDrive*>(value);
   // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.drive)
+}
+
+// .ser.JonGuiDataScene scene = 31;
+inline bool JonGUIState::has_scene() const {
+  bool value = (_impl_._has_bits_[0] & 0x00020000u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.scene_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataScene& JonGUIState::_internal_scene() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataScene* p = _impl_.scene_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataScene&>(::ser::_JonGuiDataScene_default_instance_);
+}
+inline const ::ser::JonGuiDataScene& JonGUIState::scene() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGUIState.scene)
+  return _internal_scene();
+}
+inline void JonGUIState::unsafe_arena_set_allocated_scene(::ser::JonGuiDataScene* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.scene_);
+  }
+  _impl_.scene_ = reinterpret_cast<::ser::JonGuiDataScene*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00020000u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00020000u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGUIState.scene)
+}
+inline ::ser::JonGuiDataScene* JonGUIState::release_scene() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00020000u;
+  ::ser::JonGuiDataScene* released = _impl_.scene_;
+  _impl_.scene_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataScene* JonGUIState::unsafe_arena_release_scene() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGUIState.scene)
+
+  _impl_._has_bits_[0] &= ~0x00020000u;
+  ::ser::JonGuiDataScene* temp = _impl_.scene_;
+  _impl_.scene_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataScene* JonGUIState::_internal_mutable_scene() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.scene_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataScene>(GetArena());
+    _impl_.scene_ = reinterpret_cast<::ser::JonGuiDataScene*>(p);
+  }
+  return _impl_.scene_;
+}
+inline ::ser::JonGuiDataScene* JonGUIState::mutable_scene() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00020000u;
+  ::ser::JonGuiDataScene* _msg = _internal_mutable_scene();
+  // @@protoc_insertion_point(field_mutable:ser.JonGUIState.scene)
+  return _msg;
+}
+inline void JonGUIState::set_allocated_scene(::ser::JonGuiDataScene* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.scene_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00020000u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00020000u;
+  }
+
+  _impl_.scene_ = reinterpret_cast<::ser::JonGuiDataScene*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.scene)
 }
 
 #ifdef __GNUC__

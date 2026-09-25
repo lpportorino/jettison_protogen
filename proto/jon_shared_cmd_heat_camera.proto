@@ -44,6 +44,7 @@ message Root {
     TrackROI track_roi = 36;
     ZoomROI zoom_roi = 37;
     FxROI fx_roi = 38;
+    SceneAuto scene_auto = 39;
   }
 }
 
@@ -257,4 +258,26 @@ message FxROI {
   // TODO: Remove these fields after migration - now in Root message (fields 6-8)
   uint64 frame_time = 5;
   uint64 state_time = 6;  // System monotonic time from state when user performed action
+}
+
+// FULL-AUTO SCENE MODE for the heat channel — the operator's latch, and only
+// the latch.
+//
+// `enable` true hands the heat look mode to eutropia's `scene_day` classifier
+// guest (`mods/isp3a/scene/`); false takes it back. It commands no mode and
+// changes no picture by itself: the guest decides WHICH mode and WHEN, and
+// publishes what it decided as `heat_class / heat_challenger / heat_scores` on
+// `JonGuiDataScene` (`state.scene`).
+//
+// ⚠ WHILE THE GUEST IS IN SHADOW (`JonGuiDataScene.shadow` true) this latch
+// changes exactly one published boolean and nothing else — the guest emits no
+// `reload_params` in either position. Read the state block, never this command,
+// to find out what the classifier is doing.
+//
+// A message of this name exists in BOTH `cmd.DayCamera` and `cmd.HeatCamera`,
+// as `SetFxMode`, `Photo`, `Start`, `Stop` and `FocusROI` already do: the two
+// packages are disjoint, and the Day twin is
+// `cmd.DayCamera.SceneAuto`.
+message SceneAuto {
+  bool enable = 1;
 }
