@@ -14,7 +14,12 @@
      octet / float32-quantized / enum-by-number generators where malli alone is
      wrong — bugs #1/#2/#3/#7).
    - repeated → a length-bounded vector honoring min_items/max_items (bug #22),
-     capped for the random corpus (boundary injection covers the extremes).
+     capped for the random corpus; every scalar ELEMENT is drawn by the same
+     leaf generator under the field's element-tier rules (`item-constraints`),
+     never its list-tier map. Boundary injection (`boundary-corpus`) adds, per
+     top-level repeated SCALAR field, one list at max_items when the cap hides
+     it and lists whose elements sit on the element tier's bounds; a repeated
+     field nested inside a child message gets neither.
    - message → the child's generator inline-expanded, CYCLE-GUARDED (bug #10).
    - oneof → EXACTLY ONE branch via gen/one-of (never MULTIPLE_PAYLOADS — bug
      #21).
@@ -23,7 +28,8 @@
    NAME — a name-based path silently drops an unknown name (bug #8). Floats are
    quantized to float32 so the generated EDN equals the 32-bit wire value
    (bug #3). Generation is seed-deterministic (bug-free reproducibility)."
-  (:require [clojure.test.check.generators :as gen]
+  (:require [clojure.string :as str]
+            [clojure.test.check.generators :as gen]
             [clojure.test.check.random :as random]
             [clojure.test.check.rose-tree :as rose]
             [malli.core :as m]
@@ -60,7 +66,9 @@
 
 ;; Cap the random corpus's repeated count / byte length so a max_items 256 or a
 ;; max_len 65536 field does not blow up corpus size — boundary injection covers
-;; the declared extremes deterministically and separately.
+;; the declared extremes of a top-level field deterministically and separately
+;; (`field-boundaries` for a bytes length, `repeated-boundary-lists` for a list
+;; count).
 (def ^:private repeated-cap 4)
 (def ^:private bytes-cap 32)
 
@@ -243,6 +251,36 @@
              (max lo repeated-cap))]
     [lo hi]))
 
+(def ^:private list-tier-keys
+  "Constraint keys that bound a repeated field's LIST, never one element."
+  [:min-items :max-items :required :items])
+
+(defn- element-rule-set
+  "The buf.validate rule-set name that judges ONE element of field `f`: its WIRE
+   type lower-cased (`FLOAT` → `:float`, `SINT32` → `:sint32`) — the key
+   `:items` is stored under by both constraint sources. NOT `descriptor-type->kw`,
+   which folds `sint32`/`sfixed32`/`fixed32`/… into their signedness, while
+   protovalidate names every wire type's rule set separately — a folded key
+   would silently miss a `sint32` field's element rules."
+  [^Descriptors$FieldDescriptor f]
+  (keyword (str/lower-case (Enum/.name (Descriptors$FieldDescriptor/.getType f)))))
+
+(defn- item-constraints
+  "The constraints ONE element of repeated scalar/enum/bytes field `f` is drawn
+   under: the element tier's rule set FOR THIS FIELD'S TYPE (`(get (:items c)
+   (element-rule-set f))`, e.g. `{:gte 0 :lte 1}` from `{:float {...}}`) merged
+   over whatever else the field carries, with the list-tier keys removed. This
+   is what `leaf-gen` must receive for every element — the field's own map
+   describes the LIST, and handing it to `leaf-gen` draws each element from the
+   type's whole envelope while the oracle enforces the element bound. A rule set
+   naming ANOTHER type is ignored, never merged: protoc compiles a mismatched
+   `items` block without complaint (`protodoc.parse` keeps the name for exactly
+   that reason), and folding its bounds onto this type would generate against a
+   rule the field does not carry."
+  [constraints ^Descriptors$FieldDescriptor f]
+  (merge (apply dissoc constraints list-tier-keys)
+         (get (:items constraints) (element-rule-set f))))
+
 ;; ── message + field generators ────────────────────────────────────────
 
 (declare message-gen)
@@ -276,7 +314,8 @@
             ;; a required repeated field needs >=1 element to be present
             lo (if (and (:required constraints) (zero? lo)) 1 lo)]
         (gen/fmap (fn [vs] {fname vs})
-                  (gen/vector (leaf-gen type-kw constraints f enums) lo (max lo hi))))
+                  (gen/vector (leaf-gen type-kw (item-constraints constraints f) f enums)
+                              lo (max lo hi))))
 
       :else
       (let [g (leaf-gen type-kw constraints f enums)
@@ -458,11 +497,44 @@
         (vec (remove #(zero-default? type-kw %) bs))
         bs))))
 
+(defn- element-boundary-lists
+  "The element-tier boundaries `ebs` packed into lists whose LENGTH the list tier
+   accepts: each list holds as many boundaries as `max_items` allows (all of
+   them when unbounded), and a list shorter than `min_items` (at least 1) is
+   padded by cycling its own boundaries. `unique` is not modelled, so a padded
+   list may repeat a value."
+  [ebs {:keys [min-items max-items]}]
+  (let [lo (max 1 (or min-items 0))
+        per-list (max lo (min (or max-items (count ebs)) (count ebs)))]
+    (for [group (partition-all per-list ebs)]
+      (vec (take (max lo (count group)) (cycle group))))))
+
+(defn- repeated-boundary-lists
+  "Deterministic LIST values for repeated scalar field `f` — the two extremes the
+   random corpus never reaches: one list at `max_items` length, emitted only
+   when `repeated-cap` keeps a random draw below it (its elements drawn at
+   `base-seed` under `item-constraints`), and, when the field carries an element
+   tier for its own rule set, lists whose elements are that tier's
+   `field-boundaries` (`element-boundary-lists`)."
+  [constraints ^Descriptors$FieldDescriptor f enums base-seed]
+  (let [type-kw (descriptor-type->kw f)
+        ic (item-constraints constraints f)
+        max-items (:max-items constraints)
+        [_ random-hi] (repeated-bounds constraints)
+        ebs (when (seq (get (:items constraints) (element-rule-set f)))
+              (field-boundaries type-kw ic f))]
+    (concat
+     (when (and max-items (> max-items random-hi))
+       [(sample (gen/vector (leaf-gen type-kw ic f enums) max-items) base-seed)])
+     (when (seq ebs) (element-boundary-lists ebs constraints)))))
+
 (defn boundary-corpus
   "Deterministic boundary entries for `full-name`: a base generation with each
-   top-level LEAF field overridden, in turn, to each of its boundary values.
-   Returns a seq of {:edn-value :field :boundary} — the type/constraint endpoints
-   uniform random draw never reaches."
+   top-level LEAF field overridden, in turn, to each of its boundary values — a
+   singular scalar to each `field-boundaries` value, a repeated scalar to each
+   `repeated-boundary-lists` list. Returns a seq of {:edn-value :field
+   :boundary} — the type/constraint endpoints uniform random draw never
+   reaches."
   [pool db full-name base-seed]
   (let [^Descriptors$Descriptor d (get pool full-name)
         constraints (db-field-constraints db full-name)
@@ -471,7 +543,8 @@
           :let [fname (Descriptors$FieldDescriptor/.getName f)
                 type-kw (descriptor-type->kw f)]
           :when (and (not (= :message type-kw))
-                     (not (Descriptors$FieldDescriptor/.isRepeated f))
                      (not (Descriptors$FieldDescriptor/.isMapField f)))
-          bv (field-boundaries type-kw (constraints fname) f)]
+          bv (if (Descriptors$FieldDescriptor/.isRepeated f)
+               (repeated-boundary-lists (constraints fname) f (:enums db) base-seed)
+               (field-boundaries type-kw (constraints fname) f))]
       {:edn-value (assoc base fname bv) :field fname :boundary bv})))

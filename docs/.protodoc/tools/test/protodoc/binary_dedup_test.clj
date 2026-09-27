@@ -4,7 +4,12 @@
             [clojure.string :as str]
             [clojure.test :refer [deftest testing is]]
             [protodoc.binary-dedup :as bd]
-            [protodoc.manifest :as manifest]))
+            [protodoc.gencorpus.pool :as pool]
+            [protodoc.manifest :as manifest])
+  (:import [com.google.protobuf
+            Descriptors$Descriptor
+            Descriptors$FieldDescriptor
+            Descriptors$FieldDescriptor$Type]))
 
 ;; ============================================================================
 ;; FRAMEWORK SELF-CHECK (MUST BE FIRST — detects silent test-runner breakage)
@@ -801,21 +806,6 @@
         (is (> set-start const-end)
             "TAG_SET must come after the const literal")))))
 
-(deftest generate-typescript-camel-roundtrip-test
-  (testing "All 17 production subsystem names round-trip through snake->camel"
-    (let [production-names ["system" "meteo_internal" "lrf" "time"
-                            "gps" "compass" "rotary"
-                            "camera_day" "camera_heat" "compass_calibration"
-                            "rec_osd" "actual_space_time" "power" "cv" "pmu" "heater"
-                            "drive"]
-          fields (mapv #(hash-map :name %1 :number (+ 13 %2) :type-name "ser.X")
-                       production-names
-                       (range (count production-names)))
-          ts (bd/generate-typescript fields)
-          entries (parse-ts-entries ts)
-          expected-keys (mapv manifest/snake->camel production-names)]
-      (is (= expected-keys (mapv first entries))))))
-
 ;; ============================================================================
 ;; Wire Tag Value Tests
 ;; ============================================================================
@@ -902,6 +892,68 @@
 (def ^:private real-descriptor-path
   "../../../output/json-descriptors/descriptor-set.json")
 
+(def ^:private real-binpb-path
+  "The BINARY sibling of `real-descriptor-path`, emitted by the same generation
+   run. The oracle below reads this one so it shares no parse with the analyzer."
+  "../../../output/json-descriptors/descriptor-set.binpb")
+
+(def ^:private production-subsystems
+  "The production subsystem set, DERIVED rather than hand-copied: every
+   singular MESSAGE field of `ser.JonGUIState` numbered >= 13 (the contract
+   `bd/extract-subsystem-fields` documents), as sorted `{:name :number}` maps.
+
+   It is computed INDEPENDENTLY of the analyzer under test — from the `.binpb`
+   through protobuf-java's descriptor model, never from the `.json` through
+   `bd/build-message-index` — so it cannot agree with the analyzer by sharing
+   its code or its input. A proto addition moves this set and the analyzer
+   together; a divergence means the analyzer's filter or the json/binpb pair
+   drifted, which is the failure these tests exist to report."
+  (delay
+    (let [^Descriptors$Descriptor d (get (pool/load-pool real-binpb-path) "ser.JonGUIState")]
+      (when-not d
+        (throw (ex-info "ser.JonGUIState absent from the binpb descriptor pool"
+                        {:path real-binpb-path})))
+      (->> (Descriptors$Descriptor/.getFields d)
+           (filter (fn [^Descriptors$FieldDescriptor f]
+                     (and (= Descriptors$FieldDescriptor$Type/MESSAGE
+                             (Descriptors$FieldDescriptor/.getType f))
+                          (not (Descriptors$FieldDescriptor/.isRepeated f))
+                          (>= (Descriptors$FieldDescriptor/.getNumber f) 13))))
+           (sort-by #(Descriptors$FieldDescriptor/.getNumber ^Descriptors$FieldDescriptor %))
+           (mapv (fn [^Descriptors$FieldDescriptor f]
+                   {:name (Descriptors$FieldDescriptor/.getName f)
+                    :number (Descriptors$FieldDescriptor/.getNumber f)}))))))
+
+(defn- name+number
+  "Project analyzer output onto the `{:name :number}` shape the oracle carries."
+  [fields]
+  (mapv #(select-keys % [:name :number]) fields))
+
+(defn- assert-production-subsystems
+  "Assert the analyzer's `fields` equal the derived production set, name and
+   tag, in order. Non-vacuity first: an empty oracle would make an empty
+   analyzer result pass, so the oracle must be populated and start at the
+   first subsystem tag (13 — the lower bound the contract itself names)."
+  [fields]
+  (let [expected @production-subsystems]
+    (is (seq expected) "derived subsystem oracle is empty — the binpb read found nothing")
+    (is (= 13 (:number (first expected))) "derived oracle does not start at subsystem tag 13")
+    (is (= expected (name+number fields))
+        "analyzer subsystem set differs from the set derived from the binpb")))
+
+(deftest generate-typescript-camel-roundtrip-test
+  (testing "every production subsystem name round-trips through snake->camel"
+    ;; The name set is the DERIVED oracle, never a hand list: a subsystem added
+    ;; to ser.JonGUIState reaches this test without anyone editing it.
+    (let [production-names (mapv :name @production-subsystems)
+          fields (mapv (fn [sub] (assoc (select-keys sub [:name :number]) :type-name "ser.X"))
+                       @production-subsystems)
+          ts (bd/generate-typescript fields)
+          entries (parse-ts-entries ts)
+          expected-keys (mapv manifest/snake->camel production-names)]
+      (is (seq production-names) "derived subsystem oracle is empty")
+      (is (= expected-keys (mapv first entries))))))
+
 (deftest integration-real-descriptor-test
   (when (.exists (io/file real-descriptor-path))
     (testing "Real descriptor-set.json produces correct subsystem count"
@@ -909,13 +961,12 @@
             msg-index (#'bd/build-message-index descriptor)
             gui-state (get msg-index "ser.JonGUIState")
             fields (bd/extract-subsystem-fields gui-state)]
-        ;; Expected: 17 subsystem fields (tags 13-30, gap at 24)
-        (is (= 17 (count fields)))
-        ;; Verify specific known fields
+        ;; The whole set — count, order and the LAST tag — comes from the
+        ;; derived oracle, so appending a subsystem cannot redden this.
+        (assert-production-subsystems fields)
+        ;; Stable anchors: the first subsystem never moves.
         (is (= 13 (:number (first fields))))
         (is (= "system" (:name (first fields))))
-        (is (= 30 (:number (last fields))))
-        (is (= "drive" (:name (last fields))))
         ;; Tag 24 should not be present (reserved)
         (is (not-any? #(= 24 (:number %)) fields))
         ;; Validation should pass (no map fields in production protos)
@@ -942,7 +993,7 @@
         (.deleteOnExit out-file)
         ;; Full generate! must succeed (no V1-V7 rejections on real schema)
         (let [result (bd/generate! real-descriptor-path (.getPath out-file))]
-          (is (= 17 (count (:fields result))))
+          (assert-production-subsystems (:fields result))
           ;; Assert all expected production subsystem names are present
           (let [names (set (map :name (:fields result)))]
             (is (contains? names "system"))
@@ -978,13 +1029,13 @@
           (is (str/includes? content "STATE_SUBSYSTEM_TAG_SET")))))))
 
 (deftest smoke-extract-subsystem-fields-test
-  (testing "smoke: extract-subsystem-fields on the real descriptor returns 17 entries"
+  (testing "smoke: extract-subsystem-fields on the real descriptor returns the derived production set"
     (when (.exists (io/file real-descriptor-path))
       (let [descriptor (json/read-str (slurp (io/file real-descriptor-path)))
             msg-index (#'bd/build-message-index descriptor)
             gui-state (get msg-index "ser.JonGUIState")
             fields (bd/extract-subsystem-fields gui-state)]
-        (is (= 17 (count fields)))
+        (assert-production-subsystems fields)
         (is (every? :name fields))
         (is (every? :number fields))
         (is (every? :type-name fields))))))
@@ -1045,11 +1096,10 @@
         (let [result (bd/generate! real-descriptor-path (.getPath out-file))
               ts (slurp out-file)
               parsed (parse-ts-entries ts)]
-          ;; Expected count is a snapshot — if subsystems are added/removed,
-          ;; this test breaks and forces explicit acknowledgement.
-          (is (= 17 (count (:fields result)))
-              "Production descriptor subsystem count changed. If intentional,
-               update expected count here AND verify generated TS matches.")
+          ;; The expected set is DERIVED from the binpb, so a subsystem added
+          ;; to the proto moves both sides together; what reddens here is the
+          ;; analyzer and the descriptor disagreeing.
+          (assert-production-subsystems (:fields result))
           ;; Parsed TS must have the same count as the generator said
           (is (= (count (:fields result)) (count parsed))
               "Generated TS literal entries must match generator output count.

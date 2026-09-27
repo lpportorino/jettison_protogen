@@ -99,6 +99,17 @@ go-leg-repro: ## Verify output/go is byte-identical to a fresh offline go-leg ru
 go-leg-repro-canary: ## Prove the go-leg reproducibility check can FAIL
 	@./tools/go_leg_repro.sh --canary
 
+.PHONY: go-leg-writer-canary
+go-leg-writer-canary: ## Prove the go leg's go.mod writer survives reruns and refuses bad input
+	@./tools/go_leg_repro.sh --writer-canary
+
+.PHONY: image-pin-check image-pin-check-canary
+image-pin-check: ## Verify the generator image carries the Dockerfile.base pins (generate runs this first)
+	@./tools/image_pin_check.sh
+
+image-pin-check-canary: ## Prove the image pin check can FAIL, once per pin
+	@./tools/image_pin_check.sh --canary
+
 # ── orphaned generated files ──────────────────────────────────────────────────
 # The OTHER direction from go-leg-repro, over ALL eleven legs: a committed path
 # that no leg produces any more. Generation never deletes, so such a file stays

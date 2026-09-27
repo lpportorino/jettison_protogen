@@ -213,6 +213,44 @@ typedef enum _ser_JonGuiDataDriveState {
     ser_JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_FAULT = 6
 } ser_JonGuiDataDriveState;
 
+/* ── FULL-AUTO SCENE MODE ─────────────────────────────────────────────────────
+
+ What the day scene IS, as the `scene_day` classifier guest scores it
+ (`mods/isp3a/scene/`). The guest publishes a score per class every tick and
+ an incumbent that changes only when a challenger beats it by a margin for a
+ dwell; UNSPECIFIED is what it publishes while it has no usable input, and is
+ never a score.
+
+ The five classes are the operator's own vocabulary for the day look modes
+ (`camera_day`'s Daytime / Dusk / Fog / Cloudy / IR-Night), so a class maps
+ onto an existing `JonGuiDataFxModeDay` rather than introducing a sixth mode. */
+typedef enum _ser_JonGuiDataSceneClass {
+    ser_JonGuiDataSceneClass_JON_GUI_DATA_SCENE_CLASS_UNSPECIFIED = 0,
+    ser_JonGuiDataSceneClass_JON_GUI_DATA_SCENE_CLASS_DAY = 1,
+    ser_JonGuiDataSceneClass_JON_GUI_DATA_SCENE_CLASS_DUSK = 2,
+    ser_JonGuiDataSceneClass_JON_GUI_DATA_SCENE_CLASS_NIGHT = 3,
+    ser_JonGuiDataSceneClass_JON_GUI_DATA_SCENE_CLASS_FOG = 4,
+    ser_JonGuiDataSceneClass_JON_GUI_DATA_SCENE_CLASS_OVERCAST = 5
+} ser_JonGuiDataSceneClass;
+
+/* What the THERMAL scene is, in the only two classes the heat FX modes
+ distinguish.
+
+ ⚠ Scored from the scene's thermal dynamic range BEFORE the camera's own AGC,
+ never from post-AGC contrast — the core's AGC histogram mapping, DDE and NUC
+ destroy any radiometric meaning, so a contrast measured after them describes
+ the AGC and not the scene. The proxy the guest is designed around is the
+ core's AGC gain/level telemetry, which NO surface publishes today
+ (`CvChannelMeta` says so out loud: "Sensor gain (day camera only; heat
+ channel sets gain_valid=false)"). Until it does, the guest publishes
+ UNSPECIFIED with its hold reason, rather than a class derived from the one
+ signal the design forbids. */
+typedef enum _ser_JonGuiDataHeatSceneClass {
+    ser_JonGuiDataHeatSceneClass_JON_GUI_DATA_HEAT_SCENE_CLASS_UNSPECIFIED = 0,
+    ser_JonGuiDataHeatSceneClass_JON_GUI_DATA_HEAT_SCENE_CLASS_HIGH_CONTRAST = 1,
+    ser_JonGuiDataHeatSceneClass_JON_GUI_DATA_HEAT_SCENE_CLASS_LOW_CONTRAST = 2
+} ser_JonGuiDataHeatSceneClass;
+
 /* Tracking state */
 typedef enum _ser_JonGuiDataTrackedObject_TrackingState {
     ser_JonGuiDataTrackedObject_TrackingState_TRACKING_STATE_UNSPECIFIED = 0,
@@ -414,6 +452,14 @@ extern "C" {
 #define _ser_JonGuiDataDriveState_MIN ser_JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_UNSPECIFIED
 #define _ser_JonGuiDataDriveState_MAX ser_JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_FAULT
 #define _ser_JonGuiDataDriveState_ARRAYSIZE ((ser_JonGuiDataDriveState)(ser_JonGuiDataDriveState_JON_GUI_DATA_DRIVE_STATE_FAULT+1))
+
+#define _ser_JonGuiDataSceneClass_MIN ser_JonGuiDataSceneClass_JON_GUI_DATA_SCENE_CLASS_UNSPECIFIED
+#define _ser_JonGuiDataSceneClass_MAX ser_JonGuiDataSceneClass_JON_GUI_DATA_SCENE_CLASS_OVERCAST
+#define _ser_JonGuiDataSceneClass_ARRAYSIZE ((ser_JonGuiDataSceneClass)(ser_JonGuiDataSceneClass_JON_GUI_DATA_SCENE_CLASS_OVERCAST+1))
+
+#define _ser_JonGuiDataHeatSceneClass_MIN ser_JonGuiDataHeatSceneClass_JON_GUI_DATA_HEAT_SCENE_CLASS_UNSPECIFIED
+#define _ser_JonGuiDataHeatSceneClass_MAX ser_JonGuiDataHeatSceneClass_JON_GUI_DATA_HEAT_SCENE_CLASS_LOW_CONTRAST
+#define _ser_JonGuiDataHeatSceneClass_ARRAYSIZE ((ser_JonGuiDataHeatSceneClass)(ser_JonGuiDataHeatSceneClass_JON_GUI_DATA_HEAT_SCENE_CLASS_LOW_CONTRAST+1))
 
 #define _ser_JonGuiDataTrackedObject_TrackingState_MIN ser_JonGuiDataTrackedObject_TrackingState_TRACKING_STATE_UNSPECIFIED
 #define _ser_JonGuiDataTrackedObject_TrackingState_MAX ser_JonGuiDataTrackedObject_TrackingState_TRACKING_STATE_LOST

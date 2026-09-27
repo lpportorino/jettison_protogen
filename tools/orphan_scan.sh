@@ -145,21 +145,6 @@ OUT_OF_SCOPE_DIRS=(manifests)
 # hard FAILURE. That is what makes the list ratchet DOWN: a path cannot be
 # deleted, or adopted by a producer, while its excuse stays behind.
 #
-# ENTRY: go	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/go.mod
-# ENTRY: go	git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/go.mod
-#   :rationale     Go module manifests, hand-committed rather than generated:
-#                  `buf generate` emits .pb.go files and no go.mod at all. They
-#                  declare the module paths and the protobuf dependency that make
-#                  the emitted packages importable, and the release fan-out
-#                  copies output/go/* wholesale into the consumer Go repository,
-#                  so deleting them as orphans would leave that repository
-#                  unbuildable. Produced by nothing ON PURPOSE, not stranded.
-#   :retires-when  the go leg emits its own module manifests — a buf managed-mode
-#                  module override, or a generate step that writes them — at
-#                  which point they stop being hand-maintained.
-#   :owner         gate-port
-#   :expires       2026-11-05
-#
 # ENTRY: typescript	binary_dedup_tags.ts
 #   :rationale     Written by the binary-dedup analyzer (`make binary-dedup-run`,
 #                  which `make generate` invokes after the legs), from
@@ -172,8 +157,6 @@ OUT_OF_SCOPE_DIRS=(manifests)
 #   :owner         gate-port
 #   :expires       2026-11-05
 ALLOWLIST=(
-  "go	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/go.mod"
-  "go	git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/go.mod"
   "typescript	binary_dedup_tags.ts"
 )
 

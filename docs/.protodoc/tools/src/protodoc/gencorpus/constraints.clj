@@ -11,7 +11,8 @@
    registry and extracts each field's `FieldRules` into the proto-db-shaped
    constraints map `constraints->malli` already speaks (`:gte/:gt/:lte/:lt`,
    `:min-len/:max-len`, `:min-items/:max-items`, `:pattern`, `:in`, `:not-in`,
-   `:defined-only`, `:required`). `effective-db` produces a db whose `:constraints`
+   `:defined-only`, `:required`, and a repeated field's element tier as
+   `:items {<rule-set> {...}}`). `effective-db` produces a db whose `:constraints`
    are these live rules (merged with proto-db's `:example` domain seeds), keyed by
    message full-name — a drop-in for the assembler/parity/orchestrator, covering
    EVERY message in the pool (including the ones proto-db never had)."
@@ -61,9 +62,32 @@
   [^Descriptors$FieldDescriptor fd]
   (keyword (str/replace (Descriptors$FieldDescriptor/.getName fd) "_" "-")))
 
+(declare submsg->constraints)
+
+(defn- items->constraints
+  "A repeated field's `items` FieldRules → the ELEMENT tier, keyed by the rule
+   set it names: `{:float {:gte 0.0 :lte 1.0}}`. This is the shape proto-db's
+   doc projection already stores under `:items` (`protodoc.parse`), so the
+   assembler reads one shape whichever db drives it. A rule set with nothing
+   modelled in it contributes no key."
+  [^Message items]
+  (into {} (for [[fd v] (Message/.getAllFields items)
+                 :when (instance? Message v)
+                 :let [c (submsg->constraints v)]
+                 :when (seq c)]
+             [(rule->kw fd) c])))
+
 (defn- rule->pairs
   "One set rule field → the modelled constraint pairs it contributes, or nothing
    when the rule is outside the modelled surface.
+
+   `items` (`repeated.items`) is NESTED rather than flattened: it is a whole
+   FieldRules applied to every ELEMENT, so it becomes `:items {<rule-set>
+   {...}}` beside the list-tier `:min-items`/`:max-items`. Flattening it would
+   make an element bound read as a bound on the list; dropping it lets the
+   generator draw elements from the type's whole envelope while the oracle
+   rejects them, so every message reaching such a field loses its positive
+   corpus.
 
    `len` is the ONE rule that does not map 1:1, and it is EXPANDED rather than
    modelled. buf.validate's exact-length rule (`string.len`, `bytes.len`) is
@@ -82,6 +106,7 @@
         v' (if (instance? java.util.List v) (vec v) v)]
     (cond
       (= :len k) [[:min-len v'] [:max-len v']]
+      (= :items k) (let [ic (items->constraints v')] (if (seq ic) [[:items ic]] []))
       (rule-keys k) [[k v']]
       :else [])))
 
