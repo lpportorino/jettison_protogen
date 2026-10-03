@@ -267,6 +267,18 @@ typedef struct _ser_JonGuiDataMeteo {
     double pressure;
 } ser_JonGuiDataMeteo;
 
+/* Per-module CAN-FD queue health. Each queue channel reports its configured
+ capacity, its peak observed depth, and the count of oldest entries dropped
+ on overflow; a module carries at most two such channels. */
+typedef struct _ser_JonGuiDataModuleHealth {
+    uint32_t queue_cap_0;
+    uint32_t peak_depth_0;
+    uint32_t dropped_oldest_0;
+    uint32_t queue_cap_1;
+    uint32_t peak_depth_1;
+    uint32_t dropped_oldest_1;
+} ser_JonGuiDataModuleHealth;
+
 /* Structured version for opaque payloads.
  Enables simple numeric comparison without string parsing. */
 typedef struct _ser_JonOpaquePayloadVersion {
@@ -473,11 +485,13 @@ extern "C" {
 
 
 
+
 #define ser_JonGuiDataTrackedObject_state_ENUMTYPE ser_JonGuiDataTrackedObject_TrackingState
 
 
 /* Initializer values for message structs */
 #define ser_JonGuiDataMeteo_init_default         {0, 0, 0}
+#define ser_JonGuiDataModuleHealth_init_default  {0, 0, 0, 0, 0, 0}
 #define ser_JonOpaquePayloadVersion_init_default {0, 0, 0}
 #define ser_JonOpaquePayload_init_default        {{{NULL}, NULL}, false, ser_JonOpaquePayloadVersion_init_default, {{NULL}, NULL}}
 #define ser_JonGuiDataROI_init_default           {0, 0, 0, 0}
@@ -487,6 +501,7 @@ extern "C" {
 #define ser_JonGuiDataTransform3D_init_default   {false, ser_JonGuiDataVector3_init_default, false, ser_JonGuiDataQuaternion_init_default, false, ser_JonGuiDataVector3_init_default, false, ser_JonGuiDataVector3_init_default}
 #define ser_JonGuiDataTrackedObject_init_default {{{NULL}, NULL}, false, ser_JonGuiDataTransform3D_init_default, false, ser_JonGuiDataROI_init_default, _ser_JonGuiDataTrackedObject_TrackingState_MIN}
 #define ser_JonGuiDataMeteo_init_zero            {0, 0, 0}
+#define ser_JonGuiDataModuleHealth_init_zero     {0, 0, 0, 0, 0, 0}
 #define ser_JonOpaquePayloadVersion_init_zero    {0, 0, 0}
 #define ser_JonOpaquePayload_init_zero           {{{NULL}, NULL}, false, ser_JonOpaquePayloadVersion_init_zero, {{NULL}, NULL}}
 #define ser_JonGuiDataROI_init_zero              {0, 0, 0, 0}
@@ -500,6 +515,12 @@ extern "C" {
 #define ser_JonGuiDataMeteo_temperature_tag      1
 #define ser_JonGuiDataMeteo_humidity_tag         2
 #define ser_JonGuiDataMeteo_pressure_tag         3
+#define ser_JonGuiDataModuleHealth_queue_cap_0_tag 1
+#define ser_JonGuiDataModuleHealth_peak_depth_0_tag 2
+#define ser_JonGuiDataModuleHealth_dropped_oldest_0_tag 3
+#define ser_JonGuiDataModuleHealth_queue_cap_1_tag 4
+#define ser_JonGuiDataModuleHealth_peak_depth_1_tag 5
+#define ser_JonGuiDataModuleHealth_dropped_oldest_1_tag 6
 #define ser_JonOpaquePayloadVersion_major_tag    1
 #define ser_JonOpaquePayloadVersion_minor_tag    2
 #define ser_JonOpaquePayloadVersion_build_tag    3
@@ -536,6 +557,16 @@ X(a, STATIC,   SINGULAR, DOUBLE,   humidity,          2) \
 X(a, STATIC,   SINGULAR, DOUBLE,   pressure,          3)
 #define ser_JonGuiDataMeteo_CALLBACK NULL
 #define ser_JonGuiDataMeteo_DEFAULT NULL
+
+#define ser_JonGuiDataModuleHealth_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UINT32,   queue_cap_0,       1) \
+X(a, STATIC,   SINGULAR, UINT32,   peak_depth_0,      2) \
+X(a, STATIC,   SINGULAR, UINT32,   dropped_oldest_0,   3) \
+X(a, STATIC,   SINGULAR, UINT32,   queue_cap_1,       4) \
+X(a, STATIC,   SINGULAR, UINT32,   peak_depth_1,      5) \
+X(a, STATIC,   SINGULAR, UINT32,   dropped_oldest_1,   6)
+#define ser_JonGuiDataModuleHealth_CALLBACK NULL
+#define ser_JonGuiDataModuleHealth_DEFAULT NULL
 
 #define ser_JonOpaquePayloadVersion_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UINT32,   major,             1) \
@@ -605,6 +636,7 @@ X(a, STATIC,   SINGULAR, UENUM,    state,             4)
 #define ser_JonGuiDataTrackedObject_bounding_box_MSGTYPE ser_JonGuiDataROI
 
 extern const pb_msgdesc_t ser_JonGuiDataMeteo_msg;
+extern const pb_msgdesc_t ser_JonGuiDataModuleHealth_msg;
 extern const pb_msgdesc_t ser_JonOpaquePayloadVersion_msg;
 extern const pb_msgdesc_t ser_JonOpaquePayload_msg;
 extern const pb_msgdesc_t ser_JonGuiDataROI_msg;
@@ -616,6 +648,7 @@ extern const pb_msgdesc_t ser_JonGuiDataTrackedObject_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define ser_JonGuiDataMeteo_fields &ser_JonGuiDataMeteo_msg
+#define ser_JonGuiDataModuleHealth_fields &ser_JonGuiDataModuleHealth_msg
 #define ser_JonOpaquePayloadVersion_fields &ser_JonOpaquePayloadVersion_msg
 #define ser_JonOpaquePayload_fields &ser_JonOpaquePayload_msg
 #define ser_JonGuiDataROI_fields &ser_JonGuiDataROI_msg
@@ -630,6 +663,7 @@ extern const pb_msgdesc_t ser_JonGuiDataTrackedObject_msg;
 /* ser_JonGuiDataTrackedObject_size depends on runtime parameters */
 #define SER_JON_SHARED_DATA_TYPES_PB_H_MAX_SIZE  ser_JonGuiDataTransform3D_size
 #define ser_JonGuiDataMeteo_size                 27
+#define ser_JonGuiDataModuleHealth_size          36
 #define ser_JonGuiDataQuaternion_size            36
 #define ser_JonGuiDataROI_size                   36
 #define ser_JonGuiDataSharpness_size             27
