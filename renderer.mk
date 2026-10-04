@@ -51,7 +51,7 @@ RGEN := tools/renderer-gen
 	interaction-prebuilt \
 	wasm-sha-record wasm-sha-verify wasm-inputs-verify wasm-inputs-check \
 	standard-brief standard-brief-generate composition-clean doc-audit \
-	ui-review-preflight ui-review-preflight-canary
+	ui-review-preflight ui-review-preflight-canary lvgl-api-selftest lvgl-global-subject-selftest
 
 # ── Atomic install of a generated file ──────────────────────────────────────
 # The three freshness lanes below (`manifests`, `construct-bindings`,
@@ -1753,6 +1753,17 @@ dead-c-externs-test:
 check-renderer:
 	@$(MAKE) --no-print-directory -f renderer.mk -j$(BATTERY_JOBS) check-renderer-lanes
 
+# Native boundary probes include the actual implementation and exercise its
+# public entry points. Their ordinary runs enforce positive assertion counts
+# and runner canaries; selected source mutations remain an explicit epic task.
+lvgl-api-selftest: generated-projection
+	@set -e; scratch=$$(mktemp -d); trap 'rm -rf -- "$$scratch"' EXIT; \
+	  python3 renderer/tools/lvgl-api-selftest.py --out "$$scratch/evidence"
+
+lvgl-global-subject-selftest: generated-projection
+	@set -e; scratch=$$(mktemp -d); trap 'rm -rf -- "$$scratch"' EXIT; \
+	  python3 renderer/tools/lvgl-global-subject-selftest.py --out "$$scratch/evidence"
+
 # ONE NAME IN THE LIST BELOW IS NOT A GATE. `standard-brief-generate` is the
 # briefing GENERATOR: it rewrites a tracked page and exits 0 whether that page
 # was fresh or stale, so the battery cannot go red on briefing staleness and a
@@ -1769,5 +1780,5 @@ check-renderer:
 # the stale-belief-as-blocker that rule exists to prevent.
 # That target's own block carries the full boundary. Every other name below
 # fails on its own subject.
-check-renderer-lanes: graal-check generated-projection-canary generated-projection construct-bindings conventions-projection state-mirror manifests devcards-test scratchcard-test scratchcard-brief clj-schema-test spec-coverage standard-brief-generate wasm wasm-inputs-check reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary spacing-canary scratchcard-lane dump-contracts harness interaction oracles reload decode-limits wire-constraints presence-semantics
+check-renderer-lanes: graal-check generated-projection-canary generated-projection construct-bindings conventions-projection state-mirror manifests devcards-test scratchcard-test scratchcard-brief clj-schema-test spec-coverage standard-brief-generate wasm wasm-inputs-check reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary spacing-canary scratchcard-lane dump-contracts harness interaction oracles reload decode-limits wire-constraints presence-semantics lvgl-api-selftest lvgl-global-subject-selftest
 	@echo "renderer battery: GREEN ($^)"

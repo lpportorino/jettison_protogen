@@ -58,6 +58,11 @@ on:
     # home for a C-format verdict.
     - ".clang-format"
     - "lint.mk"
+    - ".ruff.toml"
+    - "tools/lint/ruff.sh"
+    - "tools/lint/python_check.sh"
+    - "tools/lint/test/python_check_test.sh"
+    - "tools/wire_contract_check.py"
     - "tools/renderer-gen/**"
     # The freshness lane's canary. A canary whose trigger excludes the file whose
     # change would break it is armed in name only, and every run of it is green
@@ -120,6 +125,11 @@ on:
     # home for a C-format verdict.
     - ".clang-format"
     - "lint.mk"
+    - ".ruff.toml"
+    - "tools/lint/ruff.sh"
+    - "tools/lint/python_check.sh"
+    - "tools/lint/test/python_check_test.sh"
+    - "tools/wire_contract_check.py"
     - "tools/renderer-gen/**"
     # The freshness lane's canary. A canary whose trigger excludes the file whose
     # change would break it is armed in name only, and every run of it is green
@@ -269,6 +279,16 @@ jobs:
           -e GIT_CONFIG_VALUE_0=/workspace \
           jettison-proto-generator-base:latest \
           make -f lint.mk fmt-c
+    - name: Python gate drivers (pinned Ruff and failing canaries)
+      run: |
+        docker run --rm -v "$PWD:/workspace:ro" -w /workspace \
+          jettison-proto-generator-base:latest \
+          make -f lint.mk lint-python
+    - name: Native LVGL API and global subject lifecycle contracts
+      run: |
+        docker run --rm -v "$PWD:/workspace:ro" -w /workspace \
+          jettison-proto-generator-base:latest \
+          make -f renderer.mk lvgl-api-selftest lvgl-global-subject-selftest
     - # shellcheck over first-party shell, HERE rather than in lint.yml's
       # `lint-sh` because the pinned shellcheck lives in THIS image. lint.yml
       # runs on a bare runner whose shellcheck version is whatever the runner

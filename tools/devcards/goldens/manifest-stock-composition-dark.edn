@@ -2,56 +2,56 @@
  :cards
  {"lego/dock-expanded"
   {:sha256
-   "386a42a892f081acae410aba3e19e12668ca49f4b2d1683e7eba6a44a25c47e7",
+   "35dcda539c08a09a2abc9fcada6c81f806bb93f7617f245c8b7f132a5a3ab69b",
    :w 800,
    :h 480},
   "lego/dock-folded"
   {:sha256
-   "3e3239c9db2a45abea3568ad63adda611353d99e4fef1c00dfaa8e35d12599c2",
+   "51d409845988849aa79caf0e3da2500e38689c98e8d7a0817437f64be97ca588",
    :w 800,
    :h 480},
   "lego/dock-hidden-child"
   {:sha256
-   "d552abbae88db0fc411c81d4c806447df20c1b58ff0bb1d50682a2f67e0d5d75",
+   "7be086e9faebd43df76825e067397cb8f94dcb2d3420a4e0803b129d97b9cce0",
    :w 800,
    :h 480},
   "lego/dock-multirow"
   {:sha256
-   "5b825772dad8041dd321dd2454242901745928c6cc5791bc59e7f4e7f4c24e05",
+   "d4f0735cb4c499e353a340ba4d2f491583b68383e5c6464500cd0847afc0a01a",
    :w 800,
    :h 480},
   "lego/scrubber"
   {:sha256
-   "22e57052bd148a30d43a89ea02742f4dbdcdad0a3796c54b175594f6df2ef0de",
+   "83d61137d02fda66f8d7cf92a786ff81c08d69e4073461cc6d3ab8dcea0f1c75",
    :w 800,
    :h 480},
   "lego/scrubber-noseek"
   {:sha256
-   "22e57052bd148a30d43a89ea02742f4dbdcdad0a3796c54b175594f6df2ef0de",
+   "83d61137d02fda66f8d7cf92a786ff81c08d69e4073461cc6d3ab8dcea0f1c75",
    :w 800,
    :h 480},
   "lego/scrubber-noslop"
   {:sha256
-   "22e57052bd148a30d43a89ea02742f4dbdcdad0a3796c54b175594f6df2ef0de",
+   "83d61137d02fda66f8d7cf92a786ff81c08d69e4073461cc6d3ab8dcea0f1c75",
    :w 800,
    :h 480},
   "lego/scrubber-plain"
   {:sha256
-   "9780c9135140d83c1395eb636a478bc48d7bc8ab881aacf00aa72e1c59be7d34",
+   "a605b5db03c41f06b4417abd20f6a3cb77492049c8432578e2f32d9567c544f6",
    :w 800,
    :h 480},
   "lego/scrubber-rich-full"
   {:sha256
-   "01d99cc37c6904ff6c9837a67c7345e1c411728b4876b0d10ec9ca19fb171696",
+   "bc00e3200b851e19e38a2a1400fd255160e2ea042e693a6294bc5a5c3f53b538",
    :w 800,
    :h 480},
   "lego/scrubber-rich-paused"
   {:sha256
-   "647b8dccce03c07c115d7fbb4d6144367a51b9b0868cb2230ee1f1b99e251bfa",
+   "5b8c204d72b461146944baf79cb7f5dfbcefcc3727ca93f5fc37173af2a3d896",
    :w 800,
    :h 480},
   "lego/scrubber-rich-ticks"
   {:sha256
-   "0d1bd5a0ee0a6981c7f68cf44e8abef88c4c5e9b418d7c76592e18c0c1c1e3c6",
+   "f99d84cdb22a7679c91984e10aae44da614bdcf87ca06d17495d4a88187416ef",
    :w 800,
    :h 480}}}

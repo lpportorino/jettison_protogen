@@ -464,6 +464,15 @@ RUN SC_ARCH="$(uname -m)" \
     && rm -rf "shellcheck-v${SHELLCHECK_VERSION}" "$SC_TAR" sc.sha256 \
     && shellcheck --version
 
+# Pin and prewarm the maintained Python gate tool after all expensive layers.
+# The same wrapper verifies release and extracted binary checksums at bootstrap,
+# then verifies cached executable bytes on every invocation. The explicit build
+# marker covers BuildKit RUN containers that do not expose /.dockerenv.
+COPY tools/lint/ruff.sh /tmp/protogen-ruff.sh
+ENV RUFF_CACHE_DIR=/opt/protogen-tools/ruff
+RUN RUFF_CONTAINER_BUILD=1 bash /tmp/protogen-ruff.sh --version \
+    && rm /tmp/protogen-ruff.sh
+
 # No ENTRYPOINT on the base image: `docker run <img> <cmd>` must run <cmd>
 # directly (make, protoc, …) — that is exactly what the renderer battery and any
 # hand-rolled base run depend on. ubuntu:24.04's default CMD ["/bin/bash"] still

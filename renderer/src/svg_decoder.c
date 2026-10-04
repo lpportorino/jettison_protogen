@@ -10,7 +10,7 @@
 #include "svg_decoder.h"
 #include "log.h"
 #include "lvgl.h"
-#include "lvgl/src/draw/lv_image_decoder_private.h"
+#include "lvgl/src/image/lv_image_decoder_private.h"
 #if LV_USE_THORVG_INTERNAL
 #include "lvgl/src/libs/thorvg/thorvg_capi.h"
 #include <stdlib.h>

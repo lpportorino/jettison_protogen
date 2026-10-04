@@ -77,6 +77,12 @@ Rules:
   not catch the bug — that is precisely what makes the report valuable — so the
   proof is a pin bump in that consumer with its battery green, never this repo's
   tests alone.
+- **Require zero surviving eligible mutants before epic completion.** Run a
+  manual campaign scoped to changed behavior and affected contracts under
+  [.claude/rules/mutation-testing.md](.claude/rules/mutation-testing.md). Retain
+  attributed failing assertions and passing controls; compile errors, crashes,
+  empty suites and timeouts never count as kills. This adds an epic assessment
+  without replacing the existing per-defect red-before/green-after obligation.
 - **Get an antagonistic review before pushing.** A hostile, non-self review of
   both the diff AND the commit message is what confirms the fix is real and the
   message honest. Nothing mechanical gates a push here — the review IS the gate.
@@ -184,7 +190,8 @@ A gate going green on elements it never judged is the one failure class this
 standard refuses everywhere else.
 
 **That does not remain a hazard on the ui_ast path.** The flag is settable
-straight from the wire — `obj_flags` is direct-cast onto `lv_obj_add_flag` — so
+straight from the wire — `apply_wire_flags` in `renderer/src/renderer.c` maps
+`obj_flags`' OVERFLOW_VISIBLE bit onto `lv_obj_set_overflow_visible` — so
 `dump_obj` emits the already-resolved `descend_gate` box when
 OVERFLOW_VISIBLE makes it differ from coords. The overlap producer reads that
 box and falls back to coords only when the two are exactly equal. A consumer

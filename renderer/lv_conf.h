@@ -1,13 +1,13 @@
 /**
  * LVGL Configuration for WASM Controls Module
  *
- * LVGL 9.5.x — configured for transparent overlay rendering
+ * LVGL 9.6.x — configured for transparent overlay rendering
  * in a WebAssembly (wasi-sdk) environment.
  */
 #ifndef LV_CONF_H
 #define LV_CONF_H
-/* Color depth: 32-bit ARGB for transparent overlay */
-#define LV_COLOR_DEPTH 32
+/* Preserve the 32-bit default; the overlay display selects ARGB8888 explicitly. */
+#define LV_COLOR_FORMAT_DEFAULT LV_COLOR_FORMAT_XRGB8888
 /* No OS — single-threaded WASM */
 #define LV_USE_OS LV_OS_NONE
 /* Use wasi-libc malloc/free */
@@ -21,6 +21,10 @@
 #define LV_LOG_PRINTF 1
 /* Observer/subject support (core feature since 9.0) */
 #define LV_USE_OBSERVER 1
+/* The wire exposes legacy flag bitmasks, including layout/widget reserved bits.
+ * The public property API preserves their semantics without deprecated calls. */
+#define LV_USE_OBJ_PROPERTY 1
+#define LV_USE_OBJ_PROPERTY_NAME 0
 /* Layouts */
 #define LV_USE_FLEX 1
 #define LV_USE_GRID 1
@@ -60,10 +64,10 @@
  * conversion toolchain. */
 #define LV_USE_TINY_TTF 1
 #define LV_TINY_TTF_FILE_SUPPORT 1
-/* Max-quality draw settings (the rest of the quality surface is 9.5
- * defaults, which are already maximal: software AA is always on per
- * draw in v9 — pinned by the vr_aa_probe test — and font glyphs render
- * 4bpp antialiased; subpixel text is no longer a v9 conf knob). */
+/* Max-quality draw settings (the rest of the quality surface is the
+ * vendored release's defaults, which are already maximal: software AA is
+ * always on per draw in v9 — pinned by the vr_aa_probe test — and font
+ * glyphs render 4bpp antialiased; subpixel text is not a v9 conf knob). */
 #define LV_USE_DRAW_SW_COMPLEX_GRADIENTS 1
 /* radial/conic gradients */
 #define LV_GRADIENT_MAX_STOPS 8
@@ -73,8 +77,8 @@
 #define LV_USE_MATRIX 1
 /* Vector graphics + ThorVG (internal, from lvgl/src/libs/thorvg/) */
 #define LV_USE_VECTOR_GRAPHIC 1
+#define LV_USE_THORVG 1
 #define LV_USE_THORVG_INTERNAL 1
-#define LV_USE_THORVG_EXTERNAL 0
 /* The default theme is (re)initialized at runtime via
  * lv_theme_default_init() — see main.c apply_default_theme(): the
  * dark flag tracks the theme_dark subject so bare containers and

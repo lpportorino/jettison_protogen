@@ -390,8 +390,8 @@ static int key_consumed_before_lvgl(uint32_t key, uint32_t pressed);
 static lv_group_t *input_group;
 /* Composite subject: bp * 2 + theme_dark -> index 0-7
  * Non-static: referenced by renderer.c via extern. */
-lv_subject_t subj_composite;
-static lv_subject_t subj_channel_type;
+lv_subject_t *subj_composite;
+static lv_subject_t *subj_channel_type;
 /* Internal state for recomputing subj_composite */
 static int32_t current_bp = 0;
 static int32_t current_theme_dark = 0;
@@ -559,8 +559,8 @@ static void apply_default_theme(void) {
  * would silently revert the patched UI (D6). */
 static int32_t update_composite(void) {
   int32_t new_idx = current_bp * 2 + current_theme_dark;
-  int32_t old_idx = lv_subject_get_int(&subj_composite);
-  lv_subject_set_int(&subj_composite, new_idx);
+  int32_t old_idx = lv_subject_get_int(subj_composite);
+  lv_subject_set_int(subj_composite, new_idx);
   /* Variant styles are decoded once at load_ui time using the composite
    * index as a filter — only the active variant's styles are allocated.
    * When the composite index changes, we must rebuild the widget tree
@@ -698,7 +698,7 @@ static lv_display_t *init_display(uint32_t width, uint32_t height) {
    * point to the screen and route it to LVGL. Clear it so a point that hits
    * no clickable widget falls through to NULL = the video gesture-surface
    * (§4 "bare bg over video → VIDEO-FSM"). */
-  lv_obj_remove_flag(lv_screen_active(), LV_OBJ_FLAG_CLICKABLE);
+  lv_obj_set_clickable(lv_screen_active(), false);
   return disp;
 }
 /* LVGL input read callback (polled each tick) */
@@ -740,6 +740,8 @@ static void keypad_read_cb(lv_indev_t *indev, lv_indev_data_t *data) {
  * uncapped huge dim wrapped the uint32 size to a small value → calloc a tiny
  * buffer the renderer then wrote past (heap corruption). */
 #define CONTROLS_MAX_DIM 16384u
+/* Partial initialization uses the same reverse-order teardown as the host. */
+int32_t controls_destroy(void);
 int32_t controls_init(uint32_t width, uint32_t height) {
   if (width == 0 || height == 0 || width > CONTROLS_MAX_DIM ||
       height > CONTROLS_MAX_DIM)
@@ -790,11 +792,15 @@ int32_t controls_init(uint32_t width, uint32_t height) {
   lv_indev_set_type(keypad, LV_INDEV_TYPE_KEYPAD);
   lv_indev_set_read_cb(keypad, keypad_read_cb);
   lv_indev_set_group(keypad, input_group);
-  /* Initialize subjects */
-  lv_subject_init_int(&subj_composite, 0);
-  lv_subject_init_int(&subj_channel_type, 0);
   /* Register SVG image decoder (ThorVG-based) */
   svg_decoder_init();
+  subj_composite = lv_subject_create(LV_SUBJECT_TYPE_INT);
+  subj_channel_type = lv_subject_create(LV_SUBJECT_TYPE_INT);
+  if (!subj_composite || !subj_channel_type) {
+    LOG_ERROR("global subject allocation failed");
+    controls_destroy();
+    return -1;
+  }
   /* No UI built here — wait for controls_load_ui() call */
   return 0;
 }
@@ -1406,11 +1412,11 @@ static lv_obj_t *gesture_affordance_get(gesture_affordance_part_t part) {
     return NULL;
   }
   lv_obj_remove_style_all(obj);
-  lv_obj_add_flag(obj, LV_OBJ_FLAG_FLOATING);
-  lv_obj_add_flag(obj, LV_OBJ_FLAG_IGNORE_LAYOUT);
-  lv_obj_remove_flag(obj, LV_OBJ_FLAG_CLICKABLE);
-  lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
-  lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLL_CHAIN);
+  lv_obj_set_floating(obj, true);
+  lv_obj_set_ignore_layout(obj, true);
+  lv_obj_set_clickable(obj, false);
+  lv_obj_set_scrollable(obj, false);
+  lv_obj_set_scroll_chain(obj, false);
   lv_obj_add_event_cb(obj, gesture_affordance_deleted_cb, LV_EVENT_DELETE,
                       NULL);
   gesture_affordance_style(obj, part);
@@ -2527,7 +2533,7 @@ static bool obj_has_no_content(const lv_obj_t *obj) {
   uint32_t n = lv_obj_get_child_count(obj);
   for (uint32_t i = 0; i < n; i++) {
     const lv_obj_t *child = lv_obj_get_child(obj, i);
-    if (!lv_obj_has_flag_any(child, LV_OBJ_FLAG_HIDDEN | LV_OBJ_FLAG_FLOATING))
+    if (!(lv_obj_is_hidden(child) || lv_obj_is_floating(child)))
       return false;
   }
   return true;
@@ -2701,13 +2707,12 @@ static bool obj_in_scroll_region(const lv_obj_t *obj) {
   const lv_obj_t *child = obj;
   const lv_obj_t *parent = lv_obj_get_parent(child);
   while (parent != NULL) {
-    bool snappable = lv_obj_has_flag(child, LV_OBJ_FLAG_SNAPPABLE);
+    bool snappable = lv_obj_is_snappable(child);
     bool snap_x = lv_obj_get_scroll_snap_x(parent) != LV_SCROLL_SNAP_NONE;
     bool snap_y = lv_obj_get_scroll_snap_y(parent) != LV_SCROLL_SNAP_NONE;
     if (snappable && (snap_x || snap_y))
       return true;
-    if (lv_obj_has_flag(parent, LV_OBJ_FLAG_SCROLLABLE) &&
-        obj_content_overflows(parent))
+    if (lv_obj_is_scrollable(parent) && obj_content_overflows(parent))
       return true;
     child = parent;
     parent = lv_obj_get_parent(child);
@@ -3627,7 +3632,7 @@ static void dump_obj(const lv_obj_t *obj, bool is_root) {
      * clang-tidy's readability-function-size variable threshold, so adding a
      * name here costs a real gate red rather than nothing. */
   unsigned overflow_dirs = obj_overflow_dirs(obj);
-  bool scrollable = lv_obj_has_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+  bool scrollable = lv_obj_is_scrollable(obj);
   if (overflow_dirs != 0u && !scrollable)
     tree_append(",\"overflow\":true");
   if (overflow_dirs != 0u && scrollable) {
@@ -3650,7 +3655,7 @@ static void dump_obj(const lv_obj_t *obj, bool is_root) {
     tree_append(",\"squished\":true");
   /* Emitted only when set, so visible nodes stay compact and the
    * tree differ sees show-when / visibility state directly. */
-  if (lv_obj_has_flag(obj, LV_OBJ_FLAG_HIDDEN))
+  if (lv_obj_is_hidden(obj))
     tree_append(",\"hidden\":true");
   /* Emitted only when set: the checked_when / radio-group oracle. */
   if (lv_obj_has_state(obj, LV_STATE_CHECKED))
@@ -3679,7 +3684,7 @@ static void dump_obj(const lv_obj_t *obj, bool is_root) {
    * host_proxy has the flag cleared at runtime so the pointer falls through
    * it, and nothing in the dump said so, which left a consumer's overlap rule
    * counting a fall-through surface as pointer-taking. */
-  if (!lv_obj_has_flag(obj, LV_OBJ_FLAG_CLICKABLE))
+  if (!lv_obj_is_clickable(obj))
     tree_append(",\"clickable\":false");
   /* The pointer is tested against the CLICK AREA — coords grown by
    * ext_click_pad (lv_obj_get_click_area) — never against coords. A rule
@@ -3713,7 +3718,7 @@ static void dump_obj(const lv_obj_t *obj, bool is_root) {
    * separately declared limitation: both coords and this gate live in the
    * pre-transform coordinate space lv_indev_search_obj compares after
    * inverse-transforming the pointer, while the dump carries no transform. */
-  if (lv_obj_has_flag(obj, LV_OBJ_FLAG_OVERFLOW_VISIBLE)) {
+  if (lv_obj_is_overflow_visible(obj)) {
     lv_area_t gate = a;
     int32_t ext_draw_size = lv_obj_get_ext_draw_size(obj);
     lv_area_increase(&gate, ext_draw_size, ext_draw_size);
@@ -4090,6 +4095,10 @@ int32_t controls_destroy(void) {
     lv_group_remove_all_objs(input_group); /* No refocus during teardown */
   lv_obj_clean(lv_screen_active()); /* Widgets first (detach observers) */
   renderer_cleanup();               /* Then subjects + style pool */
+  lv_subject_delete(subj_composite);
+  lv_subject_delete(subj_channel_type);
+  subj_composite = NULL;
+  subj_channel_type = NULL;
   /* Then EVERYTHING ELSE controls_init created, in reverse dependency order.
      This function's contract is to undo controls_init, and it is exported so a
      host MAY re-init the same instance afterwards — so each unpaired resource

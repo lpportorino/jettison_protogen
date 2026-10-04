@@ -6,13 +6,13 @@
  * the task state machine without moving a golden pixel.
  */
 #include "palette_observer.h"
-#include "lvgl/src/core/lv_obj_style.h"
-#include "lvgl/src/draw/lv_draw_arc.h"
-#include "lvgl/src/draw/lv_draw_label.h"
-#include "lvgl/src/draw/lv_draw_line.h"
+#include "lvgl/include/lvgl/core/lv_obj_style.h"
+#include "lvgl/include/lvgl/draw/lv_draw_arc.h"
+#include "lvgl/include/lvgl/draw/lv_draw_label.h"
+#include "lvgl/include/lvgl/draw/lv_draw_line.h"
+#include "lvgl/include/lvgl/draw/lv_draw_rect.h"
+#include "lvgl/include/lvgl/draw/lv_draw_triangle.h"
 #include "lvgl/src/draw/lv_draw_private.h"
-#include "lvgl/src/draw/lv_draw_rect.h"
-#include "lvgl/src/draw/lv_draw_triangle.h"
 #include "theme.h"
 #include <stddef.h>
 #include <string.h>

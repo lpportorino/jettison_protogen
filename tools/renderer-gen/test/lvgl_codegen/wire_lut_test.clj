@@ -72,7 +72,7 @@
 ;; Paths are CWD-relative to tools/renderer-gen — the directory `renderer.mk`'s
 ;; `clj-schema-test` cd's into, and the same convention theme_style_groups_test
 ;; uses.
-(def ^:private lvgl-src-dir "../../renderer/lvgl/src")
+(def ^:private lvgl-headers-dir "../../renderer/lvgl/include/lvgl")
 
 (def ^:private lv-conf-path "../../renderer/lv_conf.h")
 
@@ -121,10 +121,10 @@
 
 (def ^:private headers
   "Every vendored LVGL header, comment-stripped, as `[path text]` — read once."
-  (delay (let [root (io/file lvgl-src-dir)]
+  (delay (let [root (io/file lvgl-headers-dir)]
            (when-not (.isDirectory root)
-             (throw (ex-info "vendored LVGL source tree not found"
-                             {:path lvgl-src-dir :cwd (System/getProperty "user.dir")})))
+             (throw (ex-info "vendored LVGL public header tree not found"
+                             {:path lvgl-headers-dir :cwd (System/getProperty "user.dir")})))
            (into []
                  (comp (filter #(.isFile ^java.io.File %))
                        (filter #(str/ends-with? (.getName ^java.io.File %) ".h"))

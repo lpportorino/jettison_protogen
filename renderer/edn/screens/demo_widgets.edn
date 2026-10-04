@@ -1,4 +1,4 @@
-;; demo_widgets.edn — 1:1 EDN recreation of LVGL v9.5.0 lv_demo_widgets at
+;; demo_widgets.edn — 1:1 EDN recreation of LVGL v9.6.0 lv_demo_widgets at
 ;; DISP_LARGE (960×540), the demo-parity capstone (05-DEMO-PARITY-PLAN.md
 ;; D4; per-setter inventory in 06-DEMO-GAP-MATRIX.md).
 ;;
@@ -47,7 +47,7 @@
       :in-tab-bar true
       :style {:align :top-left :style-x -403 :style-y 16 :text-font "montserrat_24"}
       :tag :lv_label
-      :text "LVGL v9.5.0"}
+      :text "LVGL v9.6.0"}
      {:flags #{:ignore-layout}
       :in-tab-bar true
       :style {:align :top-left :style-x -403 :style-y 40 :text-opa 127}

@@ -65,6 +65,7 @@
     "lvgl-codegen.font-metrics"
     "lvgl-codegen.normalize"
     "lvgl-codegen.pdl-t0"
+    "lvgl-codegen.pretty"
     "lvgl-codegen.proto-ser"
     "lvgl-codegen.style-props"})
 

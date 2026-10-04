@@ -48,7 +48,8 @@
      :line-gap (s16 b (+ hhea 8))}))
 
 (defn tiny-ttf-metrics
-  "The exact lv_tiny_ttf.c derivation (lines 159-163), float maths, C truncation."
+  "The exact lv_tiny_ttf.c derivation (its line_height/base_line assignments
+   after stbtt_GetFontVMetrics), float maths, C truncation."
   [{:keys [units-per-em ascent descent line-gap]} size]
   (let [scale (float (/ (float size) (float units-per-em)))]
     {:line-height (long (float (* scale (float (- (+ ascent line-gap) descent)))))

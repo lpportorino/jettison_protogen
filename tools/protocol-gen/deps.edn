@@ -16,7 +16,7 @@
 ;; from the root with an explicit path list.
 {:paths ["src"]
  :deps {org.clojure/clojure {:mvn/version "1.12.5"}
-        metosin/malli {:mvn/version "0.20.1"}}
+        metosin/malli {:mvn/version "0.20.2"}}
  :aliases
  {;; The generator CLI: policy + database -> per-group `.proto` + permission
   ;; mirror. See `protocol-gen.core`'s docstring for the subcommands.

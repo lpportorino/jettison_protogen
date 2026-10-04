@@ -504,9 +504,11 @@
    DIRECTLY — the generated projection of the vendored LVGL headers, whose
    bytes `make -f renderer.mk construct-bindings` asserts equal to a live
    extraction. A local subset would agree with it only until the next LVGL
-   bump, and nothing would compare the two. Both wire fields are direct-cast by
-   renderer.c: `obj_flags` through `lv_obj_add_flag`, `obj_flags_clear` through
-   `lv_obj_remove_flag`, so every flag the headers declare is expressible."
+   bump, and nothing would compare the two. renderer.c's `apply_wire_flags`
+   dispatches each bit of `obj_flags` (set) and `obj_flags_clear` (cleared) to
+   LVGL's per-flag setter, its user-flag setter, or — for the three reserved
+   bits with no setter — the object property, so every declared flag is
+   expressible; only the undeclared high bit is ignored."
   ^long [ctx node-key ks]
   (reduce (fn [acc k]
             (bit-or acc (long (enum-of enums/obj-flag-keyword->int k
@@ -847,8 +849,8 @@
 ;;    :text "..."                ; node.text (labels/checkbox/textarea)
 ;;    :children [node ...]       ; recursive
 ;;    :bare true                 ; lv_obj_remove_style_all before styles
-;;    :flags [:hidden]           ; obj_flags bits (lv_obj_add_flag)
-;;    :flags-clear [:scrollable] ; obj_flags_clear bits (lv_obj_remove_flag)
+;;    :flags [:hidden]           ; obj_flags bits (set via apply_wire_flags)
+;;    :flags-clear [:scrollable] ; obj_flags_clear bits (cleared likewise)
 ;;    :states-bits 512           ; wire lv_state_t bitmask, verbatim
 ;;    :hit-slop 24               ; WidgetNode.hit_slop, design px per side
 ;;    :layout {:flow :row}}      ; the Layout message (kitchen sinks)

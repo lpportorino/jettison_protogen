@@ -181,7 +181,7 @@ static void cap_add_style(lv_obj_t *obj, const lv_style_t *style,
  * cannot leave this projection silently using the old behavior.
  */
 static bool cap_check_type(const lv_obj_t *obj, const lv_obj_class_t *class_p) {
-  return obj != NULL && obj->class_p == class_p;
+  return obj != NULL && class_p != NULL && obj->class_p == class_p;
 }
 static lv_obj_t *cap_get_parent(const lv_obj_t *obj) {
   return obj == NULL ? NULL : obj->parent;

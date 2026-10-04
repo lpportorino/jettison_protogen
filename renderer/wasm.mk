@@ -256,7 +256,7 @@ COMMON_APP_OBJS := $(patsubst %.c,$(OBJ_DIR)/%.o,$(COMMON_APP_SRCS))
 RENDERER_OBJ := $(OBJ_DIR)/src/renderer.o
 REFERENCE_OBJ := $(OBJ_DIR)/src/reference_ui.o
 
-# lv_demo_widgets (vendored at lvgl/demos, v9.5.0 tag) — linked into
+# lv_demo_widgets (vendored at lvgl/demos, v9.6.0 tag) — linked into
 # reference.wasm ONLY: the demo-parity oracle, never deployed.
 DEMO_SRCS := $(sort $(wildcard lvgl/demos/widgets/*.c))                    $(sort $(wildcard lvgl/demos/widgets/assets/*.c)) lvgl/demos/lv_demos.c
 DEMO_OBJS := $(patsubst %.c,$(OBJ_DIR)/%.o,$(DEMO_SRCS))

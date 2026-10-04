@@ -13,6 +13,10 @@ paths:
   - ".cljfmt.edn"
   - ".splint.edn"
   - "tools/lint/**"
+  - "renderer/tools/*selftest.*"
+  - "renderer/tools/lvgl-reactive-mutations.py"
+  - "tools/wire_contract_check.py"
+  - ".ruff.toml"
   - ".githooks/**"
   - ".github/workflows/**"
   - "*.mk"
@@ -52,6 +56,7 @@ Two guards you will meet:
 |---|---|---|
 | `cljfmt`, `clj-kondo`, `lint-sh` (`bash -n` + payload apostrophes), `actionlint`, `lint-clj-gate-test`, `wasm-provenance-test`, the namespace-size ceiling, spec presence | `lint.yml`, plain runner | fast; kondo is a native binary, cljfmt and the two structural lanes named here need only the CLI, and the provenance canary needs neither toolchain — it stubs the compiler, so it is bash and make over a `mktemp` fixture |
 | `clang-format`, `clang-tidy` | `renderer.yml`, inside the pinned image — and `clang-tidy` also from the pre-push hook, docker-gated, via `tools/uber.sh` | the only PINNED clang tooling is the WASI-SDK's; clang-tidy also needs a compile database emitted from the build's own flags, so it cannot join the bare-invoked `lint` aggregate |
+| Ruff lint and format, with deliberate failing canaries (`lint-python`) | `renderer.yml`, inside the pinned image — and from the pre-push hook, docker-gated, via `tools/uber.sh` | `tools/lint/ruff.sh` pins both release archive and executable digests and populates its cache only inside a container (the image prewarms it), so like `clang-tidy` it cannot join the bare-invoked `lint` aggregate; `python_check.sh` explicitly enrolls the native probe drivers and wire-contract gate, without claiming the other experiment scripts |
 | the WHOLE-TREE scans — the leak ban, the markdown gate, the file-size ceiling | `hygiene.yml`, plain runner, **no `paths:` filter** | see below — a path filter over a tree-wide scan is a false skip by construction |
 
 **THREE STRUCTURAL CHECKS AND FIVE FORK/LEG CANARIES ARE HOOK-ONLY, NOT

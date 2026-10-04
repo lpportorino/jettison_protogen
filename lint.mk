@@ -366,6 +366,9 @@ hooks-status:
 #                  `lint` so a green `lint` keeps meaning "formatting and lint
 #                  over hand-authored code".
 #   docs-lint      proto-aware in the same way, and separate for the same reason.
+#   lint-python    omitted for lint-c-tidy's mechanical reason: its pinned Ruff
+#                  cache exists only inside the image, so the hook runs it
+#                  through tools/uber.sh in the same docker-gated block.
 # So the HOOK's gate set is strictly wider than this target, by the lanes listed
 # above. NO COUNT IS GIVEN: this sentence said "those three" and went stale the
 # moment a fourth was added to the list it points at. Read the hook for what a
@@ -413,6 +416,25 @@ lint:
 	@$(MAKE) --no-print-directory -f lint.mk -j$(NPROC) lint-lanes
 
 lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-cmd-no-any-bytes-test lint-cmd-no-any-bytes lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test leg-strictness-test wasm-provenance-test ts-validated-repro-test wire-contract-codec-test wire-contract-envelope-test fork-hazards protocol-gen-test protocol-gen-canary fmt-clj lint-clj fmt-c
+
+## lint-python / lint-python-test: pinned Ruff over the enrolled Python gate drivers
+# The bounded enrollment lives in tools/lint/python_check.sh; experiment and data
+# scripts are not implicitly claimed by this lane.
+#
+# NOT IN THE `lint` AGGREGATE, for the same MECHANICAL reason as lint-c-tidy:
+# tools/lint/ruff.sh populates its checksum-pinned cache only inside a container
+# (Dockerfile.base prewarms it), and refuses with exit 2 on a cold host cache.
+# `lint` is invoked BARE by the pre-push hook, so folding this lane in would
+# hard-fail every push from a machine that has never run it in the image. The
+# hook therefore runs it through tools/uber.sh in its docker-gated block, and
+# renderer.yml runs it inside the pinned image. The canary rides as the gate's
+# prerequisite, so it always runs first and needs exactly what the gate needs.
+.PHONY: lint-python lint-python-test
+lint-python: lint-python-test
+	@bash tools/lint/python_check.sh
+
+lint-python-test:
+	@bash tools/lint/test/python_check_test.sh
 
 ## protocol-gen-test / protocol-gen-canary: the generator tool's two OWN lanes
 # Delegated to `Makefile` by SUB-MAKE, exactly as lint-md is delegated to

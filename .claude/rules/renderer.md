@@ -319,7 +319,7 @@ of is part of the number.
 The one TTF tuple is the exception that proves the ordering, not a
 counterexample: TinyTTF derives `line_height` from `stbtt_GetFontVMetrics` — the
 same `hhea` values — and TRUNCATES rather than rounds
-(`renderer/lvgl/src/libs/tiny_ttf/lv_tiny_ttf.c`). Know which way a failed load
+(`renderer/lvgl/src/font/tiny_ttf/lv_tiny_ttf.c`). Know which way a failed load
 goes, too: `resolve_font` logs and falls back to `font_b612mono_bold_16` rather
 than failing, so a broken TTF path still renders. The `vr_ttf_font` /
 `vr_ttf_font_base` fixture pair and the differ between them are the PIXEL oracle

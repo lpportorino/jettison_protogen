@@ -271,6 +271,42 @@ static lv_color_t mode_hex(const asgard_theme_t *t, uint32_t dark_hex,
                            uint32_t light_hex) {
   return lv_color_hex(pick_u32(t->dark, dark_hex, light_hex));
 }
+/* Initialize the tab bar's selected label and surfaces together. Keep this
+ * call at the original point in style_init so style reset/set order is stable. */
+static void style_init_tabs(asgard_theme_t *t) {
+  bool v = t->family == ASGARD_THEME_FAMILY_VANILLA;
+  bool inited = t->inited;
+  asgard_styles_t *s = &t->styles;
+  /* selected tab-bar label — asgard DARK only, COLOR only. The tab bar is
+   * frozen to stock geometry (demo-parity capstone), but stock derives the
+   * selected label tint from color_primary while the selected tab fill is
+   * the same primary at LV_OPA_20 — with the violet accent the pair
+   * converges (~1.15-2.4:1 measured in dark; light passes AA). fg-0 is the
+   * accent-text rule (white-on-accent) applied to the one label the
+   * operator glances at most. text_color changes no geometry, so the
+   * capstone freeze holds; demo-parity renders family VANILLA, which adds
+   * nothing here. */
+  style_reset(&s->tab_txt, inited);
+  if (!v && t->dark)
+    lv_style_set_text_color(&s->tab_txt, lv_color_hex(THEME_FG0_DARK));
+  /* tabview surfaces — COLOR ONLY, asgard only. The bar is chrome and takes
+   * the elevated tier; the content/pages are the base tier the surface-1
+   * panels sit on, so the two read as distinct without either matching a
+   * panel. Nothing here sets radius, padding or border width, which is what
+   * keeps the frozen tabview geometry frozen. */
+  style_reset(&s->tab_bar_bg, inited);
+  if (!v) {
+    lv_style_set_bg_color(
+        &s->tab_bar_bg, mode_hex(t, THEME_SURFACE2_DARK, THEME_SURFACE2_LIGHT));
+    lv_style_set_bg_opa(&s->tab_bar_bg, LV_OPA_COVER);
+  }
+  style_reset(&s->tab_page_bg, inited);
+  if (!v) {
+    lv_style_set_bg_color(&s->tab_page_bg, mode_hex(t, THEME_SURFACE0_DARK,
+                                                    THEME_SURFACE0_LIGHT));
+    lv_style_set_bg_opa(&s->tab_page_bg, LV_OPA_COVER);
+  }
+}
 static void style_init(asgard_theme_t *t) {
   bool v = t->family == ASGARD_THEME_FAMILY_VANILLA;
   bool inited = t->inited;
@@ -382,7 +418,9 @@ static void style_init(asgard_theme_t *t) {
                                 lv_palette_main(LV_PALETTE_GREY));
       lv_style_set_shadow_width(&s->btn_shadow, dpx(t->dpi, 3));
       lv_style_set_shadow_opa(&s->btn_shadow, LV_OPA_50);
-      lv_style_set_shadow_offset_y(&s->btn_shadow, dpx(t->dpi, dpx(t->dpi, 4)));
+      /* LVGL 9.6's stock button uses one 3-DPX shadow offset. The old
+       * nested 4-DPX formula breaks vanilla/stock parity in light mode. */
+      lv_style_set_shadow_offset_y(&s->btn_shadow, dpx(t->dpi, 3));
     }
   } else {
     lv_style_set_shadow_opa(&s->btn_shadow, THEME_DROP_OPA);
@@ -1043,35 +1081,7 @@ static void style_init(asgard_theme_t *t) {
     lv_style_set_bg_opa(&s->readout_knob_off, LV_OPA_TRANSP);
     lv_style_set_pad_all(&s->readout_knob_off, 0);
   }
-  /* selected tab-bar label — asgard DARK only, COLOR only. The tab bar is
-   * frozen to stock geometry (demo-parity capstone), but stock derives the
-   * selected label tint from color_primary while the selected tab fill is
-   * the same primary at LV_OPA_20 — with the violet accent the pair
-   * converges (~1.15-2.4:1 measured in dark; light passes AA). fg-0 is the
-   * accent-text rule (white-on-accent) applied to the one label the
-   * operator glances at most. text_color changes no geometry, so the
-   * capstone freeze holds; demo-parity renders family VANILLA, which adds
-   * nothing here. */
-  style_reset(&s->tab_txt, inited);
-  if (!v && t->dark)
-    lv_style_set_text_color(&s->tab_txt, lv_color_hex(THEME_FG0_DARK));
-  /* tabview surfaces — COLOR ONLY, asgard only. The bar is chrome and takes
-   * the elevated tier; the content/pages are the base tier the surface-1
-   * panels sit on, so the two read as distinct without either matching a
-   * panel. Nothing here sets radius, padding or border width, which is what
-   * keeps the frozen tabview geometry frozen. */
-  style_reset(&s->tab_bar_bg, inited);
-  if (!v) {
-    lv_style_set_bg_color(
-        &s->tab_bar_bg, mode_hex(t, THEME_SURFACE2_DARK, THEME_SURFACE2_LIGHT));
-    lv_style_set_bg_opa(&s->tab_bar_bg, LV_OPA_COVER);
-  }
-  style_reset(&s->tab_page_bg, inited);
-  if (!v) {
-    lv_style_set_bg_color(&s->tab_page_bg, mode_hex(t, THEME_SURFACE0_DARK,
-                                                    THEME_SURFACE0_LIGHT));
-    lv_style_set_bg_opa(&s->tab_page_bg, LV_OPA_COVER);
-  }
+  style_init_tabs(t);
   /* disabled spinbox cursor — asgard-only: the stock cursor keeps its
    * highlight under DISABLED, where the dimmed digit sinks into it; a
    * disabled control has no active edit cell, so the highlight goes. The

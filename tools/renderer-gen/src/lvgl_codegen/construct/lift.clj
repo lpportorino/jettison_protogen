@@ -11,8 +11,8 @@
      (parity-gated), `:lut` otherwise (the default per O1).
    - **pass 6 (name-map)** — `:proto-type` / `:proto-name` / `:clj-keyword` via
      camel-snake-kebab.
-   - **pass 7 (numbering, provisional)** — `:proto-number` = `:resolved-int` as
-     a placeholder; the AUTHORITATIVE numbers are stamped by
+   - **pass 7 (numbering, provisional)** — direct-cast enums retain their native
+     value; other enums use zero until the AUTHORITATIVE numbers are stamped by
      `lvgl-codegen.construct.registry/apply-numbering` from the assign-once
      registry. For direct-cast enums the two coincide (the parity
      contract); for `:lut` enums only the registry knows the wire number.
@@ -54,8 +54,10 @@
 (def authoring-only-typedefs
   "Enum typedefs surfaced ONLY as authoring keyword→int bindings (raw LVGL
    header values, OR-able bitmasks): NO proto enum is emitted and NO registry
-   numbering applies. The wire carries the OR'd uint32, which `renderer.c`
-   direct-casts (`lv_obj_add_flag` / `lv_obj_add_state`). These carry raw
+   numbering applies. The wire carries the OR'd uint32; `renderer.c`'s
+   `apply_wire_flags` dispatches each flag bit to its per-flag setter (the user
+   flags to `lv_obj_set_user_flag`, the three setter-less reserved bits to an
+   object property), and casts states (`lv_obj_add_state`). These carry raw
    `:resolved-int` values all the way to emission, which makes them the one
    part of the committed bindings whose VALUES a live extraction genuinely
    pins — `make -f renderer.mk construct-bindings` is that gate."
@@ -111,27 +113,28 @@
 
 (defn- lift-member
   "One probe fact `{:name :value}` -> an `enum-member` construct."
-  [prefix {mname :name mvalue :value}]
+  [prefix direct? {mname :name mvalue :value}]
   {:c-name mname
    :resolved-int mvalue
    :bitmask? false
    :clj-keyword (member->clj-keyword mname prefix)
    :proto-name (str/replace mname #"^LV_" "")
-   :proto-number mvalue})
-(m/=> lift-member [:=> [:cat [:string {:min 1}] member-fact] some?])
+   :proto-number (if direct? mvalue 0)})
+(m/=> lift-member [:=> [:cat [:string {:min 1}] :boolean member-fact] some?])
 
 (defn- lift-enum
   "One `[typedef members]` entry -> a validated `:enum` construct (sentinel /
    private members dropped)."
   [[typedef members]]
-  (let [prefix (member-prefix typedef)]
+  (let [prefix (member-prefix typedef)
+        direct? (contains? direct-cast-typedefs typedef)]
     {:kind :enum
      :typedef-name typedef
      :anon? true
-     :cast-class (if (contains? direct-cast-typedefs typedef) :direct :lut)
+     :cast-class (if direct? :direct :lut)
      :proto-type (typedef->proto-type typedef)
      :members
-     (into [] (comp (remove sentinel-member?) (map #(lift-member prefix %))) members)}))
+     (into [] (comp (remove sentinel-member?) (map #(lift-member prefix direct? %))) members)}))
 (m/=> lift-enum [:=> [:cat [:tuple [:string {:min 1}] [:vector member-fact]]] some?])
 
 (defn enum-edn->constructs

@@ -31,33 +31,15 @@
  ;; the enrolment a scope declaration rather than a guess: a scope that still
  ;; needed waivers on arrival would not have been measured, only hoped at.
  :spec-presence []
- :spec-shape [{:file "tools/renderer-gen/src/lvgl_codegen/palette_ladder.clj"
-               :name "scan-ambiguous-keys"
-               :rationale "Its `walk` helper dispatches on map?/sequential?/else and recurses into whatever nesting the caller passes, with no assumption about the argument's shape - it is a generic EDN tree walker (its own docstring: 'Every banned key found anywhere in `x`'), not a function over one proposal shape. A narrower schema such as [:map-of :keyword :any] would be false: called on a bare scalar or vector it is equally well-defined and returns []."
-               :retires-when "scan-ambiguous-keys is narrowed to only ever accept a `propose`-shaped proposal map, at which point its argument schema can name that shape instead of arbitrary EDN."
-               :owner "gate-port"
-               :expires "2026-09-30"}
-              {:file "tools/renderer-gen/src/lvgl_codegen/normalize.clj"
+ :spec-shape [{:file "tools/renderer-gen/src/lvgl_codegen/normalize.clj"
                :name "proto3-default?"
-               :rationale "Recursive predicate consulted by strip-defaults at every depth of a proto-IR EDN walk: the value it is handed can be nil, a number, a string, a boolean, a vector, a map, or an enum-zero keyword, all at the same call site across recursive calls. The file's own comment above this m/=> states the argument is 'genuinely any-incl-nil' and that tightening it would make thrower-mode instrumentation reject legitimate recursive calls; a narrower schema would be false for most of what strip-defaults actually passes it."
-               :retires-when "proto3-default? is no longer called generically from strip-defaults' arbitrary-EDN recursion (e.g. if the two are split so this predicate only ever sees one fixed scalar type)."
+               :rationale "strip-defaults calls this predicate on each MAP VALUE it encounters at any depth of its recursion (normalize.clj's remove step), and a map value may be nil, a numeric/string/boolean scalar default, an enum-zero keyword or an empty or non-empty collection. proto_ser_boundary_test exercises these branches through the instrumented vars; a map-only input would reject legitimate calls. Renewal reviewed against that actual caller; this entry excuses only the predicate's heterogeneous argument."
+               :retires-when "The normalized IR becomes a closed recursive value domain shared by strip-defaults and this predicate, allowing a truthful named argument schema instead of arbitrary values."
                :owner "gate-port"
-               :expires "2026-09-30"}
+               :expires "2026-11-02"}
               {:file "tools/renderer-gen/src/lvgl_codegen/normalize.clj"
                :name "strip-defaults"
-               :rationale "A recursive tree walker over arbitrary proto-IR EDN: it recurses through its own var onto every map value, every vector element, and every scalar leaf at any depth (including nil), so both its argument and its return are genuinely any-shaped EDN by construction — the file's own comment beside this m/=> says so explicitly. A narrower schema would misdescribe the non-map/non-vector branch, which the recursion reaches constantly."
-               :retires-when "strip-defaults is rewritten to operate over one fixed, already-validated IR shape instead of walking arbitrary nested EDN."
+               :rationale "The function recurses through its own instrumented var on every map value and vector element, then returns scalar leaves unchanged. proto_ser_boundary_test directly exercises nil/scalars, nested maps and vectors and protobuf canonicalization. Both argument and return therefore remain heterogeneous at the recursive var boundary. Renewal reviewed against the actual recursion; unlike scan-ambiguous-keys, recursion does re-enter this public var."
+               :retires-when "The normalized IR gains a closed recursive value schema covering every caller and leaf, or the recursive helper is separated from a narrower public IR boundary."
                :owner "gate-port"
-               :expires "2026-09-30"}
-              {:file "tools/renderer-gen/src/lvgl_codegen/pretty.clj"
-               :name "sort-map-keys"
-               :rationale "A generic deterministic-printing helper that recursively sorts map keys through arbitrary EDN: maps, vectors, other sequentials, and every scalar type all fall through this cond, with `:else data` returning non-collection values unchanged. Its only caller, pp-str, exists to pretty-print 'any EDN value' (its own docstring) for diff-friendly comparison across whatever screen/fixture/test shape is under test, so a schema naming one shape would be false for the rest of pp-str's callers."
-               :retires-when "pp-str/sort-map-keys are narrowed to compare only one fixed IR shape instead of arbitrary EDN diff targets."
-               :owner "gate-port"
-               :expires "2026-09-30"}
-              {:file "tools/renderer-gen/src/lvgl_codegen/pretty.clj"
-               :name "pp-str"
-               :rationale "Its own docstring is 'Pretty-print any EDN value to a canonical string' — the diff-friendly printer this namespace exists to provide is invoked across the corpus on whatever EDN shape a screen, fixture or test result happens to be, so a narrower argument schema would be false for most of its callers."
-               :retires-when "pp-str's callers are restricted to one fixed diff-target IR shape instead of arbitrary EDN screens/fixtures."
-               :owner "gate-port"
-               :expires "2026-09-30"}]}
+               :expires "2026-11-02"}]}

@@ -25,6 +25,18 @@
 
 (set! *warn-on-reflection* true)
 
+(deftest scan-proposal-root-contract
+  ;; REVERT-TO-BREAK: widen scan-ambiguous-keys' root argument to :any.
+  ;; CONTROL: nested banned-key paths and the empty proposal remain green.
+  (is (= [] (pl/scan-ambiguous-keys {})))
+  (is (= [{:key :lightness :path [:roles 1 :lightness]}]
+         (pl/scan-ambiguous-keys
+          {:roles [nil {:lightness 0.5} "leaf"] :metadata {"label" false}})))
+  (doseq [value [nil 42 [] {"string-root-key" nil}]]
+    (is (= :malli.core/invalid-input
+           (try (pl/scan-ambiguous-keys value) :accepted
+                (catch clojure.lang.ExceptionInfo e (:type (ex-data e))))))))
+
 ;; ═══════════════════════════════════════════════════════════════════════════
 ;; 1. The contrast arithmetic, cross-checked against a DIFFERENT implementation
 ;; ═══════════════════════════════════════════════════════════════════════════

@@ -60,11 +60,11 @@ Ratios are WCAG 2.x relative-luminance contrast, the same arithmetic `tools/devc
 | ink | fill | declared at |
 |---|---|---|
 | `accent-text` | `accent-bg` | `kitchen_sink:sm`, `vr-fixtures:sm` |
-| `accent-text` | `pressed-accent` | `kitchen_sink:pressed+sm` |
+| `accent-text` | `pressed-accent` | `kitchen_sink:pressed+sm`, `vr-fixtures:pressed+sm` |
 | `disabled-fg` | `surface-2` | `theme-style/disabled_fill:sm` |
 | `fg-0` | `accent-bg` | `vr-fixtures:disabled+xl[fill-opa]`, `vr-fixtures:sm`, `vr-fixtures:xl` |
 | `fg-0` | `pressed-accent` | `vr-fixtures:pressed+lg`, `vr-fixtures:pressed+md`, `vr-fixtures:pressed+sm`, `vr-fixtures:pressed+xl` |
-| `fg-0` | `pressed-surface` | `kitchen_sink:pressed+sm` |
+| `fg-0` | `pressed-surface` | `kitchen_sink:pressed+sm`, `vr-fixtures:pressed+sm` |
 | `fg-0` | `status-error` | `vr-fixtures:disabled+sm[fill-opa]`, `vr-fixtures:pressed+sm`, `vr-fixtures:sm` |
 | `fg-0` | `status-success` | `vr-fixtures:disabled+lg[fill-opa]`, `vr-fixtures:lg`, `vr-fixtures:pressed+lg` |
 | `fg-0` | `status-warning` | `vr-fixtures:disabled+md[fill-opa]`, `vr-fixtures:md` |
@@ -84,7 +84,7 @@ One or both ends is a hex LITERAL rather than a declared token — a drawn colou
 | ink | fill | mode | ink hex | fill hex | ratio | ≥4.5:1 | ≥6.0:1 | as drawn |
 |---|---|---|---|---|---:|---|---|---|
 
-## The third answer — 135 findings this derivation could NOT classify
+## The third answer — 136 findings this derivation could NOT classify
 
 An unjudged element is a FINDING, never a skip: a rule that passes over what it could not classify reports "clean" and "I could not look" as the same empty result. Each key below is a distinct reason a pair does not exist or could not be completed. EVERY key is printed with its count, including the ones at zero — a section that vanished when it had nothing to say would print the same thing whether the check ran or not, which is the failure this whole section exists to refuse.
 
@@ -183,7 +183,7 @@ By source: `demo_widgets` 60, `kitchen_sink` 2, `vocabulary` 5, `vr-fixtures` 19
 - {:source :demo_widgets, :idx 0, :state nil, :text "High Speed"}
 - {:source :demo_widgets, :idx 0, :state nil, :text "Invite"}
 - {:source :demo_widgets, :idx 0, :state nil, :text "Item purchased"}
-- {:source :demo_widgets, :idx 0, :state nil, :text "LVGL v9.5.0"}
+- {:source :demo_widgets, :idx 0, :state nil, :text "LVGL v9.6.0"}
 - {:source :demo_widgets, :idx 0, :state nil, :text "Log out"}
 - {:source :demo_widgets, :idx 0, :state nil, :text "Low speed"}
 - {:source :demo_widgets, :idx 0, :state nil, :text "Mbps"}
@@ -250,16 +250,17 @@ By source: `vr-fixtures` 2
 - {:source :vr-fixtures, :where :lv_obj, :class "w-80 h-60"}
 - {:source :vr-fixtures, :where :lv_obj, :class "w-pct-100 h-pct-100 bg-surface-0"}
 
-### `theme-style-fill-only` — 8
+### `theme-style-fill-only` — 9
 
 An `lv_style_t` that sets `bg_color` and no `text_color` — `checked_accent` is the one to know: the DROPDOWN selected band takes its glyph colour from the STOCK parent theme, so the pair has no token on the ink side at all and is deliberately not completed from one. The ROLLER no longer belongs in that sentence: its band authors BOTH ends on its own style, which is what removed a constraint the old arm recorded as infeasible — stock sets bg and a white text_color together, so while only the fill was replaced no glyph tone could reach the floor.
 
-By source: `theme-c` 8
+By source: `theme-c` 9
 
 - {:source :theme-c, :style "checked_accent", :fill [:checked-accent]}
 - {:source :theme-c, :style "disabled_knob", :fill [:disabled-fg]}
 - {:source :theme-c, :style "disabled_track", :fill [:surface-2]}
 - {:source :theme-c, :style "field_bg", :fill [:surface-1]}
+- {:source :theme-c, :style "readout_knob", :fill [:fg-0]}
 - {:source :theme-c, :style "scrollbar", :fill [:edge-0]}
 - {:source :theme-c, :style "tab_bar_bg", :fill [:surface-2]}
 - {:source :theme-c, :style "tab_page_bg", :fill [:surface-0]}

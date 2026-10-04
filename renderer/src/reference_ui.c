@@ -91,7 +91,7 @@ enum ref_prop {
                                   without any indev involvement. */
   REF_PROP_DEMO_WIDGETS = 12,
   /* run the REAL lv_demo_widgets (vendored
-                                  v9.5.0) — the demo-parity oracle. The
+                                  LVGL) — the demo-parity oracle. The
                                   PRNG is seeded (DEMO_RAND_SEED) so the
                                   chart data is frozen; data[1] selects
                                   the active tab (0..2). */
@@ -169,7 +169,7 @@ static lv_obj_t *make_widget(lv_obj_t *parent, uint8_t kind) {
      * readout by construction — which is why the rule applies here
      * unconditionally rather than behind a test. */
     lv_obj_add_state(w, LV_STATE_USER_2);
-    lv_obj_remove_flag(w, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_set_clickable(w, false);
     break;
   case 6:
     w = lv_bar_create(parent);
@@ -530,7 +530,7 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
      * binding exists in this vocabulary, so every arc it builds is one. */
     lv_obj_set_ext_click_area(arc, LV_DPX(ARC_EXT_CLICK_PX));
     lv_obj_add_state(arc, LV_STATE_USER_2);
-    lv_obj_remove_flag(arc, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_set_clickable(arc, false);
     lv_obj_set_size(arc, 60, 60);
     lv_obj_align(arc, LV_ALIGN_CENTER, 0, 0);
     /* Setter ORDER mirrors renderer.c's arc_props application. */

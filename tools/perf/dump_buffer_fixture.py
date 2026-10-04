@@ -53,8 +53,9 @@ sys.path.insert(0, os.path.join(_ROOT, "output", "python"))
 
 from ui import ui_ast_pb2 as ast  # noqa: E402
 
-# lv_obj.h: LV_OBJ_FLAG_HIDDEN = (1u << 0). Direct-cast by the renderer
-# (ui_ast.proto WidgetNode.obj_flags).
+# lv_obj.h: LV_OBJ_FLAG_HIDDEN = (1u << 0). The renderer applies the
+# ui_ast.proto WidgetNode.obj_flags mask bit by bit through its own setters
+# (apply_wire_flags); the bit positions are the wire contract either way.
 LV_OBJ_FLAG_HIDDEN = 1
 
 

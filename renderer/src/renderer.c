@@ -33,10 +33,10 @@
 #include <pb_decode.h>
 #endif
 /* Global subject reference — defined in main.c */
-extern lv_subject_t subj_composite;
+extern lv_subject_t *subj_composite;
 /* Read current composite index (bp * 2 + theme_dark, range 0-7) */
 static int get_composite_idx(void) {
-  return lv_subject_get_int(&subj_composite);
+  return lv_subject_get_int(subj_composite);
 }
 /* ================================================================
  * Subject registry — reactive data binding via LVGL observers
@@ -51,7 +51,7 @@ static int get_composite_idx(void) {
 #define SUBJECT_NAME_BUF_SIZE 64
 typedef struct {
   char name[SUBJECT_NAME_BUF_SIZE];
-  lv_subject_t subject;
+  lv_subject_t *subject;
   int type; /* 0 = INT, 1 = STRING */
   /* String subjects need caller-owned buffers that outlive the subject */
   char str_buf[SUBJECT_STRING_BUF_SIZE];
@@ -76,6 +76,67 @@ static bool subject_overflow = false;
  * RETURNS, so the decode runs to completion and the tree is complete — the
  * caller must leave the screen up. Reset per load alongside the pool counts. */
 static bool load_resource_error = false;
+/* The wire keeps the established LV_OBJ_FLAG_* vocabulary. Use modern setters
+ * for ordinary flags: the legacy property IDs call deprecated methods inside
+ * LVGL itself and log on every update. Only the three reserved compatibility
+ * bits still require those properties; LVGL 9.6 offers no public setter for
+ * them. Preserving those bits is an explicit wire compatibility obligation. */
+static void apply_wire_flags(lv_obj_t *obj, uint32_t flags, bool enabled) {
+  static const struct {
+    uint32_t flag;
+    void (*set)(lv_obj_t *, bool);
+  } setters[] = {
+      {LV_OBJ_FLAG_HIDDEN, lv_obj_set_hidden},
+      {LV_OBJ_FLAG_CLICKABLE, lv_obj_set_clickable},
+      {LV_OBJ_FLAG_CLICK_FOCUSABLE, lv_obj_set_click_focusable},
+      {LV_OBJ_FLAG_CHECKABLE, lv_obj_set_checkable},
+      {LV_OBJ_FLAG_SCROLLABLE, lv_obj_set_scrollable},
+      {LV_OBJ_FLAG_SCROLL_ELASTIC, lv_obj_set_scroll_elastic},
+      {LV_OBJ_FLAG_SCROLL_MOMENTUM, lv_obj_set_scroll_momentum},
+      {LV_OBJ_FLAG_SCROLL_ONE, lv_obj_set_scroll_one},
+      {LV_OBJ_FLAG_SCROLL_CHAIN_HOR, lv_obj_set_scroll_chain_hor},
+      {LV_OBJ_FLAG_SCROLL_CHAIN_VER, lv_obj_set_scroll_chain_ver},
+      {LV_OBJ_FLAG_SCROLL_ON_FOCUS, lv_obj_set_scroll_on_focus},
+      {LV_OBJ_FLAG_SCROLL_WITH_ARROW, lv_obj_set_scroll_with_arrow},
+      {LV_OBJ_FLAG_SNAPPABLE, lv_obj_set_snappable},
+      {LV_OBJ_FLAG_PRESS_LOCK, lv_obj_set_press_lock},
+      {LV_OBJ_FLAG_EVENT_BUBBLE, lv_obj_set_event_bubble},
+      {LV_OBJ_FLAG_GESTURE_BUBBLE, lv_obj_set_gesture_bubble},
+      {LV_OBJ_FLAG_ADV_HITTEST, lv_obj_set_adv_hittest},
+      {LV_OBJ_FLAG_IGNORE_LAYOUT, lv_obj_set_ignore_layout},
+      {LV_OBJ_FLAG_FLOATING, lv_obj_set_floating},
+      {LV_OBJ_FLAG_SEND_DRAW_TASK_EVENTS, lv_obj_set_send_draw_task_events},
+      {LV_OBJ_FLAG_OVERFLOW_VISIBLE, lv_obj_set_overflow_visible},
+      {LV_OBJ_FLAG_EVENT_TRICKLE, lv_obj_set_event_trickle},
+      {LV_OBJ_FLAG_STATE_TRICKLE, lv_obj_set_state_trickle},
+      {LV_OBJ_FLAG_LAYOUT_1, lv_obj_set_flex_in_new_track},
+  };
+  for (size_t i = 0; i < sizeof(setters) / sizeof(setters[0]); i++) {
+    if ((flags & setters[i].flag) != 0)
+      setters[i].set(obj, enabled);
+  }
+  for (uint32_t bit = 0; bit < 4; bit++) {
+    if ((flags & ((uint32_t)LV_OBJ_FLAG_USER_1 << bit)) != 0)
+      lv_obj_set_user_flag(obj, bit, enabled);
+  }
+  static const struct {
+    uint32_t flag;
+    lv_prop_id_t id;
+  } reserved[] = {
+      {LV_OBJ_FLAG_LAYOUT_2, LV_PROPERTY_OBJ_FLAG_LAYOUT_2},
+      {LV_OBJ_FLAG_WIDGET_1, LV_PROPERTY_OBJ_FLAG_WIDGET_1},
+      {LV_OBJ_FLAG_WIDGET_2, LV_PROPERTY_OBJ_FLAG_WIDGET_2},
+  };
+  for (size_t i = 0; i < sizeof(reserved) / sizeof(reserved[0]); i++) {
+    if ((flags & reserved[i].flag) == 0)
+      continue;
+    lv_property_t property = {.id = reserved[i].id, .num = enabled ? 1 : 0};
+    if (lv_obj_set_property(obj, &property) != LV_RESULT_OK) {
+      LOG_ERROR("reserved object flag property rejected: %u", reserved[i].flag);
+      load_resource_error = true;
+    }
+  }
+}
 /* Names carried by a state update that resolved to no subject on this screen,
  * recorded so each is reported ONCE per load.
  *
@@ -152,9 +213,10 @@ static void reset_subject_registry(void) {
    * no registry — see cmd_patch.h for why the seam is a registered pointer
    * rather than a direct call. */
   cmd_patch_set_subject_reader(renderer_subject_int);
-  /* Deinit all subjects AFTER widgets are destroyed (lv_obj_clean) */
+  /* Delete owned subjects AFTER widgets are destroyed (lv_obj_clean). */
   for (int i = 0; i < subject_count; i++) {
-    lv_subject_deinit(&subject_registry[i].subject);
+    lv_subject_delete(subject_registry[i].subject);
+    subject_registry[i].subject = NULL;
   }
   subject_count = 0;
   subject_overflow = false;
@@ -379,7 +441,7 @@ static int32_t get_widget_int_value(lv_obj_t *obj) {
   if (lv_obj_check_type(obj, &lv_roller_class))
     return (int32_t)lv_roller_get_selected(obj);
   /* Switch/checkbox: return checked state as 0/1 */
-  if (lv_obj_has_flag(obj, LV_OBJ_FLAG_CHECKABLE))
+  if (lv_obj_is_checkable(obj))
     return (int32_t)lv_obj_has_state(obj, LV_STATE_CHECKED);
   return 0;
 }
@@ -429,13 +491,13 @@ static void button_event_cb(lv_event_t *e) {
     if (entry && entry->type == 0) { /* INT subject only */
       int32_t new_val;
       if (data->toggle) {
-        new_val = (lv_subject_get_int(&entry->subject) == 0) ? 1 : 0;
+        new_val = (lv_subject_get_int(entry->subject) == 0) ? 1 : 0;
       } else {
         new_val = data->set_value;
       }
       /* Guard: only notify if value actually changed */
-      if (lv_subject_get_int(&entry->subject) != new_val) {
-        lv_subject_set_int(&entry->subject, new_val);
+      if (lv_subject_get_int(entry->subject) != new_val) {
+        lv_subject_set_int(entry->subject, new_val);
       }
       /* If toggle + include_widget_value, report the new value */
       if (data->toggle) {
@@ -618,8 +680,8 @@ static void unregister_uid_obj(const lv_obj_t *obj) {
  *
  * WHY A REGISTRY AND NOT AN LVGL FLAG. The obvious cheap store is one of
  * LV_OBJ_FLAG_USER_1..4, which would be O(1) and could never go stale. It is
- * not available: WidgetNode.obj_flags is a raw uint32 direct-cast into
- * lv_obj_add_flag, and :user-1..:user-4 are members of the GENERATED
+ * not available: apply_wire_flags maps WidgetNode.obj_flags' USER_1..4 bits
+ * onto lv_obj_set_user_flag, and :user-1..:user-4 are members of the GENERATED
  * authoring keyword set (tools/renderer-gen/.../generated/enums.clj,
  * derived from LVGL's own headers) which emit_proto ORs into that field
  * verbatim. So a user flag is already part of the authorable vocabulary: an
@@ -779,7 +841,7 @@ static bool renderer_subject_int(const char *name, int32_t *out) {
   subject_entry_t *entry = find_subject(name);
   if (!entry || entry->type != 0)
     return false;
-  *out = lv_subject_get_int(&entry->subject);
+  *out = lv_subject_get_int(entry->subject);
   return true;
 }
 /* A cmd patch's SUBJECT_VALUE slot resolves against the SAME registry as every
@@ -1552,8 +1614,8 @@ static lv_obj_t *ensure_widget(widget_ctx_t *ctx) {
     ctx->self = lv_obj_create(ctx->parent);
     if (ctx->self) {
       target_overlay_apply_default_style(ctx->self);
-      lv_obj_remove_flag(ctx->self, LV_OBJ_FLAG_CLICKABLE);
-      lv_obj_remove_flag(ctx->self, LV_OBJ_FLAG_SCROLLABLE);
+      lv_obj_set_clickable(ctx->self, false);
+      lv_obj_set_scrollable(ctx->self, false);
     }
     break;
   default:
@@ -1944,7 +2006,7 @@ static void apply_chart_props(lv_obj_t *obj, const ui_ChartProps *p) {
     }
   }
   if (p->fade_area) {
-    lv_obj_add_flag(obj, LV_OBJ_FLAG_SEND_DRAW_TASK_EVENTS);
+    lv_obj_set_send_draw_task_events(obj, true);
     lv_obj_add_event_cb(obj, chart_fade_draw_cb, LV_EVENT_DRAW_TASK_ADDED,
                         NULL);
   }
@@ -2019,13 +2081,13 @@ static void apply_target_overlay(lv_obj_t *obj,
        * flags are cleared rather than left to the theme, because lv_obj_create
        * sets CLICKABLE and SCROLLABLE by default and a DECORATIVE object in
        * the pointer path is exactly what the overlap lane exists to catch. */
-    lv_obj_remove_flag(box, LV_OBJ_FLAG_CLICKABLE);
-    lv_obj_remove_flag(box, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_set_clickable(box, false);
+    lv_obj_set_scrollable(box, false);
     /* FLOATING + IGNORE_LAYOUT: the wire's own rect is absolute against the
        * overlay's content origin, so a flex/grid layout authored on the
        * overlay must not move it (the proxy affordance convention). */
-    lv_obj_add_flag(box, LV_OBJ_FLAG_FLOATING);
-    lv_obj_add_flag(box, LV_OBJ_FLAG_IGNORE_LAYOUT);
+    lv_obj_set_floating(box, true);
+    lv_obj_set_ignore_layout(box, true);
     lv_obj_set_pos(box, b->x, b->y);
     lv_obj_set_size(box, b->w, b->h);
     /* A hollow rect: fill off, square corners, no inner padding so the
@@ -2049,9 +2111,9 @@ static void apply_target_overlay(lv_obj_t *obj,
       load_resource_error = true;
       return;
     }
-    lv_obj_remove_flag(caption, LV_OBJ_FLAG_CLICKABLE);
-    lv_obj_add_flag(caption, LV_OBJ_FLAG_FLOATING);
-    lv_obj_add_flag(caption, LV_OBJ_FLAG_IGNORE_LAYOUT);
+    lv_obj_set_clickable(caption, false);
+    lv_obj_set_floating(caption, true);
+    lv_obj_set_ignore_layout(caption, true);
     lv_label_set_text(caption, b->label);
     lv_obj_align(caption, LV_ALIGN_TOP_LEFT, 0, 0);
     /* A COVERING plate under the glyphs, and it is not decoration.
@@ -2578,8 +2640,8 @@ static bool pending_queue_has_room(int count, int max, const char *what,
  * that share the VisibilityBinding wire shape. Each class differs in
  * exactly three facts, so those three ARE the descriptor and everything
  * else (subject resolution, the INT-only rule, the compare_op_ok guard,
- * the EQ/NOT_EQ native-bind fast path, the custom-observer fallback and
- * its OOM latch) lives once:
+ * the unified custom observer, cleanup-first ownership, exact descriptor
+ * rollback and allocation/observer/cleanup error latch) lives once:
  *
  *   visibility    hide (LV_OBJ_FLAG_HIDDEN) while the comparison does
  *                 NOT hold — show-when.
@@ -2618,8 +2680,8 @@ static const compare_binding_class_t BIND_ENABLED_WHEN = {
     "enabled_when", false, LV_STATE_DISABLED, false};
 static const compare_binding_class_t BIND_PENDING_WHEN = {
     "pending_when", false, LV_STATE_USER_1, true};
-/* Data for the custom range-comparison observer (GT/GTE/LT/LTE — the ops
- * with no native bind helper). Heap-allocated, freed on LV_EVENT_DELETE via
+/* Data for every comparison observer, including equality and inequality.
+ * Heap-allocated, freed on LV_EVENT_DELETE via
  * cleanup_event_cb; `cls` points at one of the static descriptors above, so
  * the struct stays flat. */
 typedef struct {
@@ -2651,9 +2713,9 @@ static void compare_binding_apply_target(lv_obj_t *obj,
                                          bool asserted) {
   if (cls->is_flag) {
     if (asserted) {
-      lv_obj_add_flag(obj, LV_OBJ_FLAG_HIDDEN);
+      lv_obj_set_hidden(obj, true);
     } else {
-      lv_obj_remove_flag(obj, LV_OBJ_FLAG_HIDDEN);
+      lv_obj_set_hidden(obj, false);
     }
   } else if (asserted) {
     lv_obj_add_state(obj, cls->state);
@@ -2692,51 +2754,35 @@ static void apply_compare_binding(lv_obj_t *obj,
   }
   if (!compare_op_ok(bind->compare, cls->what))
     return;
-  switch (bind->compare) {
-  case ui_CompareOp_COMPARE_EQ:
-  case ui_CompareOp_COMPARE_NOT_EQ: {
-    /* Native bind fast path. The target is asserted while (subject == ref)
-     * for exactly one combination of the op and the class polarity —
-     * e.g. show-when-EQ hides on NOT equal, enabled-when-EQ disables on
-     * NOT equal, checked-when-EQ checks on equal. */
-    bool eq_holds = bind->compare == ui_CompareOp_COMPARE_EQ;
-    bool bind_if_eq = eq_holds == cls->assert_when_holds;
-    if (cls->is_flag) {
-      if (bind_if_eq) {
-        lv_obj_bind_flag_if_eq(obj, &entry->subject, LV_OBJ_FLAG_HIDDEN,
-                               bind->ref_value);
-      } else {
-        lv_obj_bind_flag_if_not_eq(obj, &entry->subject, LV_OBJ_FLAG_HIDDEN,
-                                   bind->ref_value);
-      }
-    } else if (bind_if_eq) {
-      lv_obj_bind_state_if_eq(obj, &entry->subject, cls->state,
-                              bind->ref_value);
-    } else {
-      lv_obj_bind_state_if_not_eq(obj, &entry->subject, cls->state,
-                                  bind->ref_value);
-    }
-    break;
+  /* All operators share the documented observer path. It applies once on
+   * registration and again on each subject change, preserving initial state. */
+  compare_cb_data_t *data = malloc(sizeof(compare_cb_data_t));
+  if (!data) {
+    LOG_ERROR("compare observer alloc failed — binding would be inert");
+    load_resource_error = true;
+    return;
   }
-  default: {
-    /* GT, GTE, LT, LTE — custom observer callback */
-    compare_cb_data_t *data = malloc(sizeof(compare_cb_data_t));
-    if (!data) {
-      /* B5: OOM would leave the comparison binding unwired (a control
-       * that never reacts to its subject) with no signal. Fail loud. */
-      LOG_ERROR("compare observer alloc failed — binding would be inert");
-      load_resource_error = true;
-      return;
-    }
-    data->ref_value = bind->ref_value;
-    data->compare = bind->compare;
-    data->cls = cls;
-    lv_subject_add_observer_obj(&entry->subject, compare_binding_observer_cb,
-                                obj, data);
-    /* Free data on widget deletion */
-    lv_obj_add_event_cb(obj, cleanup_event_cb, LV_EVENT_DELETE, data);
-    break;
+  data->ref_value = bind->ref_value;
+  data->compare = bind->compare;
+  data->cls = cls;
+  /* Reserve our cleanup before subscribing: widget-bound observers cannot be
+   * deleted individually through the public API. A later allocation failure
+   * must not leave callback data without an owner. */
+  lv_event_dsc_t *cleanup =
+      lv_obj_add_event_cb(obj, cleanup_event_cb, LV_EVENT_DELETE, data);
+  if (!cleanup) {
+    free(data);
+    LOG_ERROR("compare cleanup registration failed — binding would leak");
+    load_resource_error = true;
+    return;
   }
+  if (!lv_subject_add_observer_obj(entry->subject, compare_binding_observer_cb,
+                                   obj, data)) {
+    lv_obj_remove_event_dsc(obj, cleanup);
+    free(data);
+    LOG_ERROR("compare observer registration failed — binding would be inert");
+    load_resource_error = true;
+    return;
   }
 }
 /* ================================================================
@@ -2744,7 +2790,7 @@ static void apply_compare_binding(lv_obj_t *obj,
  * color is set to the bound color while the subject comparison holds, and the
  * local override removed (reverting to the theme/authored default) when it
  * does not. LVGL has no native bind helper for a style property, so EVERY
- * compare op rides a custom observer (no EQ/NOT_EQ native-bind fast path).
+ * compare op rides a custom observer, like visibility and state bindings.
  * Drives reactive fault-coloring.
  * ================================================================ */
 typedef struct {
@@ -2797,8 +2843,25 @@ static void apply_color_when(lv_obj_t *obj, const ui_ColorBinding *cb) {
   data->ref_value = cb->when.ref_value;
   data->compare = cb->when.compare;
   data->color = lv_color_make(cb->color.r, cb->color.g, cb->color.b);
-  lv_subject_add_observer_obj(&entry->subject, color_observer_cb, obj, data);
-  lv_obj_add_event_cb(obj, cleanup_event_cb, LV_EVENT_DELETE, data);
+  /* Own the callback data before subscribing. Widget-bound observers have no
+   * public individual delete operation, so subscription must be the last
+   * resource acquisition and its failure must detach this exact descriptor. */
+  lv_event_dsc_t *cleanup =
+      lv_obj_add_event_cb(obj, cleanup_event_cb, LV_EVENT_DELETE, data);
+  if (!cleanup) {
+    free(data);
+    LOG_ERROR("color cleanup registration failed — binding would leak");
+    load_resource_error = true;
+    return;
+  }
+  if (!lv_subject_add_observer_obj(entry->subject, color_observer_cb, obj,
+                                   data)) {
+    lv_obj_remove_event_dsc(obj, cleanup);
+    free(data);
+    LOG_ERROR("color observer registration failed — binding would be inert");
+    load_resource_error = true;
+    return;
+  }
 }
 /* An EventBinding.set_subject naming a NEVER-DECLARED subject is a dead
  * control, and a quieter one than the three siblings above: find_subject
@@ -3011,9 +3074,9 @@ static void proxy_emit(proxy_entry_t *e, int32_t phase) {
 }
 static void proxy_set_shown(lv_obj_t *obj, bool shown) {
   if (shown) {
-    lv_obj_remove_flag(obj, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_set_hidden(obj, false);
   } else {
-    lv_obj_add_flag(obj, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_set_hidden(obj, true);
   }
 }
 /* Mode semantics (D3/D5): static clears CLICKABLE on the box itself so
@@ -3048,9 +3111,9 @@ static void proxy_apply_mode(proxy_entry_t *e, int32_t mode) {
   if (mode == (int32_t)ui_ProxyMode_PROXY_MODE_DRAGGABLE || resizable)
     glass_shown = true;
   if (mode == (int32_t)ui_ProxyMode_PROXY_MODE_STATIC) {
-    lv_obj_remove_flag(e->obj, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_set_clickable(e->obj, false);
   } else {
-    lv_obj_add_flag(e->obj, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_set_clickable(e->obj, true);
   }
   proxy_set_shown(e->glass, glass_shown);
   for (int i = 0; i < PROXY_HANDLE_COUNT; i++)
@@ -3288,11 +3351,11 @@ static void proxy_mode_observer_cb(lv_observer_t *observer,
 static void proxy_setup_affordance(lv_obj_t *obj, proxy_entry_t *e,
                                    lv_event_cb_t cb) {
   lv_obj_remove_style_all(obj);
-  lv_obj_add_flag(obj, LV_OBJ_FLAG_FLOATING);
-  lv_obj_add_flag(obj, LV_OBJ_FLAG_IGNORE_LAYOUT);
-  lv_obj_add_flag(obj, LV_OBJ_FLAG_CLICKABLE);
-  lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
-  lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLL_CHAIN);
+  lv_obj_set_floating(obj, true);
+  lv_obj_set_ignore_layout(obj, true);
+  lv_obj_set_clickable(obj, true);
+  lv_obj_set_scrollable(obj, false);
+  lv_obj_set_scroll_chain(obj, false);
   lv_obj_add_event_cb(obj, cb, LV_EVENT_PRESSED, e);
   lv_obj_add_event_cb(obj, cb, LV_EVENT_PRESSING, e);
   lv_obj_add_event_cb(obj, cb, LV_EVENT_RELEASED, e);
@@ -3341,7 +3404,7 @@ static void apply_host_proxy(widget_ctx_t *ctx) {
   e->z = props->z;
   /* Content overflow must never scroll the box out from under the host
    * element (D6 — clipping isolation is LVGL's default). */
-  lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+  lv_obj_set_scrollable(obj, false);
   /* The default look is attached at CREATE time (proxy_apply_default_style)
    * so wire-authored style groups — attached later during decode — outrank
    * it; see that helper for the full precedence rationale. */
@@ -3355,7 +3418,7 @@ static void apply_host_proxy(widget_ctx_t *ctx) {
     return;
   }
   proxy_setup_affordance(e->glass, e, proxy_glass_event_cb);
-  lv_obj_add_flag(e->glass, LV_OBJ_FLAG_PRESS_LOCK);
+  lv_obj_set_press_lock(e->glass, true);
   lv_obj_add_event_cb(obj, proxy_size_changed_cb, LV_EVENT_SIZE_CHANGED, e);
   lv_obj_set_size(e->glass, lv_pct(100), lv_pct(100));
   int32_t handle_px = proxy_handle_px(e);
@@ -3370,7 +3433,7 @@ static void apply_host_proxy(widget_ctx_t *ctx) {
       return;
     }
     proxy_setup_affordance(handle, e, proxy_handle_event_cb);
-    lv_obj_add_flag(handle, LV_OBJ_FLAG_PRESS_LOCK);
+    lv_obj_set_press_lock(handle, true);
     lv_obj_set_size(handle, handle_px, handle_px);
     lv_obj_align(handle, handle_aligns[i], 0, 0);
     lv_obj_set_style_bg_color(handle, lv_color_white(), 0);
@@ -3618,7 +3681,7 @@ static void finalize_widget(widget_ctx_t *ctx) {
       lv_obj_set_pos(obj, node->x, node->y);
     }
   }
-  /* LVGL flag/state bitmasks — direct-cast (values parity-gated) */
+  /* Flag bits via apply_wire_flags; states direct-cast (parity-gated) */
   /* The designed-overlay declaration (WidgetNode.designed_overlay) — recorded
    * for dump_tree and consulted nowhere in the render path. It is deliberately
    * NOT expressed as an LVGL flag: the user-flag bits are already reachable
@@ -3628,9 +3691,9 @@ static void finalize_widget(widget_ctx_t *ctx) {
   if (node->designed_overlay)
     register_designed_overlay(obj);
   if (node->obj_flags != 0)
-    lv_obj_add_flag(obj, (lv_obj_flag_t)node->obj_flags);
+    apply_wire_flags(obj, node->obj_flags, true);
   if (node->obj_flags_clear != 0)
-    lv_obj_remove_flag(obj, (lv_obj_flag_t)node->obj_flags_clear);
+    apply_wire_flags(obj, node->obj_flags_clear, false);
   if (node->states != 0)
     lv_obj_add_state(obj, (lv_state_t)node->states);
   /* SCROLL DIRECTION READS PRESENCE. This is the guard the `optional`
@@ -3820,7 +3883,7 @@ static void finalize_widget(widget_ctx_t *ctx) {
       lv_obj_remove_state(obj, LV_STATE_USER_2);
     } else {
       lv_obj_add_state(obj, LV_STATE_USER_2);
-      lv_obj_remove_flag(obj, LV_OBJ_FLAG_CLICKABLE);
+      lv_obj_set_clickable(obj, false);
     }
   }
 #endif
@@ -4078,24 +4141,31 @@ static bool subjects_decode_cb(pb_istream_t *stream, const pb_field_t *field,
   strncpy(entry->name, decl.name, sizeof(entry->name) - 1);
   entry->name[sizeof(entry->name) - 1] = '\0';
   entry->type = (int)decl.type;
+  entry->subject = lv_subject_create(decl.type == ui_SubjectType_SUBJECT_STRING
+                                         ? LV_SUBJECT_TYPE_STRING
+                                         : LV_SUBJECT_TYPE_INT);
+  if (!entry->subject) {
+    LOG_ERROR("subject allocation failed for '%s'", decl.name);
+    load_resource_error = true;
+    return true;
+  }
   if (decl.type == ui_SubjectType_SUBJECT_STRING) {
-    /* Initialize string subject with caller-owned buffers */
+    /* LVGL owns the subject; its bounded string buffers remain registry-owned. */
     const char *initial = "";
     if (decl.which_initial == ui_SubjectDeclaration_string_initial_tag) {
       initial = decl.initial.string_initial;
     }
-    strncpy(entry->str_buf, initial, SUBJECT_STRING_BUF_SIZE - 1);
-    entry->str_buf[SUBJECT_STRING_BUF_SIZE - 1] = '\0';
-    memset(entry->str_prev_buf, 0, SUBJECT_STRING_BUF_SIZE);
-    lv_subject_init_string(&entry->subject, entry->str_buf, entry->str_prev_buf,
-                           SUBJECT_STRING_BUF_SIZE, entry->str_buf);
+    lv_subject_set_string_buffer_static(entry->subject, entry->str_buf,
+                                        entry->str_prev_buf,
+                                        SUBJECT_STRING_BUF_SIZE);
+    lv_subject_set_string(entry->subject, initial);
   } else {
     /* INT subject */
     int32_t initial = 0;
     if (decl.which_initial == ui_SubjectDeclaration_int_initial_tag) {
       initial = decl.initial.int_initial;
     }
-    lv_subject_init_int(&entry->subject, initial);
+    lv_subject_set_int(entry->subject, initial);
   }
   subject_count++;
   return true;
@@ -4310,12 +4380,12 @@ static void bind_draggable_value(lv_obj_t *obj, subject_entry_t *entry) {
     return;
   }
   lv_obj_add_event_cb(obj, draggable_value_changed_cb, LV_EVENT_VALUE_CHANGED,
-                      &entry->subject);
+                      entry->subject);
   lv_obj_add_event_cb(obj, draggable_value_release_cb, LV_EVENT_RELEASED,
-                      &entry->subject);
+                      entry->subject);
   lv_obj_add_event_cb(obj, draggable_value_release_cb, LV_EVENT_PRESS_LOST,
-                      &entry->subject);
-  lv_subject_add_observer_obj(&entry->subject, draggable_value_observer_cb, obj,
+                      entry->subject);
+  lv_subject_add_observer_obj(entry->subject, draggable_value_observer_cb, obj,
                               NULL);
 }
 static void apply_bindings(const pending_bindings_t *p) {
@@ -4347,7 +4417,7 @@ static void apply_bindings(const pending_bindings_t *p) {
         /* INT subject with no explicit format → default to "%d" */
         fmt = "%d";
       }
-      lv_label_bind_text(obj, &entry->subject, fmt);
+      lv_label_bind_text(obj, entry->subject, fmt);
     } else if (strcmp(key, "value") == 0) {
       /* Value binding — dispatch by widget type */
       switch (p->wtype) {
@@ -4368,30 +4438,30 @@ static void apply_bindings(const pending_bindings_t *p) {
                * option INDEX via its decoded option_values map; without a map
                * (no enum-value bind) fall back to the raw number-as-index. */
         if (find_dropdown_value_map(obj)) {
-          lv_subject_add_observer_obj(&entry->subject,
+          lv_subject_add_observer_obj(entry->subject,
                                       dropdown_value_observer_cb, obj, NULL);
         } else {
-          lv_dropdown_bind_value(obj, &entry->subject);
+          lv_dropdown_bind_value(obj, entry->subject);
         }
         break;
       case ui_WidgetType_WIDGET_BAR:
         /* lv_bar_bind_value does NOT exist — custom observer */
-        lv_subject_add_observer_obj(&entry->subject, bar_value_observer_cb, obj,
+        lv_subject_add_observer_obj(entry->subject, bar_value_observer_cb, obj,
                                     NULL);
-        lv_bar_set_value(obj, lv_subject_get_int(&entry->subject), LV_ANIM_OFF);
+        lv_bar_set_value(obj, lv_subject_get_int(entry->subject), LV_ANIM_OFF);
         break;
       case ui_WidgetType_WIDGET_SPINBOX:
         /* lv_spinbox_bind_value does NOT exist — custom observer */
-        lv_subject_add_observer_obj(&entry->subject, spinbox_value_observer_cb,
+        lv_subject_add_observer_obj(entry->subject, spinbox_value_observer_cb,
                                     obj, NULL);
-        lv_spinbox_set_value(obj, lv_subject_get_int(&entry->subject));
+        lv_spinbox_set_value(obj, lv_subject_get_int(entry->subject));
         break;
       default:
         LOG_WARN("'value' binding not supported for widget type %d", p->wtype);
         break;
       }
     } else if (strcmp(key, "checked") == 0) {
-      lv_obj_bind_checked(obj, &entry->subject);
+      lv_obj_bind_checked(obj, entry->subject);
     } else if (strcmp(key, "mode") == 0) {
       /* Host-proxy mode binding: the INT subject drives the mode
            * (the observer fires once at attach, so the subject's
@@ -4399,7 +4469,7 @@ static void apply_bindings(const pending_bindings_t *p) {
       if (p->wtype == ui_WidgetType_WIDGET_HOST_PROXY) {
         proxy_entry_t *proxy = find_proxy_by_obj(obj);
         if (proxy) {
-          lv_subject_add_observer_obj(&entry->subject, proxy_mode_observer_cb,
+          lv_subject_add_observer_obj(entry->subject, proxy_mode_observer_cb,
                                       obj, proxy);
         } else {
           LOG_WARN("'mode' binding on an unregistered host proxy");
@@ -4806,8 +4876,8 @@ static bool children_decode_cb(pb_istream_t *stream, const pb_field_t *field,
       if (parent_ctx->tab_staging) {
         /* Two calls: an OR'd value is not a member of
                * lv_obj_flag_t (analyzer EnumCastOutOfRange). */
-        lv_obj_add_flag(parent_ctx->tab_staging, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(parent_ctx->tab_staging, LV_OBJ_FLAG_IGNORE_LAYOUT);
+        lv_obj_set_hidden(parent_ctx->tab_staging, true);
+        lv_obj_set_ignore_layout(parent_ctx->tab_staging, true);
       }
     }
     if (!parent_ctx->tab_staging ||
@@ -5558,12 +5628,12 @@ static bool state_values_decode_cb(pb_istream_t *stream,
   }
   if (sv.which_value == ui_SubjectValue_int_value_tag && entry->type == 0) {
     /* Guard: only notify if value changed */
-    if (lv_subject_get_int(&entry->subject) != sv.value.int_value) {
-      lv_subject_set_int(&entry->subject, sv.value.int_value);
+    if (lv_subject_get_int(entry->subject) != sv.value.int_value) {
+      lv_subject_set_int(entry->subject, sv.value.int_value);
     }
   } else if (sv.which_value == ui_SubjectValue_string_value_tag &&
              entry->type == 1) {
-    lv_subject_copy_string(&entry->subject, sv.value.string_value);
+    lv_subject_set_string(entry->subject, sv.value.string_value);
   } else {
     /* B8: the subject EXISTS but the update's value type does not match its
        * declared type — a producer/contract bug the best-effort stream would

@@ -16,6 +16,8 @@ paths:
   # test-bearing files were outside this rule's scope, so the rule about writing
   # regression tests did not load where the regression tests live.
   - "renderer/wasm_harness/**"
+  - "renderer/tools/*selftest.*"
+  - "renderer/tools/lvgl-reactive-mutations.py"
   - "tools/claude/**"
   - "tools/*.sh"
   - "*.mk"

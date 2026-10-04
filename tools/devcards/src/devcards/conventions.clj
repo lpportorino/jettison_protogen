@@ -39,7 +39,8 @@
 
    `lv_state_t` bits ride WidgetNode.states and the low half of a StyleGroup
    selector; `lv_obj_flag_t` bits ride obj_flags / obj_flags_clear, which
-   renderer.c direct-casts into lv_obj_add_flag / lv_obj_remove_flag. Both are
+   renderer.c's apply_wire_flags dispatches bit by bit to LVGL's per-flag
+   setters (set for obj_flags, cleared for obj_flags_clear). Both are
    authoring-only enums — no proto enum, no registry numbering — so the
    generated bindings are the only machine-checked home either one has."
   {:obj-flags enums/obj-flag-keyword->int

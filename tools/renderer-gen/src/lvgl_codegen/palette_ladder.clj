@@ -1064,14 +1064,10 @@
   "Every banned key found anywhere in `x`, with the path it was found at.
    Empty is the only acceptable result for an emitted proposal.
 
-   `x` IS GENUINELY `:any` AND MUST STAY SO. This is a polymorphic recursive
-   walker: `walk` descends through maps and sequentials into values of every
-   shape, and nil is a legitimate node mid-recursion. Narrowing the argument
-   would either be false (it is not always a map — the recursion re-enters with
-   scalars) or would have to be widened straight back at the first nested value.
-   When the arrow-spec checker is hosted here it will flag this as a BLOCKING
-   weak arg-schema; the correct disposition is a proof-carrying allowlist entry
-   of the same class as the other lvgl_codegen walkers, NOT a tightening."
+   The public root is a keyword-keyed proposal map. Its local `walk` helper
+   traverses heterogeneous nested maps, sequences and scalar leaves; recursion
+   never re-enters the public var. Test instrumentation checks the root schema,
+   while calls outside that seam retain the function body's traversal behavior."
   [x]
   (letfn [(walk [node path]
             (cond
@@ -1085,7 +1081,8 @@
               (mapcat (fn [i v] (walk v (conj path i))) (range) node)
               :else nil))]
     (vec (walk x []))))
-(m/=> scan-ambiguous-keys [:=> [:cat :any] [:sequential [:map-of :keyword :any]]])
+(m/=> scan-ambiguous-keys
+      [:=> [:cat [:map-of :keyword :any]] [:sequential [:map-of :keyword :any]]])
 
 (defn solve
   "Solve every role in dependency order. Returns

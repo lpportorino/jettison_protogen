@@ -52,8 +52,8 @@ const WIDTH: u32 = 960;
 const HEIGHT: u32 = 540;
 const DPI: i32 = 160;
 
-/// `LV_OBJ_FLAG_SCROLLABLE` (`renderer/lvgl/src/core/lv_obj.h`), direct-cast by
-/// the renderer from `WidgetNode.obj_flags`.
+/// `LV_OBJ_FLAG_SCROLLABLE` (`renderer/lvgl/src/core/lv_obj.h`), applied by the
+/// renderer's `apply_wire_flags` from `WidgetNode.obj_flags`.
 const LV_OBJ_FLAG_SCROLLABLE: u32 = 1 << 4;
 /// `LV_OBJ_FLAG_CLICKABLE`. NOT optional here: `lv_obj_hit_test` returns false
 /// outright for a non-clickable object, so `lv_indev_search_obj` finds nothing

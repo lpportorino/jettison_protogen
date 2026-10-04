@@ -59,7 +59,7 @@
                   :extra-deps {lambdaisland/kaocha {:mvn/version "1.91.1392"}}
                   :main-opts ["-m" "kaocha.runner"]}}
  :deps {org.clojure/clojure {:mvn/version "1.12.5"}
-        metosin/malli {:mvn/version "0.20.1"}
+        metosin/malli {:mvn/version "0.20.2"}
         ;; Protobuf + Pronto (proto ↔ EDN); pronto's Java sources are compiled
         ;; by tools/compile-protos.sh alongside the generated proto Java.
         com.appsflyer/pronto {:git/sha "5444ae5ec3b567a5565e6c1e90ba0850960331b6"

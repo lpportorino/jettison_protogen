@@ -6,20 +6,23 @@
 # `renderer/wasm_harness/tests/visual_regression.rs` (mod value_conditional_style)
 # were watched to FAIL against the unwired renderer and to pass once it was
 # wired. That is a red, and `.claude/rules/regression-test-first.md` is explicit
-# that a red is not enough: this feature has FOUR independent clauses that would
-# each make the same test fail, so a bare red is compatible with three of them
-# being dead. Each case below breaks exactly ONE of them and requires a named
-# CONTROL — a sibling test that must stay GREEN — so the red is attributable.
+# that a red is not enough: this feature has THREE independent clauses that
+# would each make the same tests fail, so a bare red is compatible with two of
+# them being dead. Each case below breaks exactly ONE of them and requires a
+# named CONTROL — a sibling test that must stay GREEN — so the red is
+# attributable.
 #
-# THE FOUR CLAUSES, and why one test cannot separate them:
-#   C1  the full-load DRAIN loop in renderer.c            (nothing attaches)
-#   C2  the EQ native-bind arm  (lv_obj_bind_state_if_eq) (EQ screens only)
-#   C3  the range OBSERVER arm  (pendstate_observer_cb)   (GT/GTE/LT/LTE only)
-#   C4  the dump_tree ORACLE in main.c                    (the bit is invisible)
-# C1 and C4 both redden BOTH tests, so neither is separable from the other by
-# the harness alone; they are separated here by WHICH FILE is mutated. C2 and C3
-# are separated by the compare op, which is why the suite carries an EQ test and
-# a GT test rather than two of one kind.
+# THE THREE CLAUSES, and why one test cannot separate them:
+#   C1  the full-load DRAIN loop in renderer.c         (nothing attaches)
+#   C2  the BIND_PENDING_WHEN class descriptor's state (the wrong bit toggles)
+#   C3  the dump_tree ORACLE in main.c                 (the bit is invisible)
+# Every comparison operator rides ONE observer (compare_binding_observer_cb),
+# so all three redden BOTH the EQ and the GT pending_when tests; they are
+# separated here by WHICH SITE is mutated, and each is attributed by an
+# enabled_when control that shares the observer and the dump but not the
+# pending-specific clause. The comparison operators themselves, the shared
+# polarity and every class's target bit are the subject of the manual reactive
+# campaign in renderer/tools/lvgl-reactive-mutations.py, not of this proof.
 #
 # EVERY MUTATION IS WRONG-BUT-LEGAL — LV_STATE_USER_2 for USER_1, a drained
 # count of zero — never a syntax error. A mutation that fails to COMPILE reddens
@@ -27,8 +30,8 @@
 # proves the opposite of what it appears to.
 #
 # MUTATIONS GO THROUGH `mutate_file`, which REFUSES an anchor that is absent or
-# AMBIGUOUS. That refusal is the point: `LV_STATE_USER_1` occurs four times in
-# renderer.c, so a naive replace would break several clauses at once and the
+# AMBIGUOUS. That refusal is the point: `LV_STATE_USER_1` occurs more than once
+# in renderer.c, so a naive replace would break several clauses at once and the
 # resulting red would attribute to none of them. Every anchor below therefore
 # carries enough surrounding text to be unique, and the primitive proves it.
 #
@@ -165,42 +168,21 @@ mutate_case drain-loop-never-runs "$RENDERER" \
 	value_conditional_style::pending_when \
 	value_conditional_style::enabled_when_eq_toggles_disabled_state
 
-# ── C2: the EQ NATIVE-BIND arm binds a literal USER_2 instead of the class
-#        descriptor's state — a real lv_state_t bit, so it type-checks and
-#        simply drives the wrong state, for EVERY class routed through the
-#        unified applier's EQ arm. Still invisible to the GT test (the
-#        CONTROL), which takes the range-observer path and never reaches
-#        this arm.
-mutate_case eq-native-bind-wrong-state "$RENDERER" \
-	'      lv_obj_bind_state_if_eq(obj, &entry->subject, cls->state,
-                              bind->ref_value);' \
-	'      lv_obj_bind_state_if_eq(obj, &entry->subject, LV_STATE_USER_2,
-                              bind->ref_value);' \
-	value_conditional_style::pending_when_eq_toggles_pending_state \
-	value_conditional_style::pending_when_gt_uses_range_observer
+# ── C2: the pending_when CLASS DESCRIPTOR names USER_2. A real lv_state_t bit,
+#        so it type-checks and the shared observer simply drives the wrong
+#        state for pending_when alone. The enabled_when CONTROL rides the same
+#        observer through its own descriptor and cannot see this.
+mutate_case pending-descriptor-wrong-state "$RENDERER" \
+	'    "pending_when", false, LV_STATE_USER_1, true};' \
+	'    "pending_when", false, LV_STATE_USER_2, true};' \
+	value_conditional_style::pending_when \
+	value_conditional_style::enabled_when_eq_toggles_disabled_state
 
-# ── C3: the RANGE OBSERVER sets USER_2. Same shape as C2 on the other arm, and
-#        the CONTROL is the EQ test, which takes the native path and cannot see
-#        this. Only the ADD is mutated: the remove still clears USER_1, so the
-#        mutant is a widget that never becomes pending rather than one that
-#        never stops.
-mutate_case range-observer-wrong-state "$RENDERER" \
-	'  } else if (asserted) {
-    lv_obj_add_state(obj, cls->state);
-  } else {
-    lv_obj_remove_state(obj, cls->state);' \
-	'  } else if (asserted) {
-    lv_obj_add_state(obj, LV_STATE_USER_2);
-  } else {
-    lv_obj_remove_state(obj, cls->state);' \
-	value_conditional_style::pending_when_gt_uses_range_observer \
-	value_conditional_style::pending_when_eq_toggles_pending_state
-
-# ── C4: the dump_tree ORACLE reads USER_2. The renderer is wired correctly and
+# ── C3: the dump_tree ORACLE reads USER_2. The renderer is wired correctly and
 #        the bit IS set; only the observability is broken. This is the clause a
 #        framebuffer-based test would not have needed and a dump-based one
 #        wholly depends on, so it is the one most worth pinning: without it the
-#        other three greens would be reporting on a key nobody emits.
+#        other two greens would be reporting on a key nobody emits.
 mutate_case dump-oracle-reads-wrong-state "$MAIN" \
 	'  if (lv_obj_has_state(obj, LV_STATE_USER_1))
     tree_append(",\"pending\":true");' \
@@ -226,7 +208,7 @@ done
 
 echo
 if [ "$fails" -eq 0 ]; then
-	printf '\033[32mPENDING_WHEN MUTATION PROOF: 4 clauses, each attributed\033[0m\n'
+	printf '\033[32mPENDING_WHEN MUTATION PROOF: 3 clauses, each attributed\033[0m\n'
 else
 	printf '\033[31mPENDING_WHEN MUTATION PROOF: %d failure(s)\033[0m\n' "$fails"
 fi

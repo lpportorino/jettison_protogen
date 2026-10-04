@@ -123,12 +123,23 @@ NOT_COVERED = [
 # protobuf wire types, keyed by FieldDescriptorProto.Type.
 _VARINT, _I64, _LEN, _I32 = 0, 1, 2, 5
 WIRE_TYPE = {
-    "TYPE_INT32": _VARINT, "TYPE_INT64": _VARINT, "TYPE_UINT32": _VARINT,
-    "TYPE_UINT64": _VARINT, "TYPE_SINT32": _VARINT, "TYPE_SINT64": _VARINT,
-    "TYPE_BOOL": _VARINT, "TYPE_ENUM": _VARINT,
-    "TYPE_FIXED64": _I64, "TYPE_SFIXED64": _I64, "TYPE_DOUBLE": _I64,
-    "TYPE_FIXED32": _I32, "TYPE_SFIXED32": _I32, "TYPE_FLOAT": _I32,
-    "TYPE_STRING": _LEN, "TYPE_BYTES": _LEN, "TYPE_MESSAGE": _LEN,
+    "TYPE_INT32": _VARINT,
+    "TYPE_INT64": _VARINT,
+    "TYPE_UINT32": _VARINT,
+    "TYPE_UINT64": _VARINT,
+    "TYPE_SINT32": _VARINT,
+    "TYPE_SINT64": _VARINT,
+    "TYPE_BOOL": _VARINT,
+    "TYPE_ENUM": _VARINT,
+    "TYPE_FIXED64": _I64,
+    "TYPE_SFIXED64": _I64,
+    "TYPE_DOUBLE": _I64,
+    "TYPE_FIXED32": _I32,
+    "TYPE_SFIXED32": _I32,
+    "TYPE_FLOAT": _I32,
+    "TYPE_STRING": _LEN,
+    "TYPE_BYTES": _LEN,
+    "TYPE_MESSAGE": _LEN,
     "TYPE_GROUP": _LEN,
 }
 # Spellings the doc is allowed to use for each wire type. Both the label and the
@@ -188,18 +199,19 @@ class Descriptors:
         """
         if enum_fq not in self.enums:
             raise KeyError(f"enum {enum_fq} is not in the descriptor set")
-        hits = [n for n in self.enums[enum_fq]
-                if n == short or n.endswith("_" + short)]
+        hits = [n for n in self.enums[enum_fq] if n == short or n.endswith("_" + short)]
         if len(hits) != 1:
             raise KeyError(
                 f"{enum_fq}: short name {short!r} resolved to {len(hits)} variants "
-                f"({hits}) — expected exactly 1")
+                f"({hits}) — expected exactly 1"
+            )
         return hits[0], self.enums[enum_fq][hits[0]]
 
 
 # ---------------------------------------------------------------------------
 # buf.validate constraint canonicalisation
 # ---------------------------------------------------------------------------
+
 
 def _snake(s: str) -> str:
     return re.sub(r"(?<!^)(?=[A-Z])", "_", s).lower()
@@ -239,6 +251,7 @@ def constraint_tokens(field: dict) -> set[str]:
 # encoder — derives the §9 vectors from the descriptor
 # ---------------------------------------------------------------------------
 
+
 def _varint(n: int) -> bytes:
     if n < 0:
         raise ValueError(f"negative varint {n} is not supported by this encoder")
@@ -273,13 +286,15 @@ def encode_message(desc: Descriptors, fq: str, assignments: dict[str, str]) -> b
             if sub.get("field"):
                 raise ValueError(
                     f"{fq}.{name}: `{{}}` assumes an EMPTY submessage but "
-                    f"{fl['typeName']} has {len(sub['field'])} field(s)")
+                    f"{fl['typeName']} has {len(sub['field'])} field(s)"
+                )
             parts.append((num, tag + _varint(0)))
         elif re.fullmatch(r"\d+", literal):
             if wt != _VARINT:
                 raise ValueError(
                     f"{fq}.{name}: integer literal given for {ftype} "
-                    f"(wire type {wt}) — this encoder only writes varints")
+                    f"(wire type {wt}) — this encoder only writes varints"
+                )
             parts.append((num, tag + _varint(int(literal))))
         else:
             raise ValueError(f"{fq}.{name}: unsupported literal {literal!r}")
@@ -341,7 +356,7 @@ def sections(doc: str) -> dict[str, str]:
     out, marks = {}, list(re.finditer(r"^## (\d+)\. .*$", doc, re.M))
     for i, m in enumerate(marks):
         end = marks[i + 1].start() if i + 1 < len(marks) else len(doc)
-        out[m.group(1)] = doc[m.end():end]
+        out[m.group(1)] = doc[m.end() : end]
     return out
 
 
@@ -360,7 +375,7 @@ def table_rows(text: str, header_contains: str) -> list[list[str]]:
             if i + 1 >= len(lines) or not re.match(r"^\s*\|[\s:|-]+\|\s*$", lines[i + 1]):
                 continue
             rows = []
-            for body in lines[i + 2:]:
+            for body in lines[i + 2 :]:
                 if not body.lstrip().startswith("|"):
                     break
                 rows.append([c.strip() for c in body.strip().strip("|").split("|")])
@@ -410,7 +425,7 @@ def braced(text: str, opener: str) -> str | None:
         elif text[i] == "}":
             depth -= 1
             if depth == 0:
-                return text[start + len(opener):i]
+                return text[start + len(opener) : i]
         i += 1
     return None
 
@@ -418,6 +433,7 @@ def braced(text: str, opener: str) -> str | None:
 # ---------------------------------------------------------------------------
 # result accumulator
 # ---------------------------------------------------------------------------
+
 
 class Report:
     def __init__(self) -> None:
@@ -433,8 +449,8 @@ class Report:
 
     def eq(self, name: str, expected, actual) -> bool:
         return self.check(
-            name, expected == actual,
-            f"descriptor says {expected!r}, doc says {actual!r}")
+            name, expected == actual, f"descriptor says {expected!r}, doc says {actual!r}"
+        )
 
     def fail(self, name: str, detail: str) -> None:
         self.failed.append((name, detail))
@@ -442,9 +458,11 @@ class Report:
     def found(self, name: str, n: int, minimum: int) -> bool:
         """An extractor that comes up short is a FINDING, never a quiet pass."""
         return self.check(
-            name, n >= minimum,
+            name,
+            n >= minimum,
             f"extractor found {n}, expected >= {minimum} — the doc's shape "
-            f"changed and this check asserted nothing")
+            f"changed and this check asserted nothing",
+        )
 
     def cell_int(self, name: str, cell: str) -> int | None:
         """A table cell that should hold a field number. A malformed one is a
@@ -459,6 +477,7 @@ class Report:
 # ---------------------------------------------------------------------------
 # checks
 # ---------------------------------------------------------------------------
+
 
 def check_ping_table(d: Descriptors, s6: str, r: Report) -> None:
     """§6 — the cmd.Root ping-path table: numbers, types, validate constraints.
@@ -481,15 +500,20 @@ def check_ping_table(d: Descriptors, s6: str, r: Report) -> None:
         num = r.cell_int(f"§6 cmd.Root.{name} number", cells[1])
         if num is not None:
             r.eq(f"§6 cmd.Root.{name} number", fl["number"], num)
-        want = fl["typeName"].lstrip(".") if fl["type"] in ("TYPE_MESSAGE", "TYPE_ENUM") \
+        want = (
+            fl["typeName"].lstrip(".")
+            if fl["type"] in ("TYPE_MESSAGE", "TYPE_ENUM")
             else fl["type"].removeprefix("TYPE_").lower()
+        )
         got = head_token(cells[2])
         r.check(
             f"§6 cmd.Root.{name} type",
             got == want or got == want.rsplit(".", 1)[-1],
-            f"descriptor says {want!r}, doc says {got!r}")
-        r.eq(f"§6 cmd.Root.{name} validate constraints",
-             constraint_tokens(fl), tail_tokens(cells[2]))
+            f"descriptor says {want!r}, doc says {got!r}",
+        )
+        r.eq(
+            f"§6 cmd.Root.{name} validate constraints", constraint_tokens(fl), tail_tokens(cells[2])
+        )
     # cmd.Ping must be empty or the `e2 01 00` body length of 0 is wrong.
     r.eq("§6 cmd.Ping is an empty message", [], d.field_names("cmd.Ping"))
 
@@ -508,8 +532,9 @@ def check_identity_table(d: Descriptors, s6: str, r: Report) -> set[tuple[int, i
         for cell, field_name in ((cells[1], "client_type"), (cells[2], "client_app")):
             spans = BACKTICKED.findall(cell)
             if len(spans) != 2:
-                r.fail(f"§6 identity {client}/{field_name}",
-                       f"expected `N` (`VARIANT`), got {cell!r}")
+                r.fail(
+                    f"§6 identity {client}/{field_name}", f"expected `N` (`VARIANT`), got {cell!r}"
+                )
                 nums.append(None)
                 continue
             stated, short = int(spans[0]), spans[1]
@@ -520,8 +545,7 @@ def check_identity_table(d: Descriptors, s6: str, r: Report) -> set[tuple[int, i
                 r.fail(f"§6 identity {client}/{field_name}", str(exc))
                 nums.append(None)
                 continue
-            r.eq(f"§6 identity {client}/{field_name} = {short} ({full})",
-                 actual, stated)
+            r.eq(f"§6 identity {client}/{field_name} = {short} ({full})", actual, stated)
             nums.append(actual)
         if all(n is not None for n in nums):
             pairs.add(tuple(nums))
@@ -531,7 +555,8 @@ def check_identity_table(d: Descriptors, s6: str, r: Report) -> set[tuple[int, i
 SPEC = re.compile(
     r"^\s*([A-Za-z_][\w.]*)\{(.*?)\}\s*\n\s*=\s*((?:[0-9a-f]{2}\s+)*[0-9a-f]{2})"
     r"\s*(?:\((\d+)\s*bytes?\))?\s*$",
-    re.M | re.S)
+    re.M | re.S,
+)
 
 
 def spec_assignments(args: str) -> dict[str, str]:
@@ -584,7 +609,6 @@ def check_repeated_blocks(derived: dict[str, bytes], doc: str, r: Report) -> Non
     if not derived:
         return
     framed = {hexs(len(v).to_bytes(4, "little") + v) for v in derived.values()}
-    bare = {hexs(v) for v in derived.values()}
 
     labelled = list(re.finditer(r"\*\*(G1(?:-B)?) —", doc))
     r.found("§6/§9 G1 labelled blocks", len(labelled), 4)
@@ -599,7 +623,7 @@ def check_repeated_blocks(derived: dict[str, bytes], doc: str, r: Report) -> Non
     # PASS 1 binds each label to the ONE vector its §9 spec derives.
     by_label: dict[str, bytes] = {}
     for m in labelled:
-        blocks = fenced(doc[m.end():m.end() + 900])
+        blocks = fenced(doc[m.end() : m.end() + 900])
         if not blocks:
             continue
         sm = SPEC.match(blocks[0][1].strip())
@@ -612,7 +636,7 @@ def check_repeated_blocks(derived: dict[str, bytes], doc: str, r: Report) -> Non
     # PASS 2 asserts every non-spec copy equals ITS OWN label's vector.
     copies: dict[str, int] = {}
     for m in labelled:
-        blocks = fenced(doc[m.end():m.end() + 900])
+        blocks = fenced(doc[m.end() : m.end() + 900])
         if not blocks:
             r.fail(f"{m.group(1)} block after label", "no fenced block follows")
             continue
@@ -624,8 +648,10 @@ def check_repeated_blocks(derived: dict[str, bytes], doc: str, r: Report) -> Non
         got = " ".join(re.sub(r"\(.*", "", body).split())
         want = by_label.get(label)
         if want is None:
-            r.fail(f"{label} inline copy is pinned",
-                   f"no §9 spec block defines {label}, so nothing derives what this copy must equal")
+            r.fail(
+                f"{label} inline copy is pinned",
+                f"no §9 spec block defines {label}, so nothing derives what this copy must equal",
+            )
             continue
         r.eq(f"{label} inline copy reproduces the {label} vector", got, hexs(want))
 
@@ -634,20 +660,26 @@ def check_repeated_blocks(derived: dict[str, bytes], doc: str, r: Report) -> Non
     # compare, which is green. The labelled-block floor above does not catch it
     # either, because it counts §9's spec blocks in the same population.
     for label in sorted(by_label):
-        r.check(f"{label} still has an inline §6 copy", copies.get(label, 0) >= 1,
-                f"§9 derives {label} but no non-spec block repeats it — the human-readable "
-                f"copy was removed, and equality checks alone cannot see an absence")
+        r.check(
+            f"{label} still has an inline §6 copy",
+            copies.get(label, 0) >= 1,
+            f"§9 derives {label} but no non-spec block repeats it — the human-readable "
+            f"copy was removed, and equality checks alone cannot see an absence",
+        )
 
     cw = list(re.finditer(r"Length-(?:prefixed|framed) on the `CW` stream", doc))
     r.found("CW length-framed blocks", len(cw), 2)
     for m in cw:
-        blocks = fenced(doc[m.end():m.end() + 400])
+        blocks = fenced(doc[m.end() : m.end() + 400])
         if not blocks:
             r.fail("CW-framed block", "no fenced block follows the marker")
             continue
         got = " ".join(blocks[0][1].split())
-        r.check("CW-framed copy reproduces a derived vector + LE length",
-                got in framed, f"doc has {got!r}; derived framed forms are {sorted(framed)}")
+        r.check(
+            "CW-framed copy reproduces a derived vector + LE length",
+            got in framed,
+            f"doc has {got!r}; derived framed forms are {sorted(framed)}",
+        )
 
 
 def check_byte_bullets(d: Descriptors, s6: str, r: Report) -> None:
@@ -673,8 +705,11 @@ def check_byte_bullets(d: Descriptors, s6: str, r: Report) -> None:
         except ValueError as exc:
             r.fail(f"§6 byte gloss: {hex_text} is a tag", str(exc))
             continue
-        r.eq(f"§6 byte gloss: `{hex_text}` encodes cmd.Root.{name}'s tag",
-             (fl["number"] << 3) | WIRE_TYPE[fl["type"]], key)
+        r.eq(
+            f"§6 byte gloss: `{hex_text}` encodes cmd.Root.{name}'s tag",
+            (fl["number"] << 3) | WIRE_TYPE[fl["type"]],
+            key,
+        )
 
 
 def check_negative_vector(d: Descriptors, s6: str, derived: dict[str, bytes], r: Report) -> None:
@@ -684,27 +719,29 @@ def check_negative_vector(d: Descriptors, s6: str, derived: dict[str, bytes], r:
     if not r.found("§6 negative vector marker", 1 if m else 0, 1):
         return
     line_start = s6.rfind("\n", 0, m.start()) + 1
-    hex_text = s6[line_start:m.start()].strip()
+    hex_text = s6[line_start : m.start()].strip()
     if not re.fullmatch(r"(?:[0-9a-f]{2}\s+)*[0-9a-f]{2}", hex_text):
         r.fail("§6 negative vector bytes", f"unparseable hex {hex_text!r}")
         return
     raw = parse_hex(hex_text)
     nums = set(decode_field_numbers(raw))
-    r.check("§6 negative vector still differs from every derived vector",
-            all(raw != v for v in derived.values()),
-            "the negative vector now EQUALS a positive one — it no longer tests anything")
+    r.check(
+        "§6 negative vector still differs from every derived vector",
+        all(raw != v for v in derived.values()),
+        "the negative vector now EQUALS a positive one — it no longer tests anything",
+    )
     # `which decodes as: ... field 2 (`session_id`) ... field 8 (`state_time`)`.
     # Flattened first: the claims wrap across lines in the source markdown, and
     # an unflattened regex silently dropped one of them.
-    tail = re.sub(r"\s+", " ", s6[m.end():m.end() + 600])
-    claims = [(int(n), nm) for n, nm in re.findall(r"field (\d+) \(`(\w+)`\)", tail)
-              if int(n) in nums]
+    tail = re.sub(r"\s+", " ", s6[m.end() : m.end() + 600])
+    claims = [
+        (int(n), nm) for n, nm in re.findall(r"field (\d+) \(`(\w+)`\)", tail) if int(n) in nums
+    ]
     if not r.found("§6 negative vector field claims", len(claims), 3):
         return
     for num, claimed in claims:
         fl = next((f for f in d.message("cmd.Root")["field"] if f["number"] == num), None)
-        r.eq(f"§6 negative vector: cmd.Root field {num} name",
-             fl["name"] if fl else None, claimed)
+        r.eq(f"§6 negative vector: cmd.Root field {num} name", fl["name"] if fl else None, claimed)
 
 
 def check_tag_arithmetic(d: Descriptors, doc: str, r: Report) -> None:
@@ -716,16 +753,17 @@ def check_tag_arithmetic(d: Descriptors, doc: str, r: Report) -> None:
     for m in hits:
         num, wt, dec, hx = int(m.group(1)), int(m.group(2)), int(m.group(3)), int(m.group(4), 16)
         want = (num << 3) | wt
-        r.check(f"tag arithmetic ({num}<<3)|{wt}", want == dec == hx,
-                f"({num}<<3)|{wt} = {want}, doc says {dec} = 0x{hx:02x}")
+        r.check(
+            f"tag arithmetic ({num}<<3)|{wt}",
+            want == dec == hx,
+            f"({num}<<3)|{wt} = {want}, doc says {dec} = 0x{hx:02x}",
+        )
         fl = d.field("cmd.Root", "ping")
         if fl and num == 28:
-            r.eq("§6 tag arithmetic uses cmd.Root.ping's real number",
-                 fl["number"], num)
+            r.eq("§6 tag arithmetic uses cmd.Root.ping's real number", fl["number"], num)
 
 
-def check_field_set_table(d: Descriptors, text: str, fq: str, header: str,
-                          r: Report) -> None:
+def check_field_set_table(d: Descriptors, text: str, fq: str, header: str, r: Report) -> None:
     """A §5 table that claims a message's COMPLETE field set: number, name,
     proto type and wire type per row, and set equality on the field names."""
     rows = table_rows(text, header)
@@ -751,20 +789,25 @@ def check_field_set_table(d: Descriptors, text: str, fq: str, header: str,
         num = r.cell_int(f"§5 {fq}.{name} number", cells[0])
         if num is not None:
             r.eq(f"§5 {fq}.{name} number", fl["number"], num)
-        want = fl["typeName"].lstrip(".") if fl["type"] in ("TYPE_MESSAGE", "TYPE_ENUM") \
+        want = (
+            fl["typeName"].lstrip(".")
+            if fl["type"] in ("TYPE_MESSAGE", "TYPE_ENUM")
             else fl["type"].removeprefix("TYPE_").lower()
+        )
         got = head_token(cells[2])
-        r.check(f"§5 {fq}.{name} proto type",
-                got == want or got == want.rsplit(".", 1)[-1],
-                f"descriptor says {want!r}, doc says {got!r}")
+        r.check(
+            f"§5 {fq}.{name} proto type",
+            got == want or got == want.rsplit(".", 1)[-1],
+            f"descriptor says {want!r}, doc says {got!r}",
+        )
         wt = WIRE_TYPE[fl["type"]]
         cell = cells[3].lower()
         n = re.search(r"\((\d)\)", cell)
-        r.check(f"§5 {fq}.{name} wire type",
-                n is not None and int(n.group(1)) == wt
-                and any(lbl in cell for lbl in WIRE_LABELS[wt]),
-                f"descriptor wire type is {wt} ({sorted(WIRE_LABELS[wt])}), "
-                f"doc says {cells[3]!r}")
+        r.check(
+            f"§5 {fq}.{name} wire type",
+            n is not None and int(n.group(1)) == wt and any(lbl in cell for lbl in WIRE_LABELS[wt]),
+            f"descriptor wire type is {wt} ({sorted(WIRE_LABELS[wt])}), doc says {cells[3]!r}",
+        )
     r.eq(f"§5 {fq} documented field set is COMPLETE", expected, seen)
 
 
@@ -819,8 +862,11 @@ def check_ui_input(d: Descriptors, s8: str, r: Report) -> None:
     r.found("§8 ui_input field-number claims", checked, 12)
 
     enum_claims = 0
-    for m in re.finditer(r"`(PointerPhase|PointerKind|ThemeMode|CursorType)`"
-                         r"((?:\s*[A-Z_]+=\d+/?)+)", s8):
+    for m in re.finditer(
+        r"`(PointerPhase|PointerKind|ThemeMode|CursorType)`"
+        r"((?:\s*[A-Z_]+=\d+/?)+)",
+        s8,
+    ):
         enum_fq = "ui." + m.group(1)
         for short, num in re.findall(r"([A-Z_]+)=(\d+)", m.group(2)):
             try:
@@ -845,10 +891,12 @@ def check_g5_envelopes(s9: str, schema_path: Path, r: Report) -> None:
     except OSError as exc:
         r.fail("§9 G5 schema", f"cannot read {schema_path}: {exc}")
         return
-    r.check("G5 schema is a closed map (additionalProperties:false)",
-            schema.get("additionalProperties") is False,
-            f"schema says additionalProperties={schema.get('additionalProperties')!r} "
-            f"— §8 calls the envelope a CLOSED map whose unknown keys REJECT")
+    r.check(
+        "G5 schema is a closed map (additionalProperties:false)",
+        schema.get("additionalProperties") is False,
+        f"schema says additionalProperties={schema.get('additionalProperties')!r} "
+        f"— §8 calls the envelope a CLOSED map whose unknown keys REJECT",
+    )
     allowed, required = set(schema.get("properties", {})), set(schema.get("required", []))
     vectors = []
     for _, body in fenced(s9):
@@ -863,10 +911,16 @@ def check_g5_envelopes(s9: str, schema_path: Path, r: Report) -> None:
     for v in vectors:
         tag = v.get("tag", "?")
         keys = set(v)
-        r.check(f"G5 {tag!r} declares no key the schema forbids",
-                keys <= allowed, f"unknown keys {sorted(keys - allowed)}")
-        r.check(f"G5 {tag!r} carries every required key",
-                required <= keys, f"missing {sorted(required - keys)}")
+        r.check(
+            f"G5 {tag!r} declares no key the schema forbids",
+            keys <= allowed,
+            f"unknown keys {sorted(keys - allowed)}",
+        )
+        r.check(
+            f"G5 {tag!r} carries every required key",
+            required <= keys,
+            f"missing {sorted(required - keys)}",
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -905,7 +959,8 @@ _WIDTHS = {"uint8": 1, "uint16": 2, "uint32": 4, "uint64": 8}
 _UNITS = {"ns", "us", "ms", "s", "unspecified"}
 
 _G2_LINE = re.compile(
-    r"^\s*((?:[0-9a-f]{2}\s+)*[0-9a-f]{2})\s+#\s*([A-Za-z_]\w*)\s*=\s*(\d+)", re.M)
+    r"^\s*((?:[0-9a-f]{2}\s+)*[0-9a-f]{2})\s+#\s*([A-Za-z_]\w*)\s*=\s*(\d+)", re.M
+)
 
 
 def _codec_table(s2: str, r: Report) -> list[dict] | None:
@@ -922,9 +977,11 @@ def _codec_table(s2: str, r: Report) -> list[dict] | None:
     fields, terminator, offset = [], None, 0
     for cells in rows:
         if len(cells) != 5:
-            r.fail("§2 codec-header row shape",
-                   f"expected 5 cells (Offset|Field|Type|Endianness|Unit), got "
-                   f"{len(cells)}: {cells!r}")
+            r.fail(
+                "§2 codec-header row shape",
+                f"expected 5 cells (Offset|Field|Type|Endianness|Unit), got "
+                f"{len(cells)}: {cells!r}",
+            )
             return None
         off_cell, name_cell, type_cell, end_cell, unit_cell = cells
         off = r.cell_int("§2 codec-header row offset", off_cell)
@@ -939,24 +996,37 @@ def _codec_table(s2: str, r: Report) -> list[dict] | None:
             terminator = off
             continue
         if terminator is not None:
-            r.fail("§2 codec-header terminator is last",
-                   f"a field row follows the bitstream-start row at offset {off}")
+            r.fail(
+                "§2 codec-header terminator is last",
+                f"a field row follows the bitstream-start row at offset {off}",
+            )
             return None
         width = _WIDTHS.get(head_token(type_cell))
         if width is None:
-            r.fail("§2 codec-header field type",
-                   f"{head_token(name_cell)!r}: unknown type token "
-                   f"{head_token(type_cell)!r}; known: {sorted(_WIDTHS)}")
+            r.fail(
+                "§2 codec-header field type",
+                f"{head_token(name_cell)!r}: unknown type token "
+                f"{head_token(type_cell)!r}; known: {sorted(_WIDTHS)}",
+            )
             return None
-        fields.append({"name": head_token(name_cell), "offset": off, "width": width,
-                       "endian": end_cell.strip(), "unit": unit_cell.strip(),
-                       "declared": offset})
+        fields.append(
+            {
+                "name": head_token(name_cell),
+                "offset": off,
+                "width": width,
+                "endian": end_cell.strip(),
+                "unit": unit_cell.strip(),
+                "declared": offset,
+            }
+        )
         offset += width
     if not r.found("§2 codec-header fields", len(fields), 4):
         return None
-    if not r.check("§2 codec-header declares where the bitstream starts",
-                   terminator is not None,
-                   "no non-field row — the table never says the header ends"):
+    if not r.check(
+        "§2 codec-header declares where the bitstream starts",
+        terminator is not None,
+        "no non-field row — the table never says the header ends",
+    ):
         return None
     for f in fields:
         r.eq(f"§2 {f['name']} offset", f["declared"], f["offset"])
@@ -966,11 +1036,13 @@ def _codec_table(s2: str, r: Report) -> list[dict] | None:
         want = "LE" if f["width"] > 1 else "—"
         r.eq(f"§2 {f['name']} endianness", want, f["endian"])
         if f["width"] > 1:
-            r.check(f"§2 {f['name']} declares a unit",
-                    f["unit"] in _UNITS,
-                    f"unit cell is {f['unit']!r}; expected one of "
-                    f"{sorted(_UNITS)} — an undeclared unit on a time-valued "
-                    f"uint64 is what §2.1 exists to prevent")
+            r.check(
+                f"§2 {f['name']} declares a unit",
+                f["unit"] in _UNITS,
+                f"unit cell is {f['unit']!r}; expected one of "
+                f"{sorted(_UNITS)} — an undeclared unit on a time-valued "
+                f"uint64 is what §2.1 exists to prevent",
+            )
         else:
             r.eq(f"§2 {f['name']} carries no unit", "—", f["unit"])
         # THE NAME AND THE COLUMN ARE TWO HOMES FOR ONE FACT. §2.1 renames a
@@ -978,8 +1050,7 @@ def _codec_table(s2: str, r: Report) -> list[dict] | None:
         # one of them is lying to whoever reads only the other.
         suffix = f["name"].rsplit("_", 1)[-1]
         if suffix in _UNITS - {"unspecified"} and "_" in f["name"]:
-            r.eq(f"§2 {f['name']} name suffix matches its Unit column",
-                 suffix, f["unit"])
+            r.eq(f"§2 {f['name']} name suffix matches its Unit column", suffix, f["unit"])
     r.eq("§2 codec-header total width", offset, terminator)
     return fields
 
@@ -1016,15 +1087,19 @@ def check_envelope_tag_bound(d: Descriptors, schema_path: Path, r: Report) -> No
         return
     tag = (schema.get("properties") or {}).get("tag")
     if not isinstance(tag, dict):
-        r.fail("§9 G5 tag bounds",
-               "the schema declares no `tag` property — §8 calls it the event "
-               "keyword every envelope carries, so its absence is a finding")
+        r.fail(
+            "§9 G5 tag bounds",
+            "the schema declares no `tag` property — §8 calls it the event "
+            "keyword every envelope carries, so its absence is a finding",
+        )
         return
     field = d.field("ui.EventBinding", "name")
     if field is None:
-        r.fail("§9 G5 tag bounds",
-               "ui.EventBinding.name is not in the descriptor set — the schema's "
-               "`tag` has no proto home to be bounded by")
+        r.fail(
+            "§9 G5 tag bounds",
+            "ui.EventBinding.name is not in the descriptor set — the schema's "
+            "`tag` has no proto home to be bounded by",
+        )
         return
     tokens = constraint_tokens(field)
 
@@ -1037,13 +1112,14 @@ def check_envelope_tag_bound(d: Descriptors, schema_path: Path, r: Report) -> No
     for kw, rule_name in (("maxLength", "max_len"), ("minLength", "min_len")):
         proto = rule(rule_name)
         if proto is None:
-            r.fail(f"§9 G5 tag {kw}",
-                   f"ui.EventBinding.name declares no buf.validate {rule_name}, "
-                   f"so the schema's {kw} is bounded by nothing — either the "
-                   f"proto lost its constraint or this clause outlived it")
+            r.fail(
+                f"§9 G5 tag {kw}",
+                f"ui.EventBinding.name declares no buf.validate {rule_name}, "
+                f"so the schema's {kw} is bounded by nothing — either the "
+                f"proto lost its constraint or this clause outlived it",
+            )
             continue
-        r.eq(f"§9 G5 tag {kw} == ui.EventBinding.name {rule_name}",
-             proto, str(tag.get(kw)))
+        r.eq(f"§9 G5 tag {kw} == ui.EventBinding.name {rule_name}", proto, str(tag.get(kw)))
 
 
 def check_codec_header(s2: str, s9: str, r: Report) -> None:
@@ -1053,11 +1129,13 @@ def check_codec_header(s2: str, s9: str, r: Report) -> None:
         return
 
     m = re.search(r"\*\*G2 — ", s9)
-    if not r.check("§9 G2 block located", m is not None,
-                   "no '**G2 — ' label in §9; the vector this cross-checks "
-                   "against could not be found"):
+    if not r.check(
+        "§9 G2 block located",
+        m is not None,
+        "no '**G2 — ' label in §9; the vector this cross-checks against could not be found",
+    ):
         return
-    blocks = fenced(s9[m.start():])
+    blocks = fenced(s9[m.start() :])
     if not r.found("§9 G2 fenced blocks", len(blocks), 2):
         return
     annotated, flattened = blocks[0][1], blocks[1][1]
@@ -1065,39 +1143,49 @@ def check_codec_header(s2: str, s9: str, r: Report) -> None:
     lines = _G2_LINE.findall(annotated)
     if not r.found("§9 G2 annotated field lines", len(lines), len(fields)):
         return
-    r.eq("§9 G2 field names and order match §2's table",
-         [f["name"] for f in fields], [name for _, name, _ in lines])
+    r.eq(
+        "§9 G2 field names and order match §2's table",
+        [f["name"] for f in fields],
+        [name for _, name, _ in lines],
+    )
 
     packed = b""
-    for f, (hex_bytes, name, value) in zip(fields, lines):
+    # The equality assertion above reports unequal lengths; keep collecting
+    # field findings for the overlapping rows rather than raising an exception.
+    for f, (hex_bytes, name, value) in zip(fields, lines, strict=False):
         raw = parse_hex(hex_bytes)
         packed += raw
-        r.eq(f"§9 G2 {name} byte count matches §2's {f['name']} width",
-             f["width"], len(raw))
+        r.eq(f"§9 G2 {name} byte count matches §2's {f['name']} width", f["width"], len(raw))
         # LE decode, because §2 says LE and this check just asserted it. A
         # BE-encoded vector under an LE table would otherwise read as fine for
         # every value that is a palindrome — including 0 and 1, which is what a
         # golden vector is most likely to contain.
-        r.eq(f"§9 G2 {name} decodes little-endian to its stated value",
-             int(value), int.from_bytes(raw, "little"))
+        r.eq(
+            f"§9 G2 {name} decodes little-endian to its stated value",
+            int(value),
+            int.from_bytes(raw, "little"),
+        )
 
     flat = parse_hex(" ".join(flattened.split()))
-    r.eq("§9 G2 flattened bytes equal the annotated lines concatenated",
-         hexs(packed), hexs(flat))
+    r.eq("§9 G2 flattened bytes equal the annotated lines concatenated", hexs(packed), hexs(flat))
     total = sum(f["width"] for f in fields)
     r.eq("§9 G2 flattened length equals §2's declared header size", total, len(flat))
 
     # The prose right under the vector restates the same three numbers a THIRD
     # time. Left unchecked it is the copy most likely to rot, because it reads
     # as commentary rather than as contract.
-    prose = s9[m.start():m.start() + 2600]
+    prose = s9[m.start() : m.start() + 2600]
     for label, pat, want in (
-            ("G2 prose byte count", r"\((\d+) bytes;", total),
-            ("G2 prose keyframe byte index", r"byte (\d+) = ", fields[-1]["offset"]),
-            ("G2 prose bitstream offset", r"offset (\d+)\.\)", total)):
+        ("G2 prose byte count", r"\((\d+) bytes;", total),
+        ("G2 prose keyframe byte index", r"byte (\d+) = ", fields[-1]["offset"]),
+        ("G2 prose bitstream offset", r"offset (\d+)\.\)", total),
+    ):
         pm = re.search(pat, prose)
-        if r.check(f"§9 {label} located", pm is not None,
-                   f"the sentence under G2 no longer states it as /{pat}/"):
+        if r.check(
+            f"§9 {label} located",
+            pm is not None,
+            f"the sentence under G2 no longer states it as /{pat}/",
+        ):
             r.eq(f"§9 {label}", want, int(pm.group(1)))
 
 
@@ -1105,20 +1193,28 @@ def check_codec_header(s2: str, s9: str, r: Report) -> None:
 # main
 # ---------------------------------------------------------------------------
 
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--descriptors", type=Path, default=DEFAULT_DESCRIPTORS,
-                    help="FileDescriptorSet rendered as JSON (default: the "
-                         "committed output/json-descriptors/descriptor-set.json)")
+    ap.add_argument(
+        "--descriptors",
+        type=Path,
+        default=DEFAULT_DESCRIPTORS,
+        help="FileDescriptorSet rendered as JSON (default: the "
+        "committed output/json-descriptors/descriptor-set.json)",
+    )
     ap.add_argument("--doc", type=Path, default=DEFAULT_DOC)
-    ap.add_argument("--schema", type=Path, default=ENVELOPE_SCHEMA,
-                    help="the published envelope JSON Schema (default: the "
-                         "committed ui-event-envelope.schema.json). Overridable "
-                         "for the same reason --doc is: the canary drives this "
-                         "checker over a MUTATED COPY, so the tracked tree is "
-                         "never written and no restore has to be trusted")
-    ap.add_argument("--quiet", action="store_true",
-                    help="print only failures and the summary")
+    ap.add_argument(
+        "--schema",
+        type=Path,
+        default=ENVELOPE_SCHEMA,
+        help="the published envelope JSON Schema (default: the "
+        "committed ui-event-envelope.schema.json). Overridable "
+        "for the same reason --doc is: the canary drives this "
+        "checker over a MUTATED COPY, so the tracked tree is "
+        "never written and no restore has to be trusted",
+    )
+    ap.add_argument("--quiet", action="store_true", help="print only failures and the summary")
     args = ap.parse_args()
 
     try:
@@ -1142,7 +1238,7 @@ def main() -> int:
 
     # The §9 specs and the §6 identity table must describe the same clients.
     spec_pairs = set()
-    for label, val in derived.items():
+    for label in derived:
         m = re.match(r"cmd\.Root\{(.*)\}$", label)
         if not m:
             continue
@@ -1150,8 +1246,7 @@ def main() -> int:
         if "client_type" in kv and "client_app" in kv:
             spec_pairs.add((int(kv["client_type"]), int(kv["client_app"])))
     if identity and spec_pairs:
-        r.eq("§6 identity table and §9 vectors describe the same clients",
-             identity, spec_pairs)
+        r.eq("§6 identity table and §9 vectors describe the same clients", identity, spec_pairs)
 
     check_repeated_blocks(derived, doc, r)
     check_byte_bullets(d, s6, r)
@@ -1162,9 +1257,12 @@ def main() -> int:
     # heading. A missing marker is a finding, not a slice from index -1 that
     # would silently re-check the FIRST table and report a pass for the second.
     wrap = s5.find("Opaque-payload wrapping")
-    if r.check("§5 opaque-payload wrapping heading", wrap >= 0,
-               "the 'Opaque-payload wrapping' marker is gone — the "
-               "ser.JonOpaquePayload table could not be located"):
+    if r.check(
+        "§5 opaque-payload wrapping heading",
+        wrap >= 0,
+        "the 'Opaque-payload wrapping' marker is gone — the "
+        "ser.JonOpaquePayload table could not be located",
+    ):
         check_field_set_table(d, s5[wrap:], "ser.JonOpaquePayload", "Wire type", r)
     check_opaque_payload_wrapping(d, s5, r)
     check_uuid(s5, r)
@@ -1187,11 +1285,12 @@ def main() -> int:
     print(f"descriptors: {args.descriptors}")
     print(f"doc:         {args.doc}")
     if r.failed:
-        print(f"wire-contract check: RED — {len(r.failed)} failed, "
-              f"{len(r.passed)} passed")
-        print("docs/INTERFACE-CONTRACTS.md no longer describes the protos it "
-              "claims to. Fix the DOC to match the descriptor (and bump every "
-              "consumer pin in lockstep), or revert the proto change.")
+        print(f"wire-contract check: RED — {len(r.failed)} failed, {len(r.passed)} passed")
+        print(
+            "docs/INTERFACE-CONTRACTS.md no longer describes the protos it "
+            "claims to. Fix the DOC to match the descriptor (and bump every "
+            "consumer pin in lockstep), or revert the proto change."
+        )
         return 1
     print(f"wire-contract check: GREEN — {len(r.passed)} assertions held")
     return 0

@@ -97,7 +97,8 @@ def function_body(source, name):
 checks = [
     (
         function_body(obj, "lv_obj_check_type"),
-        r"if\s*\(\s*obj\s*==\s*NULL\s*\)\s*return\s+false\s*;"
+        r"LV_CHECK_ARG\(obj != NULL, return false\);"
+        r"\s*LV_CHECK_ARG\(class_p != NULL, return false\);"
         r"\s*return\s+obj->class_p\s*==\s*class_p\s*;",
         "lv_obj_check_type no longer performs an exact class-pointer comparison",
     ),

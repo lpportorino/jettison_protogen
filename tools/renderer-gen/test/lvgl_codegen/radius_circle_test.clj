@@ -30,7 +30,7 @@
 (def ^:private draw-rect-header
   "The LVGL header declaring the circle sentinel, repo-root-relative from the
   tool root the suite runs in."
-  "../../renderer/lvgl/src/draw/lv_draw_rect.h")
+  "../../renderer/lvgl/include/lvgl/draw/lv_draw_rect.h")
 
 (defn- lv-radius-circle
   "LVGL's own `LV_RADIUS_CIRCLE`, parsed from the vendored header.

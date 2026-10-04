@@ -1580,15 +1580,15 @@
                            :min_value 0
                            :mode :vertical-left
                            :total_tick_count 11}
-             :w 28}
+             :w 36}
      :size :small
      :state :default
      :states-bits 0
      :variant :vertical
      :wrapper
      {:notes
-      "Edge-label standoff (widget :notes): 16px covers the top '100' half-line-height ext-draw overhang the canvas edge was clipping."
-      :props {:border-width 0 :h 192 :pad-all 16 :w 60}}}
+      "LVGL 9.6 intrinsic-width floor is 36px in all three families at DPI 160 (35px overflows). Preserve the 16px edge-label standoff around that width."
+      :props {:border-width 0 :h 192 :pad-all 16 :w 68}}}
     {:expect :baseline
      :id "lv_scale/default/medium/vertical"
      :props {:h 240
@@ -1753,7 +1753,7 @@
    :notes
    "Non-interactive display widget: default state only (stock adds no state style for lv_scale; a disabled cell would be a duplicate — add one only when a theme styles it). The mode axis (horizontal/vertical/round-outer/round-inner) is the behavioral axis. Linear + sections cells nest in a padded wrapper (pad-all 16, border-width 0 — the slider-wrapper idiom): end-tick labels center on the edge ticks and draw OUTSIDE the widget box via ext-draw, so at the harness origin the leading '0' (horizontal/sections' left label) and the top '100' (vertical) clipped at the canvas edge; measured overhang <= 12px (half the widest end label), 16px pad covers it with AA headroom. round-outer cells add a TOP-BIASED standoff on top of that pad (subject :y inside a taller wrapper) for the mid-tick label's ~31px top overhang — see the round-outer card notes. round-inner deliberately carries NO :angle_range override: at 360 the min and max labels land on the SAME angle and overprint ('0' atop '100'); the LVGL default 270 keeps them apart (round-outer parity)."
    :sizes
-   [{:id :small :note "worst-case squeeze: horiz 160x30 / vert 28x160 / round 96x96"}
+   [{:id :small :note "worst-case squeeze: horiz 160x30 / vert 36x160 / round 96x96; vertical width is the measured LVGL 9.6 intrinsic floor at DPI 160"}
     {:id :medium
      :note
      "the REAL demo_widgets.edn chart-axis geometry: horiz 240x40 / vert 40x240 / round 160x160"}
@@ -1991,61 +1991,29 @@
   {:authored-count 16
    :cards [{:expect :baseline
             :id "lv_dropdown/default/small/mid"
-            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 112}
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 120}
             :size :small
             :state :default
             :states-bits 0
             :value :mid}
            {:expect :distinct
             :id "lv_dropdown/pressed/small/mid"
-            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 112}
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 120}
             :size :small
             :state :pressed
             :states-bits 128
             :value :mid}
            {:expect :distinct
             :id "lv_dropdown/disabled/small/mid"
-            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 112}
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 120}
             :size :small
             :state :disabled
             :states-bits 512
             :value :mid}
            {:expect :distinct
             :id "lv_dropdown/focus-key/small/mid"
-            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 112}
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 120}
             :size :small
-            :state :focus-key
-            :states-bits 16
-            :value :mid
-            :wrapper
-            {:notes
-             "Focus-ring standoff: the outline rendered at origin was canvas-clipped; border-width 0 per the harness-geometry rule."
-             :props {:border-width 0 :h 72 :pad-all 8 :w 128}}}
-           {:expect :baseline
-            :id "lv_dropdown/default/medium/mid"
-            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 120}
-            :size :medium
-            :state :default
-            :states-bits 0
-            :value :mid}
-           {:expect :distinct
-            :id "lv_dropdown/pressed/medium/mid"
-            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 120}
-            :size :medium
-            :state :pressed
-            :states-bits 128
-            :value :mid}
-           {:expect :distinct
-            :id "lv_dropdown/disabled/medium/mid"
-            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 120}
-            :size :medium
-            :state :disabled
-            :states-bits 512
-            :value :mid}
-           {:expect :distinct
-            :id "lv_dropdown/focus-key/medium/mid"
-            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 120}
-            :size :medium
             :state :focus-key
             :states-bits 16
             :value :mid
@@ -2053,11 +2021,43 @@
             {:notes
              "Focus-ring standoff: the outline rendered at origin was canvas-clipped; border-width 0 per the harness-geometry rule."
              :props {:border-width 0 :h 72 :pad-all 8 :w 136}}}
+           {:expect :baseline
+            :id "lv_dropdown/default/medium/mid"
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 128}
+            :size :medium
+            :state :default
+            :states-bits 0
+            :value :mid}
+           {:expect :distinct
+            :id "lv_dropdown/pressed/medium/mid"
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 128}
+            :size :medium
+            :state :pressed
+            :states-bits 128
+            :value :mid}
+           {:expect :distinct
+            :id "lv_dropdown/disabled/medium/mid"
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 128}
+            :size :medium
+            :state :disabled
+            :states-bits 512
+            :value :mid}
+           {:expect :distinct
+            :id "lv_dropdown/focus-key/medium/mid"
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 128}
+            :size :medium
+            :state :focus-key
+            :states-bits 16
+            :value :mid
+            :wrapper
+            {:notes
+             "Focus-ring standoff: the outline rendered at origin was canvas-clipped; border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 72 :pad-all 8 :w 144}}}
            {:expect :distinct
             :id "lv_dropdown/edited/medium/mid"
             :notes
             "The focus ring was overridden on this widget and the edited ring was not, so edited fell through to stock's outline_secondary — the red ring theme.c rejects on every other encoder-adjustable control. Now takes the asgard edited ring. Same wrapper standoff as focus-key above, for the same canvas-clipping reason."
-            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 120}
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 128}
             :size :medium
             :state :edited
             :states-bits 32
@@ -2065,7 +2065,7 @@
             :wrapper
             {:notes
              "Edited-ring standoff: the ring is two ladder steps wider than focus, so it needs at least the focus card's margin."
-             :props {:border-width 0 :h 72 :pad-all 8 :w 136}}}
+             :props {:border-width 0 :h 72 :pad-all 8 :w 144}}}
            {:expect :baseline
             :id "lv_dropdown/default/large/mid"
             :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 200}
@@ -2100,21 +2100,21 @@
              :props {:border-width 0 :h 72 :pad-all 8 :w 216}}}
            {:expect :distinct
             :id "lv_dropdown/hovered/medium/mid"
-            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 120}
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 128}
             :size :medium
             :state :hovered
             :states-bits 64
             :value :mid}
            {:expect :baseline
             :id "lv_dropdown/default/medium/min"
-            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 0} :w 120}
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 0} :w 128}
             :size :medium
             :state :default
             :states-bits 0
             :value :min}
            {:expect :baseline
             :id "lv_dropdown/default/medium/max"
-            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 2} :w 120}
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 2} :w 128}
             :size :medium
             :state :default
             :states-bits 0
@@ -2128,8 +2128,8 @@
    :sizes
    [{:id :small
      :note
-     "compact chip width — the narrowest box where the selected text and the arrow glyph coexist: probed 72/88/96 = 'Manual' collides with the chevron, 104 = kisses, 112 = clean gap in BOTH families (measured floor)"
-     :w 112} {:id :medium :note "matches the vr_dropdown fixture" :w 120}
+     "LVGL 9.6 reports dropdown intrinsic width including selected text, arrow and gap. At DPI 160 the all-family measured floor is 119px (118 still overflows under vanilla/stock); 120 leaves 1px headroom. The old 112px fixture overflows in all three families."
+     :w 120} {:id :medium :note "128px keeps the medium tier distinct above the 120px compact intrinsic-size floor" :w 128}
     {:id :large :w 200}]
    :tag "lv_dropdown"
    :type :WIDGET_DROPDOWN
@@ -3040,8 +3040,8 @@
      :props {:h 224
              :target_overlay_props
              {:boxes [{:h 80 :label "T1" :w 120 :x 32 :y 24}
-        {:h 64 :label "T2" :w 96 :x 190 :y 40}
-        {:h 72 :label "T3" :w 140 :x 96 :y 128}]}
+                      {:h 64 :label "T2" :w 96 :x 190 :y 40}
+                      {:h 72 :label "T3" :w 140 :x 96 :y 128}]}
              :w 400}
      :size :medium
      :state :default
@@ -3067,8 +3067,8 @@
      :props {:h 224
              :target_overlay_props
              {:boxes [{:h 80 :label "T1" :w 120 :x 32 :y 24}
-        {:h 64 :label "T2" :w 96 :x 190 :y 40}
-        {:h 72 :label "T3" :w 140 :x 96 :y 128}]
+                      {:h 64 :label "T2" :w 96 :x 190 :y 40}
+                      {:h 72 :label "T3" :w 140 :x 96 :y 128}]
               :hide_labels true}
              :w 400}
      :size :medium
@@ -3083,8 +3083,8 @@
              :target_overlay_props
              {:border_width 6
               :boxes [{:h 80 :label "T1" :w 120 :x 32 :y 24}
-        {:h 64 :label "T2" :w 96 :x 190 :y 40}
-        {:h 72 :label "T3" :w 140 :x 96 :y 128}]}
+                      {:h 64 :label "T2" :w 96 :x 190 :y 40}
+                      {:h 72 :label "T3" :w 140 :x 96 :y 128}]}
              :w 400}
      :size :medium
      :state :default
@@ -3113,8 +3113,8 @@
              :radius 12
              :target_overlay_props
              {:boxes [{:h 80 :label "T1" :w 120 :x 32 :y 24}
-        {:h 64 :label "T2" :w 96 :x 190 :y 40}
-        {:h 72 :label "T3" :w 140 :x 96 :y 128}]}
+                      {:h 64 :label "T2" :w 96 :x 190 :y 40}
+                      {:h 72 :label "T3" :w 140 :x 96 :y 128}]}
              :text-font "b612mono_bold_12"
              :w 400}
      :size :medium

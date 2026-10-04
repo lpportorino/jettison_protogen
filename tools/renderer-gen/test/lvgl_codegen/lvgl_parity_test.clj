@@ -121,3 +121,19 @@
     (is (= [] (lift/missing-required-typedefs
                (assoc (zipmap lift/required-typedefs (repeat [{:name "X" :value 0}]))
                       "lv_something_unused_t" [{:name "Y" :value 1}]))))))
+
+(deftest provisional-wire-numbers-do-not-reinterpret-native-values
+  (testing "an unnumbered LUT enum keeps negative native facts without calling them wire numbers"
+    (let [actual (try
+                   (mapv #(select-keys % [:resolved-int :proto-number])
+                         (:members (first (lift/enum-edn->constructs
+                                           {"lv_probe_t" [{:name "LV_PROBE_SIGNED" :value -1342173440}
+                                                          {:name "LV_PROBE_POSITIVE" :value 7}]}))))
+                   (catch clojure.lang.ExceptionInfo error
+                     {:unexpected-rejection (.getMessage error)}))]
+      (is (= [{:resolved-int -1342173440 :proto-number 0}
+              {:resolved-int 7 :proto-number 0}] actual))))
+  (testing "a direct-cast member still carries its native value as the wire candidate"
+    (is (= 7 (-> (lift/enum-edn->constructs
+                  {"lv_align_t" [{:name "LV_ALIGN_PROBE" :value 7}]})
+                 first :members first :proto-number)))))

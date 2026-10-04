@@ -12,12 +12,10 @@
 # policy from being a `git log` on every lane at once.
 #
 # WHAT IT NEEDS: `clojure` (which needs a JDK), `bash` and `git`. NOT python3 —
-# the gate was ported from a stdlib-only python3 script to `lint-gate.md` for one
-# reason, and it is the reason this lane exists at all: NOTHING in this repo lints
-# python. `bash -n` plus a payload-apostrophe check cover shell, cljfmt and
-# clj-kondo cover Clojure, clang-format and clang-tidy cover C, actionlint covers
-# workflows. A `.py` gate was therefore the least gated code in the tree — the
-# thing enforcing the quality bar sitting outside every lane that enforces it.
+# the gate was ported from a stdlib-only python3 script to `lint-gate.md` when
+# Python gate implementations had no lint coverage. The lint-python lane judges
+# the enrolled native-probe and wire-contract drivers with pinned Ruff, inside
+# the image; this markdown gate is Clojure and needs no Python toolchain.
 # Under `LINT_CLJ_PATHS` the gate is now judged by cljfmt, by clj-kondo at the
 # zero-warning floor, and by its own namespace-size ceiling.
 #
@@ -117,7 +115,7 @@ lint-md:
 #
 # NO SYNTAX FLOOR RIDES HERE ANY MORE, and its absence is the port paying off
 # rather than coverage lost. The python predecessor ran `python3 -m py_compile`
-# because no lane in this repo lints python and a gate that cannot parse is worse
+# because Python then had no lint lane and a gate that cannot parse is worse
 # than one that is merely unlinted. This gate's source is Clojure under
 # `LINT_CLJ_PATHS`, so `lint-clj` (clj-kondo, zero-warning floor) and `fmt-clj`
 # already read it — and the suite below loads and compiles the namespace on every

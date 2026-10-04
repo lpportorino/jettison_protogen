@@ -21,9 +21,11 @@
 # defect was live in this repo: a mutation that HAD landed was reported as not
 # landed, and the canary it guarded never ran at all.
 #
-# WHY NOT PYTHON. Nothing in this repo lints python, so a harness written in it is
-# unjudged code that every verdict depends on — `.claude/rules/gate-enforcement.md`
-# §5. Bash does exact literal replacement natively.
+# WHY NOT PYTHON. Python is linted only for the drivers enrolled in
+# `tools/lint/python_check.sh`, and only inside the pinned image; a harness written
+# in it would sit outside that bounded enrolment, unjudged code that every verdict
+# depends on — `.claude/rules/gate-enforcement.md` §5. Bash, which every lane here
+# already judges, does exact literal replacement natively.
 #
 # THE MECHANISM IS ONE PAIR OF QUOTES. `${var//"$pat"/"$rep"}` is a LITERAL
 # replacement when the pattern is QUOTED inside the expansion, and a GLOB when it

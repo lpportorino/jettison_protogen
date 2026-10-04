@@ -777,12 +777,18 @@ mod widget_identity {
         let _ = render(&mut host, "vr_target_overlay");
         let root = tree(&mut host);
         let overlay = root["children"][0]["children"][0].clone();
-        let origin = overlay["coords"].as_array().expect("overlay coords").clone();
+        let origin = overlay["coords"]
+            .as_array()
+            .expect("overlay coords")
+            .clone();
         let (ox, oy) = (
             origin[0].as_i64().expect("overlay x1"),
             origin[1].as_i64().expect("overlay y1"),
         );
-        let boxes = overlay["children"].as_array().expect("overlay children").clone();
+        let boxes = overlay["children"]
+            .as_array()
+            .expect("overlay children")
+            .clone();
         // Wire rects from the fixture, as [x, y, w, h].
         let want = [[20_i64, 16, 100, 60], [150, 70, 90, 50]];
         assert_eq!(boxes.len(), want.len(), "one lv_obj per TargetBox");
@@ -1796,7 +1802,10 @@ mod focus_geometry {
         if node["type"] == ty {
             return Some(node);
         }
-        node["children"].as_array()?.iter().find_map(|c| find(c, ty))
+        node["children"]
+            .as_array()?
+            .iter()
+            .find_map(|c| find(c, ty))
     }
     /// Every node of `ty` in the dumped tree, depth-first — the sibling case
     /// `find` cannot serve, since a crowding pair is two nodes of one type.
@@ -1834,8 +1843,7 @@ mod focus_geometry {
     /// `coords` of the first node of `ty`, read from the LIVE dump tree.
     fn coords_of(host: &mut ControlsHost, ty: &str) -> Vec<i64> {
         let dumped = tree(host);
-        find(&dumped, ty)
-            .unwrap_or_else(|| panic!("{ty} is present in the dumped tree"))["coords"]
+        find(&dumped, ty).unwrap_or_else(|| panic!("{ty} is present in the dumped tree"))["coords"]
             .as_array()
             .expect("coords array")
             .iter()
@@ -4445,7 +4453,9 @@ mod text_field {
         // The DELETE half must be refused with the copy half: a cut that
         // erased text the operator can never paste back is worse than a no-op.
         assert!(
-            label_texts_of(&mut host).iter().any(|t| t.chars().count() == 7),
+            label_texts_of(&mut host)
+                .iter()
+                .any(|t| t.chars().count() == 7),
             "a refused cut must leave the field intact (7 bullets)"
         );
     }
@@ -6791,13 +6801,15 @@ mod roi_gesture {
         let (dx, dy) = px_to_ndc(300, 120); // DOWN corner (upper-right in NDC)
         let (ux, uy) = px_to_ndc(100, 220); // UP corner (lower-left in NDC)
         assert_eq!(
-            host.pointer(PointerEvent::down(1, dx, dy, 1000)).expect("down"),
+            host.pointer(PointerEvent::down(1, dx, dy, 1000))
+                .expect("down"),
             RC_OK
         );
         settle(&mut host);
         // MOVE past movePx commits the pan (PAN_MOVE, no template → no cmd).
         assert_eq!(
-            host.pointer(PointerEvent::mv(1, ux, uy, 1050)).expect("move"),
+            host.pointer(PointerEvent::mv(1, ux, uy, 1050))
+                .expect("move"),
             RC_OK
         );
         settle(&mut host);
@@ -6839,7 +6851,10 @@ mod roi_gesture {
         );
         // Exactly one command (the ROI emit); the PAN_END never double-drained.
         assert_eq!(
-            commands.iter().filter(|c| as_day_focus_roi(c).is_some()).count(),
+            commands
+                .iter()
+                .filter(|c| as_day_focus_roi(c).is_some())
+                .count(),
             1,
             "a single drag must relay exactly one FocusROI"
         );
@@ -6877,12 +6892,14 @@ mod roi_gesture {
         let (dx, dy) = px_to_ndc(200, 150);
         let (ux, uy) = px_to_ndc(260, 180);
         assert_eq!(
-            host.pointer(PointerEvent::down(1, dx, dy, 1000)).expect("down"),
+            host.pointer(PointerEvent::down(1, dx, dy, 1000))
+                .expect("down"),
             RC_OK
         );
         settle(&mut host);
         assert_eq!(
-            host.pointer(PointerEvent::mv(1, ux, uy, 1050)).expect("move"),
+            host.pointer(PointerEvent::mv(1, ux, uy, 1050))
+                .expect("move"),
             RC_OK
         );
         settle(&mut host);
@@ -6935,7 +6952,8 @@ mod roi_gesture {
              it cannot tell a verbatim y from a flipped one"
         );
         assert_eq!(
-            host.pointer(PointerEvent::down(1, nx, ny, 2000)).expect("down"),
+            host.pointer(PointerEvent::down(1, nx, ny, 2000))
+                .expect("down"),
             RC_OK
         );
         settle(&mut host);
@@ -8031,14 +8049,20 @@ mod led_brightness {
             style_groups: vec![size_group(WIDTH, HEIGHT)],
             ..Default::default()
         };
-        ui::Screen { root: Some(root), subjects: vec![] }.encode_to_vec()
+        ui::Screen {
+            root: Some(root),
+            subjects: vec![],
+        }
+        .encode_to_vec()
     }
 
     /// Render raw `.pb` bytes at the pinned budget (dark theme — an "off" LED
     /// sinks toward the dark surface, a lit one is vivid green).
     fn render_pb(host: &mut ControlsHost, pb: &[u8]) -> Vec<u8> {
-        host.set_breakpoint(DEFAULT_BP).expect("set_breakpoint failed");
-        host.set_theme_dark(DEFAULT_THEME).expect("set_theme_dark failed");
+        host.set_breakpoint(DEFAULT_BP)
+            .expect("set_breakpoint failed");
+        host.set_theme_dark(DEFAULT_THEME)
+            .expect("set_theme_dark failed");
         host.set_dpi(DPI).expect("set_dpi failed");
         host.load_ui(pb).expect("load_ui failed");
         let mut flushed = false;
@@ -8059,7 +8083,12 @@ mod led_brightness {
         let mut host = new_host();
         let off = render_pb(&mut host, &led_screen(0));
         let full = render_pb(&mut host, &led_screen(255));
-        assert_differ("LED brightness 0 (off) vs 255 (full)", &off, &full, MIN_DIFF_RATIO);
+        assert_differ(
+            "LED brightness 0 (off) vs 255 (full)",
+            &off,
+            &full,
+            MIN_DIFF_RATIO,
+        );
     }
 }
 /// The pressed checkbox indicator must stay inside the checkbox's own box.
@@ -8128,14 +8157,8 @@ mod host_proxy_authored {
         let chip = &proxy["children"].as_array().expect("proxy children")[0];
         let pc = proxy["coords"].as_array().expect("proxy coords");
         let cc = chip["coords"].as_array().expect("chip coords");
-        let p = (
-            pc[0].as_i64().expect("px"),
-            pc[1].as_i64().expect("py"),
-        );
-        let c = (
-            cc[0].as_i64().expect("cx"),
-            cc[1].as_i64().expect("cy"),
-        );
+        let p = (pc[0].as_i64().expect("px"), pc[1].as_i64().expect("py"));
+        let c = (cc[0].as_i64().expect("cx"), cc[1].as_i64().expect("cy"));
         assert_eq!(
             c, p,
             "{why} must place the content chip flush with the proxy origin — \
@@ -8330,10 +8353,7 @@ mod value_conditional_style {
             if node["type"] == "lv_button" {
                 return Some(node);
             }
-            node["children"]
-                .as_array()?
-                .iter()
-                .find_map(find)
+            node["children"].as_array()?.iter().find_map(find)
         }
         let root = tree(host);
         let btn = find(&root).expect("a lv_button in the tree");
@@ -8351,9 +8371,9 @@ mod value_conditional_style {
         button_state_flag(host, "pending")
     }
 
-    /// A button whose ENABLED state tracks `armed == 1` (EQ → the native
-    /// lv_obj_bind_state_if_* fast path). DISABLED while the precondition is
-    /// unmet, cleared once satisfied — round-tripped both ways.
+    /// A button whose ENABLED state tracks `armed == 1` (EQ through the shared
+    /// compare-binding observer). DISABLED while the precondition is unmet,
+    /// cleared once satisfied — round-tripped both ways.
     #[test]
     fn enabled_when_eq_toggles_disabled_state() {
         let button = ui::WidgetNode {
@@ -8393,11 +8413,11 @@ mod value_conditional_style {
         );
     }
 
-    /// A button whose ENABLED state tracks `level >= 10` (GTE → the custom
-    /// range observer, not a native bind). Exercises the observer arm the
-    /// EQ test does not reach.
+    /// A button whose ENABLED state tracks `level >= 10` (GTE through the same
+    /// compare-binding observer). Exercises the ordering comparison the EQ
+    /// test does not reach.
     #[test]
-    fn enabled_when_gte_uses_range_observer() {
+    fn enabled_when_gte_toggles_disabled_state() {
         let button = ui::WidgetNode {
             r#type: ui::WidgetType::WidgetButton as i32,
             uid: 42,
@@ -8482,8 +8502,8 @@ mod value_conditional_style {
         );
     }
 
-    /// A button that is PENDING while `cmd_outstanding == 1` (EQ → the native
-    /// lv_obj_bind_state_if_* fast path). Polarity is DIRECT: the bit is SET
+    /// A button that is PENDING while `cmd_outstanding == 1` (EQ through the
+    /// shared compare-binding observer). Polarity is DIRECT: the bit is SET
     /// while the comparison holds, which is the checked_when shape and not the
     /// enabled_when one.
     ///
@@ -8536,11 +8556,11 @@ mod value_conditional_style {
         );
     }
 
-    /// A button that is PENDING while `inflight > 0` (GT → the custom range
-    /// observer, not a native bind). Exercises the observer arm the EQ test
-    /// does not reach, and the counter shape a real command queue has.
+    /// A button that is PENDING while `inflight > 0` (GT through the same
+    /// compare-binding observer). Exercises the ordering comparison the EQ
+    /// test does not reach, and the counter shape a real command queue has.
     #[test]
-    fn pending_when_gt_uses_range_observer() {
+    fn pending_when_gt_toggles_pending_state() {
         let button = ui::WidgetNode {
             r#type: ui::WidgetType::WidgetButton as i32,
             uid: 42,
@@ -8702,9 +8722,17 @@ mod scale_section_style_pool {
         ui::ScaleSection {
             range_min: 0,
             range_max: 10,
-            color: Some(ui::Color { r: 200, g: 30, b: 30 }),
+            color: Some(ui::Color {
+                r: 200,
+                g: 30,
+                b: 30,
+            }),
             width: 2 + band,
-            main_color: Some(ui::Color { r: 30, g: 200, b: 30 }),
+            main_color: Some(ui::Color {
+                r: 30,
+                g: 200,
+                b: 30,
+            }),
             main_width: 3 + band,
         }
     }
@@ -8862,7 +8890,8 @@ mod scale_section_style_pool {
             .load_ui_raw(&scale_screen(&scales))
             .expect("load_ui trapped below the style-pool ceiling");
         assert_eq!(
-            status, 0,
+            status,
+            0,
             "{} scales costing {} pool styles are within MAX_STYLES ({MAX_STYLES}) \
              — the load must report 0; got {status}",
             scales.len(),
@@ -9018,7 +9047,11 @@ mod tabview_authored_size {
             style_groups: vec![size_group(root_w, root_h)],
             ..Default::default()
         };
-        ui::Screen { root: Some(root), subjects: vec![] }.encode_to_vec()
+        ui::Screen {
+            root: Some(root),
+            subjects: vec![],
+        }
+        .encode_to_vec()
     }
 
     /// The same, with the root at the full canvas.
@@ -9033,10 +9066,12 @@ mod tabview_authored_size {
         ui::WidgetNode {
             r#type: ui::WidgetType::WidgetTabview as i32,
             uid: 42,
-            widget_props: Some(ui::widget_node::WidgetProps::TabviewProps(ui::TabviewProps {
-                tab_names: vec!["A".into()],
-                ..Default::default()
-            })),
+            widget_props: Some(ui::widget_node::WidgetProps::TabviewProps(
+                ui::TabviewProps {
+                    tab_names: vec!["A".into()],
+                    ..Default::default()
+                },
+            )),
             children: vec![ui::WidgetNode {
                 r#type: ui::WidgetType::WidgetLabel as i32,
                 uid: 43,
@@ -9075,7 +9110,10 @@ mod tabview_authored_size {
         host.set_theme_dark(DEFAULT_THEME).expect("set_theme_dark");
         host.set_dpi(DPI).expect("set_dpi");
         let status = host.load_ui_raw(pb).expect("load_ui trapped");
-        assert_eq!(status, 0, "the screen under test must load clean; got {status}");
+        assert_eq!(
+            status, 0,
+            "the screen under test must load clean; got {status}"
+        );
         for _ in 0..RENDER_TICKS {
             let _ = host.tick(TICK_MS).expect("tick");
         }
@@ -9157,12 +9195,19 @@ mod tabview_authored_size {
         let shrink_w = 100;
         let shrink_h = 100;
         let mut big = new_host();
-        load(&mut big, &one_child_screen_sized(tabview_node_with(vec![]), WIDTH, HEIGHT));
+        load(
+            &mut big,
+            &one_child_screen_sized(tabview_node_with(vec![]), WIDTH, HEIGHT),
+        );
         let (big_w, big_h) = measured(&mut big, "lv_tabview");
         let mut small = new_host();
         load(
             &mut small,
-            &one_child_screen_sized(tabview_node_with(vec![]), WIDTH - shrink_w, HEIGHT - shrink_h),
+            &one_child_screen_sized(
+                tabview_node_with(vec![]),
+                WIDTH - shrink_w,
+                HEIGHT - shrink_h,
+            ),
         );
         let (small_w, small_h) = measured(&mut small, "lv_tabview");
         assert_eq!(
@@ -10755,3 +10800,193 @@ mod readout_arc {
     }
 }
 
+// The subject lifetime and comparison contracts cross an LVGL major API seam:
+// 9.6 owns subject allocation and removed the native conditional-bind helpers.
+// Assert the public tree semantics for every operator before/after updates and
+// after full reload, without deriving expected values from renderer output.
+mod reactive_api_contracts {
+    use super::*;
+
+    fn by_uid(node: &serde_json::Value, uid: u32) -> Option<&serde_json::Value> {
+        if node["uid"].as_u64() == Some(u64::from(uid)) {
+            return Some(node);
+        }
+        node["children"]
+            .as_array()?
+            .iter()
+            .find_map(|child| by_uid(child, uid))
+    }
+
+    fn update(host: &mut ControlsHost, name: &str, value: ui::subject_value::Value) {
+        host.update_state(
+            &ui::StateUpdate {
+                values: vec![ui::SubjectValue {
+                    name: name.into(),
+                    value: Some(value),
+                }],
+            }
+            .encode_to_vec(),
+        )
+        .expect("subject update");
+    }
+
+    #[test]
+    fn every_comparison_preserves_initial_update_and_reload_polarity() {
+        let operators = [
+            ui::CompareOp::CompareEq,
+            ui::CompareOp::CompareNotEq,
+            ui::CompareOp::CompareGt,
+            ui::CompareOp::CompareGte,
+            ui::CompareOp::CompareLt,
+            ui::CompareOp::CompareLte,
+        ];
+        let children = operators
+            .iter()
+            .enumerate()
+            .map(|(index, op)| {
+                let binding = ui::VisibilityBinding {
+                    subject: "probe".into(),
+                    ref_value: 10,
+                    compare: *op as i32,
+                };
+                ui::WidgetNode {
+                    uid: index as u32 + 1,
+                    visibility: Some(binding.clone()),
+                    checked_when: Some(binding.clone()),
+                    enabled_when: Some(binding.clone()),
+                    pending_when: Some(binding),
+                    ..Default::default()
+                }
+            })
+            .collect();
+        let screen = ui::Screen {
+            root: Some(ui::WidgetNode {
+                children,
+                ..Default::default()
+            }),
+            subjects: vec![ui::SubjectDeclaration {
+                name: "probe".into(),
+                r#type: ui::SubjectType::SubjectInt as i32,
+                initial: Some(ui::subject_declaration::Initial::IntInitial(10)),
+            }],
+        }
+        .encode_to_vec();
+        let mut host = new_host();
+        for cycle in 0..3 {
+            host.load_ui(&screen)
+                .expect("reload with freshly allocated subjects");
+            for (step, value) in [10, 9, 11, 10].into_iter().enumerate() {
+                if step > 0 {
+                    update(
+                        &mut host,
+                        "probe",
+                        ui::subject_value::Value::IntValue(value),
+                    );
+                }
+                let expected = [
+                    value == 10,
+                    value != 10,
+                    value > 10,
+                    value >= 10,
+                    value < 10,
+                    value <= 10,
+                ];
+                let root = tree(&mut host);
+                for (index, holds) in expected.into_iter().enumerate() {
+                    let node = by_uid(&root, index as u32 + 1).expect("bound node still exists");
+                    for (key, wanted) in [
+                        ("hidden", !holds),
+                        ("checked", holds),
+                        ("disabled", !holds),
+                        ("pending", holds),
+                    ] {
+                        assert_eq!(
+                            node[key].as_bool().unwrap_or(false),
+                            wanted,
+                            "cycle {cycle}, value {value}, {:?}, {key}",
+                            operators[index]
+                        );
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn string_subject_reloads_own_distinct_initial_and_update_values() {
+        let mut host = new_host();
+        for initial in ["first", "second", "third"] {
+            let screen = ui::Screen {
+                root: Some(ui::WidgetNode {
+                    r#type: ui::WidgetType::WidgetLabel as i32,
+                    uid: 42,
+                    bindings: [("text".into(), "caption".into())].into(),
+                    ..Default::default()
+                }),
+                subjects: vec![ui::SubjectDeclaration {
+                    name: "caption".into(),
+                    r#type: ui::SubjectType::SubjectString as i32,
+                    initial: Some(ui::subject_declaration::Initial::StringInitial(
+                        initial.into(),
+                    )),
+                }],
+            }
+            .encode_to_vec();
+            host.load_ui(&screen).expect("string subject screen");
+            assert_eq!(by_uid(&tree(&mut host), 42).unwrap()["text"], initial);
+            for text in ["updated", "", "restored"] {
+                update(
+                    &mut host,
+                    "caption",
+                    ui::subject_value::Value::StringValue(text.into()),
+                );
+                assert_eq!(by_uid(&tree(&mut host), 42).unwrap()["text"], text);
+            }
+        }
+    }
+
+    #[test]
+    fn wire_flag_clear_wins_and_neighbor_remains_visible() {
+        // HIDDEN is wire bit0 (the independent header-parity suite pins it).
+        let screen = ui::Screen {
+            root: Some(ui::WidgetNode {
+                children: vec![
+                    ui::WidgetNode {
+                        uid: 1,
+                        obj_flags: 1,
+                        ..Default::default()
+                    },
+                    ui::WidgetNode {
+                        uid: 2,
+                        obj_flags: 1,
+                        obj_flags_clear: 1,
+                        ..Default::default()
+                    },
+                    ui::WidgetNode {
+                        uid: 3,
+                        ..Default::default()
+                    },
+                ],
+                ..Default::default()
+            }),
+            subjects: vec![],
+        }
+        .encode_to_vec();
+        let mut host = new_host();
+        host.load_ui(&screen).expect("flag screen");
+        let root = tree(&mut host);
+        assert_eq!(by_uid(&root, 1).unwrap()["hidden"], true);
+        assert_eq!(
+            by_uid(&root, 2).unwrap()["hidden"]
+                .as_bool()
+                .unwrap_or(false),
+            false
+        );
+        assert_eq!(
+            by_uid(&root, 3).unwrap()["hidden"]
+                .as_bool()
+                .unwrap_or(false),
+            false
+        );
+    }
+}

@@ -510,8 +510,9 @@
     (:bind-fmt node) (assoc :bind_formats
                             (into {} (map (fn [[k v]] [(name k) v])) (:bind-fmt node)))
     ;; Cross-cutting LVGL surface (demo-parity): keyword sets are OR'd to
-    ;; the LVGL flag/state bitmasks here (factory-generated maps); the wire
-    ;; ints are direct-cast renderer-side.
+    ;; the LVGL flag/state bitmasks here (factory-generated maps); the
+    ;; renderer applies the wire ints bit by bit through its own setters
+    ;; (apply_wire_flags), never by casting the mask.
     (:flags node)
     (assoc :obj_flags (bitmask->int gen-enums/obj-flag-keyword->int :flags (:flags node)))
     (:flags-clear node)

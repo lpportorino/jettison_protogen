@@ -87,7 +87,7 @@
            ;; would drift from the one the renderer is actually built with. malli
            ;; comes with those namespaces; it is already in the pinned image.
            :proven-pairs {:extra-paths ["dev" "../renderer-gen/src"]
-                          :extra-deps {metosin/malli {:mvn/version "0.20.1"}}
+                          :extra-deps {metosin/malli {:mvn/version "0.20.2"}}
                           :main-opts ["-m" "proven-pairs"]}
            :roller-bounds {:extra-paths ["dev"] :main-opts ["-m" "roller-bounds-probe"]}
            ;; Read-only probe: how many bytes of dump_obj's SINGLE shared
