@@ -415,7 +415,7 @@ hooks-status:
 lint:
 	@$(MAKE) --no-print-directory -f lint.mk -j$(NPROC) lint-lanes
 
-lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-cmd-no-any-bytes-test lint-cmd-no-any-bytes lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test leg-strictness-test wasm-provenance-test ts-validated-repro-test wire-contract-codec-test wire-contract-envelope-test fork-hazards protocol-gen-test protocol-gen-canary fmt-clj lint-clj fmt-c
+lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-cmd-no-any-bytes-test lint-cmd-no-any-bytes lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test uber-safe-directory-test leg-strictness-test wasm-provenance-test ts-validated-repro-test wire-contract-codec-test wire-contract-envelope-test fork-hazards protocol-gen-test protocol-gen-canary fmt-clj lint-clj fmt-c
 
 ## lint-python / lint-python-test: pinned Ruff over the enrolled Python gate drivers
 # The bounded enrollment lives in tools/lint/python_check.sh; experiment and data
@@ -964,6 +964,24 @@ leg-strictness-test:
 .PHONY: uber-chown-test
 uber-chown-test:
 	@bash tools/uber_chown_test.sh
+
+# tools/uber.sh's safe.directory declaration — the line that decides whether git
+# inside the container can DISCOVER the mounted checkout and LOCAL-CLONE it (the
+# reactive mutation campaign's worker is such a clone). Rides `lint`, and the
+# lint workflow, for the same reasons the chown canary above rides `lint`: no
+# rendered surface, and its hermetic cases need only bash, git and a stub
+# `docker` — git's own GIT_TEST_ASSUME_DIFFERENT_OWNER switch stands in for the
+# root-over-a-user-checkout mismatch the container creates.
+#
+# Its LAST case runs uber.sh for REAL against a scratch checkout the caller owns
+# and wants docker, the pinned image and a non-root caller; without them it is
+# UNJUDGED, never green, and the suite says so rather than ALL GREEN. That is
+# the ONLY case allowed to be unjudged: a git that does not refuse an undeclared
+# foreign repository cannot show the hazard, so the suite stops there with
+# CANNOT RUN (exit 3), naming the probe that was not refused.
+.PHONY: uber-safe-directory-test
+uber-safe-directory-test:
+	@bash tools/uber_safe_directory_test.sh
 
 # The controls.wasm CONTENT-PROVENANCE stamp and its verifier — the pair that
 # answers "was this binary built from these sources", where the older build-sha

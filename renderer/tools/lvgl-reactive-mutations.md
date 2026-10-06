@@ -18,6 +18,12 @@ own isolated worker path. It does not run against the seed cache or change the
 invoking checkout. Source snapshots include tracked and unignored source files;
 ignored build caches and the harness target are excluded. Run in the official
 container with a populated Cargo registry; Cargo uses `--locked --offline`.
+Under `tools/uber.sh` that registry is the checkout's own `.cargo-home`, which
+`tools/uber.sh 'cd renderer/wasm_harness && cargo fetch --locked'` populates.
+Run from a standalone checkout: the worker is a `git clone --local` of it, and
+in a checkout vendored as a submodule the `.git` file names a gitdir outside
+the container's mount, so that clone fails (`not a git repository`) whatever
+safe.directory declares.
 
 Each selected fault must match one exact source anchor before execution. The
 worker changes only that source site, rebuilds actual WASM under the ordinary

@@ -23,8 +23,9 @@ IMG="jettison-proto-generator-base:latest"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # THE MOUNT PATH HAS ONE HOME. It is the bind-mount destination, the working
-# directory, GIT_WORK_TREE, CARGO_HOME's parent and the chown-back's target —
-# five uses that must agree, and did so by five copies of the same literal.
+# directory, GIT_WORK_TREE, CARGO_HOME's parent, the chown-back's target and the
+# safe.directory declaration — six uses that must agree. The last two read it
+# inside the container as UBER_WORKSPACE, never as a second literal.
 WORKSPACE="/workspace"
 
 case "$(uname -m)" in
@@ -155,10 +156,69 @@ fi
 # which leaves every status assertion green and reds only the report ones; the
 # suite runs both against copies of itself on every invocation.
 #
+# GIT OWNERSHIP INSIDE THE CONTAINER. git refuses the mounted worktree, and for
+# a reason no mount can satisfy: the container runs as root while every file
+# under $WORKSPACE is owned by the invoking user, so git sees a repository owned
+# by somebody else and aborts with "detected dubious ownership". That check
+# exists to stop a repo owned by another user from executing ITS config and
+# hooks as you — a real hazard on a shared host, and not one that exists here,
+# where the mount IS the caller's own checkout. Without a declaration, any
+# battery lane that discovers its corpus from git reports CANNOT RUN —
+# `dead-c-externs-test` does exactly that, and it takes `check-renderer` down
+# with it, so the documented battery entry is unrunnable locally rather than
+# merely degraded.
+#
+# TWO ENTRIES, because git names the repository by a different path on each road
+# in. Discovery from the worktree checks the WORKTREE ($WORKSPACE). A LOCAL CLONE
+# of the checkout checks the GITDIR ($WORKSPACE/.git), and does so twice: in
+# `git clone` itself, and in the `git-upload-pack` that clone starts in the
+# source repository. Either entry alone leaves one road refused. The in-tree
+# caller that needs the second is renderer/tools/lvgl-reactive-mutations.py,
+# whose worker is a `git clone --local` of the checkout.
+#
+# A CONFIG FILE NAMED BY GIT_CONFIG_GLOBAL, NOT GIT_CONFIG_* IN THE ENVIRONMENT.
+# The env form cannot reach the upload-pack child at all: git's local transport
+# UNSETS GIT_CONFIG_COUNT and GIT_CONFIG_PARAMETERS (alongside GIT_DIR and the
+# rest of its `local_repo_env` list) in the process it starts in the source
+# repository, so neither `git -c` nor GIT_CONFIG_* survives to the check that
+# refuses. GIT_TRACE=1 on such a clone prints it outright — "run_command: unset
+# GIT_CONFIG_COUNT GIT_DIR; ... git-upload-pack". GIT_CONFIG_GLOBAL is not on
+# that list, so a file it names reaches every git process the command starts.
+#
+# The file keeps the three properties the env form was chosen for. It is
+# EPHEMERAL: written at run time into the --rm container's own temp directory,
+# never into the bind mount, and removed on the way out. It needs NO WRITABLE
+# HOME: the variable names the file outright. It CANNOT LEAK INTO AN IMAGE
+# LAYER: nothing writes it at build time. One property it does NOT share: it
+# REPLACES any global config for the command, and the image carries none, so
+# nothing is hidden. Failing to write it is REPORTED, never fatal, for the reason
+# the GIT_MOUNT block above gives — git is a prerequisite of some lanes, not of
+# uber.sh — and git's own refusal then names the cause.
+#
+# REVERT-TO-BREAK: tools/uber_safe_directory_test.sh restores the historical env
+# form verbatim, drops each entry in turn, and widens the declaration to `*`;
+# each must red exactly its own canary (local clone; local clone; discovery;
+# narrowness) while the others hold.
+#
 # The payload is assembled in a QUOTED heredoc rather than written inline after
 # `-lc`, so it can contain quotes of both kinds without escaping games — the
 # hazard tools/payload_apostrophes.awk exists for.
 INNER_SCRIPT="$(cat <<'UBER_INNER'
+# ---8<--- safe.directory declaration BEGIN
+uber_gitconfig="$(mktemp "${TMPDIR:-/tmp}/uber-gitconfig.XXXXXX")"
+if [ -n "$uber_gitconfig" ] && {
+  printf '[safe]\n'
+  printf '\tdirectory = "%s"\n' "$UBER_WORKSPACE"
+  printf '\tdirectory = "%s/.git"\n' "$UBER_WORKSPACE"
+} > "$uber_gitconfig"; then
+  export GIT_CONFIG_GLOBAL="$uber_gitconfig"
+else
+  printf 'uber.sh: safe.directory NOT DECLARED — its config file could not be\n' >&2
+  printf '  written, so in-container git will refuse the mounted checkout as\n' >&2
+  printf '  dubiously owned. The command still runs.\n' >&2
+fi
+# ---8<--- safe.directory declaration END
+
 bash -lc "$UBER_CMD"
 rc=$?
 
@@ -195,34 +255,14 @@ if [ "$chown_rc" -ne 0 ]; then
 fi
 # ---8<--- chown-back report END
 
+[ -z "${uber_gitconfig:-}" ] || rm -f -- "$uber_gitconfig"
 exit $rc
 UBER_INNER
 )"
 
-# git's OWNERSHIP check refuses the mounted worktree, and it refuses it for a
-# reason that cannot be satisfied by mounting anything: the container runs as
-# root while every file under $WORKSPACE is owned by the invoking user, so git
-# sees a repository owned by somebody else and aborts with "detected dubious
-# ownership". That check exists to stop a repo owned by another user from
-# executing ITS config and hooks as you — a real hazard on a shared host, and
-# not one that exists here, where the mount IS the caller's own checkout.
-#
-# Declared through GIT_CONFIG_* rather than by writing a global config inside
-# the container: the env form is ephemeral, needs no writable HOME, and cannot
-# leak a permissive setting into an image layer. Without it, any battery lane
-# that discovers its corpus from git reports CANNOT RUN — `dead-c-externs-test`
-# does exactly that, and it takes `check-renderer` down with it, so the
-# documented battery entry is unrunnable locally rather than merely degraded.
-GIT_OWNERSHIP=(
-  -e GIT_CONFIG_COUNT=1
-  -e GIT_CONFIG_KEY_0=safe.directory
-  -e GIT_CONFIG_VALUE_0="$WORKSPACE"
-)
-
 exec docker run --rm --platform "$PLATFORM" --entrypoint bash \
   -v "$ROOT:$WORKSPACE" -w "$WORKSPACE" \
   ${GIT_MOUNT[@]+"${GIT_MOUNT[@]}"} \
-  "${GIT_OWNERSHIP[@]}" \
   -e CARGO_HOME="$WORKSPACE/.cargo-home" \
   -e UBER_CMD="$*" -e UBER_UID="$(id -u)" -e UBER_GID="$(id -g)" \
   -e UBER_WORKSPACE="$WORKSPACE" \

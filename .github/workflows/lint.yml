@@ -265,6 +265,18 @@ jobs:
       name: wasm-provenance canaries (mutation-proven clause attribution)
       run: make -f lint.mk wasm-provenance-test
 
+    - # tools/uber.sh's safe.directory declaration: git in the container must
+      # discover the mounted checkout AND local-clone it, and nothing else. It
+      # needs bash, git and coreutils, so it sits in this pre-toolchain block.
+      # Its subjects are tools/uber.sh and the canary itself, both caught by
+      # `**/*.sh` in the filter above. Its real-container case has no pinned
+      # image on this runner and reports UNJUDGED here, never green; the
+      # hermetic cases are the ones this step judges, and a runner git that
+      # does not refuse a foreign repository stops the step with CANNOT RUN
+      # (exit 3) instead of letting it pass over cases that could not fail.
+      name: uber.sh safe.directory canaries (discovery, local clone, narrowness)
+      run: make -f lint.mk uber-safe-directory-test
+
     - # actionlint is a single static binary, so it installs in one step and
       # needs no toolchain — which is why this sits ahead of the JDK setup
       # below rather than after it.

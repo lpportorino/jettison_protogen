@@ -93,6 +93,26 @@ exited ZERO under the refusal. A lane discovering its corpus that way reports a
 clean run over nothing, which is why every such lane owes the non-vacuity floor
 `gate-enforcement.md` §3 demands.
 
+**`$WORKSPACE/.git` IS A DIFFERENT PATH, AND ITS ENTRY IS LOAD-BEARING.** The
+table is about DISCOVERY, which checks the worktree. A LOCAL CLONE of the
+checkout (`git clone --local /workspace …`, the reactive mutation campaign's
+worker) checks the GITDIR, `/workspace/.git`, in `git clone` and again in the
+`git-upload-pack` it starts — and git's local transport UNSETS
+`GIT_CONFIG_COUNT`/`GIT_CONFIG_PARAMETERS` in that child, so an env-form
+declaration never reaches it. Measured in the pinned image, root over a uid-1000
+checkout: an env declaration of `/workspace` passes `git ls-files` and refuses
+the clone, and so does an env declaration of `*`; a global-config file naming
+`/workspace` alone refuses the clone, one naming `/workspace/.git` alone refuses
+`ls-files`, and one naming both passes both. So `tools/uber.sh` writes BOTH
+paths into a file named by `GIT_CONFIG_GLOBAL`, and
+`tools/uber_safe_directory_test.sh` reds if either entry, or the file form, is
+lost. The `/gitdir` paragraph above is untouched by this: that path is only
+ever reached through an explicit `GIT_DIR`, which skips the check.
+In the SUBMODULE shape that clone still fails, for a reason no declaration can
+reach: the checkout's `.git` file names a gitdir outside the mount (`fatal: not
+a git repository: /workspace/../.git/modules/<name>`), so
+`renderer/tools/lvgl-reactive-mutations.py` runs from a standalone checkout.
+
 **THE SHAPE THAT DOES REFUSE IS THE LINKED WORKTREE, for a different reason and
 by design.** Its private gitdir holds no objects and its common dir is a host
 path, so `uber.sh` declines to mount it (the `GITDIR = COMMONDIR` test) and
@@ -103,13 +123,15 @@ emitted FAILs from clauses that had never run; it now refuses up front with its
 own CANNOT RUN, which is the shape any suite with a git precondition owes.
 
 **CI IS NOT BLOCKED BY THIS EITHER**, and it is worth stating because the
-obvious inference is wrong: `renderer.yml`'s shellcheck lane already passes the
-same GIT_CONFIG_* env to a raw `docker run`, with its own measurement recorded
-beside it. So a "git cannot resolve the checkout in the container" claim in this
-repo is scoped to an invocation that has not declared safe.directory — never to
-a capability. `standard-brief`'s freshness half and CI's goldens/docs diff are
-consequently ARMABLE on both paths; they stay unarmed as a decision, and this
-sentence exists so the gap is a decision rather than a stale belief.
+obvious inference is wrong: `renderer.yml`'s shellcheck lane already declares
+safe.directory through `GIT_CONFIG_*` on a raw `docker run`, with its own
+measurement recorded beside it — enough for the discovery its lanes do, though
+not for a local clone (above). So a "git cannot resolve the checkout in the
+container" claim in this repo is scoped to an invocation that has not declared
+safe.directory — never to a capability. `standard-brief`'s freshness half and
+CI's goldens/docs diff are consequently ARMABLE on both paths; they stay unarmed
+as a decision, and this sentence exists so the gap is a decision rather than a
+stale belief.
 
 Write the boundary of what the battery DOES assert, because it moved: the
 `fixtures` lane now READS each committed `goldens/manifest-*.edn`
@@ -166,8 +188,9 @@ one-shot command want different things from the same image:
   check this file spends most of its length on never fires there — not
   because `scratchcard.bb` reimplements the workaround, but because that check
   exists to catch a container UID that does not own the files it reads, and
-  here the container's UID IS the host's. Do not "port" `GIT_CONFIG_*` into
-  `scratchcard.bb`; there is nothing there for it to fix.
+  here the container's UID IS the host's. Do not "port" `uber.sh`'s
+  safe.directory declaration into `scratchcard.bb`; there is nothing there for
+  it to fix.
   One gap the identity mount below does NOT close: it carries only the
   checkout root, so a `.git` gitfile pointing outside that root resolves to
   nothing in-container. `uber.sh`'s `GIT_MOUNT` serves the SUBMODULE half of

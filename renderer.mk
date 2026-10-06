@@ -1531,9 +1531,9 @@ standard-brief-generate:
 # NOT AN ABSOLUTE, and CI IS NOT THE OBSTACLE — say so plainly, because the
 # first draft of this note claimed it was and that claim is refuted three lines
 # of YAML away. `tools/uber.sh` declares `safe.directory` for the workspace, and
-# `.github/workflows/renderer.yml`'s shellcheck lane ALREADY passes the same
-# GIT_CONFIG_* env to a raw `docker run`, with its own measurement recorded
-# beside it. So the capability exists on both paths and is demonstrated.
+# `.github/workflows/renderer.yml`'s shellcheck lane ALREADY declares it through
+# GIT_CONFIG_* on a raw `docker run`, with its own measurement recorded beside
+# it. So the capability exists on both paths and is demonstrated.
 #
 # What keeps this out of `check-renderer` is therefore a DECISION and not a
 # blocker: a freshness check compares the working tree against the index, which
