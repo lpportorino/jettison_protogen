@@ -1,0 +1,120 @@
+#!/bin/sh
+set -- "$-" "$@"
+set +axv
+# trace-annotate: attach attributes to the CURRENT span of a gate-trace run.
+#
+#   trace-annotate <key>=<value> [<key>=<value>...]
+#
+# The current span is the one TRACEPARENT names: the nearest enclosing
+# trace-run, or the run itself when called directly under trace-start.
+#
+# POSIX sh, and OFF before any interpreter starts: with TELEMETRY_DIR unset it
+# checks its arguments and exits 0. The KEY checks below are the ones the ON
+# path applies (lib/trace_schema.py owns the grammar; the test suite holds the
+# two in agreement), so a key that would be refused with telemetry on is
+# refused with it off too, and turning telemetry on never breaks a caller.
+# A VALUE is data, never a reason to refuse: the ON path cuts an over-long
+# value to the schema's bound and records which key it cut.
+# Lines 2 and 3 record the caller's shell options in a positional parameter and
+# switch off allexport, xtrace and verbose; every one of a, e, u, v and x is
+# put back as the caller had it before the exec, and every variable and
+# function here is named gate_trace__*. bin/trace-run's header says why.
+gate_trace__set_a=+a gate_trace__set_e=+e gate_trace__set_u=+u gate_trace__set_v=+v gate_trace__set_x=+x
+case $1 in *a*) gate_trace__set_a=-a ;; esac
+case $1 in *e*) gate_trace__set_e=-e ;; esac
+case $1 in *u*) gate_trace__set_u=-u ;; esac
+case $1 in *v*) gate_trace__set_v=-v ;; esac
+case $1 in *x*) gate_trace__set_x=-x ;; esac
+shift
+set -eu
+
+gate_trace__refuse() {
+	printf 'trace-annotate: refused [usage]: %s\n' "$1" >&2
+	exit 2
+}
+
+# Sets gate_trace__problem to why $1 is not a legal key, or to empty. A variable rather
+# than command substitution, because a subshell would fork on the OFF path.
+gate_trace__key_check() {
+	gate_trace__problem=
+	case $1 in
+	'')
+		gate_trace__problem='empty key'
+		return 0
+		;;
+	*[!abcdefghijklmnopqrstuvwxyz0123456789_.]*)
+		gate_trace__problem='may hold only a-z 0-9 _ and .'
+		return 0
+		;;
+	.* | *. | *..*)
+		gate_trace__problem='empty segment'
+		return 0
+		;;
+	*.*) ;;
+	*)
+		gate_trace__problem='needs a namespace: two or more dot-separated segments'
+		return 0
+		;;
+	esac
+	case .$1 in *.[0123456789_]*)
+		gate_trace__problem='each segment must start with a letter'
+		return 0
+		;;
+	esac
+	if [ "${#1}" -gt 128 ]; then
+		gate_trace__problem='longer than 128 characters'
+		return 0
+	fi
+	case $1 in process.* | host.* | vcs.*)
+		gate_trace__problem="namespace '${1%%.*}' is written by the tool itself"
+		;;
+	esac
+}
+
+if [ "$#" -lt 1 ] || [ "$#" -gt 32 ]; then
+	gate_trace__refuse 'usage: trace-annotate <key>=<value> [<key>=<value>...] (1 to 32 pairs)'
+fi
+gate_trace__newline='
+'
+gate_trace__seen=$gate_trace__newline
+for gate_trace__pair in "$@"; do
+	case $gate_trace__pair in *=*) ;; *) gate_trace__refuse 'an argument is not a key=value pair' ;; esac
+	gate_trace__key=${gate_trace__pair%%=*}
+	gate_trace__key_check "$gate_trace__key"
+	[ -z "$gate_trace__problem" ] || gate_trace__refuse "bad attribute key: $gate_trace__problem"
+	case $gate_trace__seen in *"$gate_trace__newline$gate_trace__key$gate_trace__newline"*) gate_trace__refuse "attribute $gate_trace__key given twice" ;; esac
+	gate_trace__seen=$gate_trace__seen$gate_trace__key$gate_trace__newline
+done
+
+[ -n "${TELEMETRY_DIR+set}" ] || exit 0
+
+# A bare $0 names a file in the current directory: the kernel hands the
+# interpreter the very path it exec'd, and dash execs a script found through an
+# empty PATH entry by its bare name. Only a shell told `sh name` that did not
+# find it here searched PATH, so only then is PATH asked.
+gate_trace__self=$0
+case $gate_trace__self in */*) ;; *)
+	if [ -f "./$gate_trace__self" ]; then
+		gate_trace__self=./$gate_trace__self
+	else
+		gate_trace__self=$(command -v -- "$gate_trace__self") || gate_trace__refuse 'cannot locate this script'
+	fi
+	;;
+esac
+if [ -L "$gate_trace__self" ]; then gate_trace__self=$(readlink -f -- "$gate_trace__self"); fi
+gate_trace__lib=${gate_trace__self%/*}/../lib
+# The interpreter by a path, never a bare name: started by a bare name, CPython
+# searches PATH again itself while it starts, and a PATH entry too long to join
+# kills it there with exit 1 before any of this tool runs. dash answers a
+# command found through an empty entry by its bare name (bash says ./python3),
+# so such an answer naming a file here becomes ./python3; a bare answer naming
+# no file here is bash's name for a function a caller exported, which exec
+# bypasses, and is left to exec's own search.
+gate_trace__python=$(command -v python3) || {
+	printf 'trace-annotate: refused [launcher]: python3 is not on PATH\n' >&2
+	exit 2
+}
+case $gate_trace__python in */*) ;; *) if [ -f "./$gate_trace__python" ]; then gate_trace__python=./$gate_trace__python; fi ;; esac
+
+set "$gate_trace__set_a" "$gate_trace__set_e" "$gate_trace__set_u" "$gate_trace__set_v" "$gate_trace__set_x"
+exec "$gate_trace__python" -I -S -c 'import sys; sys.path.insert(0, sys.argv[1]); import trace_run; trace_run.annotate_main(sys.argv[2:])' "$gate_trace__lib" "$@"

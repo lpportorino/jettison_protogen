@@ -1,0 +1,187 @@
+#!/bin/sh
+set -- "$-" "$@"
+set +axv
+# trace-run: run one command as one span of a gate-trace run.
+#
+#   trace-run <name> [--kind K] -- <command> [<arg>...]
+#
+# POSIX sh on purpose, and it must stay that way: it runs under dash and bash
+# alike. THE OFF PATH IS DECIDED HERE, BEFORE ANY INTERPRETER STARTS. With
+# TELEMETRY_DIR unset this script checks its arguments and `exec`s the command:
+# no Python, no file written, nothing between the caller and the command but
+# this shell's own exec. A Python OFF path would still pay a whole interpreter
+# start per span, which is the cost the OFF state exists to avoid.
+#
+# SET IS ON, EVEN WHEN EMPTY. Only an UNSET variable means off; a set but
+# empty, missing, unwritable or non-run directory is refused by the ON path
+# with exit 2 and a named reason, because a telemetry run that silently records
+# nothing is worse than one that fails.
+#
+# ARGUMENTS ARE CHECKED IN BOTH MODES, by the same grammar the ON path applies
+# (lib/trace_schema.py owns it; the test suite holds the two in agreement), so
+# turning telemetry on can never change which invocations succeed.
+#
+# THE ON PATH reads this shell's ignored-signal mask from /proc, and the
+# caller's LC_CTYPE, BEFORE exec'ing the interpreter: CPython ignores SIGPIPE
+# and SIGXFSZ during its own start-up, and coerces a C or POSIX LC_CTYPE to
+# C.UTF-8 in its environment, so neither is recoverable afterwards. The mask
+# is the SHELL's runtime state, which is what exec passes on for SIGPIPE and
+# SIGXFSZ (a shell keeps an ignored-on-entry signal ignored and does not catch
+# these two) but not for every signal: bash runs with SIGQUIT ignored and
+# SIGCHLD caught and restores both before exec, so the interpreter reads only
+# SIGPIPE and SIGXFSZ from this mask and every other disposition live. Linux
+# only; without /proc this refuses rather than guessing.
+#
+# Exit 2 with a named reason when the invocation is malformed or telemetry is
+# ON and unusable. Every other status is the command's own.
+#
+# THE CALLER'S SHELL OPTIONS ARE RECORDED ON LINE 2 AND RESTORED BEFORE EVERY
+# EXEC. bash adopts options a caller exports in SHELLOPTS, and re-exports
+# SHELLOPTS with whatever this script changes, so the command would inherit
+# them. Line 2 captures `$-` into a positional parameter (not a variable, which
+# allexport would export) and line 3 switches off allexport, xtrace and verbose
+# before any other line runs; the script then runs with `set -eu`, and puts all
+# five of a, e, u, v and x back exactly as the caller had them immediately
+# before it execs. What cannot be avoided: under xtrace or verbose the shell
+# prints those first lines to stderr, and under xtrace the exec line after the
+# restore too; under noexec or onecmd the shell runs none of this script (the
+# one command onecmd allows is the shebang line), so nothing can refuse.
+#
+# EVERY VARIABLE AND FUNCTION THIS SCRIPT DEFINES IS NAMED gate_trace__*, and
+# that prefix is reserved. In POSIX sh a variable that arrived in the
+# environment stays exported, so assigning to an ordinary name the caller
+# exports (kind, lib, self...) would rewrite what the command inherits.
+#
+# The environment tests hold both: ON against OFF, and OFF against a plain exec.
+gate_trace__set_a=+a gate_trace__set_e=+e gate_trace__set_u=+u gate_trace__set_v=+v gate_trace__set_x=+x
+case $1 in *a*) gate_trace__set_a=-a ;; esac
+case $1 in *e*) gate_trace__set_e=-e ;; esac
+case $1 in *u*) gate_trace__set_u=-u ;; esac
+case $1 in *v*) gate_trace__set_v=-v ;; esac
+case $1 in *x*) gate_trace__set_x=-x ;; esac
+shift
+set -eu
+
+gate_trace__refuse() {
+	printf 'trace-run: refused [%s]: %s; the command was NOT run\n' "$1" "$2" >&2
+	exit 2
+}
+
+gate_trace__usage() {
+	gate_trace__refuse usage 'usage: trace-run <name> [--kind K] -- <command> [<arg>...]'
+}
+
+gate_trace__name_check() {
+	case $1 in
+	'') gate_trace__refuse usage 'bad span name: empty' ;;
+	[!ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789]*)
+		gate_trace__refuse usage 'bad span name: must start with a letter or digit'
+		;;
+	*[!ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789._:/+=@-]*)
+		gate_trace__refuse usage 'bad span name: may hold only A-Z a-z 0-9 and . _ : / + = @ -'
+		;;
+	esac
+	[ "${#1}" -le 128 ] || gate_trace__refuse usage 'bad span name: longer than 128 characters'
+}
+
+gate_trace__kind_check() {
+	case $1 in
+	chain | gate | test | step | boundary) ;;
+	*) gate_trace__refuse usage 'unknown kind (one of chain, gate, test, step, boundary)' ;;
+	esac
+}
+
+gate_trace__check_args() {
+	[ "$#" -ge 1 ] || gate_trace__usage
+	gate_trace__name_check "$1"
+	shift
+	gate_trace__kind=
+	while [ "$#" -gt 0 ]; do
+		case $1 in
+		--)
+			[ "$#" -ge 2 ] || gate_trace__usage
+			# bash's exec reads a leading `-` word as ITS option (-c clears the
+			# environment, -a renames argv[0]); dash's does not. An empty word
+			# names no command at all. Both are refused in both modes, so no
+			# shell can run something other than the command named.
+			case $2 in '' | -*) gate_trace__refuse usage 'the command may not be empty or begin with -' ;; esac
+			return 0
+			;;
+		--kind)
+			[ -z "$gate_trace__kind" ] && [ "$#" -ge 2 ] || gate_trace__usage
+			gate_trace__kind_check "$2"
+			gate_trace__kind=$2
+			shift 2
+			;;
+		--kind=*)
+			[ -z "$gate_trace__kind" ] || gate_trace__usage
+			gate_trace__kind=${1#--kind=}
+			gate_trace__kind_check "$gate_trace__kind"
+			shift
+			;;
+		*) gate_trace__usage ;;
+		esac
+	done
+	gate_trace__usage
+}
+
+gate_trace__check_args "$@"
+
+if [ -z "${TELEMETRY_DIR+set}" ]; then
+	# A name cannot start with '-' and a kind cannot be '--', so the first '--'
+	# is the separator.
+	while [ "$1" != -- ]; do shift; done
+	shift
+	set "$gate_trace__set_a" "$gate_trace__set_e" "$gate_trace__set_u" "$gate_trace__set_v" "$gate_trace__set_x"
+	exec "$@"
+	# Reached only when exec returns, which bash's execfail allows: never fall
+	# through into the ON path.
+	exit
+fi
+
+[ -r "/proc/$$/status" ] ||
+	gate_trace__refuse launcher "cannot read /proc/$$/status, so the caller's signal dispositions are unknown"
+gate_trace__ignored=
+while read -r gate_trace__key gate_trace__value; do
+	case $gate_trace__key in SigIgn:)
+		gate_trace__ignored=$gate_trace__value
+		break
+		;;
+	esac
+done <"/proc/$$/status"
+[ -n "$gate_trace__ignored" ] || gate_trace__refuse launcher "/proc/$$/status carries no SigIgn line"
+
+# A bare $0 names a file in the current directory: the kernel hands the
+# interpreter the very path it exec'd, and dash execs a script found through an
+# empty PATH entry by its bare name. Only a shell told `sh name` that did not
+# find it here searched PATH, so only then is PATH asked.
+gate_trace__self=$0
+case $gate_trace__self in */*) ;; *)
+	if [ -f "./$gate_trace__self" ]; then
+		gate_trace__self=./$gate_trace__self
+	else
+		gate_trace__self=$(command -v -- "$gate_trace__self") || gate_trace__refuse launcher 'cannot locate this script'
+	fi
+	;;
+esac
+if [ -L "$gate_trace__self" ]; then gate_trace__self=$(readlink -f -- "$gate_trace__self"); fi
+gate_trace__lib=${gate_trace__self%/*}/../lib
+# The interpreter by a path, never a bare name: started by a bare name, CPython
+# searches PATH again itself while it starts, and a PATH entry too long to join
+# kills it there with exit 1 before any of this tool runs. dash answers a
+# command found through an empty entry by its bare name (bash says ./python3),
+# so such an answer naming a file here becomes ./python3; a bare answer naming
+# no file here is bash's name for a function a caller exported, which exec
+# bypasses, and is left to exec's own search.
+gate_trace__python=$(command -v python3) || gate_trace__refuse launcher 'python3 is not on PATH'
+case $gate_trace__python in */*) ;; *) if [ -f "./$gate_trace__python" ]; then gate_trace__python=./$gate_trace__python; fi ;; esac
+# The caller's LC_CTYPE travels beside the mask for the same reason: CPython's
+# C-locale coercion overwrites it in the environment the child is handed.
+# `-` is unset, `=value` is set (to a value that may be empty).
+if [ -n "${LC_CTYPE+set}" ]; then gate_trace__ctype="=$LC_CTYPE"; else gate_trace__ctype=-; fi
+
+# The shell's search path travels too, because it is not always the
+# environment's: with PATH unset a shell searches its own built-in default and
+# exports nothing, and the wrapper must search the same directories.
+set "$gate_trace__set_a" "$gate_trace__set_e" "$gate_trace__set_u" "$gate_trace__set_v" "$gate_trace__set_x"
+exec "$gate_trace__python" -I -S -c 'import sys; sys.path.insert(0, sys.argv[1]); import trace_run; trace_run.run_main(sys.argv[2:])' "$gate_trace__lib" "$gate_trace__ignored" "$gate_trace__ctype" "$PATH" "$@"

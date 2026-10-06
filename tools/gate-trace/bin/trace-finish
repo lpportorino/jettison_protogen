@@ -1,0 +1,57 @@
+#!/bin/sh
+set -- "$-" "$@"
+set +axv
+# trace-finish: stamp a gate-trace run's end and validate the whole record.
+#
+#   trace-finish [<run-dir>]        (default: $TELEMETRY_DIR)
+#
+# Exit 0 with one summary line on stdout when the record is whole; exit 1 with
+# every named finding on stderr when it is not; exit 2 when it cannot run;
+# exit 3 on an internal error. A second call on a finished run re-validates and
+# leaves the first end stamp in place. `--help` lists the options.
+# Lines 2 and 3 record the caller's shell options in a positional parameter and
+# switch off allexport, xtrace and verbose; every one of a, e, u, v and x is
+# put back as the caller had it before the exec, and every variable and
+# function here is named gate_trace__*. bin/trace-run's header says why.
+gate_trace__set_a=+a gate_trace__set_e=+e gate_trace__set_u=+u gate_trace__set_v=+v gate_trace__set_x=+x
+case $1 in *a*) gate_trace__set_a=-a ;; esac
+case $1 in *e*) gate_trace__set_e=-e ;; esac
+case $1 in *u*) gate_trace__set_u=-u ;; esac
+case $1 in *v*) gate_trace__set_v=-v ;; esac
+case $1 in *x*) gate_trace__set_x=-x ;; esac
+shift
+set -eu
+
+# A bare $0 names a file in the current directory: the kernel hands the
+# interpreter the very path it exec'd, and dash execs a script found through an
+# empty PATH entry by its bare name. Only a shell told `sh name` that did not
+# find it here searched PATH, so only then is PATH asked.
+gate_trace__self=$0
+case $gate_trace__self in */*) ;; *)
+	if [ -f "./$gate_trace__self" ]; then
+		gate_trace__self=./$gate_trace__self
+	else
+		gate_trace__self=$(command -v -- "$gate_trace__self") || {
+			printf 'trace-finish: refused: cannot locate this script\n' >&2
+			exit 2
+		}
+	fi
+	;;
+esac
+if [ -L "$gate_trace__self" ]; then gate_trace__self=$(readlink -f -- "$gate_trace__self"); fi
+gate_trace__lib=${gate_trace__self%/*}/../lib
+# The interpreter by a path, never a bare name: started by a bare name, CPython
+# searches PATH again itself while it starts, and a PATH entry too long to join
+# kills it there with exit 1 before any of this tool runs. dash answers a
+# command found through an empty entry by its bare name (bash says ./python3),
+# so such an answer naming a file here becomes ./python3; a bare answer naming
+# no file here is bash's name for a function a caller exported, which exec
+# bypasses, and is left to exec's own search.
+gate_trace__python=$(command -v python3) || {
+	printf 'trace-finish: refused: python3 is not on PATH\n' >&2
+	exit 2
+}
+case $gate_trace__python in */*) ;; *) if [ -f "./$gate_trace__python" ]; then gate_trace__python=./$gate_trace__python; fi ;; esac
+
+set "$gate_trace__set_a" "$gate_trace__set_e" "$gate_trace__set_u" "$gate_trace__set_v" "$gate_trace__set_x"
+exec "$gate_trace__python" -I -S -c 'import sys; sys.path.insert(0, sys.argv[1]); import trace_store; trace_store.finish_main(sys.argv[2:])' "$gate_trace__lib" "$@"
