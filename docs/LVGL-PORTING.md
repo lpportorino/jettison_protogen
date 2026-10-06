@@ -198,6 +198,7 @@ artifact:
 python3 renderer/tools/lvgl-api-selftest.py --mutations --out <fresh-dir>
 python3 renderer/tools/lvgl-global-subject-selftest.py --mutations --out <fresh-dir>
 python3 renderer/tools/lvgl-reactive-mutations.py --out <fresh-dir> --jobs 1
+python3 renderer/tools/renderer-gen-schema-mutations.py --out <fresh-dir>
 (cd tools/devcards && clojure -M:bindings dev/native_size_probe.clj)
 bash renderer/dev/pending_when_mutation_proof.sh
 ```
@@ -208,6 +209,10 @@ integer and string initial values, string updates and buffer capacity, and flag
 clear ordering in real WASM. The sizing campaign renders the positive cards and
 deliberately undersized twins. These are selected first-party faults, not a
 claim to mutate upstream LVGL or every possible program change.
+The schema campaign
+([its guide](../renderer/tools/renderer-gen-schema-mutations.md)) mutates the
+generator's printer comparator and value domain, the palette scanner's
+instrumented root and pretty's coverage enrolment, against the `:test` suite.
 
 ## Consumer adoption
 

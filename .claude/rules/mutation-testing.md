@@ -49,6 +49,6 @@ mutation run. The acceptance threshold is zero survivors in the justified
 eligible scope, never a percentage that hides surviving behavior.
 
 For the renderer migration, [the porting guide](../../docs/LVGL-PORTING.md)
-records the ordinary native probes and the manually invoked renderer, lifecycle
-and sizing campaigns. Keep their boundary-double evidence distinct from actual
-WASM rendering and consumer acceptance.
+records the ordinary native probes and the manually invoked renderer, lifecycle,
+sizing and generator-contract (schema) campaigns. Keep their boundary-double
+evidence distinct from actual WASM rendering and consumer acceptance.

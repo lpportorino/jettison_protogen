@@ -15,6 +15,7 @@ paths:
   - "tools/lint/**"
   - "renderer/tools/*selftest.*"
   - "renderer/tools/lvgl-reactive-mutations.py"
+  - "renderer/tools/renderer-gen-schema-mutations.py"
   - "tools/wire_contract_check.py"
   - ".ruff.toml"
   - ".githooks/**"

@@ -18,6 +18,7 @@ paths:
   - "renderer/wasm_harness/**"
   - "renderer/tools/*selftest.*"
   - "renderer/tools/lvgl-reactive-mutations.py"
+  - "renderer/tools/renderer-gen-schema-mutations.py"
   - "tools/claude/**"
   - "tools/*.sh"
   - "*.mk"
