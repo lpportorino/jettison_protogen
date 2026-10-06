@@ -99,6 +99,20 @@ Wiring a private corpus in:
 `devcards.corpus/render-corpus` drives the screens; neither takes anything
 protogen-specific, so nothing here needs patching to run a private corpus.
 
+A screen whose render fn throws is RECORDED, not fatal: the sweep finishes and
+the pair lands in `:errors` as `{:variant :id :error :trace}`. `:error` is the
+thrown message (its class when it has none) and nothing else; `:trace` is the
+evidence beside it — the class and a bounded message of every throwable on the
+cause chain, each one's leading stack frames with the rest counted, and for a
+polyglot exception whether the engine, the host or the guest raised it. Its
+shape is closed and its bounds are fixed; `devcards.trace` is the one home of
+both, and `trace-problems` there states the shape executably. `ex-data` is not
+copied. If recording the trace itself throws, the entry carries
+`:trace-unavailable` (the class of what threw) instead of `:trace`. The frames
+change from run to run, so print a trace; never diff one. A failure seen once
+under load and never again is reported from this record or not at all, so
+print the `:trace`, not only the `:error`.
+
 ### Read-only probe
 
 `clojure -M:bindings:class-census` (`dev/class_census.clj`) reports which LVGL
