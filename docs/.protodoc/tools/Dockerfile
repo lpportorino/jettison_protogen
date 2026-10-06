@@ -1,4 +1,9 @@
-FROM clojure:temurin-25-tools-deps-bookworm
+# The Clojure + Temurin 27 base (tools/clojure-base/Dockerfile), named by the
+# content-derived tag `make docs-docker-build` passes. No default: a build that
+# bypasses the Makefile fails on an empty base name instead of picking an
+# unpinned image.
+ARG CLOJURE_IMAGE
+FROM ${CLOJURE_IMAGE}
 
 WORKDIR /app
 

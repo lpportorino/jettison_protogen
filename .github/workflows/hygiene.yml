@@ -102,11 +102,11 @@ jobs:
       # known-good on a runner rather than merely plausible. Verify any change
       # against https://github.com/clojure/brew-install/releases — an invented tag
       # kills the job at setup, before a single gate runs.
-      name: Set up JDK 25 (LTS)
+      name: Set up JDK 27
       uses: actions/setup-java@v5
       with:
         distribution: temurin
-        java-version: "25"
+        java-version: "27"
 
     - name: Set up Clojure CLI
       uses: DeLaGuardo/setup-clojure@13.6.1

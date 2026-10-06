@@ -23,7 +23,7 @@
 # rather than left to a red run. `.github/workflows/hygiene.yml` runs both targets
 # in a job that installs NOTHING and says so ("needs nothing but the bash and git
 # already on the runner"), while `.github/workflows/lint.yml` installs
-# `actions/setup-java` (temurin 25) plus `DeLaGuardo/setup-clojure` (cli
+# `actions/setup-java` (temurin 27) plus `DeLaGuardo/setup-clojure` (cli
 # 1.12.5.1654) before it may run cljfmt at all. Those two facts are read off the
 # workflows; that the runner image therefore lacks the Clojure CLI is the
 # inference, and it cannot be executed from a checkout. The hygiene job owes the

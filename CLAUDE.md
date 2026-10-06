@@ -559,8 +559,14 @@ ui_ast reference interpreter above.
 - `docs/` — the Obsidian vault of generated per-message and per-enum markdown.
   Implementation lives in `docs/.protodoc/`; user-written descriptions survive
   regeneration by roundtrip extraction.
-- `Dockerfile.base` — **the version pin for every toolchain.** Change a version
-  here and nowhere else.
+- `Dockerfile.base` — **the version pin for every toolchain** of the generator
+  and renderer image. Change a version here and nowhere else.
+- `tools/clojure-base/Dockerfile` — the ONE exception: the Clojure + Temurin
+  JDK image the binary-dedup leg and the protodoc image run on (`make
+  clojure-base-image`, tag derived from the file's content). It is
+  byte-identical to the superproject's copy, which owns its pins (the Ubuntu
+  digest must equal the superproject's mirrored Ubuntu pin), so change it
+  there and copy it here in the same change.
 
 ## Regenerating — order matters, and splitting it reddens CI
 

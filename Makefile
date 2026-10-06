@@ -5,6 +5,13 @@
 DOCKER_BASE_IMAGE := jettison-proto-generator-base:latest
 DOCKER_IMAGE := jettison-proto-generator:latest
 BASE_IMAGE_ARCHIVE := jettison-proto-generator-base.tar.gz
+# The Clojure + Temurin 27 image the binary-dedup leg and the protodoc image run
+# on. tools/clojure-base/Dockerfile defines it (byte-identical to jettison's
+# copy), and the tag is DERIVED from that file's content, so an edited
+# Dockerfile can never run against a stale image and both repositories name the
+# same image for the same definition.
+CLOJURE_BASE_DOCKERFILE := tools/clojure-base/Dockerfile
+CLOJURE_IMAGE := jettison-clojure:27-$(shell sha256sum $(CLOJURE_BASE_DOCKERFILE) | cut -c1-12)
 PROTO_SOURCE_DIR ?= ./proto
 OUTPUT_BASE_DIR ?= ./output
 
@@ -34,6 +41,10 @@ help: ## Show this help message
 	@echo "  make generate PROTO_SOURCE_DIR=/path/to/protos"
 	@echo "  make clean                       # Remove generated files"
 	@echo "  make rebuild                     # Force rebuild image and regenerate"
+
+.PHONY: clojure-base-image
+clojure-base-image: ## Build the Clojure + Temurin 27 base image (skipped when its tag exists)
+	@docker image inspect $(CLOJURE_IMAGE) >/dev/null 2>&1 || docker build -t $(CLOJURE_IMAGE) tools/clojure-base
 
 .PHONY: build-base
 build-base: ## Build the base Docker image with all dependencies
@@ -178,7 +189,7 @@ binary-dedup: generate ## Full generate + binary dedup tag map (use for standalo
 # the identical cache here; the docs-docker-generate/render legs mount docs/ the
 # same way. Fixing those is separate work — do not read this recipe as evidence
 # the directory is safe.
-binary-dedup-run: ## Generate binary dedup tag map (called automatically by generate)
+binary-dedup-run: clojure-base-image ## Generate binary dedup tag map (called automatically by generate)
 	@printf "$(GREEN)Generating binary dedup tag map...$(NC)\n"
 	@docker run --rm \
 		-v "$$(pwd)/output/json-descriptors:/data/descriptors:ro" \
@@ -186,7 +197,7 @@ binary-dedup-run: ## Generate binary dedup tag map (called automatically by gene
 		-v "$$(pwd)/docs/.protodoc/tools:/src:ro" \
 		-w /app \
 		--entrypoint bash \
-		clojure:temurin-25-tools-deps-bookworm \
+		$(CLOJURE_IMAGE) \
 		-c 'cp -a /src/deps.edn /src/src /src/resources /app/ && exec clojure -M:run binary-dedup --descriptor /data/descriptors/descriptor-set.json --output /data/output/binary_dedup_tags.ts'
 	@printf "$(GREEN)Binary dedup tag map generated$(NC)\n"
 
@@ -333,9 +344,9 @@ docs-manifests: docs-aot ## Generate machine-readable JSON manifests from proto-
 # supplies only the dependency cache. Adding the prerequisite there would buy
 # nothing and imply the leg had the defect.
 .PHONY: docs-docker-build
-docs-docker-build: ## Build proto docs Docker image
+docs-docker-build: clojure-base-image ## Build proto docs Docker image
 	@printf "$(GREEN)Building proto docs Docker image...$(NC)\n"
-	@cd docs/.protodoc/tools && DOCKER_BUILDKIT=1 docker build --network=host -t protodoc:latest .
+	@cd docs/.protodoc/tools && DOCKER_BUILDKIT=1 docker build --network=host --build-arg CLOJURE_IMAGE=$(CLOJURE_IMAGE) -t protodoc:latest .
 
 .PHONY: docs-docker-test
 docs-docker-test: ## Run proto docs tests in Docker

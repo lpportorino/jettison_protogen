@@ -6,7 +6,7 @@
 #
 # The runner toolchain is deliberate. The protodoc image gives exact local
 # Docker parity, but a fresh runner must build that image before either gate can
-# run. Temurin 25 matches the image's JDK major, and the Clojure CLI pin is the
+# run. Temurin 27 matches the image's JDK major, and the Clojure CLI pin is the
 # same known-good pin used by lint.yml and devcards.yml. The Maven/gitlibs cache
 # is keyed on protodoc's own dependency declaration.
 name: Proto Documentation
@@ -51,11 +51,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v5
 
-    - name: Set up JDK 25 (LTS)
+    - name: Set up JDK 27
       uses: actions/setup-java@v5
       with:
         distribution: temurin
-        java-version: "25"
+        java-version: "27"
 
     - name: Set up Clojure CLI
       uses: DeLaGuardo/setup-clojure@13.6.1

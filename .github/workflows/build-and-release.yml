@@ -157,9 +157,14 @@ jobs:
     # runs the tools directory directly and needs no image at all, which is why
     # it stays — lint.mk's recipe comment carries the reasoning.
     #
-    # The java-version and both setup-clojure pins below are the ones docs.yml,
-    # lint.yml, renderer.yml and devcards.yml already carry; that agreement IS
-    # the point, so bump those together or not at all.
+    # The java-version below is the one docs.yml, lint.yml and hygiene.yml
+    # carry, and the JDK major tools/clojure-base/Dockerfile copies; the
+    # setup-clojure pin is the one all five workflows carry. That agreement IS
+    # the point, so bump those together or not at all. renderer.yml and
+    # devcards.yml pin GraalVM CE's OWN newest JDK, which is not this one:
+    # GraalVM Community ships no build for a JDK past its own base (its
+    # releases are JDK 25 "innovation" builds), so those two move when GraalVM
+    # does, never to match this line.
     #
     # The JDK PROVIDER is deliberately NOT uniform, and must not be "unified"
     # to make the set look consistent. docs.yml and lint.yml take temurin
@@ -169,11 +174,11 @@ jobs:
     # mirror that re-proves wasmtime and GraalWasm byte-identical. Swapping
     # them to temurin for symmetry deletes the second wasm engine and the
     # oracle that compares the two.
-    - name: Set up JDK 25 (LTS)
+    - name: Set up JDK 27
       uses: actions/setup-java@v5
       with:
         distribution: temurin
-        java-version: "25"
+        java-version: "27"
 
     - name: Set up Clojure CLI
       uses: DeLaGuardo/setup-clojure@13.6.1

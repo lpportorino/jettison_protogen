@@ -269,7 +269,7 @@ stale pointers to a file that no longer exists, which is precisely what
 `.github/workflows/hygiene.yml` runs `lint-md-test` and `lint-md` in a job that
 installs nothing and says so in its own comment ("needs nothing but the bash and
 git already on the runner"), while `.github/workflows/lint.yml` installs
-`actions/setup-java` (temurin 25) and `DeLaGuardo/setup-clojure` (cli 1.12.5.1654)
+`actions/setup-java` (temurin 27) and `DeLaGuardo/setup-clojure` (cli 1.12.5.1654)
 before it may run cljfmt at all. Those two readings are from the files; that the
 runner image therefore lacks the Clojure CLI is an INFERENCE I cannot execute from
 a checkout. The hygiene job owes the same two setup steps, and `hygiene.yml` is
