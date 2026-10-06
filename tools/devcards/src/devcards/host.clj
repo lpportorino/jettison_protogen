@@ -16,6 +16,9 @@
    - ONE shared Engine + content-keyed Source cache: Truffle caches compiled
      code per Engine, so instantiation drops to ~1-4ms warm; the Source key is
      [path sha256] so an in-place re-vendor can never serve a stale module.
+     The engine shows frames the implementation marks INTERNAL
+     (`engine-options`); the measured effect is that a trap inside a WASI
+     builtin keeps the builtin's own frame.
    - Fresh Context PER CARD: hermetic — no widget/subject state bleeds between
      cards; the shared Engine keeps that cheap.
    - The four `env` imports (host_command/host_report/host_event/
@@ -73,9 +76,61 @@
                :java-home (System/getProperty "java.home")})))
     engine))
 
+(def engine-options
+  "Engine-level options the shared Engine is built with.
+
+   `engine.ShowInternalStackFrames` keeps GUEST frames the language
+   implementation marks internal in a polyglot exception's stack trace; without
+   it they are filtered out. MEASURED: a trap inside a WASI builtin — the
+   renderer reaches its assets through those — keeps the builtin's own frame
+   (`wasm-function:__wasi_fd_write`) only with the option on, and otherwise
+   names only the calling function.
+
+   WHAT IT DOES NOT DO, because it is the obvious thing to expect of the name:
+   it does not restore an INTERNAL error's implementation frames, which were
+   never filtered. An internal error provoked hermetically (a byte source that
+   throws while the engine parses it) carried the wasm parser's and Truffle's
+   own JVM frames at its top, and the same frame count, with the option and
+   without it — observed in a scratch probe, not held by a test here.
+
+   WHY IT IS ON BY DEFAULT RATHER THAN OPT-IN, measured on this corpus in the
+   pinned image: every committed golden still verifies with it on, so no render
+   output moves; no render-time cost showed above run-to-run noise; and the
+   traces of a trap in the module's OWN code and of a HOST exception came out
+   frame-for-frame identical with and without it in a scratch probe. What it
+   adds is the internal guest frame, and nothing else that was observed;
+   `devcards.host-test` holds the WASI-builtin case against this engine.
+
+   THREE CONSTRAINTS ON HOW IT IS SET, each measured rather than assumed:
+   it is EXPERIMENTAL, so the builder refuses it unless experimental options are
+   allowed on the ENGINE builder (allowing them only on a context does not
+   help); it is an ENGINE option, so a context built over a shared engine is
+   refused if it tries to set it — it can only live here; and an experimental
+   option may be renamed or dropped by a later polyglot release, in which case
+   the builder throws on the first render and every lane goes red at that pin
+   bump rather than quietly losing frames.
+
+   AND ONE CONSEQUENCE OF ALLOWING THEM, measured: polyglot also reads
+   `-Dpolyglot.*` system properties into the engine, and an EXPERIMENTAL one
+   (e.g. `-Dpolyglot.engine.TraceStackTraceLimit=3`) used to make this builder
+   refuse — it is now silently honoured. No configuration that could build an
+   engine before is affected, since any such property refused the build; what
+   is lost is that refusal for a property added later. The one narrower lever,
+   `useSystemProperties(false)`, would stop reading STABLE polyglot properties
+   too, which a JVM may rely on, so it is not used."
+  {"engine.ShowInternalStackFrames" "true"})
+
+(defn- new-engine
+  "A wasm Engine carrying `engine-options`."
+  ^Engine []
+  (let [builder (-> (Engine/newBuilder (into-array String ["wasm"]))
+                    (.allowExperimentalOptions true))]
+    (doseq [[^String k ^String v] engine-options]
+      (.option builder k v))
+    (.build builder)))
+
 (defonce ^:private shared-engine
-  (delay (assert-optimizing-runtime!
-          (.build (Engine/newBuilder (into-array String ["wasm"]))))))
+  (delay (assert-optimizing-runtime! (new-engine))))
 
 (defn- sha256-file
   ^String [^String path]
