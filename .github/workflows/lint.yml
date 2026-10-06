@@ -1,5 +1,6 @@
-# Format + lint gate for HAND-AUTHORED Clojure and shell. The C lane is
-# deliberately NOT here — see "WHERE IS THE C LANE?" below.
+# Format + lint gate for HAND-AUTHORED Clojure and shell, plus the gate-trace
+# tool's suite and fail canary. The C lane is deliberately NOT here — see
+# "WHERE IS THE C LANE?" below.
 #
 # This is the AUTHORITATIVE half of the gate. `.githooks/pre-push` is the fast
 # local echo of it, but a client-side hook only protects whoever armed it and
@@ -36,7 +37,9 @@ on:
     - "**/*.cljc"
     - "**/*.edn"
     - "**/*.sh"
-    # TWO HOLES THE EXTENSION GLOBS ABOVE LEAVE OPEN, closed by two entries:
+    # TWO HOLES THE EXTENSION GLOBS ABOVE LEAVE OPEN, closed by two entries (a
+    # third, the extensionless gate-trace shims, is closed by the
+    # tools/gate-trace/** entry further down):
     #   tools/scratchcard/bin/**  covers BOTH scratchcard (extensionless ON
     #                             PURPOSE, listed literally in LINT_SH_FILES)
     #                             and scratchcard.bb (the only tracked .bb, in
@@ -105,6 +108,11 @@ on:
     # where this file keeps an entry it knows to be redundant: rewriting a gate
     # in another language must not silently un-arm the job that judges it.
     - "renderer/tools/**"
+    # THE GATE-TRACE TOOL, which the gate-trace suite step below judges. Its
+    # shims are extensionless and its library is Python, so no extension entry
+    # above sees most of it; the whole directory is the suite's input set, and
+    # the suite and its canary read nothing outside it.
+    - "tools/gate-trace/**"
     # Every workflow, not just this one: the actionlint step below judges them
     # all, so a job that only fired on its own file could not see the breakage
     # it exists to catch. Subsumes the previous lint.yml-only entry.
@@ -115,7 +123,9 @@ on:
     - "**/*.cljc"
     - "**/*.edn"
     - "**/*.sh"
-    # TWO HOLES THE EXTENSION GLOBS ABOVE LEAVE OPEN, closed by two entries:
+    # TWO HOLES THE EXTENSION GLOBS ABOVE LEAVE OPEN, closed by two entries (a
+    # third, the extensionless gate-trace shims, is closed by the
+    # tools/gate-trace/** entry further down):
     #   tools/scratchcard/bin/**  covers BOTH scratchcard (extensionless ON
     #                             PURPOSE, listed literally in LINT_SH_FILES)
     #                             and scratchcard.bb (the only tracked .bb, in
@@ -184,6 +194,11 @@ on:
     # where this file keeps an entry it knows to be redundant: rewriting a gate
     # in another language must not silently un-arm the job that judges it.
     - "renderer/tools/**"
+    # THE GATE-TRACE TOOL, which the gate-trace suite step below judges. Its
+    # shims are extensionless and its library is Python, so no extension entry
+    # above sees most of it; the whole directory is the suite's input set, and
+    # the suite and its canary read nothing outside it.
+    - "tools/gate-trace/**"
     # Every workflow, not just this one: the actionlint step below judges them
     # all, so a job that only fired on its own file could not see the breakage
     # it exists to catch. Subsumes the previous lint.yml-only entry.
@@ -276,6 +291,26 @@ jobs:
       # (exit 3) instead of letting it pass over cases that could not fail.
       name: uber.sh safe.directory canaries (discovery, local clone, narrowness)
       run: make -f lint.mk uber-safe-directory-test
+
+    - # THE GATE-TRACE SUITE AND ITS FAIL CANARY. It needs python3 (3.12 or
+      # newer), dash, GNU make with its jobserver, git and coreutils, all of
+      # which the runner image already carries, so it sits in this
+      # pre-toolchain block and installs nothing. It refuses with exit 2,
+      # naming the tool, if one is ever missing, rather than skipping.
+      #
+      # It is HERMETIC — every run directory and git repository it touches is
+      # made under the tempdir — so a path filter is honest for it, and the
+      # filter above names `tools/gate-trace/**`, which holds every file the
+      # suite and the canary read. The canary breaks each transparency and
+      # validator guarantee alone in a throw-away copy and requires that
+      # guarantee's own test to FAIL while a neighbour passes, so CI re-earns
+      # the proof on every push rather than trusting the day it was written.
+      #
+      # THE RUFF HALF IS NOT HERE: the tool's Python is enrolled in
+      # tools/lint/python_check.sh, which lint-python runs inside the pinned
+      # image (renderer.yml and the pre-push hook).
+      name: gate-trace suite + mutation canary
+      run: make -f lint.mk gate-trace-test
 
     - # actionlint is a single static binary, so it installs in one step and
       # needs no toolchain — which is why this sits ahead of the JDK setup

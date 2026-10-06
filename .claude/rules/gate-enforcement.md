@@ -238,9 +238,13 @@ What is judged here, and therefore what a gate may be written in:
 | shell | `bash -n` and the payload-apostrophe check, over discovered scripts |
 | C | clang-format drift-compare and clang-tidy, both pinned |
 | GitHub Actions | actionlint |
+| Python | pinned Ruff lint and format (`lint-python`), over the files `tools/lint/python_check.sh` ENROLLS and no others — but it runs only inside the pinned image, so CI runs it from `renderer.yml`, whose path filter does not name every enrolled tree: for a commit confined to `tools/gate-trace/` it is hook-only today, per `lint-gates.md`, and §6 calls a hook-only gate unarmed |
 
-Any other language is judged by NOTHING, and a syntax floor is not a linter — a
-gate that merely parses is not thereby checked. Prefer Clojure for anything with
+Python is judged ONLY where it is enrolled: a `.py` file outside that list is
+judged by nothing, however close it sits to an enrolled one, so a gate written
+in Python is enrolled no later than the push that adds it. Any other language
+is judged by NOTHING, and a syntax floor is not a linter — a gate that merely
+parses is not thereby checked. Prefer Clojure for anything with
 structure and shell for anything that is mostly discovery and process plumbing;
 place the source where the lane can reach it, which for Clojure means inside
 `LINT_CLJ_PATHS` — the path set `lint.mk` hands every Clojure lane — and not

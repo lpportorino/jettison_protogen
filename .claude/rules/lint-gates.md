@@ -17,6 +17,7 @@ paths:
   - "renderer/tools/lvgl-reactive-mutations.py"
   - "renderer/tools/renderer-gen-schema-mutations.py"
   - "tools/wire_contract_check.py"
+  - "tools/gate-trace/**"
   - ".ruff.toml"
   - ".githooks/**"
   - ".github/workflows/**"
@@ -57,7 +58,8 @@ Two guards you will meet:
 |---|---|---|
 | `cljfmt`, `clj-kondo`, `lint-sh` (`bash -n` + payload apostrophes), `actionlint`, `lint-clj-gate-test`, `wasm-provenance-test`, `uber-safe-directory-test`, the namespace-size ceiling, spec presence | `lint.yml`, plain runner | fast; kondo is a native binary, cljfmt and the two structural lanes named here need only the CLI, the provenance canary needs neither toolchain — it stubs the compiler, so it is bash and make over a `mktemp` fixture — and the safe.directory canary needs only git, stubbing `docker` |
 | `clang-format`, `clang-tidy` | `renderer.yml`, inside the pinned image — and `clang-tidy` also from the pre-push hook, docker-gated, via `tools/uber.sh` | the only PINNED clang tooling is the WASI-SDK's; clang-tidy also needs a compile database emitted from the build's own flags, so it cannot join the bare-invoked `lint` aggregate |
-| Ruff lint and format, with deliberate failing canaries (`lint-python`) | `renderer.yml`, inside the pinned image — and from the pre-push hook, docker-gated, via `tools/uber.sh` | `tools/lint/ruff.sh` pins both release archive and executable digests and populates its cache only inside a container (the image prewarms it), so like `clang-tidy` it cannot join the bare-invoked `lint` aggregate; `python_check.sh` explicitly enrolls the native probe drivers and wire-contract gate, without claiming the other experiment scripts |
+| Ruff lint and format, with deliberate failing canaries (`lint-python`) | `renderer.yml`, inside the pinned image — and from the pre-push hook, docker-gated, via `tools/uber.sh` | `tools/lint/ruff.sh` pins both release archive and executable digests and populates its cache only inside a container (the image prewarms it), so like `clang-tidy` it cannot join the bare-invoked `lint` aggregate; `python_check.sh` explicitly enrolls the native probe drivers, the wire-contract gate and the gate-trace tool, without claiming the other experiment scripts |
+| the gate-trace suite and its mutation fail canary (`gate-trace-test`) | `lint.yml`, plain runner — and from the pre-push hook, docker-gated, via `tools/uber.sh` | it needs dash, GNU make's jobserver and Python 3.12, which the runner and the image carry and a bare host may not, so it is out of the bare-invoked `lint` aggregate and refuses with exit 2 when one is missing; the canary breaks each guarantee alone and requires its own test to FAIL |
 | the WHOLE-TREE scans — the leak ban, the markdown gate, the file-size ceiling | `hygiene.yml`, plain runner, **no `paths:` filter** | see below — a path filter over a tree-wide scan is a false skip by construction |
 
 **THREE STRUCTURAL CHECKS AND FIVE FORK/LEG CANARIES ARE HOOK-ONLY, NOT
@@ -90,6 +92,16 @@ omission. So read the enumeration as only as current as the last person who
 remembered to edit it while adding a lane to `lint-lanes` — the aggregate is
 the fact, this paragraph is a copy of it, and `grep lint-lanes lint.mk`
 against the steps in `.github/workflows/` is what settles a disagreement.
+
+**GATE-TRACE HAS A CI HOLE IN TWO LANES, and it is named here rather than
+implied away.** `lint-python` and `lint-sh-shellcheck` both run in
+`renderer.yml`, whose path filter does not name `tools/gate-trace/**`. So a
+commit confined to that tree fires `lint.yml` (its suite and canary) and does
+NOT fire the job that runs Ruff over its Python or shellcheck over its shims.
+For such a commit Ruff is hook-only, which `.claude/rules/gate-enforcement.md`
+§6 calls unarmed, and shellcheck runs nowhere at all: it is in neither the
+hook nor the `lint` aggregate. One trigger entry in `renderer.yml` closes
+both.
 
 **THE THIRD WORKFLOW IS NOT A TIDINESS SPLIT.** Every lane in the first row is
 handed a positive allowlist, so a path filter naming those file types is complete

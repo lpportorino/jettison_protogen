@@ -171,13 +171,17 @@ fi
 # is out of `lint`: tools/lint/ruff.sh refuses to populate its pinned cache on a
 # host, and the image ships that cache prewarmed. Its canary is its make
 # prerequisite, so it too runs before the gate it vouches for.
+#
+# GATE-TRACE-TEST RIDES IT TOO, for the reason lint.mk gives beside the target:
+# the suite needs dash, GNU make's jobserver and Python 3.12, which the image
+# carries. Its fail canary is part of the same target and runs after the suite.
 if command -v docker >/dev/null 2>&1; then
-  if ! tools/uber.sh 'make -f lint.mk lint-c-tidy-test lint-c-tidy lint-python'; then
+  if ! tools/uber.sh 'make -f lint.mk lint-c-tidy-test lint-c-tidy lint-python gate-trace-test'; then
     cat >&2 <<'EOF'
 
-[pre-push] BLOCKED — the clang-tidy lane, the Python lane, or one of their
-canaries refused. Read the `*** [lint.mk:N: <target>] Error` line above for
-which.
+[pre-push] BLOCKED — the clang-tidy lane, the Python lane, the gate-trace
+suite, or one of their canaries refused. Read the `*** [lint.mk:N: <target>]
+Error` line above for which.
 
   lint-c-tidy       clang-tidy findings in hand-authored C.
                     see them :  tools/uber.sh 'make -f lint.mk lint-c-tidy'
@@ -200,13 +204,18 @@ which.
                     cached executable was not refused, or the clean control was.
   lint-python       Ruff lint or format findings in the enrolled Python drivers.
                     see them :  tools/uber.sh 'make -f lint.mk lint-python'
+
+  gate-trace-test   a gate-trace transparency or validator test failed, or the
+                    fail canary found a mutant its test no longer catches.
+                    see it   :  tools/uber.sh 'make -f lint.mk gate-trace-test'
 EOF
     exit 1
   fi
 else
   printf '\033[33m[pre-push]\033[0m no docker — clang-tidy NOT RUN over hand-authored C (CI will run it)\n' >&2
   printf '\033[33m[pre-push]\033[0m no docker — its size-check canary NOT RUN either\n' >&2
-  printf '\033[33m[pre-push]\033[0m no docker — lint-python and its canaries NOT RUN (CI will run them)\n' >&2
+  printf '\033[33m[pre-push]\033[0m no docker — lint-python and its canaries NOT RUN (CI runs them only when renderer.yml fires; for a push confined to tools/gate-trace/ nothing runs Ruff)\n' >&2
+  printf '\033[33m[pre-push]\033[0m no docker — gate-trace-test and its canary NOT RUN (CI will run them)\n' >&2
 fi
 
 # The one PROTO-AWARE check in this hook. It is called separately rather than

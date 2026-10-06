@@ -277,8 +277,11 @@ export FMT_C_DISCOVERY_ERR
 # `tools/scratchcard/bin/scratchcard` is named without an extension ON PURPOSE
 # — it is the command a user types — so the '*.sh' glob cannot see it and it is
 # listed explicitly, exactly as .githooks/pre-push is. A shell entry point that
-# no lane parses is the least-checked code in the tree.
-LINT_SH_DISCOVERY_ARGS := --cached --others --exclude-standard '*.sh' .githooks/pre-push tools/scratchcard/bin/scratchcard
+# no lane parses is the least-checked code in the tree. The gate-trace shims
+# under tools/gate-trace/bin/ are the same case — POSIX sh, extensionless
+# because they are commands — and are named by a pathspec for that directory,
+# so a fifth shim joins the lane without an edit here.
+LINT_SH_DISCOVERY_ARGS := --cached --others --exclude-standard '*.sh' .githooks/pre-push tools/scratchcard/bin/scratchcard 'tools/gate-trace/bin/*'
 LINT_SH_FILES := $(shell git ls-files $(LINT_SH_DISCOVERY_ARGS) 2>/dev/null \
 	| grep -v '^renderer/lvgl/' | sort)
 
@@ -369,6 +372,12 @@ hooks-status:
 #   lint-python    omitted for lint-c-tidy's mechanical reason: its pinned Ruff
 #                  cache exists only inside the image, so the hook runs it
 #                  through tools/uber.sh in the same docker-gated block.
+#   gate-trace-test  omitted for the same mechanical reason: its suite needs
+#                  dash, GNU make's jobserver and Python 3.12, which the image
+#                  carries and a bare host may not, and it refuses with exit 2
+#                  when one is missing. The hook runs it in the same
+#                  docker-gated block; lint.yml runs it on the runner, which
+#                  has all three.
 # So the HOOK's gate set is strictly wider than this target, by the lanes listed
 # above. NO COUNT IS GIVEN: this sentence said "those three" and went stale the
 # moment a fourth was added to the list it points at. Read the hook for what a
@@ -435,6 +444,21 @@ lint-python: lint-python-test
 
 lint-python-test:
 	@bash tools/lint/test/python_check_test.sh
+
+## gate-trace-test: the gate-trace tool's suite, then its mutation fail canary
+# The suite drives the shipped shims with real children, real signals and a real
+# `make -j` jobserver under dash AND bash; the canary breaks each guarantee alone
+# in a throw-away copy and requires that guarantee's own test to FAIL (not
+# error) while a neighbouring test stays green. tools/gate-trace/README.md maps
+# every guarantee to its test. Exit codes are the suite's: 0 green, 1 a test
+# failed or a mutant survived, 2 cannot run (a missing tool, named).
+#
+# NOT IN THE `lint` AGGREGATE, for the mechanical reason the omitted-lanes list
+# above gives. The Ruff half of this tool's quality bar is NOT here either: its
+# Python is enrolled in tools/lint/python_check.sh, so `lint-python` judges it.
+.PHONY: gate-trace-test
+gate-trace-test:
+	@bash tools/gate-trace/test/run_tests.sh
 
 ## protocol-gen-test / protocol-gen-canary: the generator tool's two OWN lanes
 # Delegated to `Makefile` by SUB-MAKE, exactly as lint-md is delegated to
