@@ -273,4 +273,4 @@
              "gate.process" "gate.publish" "gate.query" "gate.report" "gate.runtime"
              "gate.snapshot" "gate.store" "gate.test-artifact" "gate.test-batch"
              "gate.test-graph" "gate.trace-cli" "gate.trace-import" "gate.trace-io"
-             "gate.verdict" "gate.viewer"]}}
+             "gate.verdict" "gate.viewer" "gate.report-io"]}}

@@ -14,6 +14,15 @@ with the consumer.
 
 ## Per-test observations
 
+Local consumer toolboxes load a graph with
+`(gate.report-io/read-graph! path gate.admission/default-limits)` and prepare it
+with `gate.query/prepare` or `gate.diff/prepare`. The reader bounds actual file
+bytes before strict UTF-8 decoding and the existing bounded EDN/invariant checks.
+Callers can lower admission limits. Nonregular files and symlink leaves refuse;
+trusted parent directories are not a filesystem sandbox. File failures contain
+only a closed code, while parser and graph diagnostics retain their shared shape.
+Return query/diff pages to an LLM instead of returning the full prepared index.
+
 `gate.clojure-test/inventory` discovers expected test vars from explicitly supplied,
 already loaded namespaces before execution. `gate.clojure-test/run!` preserves
 normal `clojure.test` fixtures, namespace hooks and reporters through dynamic

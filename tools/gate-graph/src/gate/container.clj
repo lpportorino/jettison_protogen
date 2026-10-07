@@ -34,7 +34,7 @@
                "clock.clj" "clojure_test.clj" "contained.clj" "container.clj" "contract.cljc"
                "coordinator.clj" "decimal.cljc" "diagnostic.clj" "diff.cljc" "graph.cljc" "inputs.clj" "inspection_contract.cljc"
                "interval.cljc" "measure.cljc" "ownership.clj" "plan.cljc" "process.clj" "publish.clj"
-               "query.cljc" "report.clj" "run_contract.cljc" "runtime.clj" "schema.cljc" "snapshot.clj" "store.clj"
+               "query.cljc" "report.clj" "report_io.clj" "run_contract.cljc" "runtime.clj" "schema.cljc" "snapshot.clj" "store.clj"
                "test_artifact.clj" "test_batch.clj" "test_graph.cljc" "trace_cli.clj" "trace_contract.clj"
                "trace_import.clj" "trace_io.clj" "verdict.cljc"]]
     (canonical/sha256
