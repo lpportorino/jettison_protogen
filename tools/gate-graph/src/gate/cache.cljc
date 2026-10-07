@@ -94,7 +94,8 @@
 (defn- covered?
   "A count alone cannot certify the expected work inventory."
   [gate coverage]
-  (and (= (get-in gate [:coverage :expected]) (:expected coverage) (:observed coverage))
+  (and (= (get-in gate [:coverage :unit]) (:unit coverage))
+       (= (get-in gate [:coverage :expected]) (:expected coverage) (:observed coverage))
        (>= (:count coverage) (get-in gate [:coverage :minimum]))))
 (m/=> covered? [:=> [:cat r/Gate r/Coverage] :boolean])
 

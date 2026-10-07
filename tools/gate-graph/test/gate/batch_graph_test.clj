@@ -27,7 +27,7 @@
   [id dependencies]
   {:id id :label id :command ["synthetic"] :cwd "." :inputs [] :outputs [] :environment []
    :toolchains ["synthetic"] :dependencies dependencies :cache :always :network :allowed
-   :coverage {:expected coverage-digest :minimum 1}})
+   :coverage {:unit :tests :expected coverage-digest :minimum 1}})
 
 (defn capture
   "Build a closed synthetic local observation and its separate known exact anchor."

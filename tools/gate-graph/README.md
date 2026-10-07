@@ -207,6 +207,40 @@ Mutation controls run with
 
 ## Capture-to-report path
 
+`gate.process-batch/run!` joins declared command DAGs, bounded subprocess
+supervision and source/input snapshots. Supply options (`:run`, `:key`, `:label`,
+`:coordinator`, `:input-limits`, `:process-limits`), the declarations, selected
+roots, exact bindings, actual controller/adapter source roots, a fresh output
+directory and a cancellation atom. Each binding supplies `:directory`, the exact
+`:environment` map, `:toolchains` digests, optional file `:stdin` and `:witness`.
+Bindings must enroll every declared gate, including deselections.
+
+A witness callback receives the declaration, per-gate report directory and actual
+process observation, and returns independently observed coverage or nil. It must
+be bounded and cooperative. The explicit `:command-invocation` witness instead
+counts one launched command; pair it with `gate.process-batch/command-expectation`
+over the exact argv/cwd. This proves invocation only. Coverage declarations and
+observations require `:unit` (`:commands`, `:checks` or `:tests`); verdicts and
+cache admission refuse mismatched units even when digests/counts agree. This is
+an unreleased version-1 contract change; old development captures are historical
+evidence and cannot be passed unchanged to the new APIs.
+
+This native profile requires always-run gates, allowed network access and no
+published outputs. It does not establish cache safety or isolation. Initial
+source failure refuses before launch. Complete declared-input observations,
+including any redirected stdin, are required before execution; changed inputs or
+controller bytes cannot pass. Source, witness and per-gate publication failures
+remain inspectable alongside any already observed process. Failed prerequisites
+and pre-cancellation cannot fabricate execution spans.
+
+The output contains `definitions.edn`, `batch.edn`, `graph.edn`, and `report.edn`
+with the raw captures. Hashed per-gate directories contain `command.log`,
+`inputs-before.edn`, `inputs-after.edn`, and `process.edn`. Publication is
+create-only, not transactional. An I/O failure may leave incomplete files and
+must not be treated as a passing run. The graph viewer still accepts `graph.edn`;
+it does not yet embed all raw captures from `report.edn`. Run selected acquisition,
+stability and unit faults with `clojure -M:test:process-batch-campaign OUTPUT_PARENT`.
+
 `gate.trace-io/load-journal` reads a **quiescent** public gate-trace v1 journal.
 It bounds files (256,002), individual bytes (1 MiB), total bytes (128 MiB), JSON
 depth and token lengths, requires strict UTF-8 and one physical JSON line, and

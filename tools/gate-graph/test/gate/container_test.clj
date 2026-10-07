@@ -225,7 +225,7 @@
   (let [text (str/trim (slurp (str (:directory result) "/start.log")))
         lines (str/split-lines text)]
     (when (= ["unit-a" "unit-b"] lines)
-      {:expected (get-in gate [:coverage :expected]) :observed (canonical/sha256 (str/join "\n" lines)) :count (count lines)})))
+      {:unit :checks :expected (get-in gate [:coverage :expected]) :observed (canonical/sha256 (str/join "\n" lines)) :count (count lines)})))
 (defn execute-contained [req observer force?]
   (let [result (contained/run! req {:cache-directory (str (:directory req) "/cache")
                                     :run "contained-fixture" :attempt "contained-attempt" :dependencies [] :force? force?}

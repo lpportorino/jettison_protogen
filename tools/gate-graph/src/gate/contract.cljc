@@ -140,7 +140,7 @@
 (def Vertex [:string {:min 1 :max 180}])
 (def Arcs [:vector {:max 640000} [:tuple Vertex Vertex]])
 (def AdmissionTarget [:enum :graph :query-request :aggregate-request :diff-request :value
-                      :gate-definitions :cache-receipt :input-snapshot :coordinator-batch :attempt-observation :process-observation :clocked-process :process-capture :container-observation :output-publication :contained-observation :runtime-observation :test-observation :clocked-tests])
+                      :gate-definitions :cache-receipt :input-snapshot :coordinator-batch :attempt-observation :process-observation :clocked-process :process-capture :process-batch-report :container-observation :output-publication :contained-observation :runtime-observation :test-observation :clocked-tests])
 (def AdmissionLimits
   [:map {:closed true} [:bytes [:int {:min 1 :max 134217728}]]
    [:depth [:int {:min 1 :max 64}]] [:values [:int {:min 1 :max 16777216}]]

@@ -32,19 +32,19 @@
 (defn- validate-capture!
   "Bind actual argv, cwd, identity, clock, interval and separately supplied work evidence to dispatch."
   [options gate dispatch observed-batch capture]
-  (let [process (:process capture) observation (:observation process)
-        span (interval capture) adapter (:adapter-interval dispatch)]
+  (let [process (:process capture)
+        span (when process (interval capture)) adapter (:adapter-interval dispatch)]
     (when (or (nil? gate) (nil? adapter) (= :cached (:outcome dispatch))
               (not= (:run options) (:run capture))
               (not= (:source-digest options) (:source-digest capture))
               (not= (:label gate) (:label capture))
               (not= (:command gate) (:command capture)) (not= (:cwd gate) (:cwd capture))
-              (not= (:clock observed-batch) (:clock process)))
+              (and process (not= (:clock observed-batch) (:clock process))))
       (refuse! :process-capture-binding (:gate capture)))
-    (when-not (and (d/before-or-equal? (:start-ns adapter) (:start-ns span))
-                   (d/before-or-equal? (:end-ns span) (:end-ns adapter)))
+    (when (and span (not (and (d/before-or-equal? (:start-ns adapter) (:start-ns span))
+                              (d/before-or-equal? (:end-ns span) (:end-ns adapter)))))
       (refuse! :process-capture-interval (:gate capture)))
-    (when-not (= (:work dispatch) (verdict/process-result gate observation (:coverage capture)))
+    (when-not (= (:work dispatch) (verdict/process-capture-result gate capture))
       (refuse! :process-capture-verdict (:gate capture))))
   nil)
 (m/=> validate-capture!
@@ -71,7 +71,9 @@
              :outcome (if (= :cancelled (:outcome dispatch)) :cancelled :refused)
              :reason (if (= :cancelled (:outcome dispatch))
                        {:code :cancellation-requested :detail "Cancelled before process launch"}
-                       {:code :unsupported :detail (str "No process launched: " (name (:status observation)))})))))
+                       (if observation
+                         {:code :unsupported :detail (str "No process launched: " (name (:status observation)))}
+                         {:code :invalid-input :detail "No process launched: source or input acquisition refused"}))))))
 (m/=> gate-node [:=> [:cat c/Node r/ProcessCapture r/Dispatch] c/Node])
 
 (defn- rephase
@@ -90,7 +92,10 @@
   (if (or (nil? (:adapter-interval dispatch)) (= :cached (:outcome dispatch))) true
       (when-let [capture (get captures (:gate dispatch))]
         (let [observation (get-in capture [:process :observation])]
-          (boolean (and (:observed-processes-stopped? observation)
+          (boolean (and (not= :input-unstable (get-in dispatch [:work :reason]))
+                        (not (get-in capture [:validation :coverage-error?]))
+                        (not (get-in capture [:validation :publication-error?]))
+                        (:observed-processes-stopped? observation)
                         (not= :io-failed (:status observation))
                         (not (get-in observation [:log :truncated?]))))))))
 (m/=> complete? [:=> [:cat CaptureIndex r/Dispatch] [:maybe :boolean]])

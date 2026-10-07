@@ -38,7 +38,7 @@
     {:id id :label label :command ["clojure.test" expected] :cwd "."
      :inputs [] :outputs [] :environment [] :toolchains ["jvm-test-controller"]
      :dependencies dependencies :cache :always :network :allowed
-     :coverage {:expected expected :minimum (count inventory)}}))
+     :coverage {:unit :tests :expected expected :minimum (count inventory)}}))
 (m/=> declaration [:=> [:cat c/Id c/Label observer/Namespaces [:vector {:max 1024} r/Dependency]] r/Gate])
 
 (defn- validate-suites!
@@ -53,7 +53,8 @@
       (throw (ex-info "Unsupported native test policy" {:code :unsupported-test-policy :subject (:id gate)})))
     (let [inventory (observer/inventory (:namespaces (get suites (:id gate))))
           expected (canonical/sha256 (canonical/encode inventory 67108864))]
-      (when (or (not= ["clojure.test" expected] (:command gate))
+      (when (or (not= :tests (get-in gate [:coverage :unit]))
+                (not= ["clojure.test" expected] (:command gate))
                 (not= expected (get-in gate [:coverage :expected]))
                 (> (get-in gate [:coverage :minimum]) (count inventory))
                 (> (count inventory) (:max-tests options)))

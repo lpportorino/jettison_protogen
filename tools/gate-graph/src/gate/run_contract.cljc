@@ -9,6 +9,9 @@
 (def EnvName [:re #"^[A-Za-z_][A-Za-z0-9_]{0,127}(?![\s\S])"])
 (def Relation [:enum :requires :after :produces :invalidates])
 (def Dependency [:map {:closed true} [:gate c/Id] [:relation Relation]])
+(def CoverageUnit [:enum :commands :checks :tests])
+(def CoverageExpectation
+  [:map {:closed true} [:unit CoverageUnit] [:expected c/Digest] [:minimum [:int {:min 1 :max 1000000}]]])
 (def Input
   [:map {:closed true} [:id c/Id] [:kind [:enum :file :tree :glob]]
    [:path Path] [:required? :boolean]
@@ -20,8 +23,7 @@
    [:environment [:vector {:max 256} EnvName]] [:toolchains [:vector {:min 1 :max 64} c/Id]]
    [:dependencies [:vector {:max 1024} Dependency]]
    [:cache [:enum :always :content]] [:network [:enum :denied :allowed]]
-   [:coverage [:map {:closed true} [:expected c/Digest]
-               [:minimum [:int {:min 1 :max 1000000}]]]]])
+   [:coverage CoverageExpectation]])
 (def Gates [:vector {:min 1 :max 10000} Gate])
 (def GateIndex [:map-of {:min 1 :max 10000} c/Id Gate])
 (def File
@@ -46,7 +48,7 @@
   [:map {:closed true} [:schema/version [:= 1]] [:gate KeyGate] [:snapshot Snapshot]
    [:dependencies DependencyTerms]])
 (def Coverage
-  [:map {:closed true} [:expected c/Digest] [:observed c/Digest]
+  [:map {:closed true} [:unit CoverageUnit] [:expected c/Digest] [:observed c/Digest]
    [:count [:int {:min 0 :max 1000000}]]])
 (def ResultIdentity
   [:map {:closed true} [:schema/version [:= 1]] [:status [:= :passed]]
@@ -143,7 +145,11 @@
 (def ProcessCapture
   [:map {:closed true} [:schema/version [:= 1]] [:run c/Id] [:gate c/Id] [:label c/Label]
    [:source-digest c/Digest] [:command [:vector {:min 1 :max 256} Text]]
-   [:cwd [:or [:= "."] Path]] [:process ClockedProcess]
+   [:cwd [:or [:= "."] Path]] [:process [:maybe ClockedProcess]]
+   [:validation [:map {:closed true}
+                 [:source-before [:maybe c/Digest]] [:source-after [:maybe c/Digest]]
+                 [:inputs-before [:maybe c/Digest]] [:inputs-after [:maybe c/Digest]]
+                 [:coverage-error? :boolean] [:publication-error? :boolean]]]
    [:coverage [:maybe Coverage]]])
 (def ContainerObservation
   [:map {:closed true} [:schema/version [:= 1]] [:profile ContainerProfile]
@@ -182,13 +188,16 @@
 (def TestBatchReport
   [:map {:closed true} [:schema/version [:= 1]] [:status [:enum :passed :failed :cancelled]]
    [:batch Batch] [:graph c/Graph] [:captures [:vector {:max 10000} ClockedTests]]])
-(def Encodable [:or Gate Gates Snapshot Material ResultIdentity Receipt Decision Admission Schedule Batch AttemptObservation ProcessObservation ClockedProcess ProcessCapture ContainerProfile ContainerObservation OutputPublication ContainedObservation RuntimeIdentity RuntimeObservation TestObservation TestInventory ClockedTests TestBatchReport])
+(def ProcessBatchReport
+  [:map {:closed true} [:schema/version [:= 1]] [:status [:enum :passed :failed :cancelled]]
+   [:batch Batch] [:graph c/Graph] [:captures [:vector {:max 10000} ProcessCapture]]])
+(def Encodable [:or Gate Gates Snapshot Material ResultIdentity Receipt Decision Admission Schedule Batch AttemptObservation ProcessObservation ClockedProcess ProcessCapture ProcessBatchReport ContainerProfile ContainerObservation OutputPublication ContainedObservation RuntimeIdentity RuntimeObservation TestObservation TestInventory ClockedTests TestBatchReport])
 (def registry
   {::gate Gate ::input Input ::dependency Dependency ::file File ::snapshot Snapshot
    ::material Material ::coverage Coverage ::receipt Receipt ::decision Decision
    ::admission Admission ::schedule Schedule ::failure Failure
    ::work-result WorkResult ::dispatch Dispatch ::batch Batch ::coordinator-options CoordinatorOptions
-   ::clocked-process ClockedProcess ::process-capture ProcessCapture
+   ::clocked-process ClockedProcess ::process-capture ProcessCapture ::process-batch-report ProcessBatchReport
    ::attempt-observation AttemptObservation ::process-observation ProcessObservation
    ::container-profile ContainerProfile ::container-observation ContainerObservation
    ::output-publication OutputPublication ::contained-observation ContainedObservation

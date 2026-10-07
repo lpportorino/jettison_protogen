@@ -32,7 +32,7 @@
                     {:id "dependencies" :kind :file :path "tools/gate-graph/deps.edn" :required? true}]))
    :outputs [] :environment [] :toolchains ["image"]
    :dependencies [] :cache :always :network :allowed
-   :coverage {:expected (canonical/sha256 id) :minimum 1}})
+   :coverage {:unit :checks :expected (canonical/sha256 id) :minimum 1}})
 (m/=> suite-gate [:=> [:cat PathText [:enum "graph-tests" "capture-tests"] [:vector {:min 1 :max 256} r/Text]] r/Gate])
 
 (defn- witnessed?
@@ -59,7 +59,7 @@
         text (canonical/encode observation 65536)
         coverage (when (and (= :exited (:status observation)) (= 0 (:exit observation))
                             (witnessed? (:id gate) (slurp (str output "/" (:id gate) ".log"))))
-                   {:expected (get-in gate [:coverage :expected])
+                   {:unit :checks :expected (get-in gate [:coverage :expected])
                     :observed (canonical/sha256 (:id gate)) :count 1})]
     (when-not (= observation (admission/decode text :process-observation admission/default-limits))
       (throw (ex-info "Process roundtrip failed" {:code :dogfood-process-roundtrip})))

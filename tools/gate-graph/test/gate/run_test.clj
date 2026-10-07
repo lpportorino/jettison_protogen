@@ -8,7 +8,9 @@
             [gate.canonical :as canonical]
             [gate.plan :as plan]
             [gate.run-contract :as r]
-            [malli.core :as m]))
+            [gate.verdict :as verdict]
+            [malli.core :as m]
+            [malli.generator :as mg]))
 
 (def digest-a (canonical/sha256 "a"))
 (def digest-b (canonical/sha256 "b"))
@@ -18,14 +20,14 @@
    :inputs [{:id "source" :kind :tree :path "src" :required? true}]
    :outputs ["out/result.edn"] :environment ["MODE"] :toolchains ["image"]
    :dependencies [] :cache :content :network :denied
-   :coverage {:expected work-digest :minimum 2}})
+   :coverage {:unit :checks :expected work-digest :minimum 2}})
 (def snapshot
   {:files [{:path "src/a.clj" :digest digest-a :executable? false}]
    :membership [{:selector "source" :paths ["src/a.clj"]}]
    :environment [{:name "MODE" :value nil}]
    :toolchains [{:name "image" :digest digest-a}] :complete? true :reason nil})
 (def outputs [{:path "out/result.edn" :digest digest-a :executable? false}])
-(def coverage {:expected work-digest :observed work-digest :count 2})
+(def coverage {:unit :checks :expected work-digest :observed work-digest :count 2})
 (defn earn
   ([] (earn gate snapshot []))
   ([definition inputs deps]
@@ -48,6 +50,7 @@
              [:cancelled coverage outputs snapshot :failed-execution]
              [:passed (assoc coverage :count 1) outputs snapshot :coverage-mismatch]
              [:passed (assoc coverage :observed digest-a) outputs snapshot :coverage-mismatch]
+             [:passed (assoc coverage :unit :commands) outputs snapshot :coverage-mismatch]
              [:passed coverage [] snapshot :outputs-changed]
              [:passed coverage outputs (assoc-in snapshot [:files 0 :digest] digest-b) :input-unstable]]]
       (is (= {:status :refused :reason expected}
@@ -58,6 +61,7 @@
     (doseq [[definition inputs]
             [[(assoc gate :command ["clojure" "-M:other"]) snapshot]
              [(assoc gate :cwd "subproject") snapshot]
+             [(assoc-in gate [:coverage :unit] :tests) snapshot]
              [gate (assoc-in snapshot [:files 0 :digest] digest-b)]
              [gate (assoc-in snapshot [:files 0 :executable?] true)]
              [gate (-> snapshot (assoc-in [:files 0 :path] "src/renamed.clj")
@@ -68,6 +72,22 @@
              [gate (assoc-in snapshot [:toolchains 0 :digest] digest-b)]]]
       (is (not= (:key receipt) (cache/input-key definition inputs [])))
       (is (= :input-changed (:reason (cache/decide definition inputs [] receipt outputs false)))))))
+
+(deftest generated-coverage-units-bind-verdicts-and-receipts
+  (let [result (tc/quick-check
+                100
+                (prop/for-all [declared (mg/generator r/CoverageUnit)
+                               observed (mg/generator r/CoverageUnit)]
+                              (let [definition (assoc-in gate [:coverage :unit] declared)
+                                    actual (assoc coverage :unit observed)
+                                    admitted (cache/admit definition snapshot snapshot [] [] :passed actual outputs "run-1" "attempt-1")]
+                                (and (= (= declared observed) (= :recorded (:status admitted)))
+                                     (every? (fn [[outcome reason]]
+                                               (= (if (= declared observed) outcome :error)
+                                                  (:outcome (verdict/judge definition {:outcome outcome :coverage actual :reason reason}))))
+                                             [[:passed nil] [:cached :cache-hit]]))))
+                :seed 20261008)]
+    (is (:pass? result) (pr-str result))))
 
 (deftest deletion-and-optional-empty-membership-are-not-the-old-snapshot
   (let [definition (assoc-in gate [:inputs 0 :required?] false)

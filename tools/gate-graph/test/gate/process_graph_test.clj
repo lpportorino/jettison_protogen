@@ -20,12 +20,14 @@
 
 (def digest (canonical/sha256 "synthetic-process-source"))
 (def work-digest (canonical/sha256 "independent-check-inventory"))
-(def coverage {:expected work-digest :observed work-digest :count 1})
+(def coverage {:unit :checks :expected work-digest :observed work-digest :count 1})
 (def options {:run "example" :key "chain/example" :label "Example commands" :source-digest digest})
+(def validation {:source-before digest :source-after digest :inputs-before digest :inputs-after digest
+                 :coverage-error? false :publication-error? false})
 (def gate {:id "command" :label "Example command" :command ["/usr/bin/printf" "checked"]
            :cwd "." :inputs [] :outputs [] :environment [] :toolchains ["fixture"]
            :dependencies [] :cache :always :network :allowed
-           :coverage {:expected work-digest :minimum 1}})
+           :coverage {:unit :checks :expected work-digest :minimum 1}})
 
 (defn observation
   "Synthetic supervision has an actual process identity and an independently known complete log."
@@ -40,7 +42,7 @@
   (let [work (verdict/process-result gate observed supplied)]
     {:gates [gate] :roots [(:id gate)]
      :captures [{:schema/version 1 :run (:run options) :gate (:id gate) :label (:label gate)
-                 :source-digest digest :command (:command gate) :cwd (:cwd gate) :coverage supplied
+                 :source-digest digest :command (:command gate) :cwd (:cwd gate) :coverage supplied :validation validation
                  :process {:schema/version 1 :clock "clock" :offset-ns "5" :observation observed}}]
      :batch {:schema/version 1 :clock "clock" :duration-ns "30" :schedule (plan/schedule [gate] [(:id gate)])
              :status (if (= :passed (:outcome work)) :passed :failed)
@@ -147,7 +149,7 @@
                         (swap! captures conj {:schema/version 1 :run (:run options) :gate (:id declaration)
                                               :label (:label declaration) :source-digest digest
                                               :command (:command declaration) :cwd (:cwd declaration)
-                                              :process result :coverage supplied})
+                                              :process result :coverage supplied :validation validation})
                         (process/work-result declaration (:observation result) supplied)))
             observed (coordinator/run-clocked! gates ["second"] {:jobs 2 :claims {}} backend (atom false) context)
             value (projection/project options gates ["second"] observed @captures)

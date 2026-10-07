@@ -66,9 +66,11 @@
                        (str text "\n") StandardCharsets/UTF_8
                        (into-array OpenOption [StandardOpenOption/WRITE StandardOpenOption/CREATE_NEW]))
     nil))
-(m/=> write-record! [:=> [:cat inputs/Root [:enum "tests.edn" "graph.edn" "anchor.edn" "batch.edn" "definitions.edn"]
-                          [:or r/TestObservation c/Graph r/ClockedTests r/Batch r/Gates]
-                          [:enum :test-observation :graph :clocked-tests :coordinator-batch :gate-definitions]] :nil])
+(m/=> write-record! [:=> [:cat inputs/Root [:enum "tests.edn" "graph.edn" "anchor.edn" "batch.edn" "definitions.edn"
+                                            "process.edn" "inputs-before.edn" "inputs-after.edn" "report.edn"]
+                          [:or r/TestObservation c/Graph r/ClockedTests r/Batch r/Gates r/ProcessCapture r/Snapshot r/ProcessBatchReport]
+                          [:enum :test-observation :graph :clocked-tests :coordinator-batch :gate-definitions
+                           :process-capture :input-snapshot :process-batch-report]] :nil])
 
 (defn- observer-options
   "Keep producer source policy out of the observer's closed acquisition options."

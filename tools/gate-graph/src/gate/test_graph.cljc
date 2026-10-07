@@ -29,7 +29,7 @@
                      :else :passed)
         digest (canonical/sha256 (canonical/encode inventory 67108864))]
     {:problems (vec (sort problems)) :complete? complete? :status status
-     :coverage (when (= :passed status) {:expected digest :observed digest :count (count executions)})}))
+     :coverage (when (= :passed status) {:unit :tests :expected digest :observed digest :count (count executions)})}))
 (m/=> judge [:=> [:cat r/TestInventory [:vector {:max 10000} r/TestExecution] r/TestCounts
                   [:vector {:max 8} r/TestProblem]] Judgement])
 

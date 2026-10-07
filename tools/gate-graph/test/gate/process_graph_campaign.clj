@@ -11,7 +11,7 @@
    {:id "wrong-source-accepted" :anchor "(not= (:source-digest options) (:source-digest capture))" :replacement "false"
     :test "wrong-clock-command-source-coverage-and-interval-refuse-before-projection"}
    {:id "unbound-process-verdict"
-    :anchor "(when-not (= (:work dispatch) (verdict/process-result gate observation (:coverage capture)))"
+    :anchor "(when-not (= (:work dispatch) (verdict/process-capture-result gate capture))"
     :replacement "(when false"
     :test "wrong-clock-command-source-coverage-and-interval-refuse-before-projection"}
    {:id "incorrect-supervision-offset" :anchor "start (:offset-ns process)"

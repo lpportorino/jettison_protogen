@@ -270,7 +270,7 @@
              "gate.container" "gate.contract" "gate.coordinator" "gate.decimal"
              "gate.diagnostic" "gate.diff" "gate.graph" "gate.inputs"
              "gate.interval" "gate.measure" "gate.ownership" "gate.plan"
-             "gate.process" "gate.process-graph" "gate.publish" "gate.query" "gate.report" "gate.runtime"
+             "gate.process" "gate.process-batch" "gate.process-graph" "gate.publish" "gate.query" "gate.report" "gate.runtime"
              "gate.snapshot" "gate.store" "gate.test-artifact" "gate.test-batch"
              "gate.test-graph" "gate.trace-cli" "gate.trace-import" "gate.trace-io"
              "gate.verdict" "gate.viewer" "gate.report-io"]}}

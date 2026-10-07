@@ -69,7 +69,7 @@
                                 {:id (str "entry-" i) :kind (if directory? :tree :file)
                                  :path (subs path 1) :required? (not directory?)})) (range) resolved)
               :outputs [] :environment [] :toolchains ["observer"] :dependencies [] :cache :always :network :denied
-              :coverage {:expected marker :minimum 1}}
+              :coverage {:unit :checks :expected marker :minimum 1}}
         snapshot (inputs/observe! "/" gate {:environment {} :toolchains {"observer" marker}} limits)]
     (when-not (:complete? snapshot) (refuse! :runtime-controller))
     (when-not (= resolved (mapv #(str (.toRealPath (Path/of % (make-array String 0)) (make-array LinkOption 0))) paths))
