@@ -70,6 +70,35 @@
           (files/put! root "new.edn" "{}")
           (is (not= before (runtime/content-digest [(str root)] inputs/default-limits))))))))
 
+(deftest existing-empty-classpath-directories-have-content-identity
+  (with-directory
+    (fn [root]
+      (let [directory (Files/createDirectory (.resolve root "classes") (make-array FileAttribute 0))
+            paths [(str directory)]
+            before (try (runtime/content-digest paths inputs/default-limits)
+                        (catch clojure.lang.ExceptionInfo error (:code (ex-data error))))
+            _ (is (string? before) "An existing empty classpath directory is valid membership")
+            file (files/put! root "classes/loaded.clj" "(ns loaded)")]
+        (is (not= before (runtime/content-digest paths inputs/default-limits)))
+        (Files/delete file)
+        (is (= before (try (runtime/content-digest paths inputs/default-limits)
+                           (catch clojure.lang.ExceptionInfo error (:code (ex-data error))))))
+        (Files/delete directory)
+        (is (thrown? java.nio.file.NoSuchFileException
+                     (runtime/content-digest paths inputs/default-limits)))))))
+
+(deftest empty-classpath-removal-during-observation-cannot-acquire-identity
+  (with-directory
+    (fn [root]
+      (let [directory (Files/createDirectory (.resolve root "classes") (make-array FileAttribute 0))
+            observe inputs/observe!]
+        (with-redefs [inputs/observe! (fn [& args]
+                                        (let [snapshot (apply observe args)]
+                                          (Files/delete directory)
+                                          snapshot))]
+          (is (thrown? java.nio.file.NoSuchFileException
+                       (runtime/content-digest [(str directory)] inputs/default-limits))))))))
+
 (deftest unavailable-runtime-evidence-executes-without-a-reuse-attestation
   (with-directory
     (fn [root]

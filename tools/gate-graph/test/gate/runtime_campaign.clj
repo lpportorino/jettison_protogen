@@ -4,7 +4,9 @@
             [malli.core :as m]))
 
 (def content-faults
-  [{:id "classpath-order-erased" :anchor "[resolved (mapv" :replacement "[paths (vec (sort paths)) resolved (mapv"
+  [{:id "empty-classpath-refused" :anchor ":required? (not directory?)" :replacement ":required? true"
+    :test "existing-empty-classpath-directories-have-content-identity"}
+   {:id "classpath-order-erased" :anchor "[resolved (mapv" :replacement "[paths (vec (sort paths)) resolved (mapv"
     :test "classpath-order-membership-and-total-byte-budget-are-effective"}
    {:id "controller-content-ignored" :anchor "(terms-digest [(terms-digest resolved) encoded])"
     :replacement "(terms-digest [(terms-digest resolved)])" :test "runtime-content-is-not-a-size-or-mtime-memo"}])

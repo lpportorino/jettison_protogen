@@ -55,18 +55,23 @@
 (defn content-digest
   "Hash real bytes/membership/modes for ordered local classpath or runtime entries with one shared budget.
    Real absolute entry names affect identity conservatively but are only exposed inside this hash.
-   Root entry symlinks resolve once; symlinks inside source trees refuse. No metadata memo is used."
+   Existing empty classpath directories contribute empty membership, not missing work.
+   Root entry resolution must agree before/after observation; nested symlinks refuse.
+   No metadata memo is used. Loaded controller code still requires immutable inputs."
   [paths limits]
   (let [resolved (mapv #(str (.toRealPath (Path/of % (make-array String 0)) (make-array LinkOption 0))) paths)
         marker (canonical/sha256 "runtime-byte-observer-v1")
         gate {:id "runtime-bytes" :label "Runtime bytes" :command ["/unused"] :cwd "."
               :inputs (mapv (fn [i path]
-                              {:id (str "entry-" i) :kind (if (Files/isDirectory (Path/of path (make-array String 0)) (make-array LinkOption 0)) :tree :file)
-                               :path (subs path 1) :required? true}) (range) resolved)
+                              (let [directory? (Files/isDirectory (Path/of path (make-array String 0)) (make-array LinkOption 0))]
+                                {:id (str "entry-" i) :kind (if directory? :tree :file)
+                                 :path (subs path 1) :required? (not directory?)})) (range) resolved)
               :outputs [] :environment [] :toolchains ["observer"] :dependencies [] :cache :always :network :denied
               :coverage {:expected marker :minimum 1}}
         snapshot (inputs/observe! "/" gate {:environment {} :toolchains {"observer" marker}} limits)]
     (when-not (:complete? snapshot) (refuse! :runtime-controller))
+    (when-not (= resolved (mapv #(str (.toRealPath (Path/of % (make-array String 0)) (make-array LinkOption 0))) paths))
+      (refuse! :runtime-controller))
     (let [encoded (canonical/encode snapshot 134217728)]
       (when (> (count encoded) 2097152) (refuse! :runtime-controller))
       (terms-digest [(terms-digest resolved) encoded]))))
