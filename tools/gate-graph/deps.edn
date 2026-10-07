@@ -1,0 +1,26 @@
+{:paths ["src"]
+ :deps {org.clojure/clojure {:mvn/version "1.12.0"}
+        metosin/malli {:mvn/version "0.20.2"}
+        metosin/jsonista {:mvn/version "1.0.0"}
+        hiccup/hiccup {:mvn/version "2.0.0"}}
+ :aliases
+ {:demo {:extra-paths ["test"] :main-opts ["-m" "gate.demo"]}
+  :inspection {:extra-paths ["test"] :main-opts ["-m" "gate.inspection-dogfood"]}
+  :coordinator-dogfood {:extra-paths ["test"] :main-opts ["-m" "gate.coordinator-dogfood"]}
+  :shadow {:extra-deps {thheller/shadow-cljs {:mvn/version "3.5.3"}}
+           :main-opts ["-m" "shadow.cljs.devtools.cli"]}
+  :mutation {:main-opts ["-m" "gate.mutation-runner"]}
+  :canary {:main-opts ["-m" "gate.enrollment-canary"]}
+  :campaign {:main-opts ["-m" "gate.admission-campaign"]}
+  :coordinator-campaign {:main-opts ["-m" "gate.coordinator-campaign"]}
+  :live-campaign {:main-opts ["-m" "gate.live-campaign"]}
+  :process-campaign {:main-opts ["-m" "gate.process-campaign"]}
+  :container-test {:main-opts ["-m" "gate.container-test"]}
+  :container-campaign {:main-opts ["-m" "gate.container-campaign"]}
+  :publication-campaign {:main-opts ["-m" "gate.publication-campaign"]}
+  :runtime-campaign {:main-opts ["-m" "gate.runtime-campaign"]}
+  :test-campaign {:main-opts ["-m" "gate.test-campaign"]}
+  :batch-campaign {:main-opts ["-m" "gate.batch-campaign"]}
+  :test {:extra-paths ["test"]
+         :extra-deps {org.clojure/test.check {:mvn/version "1.1.3"}}
+         :main-opts ["-m" "gate.test-runner"]}}}

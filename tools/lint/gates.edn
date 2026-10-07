@@ -120,33 +120,29 @@
  {:enrolled ["docs/.protodoc/tools/src"
              "tools/renderer-gen/src"
              "tools/lint/src"
-             "tools/protocol-gen/src"]}
+             "tools/protocol-gen/src"
+             "tools/gate-graph/src"]}
 
  ;; ── spec-shape ───────────────────────────────────────────────────────────
  ;;
- ;; Enrolled where arrow specs are actually PRACTISED — two roots do so today,
- ;; `tools/renderer-gen/src` and `tools/protocol-gen/src`, and the gate prints the
- ;; per-root count every run so that claim is re-measured rather than trusted. The
- ;; remaining gated trees carry no `m/=>` at all, so enrolling one adds a root the
- ;; check's own non-vacuity floor — which is over SPECS — cannot see going dark.
- ;; That is what the run's UNMEASURED line names, every run, rather than a list
- ;; kept here.
+ ;; The gate prints per-root arrow counts on every run. Roots without arrows
+ ;; remain explicit: the spec-count floor cannot detect their disappearance.
+ ;; The UNMEASURED line names them rather than trusting a frozen population here.
  ;; tools/lint/src is enrolled so this gate's own specs, if it ever grows any, are
  ;; judged by it.
  :spec-shape
  {:enrolled ["tools/renderer-gen/src"
              "docs/.protodoc/tools/src"
              "tools/lint/src"
-             "tools/protocol-gen/src"]}
+             "tools/protocol-gen/src"
+             "tools/gate-graph/src"]}
 
  ;; ── spec-presence ────────────────────────────────────────────────────────
  ;;
- ;; Enrolment is by NAMESPACE, not by root, and the measurement is why: NO ROOT
- ;; QUALIFIES. The enrolled namespaces come from the two roots that practise
- ;; `m/=>` at all — `tools/renderer-gen/src` and `tools/protocol-gen/src` — and
- ;; NEITHER root is itself at 100%, while every other gated root carries no
- ;; `m/=>` whatsoever. A root-grain enrolment would therefore have to be EMPTY,
- ;; which this check's own floor refuses as a green tick over zero coverage.
+ ;; Enrolment is by NAMESPACE. Existing generator roots have partial coverage;
+ ;; every function-bearing gate-graph source namespace is enrolled. Data-only
+ ;; schema namespaces have no function arrows to judge. The run reports the
+ ;; actual judged population and the functions outside it.
  ;;
  ;; THAT IS ALSO WHY A ROOT ENROLLED IN `:docstrings` AND `:spec-shape` IS NOT
  ;; AUTOMATICALLY ENROLLED HERE, and reading the three keys as one scope is the
@@ -268,4 +264,13 @@
              "uigen.scales"
              "uigen.wire-bounds"
              "uigen.wire-encode"
-             "protocol-gen.emit"]}}
+             "protocol-gen.emit"
+             "gate.admission" "gate.attempt" "gate.batch-graph" "gate.cache"
+             "gate.canonical" "gate.clock" "gate.clojure-test" "gate.contained"
+             "gate.container" "gate.contract" "gate.coordinator" "gate.decimal"
+             "gate.diagnostic" "gate.diff" "gate.graph" "gate.inputs"
+             "gate.interval" "gate.measure" "gate.ownership" "gate.plan"
+             "gate.process" "gate.publish" "gate.query" "gate.report" "gate.runtime"
+             "gate.snapshot" "gate.store" "gate.test-artifact" "gate.test-batch"
+             "gate.test-graph" "gate.trace-cli" "gate.trace-import" "gate.trace-io"
+             "gate.verdict" "gate.viewer"]}}

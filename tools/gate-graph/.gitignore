@@ -1,0 +1,4 @@
+# Local compiler state can contain absolute paths and is not a portable artifact.
+/.shadow-cljs/
+/.cpcache/
+/.gate-reports/

@@ -113,6 +113,7 @@ on:
     # above sees most of it; the whole directory is the suite's input set, and
     # the suite and its canary read nothing outside it.
     - "tools/gate-trace/**"
+    - "tools/gate-graph/**"
     # Every workflow, not just this one: the actionlint step below judges them
     # all, so a job that only fired on its own file could not see the breakage
     # it exists to catch. Subsumes the previous lint.yml-only entry.
@@ -199,6 +200,7 @@ on:
     # above sees most of it; the whole directory is the suite's input set, and
     # the suite and its canary read nothing outside it.
     - "tools/gate-trace/**"
+    - "tools/gate-graph/**"
     # Every workflow, not just this one: the actionlint step below judges them
     # all, so a job that only fired on its own file could not see the breakage
     # it exists to catch. Subsumes the previous lint.yml-only entry.
@@ -364,8 +366,11 @@ jobs:
         path: |
           ~/.m2/repository
           ~/.gitlibs
-        key: lint-m2-${{ hashFiles('deps.edn') }}
+        key: lint-m2-${{ hashFiles('deps.edn', 'tools/gate-graph/deps.edn') }}
         restore-keys: lint-m2-
+
+    - name: shared gate graph runner, contracts and coverage canary
+      run: make -f lint.mk gate-graph-test
 
     - # Check mode, never fix mode: CI states whether the tree is canonical, it
       # does not silently rewrite it. Fixing is the author's job (the pre-push

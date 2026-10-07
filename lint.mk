@@ -151,7 +151,9 @@ LINT_CLJ_PATHS := tools/devcards/src \
 	tools/lint/src \
 	tools/protocol-gen/src \
 	tools/protocol-gen/test \
-	tools/protocol-gen/verify
+	tools/protocol-gen/verify \
+	tools/gate-graph/src \
+	tools/gate-graph/test
 
 # HAND-AUTHORED CLOJURE JUDGED BY clj-kondo AND cljfmt BUT NOT BY THE
 # STRUCTURAL GATES. `LINT_CLJ_PATHS` above is what every lane receives; this
@@ -459,6 +461,12 @@ lint-python-test:
 .PHONY: gate-trace-test
 gate-trace-test:
 	@bash tools/gate-trace/test/run_tests.sh
+
+## gate-graph-test: instrumented runner, real EDN reports and attributed coverage canary
+.PHONY: gate-graph-test
+gate-graph-test:
+	@cd tools/gate-graph && $(CLJ) -M:test
+	@cd tools/gate-graph && $(CLJ) -M:test:canary .gate-reports/canaries
 
 ## protocol-gen-test / protocol-gen-canary: the generator tool's two OWN lanes
 # Delegated to `Makefile` by SUB-MAKE, exactly as lint-md is delegated to

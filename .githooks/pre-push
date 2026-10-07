@@ -176,10 +176,10 @@ fi
 # the suite needs dash, GNU make's jobserver and Python 3.12, which the image
 # carries. Its fail canary is part of the same target and runs after the suite.
 if command -v docker >/dev/null 2>&1; then
-  if ! tools/uber.sh 'make -f lint.mk lint-c-tidy-test lint-c-tidy lint-python gate-trace-test'; then
+  if ! tools/uber.sh 'make -f lint.mk lint-c-tidy-test lint-c-tidy lint-python gate-trace-test gate-graph-test'; then
     cat >&2 <<'EOF'
 
-[pre-push] BLOCKED — the clang-tidy lane, the Python lane, the gate-trace
+[pre-push] BLOCKED — the clang-tidy lane, the Python lane, a gate graph or gate-trace
 suite, or one of their canaries refused. Read the `*** [lint.mk:N: <target>]
 Error` line above for which.
 
@@ -208,6 +208,8 @@ Error` line above for which.
   gate-trace-test   a gate-trace transparency or validator test failed, or the
                     fail canary found a mutant its test no longer catches.
                     see it   :  tools/uber.sh 'make -f lint.mk gate-trace-test'
+  gate-graph-test   a shared runner, graph, inspection or contract test failed.
+                    see it   :  tools/uber.sh 'make -f lint.mk gate-graph-test'
 EOF
     exit 1
   fi
@@ -216,6 +218,7 @@ else
   printf '\033[33m[pre-push]\033[0m no docker — its size-check canary NOT RUN either\n' >&2
   printf '\033[33m[pre-push]\033[0m no docker — lint-python and its canaries NOT RUN (CI runs them only when renderer.yml fires; for a push confined to tools/gate-trace/ nothing runs Ruff)\n' >&2
   printf '\033[33m[pre-push]\033[0m no docker — gate-trace-test and its canary NOT RUN (CI will run them)\n' >&2
+  printf '\033[33m[pre-push]\033[0m no docker — gate-graph-test NOT RUN (CI will run it)\n' >&2
 fi
 
 # The one PROTO-AWARE check in this hook. It is called separately rather than
