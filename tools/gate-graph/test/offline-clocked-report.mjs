@@ -8,7 +8,7 @@ import { dirname, join } from 'node:path';
 const [modulePath, reportPath, screenshotPath, testsText] = process.argv.slice(2);
 assert.ok(modulePath && reportPath && screenshotPath && testsText);
 const tests = Number(testsText);
-assert.ok(Number.isSafeInteger(tests) && tests > 200 && tests < 10000);
+assert.ok(Number.isSafeInteger(tests) && tests > 0 && tests < 10000);
 const { chromium } = await import(pathToFileURL(modulePath).href);
 const browser = await chromium.launch({ headless: true });
 const errors = [], requests = [];
@@ -26,7 +26,7 @@ try {
     assert.equal(await page.locator('#timeline .row').count(), 1);
     await page.locator('#timeline .row').getByRole('button', { name: /Children/ }).click();
   }
-  assert.equal(await page.locator('#timeline .row').count(), 200);
+  assert.equal(await page.locator('#timeline .row').count(), Math.min(200, tests));
   const first = page.locator('#timeline .row').first();
   await first.locator('button').first().click();
   const detail = await page.locator('#details').innerText();
@@ -38,15 +38,22 @@ try {
   }
   assert.ok(detail.includes(':record :execution') && detail.includes(':kind :test') && detail.includes(':outcome :passed'));
   assert.ok(detail.includes(':accounting :exclusive') && detail.includes(':status :measured'));
-  await page.getByRole('button', { name: 'Next tasks', exact: true }).click();
-  assert.equal(await page.locator('#timeline .row').count(), tests - 200);
-  assert.equal(await page.getByRole('button', { name: 'Next tasks', exact: true }).count(), 0);
-  const geometry = await page.locator('.bar').evaluateAll(bars => bars.map(bar => ({
-    left: parseFloat(bar.style.left), width: parseFloat(bar.style.width), title: bar.title
-  })));
-  for (const bar of geometry) {
-    assert.ok(bar.left >= 0 && bar.width >= 0 && bar.left + bar.width <= 100.000001);
-    assert.ok(bar.title.includes('passed') && bar.title.includes('ns'));
+  let visited = 0, pages = 0;
+  while (visited < tests) {
+    const rows = await page.locator('#timeline .row').count();
+    assert.equal(rows, Math.min(200, tests - visited));
+    const geometry = await page.locator('.bar').evaluateAll(bars => bars.map(bar => ({
+      left: parseFloat(bar.style.left), width: parseFloat(bar.style.width), title: bar.title
+    })));
+    assert.equal(geometry.length, rows);
+    for (const bar of geometry) {
+      assert.ok(bar.left >= 0 && bar.width >= 0 && bar.left + bar.width <= 100.000001);
+      assert.ok(bar.title.includes('passed') && bar.title.includes('ns'));
+    }
+    visited += rows; pages++;
+    const next = page.getByRole('button', { name: 'Next tasks', exact: true });
+    assert.equal(await next.count(), visited < tests ? 1 : 0);
+    if (visited < tests) await next.click();
   }
   await page.screenshot({ path: screenshotPath, fullPage: true });
   await page.getByRole('button', { name: '↑ Parent', exact: true }).click();
@@ -55,7 +62,7 @@ try {
   assert.equal(await page.locator('#timeline .row').count(), 1);
   assert.deepEqual(errors, []); assert.deepEqual(requests, []);
   console.log(JSON.stringify({ status: 'passed', browser: browser.version(), offline: true,
-    tests, measurements: tests * 5, pages: 2, externalRequests: requests.length, errors: errors.length, artifact: digest }));
+    tests, measurements: tests * 5, pages, externalRequests: requests.length, errors: errors.length, artifact: digest }));
 } finally {
   await browser.close();
 }
