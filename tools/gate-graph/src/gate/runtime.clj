@@ -57,6 +57,8 @@
    Real absolute entry names affect identity conservatively but are only exposed inside this hash.
    Existing empty classpath directories contribute empty membership, not missing work.
    Root entry resolution must agree before/after observation; nested symlinks refuse.
+   Hash the complete bounded manifest before joining terms; the per-term text ceiling
+   is not a second, smaller limit on otherwise admitted classpath inventories.
    No metadata memo is used. Loaded controller code still requires immutable inputs."
   [paths limits]
   (let [resolved (mapv #(str (.toRealPath (Path/of % (make-array String 0)) (make-array LinkOption 0))) paths)
@@ -73,8 +75,7 @@
     (when-not (= resolved (mapv #(str (.toRealPath (Path/of % (make-array String 0)) (make-array LinkOption 0))) paths))
       (refuse! :runtime-controller))
     (let [encoded (canonical/encode snapshot 134217728)]
-      (when (> (count encoded) 2097152) (refuse! :runtime-controller))
-      (terms-digest [(terms-digest resolved) encoded]))))
+      (terms-digest [(terms-digest resolved) (canonical/sha256 encoded)]))))
 (m/=> content-digest [:=> [:cat Paths inputs/Limits] c/Digest])
 
 (defn- jdk-files

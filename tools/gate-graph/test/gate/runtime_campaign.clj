@@ -8,8 +8,14 @@
     :test "existing-empty-classpath-directories-have-content-identity"}
    {:id "classpath-order-erased" :anchor "[resolved (mapv" :replacement "[paths (vec (sort paths)) resolved (mapv"
     :test "classpath-order-membership-and-total-byte-budget-are-effective"}
-   {:id "controller-content-ignored" :anchor "(terms-digest [(terms-digest resolved) encoded])"
-    :replacement "(terms-digest [(terms-digest resolved)])" :test "runtime-content-is-not-a-size-or-mtime-memo"}])
+   {:id "controller-content-ignored" :anchor "(terms-digest [(terms-digest resolved) (canonical/sha256 encoded)])"
+    :replacement "(terms-digest [(terms-digest resolved)])" :test "runtime-content-is-not-a-size-or-mtime-memo"}
+   {:id "large-classpath-refused" :anchor "(canonical/sha256 encoded)"
+    :replacement "(if (> (count encoded) 2097152) (refuse! :runtime-controller) (canonical/sha256 (str encoded)))"
+    :test "large-runtime-manifests-hash-completely-within-the-acquisition-budget"}
+   {:id "large-classpath-truncated" :anchor "(canonical/sha256 encoded)"
+    :replacement "(canonical/sha256 (subs encoded 0 (min 2097152 (count encoded))))"
+    :test "large-runtime-manifests-hash-completely-within-the-acquisition-budget"}])
 (def admission-faults
   [{:id "unavailable-runtime-attested" :anchor ":isolation-verified? (= :verified (:status before))"
     :replacement ":isolation-verified? true" :test "unavailable-runtime-evidence-executes-without-a-reuse-attestation"}

@@ -3,6 +3,7 @@
   (:require [clojure.string :as str]
             [clojure.test :refer [deftest is]]
             [gate.cache :as cache]
+            [gate.canonical :as canonical]
             [gate.contained :as contained]
             [gate.contained-test :as completion]
             [gate.container :as container]
@@ -98,6 +99,26 @@
                                           snapshot))]
           (is (thrown? java.nio.file.NoSuchFileException
                        (runtime/content-digest [(str directory)] inputs/default-limits))))))))
+
+(deftest large-runtime-manifests-hash-completely-within-the-acquisition-budget
+  (with-directory
+    (fn [root]
+      (let [names (mapv #(format "classes/generated/entry-%06d.class" %) (range 18000))
+            snapshot (atom {:files (mapv (fn [path] {:path path :digest (apply str (repeat 64 "a")) :executable? false}) names)
+                            :membership [{:selector "entry-0" :paths names}]
+                            :environment [] :toolchains [] :complete? true :reason nil})
+            original (canonical/encode @snapshot 134217728)]
+        (is (> (count original) 2097152))
+        (with-redefs [inputs/observe! (fn [& _] @snapshot)]
+          (let [before (try (runtime/content-digest [(str root)] inputs/default-limits)
+                            (catch clojure.lang.ExceptionInfo error (:code (ex-data error))))]
+            (is (string? before) "The term-size ceiling is not the snapshot acquisition budget")
+            (swap! snapshot assoc-in [:files 17999 :digest] (apply str (repeat 64 "b")))
+            (is (true? (= (subs original 0 2097152)
+                          (subs (canonical/encode @snapshot 134217728) 0 2097152)))
+                "The changed file is beyond the old string-term ceiling")
+            (is (not= before (try (runtime/content-digest [(str root)] inputs/default-limits)
+                                  (catch clojure.lang.ExceptionInfo error (:code (ex-data error))))))))))))
 
 (deftest unavailable-runtime-evidence-executes-without-a-reuse-attestation
   (with-directory
