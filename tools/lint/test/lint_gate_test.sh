@@ -187,6 +187,34 @@ add_ns "$D" src/fixture/small.clj 2
 expect "$D" 0 'under the ceiling' 'a small namespace is clean' --check ns-size src
 
 # ---------------------------------------------------------------------------
+banner 'CLJC — count public names once across both reader dialects'
+D="$(fixture portable 50 3)"
+cat > "$D/src/fixture/portable.cljc" <<'CLJ'
+(ns fixture.portable)
+(def shared 1)
+#?(:clj (def server 2) :cljs (def browser 3))
+CLJ
+expect "$D" 0 '1 namespace(s) under the ceiling' \
+	'one portable namespace is not two namespaces' --check ns-size src
+expect "$D" 0 'max publics=3' \
+	'one shared and two dialect-specific names contribute three public vars' --check ns-size src
+D2="$(fixture portable_union 50 2)"
+cp "$D/src/fixture/portable.cljc" "$D2/src/fixture/portable.cljc"
+expect "$D2" 1 'publics=  3' \
+	'the union of dialect exports exceeds a two-name ceiling' --check ns-size src
+D3="$(fixture portable_mut 50 3)"
+cp "$D/src/fixture/portable.cljc" "$D3/src/fixture/portable.cljc"
+if mutate "$D3" core.clj '                     distinct' '                     identity'; then
+	expect "$D3" 1 'publics=  4' \
+		'MUTANT: dialect dedup removed -> shared export counted twice' --check ns-size src
+	D4="$(fixture portable_control 50 3)"
+	cp "$D3/gate/lint_gate/core.clj" "$D4/gate/lint_gate/core.clj"
+	add_ns "$D4" src/fixture/plain.clj 2
+	expect "$D4" 0 'max publics=2' \
+		'CONTROL: ordinary Clojure namespace stays clean on the dialect mutant' --check ns-size src
+fi
+
+# ---------------------------------------------------------------------------
 banner 'CLAUSE — the PUBLIC-VAR axis blocks'
 D="$(fixture publics 50 3)"
 add_ns "$D" src/fixture/wide.clj 9

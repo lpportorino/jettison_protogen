@@ -39,19 +39,24 @@
 (defn namespace-rows
   "One row per hand-authored namespace: `{:ns :file :loc :publics}`.
 
-  The public-var count comes from the analysis rather than from the source, so it
-  counts what clj-kondo RESOLVED rather than what a regex guessed at."
+  Public names are the union of clj-kondo's resolved dialect exports, counted
+  once per file/namespace/name. A shared CLJC definition is one public name;
+  distinct reader-conditional exports each count. Namespace rows are likewise
+  unique across dialects."
   [analysis]
   (let [publics (->> (:var-definitions analysis)
                      (remove :private)
-                     (group-by :filename))]
-    (for [nd (:namespace-definitions analysis)
+                     (map #(select-keys % [:filename :ns :name]))
+                     distinct
+                     (group-by (juxt :filename :ns)))
+        namespaces (distinct (map #(select-keys % [:filename :name]) (:namespace-definitions analysis)))]
+    (for [nd namespaces
           :let [file (:filename nd)]
           :when (not (u/generated? file))]
       {:ns (:name nd)
        :file file
        :loc (u/code-loc file)
-       :publics (count (get publics file))})))
+       :publics (count (get publics [file (:name nd)]))})))
 
 (defn tier
   "Classify one row against `conf` — `:block`, `:warn` or `:ok`.
