@@ -1,5 +1,17 @@
 # Execution graph core
 
+CLI process batches use `gate.process-batch/run-cli!` around a callback that
+accepts cancellation and returns the result of `run!`. The scoped JVM shutdown
+hook requests cancellation, then waits up to the supplied millisecond budget
+(1–60,000) for cleanup, witness acquisition and report publication. Invoke
+`System/exit` only after this wrapper returns. A stuck callback produces the
+closed `:process-shutdown-incomplete` diagnostic and may leave partial files;
+it never earns a passing capture. SIGKILL, VM failure and unobserved detached
+children remain outside this guarantee. The hook is removed on ordinary return
+or exception. Java specifies that hooks run concurrently and that shutdown
+ends when they finish; see the
+[Runtime shutdown contract](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Runtime.html#addShutdownHook(java.lang.Thread)).
+
 Source draft, not an accepted release. JVM tests and pinned formatting/native
 kondo pass; the EDN admission boundary has an attributed mutation campaign.
 Full CLJS/browser parity, broader mutation coverage and real CI-scale acceptance

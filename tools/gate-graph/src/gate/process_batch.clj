@@ -16,7 +16,8 @@
             [gate.verdict :as verdict]
             [malli.core :as m])
   (:import [java.nio.file Files Path]
-           [java.nio.file.attribute FileAttribute]))
+           [java.nio.file.attribute FileAttribute]
+           [java.util.concurrent CountDownLatch TimeUnit]))
 
 (set! *warn-on-reflection* true)
 
@@ -33,7 +34,8 @@
   [:map {:closed true} [:run c/Id] [:key c/Id] [:label c/Label]
    [:coordinator r/CoordinatorOptions] [:input-limits inputs/Limits] [:process-limits process/Limits]])
 (def Failure
-  [:map {:closed true} [:code [:enum :process-binding :unsupported-process-policy :process-source-unavailable]]
+  [:map {:closed true} [:code [:enum :process-binding :unsupported-process-policy :process-source-unavailable
+                               :process-shutdown-unavailable :process-shutdown-incomplete]]
    [:subject [:maybe c/Id]]])
 (def State [:fn #(instance? clojure.lang.Atom %)])
 (def WitnessResult [:map {:closed true} [:coverage [:maybe r/Coverage]] [:error? :boolean]])
@@ -176,3 +178,45 @@
     report))
 (m/=> run! [:=> [:cat Options r/Gates batch-graph/Roots Bindings runtime/Paths inputs/Root coordinator/Cancellation]
             r/ProcessBatchReport])
+
+(defn- await-shutdown!
+  "Cancel running work and hold JVM shutdown for bounded cleanup/publication. Never call System.exit here.
+   A missing completion emits a closed diagnostic; it does not invent or certify a partial report."
+  [cancellation completion shutdown-ms]
+  (reset! cancellation true)
+  (when-not (try (.await ^CountDownLatch completion (long shutdown-ms) TimeUnit/MILLISECONDS)
+                 (catch InterruptedException _ false))
+    (binding [*out* *err*]
+      (prn {:code :process-shutdown-incomplete :subject nil})
+      (flush)))
+  nil)
+(m/=> await-shutdown! [:=> [:cat coordinator/Cancellation [:fn #(instance? CountDownLatch %)]
+                            [:int {:min 1 :max 60000}]] :nil])
+
+(defn run-cli!
+  "Run a process-batch callback with a scoped JVM shutdown hook and owned cancellation token.
+   Pass the token to run! and return its ProcessBatchReport. On JVM shutdown (including supported OS
+   signals), cancellation reaches the coordinator/process observer and the hook waits at most
+   shutdown-ms for the callback's finally boundary. Cleanup, witness acquisition and report writes
+   must finish within this budget. If they do not, stderr receives :process-shutdown-incomplete and
+   the JVM may terminate with partial artifacts. SIGKILL, VM failure and unobserved detached children
+   are outside this guarantee. Other hooks run concurrently and may affect resources they own.
+
+   Normal return/throw always releases the waiter and removes the hook. Call System.exit only AFTER
+   this function returns, never inside the callback: exit waits for hooks and would deadlock until
+   the budget expired. The OS/JVM owns signal exit status; this function does not replace handlers,
+   swallow callback exceptions or turn an interrupted command into a successful process exit."
+  [shutdown-ms runner]
+  (let [cancellation (atom false) completion (CountDownLatch. 1)
+        runtime (Runtime/getRuntime)
+        hook (Thread. ^Runnable #(await-shutdown! cancellation completion shutdown-ms) "gate-process-shutdown")]
+    (try (.addShutdownHook runtime hook)
+         (catch IllegalStateException _
+           (throw (ex-info "JVM shutdown already started" {:code :process-shutdown-unavailable :subject nil}))))
+    (try (runner cancellation)
+         (finally
+           (.countDown completion)
+           (try (.removeShutdownHook runtime hook)
+                (catch IllegalStateException _ false))))))
+(m/=> run-cli! [:=> [:cat [:int {:min 1 :max 60000}]
+                     [:=> [:cat coordinator/Cancellation] r/ProcessBatchReport]] r/ProcessBatchReport])

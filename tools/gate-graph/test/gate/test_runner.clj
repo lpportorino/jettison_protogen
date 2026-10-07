@@ -19,6 +19,7 @@
             [gate.measure-test]
             [gate.ownership-test]
             [gate.process-batch-test]
+            [gate.process-cli-test]
             [gate.process-graph-test]
             [gate.process-test]
             [gate.publish-test]
@@ -44,7 +45,7 @@
 (def test-namespaces
   '[gate.admission-test gate.decimal-test gate.graph-test gate.interval-test gate.query-test
     gate.measure-test gate.diff-test gate.trace-test gate.report-test gate.report-io-test gate.run-test gate.store-test
-    gate.diagnostic-test gate.coordinator-test gate.inputs-test gate.attempt-test gate.process-test gate.process-batch-test gate.process-graph-test
+    gate.diagnostic-test gate.coordinator-test gate.inputs-test gate.attempt-test gate.process-test gate.process-batch-test gate.process-cli-test gate.process-graph-test
     gate.snapshot-test gate.publish-test gate.contained-test gate.runtime-test gate.ownership-test
     gate.clojure-test-test gate.test-artifact-test gate.batch-graph-test gate.test-batch-test])
 

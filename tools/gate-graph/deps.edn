@@ -17,6 +17,7 @@
   :process-campaign {:main-opts ["-m" "gate.process-campaign"]}
   :process-graph-campaign {:main-opts ["-m" "gate.process-graph-campaign"]}
   :process-batch-campaign {:main-opts ["-m" "gate.process-batch-campaign"]}
+  :process-cli-campaign {:main-opts ["-m" "gate.process-cli-campaign"]}
   :container-test {:main-opts ["-m" "gate.container-test"]}
   :container-campaign {:main-opts ["-m" "gate.container-campaign"]}
   :publication-campaign {:main-opts ["-m" "gate.publication-campaign"]}
