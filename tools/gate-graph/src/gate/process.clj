@@ -2,9 +2,11 @@
   "Bounded JVM process execution for trusted local commands. This is not an isolation boundary."
   (:refer-clojure :exclude [run!])
   (:require [clojure.string :as str]
+            [gate.clock :as clock]
             [gate.coordinator :as coordinator]
             [gate.inputs :as inputs]
             [gate.run-contract :as r]
+            [gate.verdict :as verdict]
             [malli.core :as m])
   (:import [java.io InputStream OutputStream]
            [java.lang ProcessHandle]
@@ -148,7 +150,7 @@
 (m/=> supervise! [:=> [:cat NativeProcess [:fn #(instance? OutputStream %)] DigestState State State State
                        Limits coordinator/Cancellation State] Status])
 
-(defn run!
+(defn- execute!
   "Run trusted local argv with exact supplied environment, bounded combined logs and monotonic timeout.
    The log directory must exist; the filename is create-only, never overwritten. Stdin is
    closed or redirected from a bounded regular file beneath directory. Absolute executable
@@ -162,8 +164,8 @@
    or container adapter for those guarantees. Cleanup can remain incomplete and is recorded.
    A zero exit is process evidence only; a separate work witness is required for gate success.
    Logs remain consumer-local; returned errors never echo argv, environment or native messages."
-  [{:keys [log-directory log limits environment] :as request} cancellation]
-  (let [origin (System/nanoTime) process (atom nil) handles (atom {}) observed (atom 0) interrupted (atom false)
+  [{:keys [log-directory log limits environment] :as request} cancellation origin]
+  (let [process (atom nil) handles (atom {}) observed (atom 0) interrupted (atom false)
         state (atom {:bytes 0 :truncated? false}) digest (MessageDigest/getInstance "SHA-256")
         log-created? (atom false) cleaned? (atom true) cleanup-required? (atom false)
         status (try
@@ -190,22 +192,35 @@
                      (.close (.getInputStream p)) (.close (.getErrorStream p)) (.close (.getOutputStream p)))
                    (when @interrupted (.interrupt (Thread/currentThread)))))]
     {:schema/version 1 :status status :exit (when (and @process (not (.isAlive ^Process @process))) (.exitValue ^Process @process))
-     :pid (when @process (str (.pid ^Process @process))) :elapsed-ns (str (- (System/nanoTime) origin))
+     :pid (when @process (str (.pid ^Process @process))) :elapsed-ns (clock/difference (System/nanoTime) origin)
      :containment :none :cleanup-required? @cleanup-required?
      :observed-processes @observed :observed-processes-stopped? @cleaned?
      :log (when @log-created? (assoc @state :file log :digest (.formatHex (HexFormat/of) (.digest digest))))}))
+(m/=> execute! [:=> [:cat Request coordinator/Cancellation clock/Tick] Observation])
+
+(defn run!
+  "Supervise trusted local argv with finite logs, deadline and observed-handle cleanup.
+   No isolation is established. Numeric Make jobserver descriptors refuse; FIFO policy belongs
+   to the caller. Separate coverage evidence is required. See run-clocked! for anchored reports."
+  [request cancellation]
+  (execute! request cancellation (System/nanoTime)))
 (m/=> run! [:=> [:cat Request coordinator/Cancellation] Observation])
+
+(defn run-clocked!
+  "Anchor process supervision to one exact same-JVM monotonic context.
+   Offset and elapsed share the identical initial tick, without a second sampled origin.
+   This interval includes launch, bounded output handling and cleanup; it is not CPU time,
+   kernel-observed process lifetime or a complete descendant trace. Preserve the raw observation."
+  [request cancellation context]
+  (let [origin (System/nanoTime)
+        offset (clock/at context origin)]
+    {:schema/version 1 :clock (:id context) :offset-ns offset
+     :observation (execute! request cancellation origin)}))
+(m/=> run-clocked! [:=> [:cat Request coordinator/Cancellation clock/Context] r/ClockedProcess])
 
 (defn work-result
   "Combine process termination with separately observed coverage; zero exit alone never proves work.
    Keep detailed timeout/output/cleanup reasons in the process observation beside this coarse gate result."
   [gate observation coverage]
-  (coordinator/judged-result
-   gate
-   (cond
-     (= :cancelled (:status observation)) {:outcome :cancelled :coverage nil :reason :cancellation-requested}
-     (or (not= :exited (:status observation)) (:cleanup-required? observation) (not (:observed-processes-stopped? observation)))
-     {:outcome :error :coverage nil :reason :adapter-exception}
-     (not= 0 (:exit observation)) {:outcome :failed :coverage nil :reason :command-failed}
-     :else {:outcome :passed :coverage coverage :reason nil})))
+  (verdict/process-result gate observation coverage))
 (m/=> work-result [:=> [:cat r/Gate Observation [:maybe r/Coverage]] r/WorkResult])

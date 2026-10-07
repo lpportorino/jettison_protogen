@@ -13,8 +13,6 @@
     :test "exact-log-limit-is-complete-and-one-more-byte-refuses"}
    {:id "ignored-timeout" :anchor "(>= (System/nanoTime) deadline) :timed-out" :replacement "false :timed-out"
     :test "timeout-kills-observed-waiting-child-and-keeps-its-reason"}
-   {:id "nonzero-exit-passes" :anchor "(not= 0 (:exit observation))" :replacement "false"
-    :test "exit-status-and-independent-work-witness-both-matter"}
    {:id "direct-process-survives" :anchor "(when (.isAlive ^Process process) (.destroyForcibly ^Process process))" :replacement "nil"
     :test "direct-timeout-must-actually-stop-the-command"}])
 
@@ -26,5 +24,12 @@
             campaign/*test-namespace* "gate.process-test"
             campaign/*control* "missing-executable-relative-executable-and-jobserver-refuse"
             campaign/*faults* faults]
+    (campaign/-main output-parent))
+  (binding [campaign/*scope* :process-verdict
+            campaign/*mutation-source* "src/gate/verdict.cljc"
+            campaign/*test-namespace* "gate.process-test"
+            campaign/*control* "missing-executable-relative-executable-and-jobserver-refuse"
+            campaign/*faults* [{:id "nonzero-exit-passes" :anchor "(not= 0 (:exit observation))" :replacement "false"
+                                :test "exit-status-and-independent-work-witness-both-matter"}]]
     (campaign/-main output-parent)))
 (m/=> -main [:=> [:cat campaign/PathName] :nil])

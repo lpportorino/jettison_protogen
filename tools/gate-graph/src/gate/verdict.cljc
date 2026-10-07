@@ -31,3 +31,19 @@
     (failure :invalid-adapter-result)
     :else result))
 (m/=> judge [:=> [:cat r/Gate [:fn (constantly true)]] r/WorkResult])
+
+(defn process-result
+  "Judge process termination and an independently supplied work witness with the same portable rules.
+   A launched process, exit zero and elapsed time do not themselves prove test or check coverage.
+   Timeout, output/handle limits and incomplete cleanup remain errors, with detail in the observation."
+  [gate observation coverage]
+  (judge
+   gate
+   (cond
+     (= :cancelled (:status observation)) {:outcome :cancelled :coverage nil :reason :cancellation-requested}
+     (or (not= :exited (:status observation)) (nil? (:pid observation))
+         (:cleanup-required? observation) (not (:observed-processes-stopped? observation)))
+     {:outcome :error :coverage nil :reason :adapter-exception}
+     (not= 0 (:exit observation)) {:outcome :failed :coverage nil :reason :command-failed}
+     :else {:outcome :passed :coverage coverage :reason nil})))
+(m/=> process-result [:=> [:cat r/Gate r/ProcessObservation [:maybe r/Coverage]] r/WorkResult])

@@ -137,6 +137,14 @@
    [:cleanup-required? :boolean] [:observed-processes [:int {:min 0 :max 2147483647}]] [:observed-processes-stopped? :boolean]
    [:log [:maybe [:map {:closed true} [:file LogFileName]
                   [:bytes [:int {:min 0 :max 67108864}]] [:digest c/Digest] [:truncated? :boolean]]]]])
+(def ClockedProcess
+  [:map {:closed true} [:schema/version [:= 1]] [:clock c/Id] [:offset-ns c/Natural]
+   [:observation ProcessObservation]])
+(def ProcessCapture
+  [:map {:closed true} [:schema/version [:= 1]] [:run c/Id] [:gate c/Id] [:label c/Label]
+   [:source-digest c/Digest] [:command [:vector {:min 1 :max 256} Text]]
+   [:cwd [:or [:= "."] Path]] [:process ClockedProcess]
+   [:coverage [:maybe Coverage]]])
 (def ContainerObservation
   [:map {:closed true} [:schema/version [:= 1]] [:profile ContainerProfile]
    [:container [:maybe c/Digest]] [:snapshot [:maybe Snapshot]]
@@ -174,12 +182,13 @@
 (def TestBatchReport
   [:map {:closed true} [:schema/version [:= 1]] [:status [:enum :passed :failed :cancelled]]
    [:batch Batch] [:graph c/Graph] [:captures [:vector {:max 10000} ClockedTests]]])
-(def Encodable [:or Gate Gates Snapshot Material ResultIdentity Receipt Decision Admission Schedule Batch AttemptObservation ProcessObservation ContainerProfile ContainerObservation OutputPublication ContainedObservation RuntimeIdentity RuntimeObservation TestObservation TestInventory ClockedTests TestBatchReport])
+(def Encodable [:or Gate Gates Snapshot Material ResultIdentity Receipt Decision Admission Schedule Batch AttemptObservation ProcessObservation ClockedProcess ProcessCapture ContainerProfile ContainerObservation OutputPublication ContainedObservation RuntimeIdentity RuntimeObservation TestObservation TestInventory ClockedTests TestBatchReport])
 (def registry
   {::gate Gate ::input Input ::dependency Dependency ::file File ::snapshot Snapshot
    ::material Material ::coverage Coverage ::receipt Receipt ::decision Decision
    ::admission Admission ::schedule Schedule ::failure Failure
    ::work-result WorkResult ::dispatch Dispatch ::batch Batch ::coordinator-options CoordinatorOptions
+   ::clocked-process ClockedProcess ::process-capture ProcessCapture
    ::attempt-observation AttemptObservation ::process-observation ProcessObservation
    ::container-profile ContainerProfile ::container-observation ContainerObservation
    ::output-publication OutputPublication ::contained-observation ContainedObservation

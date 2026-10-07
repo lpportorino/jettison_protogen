@@ -171,6 +171,40 @@ overlapping aggregation refuses. This profile does not invent CPU or background
 observations. Run attributed controls with
 `clojure -M:test:batch-campaign OWNED_NEW_OUTPUT_PARENT`.
 
+## Clocked subprocess supervision
+
+`gate.process/run-clocked!` accepts the ordinary explicit process request,
+cancellation atom and the coordinator's unchanged `gate.clock` context. It
+returns a closed `ClockedProcess` with `:clock`, `:offset-ns` and the complete
+process observation. Offset and elapsed duration use the same initial tick.
+The interval covers invocation supervision: launch, output handling and cleanup.
+Kernel process lifetime, CPU consumption and internal tests need their own
+observers. The existing process budgets and numeric-jobserver refusal apply.
+
+`gate.process-graph/project` takes the same options, declarations, selected roots
+and Batch as the native test projector, followed by a vector of `ProcessCapture`
+records. Each record supplies `:run`, `:gate`, `:label`, `:source-digest`, actual
+`:command` and `:cwd`, the clocked `:process`, and independently acquired
+`:coverage`. A process exit code alone cannot supply the work witness. The
+portable `gate.verdict/process-result` is shared by execution and projection.
+
+The projector verifies declaration/clock/source/command identity, adapter
+interval containment, verdict and coverage agreement, unique capture enrollment
+and a finite source budget. It preserves typed dependency edges and their
+execution/decision endpoints. A started command gets its supervision interval;
+a failed launch gets a refusal, without execution time. Missing captures,
+truncated logs, I/O failure or unknown cleanup make acquisition incomplete.
+Completeness describes the declared command scope; descendant sampling has no
+containment guarantee and cannot establish a complete subprocess forest.
+
+The graph's capture-source digests bind the raw records, including exit status,
+PID, bounded log digest and cleanup evidence. Retain these records alongside the
+graph; the current viewer does not yet expose their full contents. No test,
+CPU or instruction measurements are inferred. Public EDN admission targets
+`:clocked-process` and `:process-capture` accept only these closed records.
+Mutation controls run with
+`clojure -M:test:process-graph-campaign OWNED_NEW_OUTPUT_PARENT`.
+
 ## Capture-to-report path
 
 `gate.trace-io/load-journal` reads a **quiescent** public gate-trace v1 journal.
@@ -854,24 +888,24 @@ bash tools/uber.sh 'cd tools/gate-graph && clojure -M:demo'
 ```
 
 The demo is entirely synthetic. The test runner requires schemas for every
-bound function var in twenty-nine JVM source namespaces, including private helpers,
+bound function var in its enrolled JVM source namespaces, including private helpers,
 enables Malli instrumentation and refuses an empty suite. Tests include JVM
 arbitrary-precision integer and discrete point-set oracles; nested closure and
 named graph mutations; canonical round trips; continuation identity; byte and
 visit limits; Unicode/escaping; explicit incomplete/PMU states; aggregate overlap,
 coverage, provenance, extrema and budget refusals; grouped task comparison,
-incomplete captures, retries and continuation merge boundaries. The source has
-189 default-suite test declarations and 1,850 seeded property trials. The instrumented JVM
-suite passed 189 tests / 7,688 assertions, plus a cold admission regression
-of one test / three assertions before warm-up. Import tests also include 80
+incomplete captures, retries and continuation merge boundaries. The source-bound
+command records the actual test inventory, invocations and assertion counts,
+including a cold admission regression before warm-up. Import tests include 80
 seeded Malli-generated counters. Broader schema-derived generation remains owed.
 
-Pinned formatting and native clj-kondo passed. Splint emitted 60 report-only
-style findings; it was not suppressed. Earlier Docker permission failures are
-historical. No pin, existing gate or consumer changed. Before integration:
+Pinned formatting, native clj-kondo and structural gates cover the module.
+Splint remains report-only under the repository's existing policy. The normal
+`gate-graph-test` target runs the observed suite and an attributed coverage
+canary; CI and pre-push invoke it. Remaining integration requirements:
 
 - Keep JVM tests, formatter and kondo green; review Splint and run structural
-  quality gates. Enroll the module and its omission canary in the public roster.
+  quality gates. Preserve module and coverage-canary enrollment.
 - Compile/run the shared contracts/arithmetic/codec/query fixtures in CLJS and
   compare bytes/digests/errors with JVM results, including non-BMP strings.
 - Extend attributed mutation assessment beyond admission. Its manual Clojure
