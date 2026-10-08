@@ -261,10 +261,21 @@ fi
 printf '\ncapture — the declaration under test comes from %s\n' "$SUT"
 mkdir -p "$WORK/prod/tools"
 cp -- "$SUT" "$WORK/prod/tools/uber.sh"
-if ! capture "$WORK/prod/tools/uber.sh" prod; then
+if ! UBER_NETWORK='' capture "$WORK/prod/tools/uber.sh" prod; then
   cannot_run "the production declaration could not be captured; every case below would be vacuous"
 fi
 ok "captured $(wc -l <"$WORK/prod.env") env pair(s) and a $(wc -c <"$WORK/prod.script")-byte payload"
+
+# UBER_NETWORK reaches docker: `--network <mode>` in the argv and the mode in the
+# container's env, and neither without it (the capture above set no UBER_NETWORK).
+if UBER_NETWORK=none capture "$WORK/prod/tools/uber.sh" prodnet; then
+  if grep -qx -- '--network' "$WORK/prodnet.argv" && grep -A1 -x -- '--network' "$WORK/prodnet.argv" | grep -qx none \
+     && grep -qx 'UBER_NETWORK_MODE=none' "$WORK/prodnet.env"; then
+    ok "UBER_NETWORK=none: docker runs with --network none and the container is told so"
+  else bad "UBER_NETWORK=none did not reach docker as --network none"; fi
+fi
+if ! grep -qx -- '--network' "$WORK/prod.argv"; then ok "without UBER_NETWORK: no --network flag is passed"
+else bad "a --network flag was passed without UBER_NETWORK"; fi
 
 printf '\ncanaries — production\n'
 verdicts prod prod

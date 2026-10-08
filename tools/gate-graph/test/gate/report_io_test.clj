@@ -87,6 +87,21 @@
         (is (not (.contains (pr-str result) (str dir))) "the directory never travels"))
       (finally (Files/deleteIfExists file) (Files/deleteIfExists dir)))))
 
+(deftest every-reader-names-its-own-kind-and-the-file
+  ;; Each reader wraps its own admission: handed a well-formed document of the
+  ;; wrong kind, every one of them names the kind IT expected and the file it read.
+  (let [dir (Files/createTempDirectory "gate-refusal-" (make-array FileAttribute 0))
+        file (.resolve ^Path dir "wrong.edn")]
+    (try
+      (spit (str file) "{:a 1}")
+      (doseq [[reader kind] [[report-io/read-graph! :graph]
+                             [report-io/read-archive! :run-archive]
+                             [report-io/read-repository! :repository-observation]]]
+        (let [result (failure #(reader (str file) admission/default-limits))]
+          (is (= kind (:expected-kind result)) (str kind " names the kind it expected"))
+          (is (= "wrong.edn" (:file result)) (str kind " names the file it read"))))
+      (finally (Files/deleteIfExists file) (Files/deleteIfExists dir)))))
+
 (deftest a-refusal-file-is-only-ever-a-basename
   ;; A caller can hand any string as a path; only a separator-free basename may
   ;; travel. A backslash path must not pass through whole on a POSIX host.

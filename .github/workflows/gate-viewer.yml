@@ -27,6 +27,10 @@ on:
     - "tools/lint/ruff.sh"
     # Sourced by both canaries: a change to it can break them.
     - "tools/lint/test/lib_mutate.sh"
+    # The visual-review batch resolver and its test run here, in the pinned image.
+    - ".claude/skills/viewer-visual-review/**"
+    # Its steps run lint.mk targets.
+    - "lint.mk"
   pull_request:
     paths:
     - "tools/gate-graph/**"
@@ -41,6 +45,10 @@ on:
     - "tools/lint/ruff.sh"
     # Sourced by both canaries: a change to it can break them.
     - "tools/lint/test/lib_mutate.sh"
+    # The visual-review batch resolver and its test run here, in the pinned image.
+    - ".claude/skills/viewer-visual-review/**"
+    # Its steps run lint.mk targets.
+    - "lint.mk"
   workflow_dispatch: {}
 
 permissions:
@@ -67,6 +75,8 @@ jobs:
       uses: actions/checkout@v7.0.1
     - name: Build the pinned toolchain image
       run: docker build -t jettison-proto-generator-base:latest -f Dockerfile.base .
+    - name: Visual-review batch resolver (batch.py) contract, in the pinned image
+      run: docker run --rm -v "$PWD:/w" -w /w --entrypoint bash jettison-proto-generator-base:latest -c 'make -f lint.mk viewer-review-batch-test'
     - name: ESLint canaries (each config clause broken alone)
       run: bash tools/gate-graph/browser/lint_js_test.sh
     - name: ESLint over the hand-authored JavaScript (warnings block)

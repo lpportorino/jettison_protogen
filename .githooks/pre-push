@@ -95,6 +95,7 @@ fi
 # checkout). With none found the scan exits 4, NOT RUN: the push goes through,
 # and the hook's LAST line says nothing was checked, so the warning cannot scroll
 # away (`git config protogen.privateNamesRequired true` makes that a refusal).
+# ---8<--- private-name scan BEGIN
 private_names_rc=0
 tools/lint/private_names.sh --remote "${1:-}" || private_names_rc=$?
 case "$private_names_rc" in
@@ -103,6 +104,7 @@ case "$private_names_rc" in
     printf '\033[31m[pre-push] BLOCKED\033[0m — the push would publish a private name (above), or the scan could not run.\n' >&2
     exit 1 ;;
 esac
+# ---8<--- private-name scan END
 
 printf '\033[36m[pre-push]\033[0m format + lint gates\n'
 
@@ -196,14 +198,14 @@ fi
 if command -v docker >/dev/null 2>&1; then
   # UBER_NETWORK=none: these container lanes judge with the network removed, so a
   # provisioning gap in the image they use fails here by name. That covers these
-  # five and the ESLint lane below (its own container is network-removed too); the
+  # six and the ESLint lane below (its own container is network-removed too); the
   # bare `make -f lint.mk lint` above runs on the host network, and the wasmtime
   # harness lanes are not run by this hook at all.
-  if ! UBER_NETWORK=none tools/uber.sh 'make -f lint.mk lint-c-tidy-test lint-c-tidy lint-python gate-trace-test gate-graph-test'; then
+  if ! UBER_NETWORK=none tools/uber.sh 'make -f lint.mk lint-c-tidy-test lint-c-tidy lint-python gate-trace-test gate-graph-test viewer-review-batch-test'; then
     cat >&2 <<'EOF'
 
 [pre-push] BLOCKED — the clang-tidy lane, the Python lane, a gate graph or gate-trace
-suite, or one of their canaries refused. Read the `*** [lint.mk:N: <target>]
+suite, the visual-review batch resolver's test, or one of their canaries refused. Read the `*** [lint.mk:N: <target>]
 Error` line above for which.
 
   These lanes run with the NETWORK REMOVED. "Failed to read artifact",
@@ -237,6 +239,8 @@ Error` line above for which.
                     see it   :  tools/uber.sh 'make -f lint.mk gate-trace-test'
   gate-graph-test   a shared runner, graph, inspection or contract test failed.
                     see it   :  tools/uber.sh 'make -f lint.mk gate-graph-test'
+  viewer-review-batch-test  batch.py's contract (visual-review batches) broke.
+                    see it   :  tools/uber.sh 'make -f lint.mk viewer-review-batch-test'
 EOF
     exit 1
   fi
@@ -253,6 +257,7 @@ else
   printf '\033[33m[pre-push]\033[0m no docker — lint-python and its canaries NOT RUN (CI runs them only when renderer.yml fires; for a push confined to tools/gate-trace/ nothing runs Ruff)\n' >&2
   printf '\033[33m[pre-push]\033[0m no docker — gate-trace-test and its canary NOT RUN (CI will run them)\n' >&2
   printf '\033[33m[pre-push]\033[0m no docker — gate-graph-test NOT RUN (CI will run it)\n' >&2
+  printf '\033[33m[pre-push]\033[0m no docker — viewer-review-batch-test NOT RUN (gate-viewer.yml will run it)\n' >&2
   printf '\033[33m[pre-push]\033[0m no docker — ESLint over the browser harness NOT RUN (gate-viewer.yml will run it)\n' >&2
 fi
 
@@ -314,9 +319,11 @@ EOF
   exit 1
 fi
 
+# ---8<--- final line BEGIN
 if [ "$private_names_rc" = 4 ]; then
   printf '\033[33m[pre-push]\033[0m gates green — BUT the private-name scan did NOT RUN: no list was found, so nothing was checked for private names\n'
 else
   printf '\033[32m[pre-push]\033[0m gates green\n'
 fi
+# ---8<--- final line END
 exit 0

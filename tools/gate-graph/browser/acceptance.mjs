@@ -208,19 +208,26 @@ async function themeContrast(page, scope = 'document') {
   const result = await page.evaluate(({ js, scope }) => new Function('scope', js + `
     const root = scope === 'dialog' ? document.querySelector('dialog[open]') : document;
     const failures = []; let checked = 0, min = Infinity;
-    const judge = (element, fg, label) => {
+    // What the eye sees: the text colour composited over its background with its
+    // EFFECTIVE alpha — the colour's own alpha times every opacity that applies.
+    // Measuring the raw colour would pass text drawn at a fraction of its opacity.
+    const opacityChain = start => { let o = 1; for (let n = start; n; n = n.parentElement) o *= Number(getComputedStyle(n).opacity); return o; };
+    const judge = (element, fg, label, opacity) => {
       const background = opaqueBackground(element);
       if (!fg || !background) throw new Error('Unmeasured text color: ' + label);
-      const r = ratio(fg, background); checked++; min = Math.min(min, r);
+      const alpha = (fg.length > 3 ? fg[3] : 1) * opacity;
+      const seen = fg.slice(0, 3).map((v, i) => alpha * v + (1 - alpha) * background[i]);
+      const r = ratio(seen, background); checked++; min = Math.min(min, r);
       if (r < 4.5) failures.push({ text: label.slice(0, 80), ratio: +r.toFixed(2) });
     };
     for (const element of root.querySelectorAll('button,p,h1,h2,h3,label,summary,pre,.ruler span,.crumb')) {
       if (!element.checkVisibility() || !element.textContent.trim()) continue;
-      judge(element, color(getComputedStyle(element).color), element.textContent);
+      judge(element, color(getComputedStyle(element).color), element.textContent, opacityChain(element));
     }
     for (const input of root.querySelectorAll('input[placeholder]')) {
       if (!input.checkVisibility() || input.value) continue;
-      judge(input, color(getComputedStyle(input, '::placeholder').color), 'placeholder: ' + input.placeholder);
+      const placeholder = getComputedStyle(input, '::placeholder');
+      judge(input, color(placeholder.color), 'placeholder: ' + input.placeholder, Number(placeholder.opacity) * opacityChain(input));
     }
     return { checked, min: +min.toFixed(2), failures };`)(scope), { js: CONTRAST_JS, scope });
   assert.ok(result.checked > (scope === 'dialog' ? 3 : 10), 'contrast checks exercise rendered text');

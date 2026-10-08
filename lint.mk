@@ -431,7 +431,7 @@ hooks-status:
 lint:
 	@$(MAKE) --no-print-directory -f lint.mk -j$(NPROC) lint-lanes
 
-lint-lanes: kondo-regression lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths private-names-test lint-file-size-test lint-file-size lint-instruction-budget-test lint-instruction-budget ci-annotate-test gate-viewer-runner-test lint-cmd-no-any-bytes-test lint-cmd-no-any-bytes lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test uber-safe-directory-test leg-strictness-test wasm-provenance-test ts-validated-repro-test wire-contract-codec-test wire-contract-envelope-test fork-hazards protocol-gen-test protocol-gen-canary fmt-clj lint-clj fmt-c
+lint-lanes: kondo-regression lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths private-names-test prepush-scan-test lint-file-size-test lint-file-size lint-instruction-budget-test lint-instruction-budget ci-annotate-test gate-viewer-runner-test lint-cmd-no-any-bytes-test lint-cmd-no-any-bytes lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test uber-safe-directory-test uber-seed-test mutation-campaign-test leg-strictness-test wasm-provenance-test ts-validated-repro-test wire-contract-codec-test wire-contract-envelope-test fork-hazards protocol-gen-test protocol-gen-canary fmt-clj lint-clj fmt-c
 
 ## lint-python / lint-python-test: pinned Ruff over the enrolled Python gate drivers
 # The bounded enrollment lives in tools/lint/python_check.sh; experiment and data
@@ -695,6 +695,11 @@ lint-no-host-paths-test:
 .PHONY: private-names-test
 private-names-test:
 	@bash tools/lint/test/private_names_test.sh
+
+## prepush-scan-test: how the hook acts on the scan's exit codes, and its last line
+.PHONY: prepush-scan-test
+prepush-scan-test:
+	@bash tools/lint/test/prepush_scan_test.sh
 
 ## lint-file-size: SIZE CEILING over the hand-authored population
 # protogen is PUBLIC, so a large file committed here is materialised in every
@@ -1078,6 +1083,28 @@ uber-chown-test:
 .PHONY: uber-safe-directory-test
 uber-safe-directory-test:
 	@bash tools/uber_safe_directory_test.sh
+
+## uber-seed-test: the cargo registry seed block, run on the host against fixtures
+# Needs bash and flock only: it extracts the block between uber.sh's markers.
+.PHONY: uber-seed-test
+uber-seed-test:
+	@bash tools/uber_seed_test.sh
+
+## mutation-campaign-test: the canary for tools/mutation/campaign.py
+# Every outcome (killed, survived, invalid) and exit code (0/1/2/3) on a
+# synthetic repository; needs bash, git and python3. The campaign itself is run
+# by hand (tools/mutation/README.md), never by an aggregate.
+.PHONY: mutation-campaign-test
+mutation-campaign-test:
+	@bash tools/mutation/campaign_test.sh
+
+## viewer-review-batch-test: batch.py's contract on synthetic evidence runs
+# NOT in `lint-lanes`: it needs Pillow, which the pinned image carries and a bare
+# runner may not. gate-viewer.yml runs it in that image; the hook runs it through
+# tools/uber.sh in its docker-gated block.
+.PHONY: viewer-review-batch-test
+viewer-review-batch-test:
+	@bash .claude/skills/viewer-visual-review/batch_test.sh
 
 # The controls.wasm CONTENT-PROVENANCE stamp and its verifier — the pair that
 # answers "was this binary built from these sources", where the older build-sha

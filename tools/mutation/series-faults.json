@@ -1,0 +1,921 @@
+{
+ "scope": "the gate-viewer series, 91b5a050..HEAD: private-name scan, hook handling, JS lint lane, acceptance entry point, visual-review batch resolver, uber.sh offline seed and network, admission refusal diagnostics, viewer focus/controls/CSS",
+ "suites": {
+  "private-names": {
+   "command": "bash tools/lint/test/private_names_test.sh",
+   "timeout": 300
+  },
+  "prepush-scan": {
+   "command": "bash tools/lint/test/prepush_scan_test.sh",
+   "timeout": 120
+  },
+  "lint-js": {
+   "command": "bash tools/gate-graph/browser/lint_js_test.sh",
+   "timeout": 900,
+   "prepare": "cp -al \"$ROOT/tools/gate-graph/browser/node_modules\" tools/gate-graph/browser/"
+  },
+  "run-sh": {
+   "command": "bash tools/gate-graph/browser/run_test.sh",
+   "timeout": 300
+  },
+  "batch": {
+   "command": "bash .claude/skills/viewer-visual-review/batch_test.sh",
+   "timeout": 300
+  },
+  "uber-seed": {
+   "command": "bash tools/uber_seed_test.sh",
+   "timeout": 300
+  },
+  "uber-docker": {
+   "command": "bash tools/uber_safe_directory_test.sh",
+   "timeout": 900
+  },
+  "gate-graph": {
+   "command": "UBER_NETWORK=none tools/uber.sh 'cd tools/gate-graph && clojure -M:test'",
+   "timeout": 2400,
+   "note": "admission.cljc is a viewer-bundle input: faults there use gate-graph-rebuilt, which rebuilds the bundle first"
+  },
+  "acceptance": {
+   "command": "UBER_NETWORK=none tools/uber.sh \"cd tools/gate-graph && clojure -M:viewer-build && clojure -Sdeps '{:aliases {:fx {:extra-paths [\\\"test\\\"]}}}' -M:fx -m gate.view.fixtures /workspace/.mut/fixtures\" && docker run --rm --network none -v \"$PWD:/w\" -w /w/tools/gate-graph/browser --user \"$(id -u)\" -e HOME=/tmp $(sed -n 's/^PLAYWRIGHT_IMAGE=\"\\(.*\\)\"$/\\1/p' tools/gate-graph/browser/run.sh) node acceptance.mjs /w/.mut/fixtures /w/.mut/run chromium",
+   "timeout": 2400,
+   "prepare": "cp -al \"$ROOT/tools/gate-graph/browser/node_modules\" tools/gate-graph/browser/"
+  },
+  "gate-graph-rebuilt": {
+   "command": "UBER_NETWORK=none tools/uber.sh 'cd tools/gate-graph && clojure -M:viewer-build && clojure -M:test'",
+   "timeout": 2400
+  }
+ },
+ "faults": [
+  {
+   "id": "pn-list-arg",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "[ $# -ge 2 ] || cannot \"--list needs a file\"; ",
+   "replacement": "",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+--list with no value",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-remote-arg",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "[ $# -ge 2 ] || cannot \"--remote needs a name (the hook passes its first argument)\"; ",
+   "replacement": "",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+--remote with no value",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-named-missing",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "[ -e \"$list\" ] || cannot \"the named list $list does not exist\"",
+   "replacement": "true",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+a NAMED list that is missing",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-ceiling",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "-u GIT_CEILING_DIRECTORIES git -C \"$1\"",
+   "replacement": "git -C \"$1\"",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+GIT_CEILING_DIRECTORIES hid",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-readlink",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "real=\"$(readlink -f -- \"$f\" 2>/dev/null)\" || real=\"\"",
+   "replacement": "real=\"$f\"",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+a list SYMLINKED into a repository",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-regular",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "{ [ -n \"$real\" ] && [ -f \"$real\" ]; } ||",
+   "replacement": "{ [ -n \"$real\" ] && [ -e \"$real\" ]; } ||",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+a list that is a DIRECTORY",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-target-dir",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "for d in \"$(dirname -- \"$f\")\" \"$(dirname -- \"$real\")\"; do",
+   "replacement": "for d in \"$(dirname -- \"$f\")\"; do",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+a list SYMLINKED into a repository",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-work-tree",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "inside_work_tree \"$d\" && cannot",
+   "replacement": "false && cannot",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+a list at the checkout TOP",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-required",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "protogen.privateNamesRequired 2>/dev/null)\" = true ]",
+   "replacement": "protogen.privateNamesRequired 2>/dev/null)\" = never ]",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+a REQUIRED default list",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-not-run-exit",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "  exit 4\n",
+   "replacement": "  exit 0\n",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+no list anywhere",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-read-fails",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "content=\"$(cat -- \"$f\" 2>&1)\" || cannot \"cannot read $f: $content\"",
+   "replacement": "content=\"$(cat -- \"$f\" 2>/dev/null)\" || true",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+an UNREADABLE list",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-trim",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "line=\"${line#\"${line%%[![:space:]]*}\"}\"; ",
+   "replacement": "",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+a CRLF-saved, padded list",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-empty",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "[ -s \"$patterns\" ] || cannot",
+   "replacement": "true || cannot",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+a list with no patterns",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-invalid",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "[ $? -eq 2 ] && cannot",
+   "replacement": "[ $? -eq 99 ] && cannot",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+an invalid pattern",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-origin",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "would publish a private name (pattern at $origin)\"",
+   "replacement": "would publish a private name\"",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+UNION: the .git/info list",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-mask",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "printf '%s\\n' \"$masked\" | cut -c1-240",
+   "replacement": "printf '%s\\n' \"$found\" | cut -c1-240",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+a FAIL printed the matched name",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-deletion",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "[ \"$lsha\" = \"$zero\" ] && continue",
+   "replacement": ":",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+a deletion publishes nothing",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-tag",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "= tag ] && [ \"$depth\" -lt 32 ]; do",
+   "replacement": "= never ] && [ \"$depth\" -lt 32 ]; do",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+a name in an annotated TAG",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-ref-names",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "report \"a pushed ref name or tag\" \"$work/refs\"",
+   "replacement": ":",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+a name in a pushed REF NAME",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-object",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "report \"commit $short's object (identity, message, headers)\" \"$work/object\"",
+   "replacement": ":",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+a name in the COMMIT MESSAGE",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-paths",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "report \"commit $short's paths\" \"$work/paths\"",
+   "replacement": ":",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+a name as an EMPTY file",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-added",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "report \"commit $short's added lines\" \"$work/added\"",
+   "replacement": ":",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+a name in an ADDED LINE",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-text",
+   "source": "tools/lint/private_names.sh",
+   "anchor": " --text --no-renames \"$c\"",
+   "replacement": " --no-renames \"$c\"",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+a name in NUL-carrying content",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-remote-tip",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "git rev-list \"$rsha..$lsha\"",
+   "replacement": "git rev-list \"$lsha\"",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+a name only in a commit the remote holds",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-per-remote",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "exclude=(--not \"--remotes=$remote\")",
+   "replacement": "exclude=(--not --remotes)",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+a new ref to one remote is not excused",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "pn-read-failure",
+   "source": "tools/lint/private_names.sh",
+   "anchor": "|| cannot \"git could not read commit $short",
+   "replacement": "|| true \"git could not read commit $short",
+   "suite": "private-names",
+   "kill": "FAIL\\S*\\s+an unreadable object",
+   "control": "ok\\S*\\s+a clean commit passes"
+  },
+  {
+   "id": "hook-not-run-passes",
+   "source": ".githooks/pre-push",
+   "anchor": "  0 | 4) ;;",
+   "replacement": "  0) ;;",
+   "suite": "prepush-scan",
+   "kill": "FAIL\\S*\\s+scanner exit 4 blocked",
+   "control": "ok\\S*\\s+scanner exit 0: the push continues"
+  },
+  {
+   "id": "hook-last-line",
+   "source": ".githooks/pre-push",
+   "anchor": "if [ \"$private_names_rc\" = 4 ]; then",
+   "replacement": "if false; then",
+   "suite": "prepush-scan",
+   "kill": "FAIL\\S*\\s+exit 4 left a plain final line",
+   "control": "ok\\S*\\s+scanner exit 0: the push continues"
+  },
+  {
+   "id": "hook-remote",
+   "source": ".githooks/pre-push",
+   "anchor": "tools/lint/private_names.sh --remote \"${1:-}\"",
+   "replacement": "tools/lint/private_names.sh",
+   "suite": "prepush-scan",
+   "kill": "FAIL\\S*\\s+scanner got",
+   "control": "ok\\S*\\s+scanner exit 0: the push continues"
+  },
+  {
+   "id": "lj-stamp",
+   "source": "tools/gate-graph/browser/lint_js.sh",
+   "anchor": "if [ \"$(cat \"$stamp\" 2>/dev/null)\" != \"$want\" ]; then",
+   "replacement": "if false; then",
+   "suite": "lint-js",
+   "kill": "FAIL\\S*\\s+a stale install stamp",
+   "control": "ok\\S*\\s+CONTROL: browser and Node globals"
+  },
+  {
+   "id": "lj-exclusion-guard",
+   "source": "tools/gate-graph/browser/lint_js.sh",
+   "anchor": "grep -qxF \"$x\" <<<\"$listing\" || cannot",
+   "replacement": "true || cannot",
+   "suite": "lint-js",
+   "kill": "FAIL\\S*\\s+a declared exclusion that matches nothing",
+   "control": "ok\\S*\\s+CONTROL: browser and Node globals"
+  },
+  {
+   "id": "lj-exclusion-apply",
+   "source": "tools/gate-graph/browser/lint_js.sh",
+   "anchor": "[ \"$f\" = \"$x\" ] && skip=1",
+   "replacement": ":",
+   "suite": "lint-js",
+   "kill": "FAIL\\S*\\s+discovery that finds only the excluded bundle",
+   "control": "ok\\S*\\s+CONTROL: browser and Node globals"
+  },
+  {
+   "id": "lj-floor",
+   "source": "tools/gate-graph/browser/lint_js.sh",
+   "anchor": "[ ${#files[@]} -gt 0 ] || cannot",
+   "replacement": "true || cannot",
+   "suite": "lint-js",
+   "kill": "FAIL\\S*\\s+discovery that finds only the excluded bundle",
+   "control": "ok\\S*\\s+CONTROL: browser and Node globals"
+  },
+  {
+   "id": "lj-named-missing",
+   "source": "tools/gate-graph/browser/lint_js.sh",
+   "anchor": "[ -f \"$root/$f\" ] || cannot",
+   "replacement": "true || cannot",
+   "suite": "lint-js",
+   "kill": "FAIL\\S*\\s+a named file that is missing",
+   "control": "ok\\S*\\s+CONTROL: browser and Node globals"
+  },
+  {
+   "id": "lj-fail-exit",
+   "source": "tools/gate-graph/browser/lint_js.sh",
+   "anchor": "  1) say \"FAIL",
+   "replacement": "  9) say \"FAIL",
+   "suite": "lint-js",
+   "kill": "FAIL\\S*\\s+an undefined name fails",
+   "control": "ok\\S*\\s+CONTROL: browser and Node globals"
+  },
+  {
+   "id": "lj-max-warnings",
+   "source": "tools/gate-graph/browser/lint_js.sh",
+   "anchor": " --max-warnings 0 ",
+   "replacement": " ",
+   "suite": "lint-js",
+   "kill": "FAIL\\S*\\s+a disable directive that suppresses nothing",
+   "control": "ok\\S*\\s+CONTROL: browser and Node globals"
+  },
+  {
+   "id": "es-files",
+   "source": "tools/gate-graph/browser/eslint.config.mjs",
+   "anchor": "files: ['**/*.mjs', '**/*.js', '**/*.cjs'],",
+   "replacement": "files: ['tools/gate-graph/browser/**/*.mjs'],",
+   "suite": "lint-js",
+   "kill": "FAIL\\S*\\s+a file OUTSIDE the harness tree",
+   "control": "ok\\S*\\s+CONTROL: browser and Node globals"
+  },
+  {
+   "id": "es-browser-globals",
+   "source": "tools/gate-graph/browser/eslint.config.mjs",
+   "anchor": "...globals.node, ...globals.browser",
+   "replacement": "...globals.node",
+   "suite": "lint-js",
+   "kill": "FAIL\\S*\\s+CONTROL: browser and Node globals",
+   "control": "ok\\S*\\s+an undefined name fails"
+  },
+  {
+   "id": "es-recommended",
+   "source": "tools/gate-graph/browser/eslint.config.mjs",
+   "anchor": "    ...js.configs.recommended,\n",
+   "replacement": "",
+   "suite": "lint-js",
+   "kill": "FAIL\\S*\\s+an undefined name fails",
+   "control": "ok\\S*\\s+CONTROL: browser and Node globals"
+  },
+  {
+   "id": "rs-stamp-best-effort",
+   "source": "tools/gate-graph/browser/run.sh",
+   "anchor": "\"$here/node_modules/.installed-from\"; } 2>/dev/null || true",
+   "replacement": "\"$here/node_modules/.installed-from\"; }",
+   "suite": "run-sh",
+   "kill": "FAIL\\S*\\s+both engines green is green",
+   "control": "ok\\S*\\s+an assertion failure recorded in the manifest is FAIL"
+  },
+  {
+   "id": "rs-fixtures-arg",
+   "source": "tools/gate-graph/browser/run.sh",
+   "anchor": "[ $# -ge 2 ] || cannot_run \"--fixtures needs a directory\"; ",
+   "replacement": "",
+   "suite": "run-sh",
+   "kill": "FAIL\\S*\\s+--fixtures with no value",
+   "control": "ok\\S*\\s+an assertion failure recorded in the manifest is FAIL"
+  },
+  {
+   "id": "rs-python3",
+   "source": "tools/gate-graph/browser/run.sh",
+   "anchor": "command -v python3 >/dev/null 2>&1 || cannot_run",
+   "replacement": "true || cannot_run",
+   "suite": "run-sh",
+   "kill": "FAIL\\S*\\s+no python3",
+   "control": "ok\\S*\\s+an assertion failure recorded in the manifest is FAIL"
+  },
+  {
+   "id": "bp-jitter-bound",
+   "source": ".claude/skills/viewer-visual-review/batch.py",
+   "anchor": "max_delta(before, image) <= JITTER",
+   "replacement": "max_delta(before, image) < JITTER",
+   "suite": "batch",
+   "kill": "FAIL\\S*\\s+Chromium jitter was batched",
+   "control": "ok\\S*\\s+a capture with no prior is batched"
+  },
+  {
+   "id": "bp-jitter-engines",
+   "source": ".claude/skills/viewer-visual-review/batch.py",
+   "anchor": "JITTER_ENGINES = {\"chromium\"}",
+   "replacement": "JITTER_ENGINES = {\"chromium\", \"webkit\"}",
+   "suite": "batch",
+   "kill": "FAIL\\S*\\s+WebKit jitter was excused",
+   "control": "ok\\S*\\s+a capture with no prior is batched"
+  },
+  {
+   "id": "bp-same-brief",
+   "source": ".claude/skills/viewer-visual-review/batch.py",
+   "anchor": "and read_brief(prior_sidecar).get(\"expect\") == brief[\"expect\"]",
+   "replacement": "and True",
+   "suite": "batch",
+   "kill": "FAIL\\S*\\s+a changed brief was not batched",
+   "control": "ok\\S*\\s+a capture with no prior is batched"
+  },
+  {
+   "id": "bp-vanished",
+   "source": ".claude/skills/viewer-visual-review/batch.py",
+   "anchor": "        if unexplained:\n",
+   "replacement": "        if False:\n",
+   "suite": "batch",
+   "kill": "FAIL\\S*\\s+a vanished capture is refused",
+   "control": "ok\\S*\\s+a capture with no prior is batched"
+  },
+  {
+   "id": "bp-stale-waiver",
+   "source": ".claude/skills/viewer-visual-review/batch.py",
+   "anchor": "    if stale:\n",
+   "replacement": "    if False:\n",
+   "suite": "batch",
+   "kill": "FAIL\\S*\\s+a --vanished naming nothing",
+   "control": "ok\\S*\\s+a capture with no prior is batched"
+  },
+  {
+   "id": "bp-green-run",
+   "source": ".claude/skills/viewer-visual-review/batch.py",
+   "anchor": "if manifest.get(\"completed\") is not True or manifest.get(\"failure\"):",
+   "replacement": "if False:",
+   "suite": "batch",
+   "kill": "FAIL\\S*\\s+a red run is refused",
+   "control": "ok\\S*\\s+a capture with no prior is batched"
+  },
+  {
+   "id": "bp-defer-writes",
+   "source": ".claude/skills/viewer-visual-review/batch.py",
+   "anchor": "    for out, chunk in pending:\n        out.write_text(json.dumps(chunk, indent=1) + \"\\n\")\n",
+   "replacement": "",
+   "suite": "batch",
+   "kill": "FAIL\\S*\\s+a green run wrote no batch file",
+   "control": "ok\\S*\\s+a red run is refused"
+  },
+  {
+   "id": "bp-brief-keys",
+   "source": ".claude/skills/viewer-visual-review/batch.py",
+   "anchor": "if \"tiles\" not in brief or \"expect\" not in brief:",
+   "replacement": "if False:",
+   "suite": "batch",
+   "kill": "FAIL\\S*\\s+a sidecar without tiles",
+   "control": "ok\\S*\\s+a capture with no prior is batched"
+  },
+  {
+   "id": "bp-help",
+   "source": ".claude/skills/viewer-visual-review/batch.py",
+   "anchor": "        if exit_.code == 0:\n            raise\n",
+   "replacement": "",
+   "suite": "batch",
+   "kill": "FAIL\\S*\\s+--help is not a refusal",
+   "control": "ok\\S*\\s+a capture with no prior is batched"
+  },
+  {
+   "id": "ub-flock",
+   "source": "tools/uber.sh",
+   "anchor": "exec 9>\"$CARGO_HOME/.seed.lock\" && flock 9 || exit 1",
+   "replacement": "true",
+   "suite": "uber-seed",
+   "kill": "FAIL\\S*\\s+concurrent first runs made",
+   "control": "ok\\S*\\s+a first run seeds a registry identical"
+  },
+  {
+   "id": "ub-failed",
+   "source": "tools/uber.sh",
+   "anchor": "|| printf 'uber.sh: cargo registry seed from the image FAILED: %s\\n'",
+   "replacement": "|| true 'uber.sh: cargo registry seed from the image FAILED: %s\\n'",
+   "suite": "uber-seed",
+   "kill": "FAIL\\S*\\s+an impossible seed was silent",
+   "control": "ok\\S*\\s+a first run seeds a registry identical"
+  },
+  {
+   "id": "ub-offline",
+   "source": "tools/uber.sh",
+   "anchor": "[ \"${UBER_NETWORK_MODE:-}\" = none ] && export CARGO_NET_OFFLINE=true",
+   "replacement": ":",
+   "suite": "uber-seed",
+   "kill": "FAIL\\S*\\s+the network-removed mode did not tell cargo",
+   "control": "ok\\S*\\s+a first run seeds a registry identical"
+  },
+  {
+   "id": "ub-network-flag",
+   "source": "tools/uber.sh",
+   "anchor": "[ -n \"${UBER_NETWORK:-}\" ] && NETWORK_ARGS=(--network \"$UBER_NETWORK\")",
+   "replacement": ":",
+   "suite": "uber-docker",
+   "kill": "FAIL\\S*\\s+UBER_NETWORK=none did not reach docker",
+   "control": "ok\\S*\\s+without UBER_NETWORK: no --network flag"
+  },
+  {
+   "id": "adm-expected-kind",
+   "source": "tools/gate-graph/src/gate/admission.cljc",
+   "anchor": "(assoc (ex-data error) :expected-kind target)",
+   "replacement": "(ex-data error)",
+   "suite": "gate-graph-rebuilt",
+   "kill": "FAIL in \\(every-reader-names-its-own-kind-and-the-file\\)",
+   "control": "Ran \\d+ tests containing [1-9]\\d* assertions",
+   "only": "a-refusal-file-is-only-ever-a-basename|a-refusal-names-the-kind-it-expected-and-the-file-it-read|every-reader-names-its-own-kind-and-the-file|refusal-offsets-are-utf16-and-do-not-echo-private-input",
+   "note": "every test that asserts :expected-kind on a refusal; nothing else may fail"
+  },
+  {
+   "id": "adm-catch",
+   "source": "tools/gate-graph/src/gate/admission.cljc",
+   "anchor": "(throw (if (= refusal-message (ex-message error))",
+   "replacement": "(throw (if false",
+   "suite": "gate-graph-rebuilt",
+   "kill": "FAIL in \\(every-reader-names-its-own-kind-and-the-file\\)",
+   "control": "Ran \\d+ tests containing [1-9]\\d* assertions",
+   "only": "a-refusal-file-is-only-ever-a-basename|a-refusal-names-the-kind-it-expected-and-the-file-it-read|every-reader-names-its-own-kind-and-the-file|refusal-offsets-are-utf16-and-do-not-echo-private-input",
+   "note": "every test that asserts :expected-kind on a refusal; nothing else may fail"
+  },
+  {
+   "id": "rio-backslash",
+   "source": "tools/gate-graph/src/gate/report_io.clj",
+   "anchor": "(str/split path #\"[/\\\\\\\\]\")",
+   "replacement": "(str/split path #\"/\")",
+   "suite": "gate-graph",
+   "kill": "FAIL in \\(a-refusal-file-is-only-ever-a-basename\\)",
+   "control": "Ran \\d+ tests containing [1-9]\\d* assertions",
+   "only": "a-refusal-file-is-only-ever-a-basename"
+  },
+  {
+   "id": "rio-graph-reader",
+   "source": "tools/gate-graph/src/gate/report_io.clj",
+   "anchor": "(naming-file path #(admission/decode (read-text! path (:bytes limits)) :graph limits))",
+   "replacement": "(admission/decode (read-text! path (:bytes limits)) :graph limits)",
+   "suite": "gate-graph",
+   "kill": "FAIL in \\(every-reader-names-its-own-kind-and-the-file\\)",
+   "control": "Ran \\d+ tests containing [1-9]\\d* assertions",
+   "only": "every-reader-names-its-own-kind-and-the-file"
+  },
+  {
+   "id": "rio-repository-reader",
+   "source": "tools/gate-graph/src/gate/report_io.clj",
+   "anchor": "(naming-file path #(admission/decode (read-text! path (:bytes limits)) :repository-observation limits))",
+   "replacement": "(admission/decode (read-text! path (:bytes limits)) :repository-observation limits)",
+   "suite": "gate-graph",
+   "kill": "FAIL in \\(every-reader-names-its-own-kind-and-the-file\\)",
+   "control": "Ran \\d+ tests containing [1-9]\\d* assertions",
+   "only": "every-reader-names-its-own-kind-and-the-file"
+  },
+  {
+   "id": "vw-data-track",
+   "source": "tools/gate-graph/src/gate/viewer.cljs",
+   "anchor": "(.getAttribute row \"data-track\")",
+   "replacement": "nil",
+   "suite": "acceptance",
+   "kill": "\\[acceptance\\] FAIL .*(closing returns focus to the track that opened the dialog|with no focus on click \\(Safari\\))",
+   "control": "\\[acceptance\\] FAIL \\{",
+   "note": "both assertions judge the opener identity of identical track buttons; the first to run fails first"
+  },
+  {
+   "id": "vw-force-opener",
+   "source": "tools/gate-graph/src/gate/viewer.cljs",
+   "anchor": "(when (or lost? (and found (not only-if-lost?)))",
+   "replacement": "(when lost?",
+   "suite": "acceptance",
+   "kill": "\\[acceptance\\] FAIL .*even when another control held focus",
+   "control": "\\[acceptance\\] FAIL \\{"
+  },
+  {
+   "id": "vw-close-reopened",
+   "source": "tools/gate-graph/src/gate/viewer.cljs",
+   "anchor": "(fn [_] (when-not (.-open dialog)",
+   "replacement": "(fn [_] (when true",
+   "suite": "acceptance",
+   "kill": "\\[acceptance\\] FAIL .*a stale close event",
+   "control": "\\[acceptance\\] FAIL \\{"
+  },
+  {
+   "id": "vw-close-fallback",
+   "source": "tools/gate-graph/src/gate/viewer.cljs",
+   "anchor": "(let [e @opener] (reset! opener nil) (place-focus! e true))",
+   "replacement": "nil",
+   "suite": "acceptance",
+   "kill": "\\[acceptance\\] FAIL .*a close that skipped cancel",
+   "control": "\\[acceptance\\] FAIL \\{"
+  },
+  {
+   "id": "vw-summary-candidate",
+   "source": "tools/gate-graph/src/gate/viewer.cljs",
+   "anchor": "(some-> found (.closest \"details:not([open])\") (.querySelector \"summary\"))",
+   "replacement": "nil",
+   "suite": "acceptance",
+   "kill": "\\[acceptance\\] FAIL .*focuses that panel",
+   "control": "\\[acceptance\\] FAIL \\{"
+  },
+  {
+   "id": "vw-remember-guard",
+   "source": "tools/gate-graph/src/gate/viewer.cljs",
+   "anchor": "(when-not (.-open (.getElementById js/document \"detail-dialog\"))",
+   "replacement": "(when true",
+   "suite": "acceptance",
+   "kill": "\\[acceptance\\] FAIL .*(closing details returns focus to the task that opened them|a stale close event)",
+   "control": "\\[acceptance\\] FAIL \\{",
+   "note": "both assertions browse inside an open dialog and require the ORIGINAL opener back; the first to run fails first"
+  },
+  {
+   "id": "vw-reveal",
+   "source": "tools/gate-graph/src/gate/viewer.cljs",
+   "anchor": "(set! (.-hidden (.getElementById js/document \"interactive-controls\")) false)",
+   "replacement": "nil",
+   "suite": "acceptance",
+   "kill": "\\[acceptance\\] FAIL .*an admitted report reveals",
+   "control": "\\[acceptance\\] FAIL \\{"
+  },
+  {
+   "id": "rp-hidden",
+   "source": "tools/gate-graph/src/gate/report.clj",
+   "anchor": "[:div {:id \"interactive-controls\" :hidden true}",
+   "replacement": "[:div {:id \"interactive-controls\"}",
+   "suite": "acceptance",
+   "kill": "\\[acceptance\\] FAIL .*a refused report shows no search box",
+   "control": "\\[acceptance\\] FAIL \\{"
+  },
+  {
+   "id": "rp-light-mark",
+   "source": "tools/gate-graph/src/gate/report.clj",
+   "anchor": "--mark:#2f72ad",
+   "replacement": "--mark:#c5d3e0",
+   "suite": "acceptance",
+   "kill": "\\[acceptance\\] FAIL .*non-text contrast.*mark ",
+   "control": "\\[acceptance\\] FAIL \\{"
+  },
+  {
+   "id": "rp-cursor-halo",
+   "source": "tools/gate-graph/src/gate/report.clj",
+   "anchor": "box-shadow:-1px 0 0 var(--bg),1px 0 0 var(--bg)",
+   "replacement": "box-shadow:none",
+   "suite": "acceptance",
+   "kill": "\\[acceptance\\] FAIL .*cursor halo missing",
+   "control": "\\[acceptance\\] FAIL \\{"
+  },
+  {
+   "id": "rp-edge-casing",
+   "source": "tools/gate-graph/src/gate/report.clj",
+   "anchor": ".edge-casing{fill:none;stroke:var(--bg)",
+   "replacement": ".edge-casing{fill:none;stroke:var(--accent)",
+   "suite": "acceptance",
+   "kill": "\\[acceptance\\] FAIL .*edge vs casing",
+   "control": "\\[acceptance\\] FAIL \\{"
+  },
+  {
+   "id": "rp-ruler",
+   "source": "tools/gate-graph/src/gate/report.clj",
+   "anchor": ".ruler span{position:absolute;top:0;transform:translateX(-50%)",
+   "replacement": ".ruler span{position:absolute;top:0;transform:none",
+   "suite": "acceptance",
+   "kill": "\\[acceptance\\] FAIL .*each ruler label sits at the time it names",
+   "control": "\\[acceptance\\] FAIL \\{"
+  },
+  {
+   "id": "ub-inner-guard",
+   "source": "tools/uber.sh",
+   "anchor": "    [ -d \"$CARGO_HOME/registry\" ] && exit 0\n",
+   "replacement": "",
+   "suite": "uber-seed",
+   "kill": "FAIL\\S*\\s+concurrent first runs made",
+   "control": "ok\\S*\\s+a first run seeds a registry identical"
+  },
+  {
+   "id": "bp-expect-key",
+   "source": ".claude/skills/viewer-visual-review/batch.py",
+   "anchor": "if \"tiles\" not in brief or \"expect\" not in brief:",
+   "replacement": "if \"tiles\" not in brief:",
+   "suite": "batch",
+   "kill": "FAIL\\S*\\s+a sidecar without expect",
+   "control": "ok\\S*\\s+a capture with no prior is batched"
+  },
+  {
+   "id": "bp-identity",
+   "source": ".claude/skills/viewer-visual-review/batch.py",
+   "anchor": "digest(before) == digest(image)",
+   "replacement": "True",
+   "suite": "batch",
+   "kill": "FAIL\\S*\\s+a real change was excused as jitter",
+   "control": "ok\\S*\\s+a capture with no prior is batched"
+  },
+  {
+   "id": "bp-no-captures",
+   "source": ".claude/skills/viewer-visual-review/batch.py",
+   "anchor": "cannot_run(f\"{current / engine} holds no captures\")",
+   "replacement": "pass",
+   "suite": "batch",
+   "kill": "FAIL\\S*\\s+an engine directory with no captures",
+   "control": "ok\\S*\\s+a capture with no prior is batched"
+  },
+  {
+   "id": "bp-missing-sidecar",
+   "source": ".claude/skills/viewer-visual-review/batch.py",
+   "anchor": "cannot_run(f\"{sidecar} is missing; every capture owes its review brief\")",
+   "replacement": "continue",
+   "suite": "batch",
+   "kill": "FAIL\\S*\\s+a missing sidecar is refused",
+   "control": "ok\\S*\\s+a capture with no prior is batched"
+  },
+  {
+   "id": "bp-parts",
+   "source": ".claude/skills/viewer-visual-review/batch.py",
+   "anchor": "size = max(1, -(-len(rows) // parts))",
+   "replacement": "size = max(1, len(rows))",
+   "suite": "batch",
+   "kill": "FAIL\\S*\\s+--parts split as",
+   "control": "ok\\S*\\s+a capture with no prior is batched"
+  },
+  {
+   "id": "rs-demote",
+   "source": "tools/gate-graph/browser/run.sh",
+   "anchor": "\"$out/manifest.json\" 2>/dev/null; then rc=2; fi",
+   "replacement": "\"$out/manifest.json\" 2>/dev/null; then rc=1; fi",
+   "suite": "run-sh",
+   "kill": "FAIL\\S*\\s+node exiting 1 with NO manifest",
+   "control": "ok\\S*\\s+an assertion failure recorded in the manifest is FAIL"
+  },
+  {
+   "id": "rs-worst",
+   "source": "tools/gate-graph/browser/run.sh",
+   "anchor": "[ \"$rc\" -gt \"$worst\" ] && worst=$rc",
+   "replacement": ":",
+   "suite": "run-sh",
+   "kill": "FAIL\\S*\\s+an assertion failure recorded in the manifest is FAIL",
+   "control": "ok\\S*\\s+--fixtures with no value"
+  },
+  {
+   "id": "hook-block",
+   "source": ".githooks/pre-push",
+   "anchor": "    exit 1 ;;\nesac\n# ---8<--- private-name scan END",
+   "replacement": "    exit 0 ;;\nesac\n# ---8<--- private-name scan END",
+   "suite": "prepush-scan",
+   "kill": "FAIL\\S*\\s+scanner exit 1 did not block",
+   "control": "ok\\S*\\s+scanner exit 0: the push continues"
+  },
+  {
+   "id": "lj-docker",
+   "source": "tools/gate-graph/browser/lint_js.sh",
+   "anchor": "command -v docker >/dev/null 2>&1 || cannot",
+   "replacement": "true || cannot",
+   "suite": "lint-js",
+   "kill": "FAIL\\S*\\s+no docker",
+   "control": "ok\\S*\\s+CONTROL: browser and Node globals"
+  },
+  {
+   "id": "rio-refusal-only",
+   "source": "tools/gate-graph/src/gate/report_io.clj",
+   "anchor": "(throw (if (= admission/refusal-message (ex-message error))",
+   "replacement": "(throw (if true",
+   "suite": "gate-graph",
+   "kill": "FAIL in \\(missing-files-and-nonregular-inputs-have-closed-errors\\)",
+   "control": "Ran \\d+ tests containing [1-9]\\d* assertions",
+   "only": "missing-files-and-nonregular-inputs-have-closed-errors|symlink-leaves-refuse-without-reading-the-target|byte-budget-and-strict-utf8-bound-the-actual-read",
+   "note": "every test asserting the exact map of a refusal raised before admission (unreadable, symlinked, over-budget or non-UTF-8 input), which must not gain :file"
+  },
+  {
+   "id": "ct-expected-kind",
+   "source": "tools/gate-graph/src/gate/contract.cljc",
+   "anchor": "   [:expected-kind {:optional true} AdmissionTarget]\n",
+   "replacement": "",
+   "suite": "gate-graph-rebuilt",
+   "kill": "FAIL in \\((a-refusal-names-the-kind-it-expected-and-the-file-it-read|a-refusal-file-is-only-ever-a-basename)\\)",
+   "control": "Ran \\d+ tests containing [1-9]\\d* assertions",
+   "only": "a-refusal-file-is-only-ever-a-basename|a-refusal-names-the-kind-it-expected-and-the-file-it-read|every-reader-names-its-own-kind-and-the-file|refusal-offsets-are-utf16-and-do-not-echo-private-input|grammar-refusals-never-evaluate-reader-forms",
+   "note": "every test that validates a refusal against the closed :gate.contract/admission-failure, which these keys must satisfy"
+  },
+  {
+   "id": "ct-file",
+   "source": "tools/gate-graph/src/gate/contract.cljc",
+   "anchor": "[:file {:optional true} [:re #\"^[^/\\\\]{1,255}$\"]]",
+   "replacement": "[:file {:optional true} [:re #\"^[^/\\\\]{1,3}$\"]]",
+   "suite": "gate-graph-rebuilt",
+   "kill": "FAIL in \\((a-refusal-names-the-kind-it-expected-and-the-file-it-read|a-refusal-file-is-only-ever-a-basename)\\)",
+   "control": "Ran \\d+ tests containing [1-9]\\d* assertions",
+   "only": "a-refusal-file-is-only-ever-a-basename|a-refusal-names-the-kind-it-expected-and-the-file-it-read|every-reader-names-its-own-kind-and-the-file|refusal-offsets-are-utf16-and-do-not-echo-private-input|grammar-refusals-never-evaluate-reader-forms",
+   "note": "every test that validates a refusal against the closed :gate.contract/admission-failure, which these keys must satisfy"
+  },
+  {
+   "id": "vw-focus-timeline",
+   "source": "tools/gate-graph/src/gate/viewer.cljs",
+   "anchor": "(.focus heading (js-obj \"preventScroll\" true))",
+   "replacement": "nil",
+   "suite": "acceptance",
+   "kill": "\\[acceptance\\] FAIL .*(the attention action moves focus|navigation moves focus to the new level)",
+   "control": "\\[acceptance\\] FAIL \\{"
+  },
+  {
+   "id": "vw-last-activated",
+   "source": "tools/gate-graph/src/gate/viewer.cljs",
+   "anchor": "(reset! last-activated (opener-key (.-target event)))",
+   "replacement": "nil",
+   "suite": "acceptance",
+   "kill": "\\[acceptance\\] FAIL .*(with no focus on click \\(Safari\\)|closing returns focus to the track|closing details returns focus|a stale close event|even when another control held focus)",
+   "control": "\\[acceptance\\] FAIL \\{"
+  },
+  {
+   "id": "vw-row-match",
+   "source": "tools/gate-graph/src/gate/viewer.cljs",
+   "anchor": "(= row (row-identity button))",
+   "replacement": "true",
+   "suite": "acceptance",
+   "kill": "\\[acceptance\\] FAIL .*(closing returns focus to the track that opened the dialog|with no focus on click \\(Safari\\)|closing details returns focus|a stale close event)",
+   "control": "\\[acceptance\\] FAIL \\{"
+  },
+  {
+   "id": "vw-casing-layer",
+   "source": "tools/gate-graph/src/gate/viewer.cljs",
+   "anchor": "(.append svg casings strokes)",
+   "replacement": "(.append svg strokes casings)",
+   "suite": "acceptance",
+   "kill": "\\[acceptance\\] FAIL .*non-text contrast.*casing not below the edge layer",
+   "control": "\\[acceptance\\] FAIL \\{"
+  },
+  {
+   "id": "rp-placeholder",
+   "source": "tools/gate-graph/src/gate/report.clj",
+   "anchor": "input::placeholder{color:var(--muted);opacity:1}",
+   "replacement": "input::placeholder{color:var(--muted);opacity:.35}",
+   "suite": "acceptance",
+   "kill": "\\[acceptance\\] FAIL .*normal text contrast",
+   "control": "\\[acceptance\\] FAIL \\{"
+  }
+ ],
+ "excluded": [
+  {
+   "what": "acceptance.mjs, canary.sh, focus_replay.mjs, lint_js_test.sh, run_test.sh, batch_test.sh, private_names_test.sh, prepush_scan_test.sh, uber_seed_test.sh, uber_safe_directory_test.sh, lib_mutate.sh",
+   "why": "verification surfaces: the campaign mutates the production behaviour they protect, not the tests themselves (mutation-testing.md)."
+  },
+  {
+   "what": "tools/offline_lanes.sh",
+   "why": "a measurement probe whose output a human reads; nothing is gated on it."
+  },
+  {
+   "what": "uber.sh seed: the mktemp temp name, and the post-mv `[ -d registry ]` fallback",
+   "why": "equivalent under the flock: only one seeder copies at a time, so a fixed temp name cannot collide, and its mv cannot meet an existing registry, so the fallback is never reached; the flock and the inner registry check are faults (ub-flock, ub-inner-guard), both killed by the copy-count case."
+  },
+  {
+   "what": "private_names.sh: `--no-renames` on `git show`, and the `exclude=()` reset for an unconfigured remote",
+   "why": "equivalent in the scan's own domain \u2014 commits the remote lacks, in pre-push mode or a --range starting at a published tip: the paths clause (diff-tree --no-renames) already names a rename's target, and a renamed file's other lines were scanned in the commit that added them; `--remotes=<url>` matches no tracking ref (a ref name cannot hold ':' or '..'), so the reset excludes nothing more. A --range starting at an UNPUBLISHED commit is outside that domain."
+  },
+  {
+   "what": "generated bindings, the viewer bundle main.js, the visual manifest",
+   "why": "projections: their generators are what is mutated."
+  },
+  {
+   "what": "uber.sh seed: the outer `[ ! -d \"$CARGO_HOME/registry\" ]` guard",
+   "why": "equivalent: under the flock the inner `[ -d \"$CARGO_HOME/registry\" ] && exit 0` already refuses to replace an existing registry, so the outer check only saves taking the lock; measured survivor, not a missing case."
+  },
+  {
+   "what": "report_io.clj: the basename guard `(re-matches #\"[^/\\\\\\\\]{1,255}\" base)`",
+   "why": "equivalent on a POSIX filesystem: the split on both separators leaves no separator in the basename, Clojure's split drops trailing empty strings, and a :file is attached only to an admission refusal of a file actually read, whose name the filesystem bounds at 255 bytes (NAME_MAX on Linux, 255 UTF-8 bytes on macOS APFS), hence at most 255 characters. Kept as insurance that the output satisfies the contract's regex; measured survivor."
+  },
+  {
+   "what": "report.clj presentational CSS without a deterministic oracle: the patterned `.running` fill (--mark-run-a/b), `.selected-casing` width, the `aria-pressed` fill, `h2[tabindex='-1']:focus{outline:none}`",
+   "why": "the contrast oracle counts patterned fills as skipped and nothing measures stroke width or a pressed fill, so no suite can judge them; they are judged by the Sonnet visual review, which CLAUDE.md says is not a gate verdict. Declared as unjudged, not as killed."
+  },
+  {
+   "what": "lint_js.sh: `--network none` on the ESLint container",
+   "why": "no observable effect today: ESLint with this config makes no network request, so no input distinguishes the flag's presence; it guards against a future plugin that would."
+  },
+  {
+   "what": "lint.mk lanes, workflow steps and path filters, the hook's container block wiring",
+   "why": "configuration, verified by the lanes running in CI and the hook, not by mutation."
+  },
+  {
+   "what": "view/dom.cljs: the `\"g\"` entry in the svg tag enum",
+   "why": "equivalent in every shipped page: the enum is a malli function schema, and only the JVM side instruments schemas (gate/diagnostic.clj); the browser bundle never does, so no browser run observes it. The casing layer the entry permits is faulted directly (vw-casing-layer)."
+  }
+ ]
+}

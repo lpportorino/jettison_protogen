@@ -165,6 +165,10 @@ printf '  quill-forge  \r\n' >"$WORK/list-crlf"
 expect "$SUT" "$R_LINE" '' 1 "$PUBLISH" 'a CRLF-saved, padded list still matches' --list "$WORK/list-crlf" $LAST
 expect "$SUT" "$R_BROKEN" '' 3 'could not read commit' 'an unreadable object is CANNOT RUN, never clean' $NAMED $LAST
 expect "$SUT" "$R_LINE" '' 3 'unknown argument' 'bad usage is CANNOT RUN' --bogus
+out="$(cd "$R_LINE" && timeout 10 "${HERMETIC[@]}" bash "$SUT" --remote 2>&1)" && code=0 || code=$?
+[ "$code" = 3 ] && contains "$out" '--remote needs a name' && ok '--remote with no value is CANNOT RUN, never a hang' || bad "--remote with no value: exit $code"
+out="$(cd "$R_LINE" && timeout 10 "${HERMETIC[@]}" bash "$SUT" --list 2>&1)" && code=0 || code=$?
+[ "$code" = 3 ] && contains "$out" '--list needs a file' && ok '--list with no value is CANNOT RUN, never a FAIL' || bad "--list with no value: exit $code"
 
 banner 'WALK-UP DISCOVERY — a .private-names above the checkout; never one inside a work tree'
 OUTER="$WORK/outer"; mkdir -p "$OUTER"; printf 'quill-forge\n' >"$OUTER/.private-names"
@@ -198,6 +202,31 @@ R_LINKLIST="$WORK/linklist"; mkdir -p "$R_LINKLIST"; ln -s "$WORK/nowhere/.priva
 R_LL="$R_LINKLIST/repo"; mkdir -p "$R_LL"; g "$R_LL" init -q; g "$R_LL" config user.email t@example.invalid; g "$R_LL" config user.name t
 commit_file "$R_LL" a.txt 'clean' base
 expect "$SUT" "$R_LL" '' 3 'not a regular file' 'a BROKEN SYMLINK list is CANNOT RUN, never "no list"' --range HEAD
+
+# A SYMLINKED list is judged where it POINTS: a link above every checkout whose
+# target sits inside a repository is one `git add` away from publication too.
+LINKREPO="$WORK/linked-repo"; mkdir -p "$LINKREPO"; g "$LINKREPO" init -q; printf 'quill-forge\n' >"$LINKREPO/names"
+LINKOUT="$WORK/linkout"; mkdir -p "$LINKOUT"; ln -s "$LINKREPO/names" "$LINKOUT/.private-names"
+R_LO="$LINKOUT/repo"; mkdir -p "$R_LO"; g "$R_LO" init -q; g "$R_LO" config user.email t@example.invalid; g "$R_LO" config user.name t
+commit_file "$R_LO" a.txt 'clean' base
+expect "$SUT" "$R_LO" '' 3 'inside a git work tree' 'a list SYMLINKED into a repository is refused where it points' --range HEAD
+# GIT_CEILING_DIRECTORIES must not hide the repository a list sits in. A ceiling
+# only hides a repository from a directory BELOW its top, so the list sits in a
+# subdirectory of a repository whose top is the ceiling.
+CEIL_REPO="$WORK/ceiling-repo"; mkdir -p "$CEIL_REPO/sub"; g "$CEIL_REPO" init -q
+printf 'quill-forge\n' >"$CEIL_REPO/sub/.private-names"
+R_CEIL="$CEIL_REPO/sub/repo"; mkdir -p "$R_CEIL"; g "$R_CEIL" init -q; g "$R_CEIL" config user.email t@example.invalid; g "$R_CEIL" config user.name t
+commit_file "$R_CEIL" a.txt 'clean' base
+out="$(cd "$R_CEIL" && "${HERMETIC[@]}" GIT_CEILING_DIRECTORIES="$CEIL_REPO" bash "$SUT" --range HEAD 2>&1)" && code=0 || code=$?
+[ "$code" = 3 ] && contains "$out" 'inside a git work tree' && ok 'GIT_CEILING_DIRECTORIES cannot hide the repository holding a list' || { bad "GIT_CEILING_DIRECTORIES hid the parent repository: exit $code"; printf '%s\n' "$out" | sed 's/^/       | /' >&2; }
+# An unreadable list is CANNOT RUN. Root reads every file, so as root this case
+# cannot be constructed and is reported UNJUDGED, never green.
+R_UNREAD="$WORK/unread"; mkdir -p "$R_UNREAD"; printf 'quill-forge\n' >"$R_UNREAD/.private-names"; chmod 000 "$R_UNREAD/.private-names"
+R_UR="$R_UNREAD/repo"; mkdir -p "$R_UR"; g "$R_UR" init -q; g "$R_UR" config user.email t@example.invalid; g "$R_UR" config user.name t
+commit_file "$R_UR" a.txt 'clean' base
+if [ "$(id -u)" = 0 ]; then printf '  \033[33mUNJUDGED\033[0m an unreadable list (root reads every file; judged as a non-root user)\n'
+else expect "$SUT" "$R_UR" '' 3 'cannot read' 'an UNREADABLE list is CANNOT RUN, never skipped' --range HEAD; fi
+chmod 600 "$R_UNREAD/.private-names"
 
 m="$WORK/mutant-walk.sh"; cp "$SUT" "$m"
 if err="$(mutate_file "$m" '    { [ -e "$dir/.private-names" ] || [ -L "$dir/.private-names" ]; } && lists+=("$dir/.private-names")' '    :' 2>&1)"; then

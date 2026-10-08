@@ -72,6 +72,9 @@ jobs:
       # proves the scanner on synthetic names instead. bash, git and GNU grep only.
       name: private-name scan canaries (mutation-proven clause attribution)
       run: make -f lint.mk private-names-test
+    - # How the hook acts on each of the scan's exit codes: bash and awk only.
+      name: pre-push handling of the private-name scan
+      run: make -f lint.mk prepush-scan-test
 
     - # THE SIZE CEILING'S CANARY, and it runs before the ceiling itself for the
       # ordering reason the leak ban above states: that gate has several clauses

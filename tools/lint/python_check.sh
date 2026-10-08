@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Enrolled maintained Python gates: native renderer drivers, the manual mutation
 # campaign drivers, wire contracts, the gate-trace tool (its library, its test
-# suite and its fail canary), and the viewer visual-review batch resolver.
+# suite and its fail canary), the viewer visual-review batch resolver, and the
+# mutation campaign driver.
 # Other experiment/data scripts are outside this deliberately bounded lane.
 set -euo pipefail
 root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd -P)
@@ -20,7 +21,7 @@ else
     printf 'Python gate: expected both native probe drivers; discovered %s.\n' "${#files[@]}" >&2
     exit 2
   }
-  files+=(tools/lint/kondo/rebuild.py renderer/tools/lvgl-reactive-mutations.py renderer/tools/renderer-gen-schema-mutations.py tools/wire_contract_check.py .claude/skills/viewer-visual-review/batch.py)
+  files+=(tools/lint/kondo/rebuild.py renderer/tools/lvgl-reactive-mutations.py renderer/tools/renderer-gen-schema-mutations.py tools/wire_contract_check.py .claude/skills/viewer-visual-review/batch.py tools/mutation/campaign.py)
   # gate-trace: every module in its two directories, discovered as REGULAR files,
   # and each named module asserted to be AMONG what was discovered. An existence
   # test would follow a symlink that discovery skips, and pass while the module

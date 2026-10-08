@@ -37,6 +37,8 @@ on:
     - "**/*.cljc"
     - "**/*.edn"
     - "**/*.sh"
+    # the mutation campaign driver (.py) beside its shell canary
+    - "tools/mutation/**"
     # TWO HOLES THE EXTENSION GLOBS ABOVE LEAVE OPEN, closed by two entries (a
     # third, the extensionless gate-trace shims, is closed by the
     # tools/gate-trace/** entry further down):
@@ -129,6 +131,8 @@ on:
     - "**/*.cljc"
     - "**/*.edn"
     - "**/*.sh"
+    # the mutation campaign driver (.py) beside its shell canary
+    - "tools/mutation/**"
     # TWO HOLES THE EXTENSION GLOBS ABOVE LEAVE OPEN, closed by two entries (a
     # third, the extensionless gate-trace shims, is closed by the
     # tools/gate-trace/** entry further down):
@@ -334,6 +338,14 @@ jobs:
       # (exit 3) instead of letting it pass over cases that could not fail.
       name: uber.sh safe.directory canaries (discovery, local clone, narrowness)
       run: make -f lint.mk uber-safe-directory-test
+    - # The cargo registry seed block, extracted from uber.sh and run against a
+      # fixture registry: bash and flock only.
+      name: uber.sh cargo registry seed (once, concurrent, never replaced, loud on failure)
+      run: make -f lint.mk uber-seed-test
+    - # The mutation campaign driver's canary: every outcome and exit code, on a
+      # synthetic repository. bash, git and python3.
+      name: mutation campaign driver canary
+      run: make -f lint.mk mutation-campaign-test
 
     - # THE GATE-TRACE SUITE AND ITS FAIL CANARY. It needs python3 (3.12 or
       # newer), dash, GNU make with its jobserver, git and coreutils, all of

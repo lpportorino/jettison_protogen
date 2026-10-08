@@ -224,6 +224,7 @@ else
 fi
 # ---8<--- safe.directory declaration END
 
+# ---8<--- cargo registry seed BEGIN
 # The image pre-fetches the harness's locked crates into /opt/rust (Dockerfile.base);
 # this run's CARGO_HOME is in the workspace, so the registry is SEEDED from the
 # image once — only when this workspace has none. Seeding holds an flock on
@@ -236,18 +237,22 @@ fi
 # lacks fails by name instead of as a resolver timeout. A seeded registry is
 # never refreshed: after a Cargo.lock bump, rebuild the image
 # (`tools/uber.sh --build`) AND remove the stale seed (`rm -rf .cargo-home/registry`).
-if [ -d /opt/rust/registry ] && [ -n "${CARGO_HOME:-}" ] && [ ! -d "$CARGO_HOME/registry" ]; then
+# UBER_SEED_FROM exists for tools/uber_seed_test.sh, which runs this block on the
+# host against a fixture registry; nothing else sets it.
+seed_from="${UBER_SEED_FROM:-/opt/rust/registry}"
+if [ -d "$seed_from" ] && [ -n "${CARGO_HOME:-}" ] && [ ! -d "$CARGO_HOME/registry" ]; then
   mkdir -p "$CARGO_HOME"
   seed_err="$(
     exec 9>"$CARGO_HOME/.seed.lock" && flock 9 || exit 1
     [ -d "$CARGO_HOME/registry" ] && exit 0
     seed_tmp="$(mktemp -d "$CARGO_HOME/registry.seed.XXXXXX")" || exit 1
-    if cp -a /opt/rust/registry/. "$seed_tmp/" 2>&1 && mv -T "$seed_tmp" "$CARGO_HOME/registry" 2>&1; then exit 0; fi
+    if cp -a "$seed_from/." "$seed_tmp/" 2>&1 && mv -T "$seed_tmp" "$CARGO_HOME/registry" 2>&1; then exit 0; fi
     rm -rf "$seed_tmp"
     [ -d "$CARGO_HOME/registry" ]   # something else put a registry in place: that is not a failure
   )" || printf 'uber.sh: cargo registry seed from the image FAILED: %s\n' "${seed_err:-lock or mktemp refused}" >&2
 fi
 [ "${UBER_NETWORK_MODE:-}" = none ] && export CARGO_NET_OFFLINE=true
+# ---8<--- cargo registry seed END
 
 bash -lc "$UBER_CMD"
 rc=$?

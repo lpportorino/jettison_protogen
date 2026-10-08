@@ -51,6 +51,16 @@ case_run crash 2 "node exiting 1 with NO manifest (a crash) is ERROR, never FAIL
 case_run error 2 "a recorded harness ERROR is ERROR"
 case_run compact 1 "a FAIL in COMPACT JSON is still FAIL (the verdict is parsed, not grepped)"
 
+echo "== run.sh preconditions (CANNOT RUN = 3)"
+rc=0; PATH="$work/bin:$PATH" bash "$subject" "$work/ev-noarg" --fixtures >/dev/null 2>&1 || rc=$?
+if [ "$rc" -eq 3 ]; then ok "--fixtures with no value is CANNOT RUN (exit 3)"; else bad "--fixtures with no value — expected exit 3, got $rc"; fi
+# A PATH holding everything run.sh needs up to its tool checks, except python3.
+mkdir -p "$work/nopy"; ln -s "$work/bin/docker" "$work/nopy/docker"
+for t in bash dirname mkdir; do ln -s "$(command -v "$t")" "$work/nopy/$t"; done
+rc=0; out="$(PATH="$work/nopy" "$work/nopy/bash" "$subject" "$work/ev-nopy" --fixtures "$work/fixtures" 2>&1)" || rc=$?
+if [ "$rc" -eq 3 ] && case "$out" in *python3*) true ;; *) false ;; esac; then ok "no python3 is CANNOT RUN (exit 3) and says python3"
+else bad "no python3 — expected exit 3 naming python3, got $rc: $out"; fi
+
 echo
 if [ "$fail" -eq 0 ]; then printf '\033[32m[run.sh canary] ALL GREEN — %d assertion(s)\033[0m\n' "$pass"; exit 0; fi
 printf '\033[31m[run.sh canary] %d FAILED, %d passed\033[0m\n' "$fail" "$pass" >&2; exit 1

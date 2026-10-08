@@ -53,8 +53,23 @@ expect 0 'clean — 1 file' 'CONTROL: browser and Node globals are both defined'
 expect 1 'no-undef' 'a file OUTSIDE the harness tree is judged by the same rules' -- "$out_rel/far.mjs"
 expect 1 'Unused eslint-disable directive' 'a disable directive that suppresses nothing fails' -- "$rel/stale-disable.mjs"
 
+printf '\n== INSTALL STAMP — a stale one forces a fresh lockfile install\n'
+stamp="$here/node_modules/.installed-from"
+rm -f -- "$stamp"; printf 'stale\n' >"$stamp"   # rm first: a hardlinked copy must not reach the original
+out="$(bash "$LANE" "$rel/globals.mjs" 2>&1)" && code=0 || code=$?
+if [ "$code" = 3 ] && contains "$out" 'npm ci failed'; then
+  # The reinstall needs the network once; without it this case cannot be judged.
+  printf '  \033[33mUNJUDGED\033[0m a stale stamp forces a reinstall (npm ci needs the network, unreachable here)\n'
+elif [ "$code" = 0 ] && [ "$(cat "$stamp" 2>/dev/null)" = "$(sha256sum "$here/package-lock.json" | cut -d' ' -f1)" ]; then
+  ok 'a stale install stamp forces npm ci, which records the lockfile hash'
+else bad "a stale install stamp did not force npm ci (exit $code)"; printf '%s\n' "$out" | tail -4 | sed 's/^/       | /' >&2; fi
+
 printf '\n== PRECONDITIONS (CANNOT RUN = 3)\n'
 expect 3 'does not exist' 'a named file that is missing' -- "$rel/absent.mjs"
+# No docker on PATH: everything the lane needs before its docker check, nothing more.
+mkdir -p "$scratch/nodocker"; for t in bash dirname env git sed; do ln -s "$(command -v "$t")" "$scratch/nodocker/$t"; done
+out="$(PATH="$scratch/nodocker" "$scratch/nodocker/bash" "$LANE" "$rel/globals.mjs" 2>&1)" && code=0 || code=$?
+[ "$code" = 3 ] && contains "$out" 'docker is not on PATH' && ok 'no docker is CANNOT RUN, naming docker' || bad "no docker — exit $code: $out"
 expect 3 'no JavaScript discovered' 'discovery that finds only the excluded bundle' \
   LINT_JS_PATHSPEC=tools/gate-graph/resources/gate/viewer/main.js --
 expect 3 'matches no tracked file' 'a declared exclusion that matches nothing' LINT_JS_PATHSPEC='*.nothing' --

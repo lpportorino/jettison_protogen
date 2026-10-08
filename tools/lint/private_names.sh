@@ -99,7 +99,6 @@ inside_work_tree() {
 for f in ${lists[@]+"${lists[@]}"}; do
   real="$(readlink -f -- "$f" 2>/dev/null)" || real=""
   { [ -n "$real" ] && [ -f "$real" ]; } || cannot "$f is not a regular file (a directory, or a symlink to nothing); it cannot be read as a list"
-  [ -r "$real" ] || cannot "$f is not readable; a list that cannot be read protects nothing"
   for d in "$(dirname -- "$f")" "$(dirname -- "$real")"; do
     inside_work_tree "$d" && cannot "$f sits inside a git work tree, where one \`git add\` would publish it; move it above every checkout"
   done
@@ -125,9 +124,11 @@ patterns="$work/patterns"; origins="$work/origins"
 for f in "${lists[@]}"; do
   content="$(cat -- "$f" 2>&1)" || cannot "cannot read $f: $content"
   n=0
-  while IFS= read -r line || [ -n "$line" ]; do
+  # The here-string ends the last line with a newline, so `read` sees every line;
+  # trimming [:space:] strips a CR-terminated (Windows-saved) line's CR as well.
+  while IFS= read -r line; do
     n=$((n + 1))
-    line="${line%$'\r'}"; line="${line#"${line%%[![:space:]]*}"}"; line="${line%"${line##*[![:space:]]}"}"
+    line="${line#"${line%%[![:space:]]*}"}"; line="${line%"${line##*[![:space:]]}"}"
     case "$line" in '' | '#'*) continue ;; esac
     printf '%s\n' "$line" >>"$patterns"; printf '%s:%s\n' "$f" "$n" >>"$origins"
   done <<<"$content"
