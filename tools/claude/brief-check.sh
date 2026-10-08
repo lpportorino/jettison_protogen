@@ -668,9 +668,9 @@ writes_of_command() {
         printf '[brief-check] ERROR — the check-5 write table is STALE: renderer.mk declares no check-renderer target\n' >&2
         return 3
       fi
-      if printf '%s\n' "$cr_block" | grep -qE '[[:space:]]standard-brief-generate([[:space:]]|$)'; then
+      if grep -qE '[[:space:]]standard-brief-generate([[:space:]]|$)' <<<"$cr_block"; then
         : # named directly by check-renderer — the original shape, still legal.
-      elif printf '%s\n' "$cr_block" | grep -q 'check-renderer-lanes'; then
+      elif grep -q 'check-renderer-lanes' <<<"$cr_block"; then
         if ! git_at "$root" grep -qE '^check-renderer-lanes:.*[[:space:]]standard-brief-generate([[:space:]]|$)' -- renderer.mk; then
           printf '[brief-check] ERROR — the check-5 write table is STALE: check-renderer delegates to check-renderer-lanes, which no longer lists standard-brief-generate in renderer.mk\n' >&2
           return 3

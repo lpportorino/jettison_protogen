@@ -36,12 +36,12 @@ cases() { # cases <wrapper> -> runs every case; prints ok/FAIL; returns nothing
     && ok "the annotation carries the line that NAMES the failure, from stderr" || bad "failing line missing: [$(annotation)]"
 
   run "$w" $'false | true\necho reached'
-  [ "$rc" -ne 0 ] && ! printf '%s' "$out" | grep -q '^reached$' \
+  [ "$rc" -ne 0 ] && ! grep -q '^reached$' <<<"$out" \
     && ok "pipefail: a failure on the LEFT of a pipe stops the step (runner default semantics)" \
     || bad "pipefail lost: rc=$rc"
 
   run "$w" $'false\necho reached'
-  [ "$rc" -eq 1 ] && ! printf '%s' "$out" | grep -q '^reached$' \
+  [ "$rc" -eq 1 ] && ! grep -q '^reached$' <<<"$out" \
     && ok "errexit: a failing command stops the step (runner default semantics)" || bad "errexit lost: rc=$rc"
 
   run "$w" $'for i in $(seq 1 400); do echo "  killed mutant-$i: Test.case FAILED; control passed"; done\necho "VERDICT-LINE: 3 mutants survived"\nexit 1'
@@ -80,7 +80,10 @@ PY
 attribute() { # attribute <label> <mutant> <case-regex-that-must-FAIL> <case-regex-that-must-stay-ok>
   local before=$fail res
   res=$( { cases "$2"; } 2>&1 | sed -e 's/\x1b\[[0-9;]*m//g' )
-  if printf '%s\n' "$res" | grep -q "FAIL.*$3" && printf '%s\n' "$res" | grep -q "ok .*$4"; then
+  # Here-strings, not `printf | grep -q`: grep -q exits at its first match, and
+  # under pipefail a printf then killed by SIGPIPE turns a FOUND case into "not
+  # found" whenever the output outgrows the pipe buffer.
+  if grep -q "FAIL.*$3" <<<"$res" && grep -q "ok .*$4" <<<"$res"; then
     fail=$before; ok "MUTANT $1: its own case goes red, the neighbour stays green"
   else
     fail=$before; bad "MUTANT $1 not attributed:"; printf '%s\n' "$res" | sed 's/^/       | /' >&2
