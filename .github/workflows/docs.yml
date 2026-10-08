@@ -43,6 +43,15 @@ concurrency:
   group: protodoc-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
+# Every `run:` step goes through tools/ci/annotated-shell.sh: the runner's own
+# `bash --noprofile --norc -eo pipefail` semantics, plus — on failure — one public
+# `::error` annotation carrying the lines that name the failing clause. Raw logs
+# need a token on this origin; annotations do not. A step that sets
+# `working-directory:` or runs before checkout must name `shell: bash` itself.
+defaults:
+  run:
+    shell: bash tools/ci/annotated-shell.sh {0}
+
 jobs:
   quality:
     name: documentation lint + protodoc suite
@@ -84,8 +93,8 @@ jobs:
     # reports an error; the step is intentionally a bare command so Actions'
     # shell propagates that status.
     - name: Documentation lint
-      working-directory: docs/.protodoc/tools
-      run: clojure -M:run lint --db-path ../proto-db.edn
+      # `cd` rather than `working-directory:`, so the annotated shell resolves.
+      run: cd docs/.protodoc/tools && clojure -M:run lint --db-path ../proto-db.edn
 
     - name: Protodoc test suite
       run: make docs-test

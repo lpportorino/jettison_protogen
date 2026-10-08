@@ -1925,6 +1925,24 @@ def _ids(pairs):
     return sorted(test.id() for test, _ in pairs)
 
 
+# THE SUITE'S BASELINE IS DEFAULT DISPOSITIONS for the signals it sends, and it
+# ESTABLISHES that baseline rather than inheriting it. A CI runner starts a step
+# with SIGHUP and SIGTERM ignored (reproduced in ubuntu:24.04 under `trap '' HUP`
+# and `trap '' TERM`): trace-run then passes those dispositions on to the child
+# exactly as its transparency contract says, so the forwarding cases fail for a
+# reason that is not a defect. Only an INHERITED ignore is reset; the cases that
+# test an ignoring caller set it themselves in preexec_fn. run_tests.sh re-runs
+# TestSignalFidelity under a caller ignoring these signals to keep this honest.
+BASELINE_SIGNALS = (signal.SIGHUP, signal.SIGINT, signal.SIGQUIT, signal.SIGTERM)
+
+
+def establish_default_dispositions():
+    for sig in BASELINE_SIGNALS:
+        if signal.getsignal(sig) == signal.SIG_IGN:
+            handler = signal.default_int_handler if sig == signal.SIGINT else signal.SIG_DFL
+            signal.signal(sig, handler)
+
+
 def main(argv):
     if sys.version_info < trace_run.MIN_PYTHON:
         print("gate-trace tests: CANNOT RUN: Python 3.12 or newer is required", file=sys.stderr)
@@ -1938,6 +1956,7 @@ def main(argv):
             file=sys.stderr,
         )
         return 2
+    establish_default_dispositions()
     as_json = "--json" in argv
     names = [arg for arg in argv if arg != "--json"]
     loader = unittest.TestLoader()

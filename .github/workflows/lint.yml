@@ -224,6 +224,15 @@ concurrency:
   group: lint-${{ github.ref }}
   cancel-in-progress: true
 
+# Every `run:` step goes through tools/ci/annotated-shell.sh: the runner's own
+# `bash --noprofile --norc -eo pipefail` semantics, plus — on failure — one public
+# `::error` annotation carrying the lines that name the failing clause. Raw logs
+# need a token on this origin; annotations do not. A step that sets
+# `working-directory:` or runs before checkout must name `shell: bash` itself.
+defaults:
+  run:
+    shell: bash tools/ci/annotated-shell.sh {0}
+
 jobs:
   clj:
     name: bash -n + cljfmt + clj-kondo (hand-authored Clojure + shell)
@@ -260,6 +269,12 @@ jobs:
       run: make -f lint.mk lint-instruction-budget-test
     - name: instruction budget (CLAUDE.md + unscoped rules)
       run: make -f lint.mk lint-instruction-budget
+
+    - # THE DEFAULT RUN SHELL'S CANARY. Every workflow runs its steps through
+      # tools/ci/annotated-shell.sh, so this is the one place a defect in it is
+      # judged; `**/*.sh` above fires this job on any change to it.
+      name: annotated-shell canary (runner semantics + failure annotation)
+      run: make -f lint.mk ci-annotate-test
 
     - # THE controls.wasm CONTENT-PROVENANCE CANARY. It needs bash, make and
       # coreutils and installs nothing, so it sits in this pre-toolchain block

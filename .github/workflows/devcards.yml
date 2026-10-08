@@ -179,6 +179,15 @@ concurrency:
   group: devcards-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
+# Every `run:` step goes through tools/ci/annotated-shell.sh: the runner's own
+# `bash --noprofile --norc -eo pipefail` semantics, plus — on failure — one public
+# `::error` annotation carrying the lines that name the failing clause. Raw logs
+# need a token on this origin; annotations do not. A step that sets
+# `working-directory:` or runs before checkout must name `shell: bash` itself.
+defaults:
+  run:
+    shell: bash tools/ci/annotated-shell.sh {0}
+
 jobs:
   devcards:
     name: build corpus + verify goldens/invariants/secret-scan + interaction

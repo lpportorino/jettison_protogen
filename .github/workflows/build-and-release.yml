@@ -79,12 +79,23 @@ concurrency:
   group: build-and-release-${{ github.ref }}
   cancel-in-progress: false
 
+# Every `run:` step goes through tools/ci/annotated-shell.sh: the runner's own
+# `bash --noprofile --norc -eo pipefail` semantics, plus — on failure — one public
+# `::error` annotation carrying the lines that name the failing clause. Raw logs
+# need a token on this origin; annotations do not. A step that sets
+# `working-directory:` or runs before checkout must name `shell: bash` itself.
+defaults:
+  run:
+    shell: bash tools/ci/annotated-shell.sh {0}
+
 jobs:
   build-and-distribute:
     runs-on: ubuntu-22.04-arm  # Native ARM64 runner matching Jetson BSP 6.2 (Ubuntu 22.04)
 
     steps:
     - name: Verify ARM64 architecture
+      # Runs BEFORE checkout, so the repo's annotated shell does not exist yet.
+      shell: bash
       run: |
         echo "Running on architecture: $(uname -m)"
         if [ "$(uname -m)" != "aarch64" ]; then

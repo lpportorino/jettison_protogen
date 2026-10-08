@@ -312,7 +312,7 @@ export LINT_SH_DISCOVERY_ERR
 	lint-no-host-paths lint-no-host-paths-test lint-ns-size lint-clj-gate-test \
 	lint-fn-size lint-docstrings lint-spec-shape lint-spec-presence \
 	lint-file-size lint-file-size-test wasm-provenance-test wire-contract-codec-test \
-	lint-instruction-budget lint-instruction-budget-test \
+	lint-instruction-budget lint-instruction-budget-test ci-annotate-test \
 	lint-cmd-no-any-bytes lint-cmd-no-any-bytes-test \
 	lint-c-tidy lint-c-tidy-test
 
@@ -425,7 +425,7 @@ hooks-status:
 lint:
 	@$(MAKE) --no-print-directory -f lint.mk -j$(NPROC) lint-lanes
 
-lint-lanes: kondo-regression lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-instruction-budget-test lint-instruction-budget lint-cmd-no-any-bytes-test lint-cmd-no-any-bytes lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test uber-safe-directory-test leg-strictness-test wasm-provenance-test ts-validated-repro-test wire-contract-codec-test wire-contract-envelope-test fork-hazards protocol-gen-test protocol-gen-canary fmt-clj lint-clj fmt-c
+lint-lanes: kondo-regression lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-instruction-budget-test lint-instruction-budget ci-annotate-test lint-cmd-no-any-bytes-test lint-cmd-no-any-bytes lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test uber-safe-directory-test leg-strictness-test wasm-provenance-test ts-validated-repro-test wire-contract-codec-test wire-contract-envelope-test fork-hazards protocol-gen-test protocol-gen-canary fmt-clj lint-clj fmt-c
 
 ## lint-python / lint-python-test: pinned Ruff over the enrolled Python gate drivers
 # The bounded enrollment lives in tools/lint/python_check.sh; experiment and data
@@ -723,6 +723,14 @@ lint-instruction-budget:
 
 lint-instruction-budget-test:
 	@bash tools/lint/instruction_budget.sh --canary
+
+## ci-annotate-test: the default CI `run:` shell keeps runner semantics and annotates failures
+# Every workflow's `defaults.run.shell` is tools/ci/annotated-shell.sh, so a defect
+# in it reaches every step of every workflow. Its canary asserts exit-status
+# survival, errexit and pipefail, the failure annotation's content and escaping,
+# and breaks each clause alone in a mutant. bash + python3 only.
+ci-annotate-test:
+	@bash tools/ci/annotated_shell_test.sh
 
 ## lint-cmd-no-any-bytes: no `google.protobuf.Any` and no `bytes` field in the command family
 # A command is validated against its schema before anything acts on it, and a

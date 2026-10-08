@@ -36,6 +36,12 @@ command -v python3 >/dev/null 2>&1 || {
 }
 
 python3 -I -S "$here/test_gate_trace.py"
+# REGRESSION: the CI runner's baseline. A GitHub Actions step starts with SIGHUP
+# and SIGTERM ignored, and an inherited ignore survives exec; before the suite
+# established its own baseline (establish_default_dispositions), this pass was
+# red while the one above was green on a developer shell. Ignoring every signal
+# the suite sends is the strictest form of that caller.
+( trap '' HUP INT QUIT TERM; exec python3 -I -S "$here/test_gate_trace.py" TestSignalFidelity )
 if [[ $suite_only == 1 ]]; then
   exit 0
 fi
