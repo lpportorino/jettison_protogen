@@ -3,16 +3,16 @@
   "reviewDate": "2026-10-08",
   "scope": "Final viewer build of this change; public synthetic fixtures; both engines in the digest-pinned Playwright image with the network removed.",
   "source": {
-    "bundleSHA256": "0b84261f43430af00c84daa668ef0abf84389d2917f2d691be999b57576c37d1",
-    "assetManifestSHA256": "d46c74eb28b714f4f7c0c1e43a926e0fd95fb46baa96c07b51380e0ec1024f50",
+    "bundleSHA256": "3f8957354ae4863bef7ff400e8d9b7fbe2ef545b6a7c4c0ed13a5a303befdb6c",
+    "assetManifestSHA256": "2183e5155cdba2c930e8a4a0e355032ff5334fb8a28f8ba4db53acddafceed9d",
     "fixtureHTMLSHA256": {
-      "branch": "e9a1b65f322f046434b0cb6cba3960ec6348f6debbb902d5d3079459adaafdfb",
-      "dense": "280567cf7077c188bb6d5a1869fecf1b0b2d8c33f047b571f7c49daaf9658230",
-      "signals": "f720dfa359235f6546a71910fcc4b024a426f63c3efc4a0ab2c86ccc0b6c0e84",
-      "incomplete": "9df570ec67aad213f97d9a094a3c0dcbe647a427afe55e11f6d58b3c704b0176",
-      "malformed": "683953531f1c1b4e677cd4720d44bc51f2224c0c25cfa5d6024e9b7ece362e76",
-      "leaf": "2c43f91352d96873b2516e47b38c7a39f3143345c17213688c38202a003521c2",
-      "open-signals": "867032e64abf50f1e5ab9d3bd9751c4e36b1fc30ca4588b7ee0b8f5c23bb804a"
+      "branch": "453b70d3cb03cffa5c401a18251fe2d02ecaec07b6c5d7ee9698d10a9b361da8",
+      "dense": "c935e69617456ba7c87748a721df34c5729411636989eaaa93e77e029dae31b8",
+      "signals": "985a3583dd592eac430bc97ee06c293202519868aeae659248e3c61ad196ae55",
+      "incomplete": "39e32d175cfcf2bb120439ee4b0a8612020fcd749f9cd301ee0517ad5d0fa8fe",
+      "malformed": "a227481d7deed85a5b0d0601165cf58f39bfb77d569db8a83d656219b574ed1f",
+      "leaf": "374d31353ce23f1394fd5a7a7646172434ec806a8d463d0b3f0acf07bcee0fa9",
+      "open-signals": "22ea0fcf201021af834c99d3ae6953a24600b69f3e1400d94c0b0e1d3581d5ff"
     }
   },
   "reviewMethod": "Every capture is resolved, through byte-identical or pixel-equivalent (max channel delta 2/255, Chromium raster jitter) links to earlier runs of the same state, to the most recent capture that a reviewer actually opened and judged against its .png.json sidecar. Batches were resolved by .claude/skills/viewer-visual-review/batch.py.",
@@ -28,19 +28,19 @@
       "emulatedOffline": true,
       "externalRequestPolicy": "abort and fail on every non-file request",
       "artifacts": {
-        "branch": "e9a1b65f322f046434b0cb6cba3960ec6348f6debbb902d5d3079459adaafdfb",
-        "dense": "280567cf7077c188bb6d5a1869fecf1b0b2d8c33f047b571f7c49daaf9658230",
-        "signals": "f720dfa359235f6546a71910fcc4b024a426f63c3efc4a0ab2c86ccc0b6c0e84",
-        "incomplete": "9df570ec67aad213f97d9a094a3c0dcbe647a427afe55e11f6d58b3c704b0176",
-        "malformed": "683953531f1c1b4e677cd4720d44bc51f2224c0c25cfa5d6024e9b7ece362e76",
-        "leaf": "2c43f91352d96873b2516e47b38c7a39f3143345c17213688c38202a003521c2",
-        "open-signals": "867032e64abf50f1e5ab9d3bd9751c4e36b1fc30ca4588b7ee0b8f5c23bb804a"
+        "branch": "453b70d3cb03cffa5c401a18251fe2d02ecaec07b6c5d7ee9698d10a9b361da8",
+        "dense": "c935e69617456ba7c87748a721df34c5729411636989eaaa93e77e029dae31b8",
+        "signals": "985a3583dd592eac430bc97ee06c293202519868aeae659248e3c61ad196ae55",
+        "incomplete": "39e32d175cfcf2bb120439ee4b0a8612020fcd749f9cd301ee0517ad5d0fa8fe",
+        "malformed": "a227481d7deed85a5b0d0601165cf58f39bfb77d569db8a83d656219b574ed1f",
+        "leaf": "374d31353ce23f1394fd5a7a7646172434ec806a8d463d0b3f0acf07bcee0fa9",
+        "open-signals": "22ea0fcf201021af834c99d3ae6953a24600b69f3e1400d94c0b0e1d3581d5ff"
       },
       "checks": [
         {
           "fixture": "branch",
           "device": "desktop",
-          "elapsedMs": 129.43336800000003,
+          "elapsedMs": 107.72981099999998,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -70,7 +70,7 @@
         {
           "fixture": "branch",
           "device": "narrow",
-          "elapsedMs": 155.96778199999994,
+          "elapsedMs": 103.8682839999999,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -112,7 +112,7 @@
         {
           "fixture": "branch",
           "device": "iphone-portrait",
-          "elapsedMs": 139.048276,
+          "elapsedMs": 105.86870899999985,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -142,7 +142,7 @@
         {
           "fixture": "branch",
           "device": "iphone-landscape",
-          "elapsedMs": 152.55293700000038,
+          "elapsedMs": 102.80747299999985,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -184,7 +184,7 @@
         {
           "fixture": "branch",
           "device": "portrait-full",
-          "elapsedMs": 154.56576600000062,
+          "elapsedMs": 107.23490799999945,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -214,7 +214,7 @@
         {
           "fixture": "branch",
           "device": "landscape-full",
-          "elapsedMs": 144.52243799999997,
+          "elapsedMs": 107.06880400000045,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -244,7 +244,7 @@
         {
           "fixture": "dense",
           "device": "desktop",
-          "elapsedMs": 832.7660689999993,
+          "elapsedMs": 641.2716120000005,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -274,7 +274,7 @@
         {
           "fixture": "dense",
           "device": "iphone-portrait",
-          "elapsedMs": 806.7257680000002,
+          "elapsedMs": 646.7184200000011,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -304,7 +304,7 @@
         {
           "fixture": "dense",
           "device": "iphone-landscape",
-          "elapsedMs": 991.5327320000015,
+          "elapsedMs": 644.2262069999997,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -334,7 +334,7 @@
         {
           "fixture": "signals",
           "device": "desktop",
-          "elapsedMs": 484.3832900000016,
+          "elapsedMs": 385.3609660000002,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -364,7 +364,7 @@
         {
           "fixture": "signals",
           "device": "iphone-portrait",
-          "elapsedMs": 467.299884,
+          "elapsedMs": 383.9159380000019,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -394,7 +394,7 @@
         {
           "fixture": "signals",
           "device": "iphone-landscape",
-          "elapsedMs": 489.0517199999995,
+          "elapsedMs": 384.5273019999986,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -424,7 +424,7 @@
         {
           "fixture": "incomplete",
           "device": "desktop",
-          "elapsedMs": 143.6078610000004,
+          "elapsedMs": 99.55109699999957,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -454,7 +454,7 @@
         {
           "fixture": "incomplete",
           "device": "iphone-portrait",
-          "elapsedMs": 143.31682200000068,
+          "elapsedMs": 102.91555700000026,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -484,7 +484,7 @@
         {
           "fixture": "incomplete",
           "device": "iphone-landscape",
-          "elapsedMs": 152.89476999999897,
+          "elapsedMs": 100.49101100000189,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -514,7 +514,7 @@
         {
           "fixture": "malformed",
           "device": "desktop",
-          "elapsedMs": 160.91194299999916,
+          "elapsedMs": 116.69022000000041,
           "errors": [],
           "externalRequests": 0,
           "passed": true
@@ -522,7 +522,7 @@
         {
           "fixture": "malformed",
           "device": "iphone-portrait",
-          "elapsedMs": 159.62290000000212,
+          "elapsedMs": 108.38113999999769,
           "errors": [],
           "externalRequests": 0,
           "passed": true
@@ -530,7 +530,7 @@
         {
           "fixture": "malformed",
           "device": "iphone-landscape",
-          "elapsedMs": 134.63790100000188,
+          "elapsedMs": 105.09170299999823,
           "errors": [],
           "externalRequests": 0,
           "passed": true
@@ -538,7 +538,7 @@
         {
           "fixture": "leaf",
           "device": "desktop",
-          "elapsedMs": 121.84641600000032,
+          "elapsedMs": 97.98660499999824,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -568,7 +568,7 @@
         {
           "fixture": "leaf",
           "device": "iphone-portrait",
-          "elapsedMs": 139.70804000000135,
+          "elapsedMs": 99.71919500000149,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -598,7 +598,7 @@
         {
           "fixture": "leaf",
           "device": "iphone-landscape",
-          "elapsedMs": 161.13824999999997,
+          "elapsedMs": 98.62997900000119,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -628,7 +628,7 @@
         {
           "fixture": "open-signals",
           "device": "desktop",
-          "elapsedMs": 476.02433999999994,
+          "elapsedMs": 378.80881099999897,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -658,7 +658,7 @@
         {
           "fixture": "open-signals",
           "device": "iphone-portrait",
-          "elapsedMs": 500.07161899999846,
+          "elapsedMs": 379.17802799999845,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -688,7 +688,7 @@
         {
           "fixture": "open-signals",
           "device": "iphone-landscape",
-          "elapsedMs": 520.698161999997,
+          "elapsedMs": 398.02611400000023,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -753,19 +753,19 @@
       "emulatedOffline": false,
       "externalRequestPolicy": "abort and fail on every non-file request",
       "artifacts": {
-        "branch": "e9a1b65f322f046434b0cb6cba3960ec6348f6debbb902d5d3079459adaafdfb",
-        "dense": "280567cf7077c188bb6d5a1869fecf1b0b2d8c33f047b571f7c49daaf9658230",
-        "signals": "f720dfa359235f6546a71910fcc4b024a426f63c3efc4a0ab2c86ccc0b6c0e84",
-        "incomplete": "9df570ec67aad213f97d9a094a3c0dcbe647a427afe55e11f6d58b3c704b0176",
-        "malformed": "683953531f1c1b4e677cd4720d44bc51f2224c0c25cfa5d6024e9b7ece362e76",
-        "leaf": "2c43f91352d96873b2516e47b38c7a39f3143345c17213688c38202a003521c2",
-        "open-signals": "867032e64abf50f1e5ab9d3bd9751c4e36b1fc30ca4588b7ee0b8f5c23bb804a"
+        "branch": "453b70d3cb03cffa5c401a18251fe2d02ecaec07b6c5d7ee9698d10a9b361da8",
+        "dense": "c935e69617456ba7c87748a721df34c5729411636989eaaa93e77e029dae31b8",
+        "signals": "985a3583dd592eac430bc97ee06c293202519868aeae659248e3c61ad196ae55",
+        "incomplete": "39e32d175cfcf2bb120439ee4b0a8612020fcd749f9cd301ee0517ad5d0fa8fe",
+        "malformed": "a227481d7deed85a5b0d0601165cf58f39bfb77d569db8a83d656219b574ed1f",
+        "leaf": "374d31353ce23f1394fd5a7a7646172434ec806a8d463d0b3f0acf07bcee0fa9",
+        "open-signals": "22ea0fcf201021af834c99d3ae6953a24600b69f3e1400d94c0b0e1d3581d5ff"
       },
       "checks": [
         {
           "fixture": "branch",
           "device": "desktop",
-          "elapsedMs": 173.62861500000008,
+          "elapsedMs": 156.39357199999995,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -795,7 +795,7 @@
         {
           "fixture": "branch",
           "device": "narrow",
-          "elapsedMs": 160.99155299999984,
+          "elapsedMs": 126.39163699999972,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -837,7 +837,7 @@
         {
           "fixture": "branch",
           "device": "iphone-portrait",
-          "elapsedMs": 165.50934000000007,
+          "elapsedMs": 127.01705700000002,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -867,7 +867,7 @@
         {
           "fixture": "branch",
           "device": "iphone-landscape",
-          "elapsedMs": 175.87163899999996,
+          "elapsedMs": 127.77016900000035,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -909,7 +909,7 @@
         {
           "fixture": "branch",
           "device": "portrait-full",
-          "elapsedMs": 184.4480569999996,
+          "elapsedMs": 126.29821099999936,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -939,7 +939,7 @@
         {
           "fixture": "branch",
           "device": "landscape-full",
-          "elapsedMs": 162.90142800000012,
+          "elapsedMs": 130.60355600000003,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -969,7 +969,7 @@
         {
           "fixture": "dense",
           "device": "desktop",
-          "elapsedMs": 909.5057660000002,
+          "elapsedMs": 767.6949870000008,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -999,7 +999,7 @@
         {
           "fixture": "dense",
           "device": "iphone-portrait",
-          "elapsedMs": 950.3071570000011,
+          "elapsedMs": 847.6798220000001,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -1029,7 +1029,7 @@
         {
           "fixture": "dense",
           "device": "iphone-landscape",
-          "elapsedMs": 1033.0082340000008,
+          "elapsedMs": 874.029265000001,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -1059,7 +1059,7 @@
         {
           "fixture": "signals",
           "device": "desktop",
-          "elapsedMs": 603.92598,
+          "elapsedMs": 673.6056759999992,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -1089,7 +1089,7 @@
         {
           "fixture": "signals",
           "device": "iphone-portrait",
-          "elapsedMs": 522.2721579999998,
+          "elapsedMs": 490.83604999999807,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -1119,7 +1119,7 @@
         {
           "fixture": "signals",
           "device": "iphone-landscape",
-          "elapsedMs": 609.4805039999992,
+          "elapsedMs": 467.0120229999993,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -1149,7 +1149,7 @@
         {
           "fixture": "incomplete",
           "device": "desktop",
-          "elapsedMs": 170.14303400000063,
+          "elapsedMs": 135.4956859999984,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -1179,7 +1179,7 @@
         {
           "fixture": "incomplete",
           "device": "iphone-portrait",
-          "elapsedMs": 152.8958500000008,
+          "elapsedMs": 130.14254500000243,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -1209,7 +1209,7 @@
         {
           "fixture": "incomplete",
           "device": "iphone-landscape",
-          "elapsedMs": 176.6294880000023,
+          "elapsedMs": 133.39251800000056,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -1239,7 +1239,7 @@
         {
           "fixture": "malformed",
           "device": "desktop",
-          "elapsedMs": 145.44585800000277,
+          "elapsedMs": 109.79437699999835,
           "errors": [],
           "externalRequests": 0,
           "passed": true
@@ -1247,7 +1247,7 @@
         {
           "fixture": "malformed",
           "device": "iphone-portrait",
-          "elapsedMs": 159.62607299999945,
+          "elapsedMs": 121.8566690000007,
           "errors": [],
           "externalRequests": 0,
           "passed": true
@@ -1255,7 +1255,7 @@
         {
           "fixture": "malformed",
           "device": "iphone-landscape",
-          "elapsedMs": 142.63659600000028,
+          "elapsedMs": 106.45753999999943,
           "errors": [],
           "externalRequests": 0,
           "passed": true
@@ -1263,7 +1263,7 @@
         {
           "fixture": "leaf",
           "device": "desktop",
-          "elapsedMs": 192.72650000000067,
+          "elapsedMs": 120.809111999999,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -1293,7 +1293,7 @@
         {
           "fixture": "leaf",
           "device": "iphone-portrait",
-          "elapsedMs": 169.86035000000265,
+          "elapsedMs": 127.23927600000025,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -1323,7 +1323,7 @@
         {
           "fixture": "leaf",
           "device": "iphone-landscape",
-          "elapsedMs": 162.6081129999984,
+          "elapsedMs": 127.34449500000119,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -1353,7 +1353,7 @@
         {
           "fixture": "open-signals",
           "device": "desktop",
-          "elapsedMs": 643.1340120000023,
+          "elapsedMs": 437.8076230000006,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -1383,7 +1383,7 @@
         {
           "fixture": "open-signals",
           "device": "iphone-portrait",
-          "elapsedMs": 485.23491900000226,
+          "elapsedMs": 466.4415459999982,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -1413,7 +1413,7 @@
         {
           "fixture": "open-signals",
           "device": "iphone-landscape",
-          "elapsedMs": 471.0270010000022,
+          "elapsedMs": 440.8606340000006,
           "errors": [],
           "externalRequests": 0,
           "textContrast": {
@@ -1457,6 +1457,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -1502,6 +1510,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "pixel-equivalent (max channel delta <= 2/255)"
           },
@@ -1545,6 +1561,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -1590,6 +1614,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -1633,6 +1665,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -1681,6 +1721,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -1733,6 +1781,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -1772,7 +1828,7 @@
     },
     {
       "name": "chromium-branch-iphone-landscape-rotated-detail.png",
-      "sha256": "a174b5f91c0bccd6215730f9c832bd67bf61d8802c2c0c506eab1ad80ec949d6",
+      "sha256": "08039f541e375c5086cdc8a16601abc07aa2d5d60ff2ad805ba754fa83545e4d",
       "state": "rotated-detail",
       "viewport": {
         "width": 390,
@@ -1783,6 +1839,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "pixel-equivalent (max channel delta <= 2/255)"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -1832,6 +1896,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -1875,6 +1947,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -1924,6 +2004,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -1972,6 +2060,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -1999,6 +2095,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -2043,6 +2147,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -2092,6 +2204,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -2119,6 +2239,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -2167,6 +2295,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -2219,6 +2355,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -2270,6 +2414,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "pixel-equivalent (max channel delta <= 2/255)"
           },
@@ -2314,6 +2466,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -2341,6 +2501,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -2386,6 +2554,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -2430,6 +2606,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -2457,6 +2641,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -2502,6 +2694,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -2545,6 +2745,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "pixel-equivalent (max channel delta <= 2/255)"
@@ -2597,6 +2805,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -2640,6 +2856,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -2685,6 +2909,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -2729,6 +2961,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -2765,7 +3005,7 @@
     },
     {
       "name": "chromium-dense-iphone-landscape-folds.png",
-      "sha256": "0007d54bd9d46c6adbbabab67e09b808d69465bddefa7669553a31ace5334037",
+      "sha256": "636663e9723c26cd19db219eb2e8461c82c19f2a277cc3592ea6b84532fdb2a4",
       "state": "folds",
       "viewport": {
         "width": 750,
@@ -2776,6 +3016,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "pixel-equivalent (max channel delta <= 2/255)"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -2820,6 +3068,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -2871,6 +3127,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -2927,6 +3191,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -2982,6 +3254,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -3025,6 +3305,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -3070,6 +3358,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "pixel-equivalent (max channel delta <= 2/255)"
           },
@@ -3113,6 +3409,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -3158,6 +3462,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "pixel-equivalent (max channel delta <= 2/255)"
           },
@@ -3202,6 +3514,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -3245,6 +3565,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -3297,6 +3625,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -3340,6 +3676,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -3389,6 +3733,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -3432,6 +3784,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -3477,6 +3837,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -3509,7 +3877,7 @@
     },
     {
       "name": "chromium-malformed-desktop-refused.png",
-      "sha256": "e00cbfa23199c714e55232b5d3023458fce0db525478edb243cc88cad0fd89be",
+      "sha256": "9997a7d55bb0c48fa70ed1ded7913a92b0ec89cd0c052d7eff522c79ac9855af",
       "state": "refused",
       "viewport": {
         "width": 1440,
@@ -3521,31 +3889,19 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
-            "to": "run-11",
-            "link": "byte-identical"
-          },
-          {
-            "to": "run-09",
-            "link": "byte-identical"
-          },
-          {
-            "to": "run-08",
-            "link": "byte-identical"
-          },
-          {
-            "to": "run-06",
+            "to": "run-13",
             "link": "byte-identical"
           }
         ],
         "reviewer": "viewer-visual-review agent (Sonnet)",
-        "run": "run-06",
+        "run": "run-13",
         "verdict": "pass",
         "findings": []
       }
     },
     {
       "name": "chromium-malformed-iphone-landscape-refused.png",
-      "sha256": "6a31b492f6a702783a6d675c78f900a772c0708011490ee76510475771c5b2c0",
+      "sha256": "33b6096c74778e4de211ce30840743231469d45a4851af9604a35add915bf626",
       "state": "refused",
       "viewport": {
         "width": 750,
@@ -3557,31 +3913,19 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
-            "to": "run-11",
-            "link": "byte-identical"
-          },
-          {
-            "to": "run-09",
-            "link": "byte-identical"
-          },
-          {
-            "to": "run-08",
-            "link": "byte-identical"
-          },
-          {
-            "to": "run-06",
+            "to": "run-13",
             "link": "byte-identical"
           }
         ],
         "reviewer": "viewer-visual-review agent (Sonnet)",
-        "run": "run-06",
+        "run": "run-13",
         "verdict": "pass",
         "findings": []
       }
     },
     {
       "name": "chromium-malformed-iphone-portrait-refused.png",
-      "sha256": "714791925a44837fd09f29daff6cb8a15f3b7e00ab170cfdfad00de6e7348856",
+      "sha256": "aba879dd892c33ddf16c62eb1860057c3dd89d3d320e4caa24fdc394fd252721",
       "state": "refused",
       "viewport": {
         "width": 390,
@@ -3593,24 +3937,12 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
-            "to": "run-11",
-            "link": "byte-identical"
-          },
-          {
-            "to": "run-09",
-            "link": "byte-identical"
-          },
-          {
-            "to": "run-08",
-            "link": "byte-identical"
-          },
-          {
-            "to": "run-06",
+            "to": "run-13",
             "link": "byte-identical"
           }
         ],
         "reviewer": "viewer-visual-review agent (Sonnet)",
-        "run": "run-06",
+        "run": "run-13",
         "verdict": "pass",
         "findings": []
       }
@@ -3628,6 +3960,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -3673,6 +4013,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -3716,6 +4064,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -3761,6 +4117,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -3804,6 +4168,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -3849,6 +4221,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -3892,6 +4272,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -3937,6 +4325,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -3980,6 +4376,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -4025,6 +4429,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -4068,6 +4480,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -4113,6 +4533,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -4156,6 +4584,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -4201,6 +4637,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -4244,6 +4688,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -4289,6 +4741,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -4332,6 +4792,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -4377,6 +4845,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -4420,6 +4896,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -4465,6 +4949,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -4504,6 +4996,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -4549,6 +5049,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -4592,6 +5100,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -4637,6 +5153,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -4680,6 +5204,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -4725,6 +5257,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -4768,6 +5308,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -4813,6 +5361,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -4856,6 +5412,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -4901,6 +5465,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -4945,6 +5517,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -4988,6 +5568,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -5040,6 +5628,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -5100,6 +5696,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -5143,6 +5747,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -5196,6 +5808,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -5248,6 +5868,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -5275,6 +5903,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -5319,6 +5955,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -5371,6 +6015,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -5431,6 +6083,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -5474,6 +6134,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -5519,6 +6187,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -5546,6 +6222,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -5591,6 +6275,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -5635,6 +6327,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -5662,6 +6362,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -5707,6 +6415,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -5750,6 +6466,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -5803,6 +6527,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -5847,6 +6579,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -5890,6 +6630,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -5943,6 +6691,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -5995,6 +6751,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -6039,6 +6803,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -6082,6 +6854,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -6135,6 +6915,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -6187,6 +6975,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -6230,6 +7026,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -6275,6 +7079,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -6318,6 +7130,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -6363,6 +7183,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -6406,6 +7234,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -6455,6 +7291,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -6499,6 +7343,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -6542,6 +7394,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -6591,6 +7451,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -6634,6 +7502,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -6679,6 +7555,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -6711,7 +7595,7 @@
     },
     {
       "name": "webkit-malformed-desktop-refused.png",
-      "sha256": "aec8cc51ecec57be842c9259cfbe04361727ca6067cb69f19cf96ec08c5c51eb",
+      "sha256": "b1adc2f692f919b657c323472a7b5f8a517a84e63978dd4f41988cd8e90854ec",
       "state": "refused",
       "viewport": {
         "width": 1440,
@@ -6723,31 +7607,19 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
-            "to": "run-11",
-            "link": "byte-identical"
-          },
-          {
-            "to": "run-09",
-            "link": "byte-identical"
-          },
-          {
-            "to": "run-08",
-            "link": "byte-identical"
-          },
-          {
-            "to": "run-06",
+            "to": "run-13",
             "link": "byte-identical"
           }
         ],
         "reviewer": "viewer-visual-review agent (Sonnet)",
-        "run": "run-06",
+        "run": "run-13",
         "verdict": "pass",
         "findings": []
       }
     },
     {
       "name": "webkit-malformed-iphone-landscape-refused.png",
-      "sha256": "aae635f48a929c9b5eecae813c229c5db1f21b22b43a0530bdd1ee7ae7c16cc0",
+      "sha256": "25df9b92dd08c0b7b80f2c7a8a37dfd413c2250783ff5a8b854922e206415ad0",
       "state": "refused",
       "viewport": {
         "width": 750,
@@ -6759,31 +7631,19 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
-            "to": "run-11",
-            "link": "byte-identical"
-          },
-          {
-            "to": "run-09",
-            "link": "byte-identical"
-          },
-          {
-            "to": "run-08",
-            "link": "byte-identical"
-          },
-          {
-            "to": "run-06",
+            "to": "run-13",
             "link": "byte-identical"
           }
         ],
         "reviewer": "viewer-visual-review agent (Sonnet)",
-        "run": "run-06",
+        "run": "run-13",
         "verdict": "pass",
         "findings": []
       }
     },
     {
       "name": "webkit-malformed-iphone-portrait-refused.png",
-      "sha256": "ad461cd0bd884283a33a8682eaff0ab674097a058c4adc68a94ce1ae6984bf4c",
+      "sha256": "adbc3596eb38d41da1cc69248ff62d87a73f3bf877c4497fcf5ec7dc38ba488d",
       "state": "refused",
       "viewport": {
         "width": 390,
@@ -6795,24 +7655,12 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
-            "to": "run-11",
-            "link": "byte-identical"
-          },
-          {
-            "to": "run-09",
-            "link": "byte-identical"
-          },
-          {
-            "to": "run-08",
-            "link": "byte-identical"
-          },
-          {
-            "to": "run-06",
+            "to": "run-13",
             "link": "byte-identical"
           }
         ],
         "reviewer": "viewer-visual-review agent (Sonnet)",
-        "run": "run-06",
+        "run": "run-13",
         "verdict": "pass",
         "findings": []
       }
@@ -6830,6 +7678,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -6875,6 +7731,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -6918,6 +7782,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -6963,6 +7835,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -7006,6 +7886,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -7051,6 +7939,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -7094,6 +7990,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -7139,6 +8043,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -7182,6 +8094,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -7227,6 +8147,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -7270,6 +8198,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -7315,6 +8251,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -7358,6 +8302,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -7403,6 +8355,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -7446,6 +8406,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -7491,6 +8459,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -7534,6 +8510,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -7579,6 +8563,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -7622,6 +8614,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -7667,6 +8667,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -7706,6 +8714,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -7751,6 +8767,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -7794,6 +8818,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -7839,6 +8871,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -7882,6 +8922,14 @@
       "review": {
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
+          {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
           {
             "to": "run-11",
             "link": "byte-identical"
@@ -7927,6 +8975,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -7971,6 +9027,14 @@
         "method": "actual opening of an equivalent capture",
         "equivalenceChain": [
           {
+            "to": "run-13",
+            "link": "byte-identical"
+          },
+          {
+            "to": "run-12",
+            "link": "byte-identical"
+          },
+          {
             "to": "run-11",
             "link": "byte-identical"
           },
@@ -8006,7 +9070,7 @@
   "findingDispositions": {
     "framing": "The capture's first screen ends above the timeline, so \"bars align with the ruler\" cannot be seen in it. Not a defect: tick placement and bar geometry are asserted mechanically (rulerAligned), and the expectation now reads \"IF the timeline is in view\".",
     "hairline": "A 1 ms task on a 390 px track is a 1 CSS px mark. By design: data geometry is never enlarged (browser/README.md); the lane label and its outcome carry the task.",
-    "refused": "DEFERRED, a product decision: whether the refused-report page should still show the search box and timeline controls. Recorded, not fixed.",
+    "refused": "FIXED: the refused-report page no longer shows the search box or timeline controls, which could only do nothing there. They start hidden and the viewer reveals them only after admitting the data; acceptance.mjs asserts none is visible on a refused report (seen FAIL first), and the six refused captures were re-reviewed in run-13.",
     "offset-wrap": "DEFERRED, cosmetic: the refusal map can wrap between a key and its value on a phone.",
     "focus": "FIXED in this change: the dialog close handler took focus back after the user had moved on (an async `close` event). Close and Escape now restore focus synchronously, to the control that opened the dialog, found again by panel, row and label after a re-render; the queued `close` event is only a fallback for a close that skipped `cancel`, and it does nothing once the dialog has re-opened. Every path acts only while focus is lost. acceptance.mjs asserts a late close never steals focus, a stale close never takes a new opener, and focus returns to the right one of several identical track buttons when the browser did not focus it on click.",
     "residual-scroll": "Noted by both reviewers, not a finding: after focus returns to the call to action, the full-height portrait capture stays scrolled 18 px where the other light captures sit at 0. The Light / dark control is fully in view at 0, so Playwright's click does not explain it; the cause is not established. No glyph is clipped."

@@ -54,15 +54,18 @@
                        [:p {:id "status" :role "status"} "Loading embedded graph…"]
                        [:section {:id "opportunities" :aria-label "Optimization opportunities"}]
                        [:nav {:id "breadcrumbs" :aria-label "Task ancestry"}]
-                       [:label {:for "search"} "Find tasks"]
-                       [:div {:class "search-controls"}
-                        [:input {:id "search" :type "search" :maxlength "512" :placeholder "Name, ID, key or status"}]
-                        [:div {:id "attention-controls"}]]
-                       [:details [:summary "Timeline controls"] [:div {:id "view-controls" :aria-label "Timeline controls"}]
-                        [:details [:summary "Time window and shared cursor"]
-                         [:label {:for "window-start"} "Window start (%)"] [:input {:id "window-start" :type "range" :min "0" :max "99" :value "0"}]
-                         [:label {:for "window-end"} "Window end (%)"] [:input {:id "window-end" :type "range" :min "1" :max "100" :value "100"}]
-                         [:label {:for "time-cursor"} "Shared cursor (%)"] [:input {:id "time-cursor" :type "range" :min "0" :max "100" :value "50"}]]]
+                       ;; Hidden until the viewer has admitted the data: on a refused report, or with
+                       ;; JavaScript off, these controls could only do nothing.
+                       [:div {:id "interactive-controls" :hidden true}
+                        [:label {:for "search"} "Find tasks"]
+                        [:div {:class "search-controls"}
+                         [:input {:id "search" :type "search" :maxlength "512" :placeholder "Name, ID, key or status"}]
+                         [:div {:id "attention-controls"}]]
+                        [:details [:summary "Timeline controls"] [:div {:id "view-controls" :aria-label "Timeline controls"}]
+                         [:details [:summary "Time window and shared cursor"]
+                          [:label {:for "window-start"} "Window start (%)"] [:input {:id "window-start" :type "range" :min "0" :max "99" :value "0"}]
+                          [:label {:for "window-end"} "Window end (%)"] [:input {:id "window-end" :type "range" :min "1" :max "100" :value "100"}]
+                          [:label {:for "time-cursor"} "Shared cursor (%)"] [:input {:id "time-cursor" :type "range" :min "0" :max "100" :value "50"}]]]]
                        [:section {:id "timeline" :aria-label "Task timeline"}]
                        [:section {:id "resources" :aria-label "Aligned resource tracks"}]
                        [:dialog {:id "detail-dialog" :aria-label "Task details"}

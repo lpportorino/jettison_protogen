@@ -383,12 +383,20 @@ try {
         assert.match(await page.locator('#status').innerText(), /^Report refused:/);
         assert.equal(await page.locator('#view-controls button,#attention-controls button,#breadcrumbs button,.row,.resource-row').count(),0,
           'refused data never initializes navigation, controls, tasks or telemetry');
+        const deadControls = await page.evaluate(() => [
+          ...['search', 'attention-controls'].map(id => [id, document.getElementById(id)]),
+          ['Timeline controls', [...document.querySelectorAll('summary')].find(s => s.textContent.trim() === 'Timeline controls')]]
+          .filter(([, element]) => element?.checkVisibility()).map(([name]) => name));
+        assert.deepEqual(deadControls, [], `a refused report shows no search box or timeline controls, which could only do nothing (visible: ${deadControls})`);
         await capture(page,name,'refused');
         assert.deepEqual(errors,[]); assert.deepEqual(requests,[]);
         records.push({fixture,device:deviceName,elapsedMs,errors,externalRequests:requests.length,passed:true});
         await context.close();
         continue;
       }
+      assert.ok(await page.locator('#search').isVisible()
+        && await page.locator('summary').filter({hasText:/^Timeline controls$/}).isVisible(),
+        'an admitted report reveals its search box and timeline controls (they start hidden until admission)');
       await geometry(page);
       await rulerAligned(page);
       if (fixture === 'branch' && ['iphone-portrait','portrait-full'].includes(deviceName)) {

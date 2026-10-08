@@ -663,7 +663,10 @@
             (str (if (get-in value [:run :complete?]) "Complete capture" "Incomplete capture") " · " (duration (extent))
                  " elapsed · " (plural (count (:nodes value)) "task" "tasks") " · " (plural (count (:measurements value)) "measurement" "measurements") " · "
                  (plural (count (filter #(problems (:outcome %)) (:nodes value))) "needs attention" "need attention")))
-      (restore-anchor!) (controls!) (render!))
+      (restore-anchor!) (controls!) (render!)
+      ;; Last: if anything above throws, the catch shows the refusal with the
+      ;; controls still hidden, never controls that could only do nothing.
+      (set! (.-hidden (.getElementById js/document "interactive-controls")) false))
     (catch :default error
       (when-let [status (.getElementById js/document "archive-status")] (set! (.-textContent status) "Archive refused"))
       (set! (.-textContent (.getElementById js/document "status")) (str "Report refused: " (pr-str (ex-data error))))))
