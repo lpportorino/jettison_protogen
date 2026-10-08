@@ -312,6 +312,7 @@ export LINT_SH_DISCOVERY_ERR
 	lint-no-host-paths lint-no-host-paths-test lint-ns-size lint-clj-gate-test \
 	lint-fn-size lint-docstrings lint-spec-shape lint-spec-presence \
 	lint-file-size lint-file-size-test wasm-provenance-test wire-contract-codec-test \
+	lint-instruction-budget lint-instruction-budget-test \
 	lint-cmd-no-any-bytes lint-cmd-no-any-bytes-test \
 	lint-c-tidy lint-c-tidy-test
 
@@ -424,7 +425,7 @@ hooks-status:
 lint:
 	@$(MAKE) --no-print-directory -f lint.mk -j$(NPROC) lint-lanes
 
-lint-lanes: kondo-regression lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-cmd-no-any-bytes-test lint-cmd-no-any-bytes lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test uber-safe-directory-test leg-strictness-test wasm-provenance-test ts-validated-repro-test wire-contract-codec-test wire-contract-envelope-test fork-hazards protocol-gen-test protocol-gen-canary fmt-clj lint-clj fmt-c
+lint-lanes: kondo-regression lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-instruction-budget-test lint-instruction-budget lint-cmd-no-any-bytes-test lint-cmd-no-any-bytes lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test uber-safe-directory-test leg-strictness-test wasm-provenance-test ts-validated-repro-test wire-contract-codec-test wire-contract-envelope-test fork-hazards protocol-gen-test protocol-gen-canary fmt-clj lint-clj fmt-c
 
 ## lint-python / lint-python-test: pinned Ruff over the enrolled Python gate drivers
 # The bounded enrollment lives in tools/lint/python_check.sh; experiment and data
@@ -710,6 +711,18 @@ lint-file-size:
 
 lint-file-size-test:
 	@bash tools/lint/test/file_size_ceiling_test.sh
+
+## lint-instruction-budget: the ALWAYS-LOADED instruction set fits the harness
+# CLAUDE.md plus every .claude/rules/*.md WITHOUT a frontmatter `paths:` key is
+# loaded into every session, and the harness refuses the set above 150,000
+# UTF-16 units. tools/lint/instruction_budget.sh counts that exact quantity
+# against a 149,000 budget and names the remedy (split into a path-scoped rule,
+# or trim) rather than ever raising the line. bash + iconv only.
+lint-instruction-budget:
+	@bash tools/lint/instruction_budget.sh
+
+lint-instruction-budget-test:
+	@bash tools/lint/instruction_budget.sh --canary
 
 ## lint-cmd-no-any-bytes: no `google.protobuf.Any` and no `bytes` field in the command family
 # A command is validated against its schema before anything acts on it, and a

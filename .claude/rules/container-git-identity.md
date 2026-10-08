@@ -1,0 +1,160 @@
+---
+description: How git and a second invoker behave INSIDE the pinned container — the safe.directory measurements behind tools/uber.sh, the linked-worktree refusal, and every way tools/scratchcard diverges from uber.sh on purpose. Loads when editing those invokers.
+paths:
+  - "tools/uber.sh"
+  - "tools/uber_safe_directory_test.sh"
+  - "tools/scratchcard/**"
+  - "renderer/tools/lvgl-reactive-mutations.py"
+---
+<!-- LOAD-TEST: container-git-identity -->
+
+# Git identity inside the container, and the second invoker
+
+`.claude/rules/uber-container.md` is the law: builds run in the pinned image
+through `tools/uber.sh`. This rule holds the MEASUREMENTS behind the one part
+of that law that depends on checkout shape — whether git can see the mounted
+worktree at all — and the invocation differences of the one other tool that
+drives the same image.
+
+## Why git works under `uber.sh`, per checkout shape
+
+**WHY IT IS ON THE RUNNER IS NOW AN INVOCATION-PATH FACT, not a flat
+impossibility.** git refuses a container-mounted worktree as dubiously owned
+because the container runs as root over files owned by the invoking user.
+`tools/uber.sh` DECLARES `safe.directory` for the workspace, so git works
+normally under it — which is what makes `dead-c-externs-test`, and therefore
+`check-renderer`, runnable locally.
+
+**IT IS LOAD-BEARING ON THE STANDALONE SHAPE AND INERT ON THE SUBMODULE ONE,
+and the reason is not the one the shapes suggest.** Measured in the pinned
+image, container uid 0 over files at uid 1000, four runs differing in one
+variable each:
+
+| shape | `GIT_DIR` | `safe.directory` | `git ls-files` |
+|---|---|---|---|
+| standalone | unset | none | `fatal: detected dubious ownership`, rc 128 |
+| standalone | unset | `$WORKSPACE` | 54 files, rc 0 |
+| standalone | set explicitly | none | 54 files, rc 0 |
+| submodule | `/gitdir` | none | 54 files, rc 0 |
+
+The third row is the one that explains the rest: naming `GIT_DIR` does not add a
+second checked path, it takes git off the check entirely. `ensure_valid_ownership`
+is called only from the DISCOVERY walk; an explicit `GIT_DIR` takes
+`setup_explicit_git_dir` and never validates. So the gitfile branch — which sets
+`GIT_DIR=/gitdir` — was never at risk, and the declaration that rescues the
+standalone path does nothing there. `/gitdir` IS checkable in principle: mounted
+and discovered as a bare repo it refuses by name. It is simply never reached.
+
+**Do not "harden" this with a second `safe.directory` entry for `/gitdir`.** It
+is inert by measurement, and no input can make the check fire on the explicit-
+`GIT_DIR` path — so nothing in this repo could ever prove the line does
+anything, which is a claim wearing the shape of a guard.
+
+And note which way the standalone failure went: `git ls-files` printed ZERO and
+exited ZERO under the refusal. A lane discovering its corpus that way reports a
+clean run over nothing, which is why every such lane owes the non-vacuity floor
+`gate-enforcement.md` §3 demands.
+
+**`$WORKSPACE/.git` IS A DIFFERENT PATH, AND ITS ENTRY IS LOAD-BEARING.** The
+table is about DISCOVERY, which checks the worktree. A LOCAL CLONE of the
+checkout (`git clone --local /workspace …`, the reactive mutation campaign's
+worker) checks the GITDIR, `/workspace/.git`, in `git clone` and again in the
+`git-upload-pack` it starts — and git's local transport UNSETS
+`GIT_CONFIG_COUNT`/`GIT_CONFIG_PARAMETERS` in that child, so an env-form
+declaration never reaches it. Measured in the pinned image, root over a uid-1000
+checkout: an env declaration of `/workspace` passes `git ls-files` and refuses
+the clone, and so does an env declaration of `*`; a global-config file naming
+`/workspace` alone refuses the clone, one naming `/workspace/.git` alone refuses
+`ls-files`, and one naming both passes both. So `tools/uber.sh` writes BOTH
+paths into a file named by `GIT_CONFIG_GLOBAL`, and
+`tools/uber_safe_directory_test.sh` reds if either entry, or the file form, is
+lost. The `/gitdir` paragraph above is untouched by this: that path is only
+ever reached through an explicit `GIT_DIR`, which skips the check.
+In the SUBMODULE shape that clone still fails, for a reason no declaration can
+reach: the checkout's `.git` file names a gitdir outside the mount (`fatal: not
+a git repository: /workspace/../.git/modules/<name>`), so
+`renderer/tools/lvgl-reactive-mutations.py` runs from a standalone checkout.
+
+**THE SHAPE THAT DOES REFUSE IS THE LINKED WORKTREE, for a different reason and
+by design.** Its private gitdir holds no objects and its common dir is a host
+path, so `uber.sh` declines to mount it (the `GITDIR = COMMONDIR` test) and
+leaves git unavailable rather than half-supporting it. Lanes then refuse
+correctly — `dead_c_externs.sh` exits 3 naming the cause. What did NOT refuse
+correctly was its canary SUITE, which re-resolved its own root unguarded and so
+emitted FAILs from clauses that had never run; it now refuses up front with its
+own CANNOT RUN, which is the shape any suite with a git precondition owes.
+
+**CI IS NOT BLOCKED BY THIS EITHER**, and it is worth stating because the
+obvious inference is wrong: `renderer.yml`'s shellcheck lane already declares
+safe.directory through `GIT_CONFIG_*` on a raw `docker run`, with its own
+measurement recorded beside it — enough for the discovery its lanes do, though
+not for a local clone (above). So a "git cannot resolve the checkout in the
+container" claim in this repo is scoped to an invocation that has not declared
+safe.directory — never to a capability. `standard-brief`'s freshness half and
+CI's goldens/docs diff are consequently ARMABLE on both paths; they stay unarmed
+as a decision, and this sentence exists so the gap is a decision rather than a
+stale belief.
+
+
+## A second invoker of the same image: `tools/scratchcard`
+
+
+`tools/scratchcard/bin/scratchcard.bb` runs its own `docker run` — it does not
+go through `tools/uber.sh`, and the docker-orchestrating exclusion just above
+is exactly why: the daemon's whole purpose is spawning a container from the
+host, so it cannot itself run inside one. It targets the SAME image
+(`jettison-proto-generator-base:latest`, overridable by `PROTOGEN_IMAGE_TAG`,
+the identical default `uber.sh` hardcodes as `IMG`) with the SAME
+`--entrypoint bash … -lc "…"` convention this file describes above — a
+property of `Dockerfile.base` having no ENTRYPOINT, not of `uber.sh`. Past
+that the two invocations diverge on purpose, because a long-lived daemon and a
+one-shot command want different things from the same image:
+
+- **It runs `--user <uid>:<gid>` — the calling user, not root.** `uber.sh`
+  runs as root (the image's Maven/Clojure caches live under `/root`) and
+  chowns the workspace back when the command exits; a daemon that stays up for
+  a whole session has no such exit to hang a chown off, so it runs as the
+  caller directly and points `HOME` at a per-fork `.protogen/home` instead.
+  There is no chown-back anywhere in `scratchcard.bb`, because running as the
+  caller leaves nothing for one to repair.
+- **It declares none of the `GIT_DIR` / `safe.directory` handling above, and
+  does not need to.** `scratchcard.provenance/git-stamp` runs `git` from
+  inside the container against the same mounted checkout, and the ownership
+  check this file spends most of its length on never fires there — not
+  because `scratchcard.bb` reimplements the workaround, but because that check
+  exists to catch a container UID that does not own the files it reads, and
+  here the container's UID IS the host's. Do not "port" `uber.sh`'s
+  safe.directory declaration into `scratchcard.bb`; there is nothing there for
+  it to fix.
+  One gap the identity mount below does NOT close: it carries only the
+  checkout root, so a `.git` gitfile pointing outside that root resolves to
+  nothing in-container. `uber.sh`'s `GIT_MOUNT` serves the SUBMODULE half of
+  that shape and refuses the linked-worktree half by design — the
+  `GITDIR = COMMONDIR` test above, which a linked worktree fails because its
+  common dir is elsewhere. `scratchcard.bb` has no equivalent either way:
+  `scratchcard.provenance` degrades those fields to absent rather than failing
+  loud, by its own design (its docstring: "DEGRADES RATHER THAN THROWS").
+- **It mounts the repo under BOTH `/workspace` and its own host path**
+  (`-v <repo>:/workspace -v <repo>:<repo>`), not `uber.sh`'s single
+  `$WORKSPACE` alias, so a client speaking host paths and a daemon speaking
+  container paths need no translation between them — see
+  `.claude/rules/scratch-devcard.md` for why.
+- **It passes no `--platform`.** `uber.sh` detects the host arch and pins it
+  on every `docker run`, specifically to catch a buildx default that would
+  otherwise cross-build or cross-run a binary that "cannot execute";
+  `scratchcard.bb`'s `docker run` carries no equivalent flag, so that failure
+  mode is unguarded on this path.
+
+None of this forks the IMAGE — same tag, same `Dockerfile.base`, same pins.
+What forks is the INVOCATION, and each divergence above answers a question
+this file already asks about `uber.sh`'s own invocation, with the opposite
+answer for a daemon's needs rather than a one-shot command's. What still goes
+through `uber.sh`, unchanged: the targets that GATE the tool sit in
+`check-renderer-lanes` like every other lane and run inside the same container
+battery this file describes throughout. Only the DAEMON drives docker itself —
+and that half is exercised by `scratchcard-e2e`, which is deliberately in no
+aggregate and no workflow because it needs a docker CLI the toolchain image does
+not carry. So "no aggregate reaches the daemon" is the accurate claim; "nothing
+tests it" is not (`renderer.mk`'s own comment beside `scratchcard-lane-suite`
+records the same boundary from the Makefile side).
+

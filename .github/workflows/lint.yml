@@ -55,6 +55,11 @@ on:
     # deletes subsumed entries when it knows they are subsumed.
     - "**/*.awk"
     - "tools/scratchcard/bin/**"
+    # THE ALWAYS-LOADED INSTRUCTION BUDGET reads exactly these two inputs, so the
+    # lane that judges it (lint-instruction-budget, below) fires on them and on
+    # nothing else — a path-scoped scan belongs here, per hygiene.yml's header.
+    - "CLAUDE.md"
+    - ".claude/rules/**"
     # THE OTHER THREE FILES `lint-sh` GREPS. Its bare-`git -C` clause scans
     # `$(LINT_SH_FILES) renderer/wasm.mk renderer.mk Makefile lint.mk`, and
     # `lint-sh` runs in THIS workflow only. `lint.mk` was already listed; these
@@ -142,6 +147,11 @@ on:
     # deletes subsumed entries when it knows they are subsumed.
     - "**/*.awk"
     - "tools/scratchcard/bin/**"
+    # THE ALWAYS-LOADED INSTRUCTION BUDGET reads exactly these two inputs, so the
+    # lane that judges it (lint-instruction-budget, below) fires on them and on
+    # nothing else — a path-scoped scan belongs here, per hygiene.yml's header.
+    - "CLAUDE.md"
+    - ".claude/rules/**"
     # THE OTHER THREE FILES `lint-sh` GREPS. Its bare-`git -C` clause scans
     # `$(LINT_SH_FILES) renderer/wasm.mk renderer.mk Makefile lint.mk`, and
     # `lint-sh` runs in THIS workflow only. `lint.mk` was already listed; these
@@ -240,6 +250,16 @@ jobs:
       # the commit that would break it.
       name: shell parse + payload-apostrophe check
       run: make -f lint.mk lint-sh
+
+    - # THE ALWAYS-LOADED INSTRUCTION BUDGET. CLAUDE.md plus every unscoped
+      # .claude/rules/*.md is loaded into every session and the harness refuses
+      # the set above 150,000 characters — silently unloading law. bash + iconv
+      # only, so it sits in this pre-toolchain block; its canary runs first and
+      # asserts exact exit codes (FAIL 1, CANNOT RUN 3) on synthetic fixtures.
+      name: instruction-budget canaries
+      run: make -f lint.mk lint-instruction-budget-test
+    - name: instruction budget (CLAUDE.md + unscoped rules)
+      run: make -f lint.mk lint-instruction-budget
 
     - # THE controls.wasm CONTENT-PROVENANCE CANARY. It needs bash, make and
       # coreutils and installs nothing, so it sits in this pre-toolchain block
