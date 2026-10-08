@@ -238,7 +238,7 @@ What is judged here, and therefore what a gate may be written in:
 | shell | `bash -n` and the payload-apostrophe check, over discovered scripts |
 | C | clang-format drift-compare and clang-tidy, both pinned |
 | GitHub Actions | actionlint |
-| Python | pinned Ruff lint and format (`lint-python`), over the files `tools/lint/python_check.sh` ENROLLS and no others — but it runs only inside the pinned image, so CI runs it from `renderer.yml`, whose path filter does not name every enrolled tree: for a commit confined to `tools/gate-trace/` it is hook-only today, per `lint-gates.md`, and §6 calls a hook-only gate unarmed |
+| Python | pinned Ruff lint and format (`lint-python`), over the files `tools/lint/python_check.sh` ENROLLS and no others — but it runs only inside the pinned image, so CI runs it from `renderer.yml`, whose path filter does not name every enrolled tree: for a commit confined to `tools/gate-trace/` or `.claude/skills/` it is hook-only today, per `lint-gates.md`, and §6 calls a hook-only gate unarmed |
 | JavaScript | pinned ESLint, recommended rules, every warning blocking (`lint-js`), over git-tracked `.mjs`/`.js`/`.cjs` minus the generated viewer bundle — in `gate-viewer.yml`, and from the hook when docker is present |
 
 Python is judged ONLY where it is enrolled: a `.py` file outside that list is
