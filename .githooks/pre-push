@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# pre-push — the FAST local gate: formatting + lint over hand-authored code.
+# pre-push — the FAST local gate: a private-name scan of what the push would
+# publish, then formatting + lint over hand-authored code.
 #
 # BEST-EFFORT AUTO-FIX, then BLOCK. Formatting is mechanical and deterministic,
 # so making a human re-run `fmt-fix` after a red gate is pure friction: this
@@ -83,6 +84,17 @@ if [ "$contained" = 0 ]; then
 fi
 if ! cd "$root"; then
   printf '\033[31m[pre-push] CANNOT RUN\033[0m — cannot enter %s, so NO gate has run.\n' "$root" >&2
+  exit 1
+fi
+
+# PRIVATE NAMES FIRST: it is milliseconds, it is the one check whose miss cannot
+# be undone (a push is publication), and it reads the push lines git hands this
+# hook on stdin, which nothing below consumes. $1 is the remote git is pushing to:
+# only ITS tracking refs excuse a commit as already published. The list lives in
+# .git/info/, never in the tree; without it the scan says NOT RUN and does not
+# block (`git config protogen.privateNamesRequired true` makes that a refusal).
+if ! tools/lint/private_names.sh --remote "${1:-}"; then
+  printf '\033[31m[pre-push] BLOCKED\033[0m — the push would publish a private name (above), or the scan could not run.\n' >&2
   exit 1
 fi
 
