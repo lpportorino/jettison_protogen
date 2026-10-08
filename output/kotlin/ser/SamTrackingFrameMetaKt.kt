@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: opaque/sam_tracking_common.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -40,10 +41,10 @@ public object SamTrackingFrameMetaKt {
      * `uint64 pts_ns = 1 [(.buf.validate.field) = { ... }`
      */
     public var ptsNs: kotlin.Long
-      @JvmName("getPtsNs")
-      get() = _builder.ptsNs
-      @JvmName("setPtsNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getPtsNs")
+        get() = _builder.ptsNs
+      @kotlin.jvm.JvmName("setPtsNs")
+        set(value) {
         _builder.ptsNs = value
       }
     /**
@@ -65,10 +66,10 @@ public object SamTrackingFrameMetaKt {
      * `uint64 capture_time_ns = 2 [(.buf.validate.field) = { ... }`
      */
     public var captureTimeNs: kotlin.Long
-      @JvmName("getCaptureTimeNs")
-      get() = _builder.captureTimeNs
-      @JvmName("setCaptureTimeNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getCaptureTimeNs")
+        get() = _builder.captureTimeNs
+      @kotlin.jvm.JvmName("setCaptureTimeNs")
+        set(value) {
         _builder.captureTimeNs = value
       }
     /**
@@ -90,10 +91,10 @@ public object SamTrackingFrameMetaKt {
      * `uint32 generation = 3;`
      */
     public var generation: kotlin.Int
-      @JvmName("getGeneration")
-      get() = _builder.generation
-      @JvmName("setGeneration")
-      set(value) {
+      @kotlin.jvm.JvmName("getGeneration")
+        get() = _builder.generation
+      @kotlin.jvm.JvmName("setGeneration")
+        set(value) {
         _builder.generation = value
       }
     /**
@@ -115,10 +116,10 @@ public object SamTrackingFrameMetaKt {
      * `uint64 capture_monotonic_us = 4 [(.buf.validate.field) = { ... }`
      */
     public var captureMonotonicUs: kotlin.Long
-      @JvmName("getCaptureMonotonicUs")
-      get() = _builder.captureMonotonicUs
-      @JvmName("setCaptureMonotonicUs")
-      set(value) {
+      @kotlin.jvm.JvmName("getCaptureMonotonicUs")
+        get() = _builder.captureMonotonicUs
+      @kotlin.jvm.JvmName("setCaptureMonotonicUs")
+        set(value) {
         _builder.captureMonotonicUs = value
       }
     /**

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_cv_dump_archive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.cvdump;
@@ -41,10 +42,10 @@ public object RedisStreamRecordKt {
      * `string id = 1;`
      */
     public var id: kotlin.String
-      @JvmName("getId")
-      get() = _builder.id
-      @JvmName("setId")
-      set(value) {
+      @kotlin.jvm.JvmName("getId")
+        get() = _builder.id
+      @kotlin.jvm.JvmName("setId")
+        set(value) {
         _builder.id = value
       }
     /**
@@ -76,7 +77,7 @@ public object RedisStreamRecordKt {
      */
      public val fields: com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.RedisStreamField, FieldsProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.fieldsList
       )
     /**
@@ -90,7 +91,7 @@ public object RedisStreamRecordKt {
      * @param value The fields to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addFields")
+@kotlin.jvm.JvmName("addFields")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.RedisStreamField, FieldsProxy>.add(value: jon.cvdump.JonCvDumpArchive.RedisStreamField) {
       _builder.addFields(value)
     }
@@ -105,7 +106,7 @@ public object RedisStreamRecordKt {
      * @param value The fields to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignFields")
+@kotlin.jvm.JvmName("plusAssignFields")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.RedisStreamField, FieldsProxy>.plusAssign(value: jon.cvdump.JonCvDumpArchive.RedisStreamField) {
       add(value)
@@ -121,7 +122,7 @@ public object RedisStreamRecordKt {
      * @param values The fields to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllFields")
+@kotlin.jvm.JvmName("addAllFields")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.RedisStreamField, FieldsProxy>.addAll(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.RedisStreamField>) {
       _builder.addAllFields(values)
     }
@@ -136,7 +137,7 @@ public object RedisStreamRecordKt {
      * @param values The fields to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllFields")
+@kotlin.jvm.JvmName("plusAssignAllFields")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.RedisStreamField, FieldsProxy>.plusAssign(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.RedisStreamField>) {
       addAll(values)
@@ -153,7 +154,7 @@ public object RedisStreamRecordKt {
      * @param value The fields to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setFields")
+@kotlin.jvm.JvmName("setFields")
     public operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.RedisStreamField, FieldsProxy>.set(index: kotlin.Int, value: jon.cvdump.JonCvDumpArchive.RedisStreamField) {
       _builder.setFields(index, value)
     }
@@ -167,11 +168,10 @@ public object RedisStreamRecordKt {
      * `repeated .jon.cvdump.RedisStreamField fields = 2;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearFields")
+@kotlin.jvm.JvmName("clearFields")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.RedisStreamField, FieldsProxy>.clear() {
       _builder.clearFields()
     }
-
   }
 }
 @kotlin.jvm.JvmSynthetic

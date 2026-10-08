@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_time.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -32,10 +33,10 @@ public object JonGuiDataTimeKt {
      * `int64 timestamp = 1 [(.buf.validate.field) = { ... }`
      */
     public var timestamp: kotlin.Long
-      @JvmName("getTimestamp")
-      get() = _builder.timestamp
-      @JvmName("setTimestamp")
-      set(value) {
+      @kotlin.jvm.JvmName("getTimestamp")
+        get() = _builder.timestamp
+      @kotlin.jvm.JvmName("setTimestamp")
+        set(value) {
         _builder.timestamp = value
       }
     /**
@@ -49,10 +50,10 @@ public object JonGuiDataTimeKt {
      * `int64 manual_timestamp = 2 [(.buf.validate.field) = { ... }`
      */
     public var manualTimestamp: kotlin.Long
-      @JvmName("getManualTimestamp")
-      get() = _builder.manualTimestamp
-      @JvmName("setManualTimestamp")
-      set(value) {
+      @kotlin.jvm.JvmName("getManualTimestamp")
+        get() = _builder.manualTimestamp
+      @kotlin.jvm.JvmName("setManualTimestamp")
+        set(value) {
         _builder.manualTimestamp = value
       }
     /**
@@ -66,10 +67,10 @@ public object JonGuiDataTimeKt {
      * `int32 zone_id = 3;`
      */
     public var zoneId: kotlin.Int
-      @JvmName("getZoneId")
-      get() = _builder.zoneId
-      @JvmName("setZoneId")
-      set(value) {
+      @kotlin.jvm.JvmName("getZoneId")
+        get() = _builder.zoneId
+      @kotlin.jvm.JvmName("setZoneId")
+        set(value) {
         _builder.zoneId = value
       }
     /**
@@ -83,10 +84,10 @@ public object JonGuiDataTimeKt {
      * `bool use_manual_time = 4;`
      */
     public var useManualTime: kotlin.Boolean
-      @JvmName("getUseManualTime")
-      get() = _builder.useManualTime
-      @JvmName("setUseManualTime")
-      set(value) {
+      @kotlin.jvm.JvmName("getUseManualTime")
+        get() = _builder.useManualTime
+      @kotlin.jvm.JvmName("setUseManualTime")
+        set(value) {
         _builder.useManualTime = value
       }
     /**

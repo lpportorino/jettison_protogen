@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -44,10 +45,10 @@ public object StyleGroupKt {
      * `uint32 state_selector = 1;`
      */
     public var stateSelector: kotlin.Int
-      @JvmName("getStateSelector")
-      get() = _builder.stateSelector
-      @JvmName("setStateSelector")
-      set(value) {
+      @kotlin.jvm.JvmName("getStateSelector")
+        get() = _builder.stateSelector
+      @kotlin.jvm.JvmName("setStateSelector")
+        set(value) {
         _builder.stateSelector = value
       }
     /**
@@ -68,7 +69,7 @@ public object StyleGroupKt {
      */
      public val variants: com.google.protobuf.kotlin.DslList<ui.UiAst.StyleVariant, VariantsProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.variantsList
       )
     /**
@@ -76,7 +77,7 @@ public object StyleGroupKt {
      * @param value The variants to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addVariants")
+@kotlin.jvm.JvmName("addVariants")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleVariant, VariantsProxy>.add(value: ui.UiAst.StyleVariant) {
       _builder.addVariants(value)
     }
@@ -85,7 +86,7 @@ public object StyleGroupKt {
      * @param value The variants to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignVariants")
+@kotlin.jvm.JvmName("plusAssignVariants")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleVariant, VariantsProxy>.plusAssign(value: ui.UiAst.StyleVariant) {
       add(value)
@@ -95,7 +96,7 @@ public object StyleGroupKt {
      * @param values The variants to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllVariants")
+@kotlin.jvm.JvmName("addAllVariants")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleVariant, VariantsProxy>.addAll(values: kotlin.collections.Iterable<ui.UiAst.StyleVariant>) {
       _builder.addAllVariants(values)
     }
@@ -104,7 +105,7 @@ public object StyleGroupKt {
      * @param values The variants to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllVariants")
+@kotlin.jvm.JvmName("plusAssignAllVariants")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleVariant, VariantsProxy>.plusAssign(values: kotlin.collections.Iterable<ui.UiAst.StyleVariant>) {
       addAll(values)
@@ -115,7 +116,7 @@ public object StyleGroupKt {
      * @param value The variants to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setVariants")
+@kotlin.jvm.JvmName("setVariants")
     public operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleVariant, VariantsProxy>.set(index: kotlin.Int, value: ui.UiAst.StyleVariant) {
       _builder.setVariants(index, value)
     }
@@ -123,11 +124,10 @@ public object StyleGroupKt {
      * `repeated .ui.StyleVariant variants = 2 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearVariants")
+@kotlin.jvm.JvmName("clearVariants")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleVariant, VariantsProxy>.clear() {
       _builder.clearVariants()
     }
-
   }
 }
 @kotlin.jvm.JvmSynthetic

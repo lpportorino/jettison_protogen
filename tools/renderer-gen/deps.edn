@@ -58,19 +58,19 @@
            :test {:extra-paths ["test"]
                   :extra-deps {lambdaisland/kaocha {:mvn/version "1.91.1392"}}
                   :main-opts ["-m" "kaocha.runner"]}}
- :deps {org.clojure/clojure {:mvn/version "1.12.5"}
-        metosin/malli {:mvn/version "0.20.2"}
+ :deps {org.clojure/clojure {:mvn/version "1.12.6"}
+        metosin/malli {:mvn/version "0.20.3"}
         ;; Protobuf + Pronto (proto ↔ EDN); pronto's Java sources are compiled
         ;; by tools/compile-protos.sh alongside the generated proto Java.
         com.appsflyer/pronto {:git/sha "5444ae5ec3b567a5565e6c1e90ba0850960331b6"
                               :git/url "https://github.com/JAremko/pronto"}
-        com.google.protobuf/protobuf-java {:mvn/version "4.35.0"}
-        build.buf/protovalidate {:mvn/version "1.2.2"}
+        com.google.protobuf/protobuf-java {:mvn/version "4.36.2"}
+        build.buf/protovalidate {:mvn/version "1.3.0"}
         ;; lvgl-codegen internals
         com.rpl/specter {:mvn/version "1.1.6"}
-        org.clojure/data.json {:mvn/version "2.5.1"}
+        org.clojure/data.json {:mvn/version "2.5.2"}
         ;; asgard.manifest (endpoints/signals JSON) + kebab→camel
-        metosin/jsonista {:mvn/version "1.0.0"}
+        metosin/jsonista {:mvn/version "1.0.2"}
         camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
         ;; asgard.api.backend logs through tools.logging (jul backend — this
         ;; is a batch tool; no logging impl dependency on purpose)

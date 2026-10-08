@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -32,17 +33,17 @@ public object TreePatchOpKt {
      * `.ui.PatchOpKind kind = 1 [(.buf.validate.field) = { ... }`
      */
     public var kind: ui.UiAst.PatchOpKind
-      @JvmName("getKind")
-      get() = _builder.kind
-      @JvmName("setKind")
-      set(value) {
+      @kotlin.jvm.JvmName("getKind")
+        get() = _builder.kind
+      @kotlin.jvm.JvmName("setKind")
+        set(value) {
         _builder.kind = value
       }
     public var kindValue: kotlin.Int
-      @JvmName("getKindValue")
-      get() = _builder.kindValue
-      @JvmName("setKindValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getKindValue")
+        get() = _builder.kindValue
+      @kotlin.jvm.JvmName("setKindValue")
+        set(value) {
         _builder.kindValue = value
       }
     /**
@@ -60,10 +61,10 @@ public object TreePatchOpKt {
      * `uint32 target_uid = 2;`
      */
     public var targetUid: kotlin.Int
-      @JvmName("getTargetUid")
-      get() = _builder.targetUid
-      @JvmName("setTargetUid")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetUid")
+        get() = _builder.targetUid
+      @kotlin.jvm.JvmName("setTargetUid")
+        set(value) {
         _builder.targetUid = value
       }
     /**
@@ -85,10 +86,10 @@ public object TreePatchOpKt {
      * `uint32 parent_uid = 3;`
      */
     public var parentUid: kotlin.Int
-      @JvmName("getParentUid")
-      get() = _builder.parentUid
-      @JvmName("setParentUid")
-      set(value) {
+      @kotlin.jvm.JvmName("getParentUid")
+        get() = _builder.parentUid
+      @kotlin.jvm.JvmName("setParentUid")
+        set(value) {
         _builder.parentUid = value
       }
     /**
@@ -110,10 +111,10 @@ public object TreePatchOpKt {
      * `uint32 index = 4;`
      */
     public var index: kotlin.Int
-      @JvmName("getIndex")
-      get() = _builder.index
-      @JvmName("setIndex")
-      set(value) {
+      @kotlin.jvm.JvmName("getIndex")
+        get() = _builder.index
+      @kotlin.jvm.JvmName("setIndex")
+        set(value) {
         _builder.index = value
       }
     /**
@@ -137,10 +138,10 @@ public object TreePatchOpKt {
      * `optional .ui.WidgetNode node = 5;`
      */
     public var node: ui.UiAst.WidgetNode
-      @JvmName("getNode")
-      get() = _builder.node
-      @JvmName("setNode")
-      set(value) {
+      @kotlin.jvm.JvmName("getNode")
+        get() = _builder.node
+      @kotlin.jvm.JvmName("setNode")
+        set(value) {
         _builder.node = value
       }
     /**

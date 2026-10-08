@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_input.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -41,17 +42,17 @@ public object PointerEventKt {
      * `.ui.PointerPhase phase = 1 [(.buf.validate.field) = { ... }`
      */
     public var phase: ui.UiInput.PointerPhase
-      @JvmName("getPhase")
-      get() = _builder.phase
-      @JvmName("setPhase")
-      set(value) {
+      @kotlin.jvm.JvmName("getPhase")
+        get() = _builder.phase
+      @kotlin.jvm.JvmName("setPhase")
+        set(value) {
         _builder.phase = value
       }
     public var phaseValue: kotlin.Int
-      @JvmName("getPhaseValue")
-      get() = _builder.phaseValue
-      @JvmName("setPhaseValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getPhaseValue")
+        get() = _builder.phaseValue
+      @kotlin.jvm.JvmName("setPhaseValue")
+        set(value) {
         _builder.phaseValue = value
       }
     /**
@@ -65,17 +66,17 @@ public object PointerEventKt {
      * `.ui.PointerKind kind = 2 [(.buf.validate.field) = { ... }`
      */
     public var kind: ui.UiInput.PointerKind
-      @JvmName("getKind")
-      get() = _builder.kind
-      @JvmName("setKind")
-      set(value) {
+      @kotlin.jvm.JvmName("getKind")
+        get() = _builder.kind
+      @kotlin.jvm.JvmName("setKind")
+        set(value) {
         _builder.kind = value
       }
     public var kindValue: kotlin.Int
-      @JvmName("getKindValue")
-      get() = _builder.kindValue
-      @JvmName("setKindValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getKindValue")
+        get() = _builder.kindValue
+      @kotlin.jvm.JvmName("setKindValue")
+        set(value) {
         _builder.kindValue = value
       }
     /**
@@ -93,10 +94,10 @@ public object PointerEventKt {
      * `uint32 pointer_id = 3;`
      */
     public var pointerId: kotlin.Int
-      @JvmName("getPointerId")
-      get() = _builder.pointerId
-      @JvmName("setPointerId")
-      set(value) {
+      @kotlin.jvm.JvmName("getPointerId")
+        get() = _builder.pointerId
+      @kotlin.jvm.JvmName("setPointerId")
+        set(value) {
         _builder.pointerId = value
       }
     /**
@@ -118,10 +119,10 @@ public object PointerEventKt {
      * `double x = 4 [(.buf.validate.field) = { ... }`
      */
     public var x: kotlin.Double
-      @JvmName("getX")
-      get() = _builder.x
-      @JvmName("setX")
-      set(value) {
+      @kotlin.jvm.JvmName("getX")
+        get() = _builder.x
+      @kotlin.jvm.JvmName("setX")
+        set(value) {
         _builder.x = value
       }
     /**
@@ -143,10 +144,10 @@ public object PointerEventKt {
      * `double y = 5 [(.buf.validate.field) = { ... }`
      */
     public var y: kotlin.Double
-      @JvmName("getY")
-      get() = _builder.y
-      @JvmName("setY")
-      set(value) {
+      @kotlin.jvm.JvmName("getY")
+        get() = _builder.y
+      @kotlin.jvm.JvmName("setY")
+        set(value) {
         _builder.y = value
       }
     /**
@@ -168,10 +169,10 @@ public object PointerEventKt {
      * `uint64 event_time = 6;`
      */
     public var eventTime: kotlin.Long
-      @JvmName("getEventTime")
-      get() = _builder.eventTime
-      @JvmName("setEventTime")
-      set(value) {
+      @kotlin.jvm.JvmName("getEventTime")
+        get() = _builder.eventTime
+      @kotlin.jvm.JvmName("setEventTime")
+        set(value) {
         _builder.eventTime = value
       }
     /**

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_day_camera.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.DayCamera;
@@ -32,10 +33,10 @@ public object OffsetKt {
      * `double offset_value = 1 [(.buf.validate.field) = { ... }`
      */
     public var offsetValue: kotlin.Double
-      @JvmName("getOffsetValue")
-      get() = _builder.offsetValue
-      @JvmName("setOffsetValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getOffsetValue")
+        get() = _builder.offsetValue
+      @kotlin.jvm.JvmName("setOffsetValue")
+        set(value) {
         _builder.offsetValue = value
       }
     /**

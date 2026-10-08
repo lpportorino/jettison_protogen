@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_cv_dump_archive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.cvdump;
@@ -38,17 +39,17 @@ public object IntegrityReportKt {
      * `.jon.cvdump.ArchiveStatus status = 1;`
      */
     public var status: jon.cvdump.JonCvDumpArchive.ArchiveStatus
-      @JvmName("getStatus")
-      get() = _builder.status
-      @JvmName("setStatus")
-      set(value) {
+      @kotlin.jvm.JvmName("getStatus")
+        get() = _builder.status
+      @kotlin.jvm.JvmName("setStatus")
+        set(value) {
         _builder.status = value
       }
     public var statusValue: kotlin.Int
-      @JvmName("getStatusValue")
-      get() = _builder.statusValue
-      @JvmName("setStatusValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getStatusValue")
+        get() = _builder.statusValue
+      @kotlin.jvm.JvmName("setStatusValue")
+        set(value) {
         _builder.statusValue = value
       }
     /**
@@ -69,10 +70,10 @@ public object IntegrityReportKt {
      * `uint32 lapped_segments = 2;`
      */
     public var lappedSegments: kotlin.Int
-      @JvmName("getLappedSegments")
-      get() = _builder.lappedSegments
-      @JvmName("setLappedSegments")
-      set(value) {
+      @kotlin.jvm.JvmName("getLappedSegments")
+        get() = _builder.lappedSegments
+      @kotlin.jvm.JvmName("setLappedSegments")
+        set(value) {
         _builder.lappedSegments = value
       }
     /**
@@ -103,10 +104,10 @@ public object IntegrityReportKt {
      * `bool window_start_lost = 3;`
      */
     public var windowStartLost: kotlin.Boolean
-      @JvmName("getWindowStartLost")
-      get() = _builder.windowStartLost
-      @JvmName("setWindowStartLost")
-      set(value) {
+      @kotlin.jvm.JvmName("getWindowStartLost")
+        get() = _builder.windowStartLost
+      @kotlin.jvm.JvmName("setWindowStartLost")
+        set(value) {
         _builder.windowStartLost = value
       }
     /**
@@ -135,10 +136,10 @@ public object IntegrityReportKt {
      * `bool writer_seg_skipped = 4;`
      */
     public var writerSegSkipped: kotlin.Boolean
-      @JvmName("getWriterSegSkipped")
-      get() = _builder.writerSegSkipped
-      @JvmName("setWriterSegSkipped")
-      set(value) {
+      @kotlin.jvm.JvmName("getWriterSegSkipped")
+        get() = _builder.writerSegSkipped
+      @kotlin.jvm.JvmName("setWriterSegSkipped")
+        set(value) {
         _builder.writerSegSkipped = value
       }
     /**
@@ -163,10 +164,10 @@ public object IntegrityReportKt {
      * `bool rec_control_unknown = 5;`
      */
     public var recControlUnknown: kotlin.Boolean
-      @JvmName("getRecControlUnknown")
-      get() = _builder.recControlUnknown
-      @JvmName("setRecControlUnknown")
-      set(value) {
+      @kotlin.jvm.JvmName("getRecControlUnknown")
+        get() = _builder.recControlUnknown
+      @kotlin.jvm.JvmName("setRecControlUnknown")
+        set(value) {
         _builder.recControlUnknown = value
       }
     /**
@@ -190,10 +191,10 @@ public object IntegrityReportKt {
      * `bool rec_enable_failed = 6;`
      */
     public var recEnableFailed: kotlin.Boolean
-      @JvmName("getRecEnableFailed")
-      get() = _builder.recEnableFailed
-      @JvmName("setRecEnableFailed")
-      set(value) {
+      @kotlin.jvm.JvmName("getRecEnableFailed")
+        get() = _builder.recEnableFailed
+      @kotlin.jvm.JvmName("setRecEnableFailed")
+        set(value) {
         _builder.recEnableFailed = value
       }
     /**
@@ -230,7 +231,7 @@ public object IntegrityReportKt {
      * @return A list containing the noWindowVideoChannels.
      */
     public val noWindowVideoChannels: com.google.protobuf.kotlin.DslList<kotlin.String, NoWindowVideoChannelsProxy>
-      @kotlin.jvm.JvmSynthetic
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
       get() = com.google.protobuf.kotlin.DslList(
         _builder.noWindowVideoChannelsList
       )
@@ -251,7 +252,7 @@ public object IntegrityReportKt {
      * @param value The noWindowVideoChannels to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addNoWindowVideoChannels")
+@kotlin.jvm.JvmName("addNoWindowVideoChannels")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, NoWindowVideoChannelsProxy>.add(value: kotlin.String) {
       _builder.addNoWindowVideoChannels(value)
     }
@@ -272,7 +273,7 @@ public object IntegrityReportKt {
      * @param value The noWindowVideoChannels to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignNoWindowVideoChannels")
+@kotlin.jvm.JvmName("plusAssignNoWindowVideoChannels")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, NoWindowVideoChannelsProxy>.plusAssign(value: kotlin.String) {
       add(value)
@@ -294,7 +295,7 @@ public object IntegrityReportKt {
      * @param values The noWindowVideoChannels to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllNoWindowVideoChannels")
+@kotlin.jvm.JvmName("addAllNoWindowVideoChannels")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, NoWindowVideoChannelsProxy>.addAll(values: kotlin.collections.Iterable<kotlin.String>) {
       _builder.addAllNoWindowVideoChannels(values)
     }
@@ -315,7 +316,7 @@ public object IntegrityReportKt {
      * @param values The noWindowVideoChannels to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllNoWindowVideoChannels")
+@kotlin.jvm.JvmName("plusAssignAllNoWindowVideoChannels")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, NoWindowVideoChannelsProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.String>) {
       addAll(values)
@@ -338,7 +339,7 @@ public object IntegrityReportKt {
      * @param value The noWindowVideoChannels to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setNoWindowVideoChannels")
+@kotlin.jvm.JvmName("setNoWindowVideoChannels")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.String, NoWindowVideoChannelsProxy>.set(index: kotlin.Int, value: kotlin.String) {
       _builder.setNoWindowVideoChannels(index, value)
     }/**
@@ -357,7 +358,7 @@ public object IntegrityReportKt {
      * `repeated string no_window_video_channels = 7;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearNoWindowVideoChannels")
+@kotlin.jvm.JvmName("setNoWindowVideoChannels")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, NoWindowVideoChannelsProxy>.clear() {
       _builder.clearNoWindowVideoChannels()
     }
@@ -378,7 +379,7 @@ public object IntegrityReportKt {
      * @return A list containing the truncatedSources.
      */
     public val truncatedSources: com.google.protobuf.kotlin.DslList<kotlin.String, TruncatedSourcesProxy>
-      @kotlin.jvm.JvmSynthetic
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
       get() = com.google.protobuf.kotlin.DslList(
         _builder.truncatedSourcesList
       )
@@ -393,7 +394,7 @@ public object IntegrityReportKt {
      * @param value The truncatedSources to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addTruncatedSources")
+@kotlin.jvm.JvmName("addTruncatedSources")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, TruncatedSourcesProxy>.add(value: kotlin.String) {
       _builder.addTruncatedSources(value)
     }
@@ -408,7 +409,7 @@ public object IntegrityReportKt {
      * @param value The truncatedSources to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignTruncatedSources")
+@kotlin.jvm.JvmName("plusAssignTruncatedSources")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, TruncatedSourcesProxy>.plusAssign(value: kotlin.String) {
       add(value)
@@ -424,7 +425,7 @@ public object IntegrityReportKt {
      * @param values The truncatedSources to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllTruncatedSources")
+@kotlin.jvm.JvmName("addAllTruncatedSources")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, TruncatedSourcesProxy>.addAll(values: kotlin.collections.Iterable<kotlin.String>) {
       _builder.addAllTruncatedSources(values)
     }
@@ -439,7 +440,7 @@ public object IntegrityReportKt {
      * @param values The truncatedSources to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllTruncatedSources")
+@kotlin.jvm.JvmName("plusAssignAllTruncatedSources")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, TruncatedSourcesProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.String>) {
       addAll(values)
@@ -456,7 +457,7 @@ public object IntegrityReportKt {
      * @param value The truncatedSources to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setTruncatedSources")
+@kotlin.jvm.JvmName("setTruncatedSources")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.String, TruncatedSourcesProxy>.set(index: kotlin.Int, value: kotlin.String) {
       _builder.setTruncatedSources(index, value)
     }/**
@@ -469,7 +470,7 @@ public object IntegrityReportKt {
      * `repeated string truncated_sources = 8;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearTruncatedSources")
+@kotlin.jvm.JvmName("setTruncatedSources")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, TruncatedSourcesProxy>.clear() {
       _builder.clearTruncatedSources()
     }
@@ -482,10 +483,10 @@ public object IntegrityReportKt {
      * `bool telemetry_incomplete = 9;`
      */
     public var telemetryIncomplete: kotlin.Boolean
-      @JvmName("getTelemetryIncomplete")
-      get() = _builder.telemetryIncomplete
-      @JvmName("setTelemetryIncomplete")
-      set(value) {
+      @kotlin.jvm.JvmName("getTelemetryIncomplete")
+        get() = _builder.telemetryIncomplete
+      @kotlin.jvm.JvmName("setTelemetryIncomplete")
+        set(value) {
         _builder.telemetryIncomplete = value
       }
     /**
@@ -510,10 +511,10 @@ public object IntegrityReportKt {
      * `bool io_records_incomplete = 10;`
      */
     public var ioRecordsIncomplete: kotlin.Boolean
-      @JvmName("getIoRecordsIncomplete")
-      get() = _builder.ioRecordsIncomplete
-      @JvmName("setIoRecordsIncomplete")
-      set(value) {
+      @kotlin.jvm.JvmName("getIoRecordsIncomplete")
+        get() = _builder.ioRecordsIncomplete
+      @kotlin.jvm.JvmName("setIoRecordsIncomplete")
+        set(value) {
         _builder.ioRecordsIncomplete = value
       }
     /**

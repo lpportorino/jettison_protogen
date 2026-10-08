@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_cv_dump_archive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.cvdump;
@@ -42,17 +43,17 @@ public object StreamGroupKt {
      * `.jon.cvdump.StreamKind kind = 1;`
      */
     public var kind: jon.cvdump.JonCvDumpArchive.StreamKind
-      @JvmName("getKind")
-      get() = _builder.kind
-      @JvmName("setKind")
-      set(value) {
+      @kotlin.jvm.JvmName("getKind")
+        get() = _builder.kind
+      @kotlin.jvm.JvmName("setKind")
+        set(value) {
         _builder.kind = value
       }
     public var kindValue: kotlin.Int
-      @JvmName("getKindValue")
-      get() = _builder.kindValue
-      @JvmName("setKindValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getKindValue")
+        get() = _builder.kindValue
+      @kotlin.jvm.JvmName("setKindValue")
+        set(value) {
         _builder.kindValue = value
       }
     /**
@@ -72,10 +73,10 @@ public object StreamGroupKt {
      * `string source = 2 [(.buf.validate.field) = { ... }`
      */
     public var source: kotlin.String
-      @JvmName("getSource")
-      get() = _builder.source
-      @JvmName("setSource")
-      set(value) {
+      @kotlin.jvm.JvmName("getSource")
+        get() = _builder.source
+      @kotlin.jvm.JvmName("setSource")
+        set(value) {
         _builder.source = value
       }
     /**
@@ -99,17 +100,17 @@ public object StreamGroupKt {
      * `.jon.cvdump.ArchiveCodec codec = 3;`
      */
     public var codec: jon.cvdump.JonCvDumpArchive.ArchiveCodec
-      @JvmName("getCodec")
-      get() = _builder.codec
-      @JvmName("setCodec")
-      set(value) {
+      @kotlin.jvm.JvmName("getCodec")
+        get() = _builder.codec
+      @kotlin.jvm.JvmName("setCodec")
+        set(value) {
         _builder.codec = value
       }
     public var codecValue: kotlin.Int
-      @JvmName("getCodecValue")
-      get() = _builder.codecValue
-      @JvmName("setCodecValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getCodecValue")
+        get() = _builder.codecValue
+      @kotlin.jvm.JvmName("setCodecValue")
+        set(value) {
         _builder.codecValue = value
       }
     /**
@@ -132,10 +133,10 @@ public object StreamGroupKt {
      * `uint64 record_count = 4;`
      */
     public var recordCount: kotlin.Long
-      @JvmName("getRecordCount")
-      get() = _builder.recordCount
-      @JvmName("setRecordCount")
-      set(value) {
+      @kotlin.jvm.JvmName("getRecordCount")
+        get() = _builder.recordCount
+      @kotlin.jvm.JvmName("setRecordCount")
+        set(value) {
         _builder.recordCount = value
       }
     /**
@@ -159,10 +160,10 @@ public object StreamGroupKt {
      * `uint64 decoded_bytes = 5;`
      */
     public var decodedBytes: kotlin.Long
-      @JvmName("getDecodedBytes")
-      get() = _builder.decodedBytes
-      @JvmName("setDecodedBytes")
-      set(value) {
+      @kotlin.jvm.JvmName("getDecodedBytes")
+        get() = _builder.decodedBytes
+      @kotlin.jvm.JvmName("setDecodedBytes")
+        set(value) {
         _builder.decodedBytes = value
       }
     /**
@@ -187,10 +188,10 @@ public object StreamGroupKt {
      * `string decoded_sha256 = 6 [(.buf.validate.field) = { ... }`
      */
     public var decodedSha256: kotlin.String
-      @JvmName("getDecodedSha256")
-      get() = _builder.decodedSha256
-      @JvmName("setDecodedSha256")
-      set(value) {
+      @kotlin.jvm.JvmName("getDecodedSha256")
+        get() = _builder.decodedSha256
+      @kotlin.jvm.JvmName("setDecodedSha256")
+        set(value) {
         _builder.decodedSha256 = value
       }
     /**
@@ -216,10 +217,10 @@ public object StreamGroupKt {
      * `bool truncated = 7;`
      */
     public var truncated: kotlin.Boolean
-      @JvmName("getTruncated")
-      get() = _builder.truncated
-      @JvmName("setTruncated")
-      set(value) {
+      @kotlin.jvm.JvmName("getTruncated")
+        get() = _builder.truncated
+      @kotlin.jvm.JvmName("setTruncated")
+        set(value) {
         _builder.truncated = value
       }
     /**
@@ -252,7 +253,7 @@ public object StreamGroupKt {
      */
      public val columns: com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ColumnDef, ColumnsProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.columnsList
       )
     /**
@@ -266,7 +267,7 @@ public object StreamGroupKt {
      * @param value The columns to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addColumns")
+@kotlin.jvm.JvmName("addColumns")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ColumnDef, ColumnsProxy>.add(value: jon.cvdump.JonCvDumpArchive.ColumnDef) {
       _builder.addColumns(value)
     }
@@ -281,7 +282,7 @@ public object StreamGroupKt {
      * @param value The columns to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignColumns")
+@kotlin.jvm.JvmName("plusAssignColumns")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ColumnDef, ColumnsProxy>.plusAssign(value: jon.cvdump.JonCvDumpArchive.ColumnDef) {
       add(value)
@@ -297,7 +298,7 @@ public object StreamGroupKt {
      * @param values The columns to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllColumns")
+@kotlin.jvm.JvmName("addAllColumns")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ColumnDef, ColumnsProxy>.addAll(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.ColumnDef>) {
       _builder.addAllColumns(values)
     }
@@ -312,7 +313,7 @@ public object StreamGroupKt {
      * @param values The columns to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllColumns")
+@kotlin.jvm.JvmName("plusAssignAllColumns")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ColumnDef, ColumnsProxy>.plusAssign(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.ColumnDef>) {
       addAll(values)
@@ -329,7 +330,7 @@ public object StreamGroupKt {
      * @param value The columns to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setColumns")
+@kotlin.jvm.JvmName("setColumns")
     public operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ColumnDef, ColumnsProxy>.set(index: kotlin.Int, value: jon.cvdump.JonCvDumpArchive.ColumnDef) {
       _builder.setColumns(index, value)
     }
@@ -343,11 +344,10 @@ public object StreamGroupKt {
      * `repeated .jon.cvdump.ColumnDef columns = 8;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearColumns")
+@kotlin.jvm.JvmName("clearColumns")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ColumnDef, ColumnsProxy>.clear() {
       _builder.clearColumns()
     }
-
 
     /**
      * ```
@@ -358,10 +358,10 @@ public object StreamGroupKt {
      * `bytes payload = 9;`
      */
     public var payload: com.google.protobuf.ByteString
-      @JvmName("getPayload")
-      get() = _builder.payload
-      @JvmName("setPayload")
-      set(value) {
+      @kotlin.jvm.JvmName("getPayload")
+        get() = _builder.payload
+      @kotlin.jvm.JvmName("setPayload")
+        set(value) {
         _builder.payload = value
       }
     /**

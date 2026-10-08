@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -44,10 +45,10 @@ public object ColorBindingKt {
      * `.ui.VisibilityBinding when = 1;`
      */
     public var when_: ui.UiAst.VisibilityBinding
-      @JvmName("getWhen_")
-      get() = _builder.`when`
-      @JvmName("setWhen_")
-      set(value) {
+      @kotlin.jvm.JvmName("getWhen_")
+        get() = _builder.`when`
+      @kotlin.jvm.JvmName("setWhen_")
+        set(value) {
         _builder.`when` = value
       }
     /**
@@ -84,10 +85,10 @@ public object ColorBindingKt {
      * `.ui.Color color = 2;`
      */
     public var color: ui.UiAst.Color
-      @JvmName("getColor")
-      get() = _builder.color
-      @JvmName("setColor")
-      set(value) {
+      @kotlin.jvm.JvmName("getColor")
+        get() = _builder.color
+      @kotlin.jvm.JvmName("setColor")
+        set(value) {
         _builder.color = value
       }
     /**

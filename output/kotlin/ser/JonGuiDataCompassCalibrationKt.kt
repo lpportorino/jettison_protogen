@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_compass_calibration.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -32,10 +33,10 @@ public object JonGuiDataCompassCalibrationKt {
      * `uint32 stage = 1 [(.buf.validate.field) = { ... }`
      */
     public var stage: kotlin.Int
-      @JvmName("getStage")
-      get() = _builder.stage
-      @JvmName("setStage")
-      set(value) {
+      @kotlin.jvm.JvmName("getStage")
+        get() = _builder.stage
+      @kotlin.jvm.JvmName("setStage")
+        set(value) {
         _builder.stage = value
       }
     /**
@@ -49,10 +50,10 @@ public object JonGuiDataCompassCalibrationKt {
      * `uint32 final_stage = 2 [(.buf.validate.field) = { ... }`
      */
     public var finalStage: kotlin.Int
-      @JvmName("getFinalStage")
-      get() = _builder.finalStage
-      @JvmName("setFinalStage")
-      set(value) {
+      @kotlin.jvm.JvmName("getFinalStage")
+        get() = _builder.finalStage
+      @kotlin.jvm.JvmName("setFinalStage")
+        set(value) {
         _builder.finalStage = value
       }
     /**
@@ -66,10 +67,10 @@ public object JonGuiDataCompassCalibrationKt {
      * `double target_azimuth = 3 [(.buf.validate.field) = { ... }`
      */
     public var targetAzimuth: kotlin.Double
-      @JvmName("getTargetAzimuth")
-      get() = _builder.targetAzimuth
-      @JvmName("setTargetAzimuth")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetAzimuth")
+        get() = _builder.targetAzimuth
+      @kotlin.jvm.JvmName("setTargetAzimuth")
+        set(value) {
         _builder.targetAzimuth = value
       }
     /**
@@ -83,10 +84,10 @@ public object JonGuiDataCompassCalibrationKt {
      * `double target_elevation = 4 [(.buf.validate.field) = { ... }`
      */
     public var targetElevation: kotlin.Double
-      @JvmName("getTargetElevation")
-      get() = _builder.targetElevation
-      @JvmName("setTargetElevation")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetElevation")
+        get() = _builder.targetElevation
+      @kotlin.jvm.JvmName("setTargetElevation")
+        set(value) {
         _builder.targetElevation = value
       }
     /**
@@ -100,10 +101,10 @@ public object JonGuiDataCompassCalibrationKt {
      * `double target_bank = 5 [(.buf.validate.field) = { ... }`
      */
     public var targetBank: kotlin.Double
-      @JvmName("getTargetBank")
-      get() = _builder.targetBank
-      @JvmName("setTargetBank")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetBank")
+        get() = _builder.targetBank
+      @kotlin.jvm.JvmName("setTargetBank")
+        set(value) {
         _builder.targetBank = value
       }
     /**
@@ -117,17 +118,17 @@ public object JonGuiDataCompassCalibrationKt {
      * `.ser.JonGuiDataCompassCalibrateStatus status = 6 [(.buf.validate.field) = { ... }`
      */
     public var status: ser.JonSharedDataTypes.JonGuiDataCompassCalibrateStatus
-      @JvmName("getStatus")
-      get() = _builder.status
-      @JvmName("setStatus")
-      set(value) {
+      @kotlin.jvm.JvmName("getStatus")
+        get() = _builder.status
+      @kotlin.jvm.JvmName("setStatus")
+        set(value) {
         _builder.status = value
       }
     public var statusValue: kotlin.Int
-      @JvmName("getStatusValue")
-      get() = _builder.statusValue
-      @JvmName("setStatusValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getStatusValue")
+        get() = _builder.statusValue
+      @kotlin.jvm.JvmName("setStatusValue")
+        set(value) {
         _builder.statusValue = value
       }
     /**
@@ -151,10 +152,10 @@ public object JonGuiDataCompassCalibrationKt {
      * `uint32 figure_of_merit_raw = 7 [(.buf.validate.field) = { ... }`
      */
     public var figureOfMeritRaw: kotlin.Int
-      @JvmName("getFigureOfMeritRaw")
-      get() = _builder.figureOfMeritRaw
-      @JvmName("setFigureOfMeritRaw")
-      set(value) {
+      @kotlin.jvm.JvmName("getFigureOfMeritRaw")
+        get() = _builder.figureOfMeritRaw
+      @kotlin.jvm.JvmName("setFigureOfMeritRaw")
+        set(value) {
         _builder.figureOfMeritRaw = value
       }
     /**

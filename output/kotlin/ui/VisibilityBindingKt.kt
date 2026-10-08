@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -40,10 +41,10 @@ public object VisibilityBindingKt {
      * `string subject = 1 [(.buf.validate.field) = { ... }`
      */
     public var subject: kotlin.String
-      @JvmName("getSubject")
-      get() = _builder.subject
-      @JvmName("setSubject")
-      set(value) {
+      @kotlin.jvm.JvmName("getSubject")
+        get() = _builder.subject
+      @kotlin.jvm.JvmName("setSubject")
+        set(value) {
         _builder.subject = value
       }
     /**
@@ -65,10 +66,10 @@ public object VisibilityBindingKt {
      * `int32 ref_value = 2;`
      */
     public var refValue: kotlin.Int
-      @JvmName("getRefValue")
-      get() = _builder.refValue
-      @JvmName("setRefValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getRefValue")
+        get() = _builder.refValue
+      @kotlin.jvm.JvmName("setRefValue")
+        set(value) {
         _builder.refValue = value
       }
     /**
@@ -90,17 +91,17 @@ public object VisibilityBindingKt {
      * `.ui.CompareOp compare = 3 [(.buf.validate.field) = { ... }`
      */
     public var compare: ui.UiAst.CompareOp
-      @JvmName("getCompare")
-      get() = _builder.compare
-      @JvmName("setCompare")
-      set(value) {
+      @kotlin.jvm.JvmName("getCompare")
+        get() = _builder.compare
+      @kotlin.jvm.JvmName("setCompare")
+        set(value) {
         _builder.compare = value
       }
     public var compareValue: kotlin.Int
-      @JvmName("getCompareValue")
-      get() = _builder.compareValue
-      @JvmName("setCompareValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getCompareValue")
+        get() = _builder.compareValue
+      @kotlin.jvm.JvmName("setCompareValue")
+        set(value) {
         _builder.compareValue = value
       }
     /**

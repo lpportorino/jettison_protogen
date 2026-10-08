@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_sych_archive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.archive;
@@ -40,10 +41,10 @@ public object VideoEntryKt {
      * `string id = 1 [(.buf.validate.field) = { ... }`
      */
     public var id: kotlin.String
-      @JvmName("getId")
-      get() = _builder.id
-      @JvmName("setId")
-      set(value) {
+      @kotlin.jvm.JvmName("getId")
+        get() = _builder.id
+      @kotlin.jvm.JvmName("setId")
+        set(value) {
         _builder.id = value
       }
     /**
@@ -65,10 +66,10 @@ public object VideoEntryKt {
      * `string archive_path = 2 [(.buf.validate.field) = { ... }`
      */
     public var archivePath: kotlin.String
-      @JvmName("getArchivePath")
-      get() = _builder.archivePath
-      @JvmName("setArchivePath")
-      set(value) {
+      @kotlin.jvm.JvmName("getArchivePath")
+        get() = _builder.archivePath
+      @kotlin.jvm.JvmName("setArchivePath")
+        set(value) {
         _builder.archivePath = value
       }
     /**
@@ -90,10 +91,10 @@ public object VideoEntryKt {
      * `optional string thumbnail_path = 3;`
      */
     public var thumbnailPath: kotlin.String
-      @JvmName("getThumbnailPath")
-      get() = _builder.thumbnailPath
-      @JvmName("setThumbnailPath")
-      set(value) {
+      @kotlin.jvm.JvmName("getThumbnailPath")
+        get() = _builder.thumbnailPath
+      @kotlin.jvm.JvmName("setThumbnailPath")
+        set(value) {
         _builder.thumbnailPath = value
       }
     /**
@@ -126,10 +127,10 @@ public object VideoEntryKt {
      * `uint32 global_frame_start = 4;`
      */
     public var globalFrameStart: kotlin.Int
-      @JvmName("getGlobalFrameStart")
-      get() = _builder.globalFrameStart
-      @JvmName("setGlobalFrameStart")
-      set(value) {
+      @kotlin.jvm.JvmName("getGlobalFrameStart")
+        get() = _builder.globalFrameStart
+      @kotlin.jvm.JvmName("setGlobalFrameStart")
+        set(value) {
         _builder.globalFrameStart = value
       }
     /**
@@ -151,10 +152,10 @@ public object VideoEntryKt {
      * `.jon.video.VideoMeta meta = 5 [(.buf.validate.field) = { ... }`
      */
     public var meta: jon.video.JonVideoMeta.VideoMeta
-      @JvmName("getMeta")
-      get() = _builder.meta
-      @JvmName("setMeta")
-      set(value) {
+      @kotlin.jvm.JvmName("getMeta")
+        get() = _builder.meta
+      @kotlin.jvm.JvmName("setMeta")
+        set(value) {
         _builder.meta = value
       }
     /**

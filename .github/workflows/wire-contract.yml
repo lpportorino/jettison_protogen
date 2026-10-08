@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v5
+      uses: actions/checkout@v7.0.1
 
     - # No toolchain setup: the checker is python3 stdlib only, and python3 is
       # preinstalled on every GitHub runner image. That is deliberate — this

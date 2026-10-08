@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_lira.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.Lira;
@@ -32,10 +33,10 @@ public object JonGuiDataLiraTargetKt {
      * `int64 timestamp = 1 [(.buf.validate.field) = { ... }`
      */
     public var timestamp: kotlin.Long
-      @JvmName("getTimestamp")
-      get() = _builder.timestamp
-      @JvmName("setTimestamp")
-      set(value) {
+      @kotlin.jvm.JvmName("getTimestamp")
+        get() = _builder.timestamp
+      @kotlin.jvm.JvmName("setTimestamp")
+        set(value) {
         _builder.timestamp = value
       }
     /**
@@ -49,10 +50,10 @@ public object JonGuiDataLiraTargetKt {
      * `double target_longitude = 2 [(.buf.validate.field) = { ... }`
      */
     public var targetLongitude: kotlin.Double
-      @JvmName("getTargetLongitude")
-      get() = _builder.targetLongitude
-      @JvmName("setTargetLongitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetLongitude")
+        get() = _builder.targetLongitude
+      @kotlin.jvm.JvmName("setTargetLongitude")
+        set(value) {
         _builder.targetLongitude = value
       }
     /**
@@ -66,10 +67,10 @@ public object JonGuiDataLiraTargetKt {
      * `double target_latitude = 3 [(.buf.validate.field) = { ... }`
      */
     public var targetLatitude: kotlin.Double
-      @JvmName("getTargetLatitude")
-      get() = _builder.targetLatitude
-      @JvmName("setTargetLatitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetLatitude")
+        get() = _builder.targetLatitude
+      @kotlin.jvm.JvmName("setTargetLatitude")
+        set(value) {
         _builder.targetLatitude = value
       }
     /**
@@ -83,10 +84,10 @@ public object JonGuiDataLiraTargetKt {
      * `double target_altitude = 4 [(.buf.validate.field) = { ... }`
      */
     public var targetAltitude: kotlin.Double
-      @JvmName("getTargetAltitude")
-      get() = _builder.targetAltitude
-      @JvmName("setTargetAltitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetAltitude")
+        get() = _builder.targetAltitude
+      @kotlin.jvm.JvmName("setTargetAltitude")
+        set(value) {
         _builder.targetAltitude = value
       }
     /**
@@ -100,10 +101,10 @@ public object JonGuiDataLiraTargetKt {
      * `double target_azimuth = 5 [(.buf.validate.field) = { ... }`
      */
     public var targetAzimuth: kotlin.Double
-      @JvmName("getTargetAzimuth")
-      get() = _builder.targetAzimuth
-      @JvmName("setTargetAzimuth")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetAzimuth")
+        get() = _builder.targetAzimuth
+      @kotlin.jvm.JvmName("setTargetAzimuth")
+        set(value) {
         _builder.targetAzimuth = value
       }
     /**
@@ -117,10 +118,10 @@ public object JonGuiDataLiraTargetKt {
      * `double target_elevation = 6 [(.buf.validate.field) = { ... }`
      */
     public var targetElevation: kotlin.Double
-      @JvmName("getTargetElevation")
-      get() = _builder.targetElevation
-      @JvmName("setTargetElevation")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetElevation")
+        get() = _builder.targetElevation
+      @kotlin.jvm.JvmName("setTargetElevation")
+        set(value) {
         _builder.targetElevation = value
       }
     /**
@@ -134,10 +135,10 @@ public object JonGuiDataLiraTargetKt {
      * `double distance = 7 [(.buf.validate.field) = { ... }`
      */
     public var distance: kotlin.Double
-      @JvmName("getDistance")
-      get() = _builder.distance
-      @JvmName("setDistance")
-      set(value) {
+      @kotlin.jvm.JvmName("getDistance")
+        get() = _builder.distance
+      @kotlin.jvm.JvmName("setDistance")
+        set(value) {
         _builder.distance = value
       }
     /**
@@ -155,10 +156,10 @@ public object JonGuiDataLiraTargetKt {
      * `int32 uuid_part1 = 8;`
      */
     public var uuidPart1: kotlin.Int
-      @JvmName("getUuidPart1")
-      get() = _builder.uuidPart1
-      @JvmName("setUuidPart1")
-      set(value) {
+      @kotlin.jvm.JvmName("getUuidPart1")
+        get() = _builder.uuidPart1
+      @kotlin.jvm.JvmName("setUuidPart1")
+        set(value) {
         _builder.uuidPart1 = value
       }
     /**
@@ -176,10 +177,10 @@ public object JonGuiDataLiraTargetKt {
      * `int32 uuid_part2 = 9;`
      */
     public var uuidPart2: kotlin.Int
-      @JvmName("getUuidPart2")
-      get() = _builder.uuidPart2
-      @JvmName("setUuidPart2")
-      set(value) {
+      @kotlin.jvm.JvmName("getUuidPart2")
+        get() = _builder.uuidPart2
+      @kotlin.jvm.JvmName("setUuidPart2")
+        set(value) {
         _builder.uuidPart2 = value
       }
     /**
@@ -193,10 +194,10 @@ public object JonGuiDataLiraTargetKt {
      * `int32 uuid_part3 = 10;`
      */
     public var uuidPart3: kotlin.Int
-      @JvmName("getUuidPart3")
-      get() = _builder.uuidPart3
-      @JvmName("setUuidPart3")
-      set(value) {
+      @kotlin.jvm.JvmName("getUuidPart3")
+        get() = _builder.uuidPart3
+      @kotlin.jvm.JvmName("setUuidPart3")
+        set(value) {
         _builder.uuidPart3 = value
       }
     /**
@@ -210,10 +211,10 @@ public object JonGuiDataLiraTargetKt {
      * `int32 uuid_part4 = 11;`
      */
     public var uuidPart4: kotlin.Int
-      @JvmName("getUuidPart4")
-      get() = _builder.uuidPart4
-      @JvmName("setUuidPart4")
-      set(value) {
+      @kotlin.jvm.JvmName("getUuidPart4")
+        get() = _builder.uuidPart4
+      @kotlin.jvm.JvmName("setUuidPart4")
+        set(value) {
         _builder.uuidPart4 = value
       }
     /**

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_video_meta.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.video;
@@ -40,10 +41,10 @@ public object VideoRangeQueryKt {
      * `uint64 start_timestamp = 1 [(.buf.validate.field) = { ... }`
      */
     public var startTimestamp: kotlin.Long
-      @JvmName("getStartTimestamp")
-      get() = _builder.startTimestamp
-      @JvmName("setStartTimestamp")
-      set(value) {
+      @kotlin.jvm.JvmName("getStartTimestamp")
+        get() = _builder.startTimestamp
+      @kotlin.jvm.JvmName("setStartTimestamp")
+        set(value) {
         _builder.startTimestamp = value
       }
     /**
@@ -65,10 +66,10 @@ public object VideoRangeQueryKt {
      * `uint64 end_timestamp = 2 [(.buf.validate.field) = { ... }`
      */
     public var endTimestamp: kotlin.Long
-      @JvmName("getEndTimestamp")
-      get() = _builder.endTimestamp
-      @JvmName("setEndTimestamp")
-      set(value) {
+      @kotlin.jvm.JvmName("getEndTimestamp")
+        get() = _builder.endTimestamp
+      @kotlin.jvm.JvmName("setEndTimestamp")
+        set(value) {
         _builder.endTimestamp = value
       }
     /**
@@ -90,10 +91,10 @@ public object VideoRangeQueryKt {
      * `optional string source_type = 3;`
      */
     public var sourceType: kotlin.String
-      @JvmName("getSourceType")
-      get() = _builder.sourceType
-      @JvmName("setSourceType")
-      set(value) {
+      @kotlin.jvm.JvmName("getSourceType")
+        get() = _builder.sourceType
+      @kotlin.jvm.JvmName("setSourceType")
+        set(value) {
         _builder.sourceType = value
       }
     /**
@@ -122,10 +123,10 @@ public object VideoRangeQueryKt {
      * `optional uint32 limit = 4 [(.buf.validate.field) = { ... }`
      */
     public var limit: kotlin.Int
-      @JvmName("getLimit")
-      get() = _builder.limit
-      @JvmName("setLimit")
-      set(value) {
+      @kotlin.jvm.JvmName("getLimit")
+        get() = _builder.limit
+      @kotlin.jvm.JvmName("setLimit")
+        set(value) {
         _builder.limit = value
       }
     /**
@@ -150,10 +151,10 @@ public object VideoRangeQueryKt {
      * `optional uint32 offset = 5;`
      */
     public var offset: kotlin.Int
-      @JvmName("getOffset")
-      get() = _builder.offset
-      @JvmName("setOffset")
-      set(value) {
+      @kotlin.jvm.JvmName("getOffset")
+        get() = _builder.offset
+      @kotlin.jvm.JvmName("setOffset")
+        set(value) {
         _builder.offset = value
       }
     /**

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_video_meta.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.video;
@@ -36,10 +37,10 @@ public object VideoErrorKt {
      * `string uuid = 1;`
      */
     public var uuid: kotlin.String
-      @JvmName("getUuid")
-      get() = _builder.uuid
-      @JvmName("setUuid")
-      set(value) {
+      @kotlin.jvm.JvmName("getUuid")
+        get() = _builder.uuid
+      @kotlin.jvm.JvmName("setUuid")
+        set(value) {
         _builder.uuid = value
       }
     /**
@@ -53,10 +54,10 @@ public object VideoErrorKt {
      * `string storage_path = 2;`
      */
     public var storagePath: kotlin.String
-      @JvmName("getStoragePath")
-      get() = _builder.storagePath
-      @JvmName("setStoragePath")
-      set(value) {
+      @kotlin.jvm.JvmName("getStoragePath")
+        get() = _builder.storagePath
+      @kotlin.jvm.JvmName("setStoragePath")
+        set(value) {
         _builder.storagePath = value
       }
     /**
@@ -70,17 +71,17 @@ public object VideoErrorKt {
      * `.jon.video.VideoErrorType error_type = 3;`
      */
     public var errorType: jon.video.JonVideoMeta.VideoErrorType
-      @JvmName("getErrorType")
-      get() = _builder.errorType
-      @JvmName("setErrorType")
-      set(value) {
+      @kotlin.jvm.JvmName("getErrorType")
+        get() = _builder.errorType
+      @kotlin.jvm.JvmName("setErrorType")
+        set(value) {
         _builder.errorType = value
       }
     public var errorTypeValue: kotlin.Int
-      @JvmName("getErrorTypeValue")
-      get() = _builder.errorTypeValue
-      @JvmName("setErrorTypeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getErrorTypeValue")
+        get() = _builder.errorTypeValue
+      @kotlin.jvm.JvmName("setErrorTypeValue")
+        set(value) {
         _builder.errorTypeValue = value
       }
     /**
@@ -94,10 +95,10 @@ public object VideoErrorKt {
      * `string error_message = 4;`
      */
     public var errorMessage: kotlin.String
-      @JvmName("getErrorMessage")
-      get() = _builder.errorMessage
-      @JvmName("setErrorMessage")
-      set(value) {
+      @kotlin.jvm.JvmName("getErrorMessage")
+        get() = _builder.errorMessage
+      @kotlin.jvm.JvmName("setErrorMessage")
+        set(value) {
         _builder.errorMessage = value
       }
     /**

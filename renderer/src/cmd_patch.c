@@ -27,8 +27,8 @@ void cmd_patch_set_subject_reader(cmd_patch_subject_reader_t reader) {
 static void double_le_bytes(uint8_t *out, double d) {
   uint64_t bits;
   memcpy(&bits, &d, sizeof(bits));
-  for (int i = 0; i < 8; i++)
-    out[i] = (uint8_t)((bits >> (8 * i)) & 0xff);
+  for (uint32_t i = 0; i < 8u; i++)
+    out[i] = (uint8_t)((bits >> (8u * i)) & 0xffu);
 }
 static void cmd_patch_padded_varint(uint8_t *out, uint32_t width,
                                     int64_t value) {
@@ -38,10 +38,10 @@ static void cmd_patch_padded_varint(uint8_t *out, uint32_t width,
    * value through a uint64_t. */
   uint64_t r = (uint64_t)value;
   for (uint32_t i = 0; i < width; i++) {
-    uint8_t group = (uint8_t)(r & 0x7f);
+    uint8_t group = (uint8_t)(r & 0x7fu);
     /* All but the final byte set the continuation bit (bit 7). */
-    out[i] = (i == width - 1) ? group : (uint8_t)(group | 0x80);
-    r >>= 7;
+    out[i] = (i == width - 1) ? group : (uint8_t)((uint32_t)group | 0x80u);
+    r >>= 7u;
   }
 }
 /* Write the 4 little-endian wire bytes of `f` into out[0..4). The float
@@ -50,8 +50,8 @@ static void cmd_patch_padded_varint(uint8_t *out, uint32_t width,
 static void float_le_bytes(uint8_t *out, float f) {
   uint32_t bits;
   memcpy(&bits, &f, sizeof(bits));
-  for (int i = 0; i < 4; i++)
-    out[i] = (uint8_t)((bits >> (8 * i)) & 0xff);
+  for (uint32_t i = 0; i < 4u; i++)
+    out[i] = (uint8_t)((bits >> (8u * i)) & 0xffu);
 }
 /* Write the 8-byte double `d` into an NDC slot after asserting its width — the
  * NDC_X/Y/X2/Y2 cases are otherwise identical. Returns false (fail-loud) on a

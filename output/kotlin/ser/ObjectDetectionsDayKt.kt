@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: opaque/object_detections_day.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -44,17 +45,17 @@ public object ObjectDetectionsDayKt {
      * `.ser.DetectionStatus status = 1 [(.buf.validate.field) = { ... }`
      */
     public var status: ser.DetectionCommon.DetectionStatus
-      @JvmName("getStatus")
-      get() = _builder.status
-      @JvmName("setStatus")
-      set(value) {
+      @kotlin.jvm.JvmName("getStatus")
+        get() = _builder.status
+      @kotlin.jvm.JvmName("setStatus")
+        set(value) {
         _builder.status = value
       }
     public var statusValue: kotlin.Int
-      @JvmName("getStatusValue")
-      get() = _builder.statusValue
-      @JvmName("setStatusValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getStatusValue")
+        get() = _builder.statusValue
+      @kotlin.jvm.JvmName("setStatusValue")
+        set(value) {
         _builder.statusValue = value
       }
     /**
@@ -83,7 +84,7 @@ public object ObjectDetectionsDayKt {
      */
      public val detections: com.google.protobuf.kotlin.DslList<ser.DetectionCommon.ObjectDetection, DetectionsProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.detectionsList
       )
     /**
@@ -95,7 +96,7 @@ public object ObjectDetectionsDayKt {
      * @param value The detections to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addDetections")
+@kotlin.jvm.JvmName("addDetections")
     public fun com.google.protobuf.kotlin.DslList<ser.DetectionCommon.ObjectDetection, DetectionsProxy>.add(value: ser.DetectionCommon.ObjectDetection) {
       _builder.addDetections(value)
     }
@@ -108,7 +109,7 @@ public object ObjectDetectionsDayKt {
      * @param value The detections to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignDetections")
+@kotlin.jvm.JvmName("plusAssignDetections")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ser.DetectionCommon.ObjectDetection, DetectionsProxy>.plusAssign(value: ser.DetectionCommon.ObjectDetection) {
       add(value)
@@ -122,7 +123,7 @@ public object ObjectDetectionsDayKt {
      * @param values The detections to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllDetections")
+@kotlin.jvm.JvmName("addAllDetections")
     public fun com.google.protobuf.kotlin.DslList<ser.DetectionCommon.ObjectDetection, DetectionsProxy>.addAll(values: kotlin.collections.Iterable<ser.DetectionCommon.ObjectDetection>) {
       _builder.addAllDetections(values)
     }
@@ -135,7 +136,7 @@ public object ObjectDetectionsDayKt {
      * @param values The detections to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllDetections")
+@kotlin.jvm.JvmName("plusAssignAllDetections")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ser.DetectionCommon.ObjectDetection, DetectionsProxy>.plusAssign(values: kotlin.collections.Iterable<ser.DetectionCommon.ObjectDetection>) {
       addAll(values)
@@ -150,7 +151,7 @@ public object ObjectDetectionsDayKt {
      * @param value The detections to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setDetections")
+@kotlin.jvm.JvmName("setDetections")
     public operator fun com.google.protobuf.kotlin.DslList<ser.DetectionCommon.ObjectDetection, DetectionsProxy>.set(index: kotlin.Int, value: ser.DetectionCommon.ObjectDetection) {
       _builder.setDetections(index, value)
     }
@@ -162,11 +163,10 @@ public object ObjectDetectionsDayKt {
      * `repeated .ser.ObjectDetection detections = 2 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearDetections")
+@kotlin.jvm.JvmName("clearDetections")
     public fun com.google.protobuf.kotlin.DslList<ser.DetectionCommon.ObjectDetection, DetectionsProxy>.clear() {
       _builder.clearDetections()
     }
-
 
     /**
      * ```
@@ -176,10 +176,10 @@ public object ObjectDetectionsDayKt {
      * `uint64 latency_ns = 3 [(.buf.validate.field) = { ... }`
      */
     public var latencyNs: kotlin.Long
-      @JvmName("getLatencyNs")
-      get() = _builder.latencyNs
-      @JvmName("setLatencyNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getLatencyNs")
+        get() = _builder.latencyNs
+      @kotlin.jvm.JvmName("setLatencyNs")
+        set(value) {
         _builder.latencyNs = value
       }
     /**
@@ -201,10 +201,10 @@ public object ObjectDetectionsDayKt {
      * `.ser.DetectionFrameMeta frame = 4;`
      */
     public var frame: ser.DetectionCommon.DetectionFrameMeta
-      @JvmName("getFrame")
-      get() = _builder.frame
-      @JvmName("setFrame")
-      set(value) {
+      @kotlin.jvm.JvmName("getFrame")
+        get() = _builder.frame
+      @kotlin.jvm.JvmName("setFrame")
+        set(value) {
         _builder.frame = value
       }
     /**
@@ -240,10 +240,10 @@ public object ObjectDetectionsDayKt {
      * `.ser.DetectionConfig config = 5;`
      */
     public var config: ser.DetectionCommon.DetectionConfig
-      @JvmName("getConfig")
-      get() = _builder.config
-      @JvmName("setConfig")
-      set(value) {
+      @kotlin.jvm.JvmName("getConfig")
+        get() = _builder.config
+      @kotlin.jvm.JvmName("setConfig")
+        set(value) {
         _builder.config = value
       }
     /**
@@ -279,10 +279,10 @@ public object ObjectDetectionsDayKt {
      * `uint64 capture_monotonic_us = 6 [(.buf.validate.field) = { ... }`
      */
     public var captureMonotonicUs: kotlin.Long
-      @JvmName("getCaptureMonotonicUs")
-      get() = _builder.captureMonotonicUs
-      @JvmName("setCaptureMonotonicUs")
-      set(value) {
+      @kotlin.jvm.JvmName("getCaptureMonotonicUs")
+        get() = _builder.captureMonotonicUs
+      @kotlin.jvm.JvmName("setCaptureMonotonicUs")
+        set(value) {
         _builder.captureMonotonicUs = value
       }
     /**

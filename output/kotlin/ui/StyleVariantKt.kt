@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -38,10 +39,10 @@ public object StyleVariantKt {
      * `uint32 variant_index = 1 [(.buf.validate.field) = { ... }`
      */
     public var variantIndex: kotlin.Int
-      @JvmName("getVariantIndex")
-      get() = _builder.variantIndex
-      @JvmName("setVariantIndex")
-      set(value) {
+      @kotlin.jvm.JvmName("getVariantIndex")
+        get() = _builder.variantIndex
+      @kotlin.jvm.JvmName("setVariantIndex")
+        set(value) {
         _builder.variantIndex = value
       }
     /**
@@ -62,7 +63,7 @@ public object StyleVariantKt {
      */
      public val properties: com.google.protobuf.kotlin.DslList<ui.UiAst.StyleProperty, PropertiesProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.propertiesList
       )
     /**
@@ -70,7 +71,7 @@ public object StyleVariantKt {
      * @param value The properties to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addProperties")
+@kotlin.jvm.JvmName("addProperties")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleProperty, PropertiesProxy>.add(value: ui.UiAst.StyleProperty) {
       _builder.addProperties(value)
     }
@@ -79,7 +80,7 @@ public object StyleVariantKt {
      * @param value The properties to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignProperties")
+@kotlin.jvm.JvmName("plusAssignProperties")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleProperty, PropertiesProxy>.plusAssign(value: ui.UiAst.StyleProperty) {
       add(value)
@@ -89,7 +90,7 @@ public object StyleVariantKt {
      * @param values The properties to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllProperties")
+@kotlin.jvm.JvmName("addAllProperties")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleProperty, PropertiesProxy>.addAll(values: kotlin.collections.Iterable<ui.UiAst.StyleProperty>) {
       _builder.addAllProperties(values)
     }
@@ -98,7 +99,7 @@ public object StyleVariantKt {
      * @param values The properties to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllProperties")
+@kotlin.jvm.JvmName("plusAssignAllProperties")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleProperty, PropertiesProxy>.plusAssign(values: kotlin.collections.Iterable<ui.UiAst.StyleProperty>) {
       addAll(values)
@@ -109,7 +110,7 @@ public object StyleVariantKt {
      * @param value The properties to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setProperties")
+@kotlin.jvm.JvmName("setProperties")
     public operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleProperty, PropertiesProxy>.set(index: kotlin.Int, value: ui.UiAst.StyleProperty) {
       _builder.setProperties(index, value)
     }
@@ -117,11 +118,10 @@ public object StyleVariantKt {
      * `repeated .ui.StyleProperty properties = 2;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearProperties")
+@kotlin.jvm.JvmName("clearProperties")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleProperty, PropertiesProxy>.clear() {
       _builder.clearProperties()
     }
-
   }
 }
 @kotlin.jvm.JvmSynthetic

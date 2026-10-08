@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -44,10 +45,10 @@ public object HostProxyPropsKt {
      * `string proxy_id = 1 [(.buf.validate.field) = { ... }`
      */
     public var proxyId: kotlin.String
-      @JvmName("getProxyId")
-      get() = _builder.proxyId
-      @JvmName("setProxyId")
-      set(value) {
+      @kotlin.jvm.JvmName("getProxyId")
+        get() = _builder.proxyId
+      @kotlin.jvm.JvmName("setProxyId")
+        set(value) {
         _builder.proxyId = value
       }
     /**
@@ -71,17 +72,17 @@ public object HostProxyPropsKt {
      * `.ui.ProxyMode mode = 2 [(.buf.validate.field) = { ... }`
      */
     public var mode: ui.UiAst.ProxyMode
-      @JvmName("getMode")
-      get() = _builder.mode
-      @JvmName("setMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getMode")
+        get() = _builder.mode
+      @kotlin.jvm.JvmName("setMode")
+        set(value) {
         _builder.mode = value
       }
     public var modeValue: kotlin.Int
-      @JvmName("getModeValue")
-      get() = _builder.modeValue
-      @JvmName("setModeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getModeValue")
+        get() = _builder.modeValue
+      @kotlin.jvm.JvmName("setModeValue")
+        set(value) {
         _builder.modeValue = value
       }
     /**
@@ -114,10 +115,10 @@ public object HostProxyPropsKt {
      * `int32 min_w = 3;`
      */
     public var minW: kotlin.Int
-      @JvmName("getMinW")
-      get() = _builder.minW
-      @JvmName("setMinW")
-      set(value) {
+      @kotlin.jvm.JvmName("getMinW")
+        get() = _builder.minW
+      @kotlin.jvm.JvmName("setMinW")
+        set(value) {
         _builder.minW = value
       }
     /**
@@ -145,10 +146,10 @@ public object HostProxyPropsKt {
      * `int32 min_h = 4;`
      */
     public var minH: kotlin.Int
-      @JvmName("getMinH")
-      get() = _builder.minH
-      @JvmName("setMinH")
-      set(value) {
+      @kotlin.jvm.JvmName("getMinH")
+        get() = _builder.minH
+      @kotlin.jvm.JvmName("setMinH")
+        set(value) {
         _builder.minH = value
       }
     /**
@@ -162,10 +163,10 @@ public object HostProxyPropsKt {
      * `int32 max_w = 5;`
      */
     public var maxW: kotlin.Int
-      @JvmName("getMaxW")
-      get() = _builder.maxW
-      @JvmName("setMaxW")
-      set(value) {
+      @kotlin.jvm.JvmName("getMaxW")
+        get() = _builder.maxW
+      @kotlin.jvm.JvmName("setMaxW")
+        set(value) {
         _builder.maxW = value
       }
     /**
@@ -179,10 +180,10 @@ public object HostProxyPropsKt {
      * `int32 max_h = 6;`
      */
     public var maxH: kotlin.Int
-      @JvmName("getMaxH")
-      get() = _builder.maxH
-      @JvmName("setMaxH")
-      set(value) {
+      @kotlin.jvm.JvmName("getMaxH")
+        get() = _builder.maxH
+      @kotlin.jvm.JvmName("setMaxH")
+        set(value) {
         _builder.maxH = value
       }
     /**
@@ -206,10 +207,10 @@ public object HostProxyPropsKt {
      * `uint32 handle_size = 7;`
      */
     public var handleSize: kotlin.Int
-      @JvmName("getHandleSize")
-      get() = _builder.handleSize
-      @JvmName("setHandleSize")
-      set(value) {
+      @kotlin.jvm.JvmName("getHandleSize")
+        get() = _builder.handleSize
+      @kotlin.jvm.JvmName("setHandleSize")
+        set(value) {
         _builder.handleSize = value
       }
     /**
@@ -239,10 +240,10 @@ public object HostProxyPropsKt {
      * `int32 z = 8;`
      */
     public var z: kotlin.Int
-      @JvmName("getZ")
-      get() = _builder.z
-      @JvmName("setZ")
-      set(value) {
+      @kotlin.jvm.JvmName("getZ")
+        get() = _builder.z
+      @kotlin.jvm.JvmName("setZ")
+        set(value) {
         _builder.z = value
       }
     /**

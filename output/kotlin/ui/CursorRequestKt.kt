@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_input.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -36,17 +37,17 @@ public object CursorRequestKt {
      * `.ui.CursorType cursor = 1 [(.buf.validate.field) = { ... }`
      */
     public var cursor: ui.UiInput.CursorType
-      @JvmName("getCursor")
-      get() = _builder.cursor
-      @JvmName("setCursor")
-      set(value) {
+      @kotlin.jvm.JvmName("getCursor")
+        get() = _builder.cursor
+      @kotlin.jvm.JvmName("setCursor")
+        set(value) {
         _builder.cursor = value
       }
     public var cursorValue: kotlin.Int
-      @JvmName("getCursorValue")
-      get() = _builder.cursorValue
-      @JvmName("setCursorValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getCursorValue")
+        get() = _builder.cursorValue
+      @kotlin.jvm.JvmName("setCursorValue")
+        set(value) {
         _builder.cursorValue = value
       }
     /**

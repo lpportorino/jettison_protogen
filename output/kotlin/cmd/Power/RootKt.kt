@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_power.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.Power;
@@ -36,10 +37,10 @@ public object RootKt {
      * `.cmd.Power.SetChannel set_channel = 1;`
      */
     public var setChannel: cmd.Power.JonSharedCmdPower.SetChannel
-      @JvmName("getSetChannel")
-      get() = _builder.setChannel
-      @JvmName("setSetChannel")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetChannel")
+        get() = _builder.setChannel
+      @kotlin.jvm.JvmName("setSetChannel")
+        set(value) {
         _builder.setChannel = value
       }
     /**
@@ -60,10 +61,10 @@ public object RootKt {
      * `.cmd.Power.SetAll set_all = 2;`
      */
     public var setAll: cmd.Power.JonSharedCmdPower.SetAll
-      @JvmName("getSetAll")
-      get() = _builder.setAll
-      @JvmName("setSetAll")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetAll")
+        get() = _builder.setAll
+      @kotlin.jvm.JvmName("setSetAll")
+        set(value) {
         _builder.setAll = value
       }
     /**
@@ -84,10 +85,10 @@ public object RootKt {
      * `.cmd.Power.SetAlertThreshold set_alert_threshold = 3;`
      */
     public var setAlertThreshold: cmd.Power.JonSharedCmdPower.SetAlertThreshold
-      @JvmName("getSetAlertThreshold")
-      get() = _builder.setAlertThreshold
-      @JvmName("setSetAlertThreshold")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetAlertThreshold")
+        get() = _builder.setAlertThreshold
+      @kotlin.jvm.JvmName("setSetAlertThreshold")
+        set(value) {
         _builder.setAlertThreshold = value
       }
     /**

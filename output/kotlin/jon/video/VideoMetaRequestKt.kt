@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_video_meta.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.video;
@@ -40,10 +41,10 @@ public object VideoMetaRequestKt {
      * `.jon.video.VideoRangeQuery range = 1;`
      */
     public var range: jon.video.JonVideoMeta.VideoRangeQuery
-      @JvmName("getRange")
-      get() = _builder.range
-      @JvmName("setRange")
-      set(value) {
+      @kotlin.jvm.JvmName("getRange")
+        get() = _builder.range
+      @kotlin.jvm.JvmName("setRange")
+        set(value) {
         _builder.range = value
       }
     /**
@@ -76,10 +77,10 @@ public object VideoMetaRequestKt {
      * `.jon.video.VideoIdList ids = 2;`
      */
     public var ids: jon.video.JonVideoMeta.VideoIdList
-      @JvmName("getIds")
-      get() = _builder.ids
-      @JvmName("setIds")
-      set(value) {
+      @kotlin.jvm.JvmName("getIds")
+        get() = _builder.ids
+      @kotlin.jvm.JvmName("setIds")
+        set(value) {
         _builder.ids = value
       }
     /**

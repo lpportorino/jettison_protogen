@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_power.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.Power;
@@ -36,10 +37,10 @@ public object SetAllKt {
      * `bool power_on = 1;`
      */
     public var powerOn: kotlin.Boolean
-      @JvmName("getPowerOn")
-      get() = _builder.powerOn
-      @JvmName("setPowerOn")
-      set(value) {
+      @kotlin.jvm.JvmName("getPowerOn")
+        get() = _builder.powerOn
+      @kotlin.jvm.JvmName("setPowerOn")
+        set(value) {
         _builder.powerOn = value
       }
     /**

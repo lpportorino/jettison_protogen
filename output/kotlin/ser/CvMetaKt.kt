@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: opaque/cv_meta.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -49,10 +50,10 @@ public object CvMetaKt {
      * `uint64 capture_monotonic_us = 1 [(.buf.validate.field) = { ... }`
      */
     public var captureMonotonicUs: kotlin.Long
-      @JvmName("getCaptureMonotonicUs")
-      get() = _builder.captureMonotonicUs
-      @JvmName("setCaptureMonotonicUs")
-      set(value) {
+      @kotlin.jvm.JvmName("getCaptureMonotonicUs")
+        get() = _builder.captureMonotonicUs
+      @kotlin.jvm.JvmName("setCaptureMonotonicUs")
+        set(value) {
         _builder.captureMonotonicUs = value
       }
     /**
@@ -76,10 +77,10 @@ public object CvMetaKt {
      * `uint32 updated_sources = 2 [(.buf.validate.field) = { ... }`
      */
     public var updatedSources: kotlin.Int
-      @JvmName("getUpdatedSources")
-      get() = _builder.updatedSources
-      @JvmName("setUpdatedSources")
-      set(value) {
+      @kotlin.jvm.JvmName("getUpdatedSources")
+        get() = _builder.updatedSources
+      @kotlin.jvm.JvmName("setUpdatedSources")
+        set(value) {
         _builder.updatedSources = value
       }
     /**
@@ -104,10 +105,10 @@ public object CvMetaKt {
      * `.ser.JonGuiDataCameraDay camera_day = 3;`
      */
     public var cameraDay: ser.JonSharedDataCameraDay.JonGuiDataCameraDay
-      @JvmName("getCameraDay")
-      get() = _builder.cameraDay
-      @JvmName("setCameraDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getCameraDay")
+        get() = _builder.cameraDay
+      @kotlin.jvm.JvmName("setCameraDay")
+        set(value) {
         _builder.cameraDay = value
       }
     /**
@@ -141,10 +142,10 @@ public object CvMetaKt {
      * `.ser.JonGuiDataCameraHeat camera_heat = 4;`
      */
     public var cameraHeat: ser.JonSharedDataCameraHeat.JonGuiDataCameraHeat
-      @JvmName("getCameraHeat")
-      get() = _builder.cameraHeat
-      @JvmName("setCameraHeat")
-      set(value) {
+      @kotlin.jvm.JvmName("getCameraHeat")
+        get() = _builder.cameraHeat
+      @kotlin.jvm.JvmName("setCameraHeat")
+        set(value) {
         _builder.cameraHeat = value
       }
     /**
@@ -168,10 +169,10 @@ public object CvMetaKt {
      * `.ser.JonGuiDataRotary rotary = 5;`
      */
     public var rotary: ser.JonSharedDataRotary.JonGuiDataRotary
-      @JvmName("getRotary")
-      get() = _builder.rotary
-      @JvmName("setRotary")
-      set(value) {
+      @kotlin.jvm.JvmName("getRotary")
+        get() = _builder.rotary
+      @kotlin.jvm.JvmName("setRotary")
+        set(value) {
         _builder.rotary = value
       }
     /**
@@ -199,10 +200,10 @@ public object CvMetaKt {
      * `.ser.CvChannelMeta channel_day = 6;`
      */
     public var channelDay: ser.CvMetaOuterClass.CvChannelMeta
-      @JvmName("getChannelDay")
-      get() = _builder.channelDay
-      @JvmName("setChannelDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getChannelDay")
+        get() = _builder.channelDay
+      @kotlin.jvm.JvmName("setChannelDay")
+        set(value) {
         _builder.channelDay = value
       }
     /**
@@ -234,10 +235,10 @@ public object CvMetaKt {
      * `.ser.CvChannelMeta channel_heat = 7;`
      */
     public var channelHeat: ser.CvMetaOuterClass.CvChannelMeta
-      @JvmName("getChannelHeat")
-      get() = _builder.channelHeat
-      @JvmName("setChannelHeat")
-      set(value) {
+      @kotlin.jvm.JvmName("getChannelHeat")
+        get() = _builder.channelHeat
+      @kotlin.jvm.JvmName("setChannelHeat")
+        set(value) {
         _builder.channelHeat = value
       }
     /**

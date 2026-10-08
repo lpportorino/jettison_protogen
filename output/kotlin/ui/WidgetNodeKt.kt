@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -36,17 +37,17 @@ public object WidgetNodeKt {
      * `.ui.WidgetType type = 1 [(.buf.validate.field) = { ... }`
      */
     public var type: ui.UiAst.WidgetType
-      @JvmName("getType")
-      get() = _builder.type
-      @JvmName("setType")
-      set(value) {
+      @kotlin.jvm.JvmName("getType")
+        get() = _builder.type
+      @kotlin.jvm.JvmName("setType")
+        set(value) {
         _builder.type = value
       }
     public var typeValue: kotlin.Int
-      @JvmName("getTypeValue")
-      get() = _builder.typeValue
-      @JvmName("setTypeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getTypeValue")
+        get() = _builder.typeValue
+      @kotlin.jvm.JvmName("setTypeValue")
+        set(value) {
         _builder.typeValue = value
       }
     /**
@@ -77,10 +78,10 @@ public object WidgetNodeKt {
      * `optional int32 x = 2;`
      */
     public var x: kotlin.Int
-      @JvmName("getX")
-      get() = _builder.x
-      @JvmName("setX")
-      set(value) {
+      @kotlin.jvm.JvmName("getX")
+        get() = _builder.x
+      @kotlin.jvm.JvmName("setX")
+        set(value) {
         _builder.x = value
       }
     /**
@@ -135,10 +136,10 @@ public object WidgetNodeKt {
      * `optional int32 y = 3;`
      */
     public var y: kotlin.Int
-      @JvmName("getY")
-      get() = _builder.y
-      @JvmName("setY")
-      set(value) {
+      @kotlin.jvm.JvmName("getY")
+        get() = _builder.y
+      @kotlin.jvm.JvmName("setY")
+        set(value) {
         _builder.y = value
       }
     /**
@@ -163,10 +164,10 @@ public object WidgetNodeKt {
      * `string text = 4 [(.buf.validate.field) = { ... }`
      */
     public var text: kotlin.String
-      @JvmName("getText")
-      get() = _builder.text
-      @JvmName("setText")
-      set(value) {
+      @kotlin.jvm.JvmName("getText")
+        get() = _builder.text
+      @kotlin.jvm.JvmName("setText")
+        set(value) {
         _builder.text = value
       }
     /**
@@ -195,7 +196,7 @@ public object WidgetNodeKt {
      */
      public val bindings: com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, BindingsProxy>
       @kotlin.jvm.JvmSynthetic
-      @JvmName("getBindingsMap")
+@kotlin.jvm.JvmName("getBindingsMap")
       get() = com.google.protobuf.kotlin.DslMap(
         _builder.bindingsMap
       )
@@ -206,7 +207,7 @@ public object WidgetNodeKt {
      *
      * `map<string, string> bindings = 5;`
      */
-    @JvmName("putBindings")
+    @kotlin.jvm.JvmName("putBindings")
     public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, BindingsProxy>
       .put(key: kotlin.String, value: kotlin.String) {
          _builder.putBindings(key, value)
@@ -219,7 +220,7 @@ public object WidgetNodeKt {
      * `map<string, string> bindings = 5;`
      */
     @kotlin.jvm.JvmSynthetic
-    @JvmName("setBindings")
+@kotlin.jvm.JvmName("setBindings")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, BindingsProxy>
       .set(key: kotlin.String, value: kotlin.String) {
@@ -233,7 +234,7 @@ public object WidgetNodeKt {
      * `map<string, string> bindings = 5;`
      */
     @kotlin.jvm.JvmSynthetic
-    @JvmName("removeBindings")
+@kotlin.jvm.JvmName("removeBindings")
     public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, BindingsProxy>
       .remove(key: kotlin.String) {
          _builder.removeBindings(key)
@@ -246,7 +247,7 @@ public object WidgetNodeKt {
      * `map<string, string> bindings = 5;`
      */
     @kotlin.jvm.JvmSynthetic
-    @JvmName("putAllBindings")
+@kotlin.jvm.JvmName("putAllBindings")
     public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, BindingsProxy>
       .putAll(map: kotlin.collections.Map<kotlin.String, kotlin.String>) {
          _builder.putAllBindings(map)
@@ -259,7 +260,7 @@ public object WidgetNodeKt {
      * `map<string, string> bindings = 5;`
      */
     @kotlin.jvm.JvmSynthetic
-    @JvmName("clearBindings")
+@kotlin.jvm.JvmName("clearBindings")
     public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, BindingsProxy>
       .clear() {
          _builder.clearBindings()
@@ -273,10 +274,10 @@ public object WidgetNodeKt {
      * `.ui.EventBinding event = 6;`
      */
     public var event: ui.UiAst.EventBinding
-      @JvmName("getEvent")
-      get() = _builder.event
-      @JvmName("setEvent")
-      set(value) {
+      @kotlin.jvm.JvmName("getEvent")
+        get() = _builder.event
+      @kotlin.jvm.JvmName("setEvent")
+        set(value) {
         _builder.event = value
       }
     /**
@@ -312,10 +313,10 @@ public object WidgetNodeKt {
      * `.ui.Layout layout = 7;`
      */
     public var layout: ui.UiAst.Layout
-      @JvmName("getLayout")
-      get() = _builder.layout
-      @JvmName("setLayout")
-      set(value) {
+      @kotlin.jvm.JvmName("getLayout")
+        get() = _builder.layout
+      @kotlin.jvm.JvmName("setLayout")
+        set(value) {
         _builder.layout = value
       }
     /**
@@ -358,7 +359,7 @@ public object WidgetNodeKt {
      */
      public val children: com.google.protobuf.kotlin.DslList<ui.UiAst.WidgetNode, ChildrenProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.childrenList
       )
     /**
@@ -370,7 +371,7 @@ public object WidgetNodeKt {
      * @param value The children to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addChildren")
+@kotlin.jvm.JvmName("addChildren")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.WidgetNode, ChildrenProxy>.add(value: ui.UiAst.WidgetNode) {
       _builder.addChildren(value)
     }
@@ -383,7 +384,7 @@ public object WidgetNodeKt {
      * @param value The children to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignChildren")
+@kotlin.jvm.JvmName("plusAssignChildren")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.WidgetNode, ChildrenProxy>.plusAssign(value: ui.UiAst.WidgetNode) {
       add(value)
@@ -397,7 +398,7 @@ public object WidgetNodeKt {
      * @param values The children to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllChildren")
+@kotlin.jvm.JvmName("addAllChildren")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.WidgetNode, ChildrenProxy>.addAll(values: kotlin.collections.Iterable<ui.UiAst.WidgetNode>) {
       _builder.addAllChildren(values)
     }
@@ -410,7 +411,7 @@ public object WidgetNodeKt {
      * @param values The children to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllChildren")
+@kotlin.jvm.JvmName("plusAssignAllChildren")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.WidgetNode, ChildrenProxy>.plusAssign(values: kotlin.collections.Iterable<ui.UiAst.WidgetNode>) {
       addAll(values)
@@ -425,7 +426,7 @@ public object WidgetNodeKt {
      * @param value The children to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setChildren")
+@kotlin.jvm.JvmName("setChildren")
     public operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.WidgetNode, ChildrenProxy>.set(index: kotlin.Int, value: ui.UiAst.WidgetNode) {
       _builder.setChildren(index, value)
     }
@@ -437,11 +438,10 @@ public object WidgetNodeKt {
      * `repeated .ui.WidgetNode children = 8;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearChildren")
+@kotlin.jvm.JvmName("clearChildren")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.WidgetNode, ChildrenProxy>.clear() {
       _builder.clearChildren()
     }
-
 
     /**
      * An uninstantiable, behaviorless type to represent the field in
@@ -459,7 +459,7 @@ public object WidgetNodeKt {
      */
      public val styleGroups: com.google.protobuf.kotlin.DslList<ui.UiAst.StyleGroup, StyleGroupsProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.styleGroupsList
       )
     /**
@@ -472,7 +472,7 @@ public object WidgetNodeKt {
      * @param value The styleGroups to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addStyleGroups")
+@kotlin.jvm.JvmName("addStyleGroups")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleGroup, StyleGroupsProxy>.add(value: ui.UiAst.StyleGroup) {
       _builder.addStyleGroups(value)
     }
@@ -486,7 +486,7 @@ public object WidgetNodeKt {
      * @param value The styleGroups to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignStyleGroups")
+@kotlin.jvm.JvmName("plusAssignStyleGroups")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleGroup, StyleGroupsProxy>.plusAssign(value: ui.UiAst.StyleGroup) {
       add(value)
@@ -501,7 +501,7 @@ public object WidgetNodeKt {
      * @param values The styleGroups to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllStyleGroups")
+@kotlin.jvm.JvmName("addAllStyleGroups")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleGroup, StyleGroupsProxy>.addAll(values: kotlin.collections.Iterable<ui.UiAst.StyleGroup>) {
       _builder.addAllStyleGroups(values)
     }
@@ -515,7 +515,7 @@ public object WidgetNodeKt {
      * @param values The styleGroups to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllStyleGroups")
+@kotlin.jvm.JvmName("plusAssignAllStyleGroups")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleGroup, StyleGroupsProxy>.plusAssign(values: kotlin.collections.Iterable<ui.UiAst.StyleGroup>) {
       addAll(values)
@@ -531,7 +531,7 @@ public object WidgetNodeKt {
      * @param value The styleGroups to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setStyleGroups")
+@kotlin.jvm.JvmName("setStyleGroups")
     public operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleGroup, StyleGroupsProxy>.set(index: kotlin.Int, value: ui.UiAst.StyleGroup) {
       _builder.setStyleGroups(index, value)
     }
@@ -544,20 +544,19 @@ public object WidgetNodeKt {
      * `repeated .ui.StyleGroup style_groups = 9;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearStyleGroups")
+@kotlin.jvm.JvmName("clearStyleGroups")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleGroup, StyleGroupsProxy>.clear() {
       _builder.clearStyleGroups()
     }
-
 
     /**
      * `.ui.ObjProps obj_props = 10;`
      */
     public var objProps: ui.UiAst.ObjProps
-      @JvmName("getObjProps")
-      get() = _builder.objProps
-      @JvmName("setObjProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getObjProps")
+        get() = _builder.objProps
+      @kotlin.jvm.JvmName("setObjProps")
+        set(value) {
         _builder.objProps = value
       }
     /**
@@ -578,10 +577,10 @@ public object WidgetNodeKt {
      * `.ui.ButtonProps button_props = 11;`
      */
     public var buttonProps: ui.UiAst.ButtonProps
-      @JvmName("getButtonProps")
-      get() = _builder.buttonProps
-      @JvmName("setButtonProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getButtonProps")
+        get() = _builder.buttonProps
+      @kotlin.jvm.JvmName("setButtonProps")
+        set(value) {
         _builder.buttonProps = value
       }
     /**
@@ -602,10 +601,10 @@ public object WidgetNodeKt {
      * `.ui.LabelProps label_props = 12;`
      */
     public var labelProps: ui.UiAst.LabelProps
-      @JvmName("getLabelProps")
-      get() = _builder.labelProps
-      @JvmName("setLabelProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getLabelProps")
+        get() = _builder.labelProps
+      @kotlin.jvm.JvmName("setLabelProps")
+        set(value) {
         _builder.labelProps = value
       }
     /**
@@ -626,10 +625,10 @@ public object WidgetNodeKt {
      * `.ui.SliderProps slider_props = 13;`
      */
     public var sliderProps: ui.UiAst.SliderProps
-      @JvmName("getSliderProps")
-      get() = _builder.sliderProps
-      @JvmName("setSliderProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getSliderProps")
+        get() = _builder.sliderProps
+      @kotlin.jvm.JvmName("setSliderProps")
+        set(value) {
         _builder.sliderProps = value
       }
     /**
@@ -650,10 +649,10 @@ public object WidgetNodeKt {
      * `.ui.ImageProps image_props = 14;`
      */
     public var imageProps: ui.UiAst.ImageProps
-      @JvmName("getImageProps")
-      get() = _builder.imageProps
-      @JvmName("setImageProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getImageProps")
+        get() = _builder.imageProps
+      @kotlin.jvm.JvmName("setImageProps")
+        set(value) {
         _builder.imageProps = value
       }
     /**
@@ -674,10 +673,10 @@ public object WidgetNodeKt {
      * `.ui.ArcProps arc_props = 15;`
      */
     public var arcProps: ui.UiAst.ArcProps
-      @JvmName("getArcProps")
-      get() = _builder.arcProps
-      @JvmName("setArcProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getArcProps")
+        get() = _builder.arcProps
+      @kotlin.jvm.JvmName("setArcProps")
+        set(value) {
         _builder.arcProps = value
       }
     /**
@@ -698,10 +697,10 @@ public object WidgetNodeKt {
      * `.ui.BarProps bar_props = 16;`
      */
     public var barProps: ui.UiAst.BarProps
-      @JvmName("getBarProps")
-      get() = _builder.barProps
-      @JvmName("setBarProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getBarProps")
+        get() = _builder.barProps
+      @kotlin.jvm.JvmName("setBarProps")
+        set(value) {
         _builder.barProps = value
       }
     /**
@@ -722,10 +721,10 @@ public object WidgetNodeKt {
      * `.ui.SwitchProps switch_props = 17;`
      */
     public var switchProps: ui.UiAst.SwitchProps
-      @JvmName("getSwitchProps")
-      get() = _builder.switchProps
-      @JvmName("setSwitchProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getSwitchProps")
+        get() = _builder.switchProps
+      @kotlin.jvm.JvmName("setSwitchProps")
+        set(value) {
         _builder.switchProps = value
       }
     /**
@@ -746,10 +745,10 @@ public object WidgetNodeKt {
      * `.ui.CheckboxProps checkbox_props = 18;`
      */
     public var checkboxProps: ui.UiAst.CheckboxProps
-      @JvmName("getCheckboxProps")
-      get() = _builder.checkboxProps
-      @JvmName("setCheckboxProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getCheckboxProps")
+        get() = _builder.checkboxProps
+      @kotlin.jvm.JvmName("setCheckboxProps")
+        set(value) {
         _builder.checkboxProps = value
       }
     /**
@@ -770,10 +769,10 @@ public object WidgetNodeKt {
      * `.ui.DropdownProps dropdown_props = 19;`
      */
     public var dropdownProps: ui.UiAst.DropdownProps
-      @JvmName("getDropdownProps")
-      get() = _builder.dropdownProps
-      @JvmName("setDropdownProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getDropdownProps")
+        get() = _builder.dropdownProps
+      @kotlin.jvm.JvmName("setDropdownProps")
+        set(value) {
         _builder.dropdownProps = value
       }
     /**
@@ -794,10 +793,10 @@ public object WidgetNodeKt {
      * `.ui.RollerProps roller_props = 20;`
      */
     public var rollerProps: ui.UiAst.RollerProps
-      @JvmName("getRollerProps")
-      get() = _builder.rollerProps
-      @JvmName("setRollerProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getRollerProps")
+        get() = _builder.rollerProps
+      @kotlin.jvm.JvmName("setRollerProps")
+        set(value) {
         _builder.rollerProps = value
       }
     /**
@@ -818,10 +817,10 @@ public object WidgetNodeKt {
      * `.ui.TextareaProps textarea_props = 21;`
      */
     public var textareaProps: ui.UiAst.TextareaProps
-      @JvmName("getTextareaProps")
-      get() = _builder.textareaProps
-      @JvmName("setTextareaProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getTextareaProps")
+        get() = _builder.textareaProps
+      @kotlin.jvm.JvmName("setTextareaProps")
+        set(value) {
         _builder.textareaProps = value
       }
     /**
@@ -842,10 +841,10 @@ public object WidgetNodeKt {
      * `.ui.SpinboxProps spinbox_props = 22;`
      */
     public var spinboxProps: ui.UiAst.SpinboxProps
-      @JvmName("getSpinboxProps")
-      get() = _builder.spinboxProps
-      @JvmName("setSpinboxProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getSpinboxProps")
+        get() = _builder.spinboxProps
+      @kotlin.jvm.JvmName("setSpinboxProps")
+        set(value) {
         _builder.spinboxProps = value
       }
     /**
@@ -866,10 +865,10 @@ public object WidgetNodeKt {
      * `.ui.SpinnerProps spinner_props = 23;`
      */
     public var spinnerProps: ui.UiAst.SpinnerProps
-      @JvmName("getSpinnerProps")
-      get() = _builder.spinnerProps
-      @JvmName("setSpinnerProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getSpinnerProps")
+        get() = _builder.spinnerProps
+      @kotlin.jvm.JvmName("setSpinnerProps")
+        set(value) {
         _builder.spinnerProps = value
       }
     /**
@@ -890,10 +889,10 @@ public object WidgetNodeKt {
      * `.ui.LedProps led_props = 24;`
      */
     public var ledProps: ui.UiAst.LedProps
-      @JvmName("getLedProps")
-      get() = _builder.ledProps
-      @JvmName("setLedProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getLedProps")
+        get() = _builder.ledProps
+      @kotlin.jvm.JvmName("setLedProps")
+        set(value) {
         _builder.ledProps = value
       }
     /**
@@ -914,10 +913,10 @@ public object WidgetNodeKt {
      * `.ui.LineProps line_props = 25;`
      */
     public var lineProps: ui.UiAst.LineProps
-      @JvmName("getLineProps")
-      get() = _builder.lineProps
-      @JvmName("setLineProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getLineProps")
+        get() = _builder.lineProps
+      @kotlin.jvm.JvmName("setLineProps")
+        set(value) {
         _builder.lineProps = value
       }
     /**
@@ -938,10 +937,10 @@ public object WidgetNodeKt {
      * `.ui.ScaleProps scale_props = 26;`
      */
     public var scaleProps: ui.UiAst.ScaleProps
-      @JvmName("getScaleProps")
-      get() = _builder.scaleProps
-      @JvmName("setScaleProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getScaleProps")
+        get() = _builder.scaleProps
+      @kotlin.jvm.JvmName("setScaleProps")
+        set(value) {
         _builder.scaleProps = value
       }
     /**
@@ -962,10 +961,10 @@ public object WidgetNodeKt {
      * `.ui.ButtonMatrixProps buttonmatrix_props = 27;`
      */
     public var buttonmatrixProps: ui.UiAst.ButtonMatrixProps
-      @JvmName("getButtonmatrixProps")
-      get() = _builder.buttonmatrixProps
-      @JvmName("setButtonmatrixProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getButtonmatrixProps")
+        get() = _builder.buttonmatrixProps
+      @kotlin.jvm.JvmName("setButtonmatrixProps")
+        set(value) {
         _builder.buttonmatrixProps = value
       }
     /**
@@ -986,10 +985,10 @@ public object WidgetNodeKt {
      * `.ui.TableProps table_props = 28;`
      */
     public var tableProps: ui.UiAst.TableProps
-      @JvmName("getTableProps")
-      get() = _builder.tableProps
-      @JvmName("setTableProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getTableProps")
+        get() = _builder.tableProps
+      @kotlin.jvm.JvmName("setTableProps")
+        set(value) {
         _builder.tableProps = value
       }
     /**
@@ -1010,10 +1009,10 @@ public object WidgetNodeKt {
      * `.ui.TabviewProps tabview_props = 38;`
      */
     public var tabviewProps: ui.UiAst.TabviewProps
-      @JvmName("getTabviewProps")
-      get() = _builder.tabviewProps
-      @JvmName("setTabviewProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getTabviewProps")
+        get() = _builder.tabviewProps
+      @kotlin.jvm.JvmName("setTabviewProps")
+        set(value) {
         _builder.tabviewProps = value
       }
     /**
@@ -1034,10 +1033,10 @@ public object WidgetNodeKt {
      * `.ui.ChartProps chart_props = 40;`
      */
     public var chartProps: ui.UiAst.ChartProps
-      @JvmName("getChartProps")
-      get() = _builder.chartProps
-      @JvmName("setChartProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getChartProps")
+        get() = _builder.chartProps
+      @kotlin.jvm.JvmName("setChartProps")
+        set(value) {
         _builder.chartProps = value
       }
     /**
@@ -1058,10 +1057,10 @@ public object WidgetNodeKt {
      * `.ui.HostProxyProps host_proxy_props = 41;`
      */
     public var hostProxyProps: ui.UiAst.HostProxyProps
-      @JvmName("getHostProxyProps")
-      get() = _builder.hostProxyProps
-      @JvmName("setHostProxyProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getHostProxyProps")
+        get() = _builder.hostProxyProps
+      @kotlin.jvm.JvmName("setHostProxyProps")
+        set(value) {
         _builder.hostProxyProps = value
       }
     /**
@@ -1082,10 +1081,10 @@ public object WidgetNodeKt {
      * `.ui.TargetOverlayProps target_overlay_props = 48;`
      */
     public var targetOverlayProps: ui.UiAst.TargetOverlayProps
-      @JvmName("getTargetOverlayProps")
-      get() = _builder.targetOverlayProps
-      @JvmName("setTargetOverlayProps")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetOverlayProps")
+        get() = _builder.targetOverlayProps
+      @kotlin.jvm.JvmName("setTargetOverlayProps")
+        set(value) {
         _builder.targetOverlayProps = value
       }
     /**
@@ -1110,10 +1109,10 @@ public object WidgetNodeKt {
      * `.ui.VisibilityBinding visibility = 29;`
      */
     public var visibility: ui.UiAst.VisibilityBinding
-      @JvmName("getVisibility")
-      get() = _builder.visibility
-      @JvmName("setVisibility")
-      set(value) {
+      @kotlin.jvm.JvmName("getVisibility")
+        get() = _builder.visibility
+      @kotlin.jvm.JvmName("setVisibility")
+        set(value) {
         _builder.visibility = value
       }
     /**
@@ -1156,7 +1155,7 @@ public object WidgetNodeKt {
      */
      public val bindFormats: com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, BindFormatsProxy>
       @kotlin.jvm.JvmSynthetic
-      @JvmName("getBindFormatsMap")
+@kotlin.jvm.JvmName("getBindFormatsMap")
       get() = com.google.protobuf.kotlin.DslMap(
         _builder.bindFormatsMap
       )
@@ -1167,7 +1166,7 @@ public object WidgetNodeKt {
      *
      * `map<string, string> bind_formats = 30;`
      */
-    @JvmName("putBindFormats")
+    @kotlin.jvm.JvmName("putBindFormats")
     public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, BindFormatsProxy>
       .put(key: kotlin.String, value: kotlin.String) {
          _builder.putBindFormats(key, value)
@@ -1180,7 +1179,7 @@ public object WidgetNodeKt {
      * `map<string, string> bind_formats = 30;`
      */
     @kotlin.jvm.JvmSynthetic
-    @JvmName("setBindFormats")
+@kotlin.jvm.JvmName("setBindFormats")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, BindFormatsProxy>
       .set(key: kotlin.String, value: kotlin.String) {
@@ -1194,7 +1193,7 @@ public object WidgetNodeKt {
      * `map<string, string> bind_formats = 30;`
      */
     @kotlin.jvm.JvmSynthetic
-    @JvmName("removeBindFormats")
+@kotlin.jvm.JvmName("removeBindFormats")
     public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, BindFormatsProxy>
       .remove(key: kotlin.String) {
          _builder.removeBindFormats(key)
@@ -1207,7 +1206,7 @@ public object WidgetNodeKt {
      * `map<string, string> bind_formats = 30;`
      */
     @kotlin.jvm.JvmSynthetic
-    @JvmName("putAllBindFormats")
+@kotlin.jvm.JvmName("putAllBindFormats")
     public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, BindFormatsProxy>
       .putAll(map: kotlin.collections.Map<kotlin.String, kotlin.String>) {
          _builder.putAllBindFormats(map)
@@ -1220,7 +1219,7 @@ public object WidgetNodeKt {
      * `map<string, string> bind_formats = 30;`
      */
     @kotlin.jvm.JvmSynthetic
-    @JvmName("clearBindFormats")
+@kotlin.jvm.JvmName("clearBindFormats")
     public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, BindFormatsProxy>
       .clear() {
          _builder.clearBindFormats()
@@ -1235,10 +1234,10 @@ public object WidgetNodeKt {
      * `uint32 obj_flags = 31;`
      */
     public var objFlags: kotlin.Int
-      @JvmName("getObjFlags")
-      get() = _builder.objFlags
-      @JvmName("setObjFlags")
-      set(value) {
+      @kotlin.jvm.JvmName("getObjFlags")
+        get() = _builder.objFlags
+      @kotlin.jvm.JvmName("setObjFlags")
+        set(value) {
         _builder.objFlags = value
       }
     /**
@@ -1261,10 +1260,10 @@ public object WidgetNodeKt {
      * `uint32 obj_flags_clear = 32;`
      */
     public var objFlagsClear: kotlin.Int
-      @JvmName("getObjFlagsClear")
-      get() = _builder.objFlagsClear
-      @JvmName("setObjFlagsClear")
-      set(value) {
+      @kotlin.jvm.JvmName("getObjFlagsClear")
+        get() = _builder.objFlagsClear
+      @kotlin.jvm.JvmName("setObjFlagsClear")
+        set(value) {
         _builder.objFlagsClear = value
       }
     /**
@@ -1286,10 +1285,10 @@ public object WidgetNodeKt {
      * `uint32 states = 33;`
      */
     public var states: kotlin.Int
-      @JvmName("getStates")
-      get() = _builder.states
-      @JvmName("setStates")
-      set(value) {
+      @kotlin.jvm.JvmName("getStates")
+        get() = _builder.states
+      @kotlin.jvm.JvmName("setStates")
+        set(value) {
         _builder.states = value
       }
     /**
@@ -1320,10 +1319,10 @@ public object WidgetNodeKt {
      * `optional uint32 scroll_dir = 34;`
      */
     public var scrollDir: kotlin.Int
-      @JvmName("getScrollDir")
-      get() = _builder.scrollDir
-      @JvmName("setScrollDir")
-      set(value) {
+      @kotlin.jvm.JvmName("getScrollDir")
+        get() = _builder.scrollDir
+      @kotlin.jvm.JvmName("setScrollDir")
+        set(value) {
         _builder.scrollDir = value
       }
     /**
@@ -1383,7 +1382,7 @@ public object WidgetNodeKt {
      */
      public val gridColDsc: com.google.protobuf.kotlin.DslList<kotlin.Int, GridColDscProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.gridColDscList
       )
     /**
@@ -1397,7 +1396,7 @@ public object WidgetNodeKt {
      * @param value The gridColDsc to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addGridColDsc")
+@kotlin.jvm.JvmName("addGridColDsc")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridColDscProxy>.add(value: kotlin.Int) {
       _builder.addGridColDsc(value)
     }/**
@@ -1411,7 +1410,7 @@ public object WidgetNodeKt {
      * @param value The gridColDsc to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignGridColDsc")
+@kotlin.jvm.JvmName("plusAssignGridColDsc")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridColDscProxy>.plusAssign(value: kotlin.Int) {
       add(value)
@@ -1426,7 +1425,7 @@ public object WidgetNodeKt {
      * @param values The gridColDsc to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllGridColDsc")
+@kotlin.jvm.JvmName("addAllGridColDsc")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridColDscProxy>.addAll(values: kotlin.collections.Iterable<kotlin.Int>) {
       _builder.addAllGridColDsc(values)
     }/**
@@ -1440,7 +1439,7 @@ public object WidgetNodeKt {
      * @param values The gridColDsc to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllGridColDsc")
+@kotlin.jvm.JvmName("plusAssignAllGridColDsc")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridColDscProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.Int>) {
       addAll(values)
@@ -1456,7 +1455,7 @@ public object WidgetNodeKt {
      * @param value The gridColDsc to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setGridColDsc")
+@kotlin.jvm.JvmName("setGridColDsc")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridColDscProxy>.set(index: kotlin.Int, value: kotlin.Int) {
       _builder.setGridColDsc(index, value)
     }/**
@@ -1469,7 +1468,7 @@ public object WidgetNodeKt {
      * `repeated int32 grid_col_dsc = 35;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearGridColDsc")
+@kotlin.jvm.JvmName("clearGridColDsc")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridColDscProxy>.clear() {
       _builder.clearGridColDsc()
     }
@@ -1484,7 +1483,7 @@ public object WidgetNodeKt {
      */
      public val gridRowDsc: com.google.protobuf.kotlin.DslList<kotlin.Int, GridRowDscProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.gridRowDscList
       )
     /**
@@ -1492,7 +1491,7 @@ public object WidgetNodeKt {
      * @param value The gridRowDsc to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addGridRowDsc")
+@kotlin.jvm.JvmName("addGridRowDsc")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridRowDscProxy>.add(value: kotlin.Int) {
       _builder.addGridRowDsc(value)
     }/**
@@ -1500,7 +1499,7 @@ public object WidgetNodeKt {
      * @param value The gridRowDsc to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignGridRowDsc")
+@kotlin.jvm.JvmName("plusAssignGridRowDsc")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridRowDscProxy>.plusAssign(value: kotlin.Int) {
       add(value)
@@ -1509,7 +1508,7 @@ public object WidgetNodeKt {
      * @param values The gridRowDsc to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllGridRowDsc")
+@kotlin.jvm.JvmName("addAllGridRowDsc")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridRowDscProxy>.addAll(values: kotlin.collections.Iterable<kotlin.Int>) {
       _builder.addAllGridRowDsc(values)
     }/**
@@ -1517,7 +1516,7 @@ public object WidgetNodeKt {
      * @param values The gridRowDsc to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllGridRowDsc")
+@kotlin.jvm.JvmName("plusAssignAllGridRowDsc")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridRowDscProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.Int>) {
       addAll(values)
@@ -1527,14 +1526,14 @@ public object WidgetNodeKt {
      * @param value The gridRowDsc to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setGridRowDsc")
+@kotlin.jvm.JvmName("setGridRowDsc")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridRowDscProxy>.set(index: kotlin.Int, value: kotlin.Int) {
       _builder.setGridRowDsc(index, value)
     }/**
      * `repeated int32 grid_row_dsc = 36;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearGridRowDsc")
+@kotlin.jvm.JvmName("clearGridRowDsc")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridRowDscProxy>.clear() {
       _builder.clearGridRowDsc()
     }
@@ -1547,10 +1546,10 @@ public object WidgetNodeKt {
      * `bool bare = 37;`
      */
     public var bare: kotlin.Boolean
-      @JvmName("getBare")
-      get() = _builder.bare
-      @JvmName("setBare")
-      set(value) {
+      @kotlin.jvm.JvmName("getBare")
+        get() = _builder.bare
+      @kotlin.jvm.JvmName("setBare")
+        set(value) {
         _builder.bare = value
       }
     /**
@@ -1575,10 +1574,10 @@ public object WidgetNodeKt {
      * `bool in_tab_bar = 39;`
      */
     public var inTabBar: kotlin.Boolean
-      @JvmName("getInTabBar")
-      get() = _builder.inTabBar
-      @JvmName("setInTabBar")
-      set(value) {
+      @kotlin.jvm.JvmName("getInTabBar")
+        get() = _builder.inTabBar
+      @kotlin.jvm.JvmName("setInTabBar")
+        set(value) {
         _builder.inTabBar = value
       }
     /**
@@ -1606,10 +1605,10 @@ public object WidgetNodeKt {
      * `.ui.VisibilityBinding checked_when = 42;`
      */
     public var checkedWhen: ui.UiAst.VisibilityBinding
-      @JvmName("getCheckedWhen")
-      get() = _builder.checkedWhen
-      @JvmName("setCheckedWhen")
-      set(value) {
+      @kotlin.jvm.JvmName("getCheckedWhen")
+        get() = _builder.checkedWhen
+      @kotlin.jvm.JvmName("setCheckedWhen")
+        set(value) {
         _builder.checkedWhen = value
       }
     /**
@@ -1660,10 +1659,10 @@ public object WidgetNodeKt {
      * `.ui.VisibilityBinding enabled_when = 45;`
      */
     public var enabledWhen: ui.UiAst.VisibilityBinding
-      @JvmName("getEnabledWhen")
-      get() = _builder.enabledWhen
-      @JvmName("setEnabledWhen")
-      set(value) {
+      @kotlin.jvm.JvmName("getEnabledWhen")
+        get() = _builder.enabledWhen
+      @kotlin.jvm.JvmName("setEnabledWhen")
+        set(value) {
         _builder.enabledWhen = value
       }
     /**
@@ -1731,10 +1730,10 @@ public object WidgetNodeKt {
      * `.ui.VisibilityBinding pending_when = 50;`
      */
     public var pendingWhen: ui.UiAst.VisibilityBinding
-      @JvmName("getPendingWhen")
-      get() = _builder.pendingWhen
-      @JvmName("setPendingWhen")
-      set(value) {
+      @kotlin.jvm.JvmName("getPendingWhen")
+        get() = _builder.pendingWhen
+      @kotlin.jvm.JvmName("setPendingWhen")
+        set(value) {
         _builder.pendingWhen = value
       }
     /**
@@ -1811,10 +1810,10 @@ public object WidgetNodeKt {
      * `.ui.ColorBinding color_when = 46;`
      */
     public var colorWhen: ui.UiAst.ColorBinding
-      @JvmName("getColorWhen")
-      get() = _builder.colorWhen
-      @JvmName("setColorWhen")
-      set(value) {
+      @kotlin.jvm.JvmName("getColorWhen")
+        get() = _builder.colorWhen
+      @kotlin.jvm.JvmName("setColorWhen")
+        set(value) {
         _builder.colorWhen = value
       }
     /**
@@ -1882,10 +1881,10 @@ public object WidgetNodeKt {
      * `uint32 hit_slop = 47 [(.buf.validate.field) = { ... }`
      */
     public var hitSlop: kotlin.Int
-      @JvmName("getHitSlop")
-      get() = _builder.hitSlop
-      @JvmName("setHitSlop")
-      set(value) {
+      @kotlin.jvm.JvmName("getHitSlop")
+        get() = _builder.hitSlop
+      @kotlin.jvm.JvmName("setHitSlop")
+        set(value) {
         _builder.hitSlop = value
       }
     /**
@@ -1964,10 +1963,10 @@ public object WidgetNodeKt {
      * `bool designed_overlay = 49;`
      */
     public var designedOverlay: kotlin.Boolean
-      @JvmName("getDesignedOverlay")
-      get() = _builder.designedOverlay
-      @JvmName("setDesignedOverlay")
-      set(value) {
+      @kotlin.jvm.JvmName("getDesignedOverlay")
+        get() = _builder.designedOverlay
+      @kotlin.jvm.JvmName("setDesignedOverlay")
+        set(value) {
         _builder.designedOverlay = value
       }
     /**
@@ -2029,10 +2028,10 @@ public object WidgetNodeKt {
      * `uint32 uid = 43;`
      */
     public var uid: kotlin.Int
-      @JvmName("getUid")
-      get() = _builder.uid
-      @JvmName("setUid")
-      set(value) {
+      @kotlin.jvm.JvmName("getUid")
+        get() = _builder.uid
+      @kotlin.jvm.JvmName("setUid")
+        set(value) {
         _builder.uid = value
       }
     /**
@@ -2082,7 +2081,7 @@ public object WidgetNodeKt {
      */
      public val gestures: com.google.protobuf.kotlin.DslList<ui.UiAst.GestureSpec, GesturesProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.gesturesList
       )
     /**
@@ -2110,7 +2109,7 @@ public object WidgetNodeKt {
      * @param value The gestures to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addGestures")
+@kotlin.jvm.JvmName("addGestures")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.GestureSpec, GesturesProxy>.add(value: ui.UiAst.GestureSpec) {
       _builder.addGestures(value)
     }
@@ -2139,7 +2138,7 @@ public object WidgetNodeKt {
      * @param value The gestures to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignGestures")
+@kotlin.jvm.JvmName("plusAssignGestures")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.GestureSpec, GesturesProxy>.plusAssign(value: ui.UiAst.GestureSpec) {
       add(value)
@@ -2169,7 +2168,7 @@ public object WidgetNodeKt {
      * @param values The gestures to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllGestures")
+@kotlin.jvm.JvmName("addAllGestures")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.GestureSpec, GesturesProxy>.addAll(values: kotlin.collections.Iterable<ui.UiAst.GestureSpec>) {
       _builder.addAllGestures(values)
     }
@@ -2198,7 +2197,7 @@ public object WidgetNodeKt {
      * @param values The gestures to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllGestures")
+@kotlin.jvm.JvmName("plusAssignAllGestures")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.GestureSpec, GesturesProxy>.plusAssign(values: kotlin.collections.Iterable<ui.UiAst.GestureSpec>) {
       addAll(values)
@@ -2229,7 +2228,7 @@ public object WidgetNodeKt {
      * @param value The gestures to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setGestures")
+@kotlin.jvm.JvmName("setGestures")
     public operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.GestureSpec, GesturesProxy>.set(index: kotlin.Int, value: ui.UiAst.GestureSpec) {
       _builder.setGestures(index, value)
     }
@@ -2257,11 +2256,10 @@ public object WidgetNodeKt {
      * `repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearGestures")
+@kotlin.jvm.JvmName("clearGestures")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.GestureSpec, GesturesProxy>.clear() {
       _builder.clearGestures()
     }
-
     public val widgetPropsCase: ui.UiAst.WidgetNode.WidgetPropsCase
     @kotlin.jvm.JvmName("getWidgetPropsCase")
       get() = _builder.getWidgetPropsCase()

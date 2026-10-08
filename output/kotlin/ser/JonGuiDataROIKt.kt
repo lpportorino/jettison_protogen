@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_types.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -38,10 +39,10 @@ public object JonGuiDataROIKt {
      * `double x1 = 1 [(.buf.validate.field) = { ... }`
      */
     public var x1: kotlin.Double
-      @JvmName("getX1")
-      get() = _builder.x1
-      @JvmName("setX1")
-      set(value) {
+      @kotlin.jvm.JvmName("getX1")
+        get() = _builder.x1
+      @kotlin.jvm.JvmName("setX1")
+        set(value) {
         _builder.x1 = value
       }
     /**
@@ -55,10 +56,10 @@ public object JonGuiDataROIKt {
      * `double y1 = 2 [(.buf.validate.field) = { ... }`
      */
     public var y1: kotlin.Double
-      @JvmName("getY1")
-      get() = _builder.y1
-      @JvmName("setY1")
-      set(value) {
+      @kotlin.jvm.JvmName("getY1")
+        get() = _builder.y1
+      @kotlin.jvm.JvmName("setY1")
+        set(value) {
         _builder.y1 = value
       }
     /**
@@ -72,10 +73,10 @@ public object JonGuiDataROIKt {
      * `double x2 = 3 [(.buf.validate.field) = { ... }`
      */
     public var x2: kotlin.Double
-      @JvmName("getX2")
-      get() = _builder.x2
-      @JvmName("setX2")
-      set(value) {
+      @kotlin.jvm.JvmName("getX2")
+        get() = _builder.x2
+      @kotlin.jvm.JvmName("setX2")
+        set(value) {
         _builder.x2 = value
       }
     /**
@@ -89,10 +90,10 @@ public object JonGuiDataROIKt {
      * `double y2 = 4 [(.buf.validate.field) = { ... }`
      */
     public var y2: kotlin.Double
-      @JvmName("getY2")
-      get() = _builder.y2
-      @JvmName("setY2")
-      set(value) {
+      @kotlin.jvm.JvmName("getY2")
+        get() = _builder.y2
+      @kotlin.jvm.JvmName("setY2")
+        set(value) {
         _builder.y2 = value
       }
     /**

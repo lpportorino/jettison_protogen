@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd;
@@ -32,10 +33,10 @@ public object RootKt {
      * `uint32 protocol_version = 1 [(.buf.validate.field) = { ... }`
      */
     public var protocolVersion: kotlin.Int
-      @JvmName("getProtocolVersion")
-      get() = _builder.protocolVersion
-      @JvmName("setProtocolVersion")
-      set(value) {
+      @kotlin.jvm.JvmName("getProtocolVersion")
+        get() = _builder.protocolVersion
+      @kotlin.jvm.JvmName("setProtocolVersion")
+        set(value) {
         _builder.protocolVersion = value
       }
     /**
@@ -49,10 +50,10 @@ public object RootKt {
      * `uint32 session_id = 2;`
      */
     public var sessionId: kotlin.Int
-      @JvmName("getSessionId")
-      get() = _builder.sessionId
-      @JvmName("setSessionId")
-      set(value) {
+      @kotlin.jvm.JvmName("getSessionId")
+        get() = _builder.sessionId
+      @kotlin.jvm.JvmName("setSessionId")
+        set(value) {
         _builder.sessionId = value
       }
     /**
@@ -66,10 +67,10 @@ public object RootKt {
      * `bool important = 3;`
      */
     public var important: kotlin.Boolean
-      @JvmName("getImportant")
-      get() = _builder.important
-      @JvmName("setImportant")
-      set(value) {
+      @kotlin.jvm.JvmName("getImportant")
+        get() = _builder.important
+      @kotlin.jvm.JvmName("setImportant")
+        set(value) {
         _builder.important = value
       }
     /**
@@ -83,10 +84,10 @@ public object RootKt {
      * `bool from_cv_subsystem = 4;`
      */
     public var fromCvSubsystem: kotlin.Boolean
-      @JvmName("getFromCvSubsystem")
-      get() = _builder.fromCvSubsystem
-      @JvmName("setFromCvSubsystem")
-      set(value) {
+      @kotlin.jvm.JvmName("getFromCvSubsystem")
+        get() = _builder.fromCvSubsystem
+      @kotlin.jvm.JvmName("setFromCvSubsystem")
+        set(value) {
         _builder.fromCvSubsystem = value
       }
     /**
@@ -100,17 +101,17 @@ public object RootKt {
      * `.ser.JonGuiDataClientType client_type = 5 [(.buf.validate.field) = { ... }`
      */
     public var clientType: ser.JonSharedDataTypes.JonGuiDataClientType
-      @JvmName("getClientType")
-      get() = _builder.clientType
-      @JvmName("setClientType")
-      set(value) {
+      @kotlin.jvm.JvmName("getClientType")
+        get() = _builder.clientType
+      @kotlin.jvm.JvmName("setClientType")
+        set(value) {
         _builder.clientType = value
       }
     public var clientTypeValue: kotlin.Int
-      @JvmName("getClientTypeValue")
-      get() = _builder.clientTypeValue
-      @JvmName("setClientTypeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getClientTypeValue")
+        get() = _builder.clientTypeValue
+      @kotlin.jvm.JvmName("setClientTypeValue")
+        set(value) {
         _builder.clientTypeValue = value
       }
     /**
@@ -124,17 +125,17 @@ public object RootKt {
      * `.ser.JonGuiDataClientApp client_app = 10 [(.buf.validate.field) = { ... }`
      */
     public var clientApp: ser.JonSharedDataTypes.JonGuiDataClientApp
-      @JvmName("getClientApp")
-      get() = _builder.clientApp
-      @JvmName("setClientApp")
-      set(value) {
+      @kotlin.jvm.JvmName("getClientApp")
+        get() = _builder.clientApp
+      @kotlin.jvm.JvmName("setClientApp")
+        set(value) {
         _builder.clientApp = value
       }
     public var clientAppValue: kotlin.Int
-      @JvmName("getClientAppValue")
-      get() = _builder.clientAppValue
-      @JvmName("setClientAppValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getClientAppValue")
+        get() = _builder.clientAppValue
+      @kotlin.jvm.JvmName("setClientAppValue")
+        set(value) {
         _builder.clientAppValue = value
       }
     /**
@@ -152,10 +153,10 @@ public object RootKt {
      * `uint64 frame_time_day = 6;`
      */
     public var frameTimeDay: kotlin.Long
-      @JvmName("getFrameTimeDay")
-      get() = _builder.frameTimeDay
-      @JvmName("setFrameTimeDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getFrameTimeDay")
+        get() = _builder.frameTimeDay
+      @kotlin.jvm.JvmName("setFrameTimeDay")
+        set(value) {
         _builder.frameTimeDay = value
       }
     /**
@@ -177,10 +178,10 @@ public object RootKt {
      * `uint64 frame_time_heat = 7;`
      */
     public var frameTimeHeat: kotlin.Long
-      @JvmName("getFrameTimeHeat")
-      get() = _builder.frameTimeHeat
-      @JvmName("setFrameTimeHeat")
-      set(value) {
+      @kotlin.jvm.JvmName("getFrameTimeHeat")
+        get() = _builder.frameTimeHeat
+      @kotlin.jvm.JvmName("setFrameTimeHeat")
+        set(value) {
         _builder.frameTimeHeat = value
       }
     /**
@@ -202,10 +203,10 @@ public object RootKt {
      * `uint64 state_time = 8;`
      */
     public var stateTime: kotlin.Long
-      @JvmName("getStateTime")
-      get() = _builder.stateTime
-      @JvmName("setStateTime")
-      set(value) {
+      @kotlin.jvm.JvmName("getStateTime")
+        get() = _builder.stateTime
+      @kotlin.jvm.JvmName("setStateTime")
+        set(value) {
         _builder.stateTime = value
       }
     /**
@@ -227,10 +228,10 @@ public object RootKt {
      * `uint64 client_time_ms = 9;`
      */
     public var clientTimeMs: kotlin.Long
-      @JvmName("getClientTimeMs")
-      get() = _builder.clientTimeMs
-      @JvmName("setClientTimeMs")
-      set(value) {
+      @kotlin.jvm.JvmName("getClientTimeMs")
+        get() = _builder.clientTimeMs
+      @kotlin.jvm.JvmName("setClientTimeMs")
+        set(value) {
         _builder.clientTimeMs = value
       }
     /**
@@ -259,7 +260,7 @@ public object RootKt {
      */
      public val opaquePayloads: com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonOpaquePayload, OpaquePayloadsProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.opaquePayloadsList
       )
     /**
@@ -271,7 +272,7 @@ public object RootKt {
      * @param value The opaquePayloads to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addOpaquePayloads")
+@kotlin.jvm.JvmName("addOpaquePayloads")
     public fun com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonOpaquePayload, OpaquePayloadsProxy>.add(value: ser.JonSharedDataTypes.JonOpaquePayload) {
       _builder.addOpaquePayloads(value)
     }
@@ -284,7 +285,7 @@ public object RootKt {
      * @param value The opaquePayloads to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignOpaquePayloads")
+@kotlin.jvm.JvmName("plusAssignOpaquePayloads")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonOpaquePayload, OpaquePayloadsProxy>.plusAssign(value: ser.JonSharedDataTypes.JonOpaquePayload) {
       add(value)
@@ -298,7 +299,7 @@ public object RootKt {
      * @param values The opaquePayloads to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllOpaquePayloads")
+@kotlin.jvm.JvmName("addAllOpaquePayloads")
     public fun com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonOpaquePayload, OpaquePayloadsProxy>.addAll(values: kotlin.collections.Iterable<ser.JonSharedDataTypes.JonOpaquePayload>) {
       _builder.addAllOpaquePayloads(values)
     }
@@ -311,7 +312,7 @@ public object RootKt {
      * @param values The opaquePayloads to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllOpaquePayloads")
+@kotlin.jvm.JvmName("plusAssignAllOpaquePayloads")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonOpaquePayload, OpaquePayloadsProxy>.plusAssign(values: kotlin.collections.Iterable<ser.JonSharedDataTypes.JonOpaquePayload>) {
       addAll(values)
@@ -326,7 +327,7 @@ public object RootKt {
      * @param value The opaquePayloads to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setOpaquePayloads")
+@kotlin.jvm.JvmName("setOpaquePayloads")
     public operator fun com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonOpaquePayload, OpaquePayloadsProxy>.set(index: kotlin.Int, value: ser.JonSharedDataTypes.JonOpaquePayload) {
       _builder.setOpaquePayloads(index, value)
     }
@@ -338,20 +339,19 @@ public object RootKt {
      * `repeated .ser.JonOpaquePayload opaque_payloads = 11;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearOpaquePayloads")
+@kotlin.jvm.JvmName("clearOpaquePayloads")
     public fun com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonOpaquePayload, OpaquePayloadsProxy>.clear() {
       _builder.clearOpaquePayloads()
     }
-
 
     /**
      * `.cmd.DayCamera.Root day_camera = 20;`
      */
     public var dayCamera: cmd.DayCamera.JonSharedCmdDayCamera.Root
-      @JvmName("getDayCamera")
-      get() = _builder.dayCamera
-      @JvmName("setDayCamera")
-      set(value) {
+      @kotlin.jvm.JvmName("getDayCamera")
+        get() = _builder.dayCamera
+      @kotlin.jvm.JvmName("setDayCamera")
+        set(value) {
         _builder.dayCamera = value
       }
     /**
@@ -372,10 +372,10 @@ public object RootKt {
      * `.cmd.HeatCamera.Root heat_camera = 21;`
      */
     public var heatCamera: cmd.HeatCamera.JonSharedCmdHeatCamera.Root
-      @JvmName("getHeatCamera")
-      get() = _builder.heatCamera
-      @JvmName("setHeatCamera")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeatCamera")
+        get() = _builder.heatCamera
+      @kotlin.jvm.JvmName("setHeatCamera")
+        set(value) {
         _builder.heatCamera = value
       }
     /**
@@ -396,10 +396,10 @@ public object RootKt {
      * `.cmd.Gps.Root gps = 22;`
      */
     public var gps: cmd.Gps.JonSharedCmdGps.Root
-      @JvmName("getGps")
-      get() = _builder.gps
-      @JvmName("setGps")
-      set(value) {
+      @kotlin.jvm.JvmName("getGps")
+        get() = _builder.gps
+      @kotlin.jvm.JvmName("setGps")
+        set(value) {
         _builder.gps = value
       }
     /**
@@ -420,10 +420,10 @@ public object RootKt {
      * `.cmd.Compass.Root compass = 23;`
      */
     public var compass: cmd.Compass.JonSharedCmdCompass.Root
-      @JvmName("getCompass")
-      get() = _builder.compass
-      @JvmName("setCompass")
-      set(value) {
+      @kotlin.jvm.JvmName("getCompass")
+        get() = _builder.compass
+      @kotlin.jvm.JvmName("setCompass")
+        set(value) {
         _builder.compass = value
       }
     /**
@@ -444,10 +444,10 @@ public object RootKt {
      * `.cmd.Lrf.Root lrf = 24;`
      */
     public var lrf: cmd.Lrf.JonSharedCmdLrf.Root
-      @JvmName("getLrf")
-      get() = _builder.lrf
-      @JvmName("setLrf")
-      set(value) {
+      @kotlin.jvm.JvmName("getLrf")
+        get() = _builder.lrf
+      @kotlin.jvm.JvmName("setLrf")
+        set(value) {
         _builder.lrf = value
       }
     /**
@@ -468,10 +468,10 @@ public object RootKt {
      * `.cmd.Lrf_calib.Root lrf_calib = 25;`
      */
     public var lrfCalib: cmd.Lrf_calib.JonSharedCmdLrfAlign.Root
-      @JvmName("getLrfCalib")
-      get() = _builder.lrfCalib
-      @JvmName("setLrfCalib")
-      set(value) {
+      @kotlin.jvm.JvmName("getLrfCalib")
+        get() = _builder.lrfCalib
+      @kotlin.jvm.JvmName("setLrfCalib")
+        set(value) {
         _builder.lrfCalib = value
       }
     /**
@@ -492,10 +492,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.Root rotary = 26;`
      */
     public var rotary: cmd.RotaryPlatform.JonSharedCmdRotary.Root
-      @JvmName("getRotary")
-      get() = _builder.rotary
-      @JvmName("setRotary")
-      set(value) {
+      @kotlin.jvm.JvmName("getRotary")
+        get() = _builder.rotary
+      @kotlin.jvm.JvmName("setRotary")
+        set(value) {
         _builder.rotary = value
       }
     /**
@@ -516,10 +516,10 @@ public object RootKt {
      * `.cmd.OSD.Root osd = 27;`
      */
     public var osd: cmd.OSD.JonSharedCmdOsd.Root
-      @JvmName("getOsd")
-      get() = _builder.osd
-      @JvmName("setOsd")
-      set(value) {
+      @kotlin.jvm.JvmName("getOsd")
+        get() = _builder.osd
+      @kotlin.jvm.JvmName("setOsd")
+        set(value) {
         _builder.osd = value
       }
     /**
@@ -540,10 +540,10 @@ public object RootKt {
      * `.cmd.Ping ping = 28;`
      */
     public var ping: cmd.JonSharedCmd.Ping
-      @JvmName("getPing")
-      get() = _builder.ping
-      @JvmName("setPing")
-      set(value) {
+      @kotlin.jvm.JvmName("getPing")
+        get() = _builder.ping
+      @kotlin.jvm.JvmName("setPing")
+        set(value) {
         _builder.ping = value
       }
     /**
@@ -564,10 +564,10 @@ public object RootKt {
      * `.cmd.Noop noop = 29;`
      */
     public var noop: cmd.JonSharedCmd.Noop
-      @JvmName("getNoop")
-      get() = _builder.noop
-      @JvmName("setNoop")
-      set(value) {
+      @kotlin.jvm.JvmName("getNoop")
+        get() = _builder.noop
+      @kotlin.jvm.JvmName("setNoop")
+        set(value) {
         _builder.noop = value
       }
     /**
@@ -588,10 +588,10 @@ public object RootKt {
      * `.cmd.Frozen frozen = 30;`
      */
     public var frozen: cmd.JonSharedCmd.Frozen
-      @JvmName("getFrozen")
-      get() = _builder.frozen
-      @JvmName("setFrozen")
-      set(value) {
+      @kotlin.jvm.JvmName("getFrozen")
+        get() = _builder.frozen
+      @kotlin.jvm.JvmName("setFrozen")
+        set(value) {
         _builder.frozen = value
       }
     /**
@@ -612,10 +612,10 @@ public object RootKt {
      * `.cmd.System.Root system = 31;`
      */
     public var system: cmd.System.JonSharedCmdSystem.Root
-      @JvmName("getSystem")
-      get() = _builder.system
-      @JvmName("setSystem")
-      set(value) {
+      @kotlin.jvm.JvmName("getSystem")
+        get() = _builder.system
+      @kotlin.jvm.JvmName("setSystem")
+        set(value) {
         _builder.system = value
       }
     /**
@@ -636,10 +636,10 @@ public object RootKt {
      * `.cmd.CV.Root cv = 32;`
      */
     public var cv: cmd.CV.JonSharedCmdCv.Root
-      @JvmName("getCv")
-      get() = _builder.cv
-      @JvmName("setCv")
-      set(value) {
+      @kotlin.jvm.JvmName("getCv")
+        get() = _builder.cv
+      @kotlin.jvm.JvmName("setCv")
+        set(value) {
         _builder.cv = value
       }
     /**
@@ -660,10 +660,10 @@ public object RootKt {
      * `.cmd.Lira.Root lira = 34;`
      */
     public var lira: cmd.Lira.JonSharedCmdLira.Root
-      @JvmName("getLira")
-      get() = _builder.lira
-      @JvmName("setLira")
-      set(value) {
+      @kotlin.jvm.JvmName("getLira")
+        get() = _builder.lira
+      @kotlin.jvm.JvmName("setLira")
+        set(value) {
         _builder.lira = value
       }
     /**
@@ -684,10 +684,10 @@ public object RootKt {
      * `.cmd.Power.Root power = 35;`
      */
     public var power: cmd.Power.JonSharedCmdPower.Root
-      @JvmName("getPower")
-      get() = _builder.power
-      @JvmName("setPower")
-      set(value) {
+      @kotlin.jvm.JvmName("getPower")
+        get() = _builder.power
+      @kotlin.jvm.JvmName("setPower")
+        set(value) {
         _builder.power = value
       }
     /**
@@ -708,10 +708,10 @@ public object RootKt {
      * `.cmd.PMU.Root pmu = 36;`
      */
     public var pmu: cmd.PMU.JonSharedCmdPmu.Root
-      @JvmName("getPmu")
-      get() = _builder.pmu
-      @JvmName("setPmu")
-      set(value) {
+      @kotlin.jvm.JvmName("getPmu")
+        get() = _builder.pmu
+      @kotlin.jvm.JvmName("setPmu")
+        set(value) {
         _builder.pmu = value
       }
     /**
@@ -732,10 +732,10 @@ public object RootKt {
      * `.cmd.Heater.Root heater = 37;`
      */
     public var heater: cmd.Heater.JonSharedCmdHeater.Root
-      @JvmName("getHeater")
-      get() = _builder.heater
-      @JvmName("setHeater")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeater")
+        get() = _builder.heater
+      @kotlin.jvm.JvmName("setHeater")
+        set(value) {
         _builder.heater = value
       }
     /**

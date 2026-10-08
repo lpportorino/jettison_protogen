@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_lrf_align.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.Lrf_calib;
@@ -32,10 +33,10 @@ public object RootKt {
      * `.cmd.Lrf_calib.Offsets day = 1;`
      */
     public var day: cmd.Lrf_calib.JonSharedCmdLrfAlign.Offsets
-      @JvmName("getDay")
-      get() = _builder.day
-      @JvmName("setDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getDay")
+        get() = _builder.day
+      @kotlin.jvm.JvmName("setDay")
+        set(value) {
         _builder.day = value
       }
     /**
@@ -56,10 +57,10 @@ public object RootKt {
      * `.cmd.Lrf_calib.Offsets heat = 2;`
      */
     public var heat: cmd.Lrf_calib.JonSharedCmdLrfAlign.Offsets
-      @JvmName("getHeat")
-      get() = _builder.heat
-      @JvmName("setHeat")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeat")
+        get() = _builder.heat
+      @kotlin.jvm.JvmName("setHeat")
+        set(value) {
         _builder.heat = value
       }
     /**

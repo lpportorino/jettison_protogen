@@ -177,21 +177,22 @@
   (into [id (count content)] content))
 
 (def ^:private wasi-trap-module
-  "A minimal module whose export `badwrite` calls the WASI builtin `fd_write`
-   with an iovec pointer past the end of memory, so the TRAP is raised inside
+  "A minimal module whose export `badstat` calls the WASI builtin `fd_fdstat_get`
+   with a result pointer past the end of memory, so the TRAP is raised inside
    the builtin — implementation code the engine marks internal — rather than in
-   the module's own function."
+   the module's own function. The previous fd_write fixture now returns WASI
+   EFAULT in GraalWasm 25.4.4.1.1; it no longer exercises stack-frame retention."
   (byte-array
    (map unchecked-byte
         (concat [0x00 0x61 0x73 0x6d 0x01 0x00 0x00 0x00]
-                (wasm-section 1 [2 0x60 4 0x7f 0x7f 0x7f 0x7f 1 0x7f 0x60 0 0])
+                (wasm-section 1 [2 0x60 2 0x7f 0x7f 1 0x7f 0x60 0 0])
                 (wasm-section 2 (concat [1] (wasm-name "wasi_snapshot_preview1")
-                                        (wasm-name "fd_write") [0 0]))
+                                        (wasm-name "fd_fdstat_get") [0 0]))
                 (wasm-section 3 [1 1])
                 (wasm-section 5 [1 0 1])
-                (wasm-section 7 (concat [2] (wasm-name "badwrite") [0 1]
+                (wasm-section 7 (concat [2] (wasm-name "badstat") [0 1]
                                         (wasm-name "memory") [2 0]))
-                (wasm-section 10 (let [body [0 0x41 1 0x41 0x70 0x41 1 0x41 0 0x10 0 0x1a 0x0b]]
+                (wasm-section 10 (let [body [0 0x41 1 0x41 0x70 0x10 0 0x1a 0x0b]]
                                    (concat [1 (count body)] body)))))))
 
 (deftest the-shared-engine-keeps-the-frame-of-a-trap-inside-a-wasi-builtin
@@ -216,13 +217,13 @@
                                            "wasi-trap")))
                 inst (.newInstance module (object-array 0))
                 exports (if (.hasMember inst "exports") (.getMember inst "exports") inst)
-                frames (try (.execute (.getMember exports "badwrite") (object-array 0))
+                frames (try (.execute (.getMember exports "badstat") (object-array 0))
                             nil
                             (catch org.graalvm.polyglot.PolyglotException p
                               (mapv str (.getStackTrace p))))]
             (is (some? frames) "precondition: the out-of-bounds write traps")
-            (is (some #(re-find #"__wasi_fd_write" %) frames)
+            (is (some #(re-find #"__wasi_fd_fdstat_get" %) frames)
                 (str "the builtin's frame is missing from " (pr-str (take 4 frames))))
             (testing "control: the module's OWN frame is present either way, so a
                     missing builtin frame is the filter and not an empty trace"
-              (is (some #(re-find #"badwrite" %) frames)))))))))
+              (is (some #(re-find #"badstat" %) frames)))))))))

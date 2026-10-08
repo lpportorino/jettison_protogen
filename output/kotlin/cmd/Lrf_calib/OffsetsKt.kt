@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_lrf_align.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.Lrf_calib;
@@ -32,10 +33,10 @@ public object OffsetsKt {
      * `.cmd.Lrf_calib.SetOffsets set = 1;`
      */
     public var set: cmd.Lrf_calib.JonSharedCmdLrfAlign.SetOffsets
-      @JvmName("getSet")
-      get() = _builder.set
-      @JvmName("setSet")
-      set(value) {
+      @kotlin.jvm.JvmName("getSet")
+        get() = _builder.set
+      @kotlin.jvm.JvmName("setSet")
+        set(value) {
         _builder.set = value
       }
     /**
@@ -56,10 +57,10 @@ public object OffsetsKt {
      * `.cmd.Lrf_calib.SaveOffsets save = 2;`
      */
     public var save: cmd.Lrf_calib.JonSharedCmdLrfAlign.SaveOffsets
-      @JvmName("getSave")
-      get() = _builder.save
-      @JvmName("setSave")
-      set(value) {
+      @kotlin.jvm.JvmName("getSave")
+        get() = _builder.save
+      @kotlin.jvm.JvmName("setSave")
+        set(value) {
         _builder.save = value
       }
     /**
@@ -80,10 +81,10 @@ public object OffsetsKt {
      * `.cmd.Lrf_calib.ResetOffsets reset = 3;`
      */
     public var reset: cmd.Lrf_calib.JonSharedCmdLrfAlign.ResetOffsets
-      @JvmName("getReset")
-      get() = _builder.reset
-      @JvmName("setReset")
-      set(value) {
+      @kotlin.jvm.JvmName("getReset")
+        get() = _builder.reset
+      @kotlin.jvm.JvmName("setReset")
+        set(value) {
         _builder.reset = value
       }
     /**
@@ -104,10 +105,10 @@ public object OffsetsKt {
      * `.cmd.Lrf_calib.ShiftOffsetsBy shift = 4;`
      */
     public var shift: cmd.Lrf_calib.JonSharedCmdLrfAlign.ShiftOffsetsBy
-      @JvmName("getShift")
-      get() = _builder.shift
-      @JvmName("setShift")
-      set(value) {
+      @kotlin.jvm.JvmName("getShift")
+        get() = _builder.shift
+      @kotlin.jvm.JvmName("setShift")
+        set(value) {
         _builder.shift = value
       }
     /**

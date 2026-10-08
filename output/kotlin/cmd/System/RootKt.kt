@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_system.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.System;
@@ -32,10 +33,10 @@ public object RootKt {
      * `.cmd.System.StartALl start_all = 1;`
      */
     public var startAll: cmd.System.JonSharedCmdSystem.StartALl
-      @JvmName("getStartAll")
-      get() = _builder.startAll
-      @JvmName("setStartAll")
-      set(value) {
+      @kotlin.jvm.JvmName("getStartAll")
+        get() = _builder.startAll
+      @kotlin.jvm.JvmName("setStartAll")
+        set(value) {
         _builder.startAll = value
       }
     /**
@@ -56,10 +57,10 @@ public object RootKt {
      * `.cmd.System.StopALl stop_all = 2;`
      */
     public var stopAll: cmd.System.JonSharedCmdSystem.StopALl
-      @JvmName("getStopAll")
-      get() = _builder.stopAll
-      @JvmName("setStopAll")
-      set(value) {
+      @kotlin.jvm.JvmName("getStopAll")
+        get() = _builder.stopAll
+      @kotlin.jvm.JvmName("setStopAll")
+        set(value) {
         _builder.stopAll = value
       }
     /**
@@ -80,10 +81,10 @@ public object RootKt {
      * `.cmd.System.Reboot reboot = 3;`
      */
     public var reboot: cmd.System.JonSharedCmdSystem.Reboot
-      @JvmName("getReboot")
-      get() = _builder.reboot
-      @JvmName("setReboot")
-      set(value) {
+      @kotlin.jvm.JvmName("getReboot")
+        get() = _builder.reboot
+      @kotlin.jvm.JvmName("setReboot")
+        set(value) {
         _builder.reboot = value
       }
     /**
@@ -104,10 +105,10 @@ public object RootKt {
      * `.cmd.System.PowerOff power_off = 4;`
      */
     public var powerOff: cmd.System.JonSharedCmdSystem.PowerOff
-      @JvmName("getPowerOff")
-      get() = _builder.powerOff
-      @JvmName("setPowerOff")
-      set(value) {
+      @kotlin.jvm.JvmName("getPowerOff")
+        get() = _builder.powerOff
+      @kotlin.jvm.JvmName("setPowerOff")
+        set(value) {
         _builder.powerOff = value
       }
     /**
@@ -128,10 +129,10 @@ public object RootKt {
      * `.cmd.System.SetLocalization localization = 5;`
      */
     public var localization: cmd.System.JonSharedCmdSystem.SetLocalization
-      @JvmName("getLocalization")
-      get() = _builder.localization
-      @JvmName("setLocalization")
-      set(value) {
+      @kotlin.jvm.JvmName("getLocalization")
+        get() = _builder.localization
+      @kotlin.jvm.JvmName("setLocalization")
+        set(value) {
         _builder.localization = value
       }
     /**
@@ -152,10 +153,10 @@ public object RootKt {
      * `.cmd.System.ResetConfigs reset_configs = 6;`
      */
     public var resetConfigs: cmd.System.JonSharedCmdSystem.ResetConfigs
-      @JvmName("getResetConfigs")
-      get() = _builder.resetConfigs
-      @JvmName("setResetConfigs")
-      set(value) {
+      @kotlin.jvm.JvmName("getResetConfigs")
+        get() = _builder.resetConfigs
+      @kotlin.jvm.JvmName("setResetConfigs")
+        set(value) {
         _builder.resetConfigs = value
       }
     /**
@@ -176,10 +177,10 @@ public object RootKt {
      * `.cmd.System.StartRec start_rec = 7;`
      */
     public var startRec: cmd.System.JonSharedCmdSystem.StartRec
-      @JvmName("getStartRec")
-      get() = _builder.startRec
-      @JvmName("setStartRec")
-      set(value) {
+      @kotlin.jvm.JvmName("getStartRec")
+        get() = _builder.startRec
+      @kotlin.jvm.JvmName("setStartRec")
+        set(value) {
         _builder.startRec = value
       }
     /**
@@ -200,10 +201,10 @@ public object RootKt {
      * `.cmd.System.StopRec stop_rec = 8;`
      */
     public var stopRec: cmd.System.JonSharedCmdSystem.StopRec
-      @JvmName("getStopRec")
-      get() = _builder.stopRec
-      @JvmName("setStopRec")
-      set(value) {
+      @kotlin.jvm.JvmName("getStopRec")
+        get() = _builder.stopRec
+      @kotlin.jvm.JvmName("setStopRec")
+        set(value) {
         _builder.stopRec = value
       }
     /**
@@ -224,10 +225,10 @@ public object RootKt {
      * `.cmd.System.MarkRecImportant mark_rec_important = 9;`
      */
     public var markRecImportant: cmd.System.JonSharedCmdSystem.MarkRecImportant
-      @JvmName("getMarkRecImportant")
-      get() = _builder.markRecImportant
-      @JvmName("setMarkRecImportant")
-      set(value) {
+      @kotlin.jvm.JvmName("getMarkRecImportant")
+        get() = _builder.markRecImportant
+      @kotlin.jvm.JvmName("setMarkRecImportant")
+        set(value) {
         _builder.markRecImportant = value
       }
     /**
@@ -248,10 +249,10 @@ public object RootKt {
      * `.cmd.System.UnmarkRecImportant unmark_rec_important = 10;`
      */
     public var unmarkRecImportant: cmd.System.JonSharedCmdSystem.UnmarkRecImportant
-      @JvmName("getUnmarkRecImportant")
-      get() = _builder.unmarkRecImportant
-      @JvmName("setUnmarkRecImportant")
-      set(value) {
+      @kotlin.jvm.JvmName("getUnmarkRecImportant")
+        get() = _builder.unmarkRecImportant
+      @kotlin.jvm.JvmName("setUnmarkRecImportant")
+        set(value) {
         _builder.unmarkRecImportant = value
       }
     /**
@@ -272,10 +273,10 @@ public object RootKt {
      * `.cmd.System.EnterTransport enter_transport = 11;`
      */
     public var enterTransport: cmd.System.JonSharedCmdSystem.EnterTransport
-      @JvmName("getEnterTransport")
-      get() = _builder.enterTransport
-      @JvmName("setEnterTransport")
-      set(value) {
+      @kotlin.jvm.JvmName("getEnterTransport")
+        get() = _builder.enterTransport
+      @kotlin.jvm.JvmName("setEnterTransport")
+        set(value) {
         _builder.enterTransport = value
       }
     /**
@@ -296,10 +297,10 @@ public object RootKt {
      * `.cmd.System.EnableGeodesicMode geodesic_mode_enable = 12;`
      */
     public var geodesicModeEnable: cmd.System.JonSharedCmdSystem.EnableGeodesicMode
-      @JvmName("getGeodesicModeEnable")
-      get() = _builder.geodesicModeEnable
-      @JvmName("setGeodesicModeEnable")
-      set(value) {
+      @kotlin.jvm.JvmName("getGeodesicModeEnable")
+        get() = _builder.geodesicModeEnable
+      @kotlin.jvm.JvmName("setGeodesicModeEnable")
+        set(value) {
         _builder.geodesicModeEnable = value
       }
     /**
@@ -320,10 +321,10 @@ public object RootKt {
      * `.cmd.System.DisableGeodesicMode geodesic_mode_disable = 13;`
      */
     public var geodesicModeDisable: cmd.System.JonSharedCmdSystem.DisableGeodesicMode
-      @JvmName("getGeodesicModeDisable")
-      get() = _builder.geodesicModeDisable
-      @JvmName("setGeodesicModeDisable")
-      set(value) {
+      @kotlin.jvm.JvmName("getGeodesicModeDisable")
+        get() = _builder.geodesicModeDisable
+      @kotlin.jvm.JvmName("setGeodesicModeDisable")
+        set(value) {
         _builder.geodesicModeDisable = value
       }
     /**
@@ -344,10 +345,10 @@ public object RootKt {
      * `.cmd.System.SaveFactoryDefaults save_factory_defaults = 14;`
      */
     public var saveFactoryDefaults: cmd.System.JonSharedCmdSystem.SaveFactoryDefaults
-      @JvmName("getSaveFactoryDefaults")
-      get() = _builder.saveFactoryDefaults
-      @JvmName("setSaveFactoryDefaults")
-      set(value) {
+      @kotlin.jvm.JvmName("getSaveFactoryDefaults")
+        get() = _builder.saveFactoryDefaults
+      @kotlin.jvm.JvmName("setSaveFactoryDefaults")
+        set(value) {
         _builder.saveFactoryDefaults = value
       }
     /**
@@ -368,10 +369,10 @@ public object RootKt {
      * `.cmd.System.WipeUserData wipe_user_data = 15;`
      */
     public var wipeUserData: cmd.System.JonSharedCmdSystem.WipeUserData
-      @JvmName("getWipeUserData")
-      get() = _builder.wipeUserData
-      @JvmName("setWipeUserData")
-      set(value) {
+      @kotlin.jvm.JvmName("getWipeUserData")
+        get() = _builder.wipeUserData
+      @kotlin.jvm.JvmName("setWipeUserData")
+        set(value) {
         _builder.wipeUserData = value
       }
     /**
@@ -392,10 +393,10 @@ public object RootKt {
      * `.cmd.System.StepYear step_year = 16;`
      */
     public var stepYear: cmd.System.JonSharedCmdSystem.StepYear
-      @JvmName("getStepYear")
-      get() = _builder.stepYear
-      @JvmName("setStepYear")
-      set(value) {
+      @kotlin.jvm.JvmName("getStepYear")
+        get() = _builder.stepYear
+      @kotlin.jvm.JvmName("setStepYear")
+        set(value) {
         _builder.stepYear = value
       }
     /**
@@ -416,10 +417,10 @@ public object RootKt {
      * `.cmd.System.StepMonth step_month = 17;`
      */
     public var stepMonth: cmd.System.JonSharedCmdSystem.StepMonth
-      @JvmName("getStepMonth")
-      get() = _builder.stepMonth
-      @JvmName("setStepMonth")
-      set(value) {
+      @kotlin.jvm.JvmName("getStepMonth")
+        get() = _builder.stepMonth
+      @kotlin.jvm.JvmName("setStepMonth")
+        set(value) {
         _builder.stepMonth = value
       }
     /**
@@ -440,10 +441,10 @@ public object RootKt {
      * `.cmd.System.StepDay step_day = 18;`
      */
     public var stepDay: cmd.System.JonSharedCmdSystem.StepDay
-      @JvmName("getStepDay")
-      get() = _builder.stepDay
-      @JvmName("setStepDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getStepDay")
+        get() = _builder.stepDay
+      @kotlin.jvm.JvmName("setStepDay")
+        set(value) {
         _builder.stepDay = value
       }
     /**
@@ -464,10 +465,10 @@ public object RootKt {
      * `.cmd.System.StepHour step_hour = 19;`
      */
     public var stepHour: cmd.System.JonSharedCmdSystem.StepHour
-      @JvmName("getStepHour")
-      get() = _builder.stepHour
-      @JvmName("setStepHour")
-      set(value) {
+      @kotlin.jvm.JvmName("getStepHour")
+        get() = _builder.stepHour
+      @kotlin.jvm.JvmName("setStepHour")
+        set(value) {
         _builder.stepHour = value
       }
     /**
@@ -488,10 +489,10 @@ public object RootKt {
      * `.cmd.System.StepMinute step_minute = 20;`
      */
     public var stepMinute: cmd.System.JonSharedCmdSystem.StepMinute
-      @JvmName("getStepMinute")
-      get() = _builder.stepMinute
-      @JvmName("setStepMinute")
-      set(value) {
+      @kotlin.jvm.JvmName("getStepMinute")
+        get() = _builder.stepMinute
+      @kotlin.jvm.JvmName("setStepMinute")
+        set(value) {
         _builder.stepMinute = value
       }
     /**
@@ -512,10 +513,10 @@ public object RootKt {
      * `.cmd.System.StepSecond step_second = 21;`
      */
     public var stepSecond: cmd.System.JonSharedCmdSystem.StepSecond
-      @JvmName("getStepSecond")
-      get() = _builder.stepSecond
-      @JvmName("setStepSecond")
-      set(value) {
+      @kotlin.jvm.JvmName("getStepSecond")
+        get() = _builder.stepSecond
+      @kotlin.jvm.JvmName("setStepSecond")
+        set(value) {
         _builder.stepSecond = value
       }
     /**
@@ -536,10 +537,10 @@ public object RootKt {
      * `.cmd.System.EnableManualTime enable_manual_time = 22;`
      */
     public var enableManualTime: cmd.System.JonSharedCmdSystem.EnableManualTime
-      @JvmName("getEnableManualTime")
-      get() = _builder.enableManualTime
-      @JvmName("setEnableManualTime")
-      set(value) {
+      @kotlin.jvm.JvmName("getEnableManualTime")
+        get() = _builder.enableManualTime
+      @kotlin.jvm.JvmName("setEnableManualTime")
+        set(value) {
         _builder.enableManualTime = value
       }
     /**
@@ -560,10 +561,10 @@ public object RootKt {
      * `.cmd.System.DisableManualTime disable_manual_time = 23;`
      */
     public var disableManualTime: cmd.System.JonSharedCmdSystem.DisableManualTime
-      @JvmName("getDisableManualTime")
-      get() = _builder.disableManualTime
-      @JvmName("setDisableManualTime")
-      set(value) {
+      @kotlin.jvm.JvmName("getDisableManualTime")
+        get() = _builder.disableManualTime
+      @kotlin.jvm.JvmName("setDisableManualTime")
+        set(value) {
         _builder.disableManualTime = value
       }
     /**
@@ -584,10 +585,10 @@ public object RootKt {
      * `.cmd.System.SetTimeZone set_time_zone = 24;`
      */
     public var setTimeZone: cmd.System.JonSharedCmdSystem.SetTimeZone
-      @JvmName("getSetTimeZone")
-      get() = _builder.setTimeZone
-      @JvmName("setSetTimeZone")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetTimeZone")
+        get() = _builder.setTimeZone
+      @kotlin.jvm.JvmName("setSetTimeZone")
+        set(value) {
         _builder.setTimeZone = value
       }
     /**
@@ -608,10 +609,10 @@ public object RootKt {
      * `.cmd.System.StepTimeZone step_time_zone = 25;`
      */
     public var stepTimeZone: cmd.System.JonSharedCmdSystem.StepTimeZone
-      @JvmName("getStepTimeZone")
-      get() = _builder.stepTimeZone
-      @JvmName("setStepTimeZone")
-      set(value) {
+      @kotlin.jvm.JvmName("getStepTimeZone")
+        get() = _builder.stepTimeZone
+      @kotlin.jvm.JvmName("setStepTimeZone")
+        set(value) {
         _builder.stepTimeZone = value
       }
     /**
@@ -632,10 +633,10 @@ public object RootKt {
      * `.cmd.System.SetTimeAndZone set_time_and_zone = 26;`
      */
     public var setTimeAndZone: cmd.System.JonSharedCmdSystem.SetTimeAndZone
-      @JvmName("getSetTimeAndZone")
-      get() = _builder.setTimeAndZone
-      @JvmName("setSetTimeAndZone")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetTimeAndZone")
+        get() = _builder.setTimeAndZone
+      @kotlin.jvm.JvmName("setSetTimeAndZone")
+        set(value) {
         _builder.setTimeAndZone = value
       }
     /**

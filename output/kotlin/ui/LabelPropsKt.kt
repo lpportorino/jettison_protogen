@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -32,17 +33,17 @@ public object LabelPropsKt {
      * `.ui.LabelLongMode long_mode = 1 [(.buf.validate.field) = { ... }`
      */
     public var longMode: ui.UiAst.LabelLongMode
-      @JvmName("getLongMode")
-      get() = _builder.longMode
-      @JvmName("setLongMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getLongMode")
+        get() = _builder.longMode
+      @kotlin.jvm.JvmName("setLongMode")
+        set(value) {
         _builder.longMode = value
       }
     public var longModeValue: kotlin.Int
-      @JvmName("getLongModeValue")
-      get() = _builder.longModeValue
-      @JvmName("setLongModeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getLongModeValue")
+        get() = _builder.longModeValue
+      @kotlin.jvm.JvmName("setLongModeValue")
+        set(value) {
         _builder.longModeValue = value
       }
     /**

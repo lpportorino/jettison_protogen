@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_heat_camera.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.HeatCamera;
@@ -32,17 +33,17 @@ public object SetAGCKt {
      * `.ser.JonGuiDataVideoChannelHeatAGCModes value = 1 [(.buf.validate.field) = { ... }`
      */
     public var value: ser.JonSharedDataTypes.JonGuiDataVideoChannelHeatAGCModes
-      @JvmName("getValue")
-      get() = _builder.value
-      @JvmName("setValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getValue")
+        get() = _builder.value
+      @kotlin.jvm.JvmName("setValue")
+        set(value) {
         _builder.value = value
       }
     public var valueValue: kotlin.Int
-      @JvmName("getValueValue")
-      get() = _builder.valueValue
-      @JvmName("setValueValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getValueValue")
+        get() = _builder.valueValue
+      @kotlin.jvm.JvmName("setValueValue")
+        set(value) {
         _builder.valueValue = value
       }
     /**

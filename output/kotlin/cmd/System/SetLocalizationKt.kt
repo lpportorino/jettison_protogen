@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_system.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.System;
@@ -32,17 +33,17 @@ public object SetLocalizationKt {
      * `.ser.JonGuiDataSystemLocalizations loc = 1 [(.buf.validate.field) = { ... }`
      */
     public var loc: ser.JonSharedDataTypes.JonGuiDataSystemLocalizations
-      @JvmName("getLoc")
-      get() = _builder.loc
-      @JvmName("setLoc")
-      set(value) {
+      @kotlin.jvm.JvmName("getLoc")
+        get() = _builder.loc
+      @kotlin.jvm.JvmName("setLoc")
+        set(value) {
         _builder.loc = value
       }
     public var locValue: kotlin.Int
-      @JvmName("getLocValue")
-      get() = _builder.locValue
-      @JvmName("setLocValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getLocValue")
+        get() = _builder.locValue
+      @kotlin.jvm.JvmName("setLocValue")
+        set(value) {
         _builder.locValue = value
       }
     /**

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_rotary.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -32,10 +33,10 @@ public object ScanNodeKt {
      * `int32 index = 1 [(.buf.validate.field) = { ... }`
      */
     public var index: kotlin.Int
-      @JvmName("getIndex")
-      get() = _builder.index
-      @JvmName("setIndex")
-      set(value) {
+      @kotlin.jvm.JvmName("getIndex")
+        get() = _builder.index
+      @kotlin.jvm.JvmName("setIndex")
+        set(value) {
         _builder.index = value
       }
     /**
@@ -49,10 +50,10 @@ public object ScanNodeKt {
      * `int32 DayZoomTableValue = 2 [(.buf.validate.field) = { ... }`
      */
     public var dayZoomTableValue: kotlin.Int
-      @JvmName("getDayZoomTableValue")
-      get() = _builder.dayZoomTableValue
-      @JvmName("setDayZoomTableValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getDayZoomTableValue")
+        get() = _builder.dayZoomTableValue
+      @kotlin.jvm.JvmName("setDayZoomTableValue")
+        set(value) {
         _builder.dayZoomTableValue = value
       }
     /**
@@ -66,10 +67,10 @@ public object ScanNodeKt {
      * `int32 HeatZoomTableValue = 3 [(.buf.validate.field) = { ... }`
      */
     public var heatZoomTableValue: kotlin.Int
-      @JvmName("getHeatZoomTableValue")
-      get() = _builder.heatZoomTableValue
-      @JvmName("setHeatZoomTableValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeatZoomTableValue")
+        get() = _builder.heatZoomTableValue
+      @kotlin.jvm.JvmName("setHeatZoomTableValue")
+        set(value) {
         _builder.heatZoomTableValue = value
       }
     /**
@@ -83,10 +84,10 @@ public object ScanNodeKt {
      * `double azimuth = 4 [(.buf.validate.field) = { ... }`
      */
     public var azimuth: kotlin.Double
-      @JvmName("getAzimuth")
-      get() = _builder.azimuth
-      @JvmName("setAzimuth")
-      set(value) {
+      @kotlin.jvm.JvmName("getAzimuth")
+        get() = _builder.azimuth
+      @kotlin.jvm.JvmName("setAzimuth")
+        set(value) {
         _builder.azimuth = value
       }
     /**
@@ -100,10 +101,10 @@ public object ScanNodeKt {
      * `double elevation = 5 [(.buf.validate.field) = { ... }`
      */
     public var elevation: kotlin.Double
-      @JvmName("getElevation")
-      get() = _builder.elevation
-      @JvmName("setElevation")
-      set(value) {
+      @kotlin.jvm.JvmName("getElevation")
+        get() = _builder.elevation
+      @kotlin.jvm.JvmName("setElevation")
+        set(value) {
         _builder.elevation = value
       }
     /**
@@ -117,10 +118,10 @@ public object ScanNodeKt {
      * `double linger = 6 [(.buf.validate.field) = { ... }`
      */
     public var linger: kotlin.Double
-      @JvmName("getLinger")
-      get() = _builder.linger
-      @JvmName("setLinger")
-      set(value) {
+      @kotlin.jvm.JvmName("getLinger")
+        get() = _builder.linger
+      @kotlin.jvm.JvmName("setLinger")
+        set(value) {
         _builder.linger = value
       }
     /**
@@ -134,10 +135,10 @@ public object ScanNodeKt {
      * `double speed = 7 [(.buf.validate.field) = { ... }`
      */
     public var speed: kotlin.Double
-      @JvmName("getSpeed")
-      get() = _builder.speed
-      @JvmName("setSpeed")
-      set(value) {
+      @kotlin.jvm.JvmName("getSpeed")
+        get() = _builder.speed
+      @kotlin.jvm.JvmName("setSpeed")
+        set(value) {
         _builder.speed = value
       }
     /**

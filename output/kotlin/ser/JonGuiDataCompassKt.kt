@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_compass.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -32,10 +33,10 @@ public object JonGuiDataCompassKt {
      * `double azimuth = 1 [(.buf.validate.field) = { ... }`
      */
     public var azimuth: kotlin.Double
-      @JvmName("getAzimuth")
-      get() = _builder.azimuth
-      @JvmName("setAzimuth")
-      set(value) {
+      @kotlin.jvm.JvmName("getAzimuth")
+        get() = _builder.azimuth
+      @kotlin.jvm.JvmName("setAzimuth")
+        set(value) {
         _builder.azimuth = value
       }
     /**
@@ -49,10 +50,10 @@ public object JonGuiDataCompassKt {
      * `double elevation = 2 [(.buf.validate.field) = { ... }`
      */
     public var elevation: kotlin.Double
-      @JvmName("getElevation")
-      get() = _builder.elevation
-      @JvmName("setElevation")
-      set(value) {
+      @kotlin.jvm.JvmName("getElevation")
+        get() = _builder.elevation
+      @kotlin.jvm.JvmName("setElevation")
+        set(value) {
         _builder.elevation = value
       }
     /**
@@ -66,10 +67,10 @@ public object JonGuiDataCompassKt {
      * `double bank = 3 [(.buf.validate.field) = { ... }`
      */
     public var bank: kotlin.Double
-      @JvmName("getBank")
-      get() = _builder.bank
-      @JvmName("setBank")
-      set(value) {
+      @kotlin.jvm.JvmName("getBank")
+        get() = _builder.bank
+      @kotlin.jvm.JvmName("setBank")
+        set(value) {
         _builder.bank = value
       }
     /**
@@ -83,10 +84,10 @@ public object JonGuiDataCompassKt {
      * `double offsetAzimuth = 4 [(.buf.validate.field) = { ... }`
      */
     public var offsetAzimuth: kotlin.Double
-      @JvmName("getOffsetAzimuth")
-      get() = _builder.offsetAzimuth
-      @JvmName("setOffsetAzimuth")
-      set(value) {
+      @kotlin.jvm.JvmName("getOffsetAzimuth")
+        get() = _builder.offsetAzimuth
+      @kotlin.jvm.JvmName("setOffsetAzimuth")
+        set(value) {
         _builder.offsetAzimuth = value
       }
     /**
@@ -100,10 +101,10 @@ public object JonGuiDataCompassKt {
      * `double offsetElevation = 5 [(.buf.validate.field) = { ... }`
      */
     public var offsetElevation: kotlin.Double
-      @JvmName("getOffsetElevation")
-      get() = _builder.offsetElevation
-      @JvmName("setOffsetElevation")
-      set(value) {
+      @kotlin.jvm.JvmName("getOffsetElevation")
+        get() = _builder.offsetElevation
+      @kotlin.jvm.JvmName("setOffsetElevation")
+        set(value) {
         _builder.offsetElevation = value
       }
     /**
@@ -117,10 +118,10 @@ public object JonGuiDataCompassKt {
      * `double magneticDeclination = 6 [(.buf.validate.field) = { ... }`
      */
     public var magneticDeclination: kotlin.Double
-      @JvmName("getMagneticDeclination")
-      get() = _builder.magneticDeclination
-      @JvmName("setMagneticDeclination")
-      set(value) {
+      @kotlin.jvm.JvmName("getMagneticDeclination")
+        get() = _builder.magneticDeclination
+      @kotlin.jvm.JvmName("setMagneticDeclination")
+        set(value) {
         _builder.magneticDeclination = value
       }
     /**
@@ -134,10 +135,10 @@ public object JonGuiDataCompassKt {
      * `bool calibrating = 7;`
      */
     public var calibrating: kotlin.Boolean
-      @JvmName("getCalibrating")
-      get() = _builder.calibrating
-      @JvmName("setCalibrating")
-      set(value) {
+      @kotlin.jvm.JvmName("getCalibrating")
+        get() = _builder.calibrating
+      @kotlin.jvm.JvmName("setCalibrating")
+        set(value) {
         _builder.calibrating = value
       }
     /**
@@ -151,10 +152,10 @@ public object JonGuiDataCompassKt {
      * `bool is_started = 8;`
      */
     public var isStarted: kotlin.Boolean
-      @JvmName("getIsStarted")
-      get() = _builder.isStarted
-      @JvmName("setIsStarted")
-      set(value) {
+      @kotlin.jvm.JvmName("getIsStarted")
+        get() = _builder.isStarted
+      @kotlin.jvm.JvmName("setIsStarted")
+        set(value) {
         _builder.isStarted = value
       }
     /**
@@ -168,10 +169,10 @@ public object JonGuiDataCompassKt {
      * `.ser.JonGuiDataMeteo meteo = 9;`
      */
     public var meteo: ser.JonSharedDataTypes.JonGuiDataMeteo
-      @JvmName("getMeteo")
-      get() = _builder.meteo
-      @JvmName("setMeteo")
-      set(value) {
+      @kotlin.jvm.JvmName("getMeteo")
+        get() = _builder.meteo
+      @kotlin.jvm.JvmName("setMeteo")
+        set(value) {
         _builder.meteo = value
       }
     /**
@@ -195,10 +196,10 @@ public object JonGuiDataCompassKt {
      * `.ser.JonGuiDataModuleHealth health = 40;`
      */
     public var health: ser.JonSharedDataTypes.JonGuiDataModuleHealth
-      @JvmName("getHealth")
-      get() = _builder.health
-      @JvmName("setHealth")
-      set(value) {
+      @kotlin.jvm.JvmName("getHealth")
+        get() = _builder.health
+      @kotlin.jvm.JvmName("setHealth")
+        set(value) {
         _builder.health = value
       }
     /**

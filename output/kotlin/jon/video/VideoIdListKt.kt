@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_video_meta.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.video;
@@ -43,7 +44,7 @@ public object VideoIdListKt {
      * @return A list containing the uuids.
      */
     public val uuids: com.google.protobuf.kotlin.DslList<kotlin.String, UuidsProxy>
-      @kotlin.jvm.JvmSynthetic
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
       get() = com.google.protobuf.kotlin.DslList(
         _builder.uuidsList
       )
@@ -52,7 +53,7 @@ public object VideoIdListKt {
      * @param value The uuids to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addUuids")
+@kotlin.jvm.JvmName("addUuids")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, UuidsProxy>.add(value: kotlin.String) {
       _builder.addUuids(value)
     }
@@ -61,7 +62,7 @@ public object VideoIdListKt {
      * @param value The uuids to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignUuids")
+@kotlin.jvm.JvmName("plusAssignUuids")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, UuidsProxy>.plusAssign(value: kotlin.String) {
       add(value)
@@ -71,7 +72,7 @@ public object VideoIdListKt {
      * @param values The uuids to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllUuids")
+@kotlin.jvm.JvmName("addAllUuids")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, UuidsProxy>.addAll(values: kotlin.collections.Iterable<kotlin.String>) {
       _builder.addAllUuids(values)
     }
@@ -80,7 +81,7 @@ public object VideoIdListKt {
      * @param values The uuids to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllUuids")
+@kotlin.jvm.JvmName("plusAssignAllUuids")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, UuidsProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.String>) {
       addAll(values)
@@ -91,14 +92,14 @@ public object VideoIdListKt {
      * @param value The uuids to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setUuids")
+@kotlin.jvm.JvmName("setUuids")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.String, UuidsProxy>.set(index: kotlin.Int, value: kotlin.String) {
       _builder.setUuids(index, value)
     }/**
      * `repeated string uuids = 1 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearUuids")
+@kotlin.jvm.JvmName("setUuids")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, UuidsProxy>.clear() {
       _builder.clearUuids()
     }}

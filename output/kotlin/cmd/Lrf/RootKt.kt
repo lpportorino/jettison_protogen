@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_lrf.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.Lrf;
@@ -32,10 +33,10 @@ public object RootKt {
      * `.cmd.Lrf.Measure measure = 1;`
      */
     public var measure: cmd.Lrf.JonSharedCmdLrf.Measure
-      @JvmName("getMeasure")
-      get() = _builder.measure
-      @JvmName("setMeasure")
-      set(value) {
+      @kotlin.jvm.JvmName("getMeasure")
+        get() = _builder.measure
+      @kotlin.jvm.JvmName("setMeasure")
+        set(value) {
         _builder.measure = value
       }
     /**
@@ -56,10 +57,10 @@ public object RootKt {
      * `.cmd.Lrf.ScanOn scan_on = 2;`
      */
     public var scanOn: cmd.Lrf.JonSharedCmdLrf.ScanOn
-      @JvmName("getScanOn")
-      get() = _builder.scanOn
-      @JvmName("setScanOn")
-      set(value) {
+      @kotlin.jvm.JvmName("getScanOn")
+        get() = _builder.scanOn
+      @kotlin.jvm.JvmName("setScanOn")
+        set(value) {
         _builder.scanOn = value
       }
     /**
@@ -80,10 +81,10 @@ public object RootKt {
      * `.cmd.Lrf.ScanOff scan_off = 3;`
      */
     public var scanOff: cmd.Lrf.JonSharedCmdLrf.ScanOff
-      @JvmName("getScanOff")
-      get() = _builder.scanOff
-      @JvmName("setScanOff")
-      set(value) {
+      @kotlin.jvm.JvmName("getScanOff")
+        get() = _builder.scanOff
+      @kotlin.jvm.JvmName("setScanOff")
+        set(value) {
         _builder.scanOff = value
       }
     /**
@@ -104,10 +105,10 @@ public object RootKt {
      * `.cmd.Lrf.Start start = 4;`
      */
     public var start: cmd.Lrf.JonSharedCmdLrf.Start
-      @JvmName("getStart")
-      get() = _builder.start
-      @JvmName("setStart")
-      set(value) {
+      @kotlin.jvm.JvmName("getStart")
+        get() = _builder.start
+      @kotlin.jvm.JvmName("setStart")
+        set(value) {
         _builder.start = value
       }
     /**
@@ -128,10 +129,10 @@ public object RootKt {
      * `.cmd.Lrf.Stop stop = 5;`
      */
     public var stop: cmd.Lrf.JonSharedCmdLrf.Stop
-      @JvmName("getStop")
-      get() = _builder.stop
-      @JvmName("setStop")
-      set(value) {
+      @kotlin.jvm.JvmName("getStop")
+        get() = _builder.stop
+      @kotlin.jvm.JvmName("setStop")
+        set(value) {
         _builder.stop = value
       }
     /**
@@ -152,10 +153,10 @@ public object RootKt {
      * `.cmd.Lrf.TargetDesignatorOff target_designator_off = 6;`
      */
     public var targetDesignatorOff: cmd.Lrf.JonSharedCmdLrf.TargetDesignatorOff
-      @JvmName("getTargetDesignatorOff")
-      get() = _builder.targetDesignatorOff
-      @JvmName("setTargetDesignatorOff")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetDesignatorOff")
+        get() = _builder.targetDesignatorOff
+      @kotlin.jvm.JvmName("setTargetDesignatorOff")
+        set(value) {
         _builder.targetDesignatorOff = value
       }
     /**
@@ -176,10 +177,10 @@ public object RootKt {
      * `.cmd.Lrf.TargetDesignatorOnModeA target_designator_on_mode_a = 7;`
      */
     public var targetDesignatorOnModeA: cmd.Lrf.JonSharedCmdLrf.TargetDesignatorOnModeA
-      @JvmName("getTargetDesignatorOnModeA")
-      get() = _builder.targetDesignatorOnModeA
-      @JvmName("setTargetDesignatorOnModeA")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetDesignatorOnModeA")
+        get() = _builder.targetDesignatorOnModeA
+      @kotlin.jvm.JvmName("setTargetDesignatorOnModeA")
+        set(value) {
         _builder.targetDesignatorOnModeA = value
       }
     /**
@@ -200,10 +201,10 @@ public object RootKt {
      * `.cmd.Lrf.TargetDesignatorOnModeB target_designator_on_mode_b = 8;`
      */
     public var targetDesignatorOnModeB: cmd.Lrf.JonSharedCmdLrf.TargetDesignatorOnModeB
-      @JvmName("getTargetDesignatorOnModeB")
-      get() = _builder.targetDesignatorOnModeB
-      @JvmName("setTargetDesignatorOnModeB")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetDesignatorOnModeB")
+        get() = _builder.targetDesignatorOnModeB
+      @kotlin.jvm.JvmName("setTargetDesignatorOnModeB")
+        set(value) {
         _builder.targetDesignatorOnModeB = value
       }
     /**
@@ -224,10 +225,10 @@ public object RootKt {
      * `.cmd.Lrf.EnableFogMode enable_fog_mode = 9;`
      */
     public var enableFogMode: cmd.Lrf.JonSharedCmdLrf.EnableFogMode
-      @JvmName("getEnableFogMode")
-      get() = _builder.enableFogMode
-      @JvmName("setEnableFogMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getEnableFogMode")
+        get() = _builder.enableFogMode
+      @kotlin.jvm.JvmName("setEnableFogMode")
+        set(value) {
         _builder.enableFogMode = value
       }
     /**
@@ -248,10 +249,10 @@ public object RootKt {
      * `.cmd.Lrf.DisableFogMode disable_fog_mode = 10;`
      */
     public var disableFogMode: cmd.Lrf.JonSharedCmdLrf.DisableFogMode
-      @JvmName("getDisableFogMode")
-      get() = _builder.disableFogMode
-      @JvmName("setDisableFogMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getDisableFogMode")
+        get() = _builder.disableFogMode
+      @kotlin.jvm.JvmName("setDisableFogMode")
+        set(value) {
         _builder.disableFogMode = value
       }
     /**
@@ -272,10 +273,10 @@ public object RootKt {
      * `.cmd.Lrf.SetScanMode set_scan_mode = 11;`
      */
     public var setScanMode: cmd.Lrf.JonSharedCmdLrf.SetScanMode
-      @JvmName("getSetScanMode")
-      get() = _builder.setScanMode
-      @JvmName("setSetScanMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetScanMode")
+        get() = _builder.setScanMode
+      @kotlin.jvm.JvmName("setSetScanMode")
+        set(value) {
         _builder.setScanMode = value
       }
     /**
@@ -296,10 +297,10 @@ public object RootKt {
      * `.cmd.Lrf.NewSession new_session = 12;`
      */
     public var newSession: cmd.Lrf.JonSharedCmdLrf.NewSession
-      @JvmName("getNewSession")
-      get() = _builder.newSession
-      @JvmName("setNewSession")
-      set(value) {
+      @kotlin.jvm.JvmName("getNewSession")
+        get() = _builder.newSession
+      @kotlin.jvm.JvmName("setNewSession")
+        set(value) {
         _builder.newSession = value
       }
     /**
@@ -320,10 +321,10 @@ public object RootKt {
      * `.cmd.Lrf.GetMeteo get_meteo = 13;`
      */
     public var getMeteo: cmd.Lrf.JonSharedCmdLrf.GetMeteo
-      @JvmName("getGetMeteo")
-      get() = _builder.getMeteo
-      @JvmName("setGetMeteo")
-      set(value) {
+      @kotlin.jvm.JvmName("getGetMeteo")
+        get() = _builder.getMeteo
+      @kotlin.jvm.JvmName("setGetMeteo")
+        set(value) {
         _builder.getMeteo = value
       }
     /**
@@ -344,10 +345,10 @@ public object RootKt {
      * `.cmd.Lrf.RefineOn refine_on = 14;`
      */
     public var refineOn: cmd.Lrf.JonSharedCmdLrf.RefineOn
-      @JvmName("getRefineOn")
-      get() = _builder.refineOn
-      @JvmName("setRefineOn")
-      set(value) {
+      @kotlin.jvm.JvmName("getRefineOn")
+        get() = _builder.refineOn
+      @kotlin.jvm.JvmName("setRefineOn")
+        set(value) {
         _builder.refineOn = value
       }
     /**
@@ -368,10 +369,10 @@ public object RootKt {
      * `.cmd.Lrf.RefineOff refine_off = 15;`
      */
     public var refineOff: cmd.Lrf.JonSharedCmdLrf.RefineOff
-      @JvmName("getRefineOff")
-      get() = _builder.refineOff
-      @JvmName("setRefineOff")
-      set(value) {
+      @kotlin.jvm.JvmName("getRefineOff")
+        get() = _builder.refineOff
+      @kotlin.jvm.JvmName("setRefineOff")
+        set(value) {
         _builder.refineOff = value
       }
     /**

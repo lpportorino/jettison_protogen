@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_heat_camera.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.HeatCamera;
@@ -32,10 +33,10 @@ public object TrackROIKt {
      * `double x1 = 1 [(.buf.validate.field) = { ... }`
      */
     public var x1: kotlin.Double
-      @JvmName("getX1")
-      get() = _builder.x1
-      @JvmName("setX1")
-      set(value) {
+      @kotlin.jvm.JvmName("getX1")
+        get() = _builder.x1
+      @kotlin.jvm.JvmName("setX1")
+        set(value) {
         _builder.x1 = value
       }
     /**
@@ -49,10 +50,10 @@ public object TrackROIKt {
      * `double y1 = 2 [(.buf.validate.field) = { ... }`
      */
     public var y1: kotlin.Double
-      @JvmName("getY1")
-      get() = _builder.y1
-      @JvmName("setY1")
-      set(value) {
+      @kotlin.jvm.JvmName("getY1")
+        get() = _builder.y1
+      @kotlin.jvm.JvmName("setY1")
+        set(value) {
         _builder.y1 = value
       }
     /**
@@ -66,10 +67,10 @@ public object TrackROIKt {
      * `double x2 = 3 [(.buf.validate.field) = { ... }`
      */
     public var x2: kotlin.Double
-      @JvmName("getX2")
-      get() = _builder.x2
-      @JvmName("setX2")
-      set(value) {
+      @kotlin.jvm.JvmName("getX2")
+        get() = _builder.x2
+      @kotlin.jvm.JvmName("setX2")
+        set(value) {
         _builder.x2 = value
       }
     /**
@@ -83,10 +84,10 @@ public object TrackROIKt {
      * `double y2 = 4 [(.buf.validate.field) = { ... }`
      */
     public var y2: kotlin.Double
-      @JvmName("getY2")
-      get() = _builder.y2
-      @JvmName("setY2")
-      set(value) {
+      @kotlin.jvm.JvmName("getY2")
+        get() = _builder.y2
+      @kotlin.jvm.JvmName("setY2")
+        set(value) {
         _builder.y2 = value
       }
     /**
@@ -104,10 +105,10 @@ public object TrackROIKt {
      * `uint64 frame_time = 5;`
      */
     public var frameTime: kotlin.Long
-      @JvmName("getFrameTime")
-      get() = _builder.frameTime
-      @JvmName("setFrameTime")
-      set(value) {
+      @kotlin.jvm.JvmName("getFrameTime")
+        get() = _builder.frameTime
+      @kotlin.jvm.JvmName("setFrameTime")
+        set(value) {
         _builder.frameTime = value
       }
     /**
@@ -129,10 +130,10 @@ public object TrackROIKt {
      * `uint64 state_time = 6;`
      */
     public var stateTime: kotlin.Long
-      @JvmName("getStateTime")
-      get() = _builder.stateTime
-      @JvmName("setStateTime")
-      set(value) {
+      @kotlin.jvm.JvmName("getStateTime")
+        get() = _builder.stateTime
+      @kotlin.jvm.JvmName("setStateTime")
+        set(value) {
         _builder.stateTime = value
       }
     /**

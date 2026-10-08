@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_cv_dump_archive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.cvdump;
@@ -48,10 +49,10 @@ public object VideoSegmentKt {
      * `uint32 sequence = 1;`
      */
     public var sequence: kotlin.Int
-      @JvmName("getSequence")
-      get() = _builder.sequence
-      @JvmName("setSequence")
-      set(value) {
+      @kotlin.jvm.JvmName("getSequence")
+        get() = _builder.sequence
+      @kotlin.jvm.JvmName("setSequence")
+        set(value) {
         _builder.sequence = value
       }
     /**
@@ -73,10 +74,10 @@ public object VideoSegmentKt {
      * `string path = 2;`
      */
     public var path: kotlin.String
-      @JvmName("getPath")
-      get() = _builder.path
-      @JvmName("setPath")
-      set(value) {
+      @kotlin.jvm.JvmName("getPath")
+        get() = _builder.path
+      @kotlin.jvm.JvmName("setPath")
+        set(value) {
         _builder.path = value
       }
     /**
@@ -94,10 +95,10 @@ public object VideoSegmentKt {
      * `uint64 bytes = 3;`
      */
     public var bytes: kotlin.Long
-      @JvmName("getBytes")
-      get() = _builder.bytes
-      @JvmName("setBytes")
-      set(value) {
+      @kotlin.jvm.JvmName("getBytes")
+        get() = _builder.bytes
+      @kotlin.jvm.JvmName("setBytes")
+        set(value) {
         _builder.bytes = value
       }
     /**
@@ -115,10 +116,10 @@ public object VideoSegmentKt {
      * `string sha256 = 4 [(.buf.validate.field) = { ... }`
      */
     public var sha256: kotlin.String
-      @JvmName("getSha256")
-      get() = _builder.sha256
-      @JvmName("setSha256")
-      set(value) {
+      @kotlin.jvm.JvmName("getSha256")
+        get() = _builder.sha256
+      @kotlin.jvm.JvmName("setSha256")
+        set(value) {
         _builder.sha256 = value
       }
     /**
@@ -140,10 +141,10 @@ public object VideoSegmentKt {
      * `int64 start_ns = 5;`
      */
     public var startNs: kotlin.Long
-      @JvmName("getStartNs")
-      get() = _builder.startNs
-      @JvmName("setStartNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getStartNs")
+        get() = _builder.startNs
+      @kotlin.jvm.JvmName("setStartNs")
+        set(value) {
         _builder.startNs = value
       }
     /**
@@ -165,10 +166,10 @@ public object VideoSegmentKt {
      * `int64 end_ns = 6;`
      */
     public var endNs: kotlin.Long
-      @JvmName("getEndNs")
-      get() = _builder.endNs
-      @JvmName("setEndNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getEndNs")
+        get() = _builder.endNs
+      @kotlin.jvm.JvmName("setEndNs")
+        set(value) {
         _builder.endNs = value
       }
     /**
@@ -192,10 +193,10 @@ public object VideoSegmentKt {
      * `bool open_end = 7;`
      */
     public var openEnd: kotlin.Boolean
-      @JvmName("getOpenEnd")
-      get() = _builder.openEnd
-      @JvmName("setOpenEnd")
-      set(value) {
+      @kotlin.jvm.JvmName("getOpenEnd")
+        get() = _builder.openEnd
+      @kotlin.jvm.JvmName("setOpenEnd")
+        set(value) {
         _builder.openEnd = value
       }
     /**

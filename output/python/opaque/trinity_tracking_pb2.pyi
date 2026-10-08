@@ -1,7 +1,8 @@
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
+from collections.abc import Mapping as _Mapping
+from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -71,7 +72,7 @@ class TrinityTracking(_message.Message):
     anchors_seen: int
     board_extent_px: float
     reprojection_rms_px: float
-    def __init__(self, board_version: _Optional[_Union[TrinityBoardVersion, _Mapping]] = ..., capture_time_ns: _Optional[int] = ..., status: _Optional[_Union[TrinityTrackingStatus, str]] = ..., position_x_m: _Optional[float] = ..., position_y_m: _Optional[float] = ..., position_z_m: _Optional[float] = ..., quat_w: _Optional[float] = ..., quat_x: _Optional[float] = ..., quat_y: _Optional[float] = ..., quat_z: _Optional[float] = ..., sigma_position_m: _Optional[float] = ..., sigma_range_m: _Optional[float] = ..., sigma_orientation_mrad: _Optional[float] = ..., ambiguity_resolved: bool = ..., alternate: _Optional[_Union[TrinityAltPose, _Mapping]] = ..., range_source: _Optional[_Union[TrinityRangeSource, str]] = ..., anchors_seen: _Optional[int] = ..., board_extent_px: _Optional[float] = ..., reprojection_rms_px: _Optional[float] = ...) -> None: ...
+    def __init__(self, board_version: _Optional[_Union[TrinityBoardVersion, _Mapping]] = ..., capture_time_ns: _Optional[int] = ..., status: _Optional[_Union[TrinityTrackingStatus, str]] = ..., position_x_m: _Optional[float] = ..., position_y_m: _Optional[float] = ..., position_z_m: _Optional[float] = ..., quat_w: _Optional[float] = ..., quat_x: _Optional[float] = ..., quat_y: _Optional[float] = ..., quat_z: _Optional[float] = ..., sigma_position_m: _Optional[float] = ..., sigma_range_m: _Optional[float] = ..., sigma_orientation_mrad: _Optional[float] = ..., ambiguity_resolved: _Optional[bool] = ..., alternate: _Optional[_Union[TrinityAltPose, _Mapping]] = ..., range_source: _Optional[_Union[TrinityRangeSource, str]] = ..., anchors_seen: _Optional[int] = ..., board_extent_px: _Optional[float] = ..., reprojection_rms_px: _Optional[float] = ...) -> None: ...
 
 class TrinityBoardVersion(_message.Message):
     __slots__ = ("family", "major", "minor", "geometry_sha256")

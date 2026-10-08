@@ -53,29 +53,29 @@ pub mod root {
         BridgeRestart(super::BridgeRestart),
     }
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct VampireModeEnable {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct DumpStart {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct DumpStop {}
 /// Empty on purpose: a shot is always BOTH channels (the artifact's value is
 /// that they are the same instant), every capture parameter already rides the
 /// ring's control block, and the operator note arrives later over
 /// PUT /note/{id} exactly as a dump's does.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct DumpShot {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct VampireModeDisable {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct StabilizationModeEnable {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct StabilizationModeDisable {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct RecognitionModeEnable {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct RecognitionModeDisable {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct SetAutoFocus {
     #[prost(enumeration = "super::super::ser::JonGuiDataVideoChannel", tag = "1")]
     pub channel: i32,
@@ -97,7 +97,7 @@ pub struct StartTrackNdc {
     #[prost(uint64, tag = "5")]
     pub state_time: u64,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct StopTrack {}
 /// Begin tracking the Ring-Trinity golden fiducial board.
 ///
@@ -105,7 +105,7 @@ pub struct StopTrack {}
 /// it is self-locating from its own geometry, so the operator does not have to put a
 /// cursor on it. There is exactly ONE board in a run, so no identity is needed to
 /// disambiguate between targets.
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct StartTrackTrinity {
     #[prost(enumeration = "super::super::ser::JonGuiDataVideoChannel", tag = "1")]
     pub channel: i32,
@@ -118,20 +118,20 @@ pub struct StartTrackTrinity {
     pub expect_board: ::core::option::Option<super::super::ser::TrinityBoardVersion>,
 }
 /// Stop tracking the Ring-Trinity board.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct StopTrackTrinity {}
 /// CV Bridge container control commands
 ///
 /// Starts the CV bridge container
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct BridgeStart {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct BridgeStop {
     /// If true, SIGKILL instead of SIGTERM
     #[prost(bool, tag = "1")]
     pub force: bool,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct BridgeRestart {
     /// If true, force stop before restart
     #[prost(bool, tag = "1")]

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -32,17 +33,17 @@ public object ScalePropsKt {
      * `.ui.ScaleMode mode = 1 [(.buf.validate.field) = { ... }`
      */
     public var mode: ui.UiAst.ScaleMode
-      @JvmName("getMode")
-      get() = _builder.mode
-      @JvmName("setMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getMode")
+        get() = _builder.mode
+      @kotlin.jvm.JvmName("setMode")
+        set(value) {
         _builder.mode = value
       }
     public var modeValue: kotlin.Int
-      @JvmName("getModeValue")
-      get() = _builder.modeValue
-      @JvmName("setModeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getModeValue")
+        get() = _builder.modeValue
+      @kotlin.jvm.JvmName("setModeValue")
+        set(value) {
         _builder.modeValue = value
       }
     /**
@@ -56,10 +57,10 @@ public object ScalePropsKt {
      * `uint32 total_tick_count = 2;`
      */
     public var totalTickCount: kotlin.Int
-      @JvmName("getTotalTickCount")
-      get() = _builder.totalTickCount
-      @JvmName("setTotalTickCount")
-      set(value) {
+      @kotlin.jvm.JvmName("getTotalTickCount")
+        get() = _builder.totalTickCount
+      @kotlin.jvm.JvmName("setTotalTickCount")
+        set(value) {
         _builder.totalTickCount = value
       }
     /**
@@ -73,10 +74,10 @@ public object ScalePropsKt {
      * `uint32 major_tick_every = 3;`
      */
     public var majorTickEvery: kotlin.Int
-      @JvmName("getMajorTickEvery")
-      get() = _builder.majorTickEvery
-      @JvmName("setMajorTickEvery")
-      set(value) {
+      @kotlin.jvm.JvmName("getMajorTickEvery")
+        get() = _builder.majorTickEvery
+      @kotlin.jvm.JvmName("setMajorTickEvery")
+        set(value) {
         _builder.majorTickEvery = value
       }
     /**
@@ -90,10 +91,10 @@ public object ScalePropsKt {
      * `bool label_show = 4;`
      */
     public var labelShow: kotlin.Boolean
-      @JvmName("getLabelShow")
-      get() = _builder.labelShow
-      @JvmName("setLabelShow")
-      set(value) {
+      @kotlin.jvm.JvmName("getLabelShow")
+        get() = _builder.labelShow
+      @kotlin.jvm.JvmName("setLabelShow")
+        set(value) {
         _builder.labelShow = value
       }
     /**
@@ -107,10 +108,10 @@ public object ScalePropsKt {
      * `int32 min_value = 5;`
      */
     public var minValue: kotlin.Int
-      @JvmName("getMinValue")
-      get() = _builder.minValue
-      @JvmName("setMinValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getMinValue")
+        get() = _builder.minValue
+      @kotlin.jvm.JvmName("setMinValue")
+        set(value) {
         _builder.minValue = value
       }
     /**
@@ -124,10 +125,10 @@ public object ScalePropsKt {
      * `int32 max_value = 6;`
      */
     public var maxValue: kotlin.Int
-      @JvmName("getMaxValue")
-      get() = _builder.maxValue
-      @JvmName("setMaxValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getMaxValue")
+        get() = _builder.maxValue
+      @kotlin.jvm.JvmName("setMaxValue")
+        set(value) {
         _builder.maxValue = value
       }
     /**
@@ -141,10 +142,10 @@ public object ScalePropsKt {
      * `int32 rotation = 7;`
      */
     public var rotation: kotlin.Int
-      @JvmName("getRotation")
-      get() = _builder.rotation
-      @JvmName("setRotation")
-      set(value) {
+      @kotlin.jvm.JvmName("getRotation")
+        get() = _builder.rotation
+      @kotlin.jvm.JvmName("setRotation")
+        set(value) {
         _builder.rotation = value
       }
     /**
@@ -158,10 +159,10 @@ public object ScalePropsKt {
      * `uint32 angle_range = 8 [(.buf.validate.field) = { ... }`
      */
     public var angleRange: kotlin.Int
-      @JvmName("getAngleRange")
-      get() = _builder.angleRange
-      @JvmName("setAngleRange")
-      set(value) {
+      @kotlin.jvm.JvmName("getAngleRange")
+        get() = _builder.angleRange
+      @kotlin.jvm.JvmName("setAngleRange")
+        set(value) {
         _builder.angleRange = value
       }
     /**
@@ -180,10 +181,10 @@ public object ScalePropsKt {
      * `string text_src = 9 [(.buf.validate.field) = { ... }`
      */
     public var textSrc: kotlin.String
-      @JvmName("getTextSrc")
-      get() = _builder.textSrc
-      @JvmName("setTextSrc")
-      set(value) {
+      @kotlin.jvm.JvmName("getTextSrc")
+        get() = _builder.textSrc
+      @kotlin.jvm.JvmName("setTextSrc")
+        set(value) {
         _builder.textSrc = value
       }
     /**
@@ -206,10 +207,10 @@ public object ScalePropsKt {
      * `bool post_draw = 10;`
      */
     public var postDraw: kotlin.Boolean
-      @JvmName("getPostDraw")
-      get() = _builder.postDraw
-      @JvmName("setPostDraw")
-      set(value) {
+      @kotlin.jvm.JvmName("getPostDraw")
+        get() = _builder.postDraw
+      @kotlin.jvm.JvmName("setPostDraw")
+        set(value) {
         _builder.postDraw = value
       }
     /**
@@ -238,7 +239,7 @@ public object ScalePropsKt {
      */
      public val sections: com.google.protobuf.kotlin.DslList<ui.UiAst.ScaleSection, SectionsProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.sectionsList
       )
     /**
@@ -250,7 +251,7 @@ public object ScalePropsKt {
      * @param value The sections to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addSections")
+@kotlin.jvm.JvmName("addSections")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.ScaleSection, SectionsProxy>.add(value: ui.UiAst.ScaleSection) {
       _builder.addSections(value)
     }
@@ -263,7 +264,7 @@ public object ScalePropsKt {
      * @param value The sections to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignSections")
+@kotlin.jvm.JvmName("plusAssignSections")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.ScaleSection, SectionsProxy>.plusAssign(value: ui.UiAst.ScaleSection) {
       add(value)
@@ -277,7 +278,7 @@ public object ScalePropsKt {
      * @param values The sections to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllSections")
+@kotlin.jvm.JvmName("addAllSections")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.ScaleSection, SectionsProxy>.addAll(values: kotlin.collections.Iterable<ui.UiAst.ScaleSection>) {
       _builder.addAllSections(values)
     }
@@ -290,7 +291,7 @@ public object ScalePropsKt {
      * @param values The sections to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllSections")
+@kotlin.jvm.JvmName("plusAssignAllSections")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.ScaleSection, SectionsProxy>.plusAssign(values: kotlin.collections.Iterable<ui.UiAst.ScaleSection>) {
       addAll(values)
@@ -305,7 +306,7 @@ public object ScalePropsKt {
      * @param value The sections to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setSections")
+@kotlin.jvm.JvmName("setSections")
     public operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.ScaleSection, SectionsProxy>.set(index: kotlin.Int, value: ui.UiAst.ScaleSection) {
       _builder.setSections(index, value)
     }
@@ -317,11 +318,10 @@ public object ScalePropsKt {
      * `repeated .ui.ScaleSection sections = 11 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearSections")
+@kotlin.jvm.JvmName("clearSections")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.ScaleSection, SectionsProxy>.clear() {
       _builder.clearSections()
     }
-
   }
 }
 @kotlin.jvm.JvmSynthetic

@@ -1,7 +1,8 @@
 import jon_shared_data_types_pb2 as _jon_shared_data_types_pb2
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
+from collections.abc import Mapping as _Mapping
+from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -31,4 +32,4 @@ class JonGuiDataGps(_message.Message):
     is_started: bool
     meteo: _jon_shared_data_types_pb2.JonGuiDataMeteo
     health: _jon_shared_data_types_pb2.JonGuiDataModuleHealth
-    def __init__(self, longitude: _Optional[float] = ..., latitude: _Optional[float] = ..., altitude: _Optional[float] = ..., manual_longitude: _Optional[float] = ..., manual_latitude: _Optional[float] = ..., manual_altitude: _Optional[float] = ..., fix_type: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataGpsFixType, str]] = ..., use_manual: bool = ..., timestamp: _Optional[int] = ..., is_started: bool = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ..., health: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataModuleHealth, _Mapping]] = ...) -> None: ...
+    def __init__(self, longitude: _Optional[float] = ..., latitude: _Optional[float] = ..., altitude: _Optional[float] = ..., manual_longitude: _Optional[float] = ..., manual_latitude: _Optional[float] = ..., manual_altitude: _Optional[float] = ..., fix_type: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataGpsFixType, str]] = ..., use_manual: _Optional[bool] = ..., timestamp: _Optional[int] = ..., is_started: _Optional[bool] = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ..., health: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataModuleHealth, _Mapping]] = ...) -> None: ...

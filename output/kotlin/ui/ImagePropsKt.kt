@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -32,10 +33,10 @@ public object ImagePropsKt {
      * `string src = 1 [(.buf.validate.field) = { ... }`
      */
     public var src: kotlin.String
-      @JvmName("getSrc")
-      get() = _builder.src
-      @JvmName("setSrc")
-      set(value) {
+      @kotlin.jvm.JvmName("getSrc")
+        get() = _builder.src
+      @kotlin.jvm.JvmName("setSrc")
+        set(value) {
         _builder.src = value
       }
     /**
@@ -53,10 +54,10 @@ public object ImagePropsKt {
      * `bool has_pivot = 2;`
      */
     public var hasPivot: kotlin.Boolean
-      @JvmName("getHasPivot")
-      get() = _builder.hasPivot
-      @JvmName("setHasPivot")
-      set(value) {
+      @kotlin.jvm.JvmName("getHasPivot")
+        get() = _builder.hasPivot
+      @kotlin.jvm.JvmName("setHasPivot")
+        set(value) {
         _builder.hasPivot = value
       }
     /**
@@ -74,10 +75,10 @@ public object ImagePropsKt {
      * `int32 pivot_x = 3;`
      */
     public var pivotX: kotlin.Int
-      @JvmName("getPivotX")
-      get() = _builder.pivotX
-      @JvmName("setPivotX")
-      set(value) {
+      @kotlin.jvm.JvmName("getPivotX")
+        get() = _builder.pivotX
+      @kotlin.jvm.JvmName("setPivotX")
+        set(value) {
         _builder.pivotX = value
       }
     /**
@@ -91,10 +92,10 @@ public object ImagePropsKt {
      * `int32 pivot_y = 4;`
      */
     public var pivotY: kotlin.Int
-      @JvmName("getPivotY")
-      get() = _builder.pivotY
-      @JvmName("setPivotY")
-      set(value) {
+      @kotlin.jvm.JvmName("getPivotY")
+        get() = _builder.pivotY
+      @kotlin.jvm.JvmName("setPivotY")
+        set(value) {
         _builder.pivotY = value
       }
     /**
@@ -112,10 +113,10 @@ public object ImagePropsKt {
      * `int32 rotation = 5;`
      */
     public var rotation: kotlin.Int
-      @JvmName("getRotation")
-      get() = _builder.rotation
-      @JvmName("setRotation")
-      set(value) {
+      @kotlin.jvm.JvmName("getRotation")
+        get() = _builder.rotation
+      @kotlin.jvm.JvmName("setRotation")
+        set(value) {
         _builder.rotation = value
       }
     /**

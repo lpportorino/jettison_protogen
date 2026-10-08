@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_cv_dump_archive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.cvdump;
@@ -41,10 +42,10 @@ public object ShotCaptureKt {
      * `string channel = 1 [(.buf.validate.field) = { ... }`
      */
     public var channel: kotlin.String
-      @JvmName("getChannel")
-      get() = _builder.channel
-      @JvmName("setChannel")
-      set(value) {
+      @kotlin.jvm.JvmName("getChannel")
+        get() = _builder.channel
+      @kotlin.jvm.JvmName("setChannel")
+        set(value) {
         _builder.channel = value
       }
     /**
@@ -62,10 +63,10 @@ public object ShotCaptureKt {
      * `uint32 generation = 2;`
      */
     public var generation: kotlin.Int
-      @JvmName("getGeneration")
-      get() = _builder.generation
-      @JvmName("setGeneration")
-      set(value) {
+      @kotlin.jvm.JvmName("getGeneration")
+        get() = _builder.generation
+      @kotlin.jvm.JvmName("setGeneration")
+        set(value) {
         _builder.generation = value
       }
     /**
@@ -79,10 +80,10 @@ public object ShotCaptureKt {
      * `uint64 pts_ns = 3;`
      */
     public var ptsNs: kotlin.Long
-      @JvmName("getPtsNs")
-      get() = _builder.ptsNs
-      @JvmName("setPtsNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getPtsNs")
+        get() = _builder.ptsNs
+      @kotlin.jvm.JvmName("setPtsNs")
+        set(value) {
         _builder.ptsNs = value
       }
     /**
@@ -100,10 +101,10 @@ public object ShotCaptureKt {
      * `uint64 capture_time_ns = 4;`
      */
     public var captureTimeNs: kotlin.Long
-      @JvmName("getCaptureTimeNs")
-      get() = _builder.captureTimeNs
-      @JvmName("setCaptureTimeNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getCaptureTimeNs")
+        get() = _builder.captureTimeNs
+      @kotlin.jvm.JvmName("setCaptureTimeNs")
+        set(value) {
         _builder.captureTimeNs = value
       }
     /**
@@ -125,10 +126,10 @@ public object ShotCaptureKt {
      * `bytes ctl_snapshot = 5;`
      */
     public var ctlSnapshot: com.google.protobuf.ByteString
-      @JvmName("getCtlSnapshot")
-      get() = _builder.ctlSnapshot
-      @JvmName("setCtlSnapshot")
-      set(value) {
+      @kotlin.jvm.JvmName("getCtlSnapshot")
+        get() = _builder.ctlSnapshot
+      @kotlin.jvm.JvmName("setCtlSnapshot")
+        set(value) {
         _builder.ctlSnapshot = value
       }
     /**
@@ -157,7 +158,7 @@ public object ShotCaptureKt {
      */
      public val planes: com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotPlane, PlanesProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.planesList
       )
     /**
@@ -169,7 +170,7 @@ public object ShotCaptureKt {
      * @param value The planes to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addPlanes")
+@kotlin.jvm.JvmName("addPlanes")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotPlane, PlanesProxy>.add(value: jon.cvdump.JonCvDumpArchive.ShotPlane) {
       _builder.addPlanes(value)
     }
@@ -182,7 +183,7 @@ public object ShotCaptureKt {
      * @param value The planes to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignPlanes")
+@kotlin.jvm.JvmName("plusAssignPlanes")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotPlane, PlanesProxy>.plusAssign(value: jon.cvdump.JonCvDumpArchive.ShotPlane) {
       add(value)
@@ -196,7 +197,7 @@ public object ShotCaptureKt {
      * @param values The planes to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllPlanes")
+@kotlin.jvm.JvmName("addAllPlanes")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotPlane, PlanesProxy>.addAll(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.ShotPlane>) {
       _builder.addAllPlanes(values)
     }
@@ -209,7 +210,7 @@ public object ShotCaptureKt {
      * @param values The planes to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllPlanes")
+@kotlin.jvm.JvmName("plusAssignAllPlanes")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotPlane, PlanesProxy>.plusAssign(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.ShotPlane>) {
       addAll(values)
@@ -224,7 +225,7 @@ public object ShotCaptureKt {
      * @param value The planes to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setPlanes")
+@kotlin.jvm.JvmName("setPlanes")
     public operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotPlane, PlanesProxy>.set(index: kotlin.Int, value: jon.cvdump.JonCvDumpArchive.ShotPlane) {
       _builder.setPlanes(index, value)
     }
@@ -236,20 +237,19 @@ public object ShotCaptureKt {
      * `repeated .jon.cvdump.ShotPlane planes = 6;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearPlanes")
+@kotlin.jvm.JvmName("clearPlanes")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotPlane, PlanesProxy>.clear() {
       _builder.clearPlanes()
     }
-
 
     /**
      * `string absent_reason = 7;`
      */
     public var absentReason: kotlin.String
-      @JvmName("getAbsentReason")
-      get() = _builder.absentReason
-      @JvmName("setAbsentReason")
-      set(value) {
+      @kotlin.jvm.JvmName("getAbsentReason")
+        get() = _builder.absentReason
+      @kotlin.jvm.JvmName("setAbsentReason")
+        set(value) {
         _builder.absentReason = value
       }
     /**

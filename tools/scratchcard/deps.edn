@@ -34,7 +34,7 @@
 ;; codegen pipeline needs it.
 {:paths ["src"]
 
- :deps {org.clojure/clojure {:mvn/version "1.12.5"}
+ :deps {org.clojure/clojure {:mvn/version "1.12.6"}
         protogen/renderer-gen {:local/root "../renderer-gen"}
         protogen/devcards {:local/root "../devcards"}}
 

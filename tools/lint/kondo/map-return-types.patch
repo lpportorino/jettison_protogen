@@ -1,0 +1,69 @@
+--- a/clj_kondo/impl/types.clj
++++ b/clj_kondo/impl/types.clj
+@@ -488,9 +488,9 @@
+                                                         nm))}
+                 (let [t (:tag arg-type)
+                       nm (:name call)]
+-                  (cond (:req t)
+-                        {:tag (get (:req (:tag arg-type))
+-                               nm)}
++                  (cond (identical? :keys (:op t))
++                        {:tag (type-utils/map-kw-lookup
++                               (type-utils/resolve-arg-type ctx t) nm)}
+                         ;; keyword access on provable nil is nil
+                         (identical? :nil t)
+                         {:tag :nil}
+--- a/clj_kondo/impl/types/utils.clj
++++ b/clj_kondo/impl/types/utils.clj
+@@ -23,7 +23,7 @@
+                      ;; belongs in this one rather than nested inside it
+                      (into #{} (mapcat #(if (set? %) % [%])) ks)))
+         (map? t) (if (identical? :map (:type t))
+-                   :map
++                   (if (:nilable t) #{:nil :map} :map)
+                    (some-> (or (:type t) (:tag t)) truthiness-tag))))
+ 
+ (defn truthy-keyword?
+@@ -139,7 +139,8 @@
+                       (remove #(contains? #{:true :false} (mtag %)))
+                       (contains? tags :truthy)
+                       (remove #(and (truthy-keyword? (mtag %))
+-                                    (not (identical? :truthy (mtag %))))))
++                                    (not (identical? :truthy (mtag %)))
++                                    (not (:nilable %)))))
+                   t (if (set? t) t (set t))]
+               (if (= 1 (count t)) (first t) t))))))
+ 
+@@ -172,7 +173,8 @@
+   one."
+   [t kw-call]
+   (if-let [e (find (:val t) kw-call)]
+-    (:tag (val e))
++    (cond-> (:tag (val e))
++      (:nilable t) (union-type :nil))
+     (when-not (:open t) :nil)))
+ 
+ (defn resolve-arg-type
+@@ -260,11 +262,17 @@
+                        (when-let [op (:op arg-type)]
+                          (when (identical? op :keys)
+                            {:type :map
+-                            :val (->> (:req arg-type)
+-                                      (mapv (fn [[k v]]
+-                                              [k (merge {:tag (resolve-arg-type idacs v seen-calls)}
+-                                                        (select-keys arg-type [:row :col :end-row :end-col]))]))
+-                                      (into {}))}))
++                            :open true
++                            :nilable (:nilable arg-type)
++                            :val (reduce-kv
++                                  (fn [entries k v]
++                                    (let [tag (resolve-arg-type idacs v seen-calls)
++                                          optional? (not (contains? (:req arg-type) k))]
++                                      (assoc entries k
++                                             (assoc (select-keys arg-type [:row :col :end-row :end-col])
++                                                    :tag (if optional? (union-type tag :nil) tag)))))
++                                  {}
++                                  (merge (:opt arg-type) (:req arg-type)))}))
+                        :any)
+                    (nil? arg-type) :any)]
+          ;; (prn arg-type '-> ret)

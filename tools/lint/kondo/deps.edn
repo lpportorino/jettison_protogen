@@ -1,0 +1,6 @@
+{:paths ["test"]
+ :deps {org.clojure/clojure {:mvn/version "1.12.6"}
+        metosin/malli {:mvn/version "0.20.3"}
+        clj-kondo/clj-kondo {:local/root "clj-kondo-2026.08.04-protogen.1.jar"}}
+ :aliases {:stock {:override-deps {clj-kondo/clj-kondo {:mvn/version "2026.08.04"}}}
+           :test {:main-opts ["-m" "lint-gate.kondo-types-test"]}}}

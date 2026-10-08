@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_pmu.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.PMU;
@@ -32,10 +33,10 @@ public object RootKt {
      * `.cmd.PMU.Start start = 1;`
      */
     public var start: cmd.PMU.JonSharedCmdPmu.Start
-      @JvmName("getStart")
-      get() = _builder.start
-      @JvmName("setStart")
-      set(value) {
+      @kotlin.jvm.JvmName("getStart")
+        get() = _builder.start
+      @kotlin.jvm.JvmName("setStart")
+        set(value) {
         _builder.start = value
       }
     /**
@@ -56,10 +57,10 @@ public object RootKt {
      * `.cmd.PMU.Stop stop = 2;`
      */
     public var stop: cmd.PMU.JonSharedCmdPmu.Stop
-      @JvmName("getStop")
-      get() = _builder.stop
-      @JvmName("setStop")
-      set(value) {
+      @kotlin.jvm.JvmName("getStop")
+        get() = _builder.stop
+      @kotlin.jvm.JvmName("setStop")
+        set(value) {
         _builder.stop = value
       }
     /**
@@ -80,10 +81,10 @@ public object RootKt {
      * `.cmd.PMU.TurnOn turn_on = 3;`
      */
     public var turnOn: cmd.PMU.JonSharedCmdPmu.TurnOn
-      @JvmName("getTurnOn")
-      get() = _builder.turnOn
-      @JvmName("setTurnOn")
-      set(value) {
+      @kotlin.jvm.JvmName("getTurnOn")
+        get() = _builder.turnOn
+      @kotlin.jvm.JvmName("setTurnOn")
+        set(value) {
         _builder.turnOn = value
       }
     /**
@@ -104,10 +105,10 @@ public object RootKt {
      * `.cmd.PMU.TurnOff turn_off = 4;`
      */
     public var turnOff: cmd.PMU.JonSharedCmdPmu.TurnOff
-      @JvmName("getTurnOff")
-      get() = _builder.turnOff
-      @JvmName("setTurnOff")
-      set(value) {
+      @kotlin.jvm.JvmName("getTurnOff")
+        get() = _builder.turnOff
+      @kotlin.jvm.JvmName("setTurnOff")
+        set(value) {
         _builder.turnOff = value
       }
     /**
@@ -128,10 +129,10 @@ public object RootKt {
      * `.cmd.PMU.GetMeteo get_meteo = 5;`
      */
     public var getMeteo: cmd.PMU.JonSharedCmdPmu.GetMeteo
-      @JvmName("getGetMeteo")
-      get() = _builder.getMeteo
-      @JvmName("setGetMeteo")
-      set(value) {
+      @kotlin.jvm.JvmName("getGetMeteo")
+        get() = _builder.getMeteo
+      @kotlin.jvm.JvmName("setGetMeteo")
+        set(value) {
         _builder.getMeteo = value
       }
     /**
@@ -152,10 +153,10 @@ public object RootKt {
      * `.cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;`
      */
     public var getHeaterPowerState: cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState
-      @JvmName("getGetHeaterPowerState")
-      get() = _builder.getHeaterPowerState
-      @JvmName("setGetHeaterPowerState")
-      set(value) {
+      @kotlin.jvm.JvmName("getGetHeaterPowerState")
+        get() = _builder.getHeaterPowerState
+      @kotlin.jvm.JvmName("setGetHeaterPowerState")
+        set(value) {
         _builder.getHeaterPowerState = value
       }
     /**
@@ -176,10 +177,10 @@ public object RootKt {
      * `.cmd.PMU.PowerOff power_off = 7;`
      */
     public var powerOff: cmd.PMU.JonSharedCmdPmu.PowerOff
-      @JvmName("getPowerOff")
-      get() = _builder.powerOff
-      @JvmName("setPowerOff")
-      set(value) {
+      @kotlin.jvm.JvmName("getPowerOff")
+        get() = _builder.powerOff
+      @kotlin.jvm.JvmName("setPowerOff")
+        set(value) {
         _builder.powerOff = value
       }
     /**
@@ -200,10 +201,10 @@ public object RootKt {
      * `.cmd.PMU.ChargeEnable charge_enable = 8;`
      */
     public var chargeEnable: cmd.PMU.JonSharedCmdPmu.ChargeEnable
-      @JvmName("getChargeEnable")
-      get() = _builder.chargeEnable
-      @JvmName("setChargeEnable")
-      set(value) {
+      @kotlin.jvm.JvmName("getChargeEnable")
+        get() = _builder.chargeEnable
+      @kotlin.jvm.JvmName("setChargeEnable")
+        set(value) {
         _builder.chargeEnable = value
       }
     /**
@@ -224,10 +225,10 @@ public object RootKt {
      * `.cmd.PMU.ChargeDisable charge_disable = 9;`
      */
     public var chargeDisable: cmd.PMU.JonSharedCmdPmu.ChargeDisable
-      @JvmName("getChargeDisable")
-      get() = _builder.chargeDisable
-      @JvmName("setChargeDisable")
-      set(value) {
+      @kotlin.jvm.JvmName("getChargeDisable")
+        get() = _builder.chargeDisable
+      @kotlin.jvm.JvmName("setChargeDisable")
+        set(value) {
         _builder.chargeDisable = value
       }
     /**
@@ -248,10 +249,10 @@ public object RootKt {
      * `.cmd.PMU.BootHeater boot_heater = 10;`
      */
     public var bootHeater: cmd.PMU.JonSharedCmdPmu.BootHeater
-      @JvmName("getBootHeater")
-      get() = _builder.bootHeater
-      @JvmName("setBootHeater")
-      set(value) {
+      @kotlin.jvm.JvmName("getBootHeater")
+        get() = _builder.bootHeater
+      @kotlin.jvm.JvmName("setBootHeater")
+        set(value) {
         _builder.bootHeater = value
       }
     /**
@@ -272,10 +273,10 @@ public object RootKt {
      * `.cmd.PMU.GetDataU1 get_data_u1 = 11;`
      */
     public var getDataU1: cmd.PMU.JonSharedCmdPmu.GetDataU1
-      @JvmName("getGetDataU1")
-      get() = _builder.getDataU1
-      @JvmName("setGetDataU1")
-      set(value) {
+      @kotlin.jvm.JvmName("getGetDataU1")
+        get() = _builder.getDataU1
+      @kotlin.jvm.JvmName("setGetDataU1")
+        set(value) {
         _builder.getDataU1 = value
       }
     /**

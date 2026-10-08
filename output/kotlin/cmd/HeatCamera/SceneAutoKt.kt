@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_heat_camera.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.HeatCamera;
@@ -53,10 +54,10 @@ public object SceneAutoKt {
      * `bool enable = 1;`
      */
     public var enable: kotlin.Boolean
-      @JvmName("getEnable")
-      get() = _builder.enable
-      @JvmName("setEnable")
-      set(value) {
+      @kotlin.jvm.JvmName("getEnable")
+        get() = _builder.enable
+      @kotlin.jvm.JvmName("setEnable")
+        set(value) {
         _builder.enable = value
       }
     /**

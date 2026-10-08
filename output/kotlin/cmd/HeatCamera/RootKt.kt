@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_heat_camera.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.HeatCamera;
@@ -32,10 +33,10 @@ public object RootKt {
      * `.cmd.HeatCamera.Zoom zoom = 1;`
      */
     public var zoom: cmd.HeatCamera.JonSharedCmdHeatCamera.Zoom
-      @JvmName("getZoom")
-      get() = _builder.zoom
-      @JvmName("setZoom")
-      set(value) {
+      @kotlin.jvm.JvmName("getZoom")
+        get() = _builder.zoom
+      @kotlin.jvm.JvmName("setZoom")
+        set(value) {
         _builder.zoom = value
       }
     /**
@@ -56,10 +57,10 @@ public object RootKt {
      * `.cmd.HeatCamera.SetAGC set_agc = 2;`
      */
     public var setAgc: cmd.HeatCamera.JonSharedCmdHeatCamera.SetAGC
-      @JvmName("getSetAgc")
-      get() = _builder.setAgc
-      @JvmName("setSetAgc")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetAgc")
+        get() = _builder.setAgc
+      @kotlin.jvm.JvmName("setSetAgc")
+        set(value) {
         _builder.setAgc = value
       }
     /**
@@ -80,10 +81,10 @@ public object RootKt {
      * `.cmd.HeatCamera.SetFilters set_filter = 3;`
      */
     public var setFilter: cmd.HeatCamera.JonSharedCmdHeatCamera.SetFilters
-      @JvmName("getSetFilter")
-      get() = _builder.setFilter
-      @JvmName("setSetFilter")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetFilter")
+        get() = _builder.setFilter
+      @kotlin.jvm.JvmName("setSetFilter")
+        set(value) {
         _builder.setFilter = value
       }
     /**
@@ -104,10 +105,10 @@ public object RootKt {
      * `.cmd.HeatCamera.Start start = 4;`
      */
     public var start: cmd.HeatCamera.JonSharedCmdHeatCamera.Start
-      @JvmName("getStart")
-      get() = _builder.start
-      @JvmName("setStart")
-      set(value) {
+      @kotlin.jvm.JvmName("getStart")
+        get() = _builder.start
+      @kotlin.jvm.JvmName("setStart")
+        set(value) {
         _builder.start = value
       }
     /**
@@ -128,10 +129,10 @@ public object RootKt {
      * `.cmd.HeatCamera.Stop stop = 5;`
      */
     public var stop: cmd.HeatCamera.JonSharedCmdHeatCamera.Stop
-      @JvmName("getStop")
-      get() = _builder.stop
-      @JvmName("setStop")
-      set(value) {
+      @kotlin.jvm.JvmName("getStop")
+        get() = _builder.stop
+      @kotlin.jvm.JvmName("setStop")
+        set(value) {
         _builder.stop = value
       }
     /**
@@ -152,10 +153,10 @@ public object RootKt {
      * `.cmd.HeatCamera.Photo photo = 6;`
      */
     public var photo: cmd.HeatCamera.JonSharedCmdHeatCamera.Photo
-      @JvmName("getPhoto")
-      get() = _builder.photo
-      @JvmName("setPhoto")
-      set(value) {
+      @kotlin.jvm.JvmName("getPhoto")
+        get() = _builder.photo
+      @kotlin.jvm.JvmName("setPhoto")
+        set(value) {
         _builder.photo = value
       }
     /**
@@ -176,10 +177,10 @@ public object RootKt {
      * `.cmd.HeatCamera.ZoomIn zoom_in = 10;`
      */
     public var zoomIn: cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomIn
-      @JvmName("getZoomIn")
-      get() = _builder.zoomIn
-      @JvmName("setZoomIn")
-      set(value) {
+      @kotlin.jvm.JvmName("getZoomIn")
+        get() = _builder.zoomIn
+      @kotlin.jvm.JvmName("setZoomIn")
+        set(value) {
         _builder.zoomIn = value
       }
     /**
@@ -200,10 +201,10 @@ public object RootKt {
      * `.cmd.HeatCamera.ZoomOut zoom_out = 11;`
      */
     public var zoomOut: cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomOut
-      @JvmName("getZoomOut")
-      get() = _builder.zoomOut
-      @JvmName("setZoomOut")
-      set(value) {
+      @kotlin.jvm.JvmName("getZoomOut")
+        get() = _builder.zoomOut
+      @kotlin.jvm.JvmName("setZoomOut")
+        set(value) {
         _builder.zoomOut = value
       }
     /**
@@ -224,10 +225,10 @@ public object RootKt {
      * `.cmd.HeatCamera.ZoomStop zoom_stop = 12;`
      */
     public var zoomStop: cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomStop
-      @JvmName("getZoomStop")
-      get() = _builder.zoomStop
-      @JvmName("setZoomStop")
-      set(value) {
+      @kotlin.jvm.JvmName("getZoomStop")
+        get() = _builder.zoomStop
+      @kotlin.jvm.JvmName("setZoomStop")
+        set(value) {
         _builder.zoomStop = value
       }
     /**
@@ -248,10 +249,10 @@ public object RootKt {
      * `.cmd.HeatCamera.FocusIn focus_in = 13;`
      */
     public var focusIn: cmd.HeatCamera.JonSharedCmdHeatCamera.FocusIn
-      @JvmName("getFocusIn")
-      get() = _builder.focusIn
-      @JvmName("setFocusIn")
-      set(value) {
+      @kotlin.jvm.JvmName("getFocusIn")
+        get() = _builder.focusIn
+      @kotlin.jvm.JvmName("setFocusIn")
+        set(value) {
         _builder.focusIn = value
       }
     /**
@@ -272,10 +273,10 @@ public object RootKt {
      * `.cmd.HeatCamera.FocusOut focus_out = 14;`
      */
     public var focusOut: cmd.HeatCamera.JonSharedCmdHeatCamera.FocusOut
-      @JvmName("getFocusOut")
-      get() = _builder.focusOut
-      @JvmName("setFocusOut")
-      set(value) {
+      @kotlin.jvm.JvmName("getFocusOut")
+        get() = _builder.focusOut
+      @kotlin.jvm.JvmName("setFocusOut")
+        set(value) {
         _builder.focusOut = value
       }
     /**
@@ -296,10 +297,10 @@ public object RootKt {
      * `.cmd.HeatCamera.FocusStop focus_stop = 15;`
      */
     public var focusStop: cmd.HeatCamera.JonSharedCmdHeatCamera.FocusStop
-      @JvmName("getFocusStop")
-      get() = _builder.focusStop
-      @JvmName("setFocusStop")
-      set(value) {
+      @kotlin.jvm.JvmName("getFocusStop")
+        get() = _builder.focusStop
+      @kotlin.jvm.JvmName("setFocusStop")
+        set(value) {
         _builder.focusStop = value
       }
     /**
@@ -320,10 +321,10 @@ public object RootKt {
      * `.cmd.HeatCamera.Calibrate calibrate = 16;`
      */
     public var calibrate: cmd.HeatCamera.JonSharedCmdHeatCamera.Calibrate
-      @JvmName("getCalibrate")
-      get() = _builder.calibrate
-      @JvmName("setCalibrate")
-      set(value) {
+      @kotlin.jvm.JvmName("getCalibrate")
+        get() = _builder.calibrate
+      @kotlin.jvm.JvmName("setCalibrate")
+        set(value) {
         _builder.calibrate = value
       }
     /**
@@ -344,10 +345,10 @@ public object RootKt {
      * `.cmd.HeatCamera.SetDDELevel set_dde_level = 17;`
      */
     public var setDdeLevel: cmd.HeatCamera.JonSharedCmdHeatCamera.SetDDELevel
-      @JvmName("getSetDdeLevel")
-      get() = _builder.setDdeLevel
-      @JvmName("setSetDdeLevel")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetDdeLevel")
+        get() = _builder.setDdeLevel
+      @kotlin.jvm.JvmName("setSetDdeLevel")
+        set(value) {
         _builder.setDdeLevel = value
       }
     /**
@@ -368,10 +369,10 @@ public object RootKt {
      * `.cmd.HeatCamera.EnableDDE enable_dde = 18;`
      */
     public var enableDde: cmd.HeatCamera.JonSharedCmdHeatCamera.EnableDDE
-      @JvmName("getEnableDde")
-      get() = _builder.enableDde
-      @JvmName("setEnableDde")
-      set(value) {
+      @kotlin.jvm.JvmName("getEnableDde")
+        get() = _builder.enableDde
+      @kotlin.jvm.JvmName("setEnableDde")
+        set(value) {
         _builder.enableDde = value
       }
     /**
@@ -392,10 +393,10 @@ public object RootKt {
      * `.cmd.HeatCamera.DisableDDE disable_dde = 19;`
      */
     public var disableDde: cmd.HeatCamera.JonSharedCmdHeatCamera.DisableDDE
-      @JvmName("getDisableDde")
-      get() = _builder.disableDde
-      @JvmName("setDisableDde")
-      set(value) {
+      @kotlin.jvm.JvmName("getDisableDde")
+        get() = _builder.disableDde
+      @kotlin.jvm.JvmName("setDisableDde")
+        set(value) {
         _builder.disableDde = value
       }
     /**
@@ -416,10 +417,10 @@ public object RootKt {
      * `.cmd.HeatCamera.SetAutoFocus set_auto_focus = 20;`
      */
     public var setAutoFocus: cmd.HeatCamera.JonSharedCmdHeatCamera.SetAutoFocus
-      @JvmName("getSetAutoFocus")
-      get() = _builder.setAutoFocus
-      @JvmName("setSetAutoFocus")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetAutoFocus")
+        get() = _builder.setAutoFocus
+      @kotlin.jvm.JvmName("setSetAutoFocus")
+        set(value) {
         _builder.setAutoFocus = value
       }
     /**
@@ -440,10 +441,10 @@ public object RootKt {
      * `.cmd.HeatCamera.FocusStepPlus focus_step_plus = 21;`
      */
     public var focusStepPlus: cmd.HeatCamera.JonSharedCmdHeatCamera.FocusStepPlus
-      @JvmName("getFocusStepPlus")
-      get() = _builder.focusStepPlus
-      @JvmName("setFocusStepPlus")
-      set(value) {
+      @kotlin.jvm.JvmName("getFocusStepPlus")
+        get() = _builder.focusStepPlus
+      @kotlin.jvm.JvmName("setFocusStepPlus")
+        set(value) {
         _builder.focusStepPlus = value
       }
     /**
@@ -464,10 +465,10 @@ public object RootKt {
      * `.cmd.HeatCamera.FocusStepMinus focus_step_minus = 22;`
      */
     public var focusStepMinus: cmd.HeatCamera.JonSharedCmdHeatCamera.FocusStepMinus
-      @JvmName("getFocusStepMinus")
-      get() = _builder.focusStepMinus
-      @JvmName("setFocusStepMinus")
-      set(value) {
+      @kotlin.jvm.JvmName("getFocusStepMinus")
+        get() = _builder.focusStepMinus
+      @kotlin.jvm.JvmName("setFocusStepMinus")
+        set(value) {
         _builder.focusStepMinus = value
       }
     /**
@@ -488,10 +489,10 @@ public object RootKt {
      * `.cmd.HeatCamera.SetFxMode set_fx_mode = 23;`
      */
     public var setFxMode: cmd.HeatCamera.JonSharedCmdHeatCamera.SetFxMode
-      @JvmName("getSetFxMode")
-      get() = _builder.setFxMode
-      @JvmName("setSetFxMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetFxMode")
+        get() = _builder.setFxMode
+      @kotlin.jvm.JvmName("setSetFxMode")
+        set(value) {
         _builder.setFxMode = value
       }
     /**
@@ -512,10 +513,10 @@ public object RootKt {
      * `.cmd.HeatCamera.NextFxMode next_fx_mode = 24;`
      */
     public var nextFxMode: cmd.HeatCamera.JonSharedCmdHeatCamera.NextFxMode
-      @JvmName("getNextFxMode")
-      get() = _builder.nextFxMode
-      @JvmName("setNextFxMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getNextFxMode")
+        get() = _builder.nextFxMode
+      @kotlin.jvm.JvmName("setNextFxMode")
+        set(value) {
         _builder.nextFxMode = value
       }
     /**
@@ -536,10 +537,10 @@ public object RootKt {
      * `.cmd.HeatCamera.PrevFxMode prev_fx_mode = 25;`
      */
     public var prevFxMode: cmd.HeatCamera.JonSharedCmdHeatCamera.PrevFxMode
-      @JvmName("getPrevFxMode")
-      get() = _builder.prevFxMode
-      @JvmName("setPrevFxMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getPrevFxMode")
+        get() = _builder.prevFxMode
+      @kotlin.jvm.JvmName("setPrevFxMode")
+        set(value) {
         _builder.prevFxMode = value
       }
     /**
@@ -560,10 +561,10 @@ public object RootKt {
      * `.cmd.HeatCamera.GetMeteo get_meteo = 26;`
      */
     public var getMeteo: cmd.HeatCamera.JonSharedCmdHeatCamera.GetMeteo
-      @JvmName("getGetMeteo")
-      get() = _builder.getMeteo
-      @JvmName("setGetMeteo")
-      set(value) {
+      @kotlin.jvm.JvmName("getGetMeteo")
+        get() = _builder.getMeteo
+      @kotlin.jvm.JvmName("setGetMeteo")
+        set(value) {
         _builder.getMeteo = value
       }
     /**
@@ -584,10 +585,10 @@ public object RootKt {
      * `.cmd.HeatCamera.ShiftDDE shift_dde = 27;`
      */
     public var shiftDde: cmd.HeatCamera.JonSharedCmdHeatCamera.ShiftDDE
-      @JvmName("getShiftDde")
-      get() = _builder.shiftDde
-      @JvmName("setShiftDde")
-      set(value) {
+      @kotlin.jvm.JvmName("getShiftDde")
+        get() = _builder.shiftDde
+      @kotlin.jvm.JvmName("setShiftDde")
+        set(value) {
         _builder.shiftDde = value
       }
     /**
@@ -608,10 +609,10 @@ public object RootKt {
      * `.cmd.HeatCamera.RefreshFxMode refresh_fx_mode = 28;`
      */
     public var refreshFxMode: cmd.HeatCamera.JonSharedCmdHeatCamera.RefreshFxMode
-      @JvmName("getRefreshFxMode")
-      get() = _builder.refreshFxMode
-      @JvmName("setRefreshFxMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getRefreshFxMode")
+        get() = _builder.refreshFxMode
+      @kotlin.jvm.JvmName("setRefreshFxMode")
+        set(value) {
         _builder.refreshFxMode = value
       }
     /**
@@ -632,10 +633,10 @@ public object RootKt {
      * `.cmd.HeatCamera.ResetZoom reset_zoom = 29;`
      */
     public var resetZoom: cmd.HeatCamera.JonSharedCmdHeatCamera.ResetZoom
-      @JvmName("getResetZoom")
-      get() = _builder.resetZoom
-      @JvmName("setResetZoom")
-      set(value) {
+      @kotlin.jvm.JvmName("getResetZoom")
+        get() = _builder.resetZoom
+      @kotlin.jvm.JvmName("setResetZoom")
+        set(value) {
         _builder.resetZoom = value
       }
     /**
@@ -656,10 +657,10 @@ public object RootKt {
      * `.cmd.HeatCamera.SaveToTable save_to_table = 30;`
      */
     public var saveToTable: cmd.HeatCamera.JonSharedCmdHeatCamera.SaveToTable
-      @JvmName("getSaveToTable")
-      get() = _builder.saveToTable
-      @JvmName("setSaveToTable")
-      set(value) {
+      @kotlin.jvm.JvmName("getSaveToTable")
+        get() = _builder.saveToTable
+      @kotlin.jvm.JvmName("setSaveToTable")
+        set(value) {
         _builder.saveToTable = value
       }
     /**
@@ -680,10 +681,10 @@ public object RootKt {
      * `.cmd.HeatCamera.SetCalibMode set_calib_mode = 31;`
      */
     public var setCalibMode: cmd.HeatCamera.JonSharedCmdHeatCamera.SetCalibMode
-      @JvmName("getSetCalibMode")
-      get() = _builder.setCalibMode
-      @JvmName("setSetCalibMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetCalibMode")
+        get() = _builder.setCalibMode
+      @kotlin.jvm.JvmName("setSetCalibMode")
+        set(value) {
         _builder.setCalibMode = value
       }
     /**
@@ -704,10 +705,10 @@ public object RootKt {
      * `.cmd.HeatCamera.SetDigitalZoomLevel set_digital_zoom_level = 32;`
      */
     public var setDigitalZoomLevel: cmd.HeatCamera.JonSharedCmdHeatCamera.SetDigitalZoomLevel
-      @JvmName("getSetDigitalZoomLevel")
-      get() = _builder.setDigitalZoomLevel
-      @JvmName("setSetDigitalZoomLevel")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetDigitalZoomLevel")
+        get() = _builder.setDigitalZoomLevel
+      @kotlin.jvm.JvmName("setSetDigitalZoomLevel")
+        set(value) {
         _builder.setDigitalZoomLevel = value
       }
     /**
@@ -728,10 +729,10 @@ public object RootKt {
      * `.cmd.HeatCamera.SetClaheLevel set_clahe_level = 33;`
      */
     public var setClaheLevel: cmd.HeatCamera.JonSharedCmdHeatCamera.SetClaheLevel
-      @JvmName("getSetClaheLevel")
-      get() = _builder.setClaheLevel
-      @JvmName("setSetClaheLevel")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetClaheLevel")
+        get() = _builder.setClaheLevel
+      @kotlin.jvm.JvmName("setSetClaheLevel")
+        set(value) {
         _builder.setClaheLevel = value
       }
     /**
@@ -752,10 +753,10 @@ public object RootKt {
      * `.cmd.HeatCamera.ShiftClaheLevel shift_clahe_level = 34;`
      */
     public var shiftClaheLevel: cmd.HeatCamera.JonSharedCmdHeatCamera.ShiftClaheLevel
-      @JvmName("getShiftClaheLevel")
-      get() = _builder.shiftClaheLevel
-      @JvmName("setShiftClaheLevel")
-      set(value) {
+      @kotlin.jvm.JvmName("getShiftClaheLevel")
+        get() = _builder.shiftClaheLevel
+      @kotlin.jvm.JvmName("setShiftClaheLevel")
+        set(value) {
         _builder.shiftClaheLevel = value
       }
     /**
@@ -776,10 +777,10 @@ public object RootKt {
      * `.cmd.HeatCamera.FocusROI focus_roi = 35;`
      */
     public var focusRoi: cmd.HeatCamera.JonSharedCmdHeatCamera.FocusROI
-      @JvmName("getFocusRoi")
-      get() = _builder.focusRoi
-      @JvmName("setFocusRoi")
-      set(value) {
+      @kotlin.jvm.JvmName("getFocusRoi")
+        get() = _builder.focusRoi
+      @kotlin.jvm.JvmName("setFocusRoi")
+        set(value) {
         _builder.focusRoi = value
       }
     /**
@@ -800,10 +801,10 @@ public object RootKt {
      * `.cmd.HeatCamera.TrackROI track_roi = 36;`
      */
     public var trackRoi: cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI
-      @JvmName("getTrackRoi")
-      get() = _builder.trackRoi
-      @JvmName("setTrackRoi")
-      set(value) {
+      @kotlin.jvm.JvmName("getTrackRoi")
+        get() = _builder.trackRoi
+      @kotlin.jvm.JvmName("setTrackRoi")
+        set(value) {
         _builder.trackRoi = value
       }
     /**
@@ -824,10 +825,10 @@ public object RootKt {
      * `.cmd.HeatCamera.ZoomROI zoom_roi = 37;`
      */
     public var zoomRoi: cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI
-      @JvmName("getZoomRoi")
-      get() = _builder.zoomRoi
-      @JvmName("setZoomRoi")
-      set(value) {
+      @kotlin.jvm.JvmName("getZoomRoi")
+        get() = _builder.zoomRoi
+      @kotlin.jvm.JvmName("setZoomRoi")
+        set(value) {
         _builder.zoomRoi = value
       }
     /**
@@ -848,10 +849,10 @@ public object RootKt {
      * `.cmd.HeatCamera.FxROI fx_roi = 38;`
      */
     public var fxRoi: cmd.HeatCamera.JonSharedCmdHeatCamera.FxROI
-      @JvmName("getFxRoi")
-      get() = _builder.fxRoi
-      @JvmName("setFxRoi")
-      set(value) {
+      @kotlin.jvm.JvmName("getFxRoi")
+        get() = _builder.fxRoi
+      @kotlin.jvm.JvmName("setFxRoi")
+        set(value) {
         _builder.fxRoi = value
       }
     /**
@@ -872,10 +873,10 @@ public object RootKt {
      * `.cmd.HeatCamera.SceneAuto scene_auto = 39;`
      */
     public var sceneAuto: cmd.HeatCamera.JonSharedCmdHeatCamera.SceneAuto
-      @JvmName("getSceneAuto")
-      get() = _builder.sceneAuto
-      @JvmName("setSceneAuto")
-      set(value) {
+      @kotlin.jvm.JvmName("getSceneAuto")
+        get() = _builder.sceneAuto
+      @kotlin.jvm.JvmName("setSceneAuto")
+        set(value) {
         _builder.sceneAuto = value
       }
     /**

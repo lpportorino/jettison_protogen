@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_power.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -40,10 +41,10 @@ public object JonGuiDataPowerKt {
      * `.ser.JonGuiDataPowerModule s0 = 1;`
      */
     public var s0: ser.JonSharedDataPower.JonGuiDataPowerModule
-      @JvmName("getS0")
-      get() = _builder.s0
-      @JvmName("setS0")
-      set(value) {
+      @kotlin.jvm.JvmName("getS0")
+        get() = _builder.s0
+      @kotlin.jvm.JvmName("setS0")
+        set(value) {
         _builder.s0 = value
       }
     /**
@@ -79,10 +80,10 @@ public object JonGuiDataPowerKt {
      * `.ser.JonGuiDataPowerModule s1 = 2;`
      */
     public var s1: ser.JonSharedDataPower.JonGuiDataPowerModule
-      @JvmName("getS1")
-      get() = _builder.s1
-      @JvmName("setS1")
-      set(value) {
+      @kotlin.jvm.JvmName("getS1")
+        get() = _builder.s1
+      @kotlin.jvm.JvmName("setS1")
+        set(value) {
         _builder.s1 = value
       }
     /**
@@ -118,10 +119,10 @@ public object JonGuiDataPowerKt {
      * `.ser.JonGuiDataPowerModule s2 = 3;`
      */
     public var s2: ser.JonSharedDataPower.JonGuiDataPowerModule
-      @JvmName("getS2")
-      get() = _builder.s2
-      @JvmName("setS2")
-      set(value) {
+      @kotlin.jvm.JvmName("getS2")
+        get() = _builder.s2
+      @kotlin.jvm.JvmName("setS2")
+        set(value) {
         _builder.s2 = value
       }
     /**
@@ -157,10 +158,10 @@ public object JonGuiDataPowerKt {
      * `.ser.JonGuiDataPowerModule s3 = 4;`
      */
     public var s3: ser.JonSharedDataPower.JonGuiDataPowerModule
-      @JvmName("getS3")
-      get() = _builder.s3
-      @JvmName("setS3")
-      set(value) {
+      @kotlin.jvm.JvmName("getS3")
+        get() = _builder.s3
+      @kotlin.jvm.JvmName("setS3")
+        set(value) {
         _builder.s3 = value
       }
     /**
@@ -196,10 +197,10 @@ public object JonGuiDataPowerKt {
      * `.ser.JonGuiDataPowerModule s4 = 5;`
      */
     public var s4: ser.JonSharedDataPower.JonGuiDataPowerModule
-      @JvmName("getS4")
-      get() = _builder.s4
-      @JvmName("setS4")
-      set(value) {
+      @kotlin.jvm.JvmName("getS4")
+        get() = _builder.s4
+      @kotlin.jvm.JvmName("setS4")
+        set(value) {
         _builder.s4 = value
       }
     /**
@@ -235,10 +236,10 @@ public object JonGuiDataPowerKt {
      * `.ser.JonGuiDataPowerModule s5 = 6;`
      */
     public var s5: ser.JonSharedDataPower.JonGuiDataPowerModule
-      @JvmName("getS5")
-      get() = _builder.s5
-      @JvmName("setS5")
-      set(value) {
+      @kotlin.jvm.JvmName("getS5")
+        get() = _builder.s5
+      @kotlin.jvm.JvmName("setS5")
+        set(value) {
         _builder.s5 = value
       }
     /**
@@ -274,10 +275,10 @@ public object JonGuiDataPowerKt {
      * `.ser.JonGuiDataPowerModule s6 = 7;`
      */
     public var s6: ser.JonSharedDataPower.JonGuiDataPowerModule
-      @JvmName("getS6")
-      get() = _builder.s6
-      @JvmName("setS6")
-      set(value) {
+      @kotlin.jvm.JvmName("getS6")
+        get() = _builder.s6
+      @kotlin.jvm.JvmName("setS6")
+        set(value) {
         _builder.s6 = value
       }
     /**
@@ -313,10 +314,10 @@ public object JonGuiDataPowerKt {
      * `.ser.JonGuiDataPowerModule s7 = 8;`
      */
     public var s7: ser.JonSharedDataPower.JonGuiDataPowerModule
-      @JvmName("getS7")
-      get() = _builder.s7
-      @JvmName("setS7")
-      set(value) {
+      @kotlin.jvm.JvmName("getS7")
+        get() = _builder.s7
+      @kotlin.jvm.JvmName("setS7")
+        set(value) {
         _builder.s7 = value
       }
     /**
@@ -352,17 +353,17 @@ public object JonGuiDataPowerKt {
      * `.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 9;`
      */
     public var accumulatorState: ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx
-      @JvmName("getAccumulatorState")
-      get() = _builder.accumulatorState
-      @JvmName("setAccumulatorState")
-      set(value) {
+      @kotlin.jvm.JvmName("getAccumulatorState")
+        get() = _builder.accumulatorState
+      @kotlin.jvm.JvmName("setAccumulatorState")
+        set(value) {
         _builder.accumulatorState = value
       }
     public var accumulatorStateValue: kotlin.Int
-      @JvmName("getAccumulatorStateValue")
-      get() = _builder.accumulatorStateValue
-      @JvmName("setAccumulatorStateValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getAccumulatorStateValue")
+        get() = _builder.accumulatorStateValue
+      @kotlin.jvm.JvmName("setAccumulatorStateValue")
+        set(value) {
         _builder.accumulatorStateValue = value
       }
     /**
@@ -384,10 +385,10 @@ public object JonGuiDataPowerKt {
      * `int32 ext_bat_capacity = 10;`
      */
     public var extBatCapacity: kotlin.Int
-      @JvmName("getExtBatCapacity")
-      get() = _builder.extBatCapacity
-      @JvmName("setExtBatCapacity")
-      set(value) {
+      @kotlin.jvm.JvmName("getExtBatCapacity")
+        get() = _builder.extBatCapacity
+      @kotlin.jvm.JvmName("setExtBatCapacity")
+        set(value) {
         _builder.extBatCapacity = value
       }
     /**
@@ -405,17 +406,17 @@ public object JonGuiDataPowerKt {
      * `.ser.JonGuiDataExtBatStatus ext_bat_status = 11;`
      */
     public var extBatStatus: ser.JonSharedDataTypes.JonGuiDataExtBatStatus
-      @JvmName("getExtBatStatus")
-      get() = _builder.extBatStatus
-      @JvmName("setExtBatStatus")
-      set(value) {
+      @kotlin.jvm.JvmName("getExtBatStatus")
+        get() = _builder.extBatStatus
+      @kotlin.jvm.JvmName("setExtBatStatus")
+        set(value) {
         _builder.extBatStatus = value
       }
     public var extBatStatusValue: kotlin.Int
-      @JvmName("getExtBatStatusValue")
-      get() = _builder.extBatStatusValue
-      @JvmName("setExtBatStatusValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getExtBatStatusValue")
+        get() = _builder.extBatStatusValue
+      @kotlin.jvm.JvmName("setExtBatStatusValue")
+        set(value) {
         _builder.extBatStatusValue = value
       }
     /**
@@ -433,10 +434,10 @@ public object JonGuiDataPowerKt {
      * `.ser.JonGuiDataMeteo meteo = 12;`
      */
     public var meteo: ser.JonSharedDataTypes.JonGuiDataMeteo
-      @JvmName("getMeteo")
-      get() = _builder.meteo
-      @JvmName("setMeteo")
-      set(value) {
+      @kotlin.jvm.JvmName("getMeteo")
+        get() = _builder.meteo
+      @kotlin.jvm.JvmName("setMeteo")
+        set(value) {
         _builder.meteo = value
       }
     /**
@@ -468,10 +469,10 @@ public object JonGuiDataPowerKt {
      * `.ser.JonGuiDataModuleHealth health = 40;`
      */
     public var health: ser.JonSharedDataTypes.JonGuiDataModuleHealth
-      @JvmName("getHealth")
-      get() = _builder.health
-      @JvmName("setHealth")
-      set(value) {
+      @kotlin.jvm.JvmName("getHealth")
+        get() = _builder.health
+      @kotlin.jvm.JvmName("setHealth")
+        set(value) {
         _builder.health = value
       }
     /**

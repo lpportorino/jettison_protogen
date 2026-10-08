@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_cv_dump_archive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.cvdump;
@@ -43,7 +44,7 @@ public object RedisStreamRecordsKt {
      */
      public val records: com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.RedisStreamRecord, RecordsProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.recordsList
       )
     /**
@@ -51,7 +52,7 @@ public object RedisStreamRecordsKt {
      * @param value The records to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addRecords")
+@kotlin.jvm.JvmName("addRecords")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.RedisStreamRecord, RecordsProxy>.add(value: jon.cvdump.JonCvDumpArchive.RedisStreamRecord) {
       _builder.addRecords(value)
     }
@@ -60,7 +61,7 @@ public object RedisStreamRecordsKt {
      * @param value The records to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignRecords")
+@kotlin.jvm.JvmName("plusAssignRecords")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.RedisStreamRecord, RecordsProxy>.plusAssign(value: jon.cvdump.JonCvDumpArchive.RedisStreamRecord) {
       add(value)
@@ -70,7 +71,7 @@ public object RedisStreamRecordsKt {
      * @param values The records to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllRecords")
+@kotlin.jvm.JvmName("addAllRecords")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.RedisStreamRecord, RecordsProxy>.addAll(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.RedisStreamRecord>) {
       _builder.addAllRecords(values)
     }
@@ -79,7 +80,7 @@ public object RedisStreamRecordsKt {
      * @param values The records to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllRecords")
+@kotlin.jvm.JvmName("plusAssignAllRecords")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.RedisStreamRecord, RecordsProxy>.plusAssign(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.RedisStreamRecord>) {
       addAll(values)
@@ -90,7 +91,7 @@ public object RedisStreamRecordsKt {
      * @param value The records to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setRecords")
+@kotlin.jvm.JvmName("setRecords")
     public operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.RedisStreamRecord, RecordsProxy>.set(index: kotlin.Int, value: jon.cvdump.JonCvDumpArchive.RedisStreamRecord) {
       _builder.setRecords(index, value)
     }
@@ -98,11 +99,10 @@ public object RedisStreamRecordsKt {
      * `repeated .jon.cvdump.RedisStreamRecord records = 1;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearRecords")
+@kotlin.jvm.JvmName("clearRecords")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.RedisStreamRecord, RecordsProxy>.clear() {
       _builder.clearRecords()
     }
-
   }
 }
 @kotlin.jvm.JvmSynthetic

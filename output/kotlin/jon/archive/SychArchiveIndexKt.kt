@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_sych_archive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.archive;
@@ -42,10 +43,10 @@ public object SychArchiveIndexKt {
      * `uint32 version = 1 [(.buf.validate.field) = { ... }`
      */
     public var version: kotlin.Int
-      @JvmName("getVersion")
-      get() = _builder.version
-      @JvmName("setVersion")
-      set(value) {
+      @kotlin.jvm.JvmName("getVersion")
+        get() = _builder.version
+      @kotlin.jvm.JvmName("setVersion")
+        set(value) {
         _builder.version = value
       }
     /**
@@ -67,10 +68,10 @@ public object SychArchiveIndexKt {
      * `uint64 created_at = 2 [(.buf.validate.field) = { ... }`
      */
     public var createdAt: kotlin.Long
-      @JvmName("getCreatedAt")
-      get() = _builder.createdAt
-      @JvmName("setCreatedAt")
-      set(value) {
+      @kotlin.jvm.JvmName("getCreatedAt")
+        get() = _builder.createdAt
+      @kotlin.jvm.JvmName("setCreatedAt")
+        set(value) {
         _builder.createdAt = value
       }
     /**
@@ -92,10 +93,10 @@ public object SychArchiveIndexKt {
      * `string exported_from = 3 [(.buf.validate.field) = { ... }`
      */
     public var exportedFrom: kotlin.String
-      @JvmName("getExportedFrom")
-      get() = _builder.exportedFrom
-      @JvmName("setExportedFrom")
-      set(value) {
+      @kotlin.jvm.JvmName("getExportedFrom")
+        get() = _builder.exportedFrom
+      @kotlin.jvm.JvmName("setExportedFrom")
+        set(value) {
         _builder.exportedFrom = value
       }
     /**
@@ -124,7 +125,7 @@ public object SychArchiveIndexKt {
      */
      public val files: com.google.protobuf.kotlin.DslList<jon.archive.JonSychArchive.ArchiveEntry, FilesProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.filesList
       )
     /**
@@ -136,7 +137,7 @@ public object SychArchiveIndexKt {
      * @param value The files to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addFiles")
+@kotlin.jvm.JvmName("addFiles")
     public fun com.google.protobuf.kotlin.DslList<jon.archive.JonSychArchive.ArchiveEntry, FilesProxy>.add(value: jon.archive.JonSychArchive.ArchiveEntry) {
       _builder.addFiles(value)
     }
@@ -149,7 +150,7 @@ public object SychArchiveIndexKt {
      * @param value The files to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignFiles")
+@kotlin.jvm.JvmName("plusAssignFiles")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.archive.JonSychArchive.ArchiveEntry, FilesProxy>.plusAssign(value: jon.archive.JonSychArchive.ArchiveEntry) {
       add(value)
@@ -163,7 +164,7 @@ public object SychArchiveIndexKt {
      * @param values The files to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllFiles")
+@kotlin.jvm.JvmName("addAllFiles")
     public fun com.google.protobuf.kotlin.DslList<jon.archive.JonSychArchive.ArchiveEntry, FilesProxy>.addAll(values: kotlin.collections.Iterable<jon.archive.JonSychArchive.ArchiveEntry>) {
       _builder.addAllFiles(values)
     }
@@ -176,7 +177,7 @@ public object SychArchiveIndexKt {
      * @param values The files to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllFiles")
+@kotlin.jvm.JvmName("plusAssignAllFiles")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.archive.JonSychArchive.ArchiveEntry, FilesProxy>.plusAssign(values: kotlin.collections.Iterable<jon.archive.JonSychArchive.ArchiveEntry>) {
       addAll(values)
@@ -191,7 +192,7 @@ public object SychArchiveIndexKt {
      * @param value The files to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setFiles")
+@kotlin.jvm.JvmName("setFiles")
     public operator fun com.google.protobuf.kotlin.DslList<jon.archive.JonSychArchive.ArchiveEntry, FilesProxy>.set(index: kotlin.Int, value: jon.archive.JonSychArchive.ArchiveEntry) {
       _builder.setFiles(index, value)
     }
@@ -203,11 +204,10 @@ public object SychArchiveIndexKt {
      * `repeated .jon.archive.ArchiveEntry files = 4 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearFiles")
+@kotlin.jvm.JvmName("clearFiles")
     public fun com.google.protobuf.kotlin.DslList<jon.archive.JonSychArchive.ArchiveEntry, FilesProxy>.clear() {
       _builder.clearFiles()
     }
-
 
     /**
      * ```
@@ -217,10 +217,10 @@ public object SychArchiveIndexKt {
      * `.jon.archive.TimelineIndex timeline = 5 [(.buf.validate.field) = { ... }`
      */
     public var timeline: jon.archive.JonSychArchive.TimelineIndex
-      @JvmName("getTimeline")
-      get() = _builder.timeline
-      @JvmName("setTimeline")
-      set(value) {
+      @kotlin.jvm.JvmName("getTimeline")
+        get() = _builder.timeline
+      @kotlin.jvm.JvmName("setTimeline")
+        set(value) {
         _builder.timeline = value
       }
     /**
@@ -256,10 +256,10 @@ public object SychArchiveIndexKt {
      * `optional .jon.archive.OSDReference osd = 6;`
      */
     public var osd: jon.archive.JonSychArchive.OSDReference
-      @JvmName("getOsd")
-      get() = _builder.osd
-      @JvmName("setOsd")
-      set(value) {
+      @kotlin.jvm.JvmName("getOsd")
+        get() = _builder.osd
+      @kotlin.jvm.JvmName("setOsd")
+        set(value) {
         _builder.osd = value
       }
     /**

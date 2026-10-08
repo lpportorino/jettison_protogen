@@ -94,7 +94,7 @@ jobs:
         echo "✓ Confirmed running on ARM64"
 
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@v7.0.1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -175,15 +175,15 @@ jobs:
     # them to temurin for symmetry deletes the second wasm engine and the
     # oracle that compares the two.
     - name: Set up JDK 27
-      uses: actions/setup-java@v5
+      uses: actions/setup-java@v6.0.1
       with:
         distribution: temurin
         java-version: "27"
 
     - name: Set up Clojure CLI
-      uses: DeLaGuardo/setup-clojure@13.6.1
+      uses: DeLaGuardo/setup-clojure@13.7.0
       with:
-        cli: "1.12.5.1654"
+        cli: "1.12.6.1673"
 
     # NOT the same exact key as docs.yml, and the reason is asymmetry rather than
     # tidiness. This job resolves ONLY protodoc's base :deps (the lint leg).
@@ -210,7 +210,7 @@ jobs:
     # WHEN either resolution gains a native or classifier'd artifact: add
     # `${{ runner.arch }}` to both keys and both prefixes then.
     - name: Cache Maven-resolved dependencies
-      uses: actions/cache@v5
+      uses: actions/cache@v6.1.0
       with:
         path: |
           ~/.m2/repository
@@ -1124,7 +1124,6 @@ jobs:
         - TypeScript
         - TypeScript-validated (with protovalidate-es)
         - Rust
-        - Zig
         - Java (with buf.validate)
         - JSON Descriptors
 
@@ -1161,7 +1160,7 @@ jobs:
       run: |
         # Create tarballs for release
         mkdir -p release-artifacts
-        for lang in c cpp go kotlin python typescript rust zig java json-descriptors; do
+        for lang in c cpp go kotlin python typescript rust java json-descriptors; do
           if [ -d "output/$lang" ] && [ "$(ls -A output/$lang)" ]; then
             tar czf "release-artifacts/proto-${lang}.tar.gz" -C output "$lang"
           fi
@@ -1188,7 +1187,6 @@ jobs:
         - TypeScript - [jettison_proto_typescript](https://github.com/lpportorino/jettison_proto_typescript)
         - TypeScript (validated) - [jettison_protovalidate_es](https://github.com/lpportorino/jettison_protovalidate_es)
         - Rust - [jettison_proto_rust](https://github.com/lpportorino/jettison_proto_rust)
-        - Zig (zig-protobuf)
         - Java (with buf.validate) - [jettison_proto_java](https://github.com/lpportorino/jettison_proto_java)
         - JSON Descriptors - [jettison_proto_json-descriptors](https://github.com/lpportorino/jettison_proto_json-descriptors)" \
           ${{ github.event.inputs.release_tag == '' && '--prerelease' || '' }} \

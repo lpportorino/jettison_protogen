@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -32,10 +33,10 @@ public object ButtonMatrixPropsKt {
      * `string map_str = 1 [(.buf.validate.field) = { ... }`
      */
     public var mapStr: kotlin.String
-      @JvmName("getMapStr")
-      get() = _builder.mapStr
-      @JvmName("setMapStr")
-      set(value) {
+      @kotlin.jvm.JvmName("getMapStr")
+        get() = _builder.mapStr
+      @kotlin.jvm.JvmName("setMapStr")
+        set(value) {
         _builder.mapStr = value
       }
     /**
@@ -49,10 +50,10 @@ public object ButtonMatrixPropsKt {
      * `bool one_check = 2;`
      */
     public var oneCheck: kotlin.Boolean
-      @JvmName("getOneCheck")
-      get() = _builder.oneCheck
-      @JvmName("setOneCheck")
-      set(value) {
+      @kotlin.jvm.JvmName("getOneCheck")
+        get() = _builder.oneCheck
+      @kotlin.jvm.JvmName("setOneCheck")
+        set(value) {
         _builder.oneCheck = value
       }
     /**

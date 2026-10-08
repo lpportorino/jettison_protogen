@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -40,10 +41,10 @@ public object FieldPatchKt {
      * `uint32 byte_offset = 1;`
      */
     public var byteOffset: kotlin.Int
-      @JvmName("getByteOffset")
-      get() = _builder.byteOffset
-      @JvmName("setByteOffset")
-      set(value) {
+      @kotlin.jvm.JvmName("getByteOffset")
+        get() = _builder.byteOffset
+      @kotlin.jvm.JvmName("setByteOffset")
+        set(value) {
         _builder.byteOffset = value
       }
     /**
@@ -65,10 +66,10 @@ public object FieldPatchKt {
      * `uint32 byte_width = 2;`
      */
     public var byteWidth: kotlin.Int
-      @JvmName("getByteWidth")
-      get() = _builder.byteWidth
-      @JvmName("setByteWidth")
-      set(value) {
+      @kotlin.jvm.JvmName("getByteWidth")
+        get() = _builder.byteWidth
+      @kotlin.jvm.JvmName("setByteWidth")
+        set(value) {
         _builder.byteWidth = value
       }
     /**
@@ -86,17 +87,17 @@ public object FieldPatchKt {
      * `.ui.PatchKind kind = 3 [(.buf.validate.field) = { ... }`
      */
     public var kind: ui.UiAst.PatchKind
-      @JvmName("getKind")
-      get() = _builder.kind
-      @JvmName("setKind")
-      set(value) {
+      @kotlin.jvm.JvmName("getKind")
+        get() = _builder.kind
+      @kotlin.jvm.JvmName("setKind")
+        set(value) {
         _builder.kind = value
       }
     public var kindValue: kotlin.Int
-      @JvmName("getKindValue")
-      get() = _builder.kindValue
-      @JvmName("setKindValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getKindValue")
+        get() = _builder.kindValue
+      @kotlin.jvm.JvmName("setKindValue")
+        set(value) {
         _builder.kindValue = value
       }
     /**
@@ -120,10 +121,10 @@ public object FieldPatchKt {
      * `sint32 wire_scale = 4;`
      */
     public var wireScale: kotlin.Int
-      @JvmName("getWireScale")
-      get() = _builder.wireScale
-      @JvmName("setWireScale")
-      set(value) {
+      @kotlin.jvm.JvmName("getWireScale")
+        get() = _builder.wireScale
+      @kotlin.jvm.JvmName("setWireScale")
+        set(value) {
         _builder.wireScale = value
       }
     /**
@@ -160,10 +161,10 @@ public object FieldPatchKt {
      * `string subject = 5 [(.buf.validate.field) = { ... }`
      */
     public var subject: kotlin.String
-      @JvmName("getSubject")
-      get() = _builder.subject
-      @JvmName("setSubject")
-      set(value) {
+      @kotlin.jvm.JvmName("getSubject")
+        get() = _builder.subject
+      @kotlin.jvm.JvmName("setSubject")
+        set(value) {
         _builder.subject = value
       }
     /**
@@ -190,17 +191,17 @@ public object FieldPatchKt {
      * `.ui.PatchEncoding encoding = 6 [(.buf.validate.field) = { ... }`
      */
     public var encoding: ui.UiAst.PatchEncoding
-      @JvmName("getEncoding")
-      get() = _builder.encoding
-      @JvmName("setEncoding")
-      set(value) {
+      @kotlin.jvm.JvmName("getEncoding")
+        get() = _builder.encoding
+      @kotlin.jvm.JvmName("setEncoding")
+        set(value) {
         _builder.encoding = value
       }
     public var encodingValue: kotlin.Int
-      @JvmName("getEncodingValue")
-      get() = _builder.encodingValue
-      @JvmName("setEncodingValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getEncodingValue")
+        get() = _builder.encodingValue
+      @kotlin.jvm.JvmName("setEncodingValue")
+        set(value) {
         _builder.encodingValue = value
       }
     /**

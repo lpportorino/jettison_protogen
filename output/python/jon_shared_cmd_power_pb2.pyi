@@ -1,6 +1,7 @@
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
+from collections.abc import Mapping as _Mapping
+from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -20,13 +21,13 @@ class SetChannel(_message.Message):
     POWER_ON_FIELD_NUMBER: _ClassVar[int]
     channel: int
     power_on: bool
-    def __init__(self, channel: _Optional[int] = ..., power_on: bool = ...) -> None: ...
+    def __init__(self, channel: _Optional[int] = ..., power_on: _Optional[bool] = ...) -> None: ...
 
 class SetAll(_message.Message):
     __slots__ = ("power_on",)
     POWER_ON_FIELD_NUMBER: _ClassVar[int]
     power_on: bool
-    def __init__(self, power_on: bool = ...) -> None: ...
+    def __init__(self, power_on: _Optional[bool] = ...) -> None: ...
 
 class SetAlertThreshold(_message.Message):
     __slots__ = ("channel", "threshold_ma")

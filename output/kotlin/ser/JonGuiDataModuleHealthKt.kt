@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_types.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -38,10 +39,10 @@ public object JonGuiDataModuleHealthKt {
      * `uint32 queue_cap_0 = 1;`
      */
     public var queueCap0: kotlin.Int
-      @JvmName("getQueueCap0")
-      get() = _builder.queueCap0
-      @JvmName("setQueueCap0")
-      set(value) {
+      @kotlin.jvm.JvmName("getQueueCap0")
+        get() = _builder.queueCap0
+      @kotlin.jvm.JvmName("setQueueCap0")
+        set(value) {
         _builder.queueCap0 = value
       }
     /**
@@ -55,10 +56,10 @@ public object JonGuiDataModuleHealthKt {
      * `uint32 peak_depth_0 = 2;`
      */
     public var peakDepth0: kotlin.Int
-      @JvmName("getPeakDepth0")
-      get() = _builder.peakDepth0
-      @JvmName("setPeakDepth0")
-      set(value) {
+      @kotlin.jvm.JvmName("getPeakDepth0")
+        get() = _builder.peakDepth0
+      @kotlin.jvm.JvmName("setPeakDepth0")
+        set(value) {
         _builder.peakDepth0 = value
       }
     /**
@@ -72,10 +73,10 @@ public object JonGuiDataModuleHealthKt {
      * `uint32 dropped_oldest_0 = 3;`
      */
     public var droppedOldest0: kotlin.Int
-      @JvmName("getDroppedOldest0")
-      get() = _builder.droppedOldest0
-      @JvmName("setDroppedOldest0")
-      set(value) {
+      @kotlin.jvm.JvmName("getDroppedOldest0")
+        get() = _builder.droppedOldest0
+      @kotlin.jvm.JvmName("setDroppedOldest0")
+        set(value) {
         _builder.droppedOldest0 = value
       }
     /**
@@ -89,10 +90,10 @@ public object JonGuiDataModuleHealthKt {
      * `uint32 queue_cap_1 = 4;`
      */
     public var queueCap1: kotlin.Int
-      @JvmName("getQueueCap1")
-      get() = _builder.queueCap1
-      @JvmName("setQueueCap1")
-      set(value) {
+      @kotlin.jvm.JvmName("getQueueCap1")
+        get() = _builder.queueCap1
+      @kotlin.jvm.JvmName("setQueueCap1")
+        set(value) {
         _builder.queueCap1 = value
       }
     /**
@@ -106,10 +107,10 @@ public object JonGuiDataModuleHealthKt {
      * `uint32 peak_depth_1 = 5;`
      */
     public var peakDepth1: kotlin.Int
-      @JvmName("getPeakDepth1")
-      get() = _builder.peakDepth1
-      @JvmName("setPeakDepth1")
-      set(value) {
+      @kotlin.jvm.JvmName("getPeakDepth1")
+        get() = _builder.peakDepth1
+      @kotlin.jvm.JvmName("setPeakDepth1")
+        set(value) {
         _builder.peakDepth1 = value
       }
     /**
@@ -123,10 +124,10 @@ public object JonGuiDataModuleHealthKt {
      * `uint32 dropped_oldest_1 = 6;`
      */
     public var droppedOldest1: kotlin.Int
-      @JvmName("getDroppedOldest1")
-      get() = _builder.droppedOldest1
-      @JvmName("setDroppedOldest1")
-      set(value) {
+      @kotlin.jvm.JvmName("getDroppedOldest1")
+        get() = _builder.droppedOldest1
+      @kotlin.jvm.JvmName("setDroppedOldest1")
+        set(value) {
         _builder.droppedOldest1 = value
       }
     /**

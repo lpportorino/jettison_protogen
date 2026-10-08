@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_client_logs.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.logs;
@@ -40,10 +41,10 @@ public object ClientLogBatchKt {
      * `uint32 version = 1 [(.buf.validate.field) = { ... }`
      */
     public var version: kotlin.Int
-      @JvmName("getVersion")
-      get() = _builder.version
-      @JvmName("setVersion")
-      set(value) {
+      @kotlin.jvm.JvmName("getVersion")
+        get() = _builder.version
+      @kotlin.jvm.JvmName("setVersion")
+        set(value) {
         _builder.version = value
       }
     /**
@@ -68,7 +69,7 @@ public object ClientLogBatchKt {
      */
      public val entries: com.google.protobuf.kotlin.DslList<jon.logs.JonClientLogs.ClientLogEntry, EntriesProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.entriesList
       )
     /**
@@ -76,7 +77,7 @@ public object ClientLogBatchKt {
      * @param value The entries to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addEntries")
+@kotlin.jvm.JvmName("addEntries")
     public fun com.google.protobuf.kotlin.DslList<jon.logs.JonClientLogs.ClientLogEntry, EntriesProxy>.add(value: jon.logs.JonClientLogs.ClientLogEntry) {
       _builder.addEntries(value)
     }
@@ -85,7 +86,7 @@ public object ClientLogBatchKt {
      * @param value The entries to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignEntries")
+@kotlin.jvm.JvmName("plusAssignEntries")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.logs.JonClientLogs.ClientLogEntry, EntriesProxy>.plusAssign(value: jon.logs.JonClientLogs.ClientLogEntry) {
       add(value)
@@ -95,7 +96,7 @@ public object ClientLogBatchKt {
      * @param values The entries to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllEntries")
+@kotlin.jvm.JvmName("addAllEntries")
     public fun com.google.protobuf.kotlin.DslList<jon.logs.JonClientLogs.ClientLogEntry, EntriesProxy>.addAll(values: kotlin.collections.Iterable<jon.logs.JonClientLogs.ClientLogEntry>) {
       _builder.addAllEntries(values)
     }
@@ -104,7 +105,7 @@ public object ClientLogBatchKt {
      * @param values The entries to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllEntries")
+@kotlin.jvm.JvmName("plusAssignAllEntries")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.logs.JonClientLogs.ClientLogEntry, EntriesProxy>.plusAssign(values: kotlin.collections.Iterable<jon.logs.JonClientLogs.ClientLogEntry>) {
       addAll(values)
@@ -115,7 +116,7 @@ public object ClientLogBatchKt {
      * @param value The entries to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setEntries")
+@kotlin.jvm.JvmName("setEntries")
     public operator fun com.google.protobuf.kotlin.DslList<jon.logs.JonClientLogs.ClientLogEntry, EntriesProxy>.set(index: kotlin.Int, value: jon.logs.JonClientLogs.ClientLogEntry) {
       _builder.setEntries(index, value)
     }
@@ -123,11 +124,10 @@ public object ClientLogBatchKt {
      * `repeated .jon.logs.ClientLogEntry entries = 2 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearEntries")
+@kotlin.jvm.JvmName("clearEntries")
     public fun com.google.protobuf.kotlin.DslList<jon.logs.JonClientLogs.ClientLogEntry, EntriesProxy>.clear() {
       _builder.clearEntries()
     }
-
   }
 }
 @kotlin.jvm.JvmSynthetic

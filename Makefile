@@ -55,12 +55,12 @@ build-base: ## Build the base Docker image with all dependencies
 .PHONY: build
 build: ## Build the main Docker image (builds base if needed)
 	@printf "$(GREEN)Checking for base image...$(NC)\n"
-	@if ! docker images | grep -q "jettison-proto-generator-base.*latest"; then \
+	@if ! docker image inspect $(DOCKER_BASE_IMAGE) >/dev/null 2>&1; then \
 		printf "$(YELLOW)Base image not found, building...$(NC)\n"; \
 		$(MAKE) build-base; \
 	fi
 	@printf "$(GREEN)Building Docker image: $(DOCKER_IMAGE)$(NC)\n"
-	@docker build -t $(DOCKER_IMAGE) .
+	@docker build --build-arg GENERATOR_BASE_IMAGE=$(DOCKER_BASE_IMAGE) -t $(DOCKER_IMAGE) .
 	@printf "$(GREEN)Docker image built successfully$(NC)\n"
 
 # Removed export-base and import-base targets - no longer using archived images
@@ -68,7 +68,8 @@ build: ## Build the main Docker image (builds base if needed)
 .PHONY: generate
 generate: build ## Generate protocol buffer bindings for all languages
 	@printf "$(GREEN)Generating protocol buffer bindings...$(NC)\n"
-	@PROTO_SOURCE_DIR=$(PROTO_SOURCE_DIR) \
+	@PROTOGEN_GENERATOR_IMAGE=$(DOCKER_IMAGE) \
+	 PROTO_SOURCE_DIR=$(PROTO_SOURCE_DIR) \
 	 OUTPUT_BASE_DIR=$(OUTPUT_BASE_DIR) \
 	 ./generate-protos.sh
 	@$(MAKE) binary-dedup-run
@@ -122,7 +123,7 @@ image-pin-check-canary: ## Prove the image pin check can FAIL, once per pin
 	@./tools/image_pin_check.sh --canary
 
 # ── orphaned generated files ──────────────────────────────────────────────────
-# The OTHER direction from go-leg-repro, over ALL eleven legs: a committed path
+# The OTHER direction from go-leg-repro, over all declared legs: a committed path
 # that no leg produces any more. Generation never deletes, so such a file stays
 # in output/ for ever and the fan-out keeps copying it into ten consumer
 # repositories.
@@ -244,8 +245,7 @@ versions: build ## Show versions of tools in the Docker image
 		echo 'rustc version:' && rustc --version && echo && \
 		echo 'python version:' && python3 --version && echo && \
 		echo 'java version:' && java --version | head -n1 && echo && \
-		echo 'node version:' && node --version && echo && \
-		echo 'zig version:' && zig version"
+		echo 'node version:' && node --version"
 
 # === Documentation targets ===
 

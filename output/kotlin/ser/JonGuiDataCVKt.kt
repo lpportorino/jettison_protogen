@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_cv.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -47,17 +48,17 @@ public object JonGuiDataCVKt {
      * `.ser.JonGuiDataCV.AutofocusState autofocus_state_day = 1 [(.buf.validate.field) = { ... }`
      */
     public var autofocusStateDay: ser.JonSharedDataCv.JonGuiDataCV.AutofocusState
-      @JvmName("getAutofocusStateDay")
-      get() = _builder.autofocusStateDay
-      @JvmName("setAutofocusStateDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getAutofocusStateDay")
+        get() = _builder.autofocusStateDay
+      @kotlin.jvm.JvmName("setAutofocusStateDay")
+        set(value) {
         _builder.autofocusStateDay = value
       }
     public var autofocusStateDayValue: kotlin.Int
-      @JvmName("getAutofocusStateDayValue")
-      get() = _builder.autofocusStateDayValue
-      @JvmName("setAutofocusStateDayValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getAutofocusStateDayValue")
+        get() = _builder.autofocusStateDayValue
+      @kotlin.jvm.JvmName("setAutofocusStateDayValue")
+        set(value) {
         _builder.autofocusStateDayValue = value
       }
     /**
@@ -75,10 +76,10 @@ public object JonGuiDataCVKt {
      * `double sharpness_day = 2 [(.buf.validate.field) = { ... }`
      */
     public var sharpnessDay: kotlin.Double
-      @JvmName("getSharpnessDay")
-      get() = _builder.sharpnessDay
-      @JvmName("setSharpnessDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getSharpnessDay")
+        get() = _builder.sharpnessDay
+      @kotlin.jvm.JvmName("setSharpnessDay")
+        set(value) {
         _builder.sharpnessDay = value
       }
     /**
@@ -92,10 +93,10 @@ public object JonGuiDataCVKt {
      * `double best_sharpness_day = 3 [(.buf.validate.field) = { ... }`
      */
     public var bestSharpnessDay: kotlin.Double
-      @JvmName("getBestSharpnessDay")
-      get() = _builder.bestSharpnessDay
-      @JvmName("setBestSharpnessDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getBestSharpnessDay")
+        get() = _builder.bestSharpnessDay
+      @kotlin.jvm.JvmName("setBestSharpnessDay")
+        set(value) {
         _builder.bestSharpnessDay = value
       }
     /**
@@ -109,10 +110,10 @@ public object JonGuiDataCVKt {
      * `int32 sweep_progress_day = 4 [(.buf.validate.field) = { ... }`
      */
     public var sweepProgressDay: kotlin.Int
-      @JvmName("getSweepProgressDay")
-      get() = _builder.sweepProgressDay
-      @JvmName("setSweepProgressDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getSweepProgressDay")
+        get() = _builder.sweepProgressDay
+      @kotlin.jvm.JvmName("setSweepProgressDay")
+        set(value) {
         _builder.sweepProgressDay = value
       }
     /**
@@ -126,10 +127,10 @@ public object JonGuiDataCVKt {
      * `double best_focus_pos_day = 5 [(.buf.validate.field) = { ... }`
      */
     public var bestFocusPosDay: kotlin.Double
-      @JvmName("getBestFocusPosDay")
-      get() = _builder.bestFocusPosDay
-      @JvmName("setBestFocusPosDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getBestFocusPosDay")
+        get() = _builder.bestFocusPosDay
+      @kotlin.jvm.JvmName("setBestFocusPosDay")
+        set(value) {
         _builder.bestFocusPosDay = value
       }
     /**
@@ -147,17 +148,17 @@ public object JonGuiDataCVKt {
      * `.ser.JonGuiDataCV.AutofocusState autofocus_state_heat = 10 [(.buf.validate.field) = { ... }`
      */
     public var autofocusStateHeat: ser.JonSharedDataCv.JonGuiDataCV.AutofocusState
-      @JvmName("getAutofocusStateHeat")
-      get() = _builder.autofocusStateHeat
-      @JvmName("setAutofocusStateHeat")
-      set(value) {
+      @kotlin.jvm.JvmName("getAutofocusStateHeat")
+        get() = _builder.autofocusStateHeat
+      @kotlin.jvm.JvmName("setAutofocusStateHeat")
+        set(value) {
         _builder.autofocusStateHeat = value
       }
     public var autofocusStateHeatValue: kotlin.Int
-      @JvmName("getAutofocusStateHeatValue")
-      get() = _builder.autofocusStateHeatValue
-      @JvmName("setAutofocusStateHeatValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getAutofocusStateHeatValue")
+        get() = _builder.autofocusStateHeatValue
+      @kotlin.jvm.JvmName("setAutofocusStateHeatValue")
+        set(value) {
         _builder.autofocusStateHeatValue = value
       }
     /**
@@ -175,10 +176,10 @@ public object JonGuiDataCVKt {
      * `double sharpness_heat = 11 [(.buf.validate.field) = { ... }`
      */
     public var sharpnessHeat: kotlin.Double
-      @JvmName("getSharpnessHeat")
-      get() = _builder.sharpnessHeat
-      @JvmName("setSharpnessHeat")
-      set(value) {
+      @kotlin.jvm.JvmName("getSharpnessHeat")
+        get() = _builder.sharpnessHeat
+      @kotlin.jvm.JvmName("setSharpnessHeat")
+        set(value) {
         _builder.sharpnessHeat = value
       }
     /**
@@ -192,10 +193,10 @@ public object JonGuiDataCVKt {
      * `double best_sharpness_heat = 12 [(.buf.validate.field) = { ... }`
      */
     public var bestSharpnessHeat: kotlin.Double
-      @JvmName("getBestSharpnessHeat")
-      get() = _builder.bestSharpnessHeat
-      @JvmName("setBestSharpnessHeat")
-      set(value) {
+      @kotlin.jvm.JvmName("getBestSharpnessHeat")
+        get() = _builder.bestSharpnessHeat
+      @kotlin.jvm.JvmName("setBestSharpnessHeat")
+        set(value) {
         _builder.bestSharpnessHeat = value
       }
     /**
@@ -209,10 +210,10 @@ public object JonGuiDataCVKt {
      * `int32 sweep_progress_heat = 13 [(.buf.validate.field) = { ... }`
      */
     public var sweepProgressHeat: kotlin.Int
-      @JvmName("getSweepProgressHeat")
-      get() = _builder.sweepProgressHeat
-      @JvmName("setSweepProgressHeat")
-      set(value) {
+      @kotlin.jvm.JvmName("getSweepProgressHeat")
+        get() = _builder.sweepProgressHeat
+      @kotlin.jvm.JvmName("setSweepProgressHeat")
+        set(value) {
         _builder.sweepProgressHeat = value
       }
     /**
@@ -226,10 +227,10 @@ public object JonGuiDataCVKt {
      * `double best_focus_pos_heat = 14 [(.buf.validate.field) = { ... }`
      */
     public var bestFocusPosHeat: kotlin.Double
-      @JvmName("getBestFocusPosHeat")
-      get() = _builder.bestFocusPosHeat
-      @JvmName("setBestFocusPosHeat")
-      set(value) {
+      @kotlin.jvm.JvmName("getBestFocusPosHeat")
+        get() = _builder.bestFocusPosHeat
+      @kotlin.jvm.JvmName("setBestFocusPosHeat")
+        set(value) {
         _builder.bestFocusPosHeat = value
       }
     /**
@@ -247,10 +248,10 @@ public object JonGuiDataCVKt {
      * `double roi_x1 = 20 [(.buf.validate.field) = { ... }`
      */
     public var roiX1: kotlin.Double
-      @JvmName("getRoiX1")
-      get() = _builder.roiX1
-      @JvmName("setRoiX1")
-      set(value) {
+      @kotlin.jvm.JvmName("getRoiX1")
+        get() = _builder.roiX1
+      @kotlin.jvm.JvmName("setRoiX1")
+        set(value) {
         _builder.roiX1 = value
       }
     /**
@@ -268,10 +269,10 @@ public object JonGuiDataCVKt {
      * `double roi_y1 = 21 [(.buf.validate.field) = { ... }`
      */
     public var roiY1: kotlin.Double
-      @JvmName("getRoiY1")
-      get() = _builder.roiY1
-      @JvmName("setRoiY1")
-      set(value) {
+      @kotlin.jvm.JvmName("getRoiY1")
+        get() = _builder.roiY1
+      @kotlin.jvm.JvmName("setRoiY1")
+        set(value) {
         _builder.roiY1 = value
       }
     /**
@@ -285,10 +286,10 @@ public object JonGuiDataCVKt {
      * `double roi_x2 = 22 [(.buf.validate.field) = { ... }`
      */
     public var roiX2: kotlin.Double
-      @JvmName("getRoiX2")
-      get() = _builder.roiX2
-      @JvmName("setRoiX2")
-      set(value) {
+      @kotlin.jvm.JvmName("getRoiX2")
+        get() = _builder.roiX2
+      @kotlin.jvm.JvmName("setRoiX2")
+        set(value) {
         _builder.roiX2 = value
       }
     /**
@@ -302,10 +303,10 @@ public object JonGuiDataCVKt {
      * `double roi_y2 = 23 [(.buf.validate.field) = { ... }`
      */
     public var roiY2: kotlin.Double
-      @JvmName("getRoiY2")
-      get() = _builder.roiY2
-      @JvmName("setRoiY2")
-      set(value) {
+      @kotlin.jvm.JvmName("getRoiY2")
+        get() = _builder.roiY2
+      @kotlin.jvm.JvmName("setRoiY2")
+        set(value) {
         _builder.roiY2 = value
       }
     /**
@@ -323,17 +324,17 @@ public object JonGuiDataCVKt {
      * `.ser.JonGuiDataCV.CvBridgeStatus bridge_status = 30 [(.buf.validate.field) = { ... }`
      */
     public var bridgeStatus: ser.JonSharedDataCv.JonGuiDataCV.CvBridgeStatus
-      @JvmName("getBridgeStatus")
-      get() = _builder.bridgeStatus
-      @JvmName("setBridgeStatus")
-      set(value) {
+      @kotlin.jvm.JvmName("getBridgeStatus")
+        get() = _builder.bridgeStatus
+      @kotlin.jvm.JvmName("setBridgeStatus")
+        set(value) {
         _builder.bridgeStatus = value
       }
     public var bridgeStatusValue: kotlin.Int
-      @JvmName("getBridgeStatusValue")
-      get() = _builder.bridgeStatusValue
-      @JvmName("setBridgeStatusValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getBridgeStatusValue")
+        get() = _builder.bridgeStatusValue
+      @kotlin.jvm.JvmName("setBridgeStatusValue")
+        set(value) {
         _builder.bridgeStatusValue = value
       }
     /**
@@ -351,17 +352,17 @@ public object JonGuiDataCVKt {
      * `.ser.JonGuiDataCV.CvBridgeExitReason last_exit_reason = 31 [(.buf.validate.field) = { ... }`
      */
     public var lastExitReason: ser.JonSharedDataCv.JonGuiDataCV.CvBridgeExitReason
-      @JvmName("getLastExitReason")
-      get() = _builder.lastExitReason
-      @JvmName("setLastExitReason")
-      set(value) {
+      @kotlin.jvm.JvmName("getLastExitReason")
+        get() = _builder.lastExitReason
+      @kotlin.jvm.JvmName("setLastExitReason")
+        set(value) {
         _builder.lastExitReason = value
       }
     public var lastExitReasonValue: kotlin.Int
-      @JvmName("getLastExitReasonValue")
-      get() = _builder.lastExitReasonValue
-      @JvmName("setLastExitReasonValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getLastExitReasonValue")
+        get() = _builder.lastExitReasonValue
+      @kotlin.jvm.JvmName("setLastExitReasonValue")
+        set(value) {
         _builder.lastExitReasonValue = value
       }
     /**
@@ -375,10 +376,10 @@ public object JonGuiDataCVKt {
      * `int64 bridge_uptime_ms = 32 [(.buf.validate.field) = { ... }`
      */
     public var bridgeUptimeMs: kotlin.Long
-      @JvmName("getBridgeUptimeMs")
-      get() = _builder.bridgeUptimeMs
-      @JvmName("setBridgeUptimeMs")
-      set(value) {
+      @kotlin.jvm.JvmName("getBridgeUptimeMs")
+        get() = _builder.bridgeUptimeMs
+      @kotlin.jvm.JvmName("setBridgeUptimeMs")
+        set(value) {
         _builder.bridgeUptimeMs = value
       }
     /**
@@ -392,10 +393,10 @@ public object JonGuiDataCVKt {
      * `int32 restart_count = 33 [(.buf.validate.field) = { ... }`
      */
     public var restartCount: kotlin.Int
-      @JvmName("getRestartCount")
-      get() = _builder.restartCount
-      @JvmName("setRestartCount")
-      set(value) {
+      @kotlin.jvm.JvmName("getRestartCount")
+        get() = _builder.restartCount
+      @kotlin.jvm.JvmName("setRestartCount")
+        set(value) {
         _builder.restartCount = value
       }
     /**
@@ -413,10 +414,10 @@ public object JonGuiDataCVKt {
      * `optional .ser.JonGuiDataROI roi_focus_day = 40;`
      */
     public var roiFocusDay: ser.JonSharedDataTypes.JonGuiDataROI
-      @JvmName("getRoiFocusDay")
-      get() = _builder.roiFocusDay
-      @JvmName("setRoiFocusDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getRoiFocusDay")
+        get() = _builder.roiFocusDay
+      @kotlin.jvm.JvmName("setRoiFocusDay")
+        set(value) {
         _builder.roiFocusDay = value
       }
     /**
@@ -448,10 +449,10 @@ public object JonGuiDataCVKt {
      * `optional .ser.JonGuiDataROI roi_track_day = 41;`
      */
     public var roiTrackDay: ser.JonSharedDataTypes.JonGuiDataROI
-      @JvmName("getRoiTrackDay")
-      get() = _builder.roiTrackDay
-      @JvmName("setRoiTrackDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getRoiTrackDay")
+        get() = _builder.roiTrackDay
+      @kotlin.jvm.JvmName("setRoiTrackDay")
+        set(value) {
         _builder.roiTrackDay = value
       }
     /**
@@ -475,10 +476,10 @@ public object JonGuiDataCVKt {
      * `optional .ser.JonGuiDataROI roi_zoom_day = 42;`
      */
     public var roiZoomDay: ser.JonSharedDataTypes.JonGuiDataROI
-      @JvmName("getRoiZoomDay")
-      get() = _builder.roiZoomDay
-      @JvmName("setRoiZoomDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getRoiZoomDay")
+        get() = _builder.roiZoomDay
+      @kotlin.jvm.JvmName("setRoiZoomDay")
+        set(value) {
         _builder.roiZoomDay = value
       }
     /**
@@ -502,10 +503,10 @@ public object JonGuiDataCVKt {
      * `optional .ser.JonGuiDataROI roi_fx_day = 43;`
      */
     public var roiFxDay: ser.JonSharedDataTypes.JonGuiDataROI
-      @JvmName("getRoiFxDay")
-      get() = _builder.roiFxDay
-      @JvmName("setRoiFxDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getRoiFxDay")
+        get() = _builder.roiFxDay
+      @kotlin.jvm.JvmName("setRoiFxDay")
+        set(value) {
         _builder.roiFxDay = value
       }
     /**
@@ -533,10 +534,10 @@ public object JonGuiDataCVKt {
      * `optional .ser.JonGuiDataROI roi_focus_heat = 50;`
      */
     public var roiFocusHeat: ser.JonSharedDataTypes.JonGuiDataROI
-      @JvmName("getRoiFocusHeat")
-      get() = _builder.roiFocusHeat
-      @JvmName("setRoiFocusHeat")
-      set(value) {
+      @kotlin.jvm.JvmName("getRoiFocusHeat")
+        get() = _builder.roiFocusHeat
+      @kotlin.jvm.JvmName("setRoiFocusHeat")
+        set(value) {
         _builder.roiFocusHeat = value
       }
     /**
@@ -568,10 +569,10 @@ public object JonGuiDataCVKt {
      * `optional .ser.JonGuiDataROI roi_track_heat = 51;`
      */
     public var roiTrackHeat: ser.JonSharedDataTypes.JonGuiDataROI
-      @JvmName("getRoiTrackHeat")
-      get() = _builder.roiTrackHeat
-      @JvmName("setRoiTrackHeat")
-      set(value) {
+      @kotlin.jvm.JvmName("getRoiTrackHeat")
+        get() = _builder.roiTrackHeat
+      @kotlin.jvm.JvmName("setRoiTrackHeat")
+        set(value) {
         _builder.roiTrackHeat = value
       }
     /**
@@ -595,10 +596,10 @@ public object JonGuiDataCVKt {
      * `optional .ser.JonGuiDataROI roi_zoom_heat = 52;`
      */
     public var roiZoomHeat: ser.JonSharedDataTypes.JonGuiDataROI
-      @JvmName("getRoiZoomHeat")
-      get() = _builder.roiZoomHeat
-      @JvmName("setRoiZoomHeat")
-      set(value) {
+      @kotlin.jvm.JvmName("getRoiZoomHeat")
+        get() = _builder.roiZoomHeat
+      @kotlin.jvm.JvmName("setRoiZoomHeat")
+        set(value) {
         _builder.roiZoomHeat = value
       }
     /**
@@ -622,10 +623,10 @@ public object JonGuiDataCVKt {
      * `optional .ser.JonGuiDataROI roi_fx_heat = 53;`
      */
     public var roiFxHeat: ser.JonSharedDataTypes.JonGuiDataROI
-      @JvmName("getRoiFxHeat")
-      get() = _builder.roiFxHeat
-      @JvmName("setRoiFxHeat")
-      set(value) {
+      @kotlin.jvm.JvmName("getRoiFxHeat")
+        get() = _builder.roiFxHeat
+      @kotlin.jvm.JvmName("setRoiFxHeat")
+        set(value) {
         _builder.roiFxHeat = value
       }
     /**
@@ -653,10 +654,10 @@ public object JonGuiDataCVKt {
      * `optional .ser.JonGuiDataSharpness sharpness_metrics_day = 60;`
      */
     public var sharpnessMetricsDay: ser.JonSharedDataTypes.JonGuiDataSharpness
-      @JvmName("getSharpnessMetricsDay")
-      get() = _builder.sharpnessMetricsDay
-      @JvmName("setSharpnessMetricsDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getSharpnessMetricsDay")
+        get() = _builder.sharpnessMetricsDay
+      @kotlin.jvm.JvmName("setSharpnessMetricsDay")
+        set(value) {
         _builder.sharpnessMetricsDay = value
       }
     /**
@@ -692,10 +693,10 @@ public object JonGuiDataCVKt {
      * `optional .ser.JonGuiDataSharpness sharpness_metrics_heat = 61;`
      */
     public var sharpnessMetricsHeat: ser.JonSharedDataTypes.JonGuiDataSharpness
-      @JvmName("getSharpnessMetricsHeat")
-      get() = _builder.sharpnessMetricsHeat
-      @JvmName("setSharpnessMetricsHeat")
-      set(value) {
+      @kotlin.jvm.JvmName("getSharpnessMetricsHeat")
+        get() = _builder.sharpnessMetricsHeat
+      @kotlin.jvm.JvmName("setSharpnessMetricsHeat")
+        set(value) {
         _builder.sharpnessMetricsHeat = value
       }
     /**
@@ -731,10 +732,10 @@ public object JonGuiDataCVKt {
      * `optional .ser.JonGuiDataTransform3D camera_transform_day = 70;`
      */
     public var cameraTransformDay: ser.JonSharedDataTypes.JonGuiDataTransform3D
-      @JvmName("getCameraTransformDay")
-      get() = _builder.cameraTransformDay
-      @JvmName("setCameraTransformDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getCameraTransformDay")
+        get() = _builder.cameraTransformDay
+      @kotlin.jvm.JvmName("setCameraTransformDay")
+        set(value) {
         _builder.cameraTransformDay = value
       }
     /**
@@ -770,10 +771,10 @@ public object JonGuiDataCVKt {
      * `optional .ser.JonGuiDataTransform3D camera_transform_heat = 71;`
      */
     public var cameraTransformHeat: ser.JonSharedDataTypes.JonGuiDataTransform3D
-      @JvmName("getCameraTransformHeat")
-      get() = _builder.cameraTransformHeat
-      @JvmName("setCameraTransformHeat")
-      set(value) {
+      @kotlin.jvm.JvmName("getCameraTransformHeat")
+        get() = _builder.cameraTransformHeat
+      @kotlin.jvm.JvmName("setCameraTransformHeat")
+        set(value) {
         _builder.cameraTransformHeat = value
       }
     /**
@@ -817,7 +818,7 @@ public object JonGuiDataCVKt {
      */
      public val trackedObjects: com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonGuiDataTrackedObject, TrackedObjectsProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.trackedObjectsList
       )
     /**
@@ -830,7 +831,7 @@ public object JonGuiDataCVKt {
      * @param value The trackedObjects to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addTrackedObjects")
+@kotlin.jvm.JvmName("addTrackedObjects")
     public fun com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonGuiDataTrackedObject, TrackedObjectsProxy>.add(value: ser.JonSharedDataTypes.JonGuiDataTrackedObject) {
       _builder.addTrackedObjects(value)
     }
@@ -844,7 +845,7 @@ public object JonGuiDataCVKt {
      * @param value The trackedObjects to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignTrackedObjects")
+@kotlin.jvm.JvmName("plusAssignTrackedObjects")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonGuiDataTrackedObject, TrackedObjectsProxy>.plusAssign(value: ser.JonSharedDataTypes.JonGuiDataTrackedObject) {
       add(value)
@@ -859,7 +860,7 @@ public object JonGuiDataCVKt {
      * @param values The trackedObjects to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllTrackedObjects")
+@kotlin.jvm.JvmName("addAllTrackedObjects")
     public fun com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonGuiDataTrackedObject, TrackedObjectsProxy>.addAll(values: kotlin.collections.Iterable<ser.JonSharedDataTypes.JonGuiDataTrackedObject>) {
       _builder.addAllTrackedObjects(values)
     }
@@ -873,7 +874,7 @@ public object JonGuiDataCVKt {
      * @param values The trackedObjects to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllTrackedObjects")
+@kotlin.jvm.JvmName("plusAssignAllTrackedObjects")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonGuiDataTrackedObject, TrackedObjectsProxy>.plusAssign(values: kotlin.collections.Iterable<ser.JonSharedDataTypes.JonGuiDataTrackedObject>) {
       addAll(values)
@@ -889,7 +890,7 @@ public object JonGuiDataCVKt {
      * @param value The trackedObjects to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setTrackedObjects")
+@kotlin.jvm.JvmName("setTrackedObjects")
     public operator fun com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonGuiDataTrackedObject, TrackedObjectsProxy>.set(index: kotlin.Int, value: ser.JonSharedDataTypes.JonGuiDataTrackedObject) {
       _builder.setTrackedObjects(index, value)
     }
@@ -902,11 +903,10 @@ public object JonGuiDataCVKt {
      * `repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearTrackedObjects")
+@kotlin.jvm.JvmName("clearTrackedObjects")
     public fun com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonGuiDataTrackedObject, TrackedObjectsProxy>.clear() {
       _builder.clearTrackedObjects()
     }
-
 
     /**
      * ```
@@ -940,10 +940,10 @@ public object JonGuiDataCVKt {
      * `bool trinity_tracking_active = 90;`
      */
     public var trinityTrackingActive: kotlin.Boolean
-      @JvmName("getTrinityTrackingActive")
-      get() = _builder.trinityTrackingActive
-      @JvmName("setTrinityTrackingActive")
-      set(value) {
+      @kotlin.jvm.JvmName("getTrinityTrackingActive")
+        get() = _builder.trinityTrackingActive
+      @kotlin.jvm.JvmName("setTrinityTrackingActive")
+        set(value) {
         _builder.trinityTrackingActive = value
       }
     /**
@@ -1019,10 +1019,10 @@ public object JonGuiDataCVKt {
      * `bool zoom_roi_active_day = 91;`
      */
     public var zoomRoiActiveDay: kotlin.Boolean
-      @JvmName("getZoomRoiActiveDay")
-      get() = _builder.zoomRoiActiveDay
-      @JvmName("setZoomRoiActiveDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getZoomRoiActiveDay")
+        get() = _builder.zoomRoiActiveDay
+      @kotlin.jvm.JvmName("setZoomRoiActiveDay")
+        set(value) {
         _builder.zoomRoiActiveDay = value
       }
     /**
@@ -1070,10 +1070,10 @@ public object JonGuiDataCVKt {
      * `bool zoom_roi_active_heat = 92;`
      */
     public var zoomRoiActiveHeat: kotlin.Boolean
-      @JvmName("getZoomRoiActiveHeat")
-      get() = _builder.zoomRoiActiveHeat
-      @JvmName("setZoomRoiActiveHeat")
-      set(value) {
+      @kotlin.jvm.JvmName("getZoomRoiActiveHeat")
+        get() = _builder.zoomRoiActiveHeat
+      @kotlin.jvm.JvmName("setZoomRoiActiveHeat")
+        set(value) {
         _builder.zoomRoiActiveHeat = value
       }
     /**
@@ -1110,10 +1110,10 @@ public object JonGuiDataCVKt {
      * `optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;`
      */
     public var stabCorrectionDay: ser.JonSharedDataCv.JonGuiDataStabCorrection
-      @JvmName("getStabCorrectionDay")
-      get() = _builder.stabCorrectionDay
-      @JvmName("setStabCorrectionDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getStabCorrectionDay")
+        get() = _builder.stabCorrectionDay
+      @kotlin.jvm.JvmName("setStabCorrectionDay")
+        set(value) {
         _builder.stabCorrectionDay = value
       }
     /**
@@ -1183,10 +1183,10 @@ public object JonGuiDataCVKt {
      * `optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;`
      */
     public var stabCorrectionHeat: ser.JonSharedDataCv.JonGuiDataStabCorrection
-      @JvmName("getStabCorrectionHeat")
-      get() = _builder.stabCorrectionHeat
-      @JvmName("setStabCorrectionHeat")
-      set(value) {
+      @kotlin.jvm.JvmName("getStabCorrectionHeat")
+        get() = _builder.stabCorrectionHeat
+      @kotlin.jvm.JvmName("setStabCorrectionHeat")
+        set(value) {
         _builder.stabCorrectionHeat = value
       }
     /**
@@ -1219,10 +1219,10 @@ public object JonGuiDataCVKt {
      * `uint32 shot_seq = 110;`
      */
     public var shotSeq: kotlin.Int
-      @JvmName("getShotSeq")
-      get() = _builder.shotSeq
-      @JvmName("setShotSeq")
-      set(value) {
+      @kotlin.jvm.JvmName("getShotSeq")
+        get() = _builder.shotSeq
+      @kotlin.jvm.JvmName("setShotSeq")
+        set(value) {
         _builder.shotSeq = value
       }
     /**
@@ -1251,17 +1251,17 @@ public object JonGuiDataCVKt {
      * `.ser.JonGuiDataCV.ShotState shot_state = 111 [(.buf.validate.field) = { ... }`
      */
     public var shotState: ser.JonSharedDataCv.JonGuiDataCV.ShotState
-      @JvmName("getShotState")
-      get() = _builder.shotState
-      @JvmName("setShotState")
-      set(value) {
+      @kotlin.jvm.JvmName("getShotState")
+        get() = _builder.shotState
+      @kotlin.jvm.JvmName("setShotState")
+        set(value) {
         _builder.shotState = value
       }
     public var shotStateValue: kotlin.Int
-      @JvmName("getShotStateValue")
-      get() = _builder.shotStateValue
-      @JvmName("setShotStateValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getShotStateValue")
+        get() = _builder.shotStateValue
+      @kotlin.jvm.JvmName("setShotStateValue")
+        set(value) {
         _builder.shotStateValue = value
       }
     /**
@@ -1287,10 +1287,10 @@ public object JonGuiDataCVKt {
      * `string shot_id = 112 [(.buf.validate.field) = { ... }`
      */
     public var shotId: kotlin.String
-      @JvmName("getShotId")
-      get() = _builder.shotId
-      @JvmName("setShotId")
-      set(value) {
+      @kotlin.jvm.JvmName("getShotId")
+        get() = _builder.shotId
+      @kotlin.jvm.JvmName("setShotId")
+        set(value) {
         _builder.shotId = value
       }
     /**

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_client_logs.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.logs;
@@ -40,10 +41,10 @@ public object ClientLogEntryKt {
      * `string lvl = 1 [(.buf.validate.field) = { ... }`
      */
     public var lvl: kotlin.String
-      @JvmName("getLvl")
-      get() = _builder.lvl
-      @JvmName("setLvl")
-      set(value) {
+      @kotlin.jvm.JvmName("getLvl")
+        get() = _builder.lvl
+      @kotlin.jvm.JvmName("setLvl")
+        set(value) {
         _builder.lvl = value
       }
     /**
@@ -61,10 +62,10 @@ public object ClientLogEntryKt {
      * `string mod = 2 [(.buf.validate.field) = { ... }`
      */
     public var mod: kotlin.String
-      @JvmName("getMod")
-      get() = _builder.mod
-      @JvmName("setMod")
-      set(value) {
+      @kotlin.jvm.JvmName("getMod")
+        get() = _builder.mod
+      @kotlin.jvm.JvmName("setMod")
+        set(value) {
         _builder.mod = value
       }
     /**
@@ -78,10 +79,10 @@ public object ClientLogEntryKt {
      * `string msg = 3 [(.buf.validate.field) = { ... }`
      */
     public var msg: kotlin.String
-      @JvmName("getMsg")
-      get() = _builder.msg
-      @JvmName("setMsg")
-      set(value) {
+      @kotlin.jvm.JvmName("getMsg")
+        get() = _builder.msg
+      @kotlin.jvm.JvmName("setMsg")
+        set(value) {
         _builder.msg = value
       }
     /**
@@ -95,10 +96,10 @@ public object ClientLogEntryKt {
      * `int64 ts = 4 [(.buf.validate.field) = { ... }`
      */
     public var ts: kotlin.Long
-      @JvmName("getTs")
-      get() = _builder.ts
-      @JvmName("setTs")
-      set(value) {
+      @kotlin.jvm.JvmName("getTs")
+        get() = _builder.ts
+      @kotlin.jvm.JvmName("setTs")
+        set(value) {
         _builder.ts = value
       }
     /**
@@ -116,10 +117,10 @@ public object ClientLogEntryKt {
      * `string file = 5;`
      */
     public var file: kotlin.String
-      @JvmName("getFile")
-      get() = _builder.file
-      @JvmName("setFile")
-      set(value) {
+      @kotlin.jvm.JvmName("getFile")
+        get() = _builder.file
+      @kotlin.jvm.JvmName("setFile")
+        set(value) {
         _builder.file = value
       }
     /**
@@ -137,10 +138,10 @@ public object ClientLogEntryKt {
      * `int32 line = 6;`
      */
     public var line: kotlin.Int
-      @JvmName("getLine")
-      get() = _builder.line
-      @JvmName("setLine")
-      set(value) {
+      @kotlin.jvm.JvmName("getLine")
+        get() = _builder.line
+      @kotlin.jvm.JvmName("setLine")
+        set(value) {
         _builder.line = value
       }
     /**
@@ -158,10 +159,10 @@ public object ClientLogEntryKt {
      * `string sid = 7 [(.buf.validate.field) = { ... }`
      */
     public var sid: kotlin.String
-      @JvmName("getSid")
-      get() = _builder.sid
-      @JvmName("setSid")
-      set(value) {
+      @kotlin.jvm.JvmName("getSid")
+        get() = _builder.sid
+      @kotlin.jvm.JvmName("setSid")
+        set(value) {
         _builder.sid = value
       }
     /**
@@ -183,10 +184,10 @@ public object ClientLogEntryKt {
      * `string ua = 8;`
      */
     public var ua: kotlin.String
-      @JvmName("getUa")
-      get() = _builder.ua
-      @JvmName("setUa")
-      set(value) {
+      @kotlin.jvm.JvmName("getUa")
+        get() = _builder.ua
+      @kotlin.jvm.JvmName("setUa")
+        set(value) {
         _builder.ua = value
       }
     /**
@@ -208,10 +209,10 @@ public object ClientLogEntryKt {
      * `optional string url = 9;`
      */
     public var url: kotlin.String
-      @JvmName("getUrl")
-      get() = _builder.url
-      @JvmName("setUrl")
-      set(value) {
+      @kotlin.jvm.JvmName("getUrl")
+        get() = _builder.url
+      @kotlin.jvm.JvmName("setUrl")
+        set(value) {
         _builder.url = value
       }
     /**
@@ -244,10 +245,10 @@ public object ClientLogEntryKt {
      * `optional string origin = 10;`
      */
     public var origin: kotlin.String
-      @JvmName("getOrigin")
-      get() = _builder.origin
-      @JvmName("setOrigin")
-      set(value) {
+      @kotlin.jvm.JvmName("getOrigin")
+        get() = _builder.origin
+      @kotlin.jvm.JvmName("setOrigin")
+        set(value) {
         _builder.origin = value
       }
     /**
@@ -280,10 +281,10 @@ public object ClientLogEntryKt {
      * `string commit = 11;`
      */
     public var commit: kotlin.String
-      @JvmName("getCommit")
-      get() = _builder.commit
-      @JvmName("setCommit")
-      set(value) {
+      @kotlin.jvm.JvmName("getCommit")
+        get() = _builder.commit
+      @kotlin.jvm.JvmName("setCommit")
+        set(value) {
         _builder.commit = value
       }
     /**
@@ -305,10 +306,10 @@ public object ClientLogEntryKt {
      * `string build = 12;`
      */
     public var build: kotlin.String
-      @JvmName("getBuild")
-      get() = _builder.build
-      @JvmName("setBuild")
-      set(value) {
+      @kotlin.jvm.JvmName("getBuild")
+        get() = _builder.build
+      @kotlin.jvm.JvmName("setBuild")
+        set(value) {
         _builder.build = value
       }
     /**
@@ -330,10 +331,10 @@ public object ClientLogEntryKt {
      * `int32 sw = 13 [(.buf.validate.field) = { ... }`
      */
     public var sw: kotlin.Int
-      @JvmName("getSw")
-      get() = _builder.sw
-      @JvmName("setSw")
-      set(value) {
+      @kotlin.jvm.JvmName("getSw")
+        get() = _builder.sw
+      @kotlin.jvm.JvmName("setSw")
+        set(value) {
         _builder.sw = value
       }
     /**
@@ -351,10 +352,10 @@ public object ClientLogEntryKt {
      * `int32 sh = 14 [(.buf.validate.field) = { ... }`
      */
     public var sh: kotlin.Int
-      @JvmName("getSh")
-      get() = _builder.sh
-      @JvmName("setSh")
-      set(value) {
+      @kotlin.jvm.JvmName("getSh")
+        get() = _builder.sh
+      @kotlin.jvm.JvmName("setSh")
+        set(value) {
         _builder.sh = value
       }
     /**
@@ -372,10 +373,10 @@ public object ClientLogEntryKt {
      * `double dpr = 15;`
      */
     public var dpr: kotlin.Double
-      @JvmName("getDpr")
-      get() = _builder.dpr
-      @JvmName("setDpr")
-      set(value) {
+      @kotlin.jvm.JvmName("getDpr")
+        get() = _builder.dpr
+      @kotlin.jvm.JvmName("setDpr")
+        set(value) {
         _builder.dpr = value
       }
     /**
@@ -397,10 +398,10 @@ public object ClientLogEntryKt {
      * `string lang = 16;`
      */
     public var lang: kotlin.String
-      @JvmName("getLang")
-      get() = _builder.lang
-      @JvmName("setLang")
-      set(value) {
+      @kotlin.jvm.JvmName("getLang")
+        get() = _builder.lang
+      @kotlin.jvm.JvmName("setLang")
+        set(value) {
         _builder.lang = value
       }
     /**
@@ -422,10 +423,10 @@ public object ClientLogEntryKt {
      * `string tz = 17;`
      */
     public var tz: kotlin.String
-      @JvmName("getTz")
-      get() = _builder.tz
-      @JvmName("setTz")
-      set(value) {
+      @kotlin.jvm.JvmName("getTz")
+        get() = _builder.tz
+      @kotlin.jvm.JvmName("setTz")
+        set(value) {
         _builder.tz = value
       }
     /**
@@ -447,10 +448,10 @@ public object ClientLogEntryKt {
      * `string extra = 18;`
      */
     public var extra: kotlin.String
-      @JvmName("getExtra")
-      get() = _builder.extra
-      @JvmName("setExtra")
-      set(value) {
+      @kotlin.jvm.JvmName("getExtra")
+        get() = _builder.extra
+      @kotlin.jvm.JvmName("setExtra")
+        set(value) {
         _builder.extra = value
       }
     /**
@@ -472,10 +473,10 @@ public object ClientLogEntryKt {
      * `optional bytes state_snapshot = 19;`
      */
     public var stateSnapshot: com.google.protobuf.ByteString
-      @JvmName("getStateSnapshot")
-      get() = _builder.stateSnapshot
-      @JvmName("setStateSnapshot")
-      set(value) {
+      @kotlin.jvm.JvmName("getStateSnapshot")
+        get() = _builder.stateSnapshot
+      @kotlin.jvm.JvmName("setStateSnapshot")
+        set(value) {
         _builder.stateSnapshot = value
       }
     /**

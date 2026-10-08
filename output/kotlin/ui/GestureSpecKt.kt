@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -39,17 +40,17 @@ public object GestureSpecKt {
      * `.ui.GestureKind kind = 1 [(.buf.validate.field) = { ... }`
      */
     public var kind: ui.UiAst.GestureKind
-      @JvmName("getKind")
-      get() = _builder.kind
-      @JvmName("setKind")
-      set(value) {
+      @kotlin.jvm.JvmName("getKind")
+        get() = _builder.kind
+      @kotlin.jvm.JvmName("setKind")
+        set(value) {
         _builder.kind = value
       }
     public var kindValue: kotlin.Int
-      @JvmName("getKindValue")
-      get() = _builder.kindValue
-      @JvmName("setKindValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getKindValue")
+        get() = _builder.kindValue
+      @kotlin.jvm.JvmName("setKindValue")
+        set(value) {
         _builder.kindValue = value
       }
     /**
@@ -63,10 +64,10 @@ public object GestureSpecKt {
      * `.ui.CmdSpec cmd = 2;`
      */
     public var cmd: ui.UiAst.CmdSpec
-      @JvmName("getCmd")
-      get() = _builder.cmd
-      @JvmName("setCmd")
-      set(value) {
+      @kotlin.jvm.JvmName("getCmd")
+        get() = _builder.cmd
+      @kotlin.jvm.JvmName("setCmd")
+        set(value) {
         _builder.cmd = value
       }
     /**
@@ -99,17 +100,17 @@ public object GestureSpecKt {
      * `.ui.GestureDeltaSign delta_sign = 3 [(.buf.validate.field) = { ... }`
      */
     public var deltaSign: ui.UiAst.GestureDeltaSign
-      @JvmName("getDeltaSign")
-      get() = _builder.deltaSign
-      @JvmName("setDeltaSign")
-      set(value) {
+      @kotlin.jvm.JvmName("getDeltaSign")
+        get() = _builder.deltaSign
+      @kotlin.jvm.JvmName("setDeltaSign")
+        set(value) {
         _builder.deltaSign = value
       }
     public var deltaSignValue: kotlin.Int
-      @JvmName("getDeltaSignValue")
-      get() = _builder.deltaSignValue
-      @JvmName("setDeltaSignValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getDeltaSignValue")
+        get() = _builder.deltaSignValue
+      @kotlin.jvm.JvmName("setDeltaSignValue")
+        set(value) {
         _builder.deltaSignValue = value
       }
     /**

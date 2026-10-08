@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -41,10 +42,10 @@ public object ScreenKt {
      * `optional .ui.WidgetNode root = 1;`
      */
     public var root: ui.UiAst.WidgetNode
-      @JvmName("getRoot")
-      get() = _builder.root
-      @JvmName("setRoot")
-      set(value) {
+      @kotlin.jvm.JvmName("getRoot")
+        get() = _builder.root
+      @kotlin.jvm.JvmName("setRoot")
+        set(value) {
         _builder.root = value
       }
     /**
@@ -89,7 +90,7 @@ public object ScreenKt {
      */
      public val subjects: com.google.protobuf.kotlin.DslList<ui.UiAst.SubjectDeclaration, SubjectsProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.subjectsList
       )
     /**
@@ -101,7 +102,7 @@ public object ScreenKt {
      * @param value The subjects to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addSubjects")
+@kotlin.jvm.JvmName("addSubjects")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.SubjectDeclaration, SubjectsProxy>.add(value: ui.UiAst.SubjectDeclaration) {
       _builder.addSubjects(value)
     }
@@ -114,7 +115,7 @@ public object ScreenKt {
      * @param value The subjects to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignSubjects")
+@kotlin.jvm.JvmName("plusAssignSubjects")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.SubjectDeclaration, SubjectsProxy>.plusAssign(value: ui.UiAst.SubjectDeclaration) {
       add(value)
@@ -128,7 +129,7 @@ public object ScreenKt {
      * @param values The subjects to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllSubjects")
+@kotlin.jvm.JvmName("addAllSubjects")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.SubjectDeclaration, SubjectsProxy>.addAll(values: kotlin.collections.Iterable<ui.UiAst.SubjectDeclaration>) {
       _builder.addAllSubjects(values)
     }
@@ -141,7 +142,7 @@ public object ScreenKt {
      * @param values The subjects to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllSubjects")
+@kotlin.jvm.JvmName("plusAssignAllSubjects")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.SubjectDeclaration, SubjectsProxy>.plusAssign(values: kotlin.collections.Iterable<ui.UiAst.SubjectDeclaration>) {
       addAll(values)
@@ -156,7 +157,7 @@ public object ScreenKt {
      * @param value The subjects to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setSubjects")
+@kotlin.jvm.JvmName("setSubjects")
     public operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.SubjectDeclaration, SubjectsProxy>.set(index: kotlin.Int, value: ui.UiAst.SubjectDeclaration) {
       _builder.setSubjects(index, value)
     }
@@ -168,11 +169,10 @@ public object ScreenKt {
      * `repeated .ui.SubjectDeclaration subjects = 2;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearSubjects")
+@kotlin.jvm.JvmName("clearSubjects")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.SubjectDeclaration, SubjectsProxy>.clear() {
       _builder.clearSubjects()
     }
-
   }
 }
 @kotlin.jvm.JvmSynthetic

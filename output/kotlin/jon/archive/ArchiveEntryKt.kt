@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_sych_archive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.archive;
@@ -40,10 +41,10 @@ public object ArchiveEntryKt {
      * `string path = 1 [(.buf.validate.field) = { ... }`
      */
     public var path: kotlin.String
-      @JvmName("getPath")
-      get() = _builder.path
-      @JvmName("setPath")
-      set(value) {
+      @kotlin.jvm.JvmName("getPath")
+        get() = _builder.path
+      @kotlin.jvm.JvmName("setPath")
+        set(value) {
         _builder.path = value
       }
     /**
@@ -65,10 +66,10 @@ public object ArchiveEntryKt {
      * `uint64 header_offset = 2;`
      */
     public var headerOffset: kotlin.Long
-      @JvmName("getHeaderOffset")
-      get() = _builder.headerOffset
-      @JvmName("setHeaderOffset")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeaderOffset")
+        get() = _builder.headerOffset
+      @kotlin.jvm.JvmName("setHeaderOffset")
+        set(value) {
         _builder.headerOffset = value
       }
     /**
@@ -90,10 +91,10 @@ public object ArchiveEntryKt {
      * `uint64 data_offset = 3;`
      */
     public var dataOffset: kotlin.Long
-      @JvmName("getDataOffset")
-      get() = _builder.dataOffset
-      @JvmName("setDataOffset")
-      set(value) {
+      @kotlin.jvm.JvmName("getDataOffset")
+        get() = _builder.dataOffset
+      @kotlin.jvm.JvmName("setDataOffset")
+        set(value) {
         _builder.dataOffset = value
       }
     /**
@@ -115,10 +116,10 @@ public object ArchiveEntryKt {
      * `uint64 size = 4 [(.buf.validate.field) = { ... }`
      */
     public var size: kotlin.Long
-      @JvmName("getSize")
-      get() = _builder.size
-      @JvmName("setSize")
-      set(value) {
+      @kotlin.jvm.JvmName("getSize")
+        get() = _builder.size
+      @kotlin.jvm.JvmName("setSize")
+        set(value) {
         _builder.size = value
       }
     /**

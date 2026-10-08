@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_input.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -41,10 +42,10 @@ public object HoverStateKt {
      * `uint32 hovered_uid = 1;`
      */
     public var hoveredUid: kotlin.Int
-      @JvmName("getHoveredUid")
-      get() = _builder.hoveredUid
-      @JvmName("setHoveredUid")
-      set(value) {
+      @kotlin.jvm.JvmName("getHoveredUid")
+        get() = _builder.hoveredUid
+      @kotlin.jvm.JvmName("setHoveredUid")
+        set(value) {
         _builder.hoveredUid = value
       }
     /**
@@ -66,10 +67,10 @@ public object HoverStateKt {
      * `bool interactive = 2;`
      */
     public var interactive: kotlin.Boolean
-      @JvmName("getInteractive")
-      get() = _builder.interactive
-      @JvmName("setInteractive")
-      set(value) {
+      @kotlin.jvm.JvmName("getInteractive")
+        get() = _builder.interactive
+      @kotlin.jvm.JvmName("setInteractive")
+        set(value) {
         _builder.interactive = value
       }
     /**

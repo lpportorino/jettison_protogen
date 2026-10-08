@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_heater.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -36,10 +37,10 @@ public object JonGuiDataHeaterKt {
      * `float bus_voltage_V = 1 [(.buf.validate.field) = { ... }`
      */
     public var busVoltageV: kotlin.Float
-      @JvmName("getBusVoltageV")
-      get() = _builder.busVoltageV
-      @JvmName("setBusVoltageV")
-      set(value) {
+      @kotlin.jvm.JvmName("getBusVoltageV")
+        get() = _builder.busVoltageV
+      @kotlin.jvm.JvmName("setBusVoltageV")
+        set(value) {
         _builder.busVoltageV = value
       }
     /**
@@ -53,10 +54,10 @@ public object JonGuiDataHeaterKt {
      * `float current_A = 2 [(.buf.validate.field) = { ... }`
      */
     public var currentA: kotlin.Float
-      @JvmName("getCurrentA")
-      get() = _builder.currentA
-      @JvmName("setCurrentA")
-      set(value) {
+      @kotlin.jvm.JvmName("getCurrentA")
+        get() = _builder.currentA
+      @kotlin.jvm.JvmName("setCurrentA")
+        set(value) {
         _builder.currentA = value
       }
     /**
@@ -70,10 +71,10 @@ public object JonGuiDataHeaterKt {
      * `float power_W = 3 [(.buf.validate.field) = { ... }`
      */
     public var powerW: kotlin.Float
-      @JvmName("getPowerW")
-      get() = _builder.powerW
-      @JvmName("setPowerW")
-      set(value) {
+      @kotlin.jvm.JvmName("getPowerW")
+        get() = _builder.powerW
+      @kotlin.jvm.JvmName("setPowerW")
+        set(value) {
         _builder.powerW = value
       }
     /**
@@ -91,10 +92,10 @@ public object JonGuiDataHeaterKt {
      * `.ser.JonGuiDataHeaterChannelStatus channel_0 = 4;`
      */
     public var channel0: ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus
-      @JvmName("getChannel0")
-      get() = _builder.channel0
-      @JvmName("setChannel0")
-      set(value) {
+      @kotlin.jvm.JvmName("getChannel0")
+        get() = _builder.channel0
+      @kotlin.jvm.JvmName("setChannel0")
+        set(value) {
         _builder.channel0 = value
       }
     /**
@@ -130,10 +131,10 @@ public object JonGuiDataHeaterKt {
      * `.ser.JonGuiDataHeaterChannelStatus channel_1 = 5;`
      */
     public var channel1: ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus
-      @JvmName("getChannel1")
-      get() = _builder.channel1
-      @JvmName("setChannel1")
-      set(value) {
+      @kotlin.jvm.JvmName("getChannel1")
+        get() = _builder.channel1
+      @kotlin.jvm.JvmName("setChannel1")
+        set(value) {
         _builder.channel1 = value
       }
     /**
@@ -169,10 +170,10 @@ public object JonGuiDataHeaterKt {
      * `.ser.JonGuiDataHeaterChannelStatus channel_2 = 6;`
      */
     public var channel2: ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus
-      @JvmName("getChannel2")
-      get() = _builder.channel2
-      @JvmName("setChannel2")
-      set(value) {
+      @kotlin.jvm.JvmName("getChannel2")
+        get() = _builder.channel2
+      @kotlin.jvm.JvmName("setChannel2")
+        set(value) {
         _builder.channel2 = value
       }
     /**
@@ -204,10 +205,10 @@ public object JonGuiDataHeaterKt {
      * `bool automatic_control_enabled = 7;`
      */
     public var automaticControlEnabled: kotlin.Boolean
-      @JvmName("getAutomaticControlEnabled")
-      get() = _builder.automaticControlEnabled
-      @JvmName("setAutomaticControlEnabled")
-      set(value) {
+      @kotlin.jvm.JvmName("getAutomaticControlEnabled")
+        get() = _builder.automaticControlEnabled
+      @kotlin.jvm.JvmName("setAutomaticControlEnabled")
+        set(value) {
         _builder.automaticControlEnabled = value
       }
     /**
@@ -225,10 +226,10 @@ public object JonGuiDataHeaterKt {
      * `float target_temp_channel_0 = 8 [(.buf.validate.field) = { ... }`
      */
     public var targetTempChannel0: kotlin.Float
-      @JvmName("getTargetTempChannel0")
-      get() = _builder.targetTempChannel0
-      @JvmName("setTargetTempChannel0")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetTempChannel0")
+        get() = _builder.targetTempChannel0
+      @kotlin.jvm.JvmName("setTargetTempChannel0")
+        set(value) {
         _builder.targetTempChannel0 = value
       }
     /**
@@ -246,10 +247,10 @@ public object JonGuiDataHeaterKt {
      * `float target_temp_channel_1 = 9 [(.buf.validate.field) = { ... }`
      */
     public var targetTempChannel1: kotlin.Float
-      @JvmName("getTargetTempChannel1")
-      get() = _builder.targetTempChannel1
-      @JvmName("setTargetTempChannel1")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetTempChannel1")
+        get() = _builder.targetTempChannel1
+      @kotlin.jvm.JvmName("setTargetTempChannel1")
+        set(value) {
         _builder.targetTempChannel1 = value
       }
     /**
@@ -263,10 +264,10 @@ public object JonGuiDataHeaterKt {
      * `float target_temp_channel_2 = 10 [(.buf.validate.field) = { ... }`
      */
     public var targetTempChannel2: kotlin.Float
-      @JvmName("getTargetTempChannel2")
-      get() = _builder.targetTempChannel2
-      @JvmName("setTargetTempChannel2")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetTempChannel2")
+        get() = _builder.targetTempChannel2
+      @kotlin.jvm.JvmName("setTargetTempChannel2")
+        set(value) {
         _builder.targetTempChannel2 = value
       }
     /**
@@ -288,10 +289,10 @@ public object JonGuiDataHeaterKt {
      * `uint32 budget_unrelayed_steps = 11;`
      */
     public var budgetUnrelayedSteps: kotlin.Int
-      @JvmName("getBudgetUnrelayedSteps")
-      get() = _builder.budgetUnrelayedSteps
-      @JvmName("setBudgetUnrelayedSteps")
-      set(value) {
+      @kotlin.jvm.JvmName("getBudgetUnrelayedSteps")
+        get() = _builder.budgetUnrelayedSteps
+      @kotlin.jvm.JvmName("setBudgetUnrelayedSteps")
+        set(value) {
         _builder.budgetUnrelayedSteps = value
       }
     /**
@@ -313,10 +314,10 @@ public object JonGuiDataHeaterKt {
      * `.ser.JonGuiDataModuleHealth health = 40;`
      */
     public var health: ser.JonSharedDataTypes.JonGuiDataModuleHealth
-      @JvmName("getHealth")
-      get() = _builder.health
-      @JvmName("setHealth")
-      set(value) {
+      @kotlin.jvm.JvmName("getHealth")
+        get() = _builder.health
+      @kotlin.jvm.JvmName("setHealth")
+        set(value) {
         _builder.health = value
       }
     /**

@@ -13,3 +13,6 @@ renderer/lvgl/** -text
 *.png   binary
 *.jpg   binary
 *.jpeg  binary
+
+# Reproducible patched dependency source archive.
+*.jar binary

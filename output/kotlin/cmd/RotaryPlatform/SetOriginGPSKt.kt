@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_rotary.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.RotaryPlatform;
@@ -32,10 +33,10 @@ public object SetOriginGPSKt {
      * `double latitude = 1 [(.buf.validate.field) = { ... }`
      */
     public var latitude: kotlin.Double
-      @JvmName("getLatitude")
-      get() = _builder.latitude
-      @JvmName("setLatitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getLatitude")
+        get() = _builder.latitude
+      @kotlin.jvm.JvmName("setLatitude")
+        set(value) {
         _builder.latitude = value
       }
     /**
@@ -49,10 +50,10 @@ public object SetOriginGPSKt {
      * `double longitude = 2 [(.buf.validate.field) = { ... }`
      */
     public var longitude: kotlin.Double
-      @JvmName("getLongitude")
-      get() = _builder.longitude
-      @JvmName("setLongitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getLongitude")
+        get() = _builder.longitude
+      @kotlin.jvm.JvmName("setLongitude")
+        set(value) {
         _builder.longitude = value
       }
     /**
@@ -66,10 +67,10 @@ public object SetOriginGPSKt {
      * `double altitude = 3 [(.buf.validate.field) = { ... }`
      */
     public var altitude: kotlin.Double
-      @JvmName("getAltitude")
-      get() = _builder.altitude
-      @JvmName("setAltitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getAltitude")
+        get() = _builder.altitude
+      @kotlin.jvm.JvmName("setAltitude")
+        set(value) {
         _builder.altitude = value
       }
     /**

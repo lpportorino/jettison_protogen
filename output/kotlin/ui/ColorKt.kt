@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -32,10 +33,10 @@ public object ColorKt {
      * `uint32 r = 1 [(.buf.validate.field) = { ... }`
      */
     public var r: kotlin.Int
-      @JvmName("getR")
-      get() = _builder.r
-      @JvmName("setR")
-      set(value) {
+      @kotlin.jvm.JvmName("getR")
+        get() = _builder.r
+      @kotlin.jvm.JvmName("setR")
+        set(value) {
         _builder.r = value
       }
     /**
@@ -49,10 +50,10 @@ public object ColorKt {
      * `uint32 g = 2 [(.buf.validate.field) = { ... }`
      */
     public var g: kotlin.Int
-      @JvmName("getG")
-      get() = _builder.g
-      @JvmName("setG")
-      set(value) {
+      @kotlin.jvm.JvmName("getG")
+        get() = _builder.g
+      @kotlin.jvm.JvmName("setG")
+        set(value) {
         _builder.g = value
       }
     /**
@@ -66,10 +67,10 @@ public object ColorKt {
      * `uint32 b = 3 [(.buf.validate.field) = { ... }`
      */
     public var b: kotlin.Int
-      @JvmName("getB")
-      get() = _builder.b
-      @JvmName("setB")
-      set(value) {
+      @kotlin.jvm.JvmName("getB")
+        get() = _builder.b
+      @kotlin.jvm.JvmName("setB")
+        set(value) {
         _builder.b = value
       }
     /**

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_video_meta.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.video;
@@ -36,10 +37,10 @@ public object SampleToChunkKt {
      * `uint32 first_chunk = 1;`
      */
     public var firstChunk: kotlin.Int
-      @JvmName("getFirstChunk")
-      get() = _builder.firstChunk
-      @JvmName("setFirstChunk")
-      set(value) {
+      @kotlin.jvm.JvmName("getFirstChunk")
+        get() = _builder.firstChunk
+      @kotlin.jvm.JvmName("setFirstChunk")
+        set(value) {
         _builder.firstChunk = value
       }
     /**
@@ -53,10 +54,10 @@ public object SampleToChunkKt {
      * `uint32 samples_per_chunk = 2;`
      */
     public var samplesPerChunk: kotlin.Int
-      @JvmName("getSamplesPerChunk")
-      get() = _builder.samplesPerChunk
-      @JvmName("setSamplesPerChunk")
-      set(value) {
+      @kotlin.jvm.JvmName("getSamplesPerChunk")
+        get() = _builder.samplesPerChunk
+      @kotlin.jvm.JvmName("setSamplesPerChunk")
+        set(value) {
         _builder.samplesPerChunk = value
       }
     /**
@@ -70,10 +71,10 @@ public object SampleToChunkKt {
      * `uint32 sample_description_index = 3;`
      */
     public var sampleDescriptionIndex: kotlin.Int
-      @JvmName("getSampleDescriptionIndex")
-      get() = _builder.sampleDescriptionIndex
-      @JvmName("setSampleDescriptionIndex")
-      set(value) {
+      @kotlin.jvm.JvmName("getSampleDescriptionIndex")
+        get() = _builder.sampleDescriptionIndex
+      @kotlin.jvm.JvmName("setSampleDescriptionIndex")
+        set(value) {
         _builder.sampleDescriptionIndex = value
       }
     /**

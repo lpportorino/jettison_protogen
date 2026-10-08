@@ -14,9 +14,9 @@ Use the pinned Playwright version in `package-lock.json` with its corresponding
 browser binaries. The harness records the installed Playwright and browser
 versions. It copies only each fixture's `index.html` into an otherwise empty
 directory, loads it through `file://`, and rejects external request attempts and
-page/console errors. Chromium uses emulated offline mode. WebKit 26.4 rejects
-even minimal local HTML in that mode, so WebKit uses explicit request-abort
-routing instead. Both engines reject every non-file request. Running the browser container
+page/console errors. Chromium uses emulated offline mode. WebKit rejects even
+minimal local HTML in that mode, so WebKit uses explicit request-abort routing
+instead (each run's `manifest.json` records the exact engine versions). Both engines reject every non-file request. Running the browser container
 with `--network none` provides an additional network boundary.
 
 The branch fixture exercises desktop 1440×900, narrow desktop 1024×768, iPhone 13
@@ -68,6 +68,25 @@ prove focus visibility, chart interpretation, screen-reader semantics or all
 accessibility requirements. Record those findings separately after opening the
 actual captures. Device descriptors and screenshots cannot establish real
 hardware behavior.
+
+Read the manifest's `darkContrast` / `lightContrast` as COUNTS: each is the
+number of text elements (`button,p,h1,h2,h3,label,summary,.ruler span,.crumb`
+on the initial overview) whose computed ratio met 4.5:1, which the run asserts
+for every one of them. Neither is a ratio, neither covers `pre` evidence
+blocks, inputs, SVG or non-text marks, and neither is measured inside a dialog,
+fold or companion view.
+
+What `acceptance.mjs` does NOT assert, so a green run says nothing about it:
+the **Longest gate** button and the activity-burst candidate; dialog-internal
+navigation (edge buttons, **Open children**, **Group evidence**, **↑ Parent**,
+**← Pan**, **Next lanes** / **Previous lanes** by click); the **More evidence**
+continuations; the withheld-chart, eight-track and 512-observation messages;
+`attention=` / `exact=` restoration from the URL fragment; focus return on
+dialog close or any `activeElement` at all; modal backdrop blocking; Tab order
+or an axe-style audit. `performance.mjs` records timings and sets no budget.
+There is no browser back/forward behaviour to test: the viewer writes its
+anchor with `history.replaceState` and listens to neither `popstate` nor
+`hashchange`.
 
 The [recorded synthetic visual review](../docs/viewer-visual-review.md) and
 [per-image manifest](../docs/viewer-visual-manifest.json) separate actual image

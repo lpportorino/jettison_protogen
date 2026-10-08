@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_lira.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.Lira;
@@ -32,10 +33,10 @@ public object Refine_targetKt {
      * `.cmd.Lira.JonGuiDataLiraTarget target = 1;`
      */
     public var target: cmd.Lira.JonSharedCmdLira.JonGuiDataLiraTarget
-      @JvmName("getTarget")
-      get() = _builder.target
-      @JvmName("setTarget")
-      set(value) {
+      @kotlin.jvm.JvmName("getTarget")
+        get() = _builder.target
+      @kotlin.jvm.JvmName("setTarget")
+        set(value) {
         _builder.target = value
       }
     /**

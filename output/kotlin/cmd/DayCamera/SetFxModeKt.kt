@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_day_camera.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.DayCamera;
@@ -32,17 +33,17 @@ public object SetFxModeKt {
      * `.ser.JonGuiDataFxModeDay mode = 1 [(.buf.validate.field) = { ... }`
      */
     public var mode: ser.JonSharedDataTypes.JonGuiDataFxModeDay
-      @JvmName("getMode")
-      get() = _builder.mode
-      @JvmName("setMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getMode")
+        get() = _builder.mode
+      @kotlin.jvm.JvmName("setMode")
+        set(value) {
         _builder.mode = value
       }
     public var modeValue: kotlin.Int
-      @JvmName("getModeValue")
-      get() = _builder.modeValue
-      @JvmName("setModeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getModeValue")
+        get() = _builder.modeValue
+      @kotlin.jvm.JvmName("setModeValue")
+        set(value) {
         _builder.modeValue = value
       }
     /**

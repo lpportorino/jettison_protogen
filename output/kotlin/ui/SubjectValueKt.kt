@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -36,10 +37,10 @@ public object SubjectValueKt {
      * `string name = 1 [(.buf.validate.field) = { ... }`
      */
     public var name: kotlin.String
-      @JvmName("getName")
-      get() = _builder.name
-      @JvmName("setName")
-      set(value) {
+      @kotlin.jvm.JvmName("getName")
+        get() = _builder.name
+      @kotlin.jvm.JvmName("setName")
+        set(value) {
         _builder.name = value
       }
     /**
@@ -53,10 +54,10 @@ public object SubjectValueKt {
      * `int32 int_value = 2;`
      */
     public var intValue: kotlin.Int
-      @JvmName("getIntValue")
-      get() = _builder.intValue
-      @JvmName("setIntValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getIntValue")
+        get() = _builder.intValue
+      @kotlin.jvm.JvmName("setIntValue")
+        set(value) {
         _builder.intValue = value
       }
     /**
@@ -77,10 +78,10 @@ public object SubjectValueKt {
      * `string string_value = 3 [(.buf.validate.field) = { ... }`
      */
     public var stringValue: kotlin.String
-      @JvmName("getStringValue")
-      get() = _builder.stringValue
-      @JvmName("setStringValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getStringValue")
+        get() = _builder.stringValue
+      @kotlin.jvm.JvmName("setStringValue")
+        set(value) {
         _builder.stringValue = value
       }
     /**

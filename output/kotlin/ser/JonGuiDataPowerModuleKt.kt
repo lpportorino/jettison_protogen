@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_power.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -40,10 +41,10 @@ public object JonGuiDataPowerModuleKt {
      * `double voltage = 1 [(.buf.validate.field) = { ... }`
      */
     public var voltage: kotlin.Double
-      @JvmName("getVoltage")
-      get() = _builder.voltage
-      @JvmName("setVoltage")
-      set(value) {
+      @kotlin.jvm.JvmName("getVoltage")
+        get() = _builder.voltage
+      @kotlin.jvm.JvmName("setVoltage")
+        set(value) {
         _builder.voltage = value
       }
     /**
@@ -65,10 +66,10 @@ public object JonGuiDataPowerModuleKt {
      * `double current = 2 [(.buf.validate.field) = { ... }`
      */
     public var current: kotlin.Double
-      @JvmName("getCurrent")
-      get() = _builder.current
-      @JvmName("setCurrent")
-      set(value) {
+      @kotlin.jvm.JvmName("getCurrent")
+        get() = _builder.current
+      @kotlin.jvm.JvmName("setCurrent")
+        set(value) {
         _builder.current = value
       }
     /**
@@ -90,10 +91,10 @@ public object JonGuiDataPowerModuleKt {
      * `double power = 3 [(.buf.validate.field) = { ... }`
      */
     public var power: kotlin.Double
-      @JvmName("getPower")
-      get() = _builder.power
-      @JvmName("setPower")
-      set(value) {
+      @kotlin.jvm.JvmName("getPower")
+        get() = _builder.power
+      @kotlin.jvm.JvmName("setPower")
+        set(value) {
         _builder.power = value
       }
     /**
@@ -115,10 +116,10 @@ public object JonGuiDataPowerModuleKt {
      * `bool is_on = 4;`
      */
     public var isOn: kotlin.Boolean
-      @JvmName("getIsOn")
-      get() = _builder.isOn
-      @JvmName("setIsOn")
-      set(value) {
+      @kotlin.jvm.JvmName("getIsOn")
+        get() = _builder.isOn
+      @kotlin.jvm.JvmName("setIsOn")
+        set(value) {
         _builder.isOn = value
       }
     /**
@@ -140,10 +141,10 @@ public object JonGuiDataPowerModuleKt {
      * `bool has_alarm = 5;`
      */
     public var hasAlarm: kotlin.Boolean
-      @JvmName("getHasAlarm")
-      get() = _builder.hasAlarm
-      @JvmName("setHasAlarm")
-      set(value) {
+      @kotlin.jvm.JvmName("getHasAlarm")
+        get() = _builder.hasAlarm
+      @kotlin.jvm.JvmName("setHasAlarm")
+        set(value) {
         _builder.hasAlarm = value
       }
     /**

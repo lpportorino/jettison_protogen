@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -32,10 +33,10 @@ public object ShadowBundleKt {
      * `uint32 width = 1;`
      */
     public var width: kotlin.Int
-      @JvmName("getWidth")
-      get() = _builder.width
-      @JvmName("setWidth")
-      set(value) {
+      @kotlin.jvm.JvmName("getWidth")
+        get() = _builder.width
+      @kotlin.jvm.JvmName("setWidth")
+        set(value) {
         _builder.width = value
       }
     /**
@@ -49,10 +50,10 @@ public object ShadowBundleKt {
      * `int32 offset_x = 2;`
      */
     public var offsetX: kotlin.Int
-      @JvmName("getOffsetX")
-      get() = _builder.offsetX
-      @JvmName("setOffsetX")
-      set(value) {
+      @kotlin.jvm.JvmName("getOffsetX")
+        get() = _builder.offsetX
+      @kotlin.jvm.JvmName("setOffsetX")
+        set(value) {
         _builder.offsetX = value
       }
     /**
@@ -66,10 +67,10 @@ public object ShadowBundleKt {
      * `int32 offset_y = 3;`
      */
     public var offsetY: kotlin.Int
-      @JvmName("getOffsetY")
-      get() = _builder.offsetY
-      @JvmName("setOffsetY")
-      set(value) {
+      @kotlin.jvm.JvmName("getOffsetY")
+        get() = _builder.offsetY
+      @kotlin.jvm.JvmName("setOffsetY")
+        set(value) {
         _builder.offsetY = value
       }
     /**
@@ -83,10 +84,10 @@ public object ShadowBundleKt {
      * `uint32 spread = 4;`
      */
     public var spread: kotlin.Int
-      @JvmName("getSpread")
-      get() = _builder.spread
-      @JvmName("setSpread")
-      set(value) {
+      @kotlin.jvm.JvmName("getSpread")
+        get() = _builder.spread
+      @kotlin.jvm.JvmName("setSpread")
+        set(value) {
         _builder.spread = value
       }
     /**
@@ -100,10 +101,10 @@ public object ShadowBundleKt {
      * `uint32 opa = 5 [(.buf.validate.field) = { ... }`
      */
     public var opa: kotlin.Int
-      @JvmName("getOpa")
-      get() = _builder.opa
-      @JvmName("setOpa")
-      set(value) {
+      @kotlin.jvm.JvmName("getOpa")
+        get() = _builder.opa
+      @kotlin.jvm.JvmName("setOpa")
+        set(value) {
         _builder.opa = value
       }
     /**

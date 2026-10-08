@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_types.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -32,10 +33,10 @@ public object JonGuiDataMeteoKt {
      * `double temperature = 1 [(.buf.validate.field) = { ... }`
      */
     public var temperature: kotlin.Double
-      @JvmName("getTemperature")
-      get() = _builder.temperature
-      @JvmName("setTemperature")
-      set(value) {
+      @kotlin.jvm.JvmName("getTemperature")
+        get() = _builder.temperature
+      @kotlin.jvm.JvmName("setTemperature")
+        set(value) {
         _builder.temperature = value
       }
     /**
@@ -49,10 +50,10 @@ public object JonGuiDataMeteoKt {
      * `double humidity = 2 [(.buf.validate.field) = { ... }`
      */
     public var humidity: kotlin.Double
-      @JvmName("getHumidity")
-      get() = _builder.humidity
-      @JvmName("setHumidity")
-      set(value) {
+      @kotlin.jvm.JvmName("getHumidity")
+        get() = _builder.humidity
+      @kotlin.jvm.JvmName("setHumidity")
+        set(value) {
         _builder.humidity = value
       }
     /**
@@ -66,10 +67,10 @@ public object JonGuiDataMeteoKt {
      * `double pressure = 3 [(.buf.validate.field) = { ... }`
      */
     public var pressure: kotlin.Double
-      @JvmName("getPressure")
-      get() = _builder.pressure
-      @JvmName("setPressure")
-      set(value) {
+      @kotlin.jvm.JvmName("getPressure")
+        get() = _builder.pressure
+      @kotlin.jvm.JvmName("setPressure")
+        set(value) {
         _builder.pressure = value
       }
     /**

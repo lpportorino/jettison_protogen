@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: opaque/detection_common.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -40,10 +41,10 @@ public object DetectionFrameMetaKt {
      * `uint64 pts_ns = 1 [(.buf.validate.field) = { ... }`
      */
     public var ptsNs: kotlin.Long
-      @JvmName("getPtsNs")
-      get() = _builder.ptsNs
-      @JvmName("setPtsNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getPtsNs")
+        get() = _builder.ptsNs
+      @kotlin.jvm.JvmName("setPtsNs")
+        set(value) {
         _builder.ptsNs = value
       }
     /**
@@ -65,10 +66,10 @@ public object DetectionFrameMetaKt {
      * `uint64 capture_time_ns = 2 [(.buf.validate.field) = { ... }`
      */
     public var captureTimeNs: kotlin.Long
-      @JvmName("getCaptureTimeNs")
-      get() = _builder.captureTimeNs
-      @JvmName("setCaptureTimeNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getCaptureTimeNs")
+        get() = _builder.captureTimeNs
+      @kotlin.jvm.JvmName("setCaptureTimeNs")
+        set(value) {
         _builder.captureTimeNs = value
       }
     /**
@@ -90,10 +91,10 @@ public object DetectionFrameMetaKt {
      * `uint32 generation = 3;`
      */
     public var generation: kotlin.Int
-      @JvmName("getGeneration")
-      get() = _builder.generation
-      @JvmName("setGeneration")
-      set(value) {
+      @kotlin.jvm.JvmName("getGeneration")
+        get() = _builder.generation
+      @kotlin.jvm.JvmName("setGeneration")
+        set(value) {
         _builder.generation = value
       }
     /**
@@ -115,10 +116,10 @@ public object DetectionFrameMetaKt {
      * `uint32 width = 4 [(.buf.validate.field) = { ... }`
      */
     public var width: kotlin.Int
-      @JvmName("getWidth")
-      get() = _builder.width
-      @JvmName("setWidth")
-      set(value) {
+      @kotlin.jvm.JvmName("getWidth")
+        get() = _builder.width
+      @kotlin.jvm.JvmName("setWidth")
+        set(value) {
         _builder.width = value
       }
     /**
@@ -136,10 +137,10 @@ public object DetectionFrameMetaKt {
      * `uint32 height = 5 [(.buf.validate.field) = { ... }`
      */
     public var height: kotlin.Int
-      @JvmName("getHeight")
-      get() = _builder.height
-      @JvmName("setHeight")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeight")
+        get() = _builder.height
+      @kotlin.jvm.JvmName("setHeight")
+        set(value) {
         _builder.height = value
       }
     /**

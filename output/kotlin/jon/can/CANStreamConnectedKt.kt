@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_can_stream.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.can;
@@ -47,7 +48,7 @@ public object CANStreamConnectedKt {
      * @return A list containing the streams.
      */
     public val streams: com.google.protobuf.kotlin.DslList<kotlin.String, StreamsProxy>
-      @kotlin.jvm.JvmSynthetic
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
       get() = com.google.protobuf.kotlin.DslList(
         _builder.streamsList
       )
@@ -60,7 +61,7 @@ public object CANStreamConnectedKt {
      * @param value The streams to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addStreams")
+@kotlin.jvm.JvmName("addStreams")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, StreamsProxy>.add(value: kotlin.String) {
       _builder.addStreams(value)
     }
@@ -73,7 +74,7 @@ public object CANStreamConnectedKt {
      * @param value The streams to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignStreams")
+@kotlin.jvm.JvmName("plusAssignStreams")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, StreamsProxy>.plusAssign(value: kotlin.String) {
       add(value)
@@ -87,7 +88,7 @@ public object CANStreamConnectedKt {
      * @param values The streams to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllStreams")
+@kotlin.jvm.JvmName("addAllStreams")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, StreamsProxy>.addAll(values: kotlin.collections.Iterable<kotlin.String>) {
       _builder.addAllStreams(values)
     }
@@ -100,7 +101,7 @@ public object CANStreamConnectedKt {
      * @param values The streams to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllStreams")
+@kotlin.jvm.JvmName("plusAssignAllStreams")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, StreamsProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.String>) {
       addAll(values)
@@ -115,7 +116,7 @@ public object CANStreamConnectedKt {
      * @param value The streams to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setStreams")
+@kotlin.jvm.JvmName("setStreams")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.String, StreamsProxy>.set(index: kotlin.Int, value: kotlin.String) {
       _builder.setStreams(index, value)
     }/**
@@ -126,7 +127,7 @@ public object CANStreamConnectedKt {
      * `repeated string streams = 1;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearStreams")
+@kotlin.jvm.JvmName("setStreams")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, StreamsProxy>.clear() {
       _builder.clearStreams()
     }}

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_osd.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.OSD;
@@ -32,10 +33,10 @@ public object RootKt {
      * `.cmd.OSD.ShowDefaultScreen show_default_screen = 1;`
      */
     public var showDefaultScreen: cmd.OSD.JonSharedCmdOsd.ShowDefaultScreen
-      @JvmName("getShowDefaultScreen")
-      get() = _builder.showDefaultScreen
-      @JvmName("setShowDefaultScreen")
-      set(value) {
+      @kotlin.jvm.JvmName("getShowDefaultScreen")
+        get() = _builder.showDefaultScreen
+      @kotlin.jvm.JvmName("setShowDefaultScreen")
+        set(value) {
         _builder.showDefaultScreen = value
       }
     /**
@@ -56,10 +57,10 @@ public object RootKt {
      * `.cmd.OSD.ShowLRFMeasureScreen show_lrf_measure_screen = 2;`
      */
     public var showLrfMeasureScreen: cmd.OSD.JonSharedCmdOsd.ShowLRFMeasureScreen
-      @JvmName("getShowLrfMeasureScreen")
-      get() = _builder.showLrfMeasureScreen
-      @JvmName("setShowLrfMeasureScreen")
-      set(value) {
+      @kotlin.jvm.JvmName("getShowLrfMeasureScreen")
+        get() = _builder.showLrfMeasureScreen
+      @kotlin.jvm.JvmName("setShowLrfMeasureScreen")
+        set(value) {
         _builder.showLrfMeasureScreen = value
       }
     /**
@@ -80,10 +81,10 @@ public object RootKt {
      * `.cmd.OSD.ShowLRFResultScreen show_lrf_result_screen = 3;`
      */
     public var showLrfResultScreen: cmd.OSD.JonSharedCmdOsd.ShowLRFResultScreen
-      @JvmName("getShowLrfResultScreen")
-      get() = _builder.showLrfResultScreen
-      @JvmName("setShowLrfResultScreen")
-      set(value) {
+      @kotlin.jvm.JvmName("getShowLrfResultScreen")
+        get() = _builder.showLrfResultScreen
+      @kotlin.jvm.JvmName("setShowLrfResultScreen")
+        set(value) {
         _builder.showLrfResultScreen = value
       }
     /**
@@ -104,10 +105,10 @@ public object RootKt {
      * `.cmd.OSD.ShowLRFResultSimplifiedScreen show_lrf_result_simplified_screen = 4;`
      */
     public var showLrfResultSimplifiedScreen: cmd.OSD.JonSharedCmdOsd.ShowLRFResultSimplifiedScreen
-      @JvmName("getShowLrfResultSimplifiedScreen")
-      get() = _builder.showLrfResultSimplifiedScreen
-      @JvmName("setShowLrfResultSimplifiedScreen")
-      set(value) {
+      @kotlin.jvm.JvmName("getShowLrfResultSimplifiedScreen")
+        get() = _builder.showLrfResultSimplifiedScreen
+      @kotlin.jvm.JvmName("setShowLrfResultSimplifiedScreen")
+        set(value) {
         _builder.showLrfResultSimplifiedScreen = value
       }
     /**
@@ -128,10 +129,10 @@ public object RootKt {
      * `.cmd.OSD.EnableHeatOSD enable_heat_osd = 5;`
      */
     public var enableHeatOsd: cmd.OSD.JonSharedCmdOsd.EnableHeatOSD
-      @JvmName("getEnableHeatOsd")
-      get() = _builder.enableHeatOsd
-      @JvmName("setEnableHeatOsd")
-      set(value) {
+      @kotlin.jvm.JvmName("getEnableHeatOsd")
+        get() = _builder.enableHeatOsd
+      @kotlin.jvm.JvmName("setEnableHeatOsd")
+        set(value) {
         _builder.enableHeatOsd = value
       }
     /**
@@ -152,10 +153,10 @@ public object RootKt {
      * `.cmd.OSD.DisableHeatOSD disable_heat_osd = 6;`
      */
     public var disableHeatOsd: cmd.OSD.JonSharedCmdOsd.DisableHeatOSD
-      @JvmName("getDisableHeatOsd")
-      get() = _builder.disableHeatOsd
-      @JvmName("setDisableHeatOsd")
-      set(value) {
+      @kotlin.jvm.JvmName("getDisableHeatOsd")
+        get() = _builder.disableHeatOsd
+      @kotlin.jvm.JvmName("setDisableHeatOsd")
+        set(value) {
         _builder.disableHeatOsd = value
       }
     /**
@@ -176,10 +177,10 @@ public object RootKt {
      * `.cmd.OSD.EnableDayOSD enable_day_osd = 7;`
      */
     public var enableDayOsd: cmd.OSD.JonSharedCmdOsd.EnableDayOSD
-      @JvmName("getEnableDayOsd")
-      get() = _builder.enableDayOsd
-      @JvmName("setEnableDayOsd")
-      set(value) {
+      @kotlin.jvm.JvmName("getEnableDayOsd")
+        get() = _builder.enableDayOsd
+      @kotlin.jvm.JvmName("setEnableDayOsd")
+        set(value) {
         _builder.enableDayOsd = value
       }
     /**
@@ -200,10 +201,10 @@ public object RootKt {
      * `.cmd.OSD.DisableDayOSD disable_day_osd = 8;`
      */
     public var disableDayOsd: cmd.OSD.JonSharedCmdOsd.DisableDayOSD
-      @JvmName("getDisableDayOsd")
-      get() = _builder.disableDayOsd
-      @JvmName("setDisableDayOsd")
-      set(value) {
+      @kotlin.jvm.JvmName("getDisableDayOsd")
+        get() = _builder.disableDayOsd
+      @kotlin.jvm.JvmName("setDisableDayOsd")
+        set(value) {
         _builder.disableDayOsd = value
       }
     /**

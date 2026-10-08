@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_types.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -42,10 +43,10 @@ public object JonGuiDataTrackedObjectKt {
      * `string uuid = 1 [(.buf.validate.field) = { ... }`
      */
     public var uuid: kotlin.String
-      @JvmName("getUuid")
-      get() = _builder.uuid
-      @JvmName("setUuid")
-      set(value) {
+      @kotlin.jvm.JvmName("getUuid")
+        get() = _builder.uuid
+      @kotlin.jvm.JvmName("setUuid")
+        set(value) {
         _builder.uuid = value
       }
     /**
@@ -67,10 +68,10 @@ public object JonGuiDataTrackedObjectKt {
      * `.ser.JonGuiDataTransform3D transform = 2 [(.buf.validate.field) = { ... }`
      */
     public var transform: ser.JonSharedDataTypes.JonGuiDataTransform3D
-      @JvmName("getTransform")
-      get() = _builder.transform
-      @JvmName("setTransform")
-      set(value) {
+      @kotlin.jvm.JvmName("getTransform")
+        get() = _builder.transform
+      @kotlin.jvm.JvmName("setTransform")
+        set(value) {
         _builder.transform = value
       }
     /**
@@ -106,10 +107,10 @@ public object JonGuiDataTrackedObjectKt {
      * `.ser.JonGuiDataROI bounding_box = 3 [(.buf.validate.field) = { ... }`
      */
     public var boundingBox: ser.JonSharedDataTypes.JonGuiDataROI
-      @JvmName("getBoundingBox")
-      get() = _builder.boundingBox
-      @JvmName("setBoundingBox")
-      set(value) {
+      @kotlin.jvm.JvmName("getBoundingBox")
+        get() = _builder.boundingBox
+      @kotlin.jvm.JvmName("setBoundingBox")
+        set(value) {
         _builder.boundingBox = value
       }
     /**
@@ -145,17 +146,17 @@ public object JonGuiDataTrackedObjectKt {
      * `.ser.JonGuiDataTrackedObject.TrackingState state = 4 [(.buf.validate.field) = { ... }`
      */
     public var state: ser.JonSharedDataTypes.JonGuiDataTrackedObject.TrackingState
-      @JvmName("getState")
-      get() = _builder.state
-      @JvmName("setState")
-      set(value) {
+      @kotlin.jvm.JvmName("getState")
+        get() = _builder.state
+      @kotlin.jvm.JvmName("setState")
+        set(value) {
         _builder.state = value
       }
     public var stateValue: kotlin.Int
-      @JvmName("getStateValue")
-      get() = _builder.stateValue
-      @JvmName("setStateValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getStateValue")
+        get() = _builder.stateValue
+      @kotlin.jvm.JvmName("setStateValue")
+        set(value) {
         _builder.stateValue = value
       }
     /**

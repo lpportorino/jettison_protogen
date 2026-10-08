@@ -25,4 +25,11 @@
    :rationale "ARCHIVE-INTERNAL path, not a repo path. The surrounding prose describes the layout INSIDE controls.tar ('`ui/{screen}.pb` — one or more UI-AST screen protobufs'), so `ui/zoom_controls.pb` names a member of a distributed tarball. It correctly resolves nowhere in this checkout, and no resolution rule can tell an archive member from a repo file without being told."
    :retires-when "docs/INTERFACE-CONTRACTS.md stops citing tar-internal members in backticked path form, or the citation gains a prefix that distinguishes it from a repo path."
    :owner "gate-port"
-   :expires "2026-10-27"}]}
+   :expires "2026-10-27"}
+  {:check "dead-path-citation"
+   :file "docs/DEPENDENCY-UPGRADE.md"
+   :match "org.clojure/data.json"
+   :rationale "MAVEN COORDINATE, not a repo path. The row sits in the Clojure library table beside dev.weavejester/cljfmt and metosin/malli, which pass only because their artifact ids carry no dot; data.json's artifact id ends in `.json`, so the extension heuristic reads a group/artifact pair as a file. No resolution rule can tell a coordinate from a path without a coordinate vocabulary the gate does not have."
+   :retires-when "The md gate learns to recognise a `group/artifact` coordinate whose group is a reverse-DNS name (or any backticked span that also appears as a deps.edn key) as a non-path, or the row leaves docs/DEPENDENCY-UPGRADE.md."
+   :owner "dependency-upgrade"
+   :expires "2026-12-31"}]}

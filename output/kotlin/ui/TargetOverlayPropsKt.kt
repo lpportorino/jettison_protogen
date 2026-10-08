@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -66,7 +67,7 @@ public object TargetOverlayPropsKt {
      */
      public val boxes: com.google.protobuf.kotlin.DslList<ui.UiAst.TargetBox, BoxesProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.boxesList
       )
     /**
@@ -81,7 +82,7 @@ public object TargetOverlayPropsKt {
      * @param value The boxes to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addBoxes")
+@kotlin.jvm.JvmName("addBoxes")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.TargetBox, BoxesProxy>.add(value: ui.UiAst.TargetBox) {
       _builder.addBoxes(value)
     }
@@ -97,7 +98,7 @@ public object TargetOverlayPropsKt {
      * @param value The boxes to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignBoxes")
+@kotlin.jvm.JvmName("plusAssignBoxes")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.TargetBox, BoxesProxy>.plusAssign(value: ui.UiAst.TargetBox) {
       add(value)
@@ -114,7 +115,7 @@ public object TargetOverlayPropsKt {
      * @param values The boxes to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllBoxes")
+@kotlin.jvm.JvmName("addAllBoxes")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.TargetBox, BoxesProxy>.addAll(values: kotlin.collections.Iterable<ui.UiAst.TargetBox>) {
       _builder.addAllBoxes(values)
     }
@@ -130,7 +131,7 @@ public object TargetOverlayPropsKt {
      * @param values The boxes to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllBoxes")
+@kotlin.jvm.JvmName("plusAssignAllBoxes")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.TargetBox, BoxesProxy>.plusAssign(values: kotlin.collections.Iterable<ui.UiAst.TargetBox>) {
       addAll(values)
@@ -148,7 +149,7 @@ public object TargetOverlayPropsKt {
      * @param value The boxes to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setBoxes")
+@kotlin.jvm.JvmName("setBoxes")
     public operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.TargetBox, BoxesProxy>.set(index: kotlin.Int, value: ui.UiAst.TargetBox) {
       _builder.setBoxes(index, value)
     }
@@ -163,11 +164,10 @@ public object TargetOverlayPropsKt {
      * `repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearBoxes")
+@kotlin.jvm.JvmName("clearBoxes")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.TargetBox, BoxesProxy>.clear() {
       _builder.clearBoxes()
     }
-
 
     /**
      * ```
@@ -186,10 +186,10 @@ public object TargetOverlayPropsKt {
      * `optional uint32 border_width = 2 [(.buf.validate.field) = { ... }`
      */
     public var borderWidth: kotlin.Int
-      @JvmName("getBorderWidth")
-      get() = _builder.borderWidth
-      @JvmName("setBorderWidth")
-      set(value) {
+      @kotlin.jvm.JvmName("getBorderWidth")
+        get() = _builder.borderWidth
+      @kotlin.jvm.JvmName("setBorderWidth")
+        set(value) {
         _builder.borderWidth = value
       }
     /**
@@ -242,10 +242,10 @@ public object TargetOverlayPropsKt {
      * `bool hide_labels = 3;`
      */
     public var hideLabels: kotlin.Boolean
-      @JvmName("getHideLabels")
-      get() = _builder.hideLabels
-      @JvmName("setHideLabels")
-      set(value) {
+      @kotlin.jvm.JvmName("getHideLabels")
+        get() = _builder.hideLabels
+      @kotlin.jvm.JvmName("setHideLabels")
+        set(value) {
         _builder.hideLabels = value
       }
     /**

@@ -49,18 +49,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v5
+      uses: actions/checkout@v7.0.1
 
     - name: Set up JDK 27
-      uses: actions/setup-java@v5
+      uses: actions/setup-java@v6.0.1
       with:
         distribution: temurin
         java-version: "27"
 
     - name: Set up Clojure CLI
-      uses: DeLaGuardo/setup-clojure@13.6.1
+      uses: DeLaGuardo/setup-clojure@13.7.0
       with:
-        cli: "1.12.5.1654"
+        cli: "1.12.6.1673"
 
     # `-full-`, because this job resolves the SUPERSET: the lint leg's base :deps
     # plus the whole :test alias, including the one git dep that populates
@@ -71,7 +71,7 @@ jobs:
     # actions/cache does not save after an exact hit. The shared `protodoc-m2-`
     # prefix keeps the warming; the distinct exact key keeps the saving.
     - name: Cache Maven-resolved dependencies
-      uses: actions/cache@v5
+      uses: actions/cache@v6.1.0
       with:
         path: |
           ~/.m2/repository

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_rotary.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -32,10 +33,10 @@ public object JonGuiDataRotaryKt {
      * `double azimuth = 1 [(.buf.validate.field) = { ... }`
      */
     public var azimuth: kotlin.Double
-      @JvmName("getAzimuth")
-      get() = _builder.azimuth
-      @JvmName("setAzimuth")
-      set(value) {
+      @kotlin.jvm.JvmName("getAzimuth")
+        get() = _builder.azimuth
+      @kotlin.jvm.JvmName("setAzimuth")
+        set(value) {
         _builder.azimuth = value
       }
     /**
@@ -49,10 +50,10 @@ public object JonGuiDataRotaryKt {
      * `double azimuth_speed = 2 [(.buf.validate.field) = { ... }`
      */
     public var azimuthSpeed: kotlin.Double
-      @JvmName("getAzimuthSpeed")
-      get() = _builder.azimuthSpeed
-      @JvmName("setAzimuthSpeed")
-      set(value) {
+      @kotlin.jvm.JvmName("getAzimuthSpeed")
+        get() = _builder.azimuthSpeed
+      @kotlin.jvm.JvmName("setAzimuthSpeed")
+        set(value) {
         _builder.azimuthSpeed = value
       }
     /**
@@ -66,10 +67,10 @@ public object JonGuiDataRotaryKt {
      * `double elevation = 3 [(.buf.validate.field) = { ... }`
      */
     public var elevation: kotlin.Double
-      @JvmName("getElevation")
-      get() = _builder.elevation
-      @JvmName("setElevation")
-      set(value) {
+      @kotlin.jvm.JvmName("getElevation")
+        get() = _builder.elevation
+      @kotlin.jvm.JvmName("setElevation")
+        set(value) {
         _builder.elevation = value
       }
     /**
@@ -83,10 +84,10 @@ public object JonGuiDataRotaryKt {
      * `double elevation_speed = 4 [(.buf.validate.field) = { ... }`
      */
     public var elevationSpeed: kotlin.Double
-      @JvmName("getElevationSpeed")
-      get() = _builder.elevationSpeed
-      @JvmName("setElevationSpeed")
-      set(value) {
+      @kotlin.jvm.JvmName("getElevationSpeed")
+        get() = _builder.elevationSpeed
+      @kotlin.jvm.JvmName("setElevationSpeed")
+        set(value) {
         _builder.elevationSpeed = value
       }
     /**
@@ -100,10 +101,10 @@ public object JonGuiDataRotaryKt {
      * `double platform_azimuth = 5 [(.buf.validate.field) = { ... }`
      */
     public var platformAzimuth: kotlin.Double
-      @JvmName("getPlatformAzimuth")
-      get() = _builder.platformAzimuth
-      @JvmName("setPlatformAzimuth")
-      set(value) {
+      @kotlin.jvm.JvmName("getPlatformAzimuth")
+        get() = _builder.platformAzimuth
+      @kotlin.jvm.JvmName("setPlatformAzimuth")
+        set(value) {
         _builder.platformAzimuth = value
       }
     /**
@@ -117,10 +118,10 @@ public object JonGuiDataRotaryKt {
      * `double platform_elevation = 6 [(.buf.validate.field) = { ... }`
      */
     public var platformElevation: kotlin.Double
-      @JvmName("getPlatformElevation")
-      get() = _builder.platformElevation
-      @JvmName("setPlatformElevation")
-      set(value) {
+      @kotlin.jvm.JvmName("getPlatformElevation")
+        get() = _builder.platformElevation
+      @kotlin.jvm.JvmName("setPlatformElevation")
+        set(value) {
         _builder.platformElevation = value
       }
     /**
@@ -134,10 +135,10 @@ public object JonGuiDataRotaryKt {
      * `double platform_bank = 7 [(.buf.validate.field) = { ... }`
      */
     public var platformBank: kotlin.Double
-      @JvmName("getPlatformBank")
-      get() = _builder.platformBank
-      @JvmName("setPlatformBank")
-      set(value) {
+      @kotlin.jvm.JvmName("getPlatformBank")
+        get() = _builder.platformBank
+      @kotlin.jvm.JvmName("setPlatformBank")
+        set(value) {
         _builder.platformBank = value
       }
     /**
@@ -151,10 +152,10 @@ public object JonGuiDataRotaryKt {
      * `bool is_moving = 8;`
      */
     public var isMoving: kotlin.Boolean
-      @JvmName("getIsMoving")
-      get() = _builder.isMoving
-      @JvmName("setIsMoving")
-      set(value) {
+      @kotlin.jvm.JvmName("getIsMoving")
+        get() = _builder.isMoving
+      @kotlin.jvm.JvmName("setIsMoving")
+        set(value) {
         _builder.isMoving = value
       }
     /**
@@ -168,17 +169,17 @@ public object JonGuiDataRotaryKt {
      * `.ser.JonGuiDataRotaryMode mode = 9 [(.buf.validate.field) = { ... }`
      */
     public var mode: ser.JonSharedDataTypes.JonGuiDataRotaryMode
-      @JvmName("getMode")
-      get() = _builder.mode
-      @JvmName("setMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getMode")
+        get() = _builder.mode
+      @kotlin.jvm.JvmName("setMode")
+        set(value) {
         _builder.mode = value
       }
     public var modeValue: kotlin.Int
-      @JvmName("getModeValue")
-      get() = _builder.modeValue
-      @JvmName("setModeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getModeValue")
+        get() = _builder.modeValue
+      @kotlin.jvm.JvmName("setModeValue")
+        set(value) {
         _builder.modeValue = value
       }
     /**
@@ -192,10 +193,10 @@ public object JonGuiDataRotaryKt {
      * `bool is_scanning = 10;`
      */
     public var isScanning: kotlin.Boolean
-      @JvmName("getIsScanning")
-      get() = _builder.isScanning
-      @JvmName("setIsScanning")
-      set(value) {
+      @kotlin.jvm.JvmName("getIsScanning")
+        get() = _builder.isScanning
+      @kotlin.jvm.JvmName("setIsScanning")
+        set(value) {
         _builder.isScanning = value
       }
     /**
@@ -209,10 +210,10 @@ public object JonGuiDataRotaryKt {
      * `bool is_scanning_paused = 11;`
      */
     public var isScanningPaused: kotlin.Boolean
-      @JvmName("getIsScanningPaused")
-      get() = _builder.isScanningPaused
-      @JvmName("setIsScanningPaused")
-      set(value) {
+      @kotlin.jvm.JvmName("getIsScanningPaused")
+        get() = _builder.isScanningPaused
+      @kotlin.jvm.JvmName("setIsScanningPaused")
+        set(value) {
         _builder.isScanningPaused = value
       }
     /**
@@ -226,10 +227,10 @@ public object JonGuiDataRotaryKt {
      * `bool use_rotary_as_compass = 12;`
      */
     public var useRotaryAsCompass: kotlin.Boolean
-      @JvmName("getUseRotaryAsCompass")
-      get() = _builder.useRotaryAsCompass
-      @JvmName("setUseRotaryAsCompass")
-      set(value) {
+      @kotlin.jvm.JvmName("getUseRotaryAsCompass")
+        get() = _builder.useRotaryAsCompass
+      @kotlin.jvm.JvmName("setUseRotaryAsCompass")
+        set(value) {
         _builder.useRotaryAsCompass = value
       }
     /**
@@ -243,10 +244,10 @@ public object JonGuiDataRotaryKt {
      * `int32 scan_target = 13 [(.buf.validate.field) = { ... }`
      */
     public var scanTarget: kotlin.Int
-      @JvmName("getScanTarget")
-      get() = _builder.scanTarget
-      @JvmName("setScanTarget")
-      set(value) {
+      @kotlin.jvm.JvmName("getScanTarget")
+        get() = _builder.scanTarget
+      @kotlin.jvm.JvmName("setScanTarget")
+        set(value) {
         _builder.scanTarget = value
       }
     /**
@@ -260,10 +261,10 @@ public object JonGuiDataRotaryKt {
      * `int32 scan_target_max = 14 [(.buf.validate.field) = { ... }`
      */
     public var scanTargetMax: kotlin.Int
-      @JvmName("getScanTargetMax")
-      get() = _builder.scanTargetMax
-      @JvmName("setScanTargetMax")
-      set(value) {
+      @kotlin.jvm.JvmName("getScanTargetMax")
+        get() = _builder.scanTargetMax
+      @kotlin.jvm.JvmName("setScanTargetMax")
+        set(value) {
         _builder.scanTargetMax = value
       }
     /**
@@ -277,10 +278,10 @@ public object JonGuiDataRotaryKt {
      * `double sun_azimuth = 15 [(.buf.validate.field) = { ... }`
      */
     public var sunAzimuth: kotlin.Double
-      @JvmName("getSunAzimuth")
-      get() = _builder.sunAzimuth
-      @JvmName("setSunAzimuth")
-      set(value) {
+      @kotlin.jvm.JvmName("getSunAzimuth")
+        get() = _builder.sunAzimuth
+      @kotlin.jvm.JvmName("setSunAzimuth")
+        set(value) {
         _builder.sunAzimuth = value
       }
     /**
@@ -312,10 +313,10 @@ public object JonGuiDataRotaryKt {
      * `double sun_elevation = 16 [(.buf.validate.field) = { ... }`
      */
     public var sunElevation: kotlin.Double
-      @JvmName("getSunElevation")
-      get() = _builder.sunElevation
-      @JvmName("setSunElevation")
-      set(value) {
+      @kotlin.jvm.JvmName("getSunElevation")
+        get() = _builder.sunElevation
+      @kotlin.jvm.JvmName("setSunElevation")
+        set(value) {
         _builder.sunElevation = value
       }
     /**
@@ -347,10 +348,10 @@ public object JonGuiDataRotaryKt {
      * `.ser.ScanNode current_scan_node = 17;`
      */
     public var currentScanNode: ser.JonSharedDataRotary.ScanNode
-      @JvmName("getCurrentScanNode")
-      get() = _builder.currentScanNode
-      @JvmName("setCurrentScanNode")
-      set(value) {
+      @kotlin.jvm.JvmName("getCurrentScanNode")
+        get() = _builder.currentScanNode
+      @kotlin.jvm.JvmName("setCurrentScanNode")
+        set(value) {
         _builder.currentScanNode = value
       }
     /**
@@ -374,10 +375,10 @@ public object JonGuiDataRotaryKt {
      * `bool is_started = 18;`
      */
     public var isStarted: kotlin.Boolean
-      @JvmName("getIsStarted")
-      get() = _builder.isStarted
-      @JvmName("setIsStarted")
-      set(value) {
+      @kotlin.jvm.JvmName("getIsStarted")
+        get() = _builder.isStarted
+      @kotlin.jvm.JvmName("setIsStarted")
+        set(value) {
         _builder.isStarted = value
       }
     /**
@@ -391,10 +392,10 @@ public object JonGuiDataRotaryKt {
      * `.ser.JonGuiDataMeteo meteo = 19;`
      */
     public var meteo: ser.JonSharedDataTypes.JonGuiDataMeteo
-      @JvmName("getMeteo")
-      get() = _builder.meteo
-      @JvmName("setMeteo")
-      set(value) {
+      @kotlin.jvm.JvmName("getMeteo")
+        get() = _builder.meteo
+      @kotlin.jvm.JvmName("setMeteo")
+        set(value) {
         _builder.meteo = value
       }
     /**
@@ -422,10 +423,10 @@ public object JonGuiDataRotaryKt {
      * `int32 pan_init_status = 20 [(.buf.validate.field) = { ... }`
      */
     public var panInitStatus: kotlin.Int
-      @JvmName("getPanInitStatus")
-      get() = _builder.panInitStatus
-      @JvmName("setPanInitStatus")
-      set(value) {
+      @kotlin.jvm.JvmName("getPanInitStatus")
+        get() = _builder.panInitStatus
+      @kotlin.jvm.JvmName("setPanInitStatus")
+        set(value) {
         _builder.panInitStatus = value
       }
     /**
@@ -443,10 +444,10 @@ public object JonGuiDataRotaryKt {
      * `int32 tilt_init_status = 21 [(.buf.validate.field) = { ... }`
      */
     public var tiltInitStatus: kotlin.Int
-      @JvmName("getTiltInitStatus")
-      get() = _builder.tiltInitStatus
-      @JvmName("setTiltInitStatus")
-      set(value) {
+      @kotlin.jvm.JvmName("getTiltInitStatus")
+        get() = _builder.tiltInitStatus
+      @kotlin.jvm.JvmName("setTiltInitStatus")
+        set(value) {
         _builder.tiltInitStatus = value
       }
     /**
@@ -464,10 +465,10 @@ public object JonGuiDataRotaryKt {
      * `uint64 capture_monotonic_us = 22;`
      */
     public var captureMonotonicUs: kotlin.Long
-      @JvmName("getCaptureMonotonicUs")
-      get() = _builder.captureMonotonicUs
-      @JvmName("setCaptureMonotonicUs")
-      set(value) {
+      @kotlin.jvm.JvmName("getCaptureMonotonicUs")
+        get() = _builder.captureMonotonicUs
+      @kotlin.jvm.JvmName("setCaptureMonotonicUs")
+        set(value) {
         _builder.captureMonotonicUs = value
       }
     /**
@@ -491,10 +492,10 @@ public object JonGuiDataRotaryKt {
      * `bool is_parked = 23;`
      */
     public var isParked: kotlin.Boolean
-      @JvmName("getIsParked")
-      get() = _builder.isParked
-      @JvmName("setIsParked")
-      set(value) {
+      @kotlin.jvm.JvmName("getIsParked")
+        get() = _builder.isParked
+      @kotlin.jvm.JvmName("setIsParked")
+        set(value) {
         _builder.isParked = value
       }
     /**
@@ -514,10 +515,10 @@ public object JonGuiDataRotaryKt {
      * `.ser.JonGuiDataModuleHealth health = 40;`
      */
     public var health: ser.JonSharedDataTypes.JonGuiDataModuleHealth
-      @JvmName("getHealth")
-      get() = _builder.health
-      @JvmName("setHealth")
-      set(value) {
+      @kotlin.jvm.JvmName("getHealth")
+        get() = _builder.health
+      @kotlin.jvm.JvmName("setHealth")
+        set(value) {
         _builder.health = value
       }
     /**

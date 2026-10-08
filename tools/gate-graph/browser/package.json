@@ -1,1 +1,1 @@
-{"name":"gate-viewer-browser","private":true,"type":"module","devDependencies":{"playwright":"1.60.0"},"scripts":{"test":"node acceptance.mjs"}}
+{"name":"gate-viewer-browser","private":true,"type":"module","devDependencies":{"playwright":"1.64.0"},"scripts":{"test":"node acceptance.mjs"}}

@@ -3,6 +3,7 @@
   (:require [clojure.string :as str]
             [clojure.test :as test]
             [gate.admission-test]
+            [gate.api-source-test]
             [gate.api-test]
             [gate.archive-io-test]
             [gate.archive-run-test]
@@ -49,12 +50,12 @@
             [gate.viewer-asset-test]
             [malli.core :as m]))
 
-(def source-namespaces '[gate.api gate.api-contract gate.view.contract gate.view.model gate.view.opportunity gate.archive gate.archive-contract gate.archive-io gate.archive-run gate.repository-identity gate.repository gate.repository-git gate.repository-contract gate.viewer-asset gate.viewer-build gate.report-publish gate.contract gate.inspection-contract gate.schema gate.decimal gate.graph gate.interval gate.canonical gate.query gate.measure gate.diff gate.admission
+(def source-namespaces '[gate.api-source gate.api-source-contract gate.api gate.api-contract gate.view.contract gate.view.model gate.view.opportunity gate.archive gate.archive-contract gate.archive-io gate.archive-run gate.repository-identity gate.repository gate.repository-git gate.repository-contract gate.viewer-asset gate.viewer-build gate.report-publish gate.contract gate.inspection-contract gate.schema gate.decimal gate.graph gate.interval gate.canonical gate.query gate.measure gate.diff gate.admission
                          gate.trace-contract gate.trace-io gate.trace-import gate.report gate.report-io gate.trace-cli
                          gate.run-contract gate.plan gate.cache gate.store gate.diagnostic gate.coordinator gate.inputs gate.attempt gate.process gate.process-batch gate.process-graph gate.snapshot gate.container gate.publish gate.contained gate.runtime gate.ownership gate.clojure-test gate.test-graph gate.test-artifact gate.clock gate.batch-graph gate.test-batch gate.verdict])
 
 (def test-namespaces
-  '[gate.api-test gate.view.model-test gate.view.opportunity-test gate.archive-test gate.archive-io-test gate.archive-run-test gate.repository-test gate.viewer-asset-test gate.report-publish-test gate.admission-test gate.decimal-test gate.graph-test gate.interval-test gate.query-test
+  '[gate.api-source-test gate.api-test gate.view.model-test gate.view.opportunity-test gate.archive-test gate.archive-io-test gate.archive-run-test gate.repository-test gate.viewer-asset-test gate.report-publish-test gate.admission-test gate.decimal-test gate.graph-test gate.interval-test gate.query-test
     gate.measure-test gate.diff-test gate.trace-test gate.report-test gate.report-io-test gate.run-test gate.store-test
     gate.diagnostic-test gate.coordinator-test gate.inputs-test gate.attempt-test gate.process-test gate.process-batch-test gate.process-cli-test gate.process-graph-test
     gate.snapshot-test gate.publish-test gate.contained-test gate.runtime-test gate.ownership-test

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: opaque/sam_tracking_day.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -44,17 +45,17 @@ public object SamTrackingDayKt {
      * `.ser.SamTrackingStatus status = 1 [(.buf.validate.field) = { ... }`
      */
     public var status: ser.SamTrackingCommon.SamTrackingStatus
-      @JvmName("getStatus")
-      get() = _builder.status
-      @JvmName("setStatus")
-      set(value) {
+      @kotlin.jvm.JvmName("getStatus")
+        get() = _builder.status
+      @kotlin.jvm.JvmName("setStatus")
+        set(value) {
         _builder.status = value
       }
     public var statusValue: kotlin.Int
-      @JvmName("getStatusValue")
-      get() = _builder.statusValue
-      @JvmName("setStatusValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getStatusValue")
+        get() = _builder.statusValue
+      @kotlin.jvm.JvmName("setStatusValue")
+        set(value) {
         _builder.statusValue = value
       }
     /**
@@ -76,17 +77,17 @@ public object SamTrackingDayKt {
      * `.ser.SamTrackingState state = 2 [(.buf.validate.field) = { ... }`
      */
     public var state: ser.SamTrackingCommon.SamTrackingState
-      @JvmName("getState")
-      get() = _builder.state
-      @JvmName("setState")
-      set(value) {
+      @kotlin.jvm.JvmName("getState")
+        get() = _builder.state
+      @kotlin.jvm.JvmName("setState")
+        set(value) {
         _builder.state = value
       }
     public var stateValue: kotlin.Int
-      @JvmName("getStateValue")
-      get() = _builder.stateValue
-      @JvmName("setStateValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getStateValue")
+        get() = _builder.stateValue
+      @kotlin.jvm.JvmName("setStateValue")
+        set(value) {
         _builder.stateValue = value
       }
     /**
@@ -109,10 +110,10 @@ public object SamTrackingDayKt {
      * `double bbox_x1 = 3 [(.buf.validate.field) = { ... }`
      */
     public var bboxX1: kotlin.Double
-      @JvmName("getBboxX1")
-      get() = _builder.bboxX1
-      @JvmName("setBboxX1")
-      set(value) {
+      @kotlin.jvm.JvmName("getBboxX1")
+        get() = _builder.bboxX1
+      @kotlin.jvm.JvmName("setBboxX1")
+        set(value) {
         _builder.bboxX1 = value
       }
     /**
@@ -131,10 +132,10 @@ public object SamTrackingDayKt {
      * `double bbox_y1 = 4 [(.buf.validate.field) = { ... }`
      */
     public var bboxY1: kotlin.Double
-      @JvmName("getBboxY1")
-      get() = _builder.bboxY1
-      @JvmName("setBboxY1")
-      set(value) {
+      @kotlin.jvm.JvmName("getBboxY1")
+        get() = _builder.bboxY1
+      @kotlin.jvm.JvmName("setBboxY1")
+        set(value) {
         _builder.bboxY1 = value
       }
     /**
@@ -148,10 +149,10 @@ public object SamTrackingDayKt {
      * `double bbox_x2 = 5 [(.buf.validate.field) = { ... }`
      */
     public var bboxX2: kotlin.Double
-      @JvmName("getBboxX2")
-      get() = _builder.bboxX2
-      @JvmName("setBboxX2")
-      set(value) {
+      @kotlin.jvm.JvmName("getBboxX2")
+        get() = _builder.bboxX2
+      @kotlin.jvm.JvmName("setBboxX2")
+        set(value) {
         _builder.bboxX2 = value
       }
     /**
@@ -165,10 +166,10 @@ public object SamTrackingDayKt {
      * `double bbox_y2 = 6 [(.buf.validate.field) = { ... }`
      */
     public var bboxY2: kotlin.Double
-      @JvmName("getBboxY2")
-      get() = _builder.bboxY2
-      @JvmName("setBboxY2")
-      set(value) {
+      @kotlin.jvm.JvmName("getBboxY2")
+        get() = _builder.bboxY2
+      @kotlin.jvm.JvmName("setBboxY2")
+        set(value) {
         _builder.bboxY2 = value
       }
     /**
@@ -187,10 +188,10 @@ public object SamTrackingDayKt {
      * `double centroid_x = 7 [(.buf.validate.field) = { ... }`
      */
     public var centroidX: kotlin.Double
-      @JvmName("getCentroidX")
-      get() = _builder.centroidX
-      @JvmName("setCentroidX")
-      set(value) {
+      @kotlin.jvm.JvmName("getCentroidX")
+        get() = _builder.centroidX
+      @kotlin.jvm.JvmName("setCentroidX")
+        set(value) {
         _builder.centroidX = value
       }
     /**
@@ -209,10 +210,10 @@ public object SamTrackingDayKt {
      * `double centroid_y = 8 [(.buf.validate.field) = { ... }`
      */
     public var centroidY: kotlin.Double
-      @JvmName("getCentroidY")
-      get() = _builder.centroidY
-      @JvmName("setCentroidY")
-      set(value) {
+      @kotlin.jvm.JvmName("getCentroidY")
+        get() = _builder.centroidY
+      @kotlin.jvm.JvmName("setCentroidY")
+        set(value) {
         _builder.centroidY = value
       }
     /**
@@ -231,10 +232,10 @@ public object SamTrackingDayKt {
      * `float confidence = 9 [(.buf.validate.field) = { ... }`
      */
     public var confidence: kotlin.Float
-      @JvmName("getConfidence")
-      get() = _builder.confidence
-      @JvmName("setConfidence")
-      set(value) {
+      @kotlin.jvm.JvmName("getConfidence")
+        get() = _builder.confidence
+      @kotlin.jvm.JvmName("setConfidence")
+        set(value) {
         _builder.confidence = value
       }
     /**
@@ -257,10 +258,10 @@ public object SamTrackingDayKt {
      * `float iou = 10 [(.buf.validate.field) = { ... }`
      */
     public var iou: kotlin.Float
-      @JvmName("getIou")
-      get() = _builder.iou
-      @JvmName("setIou")
-      set(value) {
+      @kotlin.jvm.JvmName("getIou")
+        get() = _builder.iou
+      @kotlin.jvm.JvmName("setIou")
+        set(value) {
         _builder.iou = value
       }
     /**
@@ -284,10 +285,10 @@ public object SamTrackingDayKt {
      * `bytes mask_rle = 11 [(.buf.validate.field) = { ... }`
      */
     public var maskRle: com.google.protobuf.ByteString
-      @JvmName("getMaskRle")
-      get() = _builder.maskRle
-      @JvmName("setMaskRle")
-      set(value) {
+      @kotlin.jvm.JvmName("getMaskRle")
+        get() = _builder.maskRle
+      @kotlin.jvm.JvmName("setMaskRle")
+        set(value) {
         _builder.maskRle = value
       }
     /**
@@ -312,10 +313,10 @@ public object SamTrackingDayKt {
      * `uint32 mask_width = 12 [(.buf.validate.field) = { ... }`
      */
     public var maskWidth: kotlin.Int
-      @JvmName("getMaskWidth")
-      get() = _builder.maskWidth
-      @JvmName("setMaskWidth")
-      set(value) {
+      @kotlin.jvm.JvmName("getMaskWidth")
+        get() = _builder.maskWidth
+      @kotlin.jvm.JvmName("setMaskWidth")
+        set(value) {
         _builder.maskWidth = value
       }
     /**
@@ -334,10 +335,10 @@ public object SamTrackingDayKt {
      * `uint32 mask_height = 13 [(.buf.validate.field) = { ... }`
      */
     public var maskHeight: kotlin.Int
-      @JvmName("getMaskHeight")
-      get() = _builder.maskHeight
-      @JvmName("setMaskHeight")
-      set(value) {
+      @kotlin.jvm.JvmName("getMaskHeight")
+        get() = _builder.maskHeight
+      @kotlin.jvm.JvmName("setMaskHeight")
+        set(value) {
         _builder.maskHeight = value
       }
     /**
@@ -355,10 +356,10 @@ public object SamTrackingDayKt {
      * `uint32 mask_pixels = 14;`
      */
     public var maskPixels: kotlin.Int
-      @JvmName("getMaskPixels")
-      get() = _builder.maskPixels
-      @JvmName("setMaskPixels")
-      set(value) {
+      @kotlin.jvm.JvmName("getMaskPixels")
+        get() = _builder.maskPixels
+      @kotlin.jvm.JvmName("setMaskPixels")
+        set(value) {
         _builder.maskPixels = value
       }
     /**
@@ -380,10 +381,10 @@ public object SamTrackingDayKt {
      * `.ser.SamTrackingFrameMeta frame = 15;`
      */
     public var frame: ser.SamTrackingCommon.SamTrackingFrameMeta
-      @JvmName("getFrame")
-      get() = _builder.frame
-      @JvmName("setFrame")
-      set(value) {
+      @kotlin.jvm.JvmName("getFrame")
+        get() = _builder.frame
+      @kotlin.jvm.JvmName("setFrame")
+        set(value) {
         _builder.frame = value
       }
     /**
@@ -419,10 +420,10 @@ public object SamTrackingDayKt {
      * `.ser.SamTrackingKalmanState kalman = 16;`
      */
     public var kalman: ser.SamTrackingCommon.SamTrackingKalmanState
-      @JvmName("getKalman")
-      get() = _builder.kalman
-      @JvmName("setKalman")
-      set(value) {
+      @kotlin.jvm.JvmName("getKalman")
+        get() = _builder.kalman
+      @kotlin.jvm.JvmName("setKalman")
+        set(value) {
         _builder.kalman = value
       }
     /**
@@ -459,10 +460,10 @@ public object SamTrackingDayKt {
      * `uint32 lost_frame_count = 17 [(.buf.validate.field) = { ... }`
      */
     public var lostFrameCount: kotlin.Int
-      @JvmName("getLostFrameCount")
-      get() = _builder.lostFrameCount
-      @JvmName("setLostFrameCount")
-      set(value) {
+      @kotlin.jvm.JvmName("getLostFrameCount")
+        get() = _builder.lostFrameCount
+      @kotlin.jvm.JvmName("setLostFrameCount")
+        set(value) {
         _builder.lostFrameCount = value
       }
     /**
@@ -485,10 +486,10 @@ public object SamTrackingDayKt {
      * `uint64 latency_ns = 18 [(.buf.validate.field) = { ... }`
      */
     public var latencyNs: kotlin.Long
-      @JvmName("getLatencyNs")
-      get() = _builder.latencyNs
-      @JvmName("setLatencyNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getLatencyNs")
+        get() = _builder.latencyNs
+      @kotlin.jvm.JvmName("setLatencyNs")
+        set(value) {
         _builder.latencyNs = value
       }
     /**

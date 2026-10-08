@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_types.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -41,10 +42,10 @@ public object JonGuiDataTransform3DKt {
      * `.ser.JonGuiDataVector3 position = 1 [(.buf.validate.field) = { ... }`
      */
     public var position: ser.JonSharedDataTypes.JonGuiDataVector3
-      @JvmName("getPosition")
-      get() = _builder.position
-      @JvmName("setPosition")
-      set(value) {
+      @kotlin.jvm.JvmName("getPosition")
+        get() = _builder.position
+      @kotlin.jvm.JvmName("setPosition")
+        set(value) {
         _builder.position = value
       }
     /**
@@ -80,10 +81,10 @@ public object JonGuiDataTransform3DKt {
      * `.ser.JonGuiDataQuaternion orientation = 2 [(.buf.validate.field) = { ... }`
      */
     public var orientation: ser.JonSharedDataTypes.JonGuiDataQuaternion
-      @JvmName("getOrientation")
-      get() = _builder.orientation
-      @JvmName("setOrientation")
-      set(value) {
+      @kotlin.jvm.JvmName("getOrientation")
+        get() = _builder.orientation
+      @kotlin.jvm.JvmName("setOrientation")
+        set(value) {
         _builder.orientation = value
       }
     /**
@@ -119,10 +120,10 @@ public object JonGuiDataTransform3DKt {
      * `.ser.JonGuiDataVector3 linear_velocity = 3 [(.buf.validate.field) = { ... }`
      */
     public var linearVelocity: ser.JonSharedDataTypes.JonGuiDataVector3
-      @JvmName("getLinearVelocity")
-      get() = _builder.linearVelocity
-      @JvmName("setLinearVelocity")
-      set(value) {
+      @kotlin.jvm.JvmName("getLinearVelocity")
+        get() = _builder.linearVelocity
+      @kotlin.jvm.JvmName("setLinearVelocity")
+        set(value) {
         _builder.linearVelocity = value
       }
     /**
@@ -158,10 +159,10 @@ public object JonGuiDataTransform3DKt {
      * `.ser.JonGuiDataVector3 angular_velocity = 4 [(.buf.validate.field) = { ... }`
      */
     public var angularVelocity: ser.JonSharedDataTypes.JonGuiDataVector3
-      @JvmName("getAngularVelocity")
-      get() = _builder.angularVelocity
-      @JvmName("setAngularVelocity")
-      set(value) {
+      @kotlin.jvm.JvmName("getAngularVelocity")
+        get() = _builder.angularVelocity
+      @kotlin.jvm.JvmName("setAngularVelocity")
+        set(value) {
         _builder.angularVelocity = value
       }
     /**

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_types.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -37,10 +38,10 @@ public object JonGuiDataSharpnessKt {
      * `double value = 1 [(.buf.validate.field) = { ... }`
      */
     public var value: kotlin.Double
-      @JvmName("getValue")
-      get() = _builder.value
-      @JvmName("setValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getValue")
+        get() = _builder.value
+      @kotlin.jvm.JvmName("setValue")
+        set(value) {
         _builder.value = value
       }
     /**
@@ -58,10 +59,10 @@ public object JonGuiDataSharpnessKt {
      * `double derivative_1 = 2;`
      */
     public var derivative1: kotlin.Double
-      @JvmName("getDerivative1")
-      get() = _builder.derivative1
-      @JvmName("setDerivative1")
-      set(value) {
+      @kotlin.jvm.JvmName("getDerivative1")
+        get() = _builder.derivative1
+      @kotlin.jvm.JvmName("setDerivative1")
+        set(value) {
         _builder.derivative1 = value
       }
     /**
@@ -83,10 +84,10 @@ public object JonGuiDataSharpnessKt {
      * `double derivative_2 = 3;`
      */
     public var derivative2: kotlin.Double
-      @JvmName("getDerivative2")
-      get() = _builder.derivative2
-      @JvmName("setDerivative2")
-      set(value) {
+      @kotlin.jvm.JvmName("getDerivative2")
+        get() = _builder.derivative2
+      @kotlin.jvm.JvmName("setDerivative2")
+        set(value) {
         _builder.derivative2 = value
       }
     /**

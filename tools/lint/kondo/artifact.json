@@ -1,0 +1,13 @@
+{
+  "version": "2026.08.04-protogen.1",
+  "upstream_url": "https://repo.clojars.org/clj-kondo/clj-kondo/2026.08.04/clj-kondo-2026.08.04.jar",
+  "upstream_sha256": "486c00223774ddd2dfaf522a892c608e3d5cdb0c632fb08ea396d12be3e710fa",
+  "patch": "map-return-types.patch",
+  "modified_entries": [
+    "clj_kondo/impl/types.clj",
+    "clj_kondo/impl/types/utils.clj"
+  ],
+  "artifact": "clj-kondo-2026.08.04-protogen.1.jar",
+  "artifact_sha256": "750eb891710f52522a836acb6743967ff59c09d1d249e8f0556e837381cde2be",
+  "patch_sha256": "c10e07a9943dd568107cade9415c47c6b4eafa19d5b96fa71ef28fc49c32a02b"
+}

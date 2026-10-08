@@ -399,7 +399,6 @@ static int32_t current_theme_dark = 0;
  * NOT part of the composite index (families share the variant styles);
  * a change re-inits the child theme and rebuilds the tree. */
 static int32_t current_theme_family = 0;
-static int32_t current_dpi = 160;
 /* Cached UI protobuf data for rebuilding on composite change */
 static uint8_t *last_ui_data = NULL;
 static uint32_t last_ui_len = 0;
@@ -575,7 +574,7 @@ static int32_t update_composite(void) {
      * whole screen, so the next tick refills this honestly. */
     palette_observer_clear();
     /* Theme lives in bit 0 of the composite index */
-    if ((new_idx & 1) != (old_idx & 1))
+    if (((uint32_t)new_idx & 1u) != ((uint32_t)old_idx & 1u))
       apply_default_theme();
     /* A composite change re-decodes the variant styles from the cached .pb.
        * Fresh cache → rebuild. A load IS present but the cache is STALE (a
@@ -2617,6 +2616,7 @@ static bool label_text_clipped(const lv_obj_t *obj) {
   int32_t letter_space = lv_obj_get_style_text_letter_space(obj, LV_PART_MAIN);
   int32_t line_space = lv_obj_get_style_text_line_space(obj, LV_PART_MAIN);
   lv_point_t size = {0, 0};
+  /* LVGL owns this macro: its signed 1 << 29 is representable in int32_t. */
   lv_text_get_size(&size, text, font, letter_space, line_space, LV_COORD_MAX,
                    LV_TEXT_FLAG_EXPAND);
   lv_area_t cc;
@@ -2678,6 +2678,7 @@ static bool label_text_wrapped(const lv_obj_t *obj) {
   int32_t letter_space = lv_obj_get_style_text_letter_space(obj, LV_PART_MAIN);
   int32_t line_space = lv_obj_get_style_text_line_space(obj, LV_PART_MAIN);
   lv_point_t natural = {0, 0};
+  /* LVGL owns this macro: its signed 1 << 29 is representable in int32_t. */
   lv_text_get_size(&natural, text, font, letter_space, line_space, LV_COORD_MAX,
                    LV_TEXT_FLAG_EXPAND);
   lv_point_t laid_out = {0, 0};
@@ -2906,6 +2907,7 @@ static lv_opa_t obj_effective_opa(const lv_obj_t *obj) {
     for (uint32_t i = 0; i < 2u; i++) {
       if (links[i] <= LV_OPA_MIN)
         return LV_OPA_TRANSP;
+      /* LVGL multiplies two uint8_t values: 0..65025, then shifts by 8. */
       if (links[i] < LV_OPA_MAX)
         acc = LV_OPA_MIX2(acc, links[i]);
     }
@@ -2922,6 +2924,7 @@ static lv_opa_t obj_effective_opa(const lv_obj_t *obj) {
 static lv_opa_t opa_scaled(lv_opa_t own, lv_opa_t node_opa) {
   if (own <= LV_OPA_MIN)
     return LV_OPA_TRANSP;
+  /* LVGL multiplies two uint8_t values: 0..65025, then shifts by 8. */
   if (node_opa < LV_OPA_MAX)
     own = LV_OPA_MIX2(own, node_opa);
   if (own <= LV_OPA_MIN)
@@ -2936,6 +2939,7 @@ static lv_opa_t part_opa(const lv_obj_t *obj, lv_part_t part,
   const lv_opa_t own = lv_obj_get_style_opa(obj, part);
   if (own <= LV_OPA_MIN)
     return LV_OPA_TRANSP;
+  /* LVGL multiplies two uint8_t values: 0..65025, then shifts by 8. */
   if (own < LV_OPA_MAX)
     return LV_OPA_MIX2(node_opa, own);
   return node_opa;
@@ -3125,7 +3129,7 @@ static void tree_append_draw_palette(void) {
     uint32_t next = UINT32_MAX;
     for (uint32_t i = 0; i < count; i++) {
       const uint32_t key =
-          (records[i].rgb << 1) | (records[i].theme_recolor ? 1u : 0u);
+          (records[i].rgb << 1u) | (records[i].theme_recolor ? 1u : 0u);
       if ((!have_previous || key > previous) && key < next)
         next = key;
     }
@@ -3135,7 +3139,7 @@ static void tree_append_draw_palette(void) {
       tree_append(",");
     char buf[80];
     (void)snprintf(buf, sizeof(buf), "{\"hex\":\"#%06X\",\"theme_recolor\":%s}",
-                   (unsigned)(next >> 1), (next & 1u) != 0 ? "true" : "false");
+                   (unsigned)(next >> 1u), (next & 1u) != 0 ? "true" : "false");
     tree_append(buf);
     first = false;
     previous = next;
@@ -3957,7 +3961,6 @@ int32_t controls_set_theme_family(int32_t family) {
   return 0;
 }
 int32_t controls_set_dpi(int32_t dpi) {
-  current_dpi = dpi;
   lv_display_t *disp = lv_display_get_default();
   if (disp) {
     lv_display_set_dpi(disp, dpi);

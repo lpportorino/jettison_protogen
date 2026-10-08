@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -32,10 +33,10 @@ public object TablePropsKt {
      * `uint32 row_count = 1;`
      */
     public var rowCount: kotlin.Int
-      @JvmName("getRowCount")
-      get() = _builder.rowCount
-      @JvmName("setRowCount")
-      set(value) {
+      @kotlin.jvm.JvmName("getRowCount")
+        get() = _builder.rowCount
+      @kotlin.jvm.JvmName("setRowCount")
+        set(value) {
         _builder.rowCount = value
       }
     /**
@@ -49,10 +50,10 @@ public object TablePropsKt {
      * `uint32 column_count = 2;`
      */
     public var columnCount: kotlin.Int
-      @JvmName("getColumnCount")
-      get() = _builder.columnCount
-      @JvmName("setColumnCount")
-      set(value) {
+      @kotlin.jvm.JvmName("getColumnCount")
+        get() = _builder.columnCount
+      @kotlin.jvm.JvmName("setColumnCount")
+        set(value) {
         _builder.columnCount = value
       }
     /**

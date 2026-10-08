@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -39,10 +40,10 @@ public object EventBindingKt {
      * `string name = 1 [(.buf.validate.field) = { ... }`
      */
     public var name: kotlin.String
-      @JvmName("getName")
-      get() = _builder.name
-      @JvmName("setName")
-      set(value) {
+      @kotlin.jvm.JvmName("getName")
+        get() = _builder.name
+      @kotlin.jvm.JvmName("setName")
+        set(value) {
         _builder.name = value
       }
     /**
@@ -67,17 +68,17 @@ public object EventBindingKt {
      * `.ui.EventTrigger trigger = 2 [(.buf.validate.field) = { ... }`
      */
     public var trigger: ui.UiAst.EventTrigger
-      @JvmName("getTrigger")
-      get() = _builder.trigger
-      @JvmName("setTrigger")
-      set(value) {
+      @kotlin.jvm.JvmName("getTrigger")
+        get() = _builder.trigger
+      @kotlin.jvm.JvmName("setTrigger")
+        set(value) {
         _builder.trigger = value
       }
     public var triggerValue: kotlin.Int
-      @JvmName("getTriggerValue")
-      get() = _builder.triggerValue
-      @JvmName("setTriggerValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getTriggerValue")
+        get() = _builder.triggerValue
+      @kotlin.jvm.JvmName("setTriggerValue")
+        set(value) {
         _builder.triggerValue = value
       }
     /**
@@ -99,10 +100,10 @@ public object EventBindingKt {
      * `int32 int_value = 3;`
      */
     public var intValue: kotlin.Int
-      @JvmName("getIntValue")
-      get() = _builder.intValue
-      @JvmName("setIntValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getIntValue")
+        get() = _builder.intValue
+      @kotlin.jvm.JvmName("setIntValue")
+        set(value) {
         _builder.intValue = value
       }
     /**
@@ -124,10 +125,10 @@ public object EventBindingKt {
      * `bool include_widget_value = 4;`
      */
     public var includeWidgetValue: kotlin.Boolean
-      @JvmName("getIncludeWidgetValue")
-      get() = _builder.includeWidgetValue
-      @JvmName("setIncludeWidgetValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getIncludeWidgetValue")
+        get() = _builder.includeWidgetValue
+      @kotlin.jvm.JvmName("setIncludeWidgetValue")
+        set(value) {
         _builder.includeWidgetValue = value
       }
     /**
@@ -151,10 +152,10 @@ public object EventBindingKt {
      * `string set_subject = 5 [(.buf.validate.field) = { ... }`
      */
     public var setSubject: kotlin.String
-      @JvmName("getSetSubject")
-      get() = _builder.setSubject
-      @JvmName("setSetSubject")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetSubject")
+        get() = _builder.setSubject
+      @kotlin.jvm.JvmName("setSetSubject")
+        set(value) {
         _builder.setSubject = value
       }
     /**
@@ -178,10 +179,10 @@ public object EventBindingKt {
      * `int32 set_value = 6;`
      */
     public var setValue: kotlin.Int
-      @JvmName("getSetValue")
-      get() = _builder.setValue
-      @JvmName("setSetValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetValue")
+        get() = _builder.setValue
+      @kotlin.jvm.JvmName("setSetValue")
+        set(value) {
         _builder.setValue = value
       }
     /**
@@ -203,10 +204,10 @@ public object EventBindingKt {
      * `bool toggle = 7;`
      */
     public var toggle: kotlin.Boolean
-      @JvmName("getToggle")
-      get() = _builder.toggle
-      @JvmName("setToggle")
-      set(value) {
+      @kotlin.jvm.JvmName("getToggle")
+        get() = _builder.toggle
+      @kotlin.jvm.JvmName("setToggle")
+        set(value) {
         _builder.toggle = value
       }
     /**
@@ -228,10 +229,10 @@ public object EventBindingKt {
      * `bool notify_host = 8;`
      */
     public var notifyHost: kotlin.Boolean
-      @JvmName("getNotifyHost")
-      get() = _builder.notifyHost
-      @JvmName("setNotifyHost")
-      set(value) {
+      @kotlin.jvm.JvmName("getNotifyHost")
+        get() = _builder.notifyHost
+      @kotlin.jvm.JvmName("setNotifyHost")
+        set(value) {
         _builder.notifyHost = value
       }
     /**
@@ -257,10 +258,10 @@ public object EventBindingKt {
      * `.ui.CmdSpec cmd = 9;`
      */
     public var cmd: ui.UiAst.CmdSpec
-      @JvmName("getCmd")
-      get() = _builder.cmd
-      @JvmName("setCmd")
-      set(value) {
+      @kotlin.jvm.JvmName("getCmd")
+        get() = _builder.cmd
+      @kotlin.jvm.JvmName("setCmd")
+        set(value) {
         _builder.cmd = value
       }
     /**
@@ -318,7 +319,7 @@ public object EventBindingKt {
      */
      public val cmdByValue: com.google.protobuf.kotlin.DslList<ui.UiAst.CmdSpec, CmdByValueProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.cmdByValueList
       )
     /**
@@ -337,7 +338,7 @@ public object EventBindingKt {
      * @param value The cmdByValue to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addCmdByValue")
+@kotlin.jvm.JvmName("addCmdByValue")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.CmdSpec, CmdByValueProxy>.add(value: ui.UiAst.CmdSpec) {
       _builder.addCmdByValue(value)
     }
@@ -357,7 +358,7 @@ public object EventBindingKt {
      * @param value The cmdByValue to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignCmdByValue")
+@kotlin.jvm.JvmName("plusAssignCmdByValue")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.CmdSpec, CmdByValueProxy>.plusAssign(value: ui.UiAst.CmdSpec) {
       add(value)
@@ -378,7 +379,7 @@ public object EventBindingKt {
      * @param values The cmdByValue to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllCmdByValue")
+@kotlin.jvm.JvmName("addAllCmdByValue")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.CmdSpec, CmdByValueProxy>.addAll(values: kotlin.collections.Iterable<ui.UiAst.CmdSpec>) {
       _builder.addAllCmdByValue(values)
     }
@@ -398,7 +399,7 @@ public object EventBindingKt {
      * @param values The cmdByValue to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllCmdByValue")
+@kotlin.jvm.JvmName("plusAssignAllCmdByValue")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.CmdSpec, CmdByValueProxy>.plusAssign(values: kotlin.collections.Iterable<ui.UiAst.CmdSpec>) {
       addAll(values)
@@ -420,7 +421,7 @@ public object EventBindingKt {
      * @param value The cmdByValue to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setCmdByValue")
+@kotlin.jvm.JvmName("setCmdByValue")
     public operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.CmdSpec, CmdByValueProxy>.set(index: kotlin.Int, value: ui.UiAst.CmdSpec) {
       _builder.setCmdByValue(index, value)
     }
@@ -439,11 +440,10 @@ public object EventBindingKt {
      * `repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearCmdByValue")
+@kotlin.jvm.JvmName("clearCmdByValue")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.CmdSpec, CmdByValueProxy>.clear() {
       _builder.clearCmdByValue()
     }
-
   }
 }
 @kotlin.jvm.JvmSynthetic

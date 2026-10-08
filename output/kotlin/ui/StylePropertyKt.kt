@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -36,17 +37,17 @@ public object StylePropertyKt {
      * `.ui.StylePropertyType type = 1 [(.buf.validate.field) = { ... }`
      */
     public var type: ui.UiAst.StylePropertyType
-      @JvmName("getType")
-      get() = _builder.type
-      @JvmName("setType")
-      set(value) {
+      @kotlin.jvm.JvmName("getType")
+        get() = _builder.type
+      @kotlin.jvm.JvmName("setType")
+        set(value) {
         _builder.type = value
       }
     public var typeValue: kotlin.Int
-      @JvmName("getTypeValue")
-      get() = _builder.typeValue
-      @JvmName("setTypeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getTypeValue")
+        get() = _builder.typeValue
+      @kotlin.jvm.JvmName("setTypeValue")
+        set(value) {
         _builder.typeValue = value
       }
     /**
@@ -64,10 +65,10 @@ public object StylePropertyKt {
      * `uint32 uint_value = 2;`
      */
     public var uintValue: kotlin.Int
-      @JvmName("getUintValue")
-      get() = _builder.uintValue
-      @JvmName("setUintValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getUintValue")
+        get() = _builder.uintValue
+      @kotlin.jvm.JvmName("setUintValue")
+        set(value) {
         _builder.uintValue = value
       }
     /**
@@ -100,10 +101,10 @@ public object StylePropertyKt {
      * `int32 int_value = 3;`
      */
     public var intValue: kotlin.Int
-      @JvmName("getIntValue")
-      get() = _builder.intValue
-      @JvmName("setIntValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getIntValue")
+        get() = _builder.intValue
+      @kotlin.jvm.JvmName("setIntValue")
+        set(value) {
         _builder.intValue = value
       }
     /**
@@ -136,10 +137,10 @@ public object StylePropertyKt {
      * `.ui.Color color_value = 4;`
      */
     public var colorValue: ui.UiAst.Color
-      @JvmName("getColorValue")
-      get() = _builder.colorValue
-      @JvmName("setColorValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getColorValue")
+        get() = _builder.colorValue
+      @kotlin.jvm.JvmName("setColorValue")
+        set(value) {
         _builder.colorValue = value
       }
     /**
@@ -172,10 +173,10 @@ public object StylePropertyKt {
      * `string string_value = 5 [(.buf.validate.field) = { ... }`
      */
     public var stringValue: kotlin.String
-      @JvmName("getStringValue")
-      get() = _builder.stringValue
-      @JvmName("setStringValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getStringValue")
+        get() = _builder.stringValue
+      @kotlin.jvm.JvmName("setStringValue")
+        set(value) {
         _builder.stringValue = value
       }
     /**
@@ -204,10 +205,10 @@ public object StylePropertyKt {
      * `.ui.ShadowBundle shadow_value = 6;`
      */
     public var shadowValue: ui.UiAst.ShadowBundle
-      @JvmName("getShadowValue")
-      get() = _builder.shadowValue
-      @JvmName("setShadowValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getShadowValue")
+        get() = _builder.shadowValue
+      @kotlin.jvm.JvmName("setShadowValue")
+        set(value) {
         _builder.shadowValue = value
       }
     /**

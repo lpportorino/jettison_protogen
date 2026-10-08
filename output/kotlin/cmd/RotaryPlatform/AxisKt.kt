@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_rotary.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.RotaryPlatform;
@@ -32,10 +33,10 @@ public object AxisKt {
      * `.cmd.RotaryPlatform.Azimuth azimuth = 1;`
      */
     public var azimuth: cmd.RotaryPlatform.JonSharedCmdRotary.Azimuth
-      @JvmName("getAzimuth")
-      get() = _builder.azimuth
-      @JvmName("setAzimuth")
-      set(value) {
+      @kotlin.jvm.JvmName("getAzimuth")
+        get() = _builder.azimuth
+      @kotlin.jvm.JvmName("setAzimuth")
+        set(value) {
         _builder.azimuth = value
       }
     /**
@@ -59,10 +60,10 @@ public object AxisKt {
      * `.cmd.RotaryPlatform.Elevation elevation = 2;`
      */
     public var elevation: cmd.RotaryPlatform.JonSharedCmdRotary.Elevation
-      @JvmName("getElevation")
-      get() = _builder.elevation
-      @JvmName("setElevation")
-      set(value) {
+      @kotlin.jvm.JvmName("getElevation")
+        get() = _builder.elevation
+      @kotlin.jvm.JvmName("setElevation")
+        set(value) {
         _builder.elevation = value
       }
     /**

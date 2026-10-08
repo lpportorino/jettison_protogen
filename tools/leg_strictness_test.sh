@@ -39,15 +39,42 @@ fi
 ok "the strictness preamble is present exactly once in generate-protos.sh"
 
 # --- Every leg payload still re-arms its own `set -e` (the mechanism's premise) ---
-leg_count="$(grep -c "^set -e$" "$SUBJECT")"
-if [ "$leg_count" -lt 11 ]; then
-  bad "expected >= 11 payload 'set -e' preambles, found $leg_count — a leg may have been dropped"
+# PAIRED, not counted: a payload is `<LEG>_SCRIPT='` on one line and `set -e` on
+# the NEXT, so a stray `set -e` anywhere else in the file cannot stand in for a
+# dropped one. The floor is derived from the declarations rather than hard-coded:
+# a literal leg count is a second copy of the LANGS list and went stale the day a
+# leg was retired. Prints "<declared> <armed>"; the caller judges.
+payload_arming() {
+  awk '/^[A-Z0-9_]*_SCRIPT='"'"'$/ { declared++; want = NR + 1; next }
+       NR == want && /^set -e$/ { armed++ }
+       END { printf "%d %d\n", declared, armed }' "$1"
+}
+read -r payload_count leg_count < <(payload_arming "$SUBJECT")
+if [ "$payload_count" -lt 1 ]; then
+  printf '\033[31m[leg-strictness] CANNOT RUN\033[0m — no `<LEG>_SCRIPT='"'"'` payload declarations found in %s.\n' "$SUBJECT" >&2
+  exit 3
+elif [ "$leg_count" -ne "$payload_count" ]; then
+  bad "expected every one of $payload_count declared leg payloads to open with 'set -e', found $leg_count — a leg dropped its own"
 else
-  ok "all $leg_count leg payloads re-arm set -e (which does NOT clear -u/pipefail)"
+  ok "all $leg_count of $payload_count leg payloads re-arm set -e (which does NOT clear -u/pipefail)"
 fi
 
 WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
+
+# --- CANARY for the pairing clause above, on synthetic subjects (never the tree) ---
+synth() { # synth <path> <armed-legs> <dropped-legs> <stray-set-e: 0|1>
+  local i q="'"
+  {
+    for ((i = 0; i < $2; i++)); do printf 'L%d_SCRIPT=%s\nset -e\necho leg\n%s\n' "$i" "$q" "$q"; done
+    for ((i = 0; i < $3; i++)); do printf 'D%d_SCRIPT=%s\necho leg without arming\n%s\n' "$i" "$q" "$q"; done
+    if [ "$4" -eq 1 ]; then printf 'set -e\n'; fi
+  } >"$1"
+}
+synth "$WORK/all-armed.sh" 3 0 0;      [ "$(payload_arming "$WORK/all-armed.sh")" = "3 3" ] && ok "pairing: three armed payloads count 3 3" || bad "pairing: three armed payloads counted $(payload_arming "$WORK/all-armed.sh")"
+synth "$WORK/one-dropped.sh" 2 1 0;    [ "$(payload_arming "$WORK/one-dropped.sh")" = "3 2" ] && ok "pairing: a dropped set -e is one short (3 2)" || bad "pairing: dropped case counted $(payload_arming "$WORK/one-dropped.sh")"
+synth "$WORK/masked.sh" 2 1 1;         [ "$(payload_arming "$WORK/masked.sh")" = "3 2" ] && ok "pairing: a STRAY set -e outside any payload does not mask the drop (3 2)" || bad "pairing: stray set -e masked the drop: $(payload_arming "$WORK/masked.sh")"
+synth "$WORK/none.sh" 0 0 1;           [ "$(payload_arming "$WORK/none.sh")" = "0 0" ] && ok "pairing: no declarations is 0 0 (the caller turns that into CANNOT RUN)" || bad "pairing: no-declaration case counted $(payload_arming "$WORK/none.sh")"
 
 # A payload shaped exactly like a real leg: bare `set -e`, then a pipeline whose
 # LEFT side fails. This is the rust leg's shape reduced to its essentials.

@@ -220,7 +220,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v5
+      uses: actions/checkout@v7.0.1
 
     - # FIRST, and before any toolchain setup: it needs nothing but the bash
       # already on the runner, and it is the gate with the best track record.
@@ -323,7 +323,7 @@ jobs:
       # means between two runs of the same commit.
       name: Install actionlint
       run: |
-        curl -fsSL https://github.com/rhysd/actionlint/releases/download/v1.7.10/actionlint_1.7.10_linux_amd64.tar.gz \
+        curl -fsSL https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz \
           | sudo tar -xz -C /usr/local/bin actionlint
 
     - # WORKFLOW SYNTAX, not shell style — lint.mk's lint-ci runs actionlint with
@@ -335,18 +335,15 @@ jobs:
       name: actionlint (workflow syntax + expressions)
       run: make -f lint.mk lint-ci
 
-    - # One setup-clojure invocation covers both tools. clj-kondo is a native
-      # binary and needs no JVM, but cljfmt runs through the Clojure CLI, so
-      # this job DOES need Java. Linting is this workflow's alone — no other
-      # workflow runs clj-kondo, which is what keeps one config and one pin.
+    - # Formatting and the verified patched linter both run on the JVM.
       name: Set up JDK 27
-      uses: actions/setup-java@v5
+      uses: actions/setup-java@v6.0.1
       with:
         distribution: temurin
         java-version: "27"
 
-    - name: Set up Clojure CLI + clj-kondo
-      uses: DeLaGuardo/setup-clojure@13.6.1
+    - name: Set up Clojure CLI
+      uses: DeLaGuardo/setup-clojure@13.7.0
       with:
         # Both pins are the ones devcards.yml already uses, deliberately: two
         # different toolchain versions gating the same tree would disagree
@@ -355,13 +352,12 @@ jobs:
         # does not exist (brew-install has no such tag) and the job died at
         # setup, before a single gate ran. Verify a pin against
         # https://github.com/clojure/brew-install/releases before changing it.
-        cli: "1.12.5.1654"
-        clj-kondo: "2026.08.04"
+        cli: "1.12.6.1673"
 
     - # cljfmt resolves from the ROOT deps.edn (:fmt alias). Cache on its hash
       # so a warm run skips the Maven fetch entirely.
       name: Cache Maven-resolved deps
-      uses: actions/cache@v5
+      uses: actions/cache@v6.1.0
       with:
         path: |
           ~/.m2/repository

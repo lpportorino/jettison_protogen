@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -32,10 +33,10 @@ public object DropdownPropsKt {
      * `string options = 1 [(.buf.validate.field) = { ... }`
      */
     public var options: kotlin.String
-      @JvmName("getOptions")
-      get() = _builder.options
-      @JvmName("setOptions")
-      set(value) {
+      @kotlin.jvm.JvmName("getOptions")
+        get() = _builder.options
+      @kotlin.jvm.JvmName("setOptions")
+        set(value) {
         _builder.options = value
       }
     /**
@@ -49,10 +50,10 @@ public object DropdownPropsKt {
      * `uint32 selected = 2;`
      */
     public var selected: kotlin.Int
-      @JvmName("getSelected")
-      get() = _builder.selected
-      @JvmName("setSelected")
-      set(value) {
+      @kotlin.jvm.JvmName("getSelected")
+        get() = _builder.selected
+      @kotlin.jvm.JvmName("setSelected")
+        set(value) {
         _builder.selected = value
       }
     /**
@@ -66,17 +67,17 @@ public object DropdownPropsKt {
      * `.ui.Dir direction = 3 [(.buf.validate.field) = { ... }`
      */
     public var direction: ui.UiAst.Dir
-      @JvmName("getDirection")
-      get() = _builder.direction
-      @JvmName("setDirection")
-      set(value) {
+      @kotlin.jvm.JvmName("getDirection")
+        get() = _builder.direction
+      @kotlin.jvm.JvmName("setDirection")
+        set(value) {
         _builder.direction = value
       }
     public var directionValue: kotlin.Int
-      @JvmName("getDirectionValue")
-      get() = _builder.directionValue
-      @JvmName("setDirectionValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getDirectionValue")
+        get() = _builder.directionValue
+      @kotlin.jvm.JvmName("setDirectionValue")
+        set(value) {
         _builder.directionValue = value
       }
     /**
@@ -105,7 +106,7 @@ public object DropdownPropsKt {
      */
      public val optionValues: com.google.protobuf.kotlin.DslList<kotlin.Int, OptionValuesProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.optionValuesList
       )
     /**
@@ -121,7 +122,7 @@ public object DropdownPropsKt {
      * @param value The optionValues to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addOptionValues")
+@kotlin.jvm.JvmName("addOptionValues")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, OptionValuesProxy>.add(value: kotlin.Int) {
       _builder.addOptionValues(value)
     }/**
@@ -137,7 +138,7 @@ public object DropdownPropsKt {
      * @param value The optionValues to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignOptionValues")
+@kotlin.jvm.JvmName("plusAssignOptionValues")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, OptionValuesProxy>.plusAssign(value: kotlin.Int) {
       add(value)
@@ -154,7 +155,7 @@ public object DropdownPropsKt {
      * @param values The optionValues to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllOptionValues")
+@kotlin.jvm.JvmName("addAllOptionValues")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, OptionValuesProxy>.addAll(values: kotlin.collections.Iterable<kotlin.Int>) {
       _builder.addAllOptionValues(values)
     }/**
@@ -170,7 +171,7 @@ public object DropdownPropsKt {
      * @param values The optionValues to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllOptionValues")
+@kotlin.jvm.JvmName("plusAssignAllOptionValues")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, OptionValuesProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.Int>) {
       addAll(values)
@@ -188,7 +189,7 @@ public object DropdownPropsKt {
      * @param value The optionValues to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setOptionValues")
+@kotlin.jvm.JvmName("setOptionValues")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, OptionValuesProxy>.set(index: kotlin.Int, value: kotlin.Int) {
       _builder.setOptionValues(index, value)
     }/**
@@ -203,7 +204,7 @@ public object DropdownPropsKt {
      * `repeated int32 option_values = 4 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearOptionValues")
+@kotlin.jvm.JvmName("clearOptionValues")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, OptionValuesProxy>.clear() {
       _builder.clearOptionValues()
     }}

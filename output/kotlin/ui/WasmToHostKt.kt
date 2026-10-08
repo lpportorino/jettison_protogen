@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_input.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -36,10 +37,10 @@ public object WasmToHostKt {
      * `uint32 version = 1 [(.buf.validate.field) = { ... }`
      */
     public var version: kotlin.Int
-      @JvmName("getVersion")
-      get() = _builder.version
-      @JvmName("setVersion")
-      set(value) {
+      @kotlin.jvm.JvmName("getVersion")
+        get() = _builder.version
+      @kotlin.jvm.JvmName("setVersion")
+        set(value) {
         _builder.version = value
       }
     /**
@@ -53,10 +54,10 @@ public object WasmToHostKt {
      * `.ui.HoverState hover = 2;`
      */
     public var hover: ui.UiInput.HoverState
-      @JvmName("getHover")
-      get() = _builder.hover
-      @JvmName("setHover")
-      set(value) {
+      @kotlin.jvm.JvmName("getHover")
+        get() = _builder.hover
+      @kotlin.jvm.JvmName("setHover")
+        set(value) {
         _builder.hover = value
       }
     /**
@@ -77,10 +78,10 @@ public object WasmToHostKt {
      * `.ui.CursorRequest cursor = 3;`
      */
     public var cursor: ui.UiInput.CursorRequest
-      @JvmName("getCursor")
-      get() = _builder.cursor
-      @JvmName("setCursor")
-      set(value) {
+      @kotlin.jvm.JvmName("getCursor")
+        get() = _builder.cursor
+      @kotlin.jvm.JvmName("setCursor")
+        set(value) {
         _builder.cursor = value
       }
     /**

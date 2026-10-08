@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_day_camera.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.DayCamera;
@@ -32,10 +33,10 @@ public object FocusKt {
      * `.cmd.DayCamera.SetValue set_value = 1;`
      */
     public var setValue: cmd.DayCamera.JonSharedCmdDayCamera.SetValue
-      @JvmName("getSetValue")
-      get() = _builder.setValue
-      @JvmName("setSetValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetValue")
+        get() = _builder.setValue
+      @kotlin.jvm.JvmName("setSetValue")
+        set(value) {
         _builder.setValue = value
       }
     /**
@@ -56,10 +57,10 @@ public object FocusKt {
      * `.cmd.DayCamera.Move move = 2;`
      */
     public var move: cmd.DayCamera.JonSharedCmdDayCamera.Move
-      @JvmName("getMove")
-      get() = _builder.move
-      @JvmName("setMove")
-      set(value) {
+      @kotlin.jvm.JvmName("getMove")
+        get() = _builder.move
+      @kotlin.jvm.JvmName("setMove")
+        set(value) {
         _builder.move = value
       }
     /**
@@ -80,10 +81,10 @@ public object FocusKt {
      * `.cmd.DayCamera.Halt halt = 3;`
      */
     public var halt: cmd.DayCamera.JonSharedCmdDayCamera.Halt
-      @JvmName("getHalt")
-      get() = _builder.halt
-      @JvmName("setHalt")
-      set(value) {
+      @kotlin.jvm.JvmName("getHalt")
+        get() = _builder.halt
+      @kotlin.jvm.JvmName("setHalt")
+        set(value) {
         _builder.halt = value
       }
     /**
@@ -104,10 +105,10 @@ public object FocusKt {
      * `.cmd.DayCamera.Offset offset = 4;`
      */
     public var offset: cmd.DayCamera.JonSharedCmdDayCamera.Offset
-      @JvmName("getOffset")
-      get() = _builder.offset
-      @JvmName("setOffset")
-      set(value) {
+      @kotlin.jvm.JvmName("getOffset")
+        get() = _builder.offset
+      @kotlin.jvm.JvmName("setOffset")
+        set(value) {
         _builder.offset = value
       }
     /**
@@ -128,10 +129,10 @@ public object FocusKt {
      * `.cmd.DayCamera.ResetFocus reset_focus = 5;`
      */
     public var resetFocus: cmd.DayCamera.JonSharedCmdDayCamera.ResetFocus
-      @JvmName("getResetFocus")
-      get() = _builder.resetFocus
-      @JvmName("setResetFocus")
-      set(value) {
+      @kotlin.jvm.JvmName("getResetFocus")
+        get() = _builder.resetFocus
+      @kotlin.jvm.JvmName("setResetFocus")
+        set(value) {
         _builder.resetFocus = value
       }
     /**
@@ -152,10 +153,10 @@ public object FocusKt {
      * `.cmd.DayCamera.SaveToTableFocus save_to_table_focus = 6;`
      */
     public var saveToTableFocus: cmd.DayCamera.JonSharedCmdDayCamera.SaveToTableFocus
-      @JvmName("getSaveToTableFocus")
-      get() = _builder.saveToTableFocus
-      @JvmName("setSaveToTableFocus")
-      set(value) {
+      @kotlin.jvm.JvmName("getSaveToTableFocus")
+        get() = _builder.saveToTableFocus
+      @kotlin.jvm.JvmName("setSaveToTableFocus")
+        set(value) {
         _builder.saveToTableFocus = value
       }
     /**
@@ -176,10 +177,10 @@ public object FocusKt {
      * `.cmd.DayCamera.FocusStepPlus focus_step_plus = 7;`
      */
     public var focusStepPlus: cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus
-      @JvmName("getFocusStepPlus")
-      get() = _builder.focusStepPlus
-      @JvmName("setFocusStepPlus")
-      set(value) {
+      @kotlin.jvm.JvmName("getFocusStepPlus")
+        get() = _builder.focusStepPlus
+      @kotlin.jvm.JvmName("setFocusStepPlus")
+        set(value) {
         _builder.focusStepPlus = value
       }
     /**
@@ -200,10 +201,10 @@ public object FocusKt {
      * `.cmd.DayCamera.FocusStepMinus focus_step_minus = 8;`
      */
     public var focusStepMinus: cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus
-      @JvmName("getFocusStepMinus")
-      get() = _builder.focusStepMinus
-      @JvmName("setFocusStepMinus")
-      set(value) {
+      @kotlin.jvm.JvmName("getFocusStepMinus")
+        get() = _builder.focusStepMinus
+      @kotlin.jvm.JvmName("setFocusStepMinus")
+        set(value) {
         _builder.focusStepMinus = value
       }
     /**

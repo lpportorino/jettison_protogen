@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_scene.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -67,10 +68,10 @@ public object JonGuiDataSceneKt {
      * `bool day_auto = 1;`
      */
     public var dayAuto: kotlin.Boolean
-      @JvmName("getDayAuto")
-      get() = _builder.dayAuto
-      @JvmName("setDayAuto")
-      set(value) {
+      @kotlin.jvm.JvmName("getDayAuto")
+        get() = _builder.dayAuto
+      @kotlin.jvm.JvmName("setDayAuto")
+        set(value) {
         _builder.dayAuto = value
       }
     /**
@@ -99,17 +100,17 @@ public object JonGuiDataSceneKt {
      * `.ser.JonGuiDataSceneClass day_class = 2 [(.buf.validate.field) = { ... }`
      */
     public var dayClass: ser.JonSharedDataTypes.JonGuiDataSceneClass
-      @JvmName("getDayClass")
-      get() = _builder.dayClass
-      @JvmName("setDayClass")
-      set(value) {
+      @kotlin.jvm.JvmName("getDayClass")
+        get() = _builder.dayClass
+      @kotlin.jvm.JvmName("setDayClass")
+        set(value) {
         _builder.dayClass = value
       }
     public var dayClassValue: kotlin.Int
-      @JvmName("getDayClassValue")
-      get() = _builder.dayClassValue
-      @JvmName("setDayClassValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getDayClassValue")
+        get() = _builder.dayClassValue
+      @kotlin.jvm.JvmName("setDayClassValue")
+        set(value) {
         _builder.dayClassValue = value
       }
     /**
@@ -134,17 +135,17 @@ public object JonGuiDataSceneKt {
      * `.ser.JonGuiDataSceneClass day_challenger = 3 [(.buf.validate.field) = { ... }`
      */
     public var dayChallenger: ser.JonSharedDataTypes.JonGuiDataSceneClass
-      @JvmName("getDayChallenger")
-      get() = _builder.dayChallenger
-      @JvmName("setDayChallenger")
-      set(value) {
+      @kotlin.jvm.JvmName("getDayChallenger")
+        get() = _builder.dayChallenger
+      @kotlin.jvm.JvmName("setDayChallenger")
+        set(value) {
         _builder.dayChallenger = value
       }
     public var dayChallengerValue: kotlin.Int
-      @JvmName("getDayChallengerValue")
-      get() = _builder.dayChallengerValue
-      @JvmName("setDayChallengerValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getDayChallengerValue")
+        get() = _builder.dayChallengerValue
+      @kotlin.jvm.JvmName("setDayChallengerValue")
+        set(value) {
         _builder.dayChallengerValue = value
       }
     /**
@@ -169,10 +170,10 @@ public object JonGuiDataSceneKt {
      * `uint32 day_hold_s = 4;`
      */
     public var dayHoldS: kotlin.Int
-      @JvmName("getDayHoldS")
-      get() = _builder.dayHoldS
-      @JvmName("setDayHoldS")
-      set(value) {
+      @kotlin.jvm.JvmName("getDayHoldS")
+        get() = _builder.dayHoldS
+      @kotlin.jvm.JvmName("setDayHoldS")
+        set(value) {
         _builder.dayHoldS = value
       }
     /**
@@ -202,10 +203,10 @@ public object JonGuiDataSceneKt {
      * `string day_hold_reason = 5 [(.buf.validate.field) = { ... }`
      */
     public var dayHoldReason: kotlin.String
-      @JvmName("getDayHoldReason")
-      get() = _builder.dayHoldReason
-      @JvmName("setDayHoldReason")
-      set(value) {
+      @kotlin.jvm.JvmName("getDayHoldReason")
+        get() = _builder.dayHoldReason
+      @kotlin.jvm.JvmName("setDayHoldReason")
+        set(value) {
         _builder.dayHoldReason = value
       }
     /**
@@ -242,17 +243,17 @@ public object JonGuiDataSceneKt {
      * `.ser.JonGuiDataFxModeDay day_mode = 6 [(.buf.validate.field) = { ... }`
      */
     public var dayMode: ser.JonSharedDataTypes.JonGuiDataFxModeDay
-      @JvmName("getDayMode")
-      get() = _builder.dayMode
-      @JvmName("setDayMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getDayMode")
+        get() = _builder.dayMode
+      @kotlin.jvm.JvmName("setDayMode")
+        set(value) {
         _builder.dayMode = value
       }
     public var dayModeValue: kotlin.Int
-      @JvmName("getDayModeValue")
-      get() = _builder.dayModeValue
-      @JvmName("setDayModeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getDayModeValue")
+        get() = _builder.dayModeValue
+      @kotlin.jvm.JvmName("setDayModeValue")
+        set(value) {
         _builder.dayModeValue = value
       }
     /**
@@ -295,7 +296,7 @@ public object JonGuiDataSceneKt {
      */
      public val dayScores: com.google.protobuf.kotlin.DslList<kotlin.Float, DayScoresProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.dayScoresList
       )
     /**
@@ -313,7 +314,7 @@ public object JonGuiDataSceneKt {
      * @param value The dayScores to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addDayScores")
+@kotlin.jvm.JvmName("addDayScores")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Float, DayScoresProxy>.add(value: kotlin.Float) {
       _builder.addDayScores(value)
     }/**
@@ -331,7 +332,7 @@ public object JonGuiDataSceneKt {
      * @param value The dayScores to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignDayScores")
+@kotlin.jvm.JvmName("plusAssignDayScores")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Float, DayScoresProxy>.plusAssign(value: kotlin.Float) {
       add(value)
@@ -350,7 +351,7 @@ public object JonGuiDataSceneKt {
      * @param values The dayScores to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllDayScores")
+@kotlin.jvm.JvmName("addAllDayScores")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Float, DayScoresProxy>.addAll(values: kotlin.collections.Iterable<kotlin.Float>) {
       _builder.addAllDayScores(values)
     }/**
@@ -368,7 +369,7 @@ public object JonGuiDataSceneKt {
      * @param values The dayScores to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllDayScores")
+@kotlin.jvm.JvmName("plusAssignAllDayScores")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Float, DayScoresProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.Float>) {
       addAll(values)
@@ -388,7 +389,7 @@ public object JonGuiDataSceneKt {
      * @param value The dayScores to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setDayScores")
+@kotlin.jvm.JvmName("setDayScores")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.Float, DayScoresProxy>.set(index: kotlin.Int, value: kotlin.Float) {
       _builder.setDayScores(index, value)
     }/**
@@ -405,7 +406,7 @@ public object JonGuiDataSceneKt {
      * `repeated float day_scores = 7 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearDayScores")
+@kotlin.jvm.JvmName("clearDayScores")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Float, DayScoresProxy>.clear() {
       _builder.clearDayScores()
     }
@@ -417,10 +418,10 @@ public object JonGuiDataSceneKt {
      * `bool heat_auto = 8;`
      */
     public var heatAuto: kotlin.Boolean
-      @JvmName("getHeatAuto")
-      get() = _builder.heatAuto
-      @JvmName("setHeatAuto")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeatAuto")
+        get() = _builder.heatAuto
+      @kotlin.jvm.JvmName("setHeatAuto")
+        set(value) {
         _builder.heatAuto = value
       }
     /**
@@ -448,17 +449,17 @@ public object JonGuiDataSceneKt {
      * `.ser.JonGuiDataHeatSceneClass heat_class = 9 [(.buf.validate.field) = { ... }`
      */
     public var heatClass: ser.JonSharedDataTypes.JonGuiDataHeatSceneClass
-      @JvmName("getHeatClass")
-      get() = _builder.heatClass
-      @JvmName("setHeatClass")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeatClass")
+        get() = _builder.heatClass
+      @kotlin.jvm.JvmName("setHeatClass")
+        set(value) {
         _builder.heatClass = value
       }
     public var heatClassValue: kotlin.Int
-      @JvmName("getHeatClassValue")
-      get() = _builder.heatClassValue
-      @JvmName("setHeatClassValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeatClassValue")
+        get() = _builder.heatClassValue
+      @kotlin.jvm.JvmName("setHeatClassValue")
+        set(value) {
         _builder.heatClassValue = value
       }
     /**
@@ -486,17 +487,17 @@ public object JonGuiDataSceneKt {
      * `.ser.JonGuiDataHeatSceneClass heat_challenger = 10 [(.buf.validate.field) = { ... }`
      */
     public var heatChallenger: ser.JonSharedDataTypes.JonGuiDataHeatSceneClass
-      @JvmName("getHeatChallenger")
-      get() = _builder.heatChallenger
-      @JvmName("setHeatChallenger")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeatChallenger")
+        get() = _builder.heatChallenger
+      @kotlin.jvm.JvmName("setHeatChallenger")
+        set(value) {
         _builder.heatChallenger = value
       }
     public var heatChallengerValue: kotlin.Int
-      @JvmName("getHeatChallengerValue")
-      get() = _builder.heatChallengerValue
-      @JvmName("setHeatChallengerValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeatChallengerValue")
+        get() = _builder.heatChallengerValue
+      @kotlin.jvm.JvmName("setHeatChallengerValue")
+        set(value) {
         _builder.heatChallengerValue = value
       }
     /**
@@ -518,10 +519,10 @@ public object JonGuiDataSceneKt {
      * `uint32 heat_hold_s = 11;`
      */
     public var heatHoldS: kotlin.Int
-      @JvmName("getHeatHoldS")
-      get() = _builder.heatHoldS
-      @JvmName("setHeatHoldS")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeatHoldS")
+        get() = _builder.heatHoldS
+      @kotlin.jvm.JvmName("setHeatHoldS")
+        set(value) {
         _builder.heatHoldS = value
       }
     /**
@@ -544,10 +545,10 @@ public object JonGuiDataSceneKt {
      * `string heat_hold_reason = 12 [(.buf.validate.field) = { ... }`
      */
     public var heatHoldReason: kotlin.String
-      @JvmName("getHeatHoldReason")
-      get() = _builder.heatHoldReason
-      @JvmName("setHeatHoldReason")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeatHoldReason")
+        get() = _builder.heatHoldReason
+      @kotlin.jvm.JvmName("setHeatHoldReason")
+        set(value) {
         _builder.heatHoldReason = value
       }
     /**
@@ -570,17 +571,17 @@ public object JonGuiDataSceneKt {
      * `.ser.JonGuiDataFxModeHeat heat_mode = 13 [(.buf.validate.field) = { ... }`
      */
     public var heatMode: ser.JonSharedDataTypes.JonGuiDataFxModeHeat
-      @JvmName("getHeatMode")
-      get() = _builder.heatMode
-      @JvmName("setHeatMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeatMode")
+        get() = _builder.heatMode
+      @kotlin.jvm.JvmName("setHeatMode")
+        set(value) {
         _builder.heatMode = value
       }
     public var heatModeValue: kotlin.Int
-      @JvmName("getHeatModeValue")
-      get() = _builder.heatModeValue
-      @JvmName("setHeatModeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeatModeValue")
+        get() = _builder.heatModeValue
+      @kotlin.jvm.JvmName("setHeatModeValue")
+        set(value) {
         _builder.heatModeValue = value
       }
     /**
@@ -610,7 +611,7 @@ public object JonGuiDataSceneKt {
      */
      public val heatScores: com.google.protobuf.kotlin.DslList<kotlin.Float, HeatScoresProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.heatScoresList
       )
     /**
@@ -623,7 +624,7 @@ public object JonGuiDataSceneKt {
      * @param value The heatScores to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addHeatScores")
+@kotlin.jvm.JvmName("addHeatScores")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Float, HeatScoresProxy>.add(value: kotlin.Float) {
       _builder.addHeatScores(value)
     }/**
@@ -636,7 +637,7 @@ public object JonGuiDataSceneKt {
      * @param value The heatScores to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignHeatScores")
+@kotlin.jvm.JvmName("plusAssignHeatScores")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Float, HeatScoresProxy>.plusAssign(value: kotlin.Float) {
       add(value)
@@ -650,7 +651,7 @@ public object JonGuiDataSceneKt {
      * @param values The heatScores to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllHeatScores")
+@kotlin.jvm.JvmName("addAllHeatScores")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Float, HeatScoresProxy>.addAll(values: kotlin.collections.Iterable<kotlin.Float>) {
       _builder.addAllHeatScores(values)
     }/**
@@ -663,7 +664,7 @@ public object JonGuiDataSceneKt {
      * @param values The heatScores to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllHeatScores")
+@kotlin.jvm.JvmName("plusAssignAllHeatScores")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Float, HeatScoresProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.Float>) {
       addAll(values)
@@ -678,7 +679,7 @@ public object JonGuiDataSceneKt {
      * @param value The heatScores to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setHeatScores")
+@kotlin.jvm.JvmName("setHeatScores")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.Float, HeatScoresProxy>.set(index: kotlin.Int, value: kotlin.Float) {
       _builder.setHeatScores(index, value)
     }/**
@@ -690,7 +691,7 @@ public object JonGuiDataSceneKt {
      * `repeated float heat_scores = 14 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearHeatScores")
+@kotlin.jvm.JvmName("clearHeatScores")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Float, HeatScoresProxy>.clear() {
       _builder.clearHeatScores()
     }
@@ -720,10 +721,10 @@ public object JonGuiDataSceneKt {
      * `bool shadow = 15;`
      */
     public var shadow: kotlin.Boolean
-      @JvmName("getShadow")
-      get() = _builder.shadow
-      @JvmName("setShadow")
-      set(value) {
+      @kotlin.jvm.JvmName("getShadow")
+        get() = _builder.shadow
+      @kotlin.jvm.JvmName("setShadow")
+        set(value) {
         _builder.shadow = value
       }
     /**

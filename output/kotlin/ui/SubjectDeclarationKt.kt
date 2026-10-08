@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -40,10 +41,10 @@ public object SubjectDeclarationKt {
      * `string name = 1 [(.buf.validate.field) = { ... }`
      */
     public var name: kotlin.String
-      @JvmName("getName")
-      get() = _builder.name
-      @JvmName("setName")
-      set(value) {
+      @kotlin.jvm.JvmName("getName")
+        get() = _builder.name
+      @kotlin.jvm.JvmName("setName")
+        set(value) {
         _builder.name = value
       }
     /**
@@ -61,17 +62,17 @@ public object SubjectDeclarationKt {
      * `.ui.SubjectType type = 2 [(.buf.validate.field) = { ... }`
      */
     public var type: ui.UiAst.SubjectType
-      @JvmName("getType")
-      get() = _builder.type
-      @JvmName("setType")
-      set(value) {
+      @kotlin.jvm.JvmName("getType")
+        get() = _builder.type
+      @kotlin.jvm.JvmName("setType")
+        set(value) {
         _builder.type = value
       }
     public var typeValue: kotlin.Int
-      @JvmName("getTypeValue")
-      get() = _builder.typeValue
-      @JvmName("setTypeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getTypeValue")
+        get() = _builder.typeValue
+      @kotlin.jvm.JvmName("setTypeValue")
+        set(value) {
         _builder.typeValue = value
       }
     /**
@@ -89,10 +90,10 @@ public object SubjectDeclarationKt {
      * `int32 int_initial = 3;`
      */
     public var intInitial: kotlin.Int
-      @JvmName("getIntInitial")
-      get() = _builder.intInitial
-      @JvmName("setIntInitial")
-      set(value) {
+      @kotlin.jvm.JvmName("getIntInitial")
+        get() = _builder.intInitial
+      @kotlin.jvm.JvmName("setIntInitial")
+        set(value) {
         _builder.intInitial = value
       }
     /**
@@ -125,10 +126,10 @@ public object SubjectDeclarationKt {
      * `string string_initial = 4 [(.buf.validate.field) = { ... }`
      */
     public var stringInitial: kotlin.String
-      @JvmName("getStringInitial")
-      get() = _builder.stringInitial
-      @JvmName("setStringInitial")
-      set(value) {
+      @kotlin.jvm.JvmName("getStringInitial")
+        get() = _builder.stringInitial
+      @kotlin.jvm.JvmName("setStringInitial")
+        set(value) {
         _builder.stringInitial = value
       }
     /**

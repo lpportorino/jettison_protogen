@@ -507,17 +507,17 @@
    :h 480},
   "lv_label/default/medium/pairing-data-value"
   {:sha256
-   "4fbe7b23fea7d3e265e8490af8d4590b9edc8af57f14ae93c4c0cbefd0158365",
+   "3d6380bdaaafd0477b048dd28efc13279b663913a12542bfa3b2bc3011d98665",
    :w 800,
    :h 480},
   "lv_label/default/medium/pairing-muted"
   {:sha256
-   "50cf4abc150b9f325ee22d22d4e585d28c2954001eee1fb1f70696f058c42a74",
+   "66ce0ae41091e07b63cabbe59594d21ceb67b43a1904978e174d356439bd6184",
    :w 800,
    :h 480},
   "lv_label/default/medium/symbols"
   {:sha256
-   "a60ff109ae5fab49fd901db35d8de180f132d77799066ef1800fc31952cb6665",
+   "f22f9b4dcc43cda62161eddc4d86c06a276970bc01d25275b403845597c074b0",
    :w 800,
    :h 480},
   "lv_label/default/medium/wrap"
@@ -1167,7 +1167,7 @@
    :h 480},
   "lv_target_overlay/default/medium/authored"
   {:sha256
-   "e27669c670ebb2d434600508d627479554cd5fd2cb127180fab0b73c916c4d60",
+   "87dba90558e498f1edeee3692ceb94997cf40c8ade1d4c3e8645c6d031c99c68",
    :w 800,
    :h 480},
   "lv_target_overlay/default/medium/empty"

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_cv.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -39,10 +40,10 @@ public object JonGuiDataStabCorrectionKt {
      * `float x_px = 1;`
      */
     public var xPx: kotlin.Float
-      @JvmName("getXPx")
-      get() = _builder.xPx
-      @JvmName("setXPx")
-      set(value) {
+      @kotlin.jvm.JvmName("getXPx")
+        get() = _builder.xPx
+      @kotlin.jvm.JvmName("setXPx")
+        set(value) {
         _builder.xPx = value
       }
     /**
@@ -56,10 +57,10 @@ public object JonGuiDataStabCorrectionKt {
      * `float y_px = 2;`
      */
     public var yPx: kotlin.Float
-      @JvmName("getYPx")
-      get() = _builder.yPx
-      @JvmName("setYPx")
-      set(value) {
+      @kotlin.jvm.JvmName("getYPx")
+        get() = _builder.yPx
+      @kotlin.jvm.JvmName("setYPx")
+        set(value) {
         _builder.yPx = value
       }
     /**

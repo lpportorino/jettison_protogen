@@ -317,9 +317,9 @@ into a fresh shell. Two independent ways for one leg to pass having done nothing
 The repair in each case was the same move: ONE seam that classifies, rather than
 a branch per condition — a caller can forget and a seam cannot.
 
-**What is NOT closed, and is the honest form of this warning today:** only five
-of the eleven legs carry a "verify files were generated" assertion at all, and
-for those five the pass value still EQUALS the nothing-ran value, because
+**What is NOT closed, and is the honest form of this warning today:** only some
+of the legs carry a "verify files were generated" assertion at all (count them
+against `LANGS` in `generate-protos.sh`), and for those the pass value still EQUALS the nothing-ran value, because
 `/workspace/output` is a bind mount of the TRACKED output tree that no leg
 empties first. The summary loop likewise prints `No files generated` as a
 warning without entering `FAILED_LANGS` — a live instance of §1's "a warning IS

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_types.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -42,10 +43,10 @@ public object JonOpaquePayloadKt {
      * `string type_uuid = 1 [(.buf.validate.field) = { ... }`
      */
     public var typeUuid: kotlin.String
-      @JvmName("getTypeUuid")
-      get() = _builder.typeUuid
-      @JvmName("setTypeUuid")
-      set(value) {
+      @kotlin.jvm.JvmName("getTypeUuid")
+        get() = _builder.typeUuid
+      @kotlin.jvm.JvmName("setTypeUuid")
+        set(value) {
         _builder.typeUuid = value
       }
     /**
@@ -67,10 +68,10 @@ public object JonOpaquePayloadKt {
      * `.ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = { ... }`
      */
     public var version: ser.JonSharedDataTypes.JonOpaquePayloadVersion
-      @JvmName("getVersion")
-      get() = _builder.version
-      @JvmName("setVersion")
-      set(value) {
+      @kotlin.jvm.JvmName("getVersion")
+        get() = _builder.version
+      @kotlin.jvm.JvmName("setVersion")
+        set(value) {
         _builder.version = value
       }
     /**
@@ -106,10 +107,10 @@ public object JonOpaquePayloadKt {
      * `bytes payload = 3 [(.buf.validate.field) = { ... }`
      */
     public var payload: com.google.protobuf.ByteString
-      @JvmName("getPayload")
-      get() = _builder.payload
-      @JvmName("setPayload")
-      set(value) {
+      @kotlin.jvm.JvmName("getPayload")
+        get() = _builder.payload
+      @kotlin.jvm.JvmName("setPayload")
+        set(value) {
         _builder.payload = value
       }
     /**

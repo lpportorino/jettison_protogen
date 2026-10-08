@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_system.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -32,10 +33,10 @@ public object JonGuiDataSystemKt {
      * `double cpu_temperature = 1 [(.buf.validate.field) = { ... }`
      */
     public var cpuTemperature: kotlin.Double
-      @JvmName("getCpuTemperature")
-      get() = _builder.cpuTemperature
-      @JvmName("setCpuTemperature")
-      set(value) {
+      @kotlin.jvm.JvmName("getCpuTemperature")
+        get() = _builder.cpuTemperature
+      @kotlin.jvm.JvmName("setCpuTemperature")
+        set(value) {
         _builder.cpuTemperature = value
       }
     /**
@@ -49,10 +50,10 @@ public object JonGuiDataSystemKt {
      * `double gpu_temperature = 2 [(.buf.validate.field) = { ... }`
      */
     public var gpuTemperature: kotlin.Double
-      @JvmName("getGpuTemperature")
-      get() = _builder.gpuTemperature
-      @JvmName("setGpuTemperature")
-      set(value) {
+      @kotlin.jvm.JvmName("getGpuTemperature")
+        get() = _builder.gpuTemperature
+      @kotlin.jvm.JvmName("setGpuTemperature")
+        set(value) {
         _builder.gpuTemperature = value
       }
     /**
@@ -66,10 +67,10 @@ public object JonGuiDataSystemKt {
      * `double gpu_load = 3 [(.buf.validate.field) = { ... }`
      */
     public var gpuLoad: kotlin.Double
-      @JvmName("getGpuLoad")
-      get() = _builder.gpuLoad
-      @JvmName("setGpuLoad")
-      set(value) {
+      @kotlin.jvm.JvmName("getGpuLoad")
+        get() = _builder.gpuLoad
+      @kotlin.jvm.JvmName("setGpuLoad")
+        set(value) {
         _builder.gpuLoad = value
       }
     /**
@@ -83,10 +84,10 @@ public object JonGuiDataSystemKt {
      * `double cpu_load = 4 [(.buf.validate.field) = { ... }`
      */
     public var cpuLoad: kotlin.Double
-      @JvmName("getCpuLoad")
-      get() = _builder.cpuLoad
-      @JvmName("setCpuLoad")
-      set(value) {
+      @kotlin.jvm.JvmName("getCpuLoad")
+        get() = _builder.cpuLoad
+      @kotlin.jvm.JvmName("setCpuLoad")
+        set(value) {
         _builder.cpuLoad = value
       }
     /**
@@ -100,10 +101,10 @@ public object JonGuiDataSystemKt {
      * `double power_consumption = 5 [(.buf.validate.field) = { ... }`
      */
     public var powerConsumption: kotlin.Double
-      @JvmName("getPowerConsumption")
-      get() = _builder.powerConsumption
-      @JvmName("setPowerConsumption")
-      set(value) {
+      @kotlin.jvm.JvmName("getPowerConsumption")
+        get() = _builder.powerConsumption
+      @kotlin.jvm.JvmName("setPowerConsumption")
+        set(value) {
         _builder.powerConsumption = value
       }
     /**
@@ -117,17 +118,17 @@ public object JonGuiDataSystemKt {
      * `.ser.JonGuiDataSystemLocalizations loc = 6 [(.buf.validate.field) = { ... }`
      */
     public var loc: ser.JonSharedDataTypes.JonGuiDataSystemLocalizations
-      @JvmName("getLoc")
-      get() = _builder.loc
-      @JvmName("setLoc")
-      set(value) {
+      @kotlin.jvm.JvmName("getLoc")
+        get() = _builder.loc
+      @kotlin.jvm.JvmName("setLoc")
+        set(value) {
         _builder.loc = value
       }
     public var locValue: kotlin.Int
-      @JvmName("getLocValue")
-      get() = _builder.locValue
-      @JvmName("setLocValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getLocValue")
+        get() = _builder.locValue
+      @kotlin.jvm.JvmName("setLocValue")
+        set(value) {
         _builder.locValue = value
       }
     /**
@@ -141,10 +142,10 @@ public object JonGuiDataSystemKt {
      * `int32 cur_video_rec_dir_year = 7 [(.buf.validate.field) = { ... }`
      */
     public var curVideoRecDirYear: kotlin.Int
-      @JvmName("getCurVideoRecDirYear")
-      get() = _builder.curVideoRecDirYear
-      @JvmName("setCurVideoRecDirYear")
-      set(value) {
+      @kotlin.jvm.JvmName("getCurVideoRecDirYear")
+        get() = _builder.curVideoRecDirYear
+      @kotlin.jvm.JvmName("setCurVideoRecDirYear")
+        set(value) {
         _builder.curVideoRecDirYear = value
       }
     /**
@@ -158,10 +159,10 @@ public object JonGuiDataSystemKt {
      * `int32 cur_video_rec_dir_month = 8 [(.buf.validate.field) = { ... }`
      */
     public var curVideoRecDirMonth: kotlin.Int
-      @JvmName("getCurVideoRecDirMonth")
-      get() = _builder.curVideoRecDirMonth
-      @JvmName("setCurVideoRecDirMonth")
-      set(value) {
+      @kotlin.jvm.JvmName("getCurVideoRecDirMonth")
+        get() = _builder.curVideoRecDirMonth
+      @kotlin.jvm.JvmName("setCurVideoRecDirMonth")
+        set(value) {
         _builder.curVideoRecDirMonth = value
       }
     /**
@@ -175,10 +176,10 @@ public object JonGuiDataSystemKt {
      * `int32 cur_video_rec_dir_day = 9 [(.buf.validate.field) = { ... }`
      */
     public var curVideoRecDirDay: kotlin.Int
-      @JvmName("getCurVideoRecDirDay")
-      get() = _builder.curVideoRecDirDay
-      @JvmName("setCurVideoRecDirDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getCurVideoRecDirDay")
+        get() = _builder.curVideoRecDirDay
+      @kotlin.jvm.JvmName("setCurVideoRecDirDay")
+        set(value) {
         _builder.curVideoRecDirDay = value
       }
     /**
@@ -192,10 +193,10 @@ public object JonGuiDataSystemKt {
      * `int32 cur_video_rec_dir_hour = 10 [(.buf.validate.field) = { ... }`
      */
     public var curVideoRecDirHour: kotlin.Int
-      @JvmName("getCurVideoRecDirHour")
-      get() = _builder.curVideoRecDirHour
-      @JvmName("setCurVideoRecDirHour")
-      set(value) {
+      @kotlin.jvm.JvmName("getCurVideoRecDirHour")
+        get() = _builder.curVideoRecDirHour
+      @kotlin.jvm.JvmName("setCurVideoRecDirHour")
+        set(value) {
         _builder.curVideoRecDirHour = value
       }
     /**
@@ -209,10 +210,10 @@ public object JonGuiDataSystemKt {
      * `int32 cur_video_rec_dir_minute = 11 [(.buf.validate.field) = { ... }`
      */
     public var curVideoRecDirMinute: kotlin.Int
-      @JvmName("getCurVideoRecDirMinute")
-      get() = _builder.curVideoRecDirMinute
-      @JvmName("setCurVideoRecDirMinute")
-      set(value) {
+      @kotlin.jvm.JvmName("getCurVideoRecDirMinute")
+        get() = _builder.curVideoRecDirMinute
+      @kotlin.jvm.JvmName("setCurVideoRecDirMinute")
+        set(value) {
         _builder.curVideoRecDirMinute = value
       }
     /**
@@ -226,10 +227,10 @@ public object JonGuiDataSystemKt {
      * `int32 cur_video_rec_dir_second = 12 [(.buf.validate.field) = { ... }`
      */
     public var curVideoRecDirSecond: kotlin.Int
-      @JvmName("getCurVideoRecDirSecond")
-      get() = _builder.curVideoRecDirSecond
-      @JvmName("setCurVideoRecDirSecond")
-      set(value) {
+      @kotlin.jvm.JvmName("getCurVideoRecDirSecond")
+        get() = _builder.curVideoRecDirSecond
+      @kotlin.jvm.JvmName("setCurVideoRecDirSecond")
+        set(value) {
         _builder.curVideoRecDirSecond = value
       }
     /**
@@ -243,10 +244,10 @@ public object JonGuiDataSystemKt {
      * `bool rec_enabled = 13;`
      */
     public var recEnabled: kotlin.Boolean
-      @JvmName("getRecEnabled")
-      get() = _builder.recEnabled
-      @JvmName("setRecEnabled")
-      set(value) {
+      @kotlin.jvm.JvmName("getRecEnabled")
+        get() = _builder.recEnabled
+      @kotlin.jvm.JvmName("setRecEnabled")
+        set(value) {
         _builder.recEnabled = value
       }
     /**
@@ -260,10 +261,10 @@ public object JonGuiDataSystemKt {
      * `bool important_rec_enabled = 14;`
      */
     public var importantRecEnabled: kotlin.Boolean
-      @JvmName("getImportantRecEnabled")
-      get() = _builder.importantRecEnabled
-      @JvmName("setImportantRecEnabled")
-      set(value) {
+      @kotlin.jvm.JvmName("getImportantRecEnabled")
+        get() = _builder.importantRecEnabled
+      @kotlin.jvm.JvmName("setImportantRecEnabled")
+        set(value) {
         _builder.importantRecEnabled = value
       }
     /**
@@ -277,10 +278,10 @@ public object JonGuiDataSystemKt {
      * `bool low_disk_space = 15;`
      */
     public var lowDiskSpace: kotlin.Boolean
-      @JvmName("getLowDiskSpace")
-      get() = _builder.lowDiskSpace
-      @JvmName("setLowDiskSpace")
-      set(value) {
+      @kotlin.jvm.JvmName("getLowDiskSpace")
+        get() = _builder.lowDiskSpace
+      @kotlin.jvm.JvmName("setLowDiskSpace")
+        set(value) {
         _builder.lowDiskSpace = value
       }
     /**
@@ -294,10 +295,10 @@ public object JonGuiDataSystemKt {
      * `bool no_disk_space = 16;`
      */
     public var noDiskSpace: kotlin.Boolean
-      @JvmName("getNoDiskSpace")
-      get() = _builder.noDiskSpace
-      @JvmName("setNoDiskSpace")
-      set(value) {
+      @kotlin.jvm.JvmName("getNoDiskSpace")
+        get() = _builder.noDiskSpace
+      @kotlin.jvm.JvmName("setNoDiskSpace")
+        set(value) {
         _builder.noDiskSpace = value
       }
     /**
@@ -311,10 +312,10 @@ public object JonGuiDataSystemKt {
      * `int32 disk_space = 17 [(.buf.validate.field) = { ... }`
      */
     public var diskSpace: kotlin.Int
-      @JvmName("getDiskSpace")
-      get() = _builder.diskSpace
-      @JvmName("setDiskSpace")
-      set(value) {
+      @kotlin.jvm.JvmName("getDiskSpace")
+        get() = _builder.diskSpace
+      @kotlin.jvm.JvmName("setDiskSpace")
+        set(value) {
         _builder.diskSpace = value
       }
     /**
@@ -328,10 +329,10 @@ public object JonGuiDataSystemKt {
      * `bool tracking = 18;`
      */
     public var tracking: kotlin.Boolean
-      @JvmName("getTracking")
-      get() = _builder.tracking
-      @JvmName("setTracking")
-      set(value) {
+      @kotlin.jvm.JvmName("getTracking")
+        get() = _builder.tracking
+      @kotlin.jvm.JvmName("setTracking")
+        set(value) {
         _builder.tracking = value
       }
     /**
@@ -345,10 +346,10 @@ public object JonGuiDataSystemKt {
      * `bool vampire_mode = 19;`
      */
     public var vampireMode: kotlin.Boolean
-      @JvmName("getVampireMode")
-      get() = _builder.vampireMode
-      @JvmName("setVampireMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getVampireMode")
+        get() = _builder.vampireMode
+      @kotlin.jvm.JvmName("setVampireMode")
+        set(value) {
         _builder.vampireMode = value
       }
     /**
@@ -362,10 +363,10 @@ public object JonGuiDataSystemKt {
      * `bool stabilization_mode = 20;`
      */
     public var stabilizationMode: kotlin.Boolean
-      @JvmName("getStabilizationMode")
-      get() = _builder.stabilizationMode
-      @JvmName("setStabilizationMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getStabilizationMode")
+        get() = _builder.stabilizationMode
+      @kotlin.jvm.JvmName("setStabilizationMode")
+        set(value) {
         _builder.stabilizationMode = value
       }
     /**
@@ -379,10 +380,10 @@ public object JonGuiDataSystemKt {
      * `bool geodesic_mode = 21;`
      */
     public var geodesicMode: kotlin.Boolean
-      @JvmName("getGeodesicMode")
-      get() = _builder.geodesicMode
-      @JvmName("setGeodesicMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getGeodesicMode")
+        get() = _builder.geodesicMode
+      @kotlin.jvm.JvmName("setGeodesicMode")
+        set(value) {
         _builder.geodesicMode = value
       }
     /**
@@ -396,10 +397,10 @@ public object JonGuiDataSystemKt {
      * `bool cv_dumping = 22;`
      */
     public var cvDumping: kotlin.Boolean
-      @JvmName("getCvDumping")
-      get() = _builder.cvDumping
-      @JvmName("setCvDumping")
-      set(value) {
+      @kotlin.jvm.JvmName("getCvDumping")
+        get() = _builder.cvDumping
+      @kotlin.jvm.JvmName("setCvDumping")
+        set(value) {
         _builder.cvDumping = value
       }
     /**
@@ -413,10 +414,10 @@ public object JonGuiDataSystemKt {
      * `bool recognition_mode = 23;`
      */
     public var recognitionMode: kotlin.Boolean
-      @JvmName("getRecognitionMode")
-      get() = _builder.recognitionMode
-      @JvmName("setRecognitionMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getRecognitionMode")
+        get() = _builder.recognitionMode
+      @kotlin.jvm.JvmName("setRecognitionMode")
+        set(value) {
         _builder.recognitionMode = value
       }
     /**
@@ -430,17 +431,17 @@ public object JonGuiDataSystemKt {
      * `.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24 [(.buf.validate.field) = { ... }`
      */
     public var accumulatorState: ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx
-      @JvmName("getAccumulatorState")
-      get() = _builder.accumulatorState
-      @JvmName("setAccumulatorState")
-      set(value) {
+      @kotlin.jvm.JvmName("getAccumulatorState")
+        get() = _builder.accumulatorState
+      @kotlin.jvm.JvmName("setAccumulatorState")
+        set(value) {
         _builder.accumulatorState = value
       }
     public var accumulatorStateValue: kotlin.Int
-      @JvmName("getAccumulatorStateValue")
-      get() = _builder.accumulatorStateValue
-      @JvmName("setAccumulatorStateValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getAccumulatorStateValue")
+        get() = _builder.accumulatorStateValue
+      @kotlin.jvm.JvmName("setAccumulatorStateValue")
+        set(value) {
         _builder.accumulatorStateValue = value
       }
     /**
@@ -454,10 +455,10 @@ public object JonGuiDataSystemKt {
      * `int32 ext_bat_capacity = 25 [(.buf.validate.field) = { ... }`
      */
     public var extBatCapacity: kotlin.Int
-      @JvmName("getExtBatCapacity")
-      get() = _builder.extBatCapacity
-      @JvmName("setExtBatCapacity")
-      set(value) {
+      @kotlin.jvm.JvmName("getExtBatCapacity")
+        get() = _builder.extBatCapacity
+      @kotlin.jvm.JvmName("setExtBatCapacity")
+        set(value) {
         _builder.extBatCapacity = value
       }
     /**
@@ -471,17 +472,17 @@ public object JonGuiDataSystemKt {
      * `.ser.JonGuiDataExtBatStatus ext_bat_status = 26;`
      */
     public var extBatStatus: ser.JonSharedDataTypes.JonGuiDataExtBatStatus
-      @JvmName("getExtBatStatus")
-      get() = _builder.extBatStatus
-      @JvmName("setExtBatStatus")
-      set(value) {
+      @kotlin.jvm.JvmName("getExtBatStatus")
+        get() = _builder.extBatStatus
+      @kotlin.jvm.JvmName("setExtBatStatus")
+        set(value) {
         _builder.extBatStatus = value
       }
     public var extBatStatusValue: kotlin.Int
-      @JvmName("getExtBatStatusValue")
-      get() = _builder.extBatStatusValue
-      @JvmName("setExtBatStatusValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getExtBatStatusValue")
+        get() = _builder.extBatStatusValue
+      @kotlin.jvm.JvmName("setExtBatStatusValue")
+        set(value) {
         _builder.extBatStatusValue = value
       }
     /**
@@ -500,10 +501,10 @@ public object JonGuiDataSystemKt {
      * `int64 total_operating_hours = 27 [(.buf.validate.field) = { ... }`
      */
     public var totalOperatingHours: kotlin.Long
-      @JvmName("getTotalOperatingHours")
-      get() = _builder.totalOperatingHours
-      @JvmName("setTotalOperatingHours")
-      set(value) {
+      @kotlin.jvm.JvmName("getTotalOperatingHours")
+        get() = _builder.totalOperatingHours
+      @kotlin.jvm.JvmName("setTotalOperatingHours")
+        set(value) {
         _builder.totalOperatingHours = value
       }
     /**

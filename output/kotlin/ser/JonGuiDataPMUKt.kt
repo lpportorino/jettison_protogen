@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_pmu.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -32,10 +33,10 @@ public object JonGuiDataPMUKt {
      * `double temperature = 1 [(.buf.validate.field) = { ... }`
      */
     public var temperature: kotlin.Double
-      @JvmName("getTemperature")
-      get() = _builder.temperature
-      @JvmName("setTemperature")
-      set(value) {
+      @kotlin.jvm.JvmName("getTemperature")
+        get() = _builder.temperature
+      @kotlin.jvm.JvmName("setTemperature")
+        set(value) {
         _builder.temperature = value
       }
     /**
@@ -49,10 +50,10 @@ public object JonGuiDataPMUKt {
      * `bool is_started = 3;`
      */
     public var isStarted: kotlin.Boolean
-      @JvmName("getIsStarted")
-      get() = _builder.isStarted
-      @JvmName("setIsStarted")
-      set(value) {
+      @kotlin.jvm.JvmName("getIsStarted")
+        get() = _builder.isStarted
+      @kotlin.jvm.JvmName("setIsStarted")
+        set(value) {
         _builder.isStarted = value
       }
     /**
@@ -66,10 +67,10 @@ public object JonGuiDataPMUKt {
      * `.ser.JonGuiDataMeteo meteo = 4;`
      */
     public var meteo: ser.JonSharedDataTypes.JonGuiDataMeteo
-      @JvmName("getMeteo")
-      get() = _builder.meteo
-      @JvmName("setMeteo")
-      set(value) {
+      @kotlin.jvm.JvmName("getMeteo")
+        get() = _builder.meteo
+      @kotlin.jvm.JvmName("setMeteo")
+        set(value) {
         _builder.meteo = value
       }
     /**
@@ -93,10 +94,10 @@ public object JonGuiDataPMUKt {
      * `double voltage = 5 [(.buf.validate.field) = { ... }`
      */
     public var voltage: kotlin.Double
-      @JvmName("getVoltage")
-      get() = _builder.voltage
-      @JvmName("setVoltage")
-      set(value) {
+      @kotlin.jvm.JvmName("getVoltage")
+        get() = _builder.voltage
+      @kotlin.jvm.JvmName("setVoltage")
+        set(value) {
         _builder.voltage = value
       }
     /**
@@ -110,10 +111,10 @@ public object JonGuiDataPMUKt {
      * `bool heater_power_state = 6;`
      */
     public var heaterPowerState: kotlin.Boolean
-      @JvmName("getHeaterPowerState")
-      get() = _builder.heaterPowerState
-      @JvmName("setHeaterPowerState")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeaterPowerState")
+        get() = _builder.heaterPowerState
+      @kotlin.jvm.JvmName("setHeaterPowerState")
+        set(value) {
         _builder.heaterPowerState = value
       }
     /**
@@ -131,10 +132,10 @@ public object JonGuiDataPMUKt {
      * `double ina_voltage = 7 [(.buf.validate.field) = { ... }`
      */
     public var inaVoltage: kotlin.Double
-      @JvmName("getInaVoltage")
-      get() = _builder.inaVoltage
-      @JvmName("setInaVoltage")
-      set(value) {
+      @kotlin.jvm.JvmName("getInaVoltage")
+        get() = _builder.inaVoltage
+      @kotlin.jvm.JvmName("setInaVoltage")
+        set(value) {
         _builder.inaVoltage = value
       }
     /**
@@ -152,10 +153,10 @@ public object JonGuiDataPMUKt {
      * `double ina_current = 8 [(.buf.validate.field) = { ... }`
      */
     public var inaCurrent: kotlin.Double
-      @JvmName("getInaCurrent")
-      get() = _builder.inaCurrent
-      @JvmName("setInaCurrent")
-      set(value) {
+      @kotlin.jvm.JvmName("getInaCurrent")
+        get() = _builder.inaCurrent
+      @kotlin.jvm.JvmName("setInaCurrent")
+        set(value) {
         _builder.inaCurrent = value
       }
     /**
@@ -169,10 +170,10 @@ public object JonGuiDataPMUKt {
      * `double ina_power = 9 [(.buf.validate.field) = { ... }`
      */
     public var inaPower: kotlin.Double
-      @JvmName("getInaPower")
-      get() = _builder.inaPower
-      @JvmName("setInaPower")
-      set(value) {
+      @kotlin.jvm.JvmName("getInaPower")
+        get() = _builder.inaPower
+      @kotlin.jvm.JvmName("setInaPower")
+        set(value) {
         _builder.inaPower = value
       }
     /**
@@ -186,10 +187,10 @@ public object JonGuiDataPMUKt {
      * `bool ina_power_fault = 10;`
      */
     public var inaPowerFault: kotlin.Boolean
-      @JvmName("getInaPowerFault")
-      get() = _builder.inaPowerFault
-      @JvmName("setInaPowerFault")
-      set(value) {
+      @kotlin.jvm.JvmName("getInaPowerFault")
+        get() = _builder.inaPowerFault
+      @kotlin.jvm.JvmName("setInaPowerFault")
+        set(value) {
         _builder.inaPowerFault = value
       }
     /**
@@ -207,10 +208,10 @@ public object JonGuiDataPMUKt {
      * `bool charge_disabled = 11;`
      */
     public var chargeDisabled: kotlin.Boolean
-      @JvmName("getChargeDisabled")
-      get() = _builder.chargeDisabled
-      @JvmName("setChargeDisabled")
-      set(value) {
+      @kotlin.jvm.JvmName("getChargeDisabled")
+        get() = _builder.chargeDisabled
+      @kotlin.jvm.JvmName("setChargeDisabled")
+        set(value) {
         _builder.chargeDisabled = value
       }
     /**
@@ -228,10 +229,10 @@ public object JonGuiDataPMUKt {
      * `.ser.JonGuiDataModuleHealth health = 40;`
      */
     public var health: ser.JonSharedDataTypes.JonGuiDataModuleHealth
-      @JvmName("getHealth")
-      get() = _builder.health
-      @JvmName("setHealth")
-      set(value) {
+      @kotlin.jvm.JvmName("getHealth")
+        get() = _builder.health
+      @kotlin.jvm.JvmName("setHealth")
+        set(value) {
         _builder.health = value
       }
     /**

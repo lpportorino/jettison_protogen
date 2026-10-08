@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_video_meta.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.video;
@@ -47,7 +48,7 @@ public object SampleTableKt {
      */
      public val sampleSizes: com.google.protobuf.kotlin.DslList<kotlin.Int, SampleSizesProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.sampleSizesList
       )
     /**
@@ -59,7 +60,7 @@ public object SampleTableKt {
      * @param value The sampleSizes to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addSampleSizes")
+@kotlin.jvm.JvmName("addSampleSizes")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, SampleSizesProxy>.add(value: kotlin.Int) {
       _builder.addSampleSizes(value)
     }/**
@@ -71,7 +72,7 @@ public object SampleTableKt {
      * @param value The sampleSizes to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignSampleSizes")
+@kotlin.jvm.JvmName("plusAssignSampleSizes")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, SampleSizesProxy>.plusAssign(value: kotlin.Int) {
       add(value)
@@ -84,7 +85,7 @@ public object SampleTableKt {
      * @param values The sampleSizes to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllSampleSizes")
+@kotlin.jvm.JvmName("addAllSampleSizes")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, SampleSizesProxy>.addAll(values: kotlin.collections.Iterable<kotlin.Int>) {
       _builder.addAllSampleSizes(values)
     }/**
@@ -96,7 +97,7 @@ public object SampleTableKt {
      * @param values The sampleSizes to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllSampleSizes")
+@kotlin.jvm.JvmName("plusAssignAllSampleSizes")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, SampleSizesProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.Int>) {
       addAll(values)
@@ -110,7 +111,7 @@ public object SampleTableKt {
      * @param value The sampleSizes to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setSampleSizes")
+@kotlin.jvm.JvmName("setSampleSizes")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, SampleSizesProxy>.set(index: kotlin.Int, value: kotlin.Int) {
       _builder.setSampleSizes(index, value)
     }/**
@@ -121,7 +122,7 @@ public object SampleTableKt {
      * `repeated uint32 sample_sizes = 1;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearSampleSizes")
+@kotlin.jvm.JvmName("clearSampleSizes")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, SampleSizesProxy>.clear() {
       _builder.clearSampleSizes()
     }
@@ -140,7 +141,7 @@ public object SampleTableKt {
      */
      public val chunkOffsets: com.google.protobuf.kotlin.DslList<kotlin.Long, ChunkOffsetsProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.chunkOffsetsList
       )
     /**
@@ -152,7 +153,7 @@ public object SampleTableKt {
      * @param value The chunkOffsets to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addChunkOffsets")
+@kotlin.jvm.JvmName("addChunkOffsets")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Long, ChunkOffsetsProxy>.add(value: kotlin.Long) {
       _builder.addChunkOffsets(value)
     }/**
@@ -164,7 +165,7 @@ public object SampleTableKt {
      * @param value The chunkOffsets to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignChunkOffsets")
+@kotlin.jvm.JvmName("plusAssignChunkOffsets")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Long, ChunkOffsetsProxy>.plusAssign(value: kotlin.Long) {
       add(value)
@@ -177,7 +178,7 @@ public object SampleTableKt {
      * @param values The chunkOffsets to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllChunkOffsets")
+@kotlin.jvm.JvmName("addAllChunkOffsets")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Long, ChunkOffsetsProxy>.addAll(values: kotlin.collections.Iterable<kotlin.Long>) {
       _builder.addAllChunkOffsets(values)
     }/**
@@ -189,7 +190,7 @@ public object SampleTableKt {
      * @param values The chunkOffsets to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllChunkOffsets")
+@kotlin.jvm.JvmName("plusAssignAllChunkOffsets")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Long, ChunkOffsetsProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.Long>) {
       addAll(values)
@@ -203,7 +204,7 @@ public object SampleTableKt {
      * @param value The chunkOffsets to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setChunkOffsets")
+@kotlin.jvm.JvmName("setChunkOffsets")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.Long, ChunkOffsetsProxy>.set(index: kotlin.Int, value: kotlin.Long) {
       _builder.setChunkOffsets(index, value)
     }/**
@@ -214,7 +215,7 @@ public object SampleTableKt {
      * `repeated uint64 chunk_offsets = 2;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearChunkOffsets")
+@kotlin.jvm.JvmName("clearChunkOffsets")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Long, ChunkOffsetsProxy>.clear() {
       _builder.clearChunkOffsets()
     }
@@ -233,7 +234,7 @@ public object SampleTableKt {
      */
      public val sampleTimes: com.google.protobuf.kotlin.DslList<kotlin.Int, SampleTimesProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.sampleTimesList
       )
     /**
@@ -245,7 +246,7 @@ public object SampleTableKt {
      * @param value The sampleTimes to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addSampleTimes")
+@kotlin.jvm.JvmName("addSampleTimes")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, SampleTimesProxy>.add(value: kotlin.Int) {
       _builder.addSampleTimes(value)
     }/**
@@ -257,7 +258,7 @@ public object SampleTableKt {
      * @param value The sampleTimes to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignSampleTimes")
+@kotlin.jvm.JvmName("plusAssignSampleTimes")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, SampleTimesProxy>.plusAssign(value: kotlin.Int) {
       add(value)
@@ -270,7 +271,7 @@ public object SampleTableKt {
      * @param values The sampleTimes to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllSampleTimes")
+@kotlin.jvm.JvmName("addAllSampleTimes")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, SampleTimesProxy>.addAll(values: kotlin.collections.Iterable<kotlin.Int>) {
       _builder.addAllSampleTimes(values)
     }/**
@@ -282,7 +283,7 @@ public object SampleTableKt {
      * @param values The sampleTimes to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllSampleTimes")
+@kotlin.jvm.JvmName("plusAssignAllSampleTimes")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, SampleTimesProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.Int>) {
       addAll(values)
@@ -296,7 +297,7 @@ public object SampleTableKt {
      * @param value The sampleTimes to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setSampleTimes")
+@kotlin.jvm.JvmName("setSampleTimes")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, SampleTimesProxy>.set(index: kotlin.Int, value: kotlin.Int) {
       _builder.setSampleTimes(index, value)
     }/**
@@ -307,7 +308,7 @@ public object SampleTableKt {
      * `repeated uint32 sample_times = 3;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearSampleTimes")
+@kotlin.jvm.JvmName("clearSampleTimes")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, SampleTimesProxy>.clear() {
       _builder.clearSampleTimes()
     }
@@ -326,7 +327,7 @@ public object SampleTableKt {
      */
      public val syncSamples: com.google.protobuf.kotlin.DslList<kotlin.Int, SyncSamplesProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.syncSamplesList
       )
     /**
@@ -338,7 +339,7 @@ public object SampleTableKt {
      * @param value The syncSamples to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addSyncSamples")
+@kotlin.jvm.JvmName("addSyncSamples")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, SyncSamplesProxy>.add(value: kotlin.Int) {
       _builder.addSyncSamples(value)
     }/**
@@ -350,7 +351,7 @@ public object SampleTableKt {
      * @param value The syncSamples to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignSyncSamples")
+@kotlin.jvm.JvmName("plusAssignSyncSamples")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, SyncSamplesProxy>.plusAssign(value: kotlin.Int) {
       add(value)
@@ -363,7 +364,7 @@ public object SampleTableKt {
      * @param values The syncSamples to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllSyncSamples")
+@kotlin.jvm.JvmName("addAllSyncSamples")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, SyncSamplesProxy>.addAll(values: kotlin.collections.Iterable<kotlin.Int>) {
       _builder.addAllSyncSamples(values)
     }/**
@@ -375,7 +376,7 @@ public object SampleTableKt {
      * @param values The syncSamples to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllSyncSamples")
+@kotlin.jvm.JvmName("plusAssignAllSyncSamples")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, SyncSamplesProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.Int>) {
       addAll(values)
@@ -389,7 +390,7 @@ public object SampleTableKt {
      * @param value The syncSamples to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setSyncSamples")
+@kotlin.jvm.JvmName("setSyncSamples")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, SyncSamplesProxy>.set(index: kotlin.Int, value: kotlin.Int) {
       _builder.setSyncSamples(index, value)
     }/**
@@ -400,7 +401,7 @@ public object SampleTableKt {
      * `repeated uint32 sync_samples = 4;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearSyncSamples")
+@kotlin.jvm.JvmName("clearSyncSamples")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, SyncSamplesProxy>.clear() {
       _builder.clearSyncSamples()
     }
@@ -419,7 +420,7 @@ public object SampleTableKt {
      */
      public val sampleToChunk: com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.SampleToChunk, SampleToChunkProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.sampleToChunkList
       )
     /**
@@ -431,7 +432,7 @@ public object SampleTableKt {
      * @param value The sampleToChunk to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addSampleToChunk")
+@kotlin.jvm.JvmName("addSampleToChunk")
     public fun com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.SampleToChunk, SampleToChunkProxy>.add(value: jon.video.JonVideoMeta.SampleToChunk) {
       _builder.addSampleToChunk(value)
     }
@@ -444,7 +445,7 @@ public object SampleTableKt {
      * @param value The sampleToChunk to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignSampleToChunk")
+@kotlin.jvm.JvmName("plusAssignSampleToChunk")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.SampleToChunk, SampleToChunkProxy>.plusAssign(value: jon.video.JonVideoMeta.SampleToChunk) {
       add(value)
@@ -458,7 +459,7 @@ public object SampleTableKt {
      * @param values The sampleToChunk to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllSampleToChunk")
+@kotlin.jvm.JvmName("addAllSampleToChunk")
     public fun com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.SampleToChunk, SampleToChunkProxy>.addAll(values: kotlin.collections.Iterable<jon.video.JonVideoMeta.SampleToChunk>) {
       _builder.addAllSampleToChunk(values)
     }
@@ -471,7 +472,7 @@ public object SampleTableKt {
      * @param values The sampleToChunk to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllSampleToChunk")
+@kotlin.jvm.JvmName("plusAssignAllSampleToChunk")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.SampleToChunk, SampleToChunkProxy>.plusAssign(values: kotlin.collections.Iterable<jon.video.JonVideoMeta.SampleToChunk>) {
       addAll(values)
@@ -486,7 +487,7 @@ public object SampleTableKt {
      * @param value The sampleToChunk to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setSampleToChunk")
+@kotlin.jvm.JvmName("setSampleToChunk")
     public operator fun com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.SampleToChunk, SampleToChunkProxy>.set(index: kotlin.Int, value: jon.video.JonVideoMeta.SampleToChunk) {
       _builder.setSampleToChunk(index, value)
     }
@@ -498,11 +499,10 @@ public object SampleTableKt {
      * `repeated .jon.video.SampleToChunk sample_to_chunk = 5;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearSampleToChunk")
+@kotlin.jvm.JvmName("clearSampleToChunk")
     public fun com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.SampleToChunk, SampleToChunkProxy>.clear() {
       _builder.clearSampleToChunk()
     }
-
   }
 }
 @kotlin.jvm.JvmSynthetic

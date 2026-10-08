@@ -6,14 +6,17 @@
 ;; the surveyed sibling repos each carry 3-4 copies that have already drifted
 ;; apart (cljfmt 0.16.3 vs 0.15.6, splint 1.24.0 vs 1.22.0).
 ;;
-;; clj-kondo is deliberately NOT here: it runs as a native binary (fast, no JVM
-;; start) and CI pins its version in the workflow's setup step.
+;; The source-only clj-kondo artifact preserves nullable/open Malli map types.
+;; Its checksum is verified by tools/lint/bin/clj-kondo before every invocation.
 {:aliases
- {;; cljfmt — reads .cljfmt.edn at the repo root.
-  :fmt {:extra-deps {dev.weavejester/cljfmt {:mvn/version "0.16.4"}}
+ {:kondo {:extra-deps {clj-kondo/clj-kondo
+                       {:local/root "tools/lint/kondo/clj-kondo-2026.08.04-protogen.1.jar"}}
+          :main-opts ["-m" "clj-kondo.main"]}
+  ;; cljfmt — reads .cljfmt.edn at the repo root.
+  :fmt {:extra-deps {dev.weavejester/cljfmt {:mvn/version "0.16.6"}}
         :main-opts ["-m" "cljfmt.main"]}
   ;; splint — idiomatic-pattern linting, reads .splint.edn if present.
-  :splint {:extra-deps {io.github.noahtheduke/splint {:mvn/version "1.24.0"}}
+  :splint {:extra-deps {io.github.noahtheduke/splint {:mvn/version "1.25.0"}}
            :main-opts ["-m" "noahtheduke.splint"]}
 
   ;; lint-gate — the structural gates over hand-authored Clojure (namespace size

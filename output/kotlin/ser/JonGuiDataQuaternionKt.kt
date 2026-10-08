@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_types.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -41,10 +42,10 @@ public object JonGuiDataQuaternionKt {
      * `double w = 1 [(.buf.validate.field) = { ... }`
      */
     public var w: kotlin.Double
-      @JvmName("getW")
-      get() = _builder.w
-      @JvmName("setW")
-      set(value) {
+      @kotlin.jvm.JvmName("getW")
+        get() = _builder.w
+      @kotlin.jvm.JvmName("setW")
+        set(value) {
         _builder.w = value
       }
     /**
@@ -66,10 +67,10 @@ public object JonGuiDataQuaternionKt {
      * `double x = 2 [(.buf.validate.field) = { ... }`
      */
     public var x: kotlin.Double
-      @JvmName("getX")
-      get() = _builder.x
-      @JvmName("setX")
-      set(value) {
+      @kotlin.jvm.JvmName("getX")
+        get() = _builder.x
+      @kotlin.jvm.JvmName("setX")
+        set(value) {
         _builder.x = value
       }
     /**
@@ -91,10 +92,10 @@ public object JonGuiDataQuaternionKt {
      * `double y = 3 [(.buf.validate.field) = { ... }`
      */
     public var y: kotlin.Double
-      @JvmName("getY")
-      get() = _builder.y
-      @JvmName("setY")
-      set(value) {
+      @kotlin.jvm.JvmName("getY")
+        get() = _builder.y
+      @kotlin.jvm.JvmName("setY")
+        set(value) {
         _builder.y = value
       }
     /**
@@ -116,10 +117,10 @@ public object JonGuiDataQuaternionKt {
      * `double z = 4 [(.buf.validate.field) = { ... }`
      */
     public var z: kotlin.Double
-      @JvmName("getZ")
-      get() = _builder.z
-      @JvmName("setZ")
-      set(value) {
+      @kotlin.jvm.JvmName("getZ")
+        get() = _builder.z
+      @kotlin.jvm.JvmName("setZ")
+        set(value) {
         _builder.z = value
       }
     /**

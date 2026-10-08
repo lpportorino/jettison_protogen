@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: opaque/sam_tracking_common.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -40,10 +41,10 @@ public object SamTrackingKalmanStateKt {
      * `double predicted_x = 1 [(.buf.validate.field) = { ... }`
      */
     public var predictedX: kotlin.Double
-      @JvmName("getPredictedX")
-      get() = _builder.predictedX
-      @JvmName("setPredictedX")
-      set(value) {
+      @kotlin.jvm.JvmName("getPredictedX")
+        get() = _builder.predictedX
+      @kotlin.jvm.JvmName("setPredictedX")
+        set(value) {
         _builder.predictedX = value
       }
     /**
@@ -61,10 +62,10 @@ public object SamTrackingKalmanStateKt {
      * `double predicted_y = 2 [(.buf.validate.field) = { ... }`
      */
     public var predictedY: kotlin.Double
-      @JvmName("getPredictedY")
-      get() = _builder.predictedY
-      @JvmName("setPredictedY")
-      set(value) {
+      @kotlin.jvm.JvmName("getPredictedY")
+        get() = _builder.predictedY
+      @kotlin.jvm.JvmName("setPredictedY")
+        set(value) {
         _builder.predictedY = value
       }
     /**
@@ -82,10 +83,10 @@ public object SamTrackingKalmanStateKt {
      * `double velocity_x = 3;`
      */
     public var velocityX: kotlin.Double
-      @JvmName("getVelocityX")
-      get() = _builder.velocityX
-      @JvmName("setVelocityX")
-      set(value) {
+      @kotlin.jvm.JvmName("getVelocityX")
+        get() = _builder.velocityX
+      @kotlin.jvm.JvmName("setVelocityX")
+        set(value) {
         _builder.velocityX = value
       }
     /**
@@ -103,10 +104,10 @@ public object SamTrackingKalmanStateKt {
      * `double velocity_y = 4;`
      */
     public var velocityY: kotlin.Double
-      @JvmName("getVelocityY")
-      get() = _builder.velocityY
-      @JvmName("setVelocityY")
-      set(value) {
+      @kotlin.jvm.JvmName("getVelocityY")
+        get() = _builder.velocityY
+      @kotlin.jvm.JvmName("setVelocityY")
+        set(value) {
         _builder.velocityY = value
       }
     /**

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_lrf.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -32,10 +33,10 @@ public object RgbColorKt {
      * `uint32 red = 1 [(.buf.validate.field) = { ... }`
      */
     public var red: kotlin.Int
-      @JvmName("getRed")
-      get() = _builder.red
-      @JvmName("setRed")
-      set(value) {
+      @kotlin.jvm.JvmName("getRed")
+        get() = _builder.red
+      @kotlin.jvm.JvmName("setRed")
+        set(value) {
         _builder.red = value
       }
     /**
@@ -49,10 +50,10 @@ public object RgbColorKt {
      * `uint32 green = 2 [(.buf.validate.field) = { ... }`
      */
     public var green: kotlin.Int
-      @JvmName("getGreen")
-      get() = _builder.green
-      @JvmName("setGreen")
-      set(value) {
+      @kotlin.jvm.JvmName("getGreen")
+        get() = _builder.green
+      @kotlin.jvm.JvmName("setGreen")
+        set(value) {
         _builder.green = value
       }
     /**
@@ -66,10 +67,10 @@ public object RgbColorKt {
      * `uint32 blue = 3 [(.buf.validate.field) = { ... }`
      */
     public var blue: kotlin.Int
-      @JvmName("getBlue")
-      get() = _builder.blue
-      @JvmName("setBlue")
-      set(value) {
+      @kotlin.jvm.JvmName("getBlue")
+        get() = _builder.blue
+      @kotlin.jvm.JvmName("setBlue")
+        set(value) {
         _builder.blue = value
       }
     /**

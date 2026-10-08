@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_heater.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.Heater;
@@ -41,10 +42,10 @@ public object AutomaticControlChannelParamsKt {
      * `float target_temperature = 1 [(.buf.validate.field) = { ... }`
      */
     public var targetTemperature: kotlin.Float
-      @JvmName("getTargetTemperature")
-      get() = _builder.targetTemperature
-      @JvmName("setTargetTemperature")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetTemperature")
+        get() = _builder.targetTemperature
+      @kotlin.jvm.JvmName("setTargetTemperature")
+        set(value) {
         _builder.targetTemperature = value
       }
     /**

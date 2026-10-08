@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -32,10 +33,10 @@ public object SpinboxPropsKt {
      * `int32 min_value = 1;`
      */
     public var minValue: kotlin.Int
-      @JvmName("getMinValue")
-      get() = _builder.minValue
-      @JvmName("setMinValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getMinValue")
+        get() = _builder.minValue
+      @kotlin.jvm.JvmName("setMinValue")
+        set(value) {
         _builder.minValue = value
       }
     /**
@@ -49,10 +50,10 @@ public object SpinboxPropsKt {
      * `int32 max_value = 2;`
      */
     public var maxValue: kotlin.Int
-      @JvmName("getMaxValue")
-      get() = _builder.maxValue
-      @JvmName("setMaxValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getMaxValue")
+        get() = _builder.maxValue
+      @kotlin.jvm.JvmName("setMaxValue")
+        set(value) {
         _builder.maxValue = value
       }
     /**
@@ -66,10 +67,10 @@ public object SpinboxPropsKt {
      * `int32 value = 3;`
      */
     public var value: kotlin.Int
-      @JvmName("getValue")
-      get() = _builder.value
-      @JvmName("setValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getValue")
+        get() = _builder.value
+      @kotlin.jvm.JvmName("setValue")
+        set(value) {
         _builder.value = value
       }
     /**
@@ -83,10 +84,10 @@ public object SpinboxPropsKt {
      * `int32 step = 4;`
      */
     public var step: kotlin.Int
-      @JvmName("getStep")
-      get() = _builder.step
-      @JvmName("setStep")
-      set(value) {
+      @kotlin.jvm.JvmName("getStep")
+        get() = _builder.step
+      @kotlin.jvm.JvmName("setStep")
+        set(value) {
         _builder.step = value
       }
     /**
@@ -100,10 +101,10 @@ public object SpinboxPropsKt {
      * `uint32 digit_count = 5;`
      */
     public var digitCount: kotlin.Int
-      @JvmName("getDigitCount")
-      get() = _builder.digitCount
-      @JvmName("setDigitCount")
-      set(value) {
+      @kotlin.jvm.JvmName("getDigitCount")
+        get() = _builder.digitCount
+      @kotlin.jvm.JvmName("setDigitCount")
+        set(value) {
         _builder.digitCount = value
       }
     /**
@@ -117,10 +118,10 @@ public object SpinboxPropsKt {
      * `uint32 separator_position = 6;`
      */
     public var separatorPosition: kotlin.Int
-      @JvmName("getSeparatorPosition")
-      get() = _builder.separatorPosition
-      @JvmName("setSeparatorPosition")
-      set(value) {
+      @kotlin.jvm.JvmName("getSeparatorPosition")
+        get() = _builder.separatorPosition
+      @kotlin.jvm.JvmName("setSeparatorPosition")
+        set(value) {
         _builder.separatorPosition = value
       }
     /**

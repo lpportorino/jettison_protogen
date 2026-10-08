@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -32,10 +33,10 @@ public object RollerPropsKt {
      * `string options = 1 [(.buf.validate.field) = { ... }`
      */
     public var options: kotlin.String
-      @JvmName("getOptions")
-      get() = _builder.options
-      @JvmName("setOptions")
-      set(value) {
+      @kotlin.jvm.JvmName("getOptions")
+        get() = _builder.options
+      @kotlin.jvm.JvmName("setOptions")
+        set(value) {
         _builder.options = value
       }
     /**
@@ -49,10 +50,10 @@ public object RollerPropsKt {
      * `uint32 selected = 2;`
      */
     public var selected: kotlin.Int
-      @JvmName("getSelected")
-      get() = _builder.selected
-      @JvmName("setSelected")
-      set(value) {
+      @kotlin.jvm.JvmName("getSelected")
+        get() = _builder.selected
+      @kotlin.jvm.JvmName("setSelected")
+        set(value) {
         _builder.selected = value
       }
     /**
@@ -66,10 +67,10 @@ public object RollerPropsKt {
      * `uint32 visible_row_count = 3;`
      */
     public var visibleRowCount: kotlin.Int
-      @JvmName("getVisibleRowCount")
-      get() = _builder.visibleRowCount
-      @JvmName("setVisibleRowCount")
-      set(value) {
+      @kotlin.jvm.JvmName("getVisibleRowCount")
+        get() = _builder.visibleRowCount
+      @kotlin.jvm.JvmName("setVisibleRowCount")
+        set(value) {
         _builder.visibleRowCount = value
       }
     /**
@@ -83,17 +84,17 @@ public object RollerPropsKt {
      * `.ui.RollerMode mode = 4 [(.buf.validate.field) = { ... }`
      */
     public var mode: ui.UiAst.RollerMode
-      @JvmName("getMode")
-      get() = _builder.mode
-      @JvmName("setMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getMode")
+        get() = _builder.mode
+      @kotlin.jvm.JvmName("setMode")
+        set(value) {
         _builder.mode = value
       }
     public var modeValue: kotlin.Int
-      @JvmName("getModeValue")
-      get() = _builder.modeValue
-      @JvmName("setModeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getModeValue")
+        get() = _builder.modeValue
+      @kotlin.jvm.JvmName("setModeValue")
+        set(value) {
         _builder.modeValue = value
       }
     /**

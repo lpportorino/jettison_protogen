@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: opaque/osd_client_metadata.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -44,10 +45,10 @@ public object OsdClientMetadataKt {
      * `uint32 canvas_width_px = 1 [(.buf.validate.field) = { ... }`
      */
     public var canvasWidthPx: kotlin.Int
-      @JvmName("getCanvasWidthPx")
-      get() = _builder.canvasWidthPx
-      @JvmName("setCanvasWidthPx")
-      set(value) {
+      @kotlin.jvm.JvmName("getCanvasWidthPx")
+        get() = _builder.canvasWidthPx
+      @kotlin.jvm.JvmName("setCanvasWidthPx")
+        set(value) {
         _builder.canvasWidthPx = value
       }
     /**
@@ -70,10 +71,10 @@ public object OsdClientMetadataKt {
      * `uint32 canvas_height_px = 2 [(.buf.validate.field) = { ... }`
      */
     public var canvasHeightPx: kotlin.Int
-      @JvmName("getCanvasHeightPx")
-      get() = _builder.canvasHeightPx
-      @JvmName("setCanvasHeightPx")
-      set(value) {
+      @kotlin.jvm.JvmName("getCanvasHeightPx")
+        get() = _builder.canvasHeightPx
+      @kotlin.jvm.JvmName("setCanvasHeightPx")
+        set(value) {
         _builder.canvasHeightPx = value
       }
     /**
@@ -96,10 +97,10 @@ public object OsdClientMetadataKt {
      * `float device_pixel_ratio = 3 [(.buf.validate.field) = { ... }`
      */
     public var devicePixelRatio: kotlin.Float
-      @JvmName("getDevicePixelRatio")
-      get() = _builder.devicePixelRatio
-      @JvmName("setDevicePixelRatio")
-      set(value) {
+      @kotlin.jvm.JvmName("getDevicePixelRatio")
+        get() = _builder.devicePixelRatio
+      @kotlin.jvm.JvmName("setDevicePixelRatio")
+        set(value) {
         _builder.devicePixelRatio = value
       }
     /**
@@ -122,10 +123,10 @@ public object OsdClientMetadataKt {
      * `uint32 osd_buffer_width = 4 [(.buf.validate.field) = { ... }`
      */
     public var osdBufferWidth: kotlin.Int
-      @JvmName("getOsdBufferWidth")
-      get() = _builder.osdBufferWidth
-      @JvmName("setOsdBufferWidth")
-      set(value) {
+      @kotlin.jvm.JvmName("getOsdBufferWidth")
+        get() = _builder.osdBufferWidth
+      @kotlin.jvm.JvmName("setOsdBufferWidth")
+        set(value) {
         _builder.osdBufferWidth = value
       }
     /**
@@ -147,10 +148,10 @@ public object OsdClientMetadataKt {
      * `uint32 osd_buffer_height = 5 [(.buf.validate.field) = { ... }`
      */
     public var osdBufferHeight: kotlin.Int
-      @JvmName("getOsdBufferHeight")
-      get() = _builder.osdBufferHeight
-      @JvmName("setOsdBufferHeight")
-      set(value) {
+      @kotlin.jvm.JvmName("getOsdBufferHeight")
+        get() = _builder.osdBufferHeight
+      @kotlin.jvm.JvmName("setOsdBufferHeight")
+        set(value) {
         _builder.osdBufferHeight = value
       }
     /**
@@ -174,10 +175,10 @@ public object OsdClientMetadataKt {
      * `float video_proxy_ndc_x = 6 [(.buf.validate.field) = { ... }`
      */
     public var videoProxyNdcX: kotlin.Float
-      @JvmName("getVideoProxyNdcX")
-      get() = _builder.videoProxyNdcX
-      @JvmName("setVideoProxyNdcX")
-      set(value) {
+      @kotlin.jvm.JvmName("getVideoProxyNdcX")
+        get() = _builder.videoProxyNdcX
+      @kotlin.jvm.JvmName("setVideoProxyNdcX")
+        set(value) {
         _builder.videoProxyNdcX = value
       }
     /**
@@ -197,10 +198,10 @@ public object OsdClientMetadataKt {
      * `float video_proxy_ndc_y = 7 [(.buf.validate.field) = { ... }`
      */
     public var videoProxyNdcY: kotlin.Float
-      @JvmName("getVideoProxyNdcY")
-      get() = _builder.videoProxyNdcY
-      @JvmName("setVideoProxyNdcY")
-      set(value) {
+      @kotlin.jvm.JvmName("getVideoProxyNdcY")
+        get() = _builder.videoProxyNdcY
+      @kotlin.jvm.JvmName("setVideoProxyNdcY")
+        set(value) {
         _builder.videoProxyNdcY = value
       }
     /**
@@ -214,10 +215,10 @@ public object OsdClientMetadataKt {
      * `float video_proxy_ndc_width = 8 [(.buf.validate.field) = { ... }`
      */
     public var videoProxyNdcWidth: kotlin.Float
-      @JvmName("getVideoProxyNdcWidth")
-      get() = _builder.videoProxyNdcWidth
-      @JvmName("setVideoProxyNdcWidth")
-      set(value) {
+      @kotlin.jvm.JvmName("getVideoProxyNdcWidth")
+        get() = _builder.videoProxyNdcWidth
+      @kotlin.jvm.JvmName("setVideoProxyNdcWidth")
+        set(value) {
         _builder.videoProxyNdcWidth = value
       }
     /**
@@ -231,10 +232,10 @@ public object OsdClientMetadataKt {
      * `float video_proxy_ndc_height = 9 [(.buf.validate.field) = { ... }`
      */
     public var videoProxyNdcHeight: kotlin.Float
-      @JvmName("getVideoProxyNdcHeight")
-      get() = _builder.videoProxyNdcHeight
-      @JvmName("setVideoProxyNdcHeight")
-      set(value) {
+      @kotlin.jvm.JvmName("getVideoProxyNdcHeight")
+        get() = _builder.videoProxyNdcHeight
+      @kotlin.jvm.JvmName("setVideoProxyNdcHeight")
+        set(value) {
         _builder.videoProxyNdcHeight = value
       }
     /**
@@ -253,10 +254,10 @@ public object OsdClientMetadataKt {
      * `float scale_factor = 10 [(.buf.validate.field) = { ... }`
      */
     public var scaleFactor: kotlin.Float
-      @JvmName("getScaleFactor")
-      get() = _builder.scaleFactor
-      @JvmName("setScaleFactor")
-      set(value) {
+      @kotlin.jvm.JvmName("getScaleFactor")
+        get() = _builder.scaleFactor
+      @kotlin.jvm.JvmName("setScaleFactor")
+        set(value) {
         _builder.scaleFactor = value
       }
     /**
@@ -281,10 +282,10 @@ public object OsdClientMetadataKt {
      * `bool is_sharp_mode = 11;`
      */
     public var isSharpMode: kotlin.Boolean
-      @JvmName("getIsSharpMode")
-      get() = _builder.isSharpMode
-      @JvmName("setIsSharpMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getIsSharpMode")
+        get() = _builder.isSharpMode
+      @kotlin.jvm.JvmName("setIsSharpMode")
+        set(value) {
         _builder.isSharpMode = value
       }
     /**
@@ -309,10 +310,10 @@ public object OsdClientMetadataKt {
      * `float theme_hue = 12 [(.buf.validate.field) = { ... }`
      */
     public var themeHue: kotlin.Float
-      @JvmName("getThemeHue")
-      get() = _builder.themeHue
-      @JvmName("setThemeHue")
-      set(value) {
+      @kotlin.jvm.JvmName("getThemeHue")
+        get() = _builder.themeHue
+      @kotlin.jvm.JvmName("setThemeHue")
+        set(value) {
         _builder.themeHue = value
       }
     /**
@@ -335,10 +336,10 @@ public object OsdClientMetadataKt {
      * `float theme_chroma = 13 [(.buf.validate.field) = { ... }`
      */
     public var themeChroma: kotlin.Float
-      @JvmName("getThemeChroma")
-      get() = _builder.themeChroma
-      @JvmName("setThemeChroma")
-      set(value) {
+      @kotlin.jvm.JvmName("getThemeChroma")
+        get() = _builder.themeChroma
+      @kotlin.jvm.JvmName("setThemeChroma")
+        set(value) {
         _builder.themeChroma = value
       }
     /**
@@ -360,10 +361,10 @@ public object OsdClientMetadataKt {
      * `float theme_lightness = 14 [(.buf.validate.field) = { ... }`
      */
     public var themeLightness: kotlin.Float
-      @JvmName("getThemeLightness")
-      get() = _builder.themeLightness
-      @JvmName("setThemeLightness")
-      set(value) {
+      @kotlin.jvm.JvmName("getThemeLightness")
+        get() = _builder.themeLightness
+      @kotlin.jvm.JvmName("setThemeLightness")
+        set(value) {
         _builder.themeLightness = value
       }
     /**

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_types.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -37,10 +38,10 @@ public object JonOpaquePayloadVersionKt {
      * `uint32 major = 1;`
      */
     public var major: kotlin.Int
-      @JvmName("getMajor")
-      get() = _builder.major
-      @JvmName("setMajor")
-      set(value) {
+      @kotlin.jvm.JvmName("getMajor")
+        get() = _builder.major
+      @kotlin.jvm.JvmName("setMajor")
+        set(value) {
         _builder.major = value
       }
     /**
@@ -54,10 +55,10 @@ public object JonOpaquePayloadVersionKt {
      * `uint32 minor = 2;`
      */
     public var minor: kotlin.Int
-      @JvmName("getMinor")
-      get() = _builder.minor
-      @JvmName("setMinor")
-      set(value) {
+      @kotlin.jvm.JvmName("getMinor")
+        get() = _builder.minor
+      @kotlin.jvm.JvmName("setMinor")
+        set(value) {
         _builder.minor = value
       }
     /**
@@ -75,10 +76,10 @@ public object JonOpaquePayloadVersionKt {
      * `uint64 build = 3;`
      */
     public var build: kotlin.Long
-      @JvmName("getBuild")
-      get() = _builder.build
-      @JvmName("setBuild")
-      set(value) {
+      @kotlin.jvm.JvmName("getBuild")
+        get() = _builder.build
+      @kotlin.jvm.JvmName("setBuild")
+        set(value) {
         _builder.build = value
       }
     /**

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_heater.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.Heater;
@@ -53,10 +54,10 @@ public object SetSystemPowerKt {
      * `float system_power_W = 1 [(.buf.validate.field) = { ... }`
      */
     public var systemPowerW: kotlin.Float
-      @JvmName("getSystemPowerW")
-      get() = _builder.systemPowerW
-      @JvmName("setSystemPowerW")
-      set(value) {
+      @kotlin.jvm.JvmName("getSystemPowerW")
+        get() = _builder.systemPowerW
+      @kotlin.jvm.JvmName("setSystemPowerW")
+        set(value) {
         _builder.systemPowerW = value
       }
     /**

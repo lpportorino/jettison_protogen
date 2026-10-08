@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_rotary.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.RotaryPlatform;
@@ -32,10 +33,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.Start start = 1;`
      */
     public var start: cmd.RotaryPlatform.JonSharedCmdRotary.Start
-      @JvmName("getStart")
-      get() = _builder.start
-      @JvmName("setStart")
-      set(value) {
+      @kotlin.jvm.JvmName("getStart")
+        get() = _builder.start
+      @kotlin.jvm.JvmName("setStart")
+        set(value) {
         _builder.start = value
       }
     /**
@@ -56,10 +57,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.Stop stop = 2;`
      */
     public var stop: cmd.RotaryPlatform.JonSharedCmdRotary.Stop
-      @JvmName("getStop")
-      get() = _builder.stop
-      @JvmName("setStop")
-      set(value) {
+      @kotlin.jvm.JvmName("getStop")
+        get() = _builder.stop
+      @kotlin.jvm.JvmName("setStop")
+        set(value) {
         _builder.stop = value
       }
     /**
@@ -80,10 +81,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.Axis axis = 3;`
      */
     public var axis: cmd.RotaryPlatform.JonSharedCmdRotary.Axis
-      @JvmName("getAxis")
-      get() = _builder.axis
-      @JvmName("setAxis")
-      set(value) {
+      @kotlin.jvm.JvmName("getAxis")
+        get() = _builder.axis
+      @kotlin.jvm.JvmName("setAxis")
+        set(value) {
         _builder.axis = value
       }
     /**
@@ -104,10 +105,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.SetPlatformAzimuth set_platform_azimuth = 4;`
      */
     public var setPlatformAzimuth: cmd.RotaryPlatform.JonSharedCmdRotary.SetPlatformAzimuth
-      @JvmName("getSetPlatformAzimuth")
-      get() = _builder.setPlatformAzimuth
-      @JvmName("setSetPlatformAzimuth")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetPlatformAzimuth")
+        get() = _builder.setPlatformAzimuth
+      @kotlin.jvm.JvmName("setSetPlatformAzimuth")
+        set(value) {
         _builder.setPlatformAzimuth = value
       }
     /**
@@ -128,10 +129,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.SetPlatformElevation set_platform_elevation = 5;`
      */
     public var setPlatformElevation: cmd.RotaryPlatform.JonSharedCmdRotary.SetPlatformElevation
-      @JvmName("getSetPlatformElevation")
-      get() = _builder.setPlatformElevation
-      @JvmName("setSetPlatformElevation")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetPlatformElevation")
+        get() = _builder.setPlatformElevation
+      @kotlin.jvm.JvmName("setSetPlatformElevation")
+        set(value) {
         _builder.setPlatformElevation = value
       }
     /**
@@ -152,10 +153,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.SetPlatformBank set_platform_bank = 6;`
      */
     public var setPlatformBank: cmd.RotaryPlatform.JonSharedCmdRotary.SetPlatformBank
-      @JvmName("getSetPlatformBank")
-      get() = _builder.setPlatformBank
-      @JvmName("setSetPlatformBank")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetPlatformBank")
+        get() = _builder.setPlatformBank
+      @kotlin.jvm.JvmName("setSetPlatformBank")
+        set(value) {
         _builder.setPlatformBank = value
       }
     /**
@@ -176,10 +177,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.Halt halt = 7;`
      */
     public var halt: cmd.RotaryPlatform.JonSharedCmdRotary.Halt
-      @JvmName("getHalt")
-      get() = _builder.halt
-      @JvmName("setHalt")
-      set(value) {
+      @kotlin.jvm.JvmName("getHalt")
+        get() = _builder.halt
+      @kotlin.jvm.JvmName("setHalt")
+        set(value) {
         _builder.halt = value
       }
     /**
@@ -200,10 +201,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.setUseRotaryAsCompass set_use_rotary_as_compass = 8;`
      */
     public var setUseRotaryAsCompass: cmd.RotaryPlatform.JonSharedCmdRotary.setUseRotaryAsCompass
-      @JvmName("getSetUseRotaryAsCompass")
-      get() = _builder.setUseRotaryAsCompass
-      @JvmName("setSetUseRotaryAsCompass")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetUseRotaryAsCompass")
+        get() = _builder.setUseRotaryAsCompass
+      @kotlin.jvm.JvmName("setSetUseRotaryAsCompass")
+        set(value) {
         _builder.setUseRotaryAsCompass = value
       }
     /**
@@ -224,10 +225,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.RotateToGPS rotate_to_gps = 9;`
      */
     public var rotateToGps: cmd.RotaryPlatform.JonSharedCmdRotary.RotateToGPS
-      @JvmName("getRotateToGps")
-      get() = _builder.rotateToGps
-      @JvmName("setRotateToGps")
-      set(value) {
+      @kotlin.jvm.JvmName("getRotateToGps")
+        get() = _builder.rotateToGps
+      @kotlin.jvm.JvmName("setRotateToGps")
+        set(value) {
         _builder.rotateToGps = value
       }
     /**
@@ -248,10 +249,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.SetOriginGPS set_origin_gps = 10;`
      */
     public var setOriginGps: cmd.RotaryPlatform.JonSharedCmdRotary.SetOriginGPS
-      @JvmName("getSetOriginGps")
-      get() = _builder.setOriginGps
-      @JvmName("setSetOriginGps")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetOriginGps")
+        get() = _builder.setOriginGps
+      @kotlin.jvm.JvmName("setSetOriginGps")
+        set(value) {
         _builder.setOriginGps = value
       }
     /**
@@ -272,10 +273,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.SetMode set_mode = 11;`
      */
     public var setMode: cmd.RotaryPlatform.JonSharedCmdRotary.SetMode
-      @JvmName("getSetMode")
-      get() = _builder.setMode
-      @JvmName("setSetMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetMode")
+        get() = _builder.setMode
+      @kotlin.jvm.JvmName("setSetMode")
+        set(value) {
         _builder.setMode = value
       }
     /**
@@ -296,10 +297,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.RotateToNDC rotate_to_ndc = 12;`
      */
     public var rotateToNdc: cmd.RotaryPlatform.JonSharedCmdRotary.RotateToNDC
-      @JvmName("getRotateToNdc")
-      get() = _builder.rotateToNdc
-      @JvmName("setRotateToNdc")
-      set(value) {
+      @kotlin.jvm.JvmName("getRotateToNdc")
+        get() = _builder.rotateToNdc
+      @kotlin.jvm.JvmName("setRotateToNdc")
+        set(value) {
         _builder.rotateToNdc = value
       }
     /**
@@ -320,10 +321,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.ScanStart scan_start = 13;`
      */
     public var scanStart: cmd.RotaryPlatform.JonSharedCmdRotary.ScanStart
-      @JvmName("getScanStart")
-      get() = _builder.scanStart
-      @JvmName("setScanStart")
-      set(value) {
+      @kotlin.jvm.JvmName("getScanStart")
+        get() = _builder.scanStart
+      @kotlin.jvm.JvmName("setScanStart")
+        set(value) {
         _builder.scanStart = value
       }
     /**
@@ -344,10 +345,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.ScanStop scan_stop = 14;`
      */
     public var scanStop: cmd.RotaryPlatform.JonSharedCmdRotary.ScanStop
-      @JvmName("getScanStop")
-      get() = _builder.scanStop
-      @JvmName("setScanStop")
-      set(value) {
+      @kotlin.jvm.JvmName("getScanStop")
+        get() = _builder.scanStop
+      @kotlin.jvm.JvmName("setScanStop")
+        set(value) {
         _builder.scanStop = value
       }
     /**
@@ -368,10 +369,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.ScanPause scan_pause = 15;`
      */
     public var scanPause: cmd.RotaryPlatform.JonSharedCmdRotary.ScanPause
-      @JvmName("getScanPause")
-      get() = _builder.scanPause
-      @JvmName("setScanPause")
-      set(value) {
+      @kotlin.jvm.JvmName("getScanPause")
+        get() = _builder.scanPause
+      @kotlin.jvm.JvmName("setScanPause")
+        set(value) {
         _builder.scanPause = value
       }
     /**
@@ -392,10 +393,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.ScanUnpause scan_unpause = 16;`
      */
     public var scanUnpause: cmd.RotaryPlatform.JonSharedCmdRotary.ScanUnpause
-      @JvmName("getScanUnpause")
-      get() = _builder.scanUnpause
-      @JvmName("setScanUnpause")
-      set(value) {
+      @kotlin.jvm.JvmName("getScanUnpause")
+        get() = _builder.scanUnpause
+      @kotlin.jvm.JvmName("setScanUnpause")
+        set(value) {
         _builder.scanUnpause = value
       }
     /**
@@ -416,10 +417,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.GetMeteo get_meteo = 17;`
      */
     public var getMeteo: cmd.RotaryPlatform.JonSharedCmdRotary.GetMeteo
-      @JvmName("getGetMeteo")
-      get() = _builder.getMeteo
-      @JvmName("setGetMeteo")
-      set(value) {
+      @kotlin.jvm.JvmName("getGetMeteo")
+        get() = _builder.getMeteo
+      @kotlin.jvm.JvmName("setGetMeteo")
+        set(value) {
         _builder.getMeteo = value
       }
     /**
@@ -440,10 +441,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.ScanPrev scan_prev = 18;`
      */
     public var scanPrev: cmd.RotaryPlatform.JonSharedCmdRotary.ScanPrev
-      @JvmName("getScanPrev")
-      get() = _builder.scanPrev
-      @JvmName("setScanPrev")
-      set(value) {
+      @kotlin.jvm.JvmName("getScanPrev")
+        get() = _builder.scanPrev
+      @kotlin.jvm.JvmName("setScanPrev")
+        set(value) {
         _builder.scanPrev = value
       }
     /**
@@ -464,10 +465,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.ScanNext scan_next = 19;`
      */
     public var scanNext: cmd.RotaryPlatform.JonSharedCmdRotary.ScanNext
-      @JvmName("getScanNext")
-      get() = _builder.scanNext
-      @JvmName("setScanNext")
-      set(value) {
+      @kotlin.jvm.JvmName("getScanNext")
+        get() = _builder.scanNext
+      @kotlin.jvm.JvmName("setScanNext")
+        set(value) {
         _builder.scanNext = value
       }
     /**
@@ -488,10 +489,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.ScanRefreshNodeList scan_refresh_node_list = 20;`
      */
     public var scanRefreshNodeList: cmd.RotaryPlatform.JonSharedCmdRotary.ScanRefreshNodeList
-      @JvmName("getScanRefreshNodeList")
-      get() = _builder.scanRefreshNodeList
-      @JvmName("setScanRefreshNodeList")
-      set(value) {
+      @kotlin.jvm.JvmName("getScanRefreshNodeList")
+        get() = _builder.scanRefreshNodeList
+      @kotlin.jvm.JvmName("setScanRefreshNodeList")
+        set(value) {
         _builder.scanRefreshNodeList = value
       }
     /**
@@ -512,10 +513,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.ScanSelectNode scan_select_node = 21;`
      */
     public var scanSelectNode: cmd.RotaryPlatform.JonSharedCmdRotary.ScanSelectNode
-      @JvmName("getScanSelectNode")
-      get() = _builder.scanSelectNode
-      @JvmName("setScanSelectNode")
-      set(value) {
+      @kotlin.jvm.JvmName("getScanSelectNode")
+        get() = _builder.scanSelectNode
+      @kotlin.jvm.JvmName("setScanSelectNode")
+        set(value) {
         _builder.scanSelectNode = value
       }
     /**
@@ -536,10 +537,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;`
      */
     public var haltWithNdc: cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC
-      @JvmName("getHaltWithNdc")
-      get() = _builder.haltWithNdc
-      @JvmName("setHaltWithNdc")
-      set(value) {
+      @kotlin.jvm.JvmName("getHaltWithNdc")
+        get() = _builder.haltWithNdc
+      @kotlin.jvm.JvmName("setHaltWithNdc")
+        set(value) {
         _builder.haltWithNdc = value
       }
     /**
@@ -560,10 +561,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.Unpark unpark = 26;`
      */
     public var unpark: cmd.RotaryPlatform.JonSharedCmdRotary.Unpark
-      @JvmName("getUnpark")
-      get() = _builder.unpark
-      @JvmName("setUnpark")
-      set(value) {
+      @kotlin.jvm.JvmName("getUnpark")
+        get() = _builder.unpark
+      @kotlin.jvm.JvmName("setUnpark")
+        set(value) {
         _builder.unpark = value
       }
     /**
@@ -584,10 +585,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.PoiLookAt poi_look_at = 27;`
      */
     public var poiLookAt: cmd.RotaryPlatform.JonSharedCmdRotary.PoiLookAt
-      @JvmName("getPoiLookAt")
-      get() = _builder.poiLookAt
-      @JvmName("setPoiLookAt")
-      set(value) {
+      @kotlin.jvm.JvmName("getPoiLookAt")
+        get() = _builder.poiLookAt
+      @kotlin.jvm.JvmName("setPoiLookAt")
+        set(value) {
         _builder.poiLookAt = value
       }
     /**
@@ -608,10 +609,10 @@ public object RootKt {
      * `.cmd.RotaryPlatform.PoiSaveCurrent poi_save_current = 28;`
      */
     public var poiSaveCurrent: cmd.RotaryPlatform.JonSharedCmdRotary.PoiSaveCurrent
-      @JvmName("getPoiSaveCurrent")
-      get() = _builder.poiSaveCurrent
-      @JvmName("setPoiSaveCurrent")
-      set(value) {
+      @kotlin.jvm.JvmName("getPoiSaveCurrent")
+        get() = _builder.poiSaveCurrent
+      @kotlin.jvm.JvmName("setPoiSaveCurrent")
+        set(value) {
         _builder.poiSaveCurrent = value
       }
     /**

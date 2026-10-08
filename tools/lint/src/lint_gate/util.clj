@@ -95,8 +95,8 @@
                   "binary there is nothing to judge — and a gate that passes"
                   "because its tool is absent is the defect it exists to prevent."
                   ""
-                  "Install it: https://github.com/clj-kondo/clj-kondo#installation"
-                  "CI pins it in .github/workflows/lint.yml's setup step."]))
+                  "Use make -f lint.mk so the verified repository wrapper is on PATH."
+                  "The source artifact is pinned in tools/lint/kondo/artifact.json."]))
   (let [pb (ProcessBuilder.
             (into ["clj-kondo" "--cache" "false"
                    "--config" "{:output {:analysis true :format :edn}}"

@@ -1,0 +1,4026 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-10-08",
+  "scope": "Final combined dependency-upgrade + API source-inventory build; public synthetic fixtures",
+  "source": {
+    "bundleSHA256": "145767e3caa3954734aefcac3468eddc979f9734d97589eda8226d8e95cb8935",
+    "assetManifestSHA256": "4b3ca026a210ae054f5aba8c918a42453058fdf3b668f1ab2172b1cb30802c7c",
+    "fixtureHTMLSHA256": {
+      "branch": "2203e9f3b4f28947df14bf94876063e04c6d9e02f9a6c50f496d388913f5a27e",
+      "dense": "a919f5126c2f6c08f5398da06f04b2ba79fd205e91f6748b79080f8c0bc63233",
+      "incomplete": "03af6939bbed767b0c36dd2fe801a54493707586cabe0fc39735090fc045242e",
+      "leaf": "ab9457f4ae7b9dda47a8ff012da14e99b06f34f4190e1dc7632b47394d5978c4",
+      "malformed": "8906739843e5d18657749efceb8e269ff95e6a164947559f9174acbf021b9cdb",
+      "open-signals": "69c3cab46a945981ead44ebbd96bb15b1efb62d123b1bf4551330a4453c59e0c",
+      "signals": "63539f962adf246de9c5796a20a2c576e288da9922899d7b503ca657b6a251db"
+    }
+  },
+  "engines": [
+    {
+      "engine": "chromium",
+      "browser": "156.0.8078.4",
+      "playwright": "1.64.0",
+      "completed": true,
+      "physicalDevice": false,
+      "fixedViewports": false,
+      "skipped": [],
+      "emulatedOffline": true,
+      "externalRequestPolicy": "abort and fail on every non-file request",
+      "artifacts": {
+        "branch": "2203e9f3b4f28947df14bf94876063e04c6d9e02f9a6c50f496d388913f5a27e",
+        "dense": "a919f5126c2f6c08f5398da06f04b2ba79fd205e91f6748b79080f8c0bc63233",
+        "signals": "63539f962adf246de9c5796a20a2c576e288da9922899d7b503ca657b6a251db",
+        "incomplete": "03af6939bbed767b0c36dd2fe801a54493707586cabe0fc39735090fc045242e",
+        "malformed": "8906739843e5d18657749efceb8e269ff95e6a164947559f9174acbf021b9cdb",
+        "leaf": "ab9457f4ae7b9dda47a8ff012da14e99b06f34f4190e1dc7632b47394d5978c4",
+        "open-signals": "69c3cab46a945981ead44ebbd96bb15b1efb62d123b1bf4551330a4453c59e0c"
+      },
+      "checks": [
+        {
+          "fixture": "branch",
+          "device": "desktop",
+          "elapsedMs": 156.46747500000004,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 33,
+          "lightContrast": 33,
+          "passed": true
+        },
+        {
+          "fixture": "branch",
+          "device": "narrow",
+          "elapsedMs": 119.81750800000009,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 33,
+          "lightContrast": 33,
+          "passed": true
+        },
+        {
+          "fixture": "branch",
+          "device": "iphone-portrait",
+          "firstScreenTimeline": {
+            "top": 602.75,
+            "bottom": 630.75,
+            "width": 140.765625,
+            "height": 28,
+            "viewport": 664,
+            "scroll": 0
+          }
+        },
+        {
+          "fixture": "branch",
+          "device": "iphone-portrait",
+          "elapsedMs": 155.63197000000036,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 32,
+          "lightContrast": 32,
+          "passed": true
+        },
+        {
+          "fixture": "branch",
+          "device": "iphone-landscape",
+          "elapsedMs": 156.0835519999996,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 33,
+          "lightContrast": 33,
+          "passed": true
+        },
+        {
+          "fixture": "branch",
+          "device": "portrait-full",
+          "firstScreenTimeline": {
+            "top": 602.75,
+            "bottom": 630.75,
+            "width": 140.765625,
+            "height": 28,
+            "viewport": 844,
+            "scroll": 0
+          }
+        },
+        {
+          "fixture": "branch",
+          "device": "portrait-full",
+          "elapsedMs": 136.3844310000004,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 32,
+          "lightContrast": 32,
+          "passed": true
+        },
+        {
+          "fixture": "branch",
+          "device": "landscape-full",
+          "elapsedMs": 127.89139900000009,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 33,
+          "lightContrast": 33,
+          "passed": true
+        },
+        {
+          "fixture": "dense",
+          "device": "desktop",
+          "elapsedMs": 818.2247230000003,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 34,
+          "lightContrast": 34,
+          "passed": true
+        },
+        {
+          "fixture": "dense",
+          "device": "iphone-portrait",
+          "elapsedMs": 858.3486660000008,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 33,
+          "lightContrast": 33,
+          "passed": true
+        },
+        {
+          "fixture": "dense",
+          "device": "iphone-landscape",
+          "elapsedMs": 909.4568619999991,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 34,
+          "lightContrast": 34,
+          "passed": true
+        },
+        {
+          "fixture": "signals",
+          "device": "desktop",
+          "elapsedMs": 562.632388,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 50,
+          "lightContrast": 50,
+          "passed": true
+        },
+        {
+          "fixture": "signals",
+          "device": "iphone-portrait",
+          "elapsedMs": 451.79256499999974,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 49,
+          "lightContrast": 49,
+          "passed": true
+        },
+        {
+          "fixture": "signals",
+          "device": "iphone-landscape",
+          "elapsedMs": 489.6233029999985,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 50,
+          "lightContrast": 50,
+          "passed": true
+        },
+        {
+          "fixture": "incomplete",
+          "device": "desktop",
+          "elapsedMs": 119.2487480000018,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 33,
+          "lightContrast": 33,
+          "passed": true
+        },
+        {
+          "fixture": "incomplete",
+          "device": "iphone-portrait",
+          "elapsedMs": 117.06571000000258,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 32,
+          "lightContrast": 32,
+          "passed": true
+        },
+        {
+          "fixture": "incomplete",
+          "device": "iphone-landscape",
+          "elapsedMs": 114.83975099999952,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 33,
+          "lightContrast": 33,
+          "passed": true
+        },
+        {
+          "fixture": "malformed",
+          "device": "desktop",
+          "elapsedMs": 135.67642799999885,
+          "errors": [],
+          "externalRequests": 0,
+          "passed": true
+        },
+        {
+          "fixture": "malformed",
+          "device": "iphone-portrait",
+          "elapsedMs": 143.08625699999902,
+          "errors": [],
+          "externalRequests": 0,
+          "passed": true
+        },
+        {
+          "fixture": "malformed",
+          "device": "iphone-landscape",
+          "elapsedMs": 146.52086599999893,
+          "errors": [],
+          "externalRequests": 0,
+          "passed": true
+        },
+        {
+          "fixture": "leaf",
+          "device": "desktop",
+          "elapsedMs": 144.0249180000028,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 29,
+          "lightContrast": 29,
+          "passed": true
+        },
+        {
+          "fixture": "leaf",
+          "device": "iphone-portrait",
+          "elapsedMs": 175.24283900000228,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 28,
+          "lightContrast": 28,
+          "passed": true
+        },
+        {
+          "fixture": "leaf",
+          "device": "iphone-landscape",
+          "elapsedMs": 148.9273659999999,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 29,
+          "lightContrast": 29,
+          "passed": true
+        },
+        {
+          "fixture": "open-signals",
+          "device": "desktop",
+          "elapsedMs": 623.9394290000018,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 50,
+          "lightContrast": 50,
+          "passed": true
+        },
+        {
+          "fixture": "open-signals",
+          "device": "iphone-portrait",
+          "elapsedMs": 530.159939000001,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 49,
+          "lightContrast": 49,
+          "passed": true
+        },
+        {
+          "fixture": "open-signals",
+          "device": "iphone-landscape",
+          "elapsedMs": 561.752077000001,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 50,
+          "lightContrast": 50,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "browser": "27.2",
+      "playwright": "1.64.0",
+      "completed": true,
+      "physicalDevice": false,
+      "fixedViewports": true,
+      "skipped": [
+        {
+          "fixture": "branch",
+          "device": "iphone-portrait",
+          "state": "rotated-detail",
+          "reason": "WebKit mobile resize leaves the layout viewport at the previous width; fixed-viewport mode does not accept rotation."
+        },
+        {
+          "fixture": "branch",
+          "device": "iphone-portrait",
+          "state": "rotated-search",
+          "reason": "WebKit mobile resize leaves the layout viewport at the previous width; fixed-viewport mode does not accept rotation."
+        },
+        {
+          "fixture": "branch",
+          "device": "iphone-landscape",
+          "state": "rotated-detail",
+          "reason": "WebKit mobile resize leaves the layout viewport at the previous width; fixed-viewport mode does not accept rotation."
+        },
+        {
+          "fixture": "branch",
+          "device": "iphone-landscape",
+          "state": "rotated-search",
+          "reason": "WebKit mobile resize leaves the layout viewport at the previous width; fixed-viewport mode does not accept rotation."
+        }
+      ],
+      "emulatedOffline": false,
+      "externalRequestPolicy": "abort and fail on every non-file request",
+      "artifacts": {
+        "branch": "2203e9f3b4f28947df14bf94876063e04c6d9e02f9a6c50f496d388913f5a27e",
+        "dense": "a919f5126c2f6c08f5398da06f04b2ba79fd205e91f6748b79080f8c0bc63233",
+        "signals": "63539f962adf246de9c5796a20a2c576e288da9922899d7b503ca657b6a251db",
+        "incomplete": "03af6939bbed767b0c36dd2fe801a54493707586cabe0fc39735090fc045242e",
+        "malformed": "8906739843e5d18657749efceb8e269ff95e6a164947559f9174acbf021b9cdb",
+        "leaf": "ab9457f4ae7b9dda47a8ff012da14e99b06f34f4190e1dc7632b47394d5978c4",
+        "open-signals": "69c3cab46a945981ead44ebbd96bb15b1efb62d123b1bf4551330a4453c59e0c"
+      },
+      "checks": [
+        {
+          "fixture": "branch",
+          "device": "desktop",
+          "elapsedMs": 184.5461439999999,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 33,
+          "lightContrast": 33,
+          "passed": true
+        },
+        {
+          "fixture": "branch",
+          "device": "narrow",
+          "elapsedMs": 160.21579599999995,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 33,
+          "lightContrast": 33,
+          "passed": true
+        },
+        {
+          "fixture": "branch",
+          "device": "iphone-portrait",
+          "firstScreenTimeline": {
+            "top": 602.75,
+            "bottom": 630.75,
+            "width": 140.765625,
+            "height": 28,
+            "viewport": 664,
+            "scroll": 0
+          }
+        },
+        {
+          "fixture": "branch",
+          "device": "iphone-portrait",
+          "elapsedMs": 200.02623700000004,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 32,
+          "lightContrast": 32,
+          "passed": true
+        },
+        {
+          "fixture": "branch",
+          "device": "iphone-landscape",
+          "elapsedMs": 182.33317999999963,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 33,
+          "lightContrast": 33,
+          "passed": true
+        },
+        {
+          "fixture": "branch",
+          "device": "portrait-full",
+          "firstScreenTimeline": {
+            "top": 602.75,
+            "bottom": 630.75,
+            "width": 140.765625,
+            "height": 28,
+            "viewport": 844,
+            "scroll": 0
+          }
+        },
+        {
+          "fixture": "branch",
+          "device": "portrait-full",
+          "elapsedMs": 202.17610299999978,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 32,
+          "lightContrast": 32,
+          "passed": true
+        },
+        {
+          "fixture": "branch",
+          "device": "landscape-full",
+          "elapsedMs": 186.3116259999997,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 33,
+          "lightContrast": 33,
+          "passed": true
+        },
+        {
+          "fixture": "dense",
+          "device": "desktop",
+          "elapsedMs": 902.5614920000007,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 34,
+          "lightContrast": 34,
+          "passed": true
+        },
+        {
+          "fixture": "dense",
+          "device": "iphone-portrait",
+          "elapsedMs": 1023.0235699999994,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 33,
+          "lightContrast": 33,
+          "passed": true
+        },
+        {
+          "fixture": "dense",
+          "device": "iphone-landscape",
+          "elapsedMs": 960.8154409999988,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 34,
+          "lightContrast": 34,
+          "passed": true
+        },
+        {
+          "fixture": "signals",
+          "device": "desktop",
+          "elapsedMs": 654.9942059999994,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 50,
+          "lightContrast": 50,
+          "passed": true
+        },
+        {
+          "fixture": "signals",
+          "device": "iphone-portrait",
+          "elapsedMs": 536.2924430000003,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 49,
+          "lightContrast": 49,
+          "passed": true
+        },
+        {
+          "fixture": "signals",
+          "device": "iphone-landscape",
+          "elapsedMs": 626.5037940000002,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 50,
+          "lightContrast": 50,
+          "passed": true
+        },
+        {
+          "fixture": "incomplete",
+          "device": "desktop",
+          "elapsedMs": 179.0678549999975,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 33,
+          "lightContrast": 33,
+          "passed": true
+        },
+        {
+          "fixture": "incomplete",
+          "device": "iphone-portrait",
+          "elapsedMs": 230.24707299999864,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 32,
+          "lightContrast": 32,
+          "passed": true
+        },
+        {
+          "fixture": "incomplete",
+          "device": "iphone-landscape",
+          "elapsedMs": 197.68772199999876,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 33,
+          "lightContrast": 33,
+          "passed": true
+        },
+        {
+          "fixture": "malformed",
+          "device": "desktop",
+          "elapsedMs": 168.84311700000035,
+          "errors": [],
+          "externalRequests": 0,
+          "passed": true
+        },
+        {
+          "fixture": "malformed",
+          "device": "iphone-portrait",
+          "elapsedMs": 194.33095899999898,
+          "errors": [],
+          "externalRequests": 0,
+          "passed": true
+        },
+        {
+          "fixture": "malformed",
+          "device": "iphone-landscape",
+          "elapsedMs": 185.46569499999896,
+          "errors": [],
+          "externalRequests": 0,
+          "passed": true
+        },
+        {
+          "fixture": "leaf",
+          "device": "desktop",
+          "elapsedMs": 187.2987030000004,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 29,
+          "lightContrast": 29,
+          "passed": true
+        },
+        {
+          "fixture": "leaf",
+          "device": "iphone-portrait",
+          "elapsedMs": 169.9102610000009,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 28,
+          "lightContrast": 28,
+          "passed": true
+        },
+        {
+          "fixture": "leaf",
+          "device": "iphone-landscape",
+          "elapsedMs": 146.59983600000123,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 29,
+          "lightContrast": 29,
+          "passed": true
+        },
+        {
+          "fixture": "open-signals",
+          "device": "desktop",
+          "elapsedMs": 552.1971250000024,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 50,
+          "lightContrast": 50,
+          "passed": true
+        },
+        {
+          "fixture": "open-signals",
+          "device": "iphone-portrait",
+          "elapsedMs": 519.4449090000016,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 49,
+          "lightContrast": 49,
+          "passed": true
+        },
+        {
+          "fixture": "open-signals",
+          "device": "iphone-landscape",
+          "elapsedMs": 613.300185,
+          "errors": [],
+          "externalRequests": 0,
+          "darkContrast": 50,
+          "lightContrast": 50,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "images": [
+    {
+      "name": "chromium-branch-desktop-overview.png",
+      "sha256": "6937e8ea5dd54cd69a4684239bcb0b773c8d1b6ddc265a394aa7defe9caa959e",
+      "state": "overview",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated capture",
+          "reviewer": "primary Codex agent",
+          "collection": "integrated-chromium-01",
+          "findings": [
+            "Complete elapsed branch/join, ruler, typed edges and absent resource evidence remain clear."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-desktop-detail.png",
+      "sha256": "f7f2e645e1e20e0ee06f614c7157bd24ec087aa196b60597e7c104084d15bd10",
+      "state": "detail",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "primary Codex agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-10",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+          "findings": [
+            "Legible chronological overview and honest absence, or readable selected-task dialog with typed relationships and visible close control."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-desktop-canonical-task.png",
+      "sha256": "af59e56b5098d02113978e53f1124e35db22a6306ff2648fa8054903734ef348",
+      "state": "canonical-task",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+          "findings": [
+            "Expanded canonical task is readable with exact interval and identity; dependency controls and close action remain visible."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-desktop-light.png",
+      "sha256": "453f957d507342ad912af7cc3634ae5c3d596af05f0d35c9d27fd7719de13a57",
+      "state": "light",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "light",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+          "findings": [
+            "Light palette remains readable; chronological bars, selected dependency arrows and expanded controls fit the desktop width."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-narrow-overview.png",
+      "sha256": "73b0e51eea66561047f89443cbe3a79b50ab72673f3f99659f14b60ff33ca059",
+      "state": "overview",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+          "findings": [
+            "Collapsed controls leave all four branch rows visible; ruler and arrows are legible without horizontal clipping."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-narrow-detail.png",
+      "sha256": "872cf152db99829b75e2c06cdaff4986addb1f5ba0b29a5c9880dabdc2f6eb19",
+      "state": "detail",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+          "findings": [
+            "Narrow dialog retains duration, both dependency directions, readable caveat and visible keyboard focus on close."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-narrow-light.png",
+      "sha256": "8f0405566accb16363de8fc6f47d947ab247dc68451601044b624653d5005fc3",
+      "state": "light",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "fullPage": false,
+      "theme": "light",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+          "findings": [
+            "Expanded controls and top timeline rows remain legible in light theme; lower rows require ordinary vertical scrolling."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-iphone-portrait-overview.png",
+      "sha256": "9ca1f69b7154babfb5ed0d5d8483bf9dca8adba88e435b927311916b98c17c4c",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated capture",
+          "reviewer": "primary Codex agent",
+          "collection": "integrated-chromium-01",
+          "findings": [
+            "First complete true-duration bar visible at 664 px viewport; task labels,summary and controls legible."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-iphone-portrait-detail.png",
+      "sha256": "baedd0b3781b68cdd7bc5906e64cf393d2e5811c90a2efe44e4987d524fdb464",
+      "state": "detail",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "primary Codex agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+          "findings": [
+            "Legible chronological overview and honest absence, or readable selected-task dialog with typed relationships and visible close control."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-iphone-portrait-canonical-task.png",
+      "sha256": "d28d43327baad050526fc03d339b27d1e9270c3d40a3d1f1930c5c9c4fe6dd95",
+      "state": "canonical-task",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+          "findings": [
+            "Expanded canonical EDN wraps within portrait dialog; both dependency directions and close action remain visible."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-iphone-portrait-rotated-detail.png",
+      "sha256": "282de134ea214ebc704d00af398eb591587eeef536aa99dda44f823132635ae5",
+      "state": "rotated-detail",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+          "findings": [
+            "Rotated landscape retains selected task and duration, with close action visible and evidence below available through internal scrolling."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-iphone-portrait-light.png",
+      "sha256": "bb175927c6994ee64852cdaf8a16c6a3dad8d9d1548dc476c1ff43d4d832e207",
+      "state": "light",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "light",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+          "findings": [
+            "Light-theme phone controls wrap cleanly; timeline ruler and first task remain readable in the recorded scrolled viewport."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-iphone-portrait-rotated-search.png",
+      "sha256": "919d35e2c483740f34c821cc845fade12b2b0a337bbe25da44497eaa8770599d",
+      "state": "rotated-search",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+          "findings": [
+            "Landscape search retains C-check and the zoomed ruler; task row lies below this short recorded viewport, accessible by vertical scroll."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-iphone-landscape-overview.png",
+      "sha256": "936bf135f145d4e59564cf2d96433146a95b96dfe18d5ad2c6557b09dbafbdc8",
+      "state": "overview",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "primary Codex agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+          "findings": [
+            "Legible chronological overview and honest absence, or readable selected-task dialog with typed relationships and visible close control."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-iphone-landscape-detail.png",
+      "sha256": "343310998078094b62e4ebfe5eb2bcd1a08b0199d872fe080fd9b85cf0c3e30b",
+      "state": "detail",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated capture",
+          "reviewer": "primary Codex agent",
+          "collection": "integrated-chromium-01",
+          "findings": [
+            "Selected task elapsed evidence and child navigation are legible; close remains visible. More evidence accessible via dialog scrolling."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-iphone-landscape-rotated-detail.png",
+      "sha256": "31a9356cde578e3b6c02870303a58f5942dfa4c9a1998610090c527a4b36a30a",
+      "state": "rotated-detail",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened before context compaction. Portrait after rotation: readable modal controls/edges, proper wrapping; no finding."
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-iphone-landscape-light.png",
+      "sha256": "d4bae77f1e35eebaa90e12c76477494ab8d3bd819e8209d47ecb7f4eec05c886",
+      "state": "light",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "light",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+          "findings": [
+            "Short landscape viewport shows readable search and expanded controls; timeline begins below them and needs vertical scroll."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-iphone-landscape-rotated-search.png",
+      "sha256": "42b554cb3626ee7a0b470c2c4bd1cf17479bd0bde1e02f3d605ce4c7626a5683",
+      "state": "rotated-search",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened before context compaction. Portrait search: full-width timeline/ruler and readable missing telemetry; no finding."
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-portrait-full-overview.png",
+      "sha256": "20fc965e08388a887d2b258ad3a79f324bba0d031e1a9a025842788c71e9a398",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-11",
+          "priorMethod": "Actual view_image opening",
+          "priorSourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+          "findings": [
+            "Full-height portrait retains visible proportional bars and routed arrows; row text is now opaque above connectors."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-portrait-full-detail.png",
+      "sha256": "039bc8e72da9c018907263a2bccea688731533e8de887d589a7aad2ee19bdb40",
+      "state": "detail",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-11",
+          "priorMethod": "Actual view_image opening",
+          "priorSourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+          "findings": [
+            "Portrait detail clearly preserves task duration, typed boundary relationships and shared-clock caveat with visible close control."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-portrait-full-light.png",
+      "sha256": "9f8ccf427e17f65ca15e34a6e18c6d9343d58ebbaad567d97d806f989796f5c8",
+      "state": "light",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fullPage": false,
+      "theme": "light",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-11",
+          "priorMethod": "Actual view_image opening",
+          "priorSourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+          "findings": [
+            "Light portrait controls wrap cleanly; temporal bar remains separate from its readable label and later rows continue vertically."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-landscape-full-overview.png",
+      "sha256": "ecde0bce158e318f223390609b5139e34cbe806388ea52b99634c37941f061f4",
+      "state": "overview",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+          "findings": [
+            "Overview summary and search fit cleanly; the 390-pixel-high landscape viewport requires vertical scrolling to reach timeline rows."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-landscape-full-detail.png",
+      "sha256": "ac1d5d315b5ef241cddf11359c499ec3e1cb041e774334d74ca8dc15267686ea",
+      "state": "detail",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+          "findings": [
+            "Landscape dialog keeps close action, selected identity and duration visible; dependency details continue in internal scroll."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-branch-landscape-full-light.png",
+      "sha256": "35ad46a04910f2904a72497c1bc4b6e05f7c40a823f59e15a8618746923424a7",
+      "state": "light",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "fullPage": false,
+      "theme": "light",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+          "findings": [
+            "Expanded light-theme controls and elapsed ruler are readable with no horizontal clipping; task rows continue below the short viewport."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-dense-desktop-overview.png",
+      "sha256": "55f38bcd4e06904ff12dc9127682c5899bc59931261c8de3bfcbc2b8ea3e45d6",
+      "state": "overview",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+          "findings": [
+            "Root overview retains four clear chronological lanes and dependency arrows while reporting all 2964 recorded edges."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-dense-desktop-attention.png",
+      "sha256": "869d9776611c9abe4d9fea5155bae12b35da7245ec63c5a02ee9bd1b907e6038",
+      "state": "attention",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+          "findings": [
+            "Whole-run attention visibly isolates failed child-1500 with its narrow temporal mark and explicit absent resource evidence."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-dense-desktop-folds.png",
+      "sha256": "59198eacaefb9b1771de95099107baf7022ca34a6e4a28634df67de951836e03",
+      "state": "folds",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-11",
+          "priorMethod": "Actual view_image opening",
+          "priorSourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+          "findings": [
+            "Fold rows retain readable duration summaries and failure count; connectors pass behind opaque summary bands while arrow endpoints remain visible on bars."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-dense-desktop-companion.png",
+      "sha256": "59392090cfa2825e3c34ea76865ae5093d6751f26b264c90c973b8804f2722e5",
+      "state": "companion",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated capture",
+          "reviewer": "primary Codex agent",
+          "collection": "integrated-chromium-01",
+          "findings": [
+            "Readable 128-member companion with 24 visible lanes and 104 remaining; directed tiny bars remain chronological and connectors do not cross labels. Changed hover outline is harmless."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-dense-iphone-portrait-overview.png",
+      "sha256": "21b3083f0c4168b67e4eeefe4c5616a4c7da61f6fdbff19465fe8a6b6294cc8f",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-11",
+          "priorMethod": "Actual view_image opening",
+          "priorSourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+          "findings": [
+            "Initial dense portrait overview keeps summary, attention affordance and the full first proportional bar visible."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-dense-iphone-portrait-attention.png",
+      "sha256": "7bb5379624dc253af411d1dc0a18dc3f93d782f172e2da107a28d00f558db2c7",
+      "state": "attention",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+          "findings": [
+            "Failed child label and time mark are fully visible in portrait; temporal scale and absent telemetry remain explicit."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-dense-iphone-portrait-folds.png",
+      "sha256": "185091571c4e448f5332ab5e6156f47f0602946e6115f90d6010003047d7ed80",
+      "state": "folds",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated capture",
+          "reviewer": "primary Codex agent",
+          "collection": "integrated-chromium-01",
+          "findings": [
+            "Folds retain legible exact counts, occupied/envelope/sum distinctions and directed boundary connectors behind opaque text bands."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-dense-iphone-portrait-companion.png",
+      "sha256": "9b9cf48d2683daaf1d19462a80411dbae39a3e9d8ddc096f99895f1648283c82",
+      "state": "companion",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-11",
+          "priorMethod": "Actual view_image opening",
+          "priorSourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+          "findings": [
+            "Portrait companion preserves exact child identities in opaque full-width controls; dependency arrows stay visible on bars without crossing text."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-dense-iphone-landscape-overview.png",
+      "sha256": "3c72cf9a0fda095e4770a513766a3ed2fd0fd785c5f1f655e6ed365e46f66f9a",
+      "state": "overview",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+          "findings": [
+            "Dense summary and navigation are readable; short landscape viewport requires scrolling to timeline."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-dense-iphone-landscape-attention.png",
+      "sha256": "ad083a981b925230f85014cd3b3ca6c78481669f0ee59193be5f6185082c1eb4",
+      "state": "attention",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+          "findings": [
+            "Failed child and narrow mark fit the landscape viewport with readable ruler and dependency caveat."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-dense-iphone-landscape-folds.png",
+      "sha256": "a7efc78eb1a2e57343e961d6963e622f2e37f0c7b03ea4736641cbcdc443c886",
+      "state": "folds",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-11",
+          "priorMethod": "Actual view_image opening",
+          "priorSourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+          "findings": [
+            "Landscape fold buttons are stacked at full label-column width; summary text is readable above masked connectors with no split-word cramping."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-dense-iphone-landscape-companion.png",
+      "sha256": "b68cd4fb5cb8a899d994746645d0c3e17a64921014a3de3885aac71168a14a54",
+      "state": "companion",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-11",
+          "priorMethod": "Actual view_image opening",
+          "priorSourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+          "findings": [
+            "Landscape companion labels and dependency endpoints remain readable; rechecked after the layering fix despite identical PNG bytes."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-desktop-overview.png",
+      "sha256": "07a398b641a5c2d399d13d3aa661848881bb739737f9b35f4e94ece3010fd4f0",
+      "state": "overview",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current representative: investigation entry, search, full-width ruler, aligned DAG lanes and resource section clear; no finding."
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-desktop-candidate-list.png",
+      "sha256": "20e2e81f299c922e5e6fa70759aff5e291b063e251e9570b2f85868fa6a3e1b3",
+      "state": "candidate-list",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+          "findings": [
+            "Expanded six-candidate list includes CPU dip intervals and explicit heuristic limitations with readable desktop controls."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-desktop-candidate-detail.png",
+      "sha256": "47f3db768f30f154c901e75107197e6e400ec66a2f82ee5cd38d0605511d1b99",
+      "state": "candidate-detail",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+          "findings": [
+            "Expanded exact candidate IDs, experiment guidance and actionable coincident tasks all fit the desktop dialog."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-desktop-candidate-tasks.png",
+      "sha256": "afaaff39eaa3f615761fbd2bcddefc88a75200176bc7707c4f79b120bb04655a",
+      "state": "candidate-tasks",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-10",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+          "findings": [
+            "Collapsed candidate IDs expose clear B-check/C-check/root task actions and eligibility caveat within the selected interval."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-desktop-window-resources.png",
+      "sha256": "1e00ba131da5bf03f786dccb2d4aeac54376e8ff33d27e836612cc672b403879",
+      "state": "window-resources",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+          "findings": [
+            "Windowed resource strips share an aligned cursor; per-core scale is now 0\u20131 CPU equivalents and labels remain readable."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-desktop-gpu.png",
+      "sha256": "c084f2f712ee1647fe60ea2ab90024f9a2d03f7e321eaab7f215f749d26756bf",
+      "state": "gpu",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+          "findings": [
+            "GPU strip and neighboring host/core/disk evidence controls are readable; measurement gaps stay visibly distinct."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-desktop-resource-evidence.png",
+      "sha256": "f1e60f9e977e99fd6cc1b27358457aa09d42048b6b6f4e171ae27e0df9203b63",
+      "state": "resource-evidence",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+          "findings": [
+            "GPU evidence dialog states sampling limitations and provides clear core query disclosures with visible focus."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-desktop-resource-evidence-expanded.png",
+      "sha256": "2409aa6ac3eb96aab1307f68c3960cc9cd4653bd4c73c1c7e39c542e55fc6c97",
+      "state": "resource-evidence-expanded",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+          "findings": [
+            "Expanded query evidence visibly preserves sample IDs, intervals, quantity and measured status; long EDN wraps and scrolls within dialog."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-desktop-light-resources-full.png",
+      "sha256": "42572a79f26a1c7c8846b2502c0334895b1fa039ec0151f1c820775b5eb438d1",
+      "state": "light-resources",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": true,
+      "theme": "light",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+          "findings": [
+            "Full-page light layout shows aligned timeline and all selected resource tracks; corrected core and pressure scales read 0\u20131 CPU and 0\u201380 percent."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-iphone-portrait-overview.png",
+      "sha256": "981a56fcb6db953a2bb7b766904936a8fc7bc7255886e2700e432b752f0fe442",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+          "findings": [
+            "Collapsed activity candidates and controls leave the ruler and first task bar visible on portrait; count and elapsed summary remain readable."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-iphone-portrait-candidate-list.png",
+      "sha256": "dbe6429005c36f5f454e775a0ebfb256a4aba2e7394a0c57e9228a7608b019fc",
+      "state": "candidate-list",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+          "findings": [
+            "All six wrapped candidate buttons fit the portrait capture; CPU and footprint changes remain separately labeled."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-iphone-portrait-candidate-detail.png",
+      "sha256": "0f510fb43a47fa6aa7dae3060a0706f121d61f23a5f14214806a0d9b175d0c22",
+      "state": "candidate-detail",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened: actionable experiment wraps within portrait modal, close stays visible, expanded policy and measurement IDs readable with scroll; no finding."
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-iphone-portrait-candidate-tasks.png",
+      "sha256": "b4b12c84d7347fe59ddf59a5ed8bde23af0b6e7b9b042df50560748223790dec",
+      "state": "candidate-tasks",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened: readiness caveat and all three task buttons fit portrait modal; controls and query disclosures separated; no finding."
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-iphone-portrait-window-resources.png",
+      "sha256": "f9819521643597c562599761108101524eaebb024cb4a56aff2348744376199c",
+      "state": "window-resources",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+          "findings": [
+            "Windowed GPU and host CPU strips share the cursor; labels, units and sample-gap caveats wrap within phone width."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-iphone-portrait-gpu.png",
+      "sha256": "b73241bb4459aff594cbbe092ae6738d8bcb3d6d4c3f8ade25e823eef62f2b5a",
+      "state": "gpu",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "primary Codex agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+          "findings": [
+            "Shared cursor, GPU scale and evidence dialog are readable; tap-capable details retain exact source/interval IDs and dismissible chrome."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-iphone-portrait-resource-evidence.png",
+      "sha256": "0dc6e97a8aa31db0eaa935ac4846324e37f6e7cea81c16990d4d13e67bb8a223",
+      "state": "resource-evidence",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "primary Codex agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+          "findings": [
+            "Shared cursor, GPU scale and evidence dialog are readable; tap-capable details retain exact source/interval IDs and dismissible chrome."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-iphone-portrait-resource-evidence-expanded.png",
+      "sha256": "93aba55d72f19b9e2aefd580386a42c841f808a76f458a91469f3eb18ca701c9",
+      "state": "resource-evidence-expanded",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "actual current screenshot opened and pixel-diffed against the prior accepted capture",
+        "priorSHA256": "0777f01783d3ff7fa389f075bacfb8834343020b4493a54c71e6124eb7528699",
+        "notes": "Opened current and prior captures and pixel-diffed them: 16,104 px differ inside bbox (12,406)-(378,450), the highlighted first rows of the evidence EDN block; max channel delta 19/255 (band tone 27,50,66 -> 30,61,81). Text, wrapping and layout identical."
+      }
+    },
+    {
+      "name": "chromium-signals-iphone-portrait-light-resources-full.png",
+      "sha256": "215512c4a40a7b2b769f5509055fe75b5d5b165d373fc17f1dc3c896b1b6e623",
+      "state": "light-resources",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": true,
+      "theme": "light",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-11",
+          "priorMethod": "Actual view_image opening",
+          "priorSourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+          "findings": [
+            "Full-page light portrait keeps all task labels above connectors and all resource tracks vertically continuous with shared temporal alignment."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-iphone-landscape-overview.png",
+      "sha256": "f4a38bf1813b2888efd8c2ff979bae242f2eba2c806db69b64dc92be2f043e49",
+      "state": "overview",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+          "findings": [
+            "Landscape overview clearly exposes duration, task/measurement count and investigation disclosure; timeline requires vertical scrolling."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-iphone-landscape-candidate-list.png",
+      "sha256": "644863c52bac22865b9f6ee547eeb945441e95b3154abaf81c5e5d68a52db663",
+      "state": "candidate-list",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+          "findings": [
+            "Landscape candidate list shows rule and CPU candidates clearly; remaining candidates continue vertically."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-iphone-landscape-candidate-detail.png",
+      "sha256": "51f82f9440ea89c3b055dbe9c9553f3a0e27b3ea379e9ec3b7e9753425718370",
+      "state": "candidate-detail",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened before context compaction. Landscape scrollable modal: policy, IDs and disclosures readable; no finding."
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-iphone-landscape-candidate-tasks.png",
+      "sha256": "08053575cb9adb1a0c49be6d9a417e840209da95ce4af4cdae119e6c3826ed5f",
+      "state": "candidate-tasks",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened before context compaction. Landscape coincident task buttons and close control fit; no finding."
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-iphone-landscape-window-resources.png",
+      "sha256": "118addd95318e5e1b1239971cb69a51147f0f6eecb197056786a08dae89be6d2",
+      "state": "window-resources",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+          "findings": [
+            "Landscape windowed resource labels wrap beside aligned strips; evidence buttons and orange cursor remain readable."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-iphone-landscape-gpu.png",
+      "sha256": "87c35a9c7bcd097655e2799b88c62b98692b4f0717adeb08357fc8142cbd95ad",
+      "state": "gpu",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated capture",
+          "reviewer": "primary Codex agent",
+          "collection": "integrated-chromium-01",
+          "findings": [
+            "GPU series, units, 65 observations, coverage gap and aligned orange cursor remain legible; native evidence/removal controls fit."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-iphone-landscape-resource-evidence.png",
+      "sha256": "2b12c70a67da597d9fa57e9d5f71d23074381c2412215215d53aa244801491d0",
+      "state": "resource-evidence",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-11",
+          "priorMethod": "Actual view_image opening",
+          "priorSourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+          "findings": [
+            "Landscape GPU evidence dialog fits its explanation, both query disclosures and close control without horizontal clipping."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-signals-iphone-landscape-light-resources-full.png",
+      "sha256": "18c1f336c0dde3914eeee1f773e10ca0370abd6c5f9924568cfe439821636106",
+      "state": "light-resources",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": true,
+      "theme": "light",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+          "findings": [
+            "Full-page landscape review confirms stacked readable controls, shared temporal alignment and corrected plausible core/pressure units."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-incomplete-desktop-overview.png",
+      "sha256": "bc1673aa732397f7096f9e69eb451ccd676aa6dcf8199d756b7a01009f6a9e49",
+      "state": "overview",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "5df4ee0daf0ceb2004a711f2a6f8408f4576c9fb5bfe0cd90a173f932a95b955",
+          "findings": [
+            "Deselected decision is now visibly painted at the right boundary; cached and blocked point decisions remain distinct from cancelled elapsed work."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-incomplete-desktop-decision-detail.png",
+      "sha256": "d308e4b3d6d92d3a1ff8e6502409f8d3850c879b9596f94cc0e4df3d3dc6e35f",
+      "state": "decision-detail",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-11",
+          "priorMethod": "Actual view_image opening",
+          "priorSourceHTMLhash": "5df4ee0daf0ceb2004a711f2a6f8408f4576c9fb5bfe0cd90a173f932a95b955",
+          "findings": [
+            "Cached detail explicitly identifies decision-only evidence; close focus and no-recorded-dependencies statement remain clear."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-incomplete-desktop-unfinished-detail.png",
+      "sha256": "85f2f375d4c320d5e3476c08cf9e1f839b4c12e366df05d864c47e6d8c321326",
+      "state": "unfinished-detail",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-11",
+          "priorMethod": "Actual view_image opening",
+          "priorSourceHTMLhash": "5df4ee0daf0ceb2004a711f2a6f8408f4576c9fb5bfe0cd90a173f932a95b955",
+          "findings": [
+            "Running root retains explicit unfinished/final-duration-unknown wording and visible keyboard focus on close."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-incomplete-iphone-portrait-overview.png",
+      "sha256": "be387930db391e71b48dc505bc072c9841113b47bec7f80e10f3f6a9a9f5bc41",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated capture",
+          "reviewer": "primary Codex agent",
+          "collection": "integrated-chromium-01",
+          "findings": [
+            "Incomplete status, attention count and cached decision mark remain distinct from execution; no invented telemetry."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-incomplete-iphone-portrait-decision-detail.png",
+      "sha256": "bee8d23e8076046ddfb2ed2924f12e56c143ae421d92b3e40b3d87ba4ea1bc45",
+      "state": "decision-detail",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "5df4ee0daf0ceb2004a711f2a6f8408f4576c9fb5bfe0cd90a173f932a95b955",
+          "findings": [
+            "Portrait cached task clearly identifies decision-only evidence with readable missing-dependency and shared-clock explanations."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-incomplete-iphone-portrait-unfinished-detail.png",
+      "sha256": "60331aa97bc51bfd0af63b073901d40c70e1d106b9518dd47b98610d349d204c",
+      "state": "unfinished-detail",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "5df4ee0daf0ceb2004a711f2a6f8408f4576c9fb5bfe0cd90a173f932a95b955",
+          "findings": [
+            "Running root and unknown final duration remain legible in portrait; modal confines long evidence vertically."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-incomplete-iphone-landscape-overview.png",
+      "sha256": "cc5e8536aa90ce7cb8babd86249158ae5cf2d59a53324c2f1d1e8092a18a98b2",
+      "state": "overview",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "5df4ee0daf0ceb2004a711f2a6f8408f4576c9fb5bfe0cd90a173f932a95b955",
+          "findings": [
+            "Incomplete status, last observed elapsed extent and investigation affordance remain readable in the short landscape viewport."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-incomplete-iphone-landscape-decision-detail.png",
+      "sha256": "6a79e75dd63e5c7af627549292826faf7a8b8dd876c942eb7ec848321239fa04",
+      "state": "decision-detail",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-09",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "5df4ee0daf0ceb2004a711f2a6f8408f4576c9fb5bfe0cd90a173f932a95b955",
+          "findings": [
+            "Landscape decision dialog retains selected identity and decision-only explanation; lower sections scroll internally."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-incomplete-iphone-landscape-unfinished-detail.png",
+      "sha256": "513dcac0763cfe4d94b6b626699510b231ef4f8b55945a03087b378de7be966e",
+      "state": "unfinished-detail",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "5df4ee0daf0ceb2004a711f2a6f8408f4576c9fb5bfe0cd90a173f932a95b955",
+          "findings": [
+            "Landscape running-root detail clearly marks final duration unknown with an accessible close action."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-malformed-desktop-refused.png",
+      "sha256": "0665e762a546b5dcfd70a990dc1044d13c5d2e5146c35bfe279dffe9a46a6817",
+      "state": "refused",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "634e07f75bd45416acb508a8b85fcd27125944f5d7d2f6eec4731c83395b3087",
+          "findings": [
+            "Refusal and structured error code are prominent; no task or telemetry marks initialize. Static search/disclosure shell remains visible but cannot imply successful admission."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-malformed-iphone-portrait-refused.png",
+      "sha256": "d2db1acaa117966af1dd1753a844703e0477f9046f792f8d8b75ba0351b4d392",
+      "state": "refused",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "634e07f75bd45416acb508a8b85fcd27125944f5d7d2f6eec4731c83395b3087",
+          "findings": [
+            "Refusal code wraps legibly without clipping; no admitted timeline or resource results appear."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-malformed-iphone-landscape-refused.png",
+      "sha256": "7a40ca7a7c1837c900c1e4f54d656a5fe601d03d64e1f06964c0b594ea123ffe",
+      "state": "refused",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "634e07f75bd45416acb508a8b85fcd27125944f5d7d2f6eec4731c83395b3087",
+          "findings": [
+            "Refusal fits the short landscape screen; no initialized task navigation or fabricated results appear."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-leaf-iphone-portrait-overview.png",
+      "sha256": "abc66a1d8618d1ce889a52fd36e3522582c9ba3217921e8672c11594b74e5857",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "3be1e8ef7082aca4a9b118498e9548d9b6485d0babbed1a987053b815b3c56c6",
+          "findings": [
+            "Single root leaf remains visible with its20 ms interval at the correct late position and an ordinary selectable label."
+          ]
+        }
+      }
+    },
+    {
+      "name": "chromium-open-signals-iphone-portrait-overview.png",
+      "sha256": "90e2d3046e818d7532ee6a4c74cafe0fd8a12b3dbaa75e2655ea849095a7c8f3",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Verified SHA-256 equality with previously actually inspected PNG",
+          "reviewer": "timeline_research agent",
+          "priorManifest": "viewer-visual-manifest.json",
+          "priorManifestSHA256": "efd509b14d652f35a2e6988bc9f5e20dc64734cc65ee90b403d3badc0d8c9f0d",
+          "priorCollection": "visual-08",
+          "priorMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+          "priorSourceHTMLhash": "f4eb33eba35c14ffa2bc0d9754fcfb1c02ecb851787e3f31f726b9df2d1ea9b9",
+          "findings": [
+            "Incomplete capture includes260 ms telemetry extent and still labels cached decisions; no invented root completion appears."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-branch-desktop-overview.png",
+      "sha256": "cdf9f9d58be4a5702a1f81c89843d22c1a030fb15a00df17b1749717236a3255",
+      "state": "overview",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated capture",
+          "reviewer": "timeline_research agent",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Four chronological bars and all branch/join arrows are readable; task labels, ruler and absent-telemetry explanation fit desktop without overlap."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-branch-desktop-detail.png",
+      "sha256": "78976b450a31b1832a54f256d3a0895b92c4d7d615a1bc8580104a5ad410f10b",
+      "state": "detail",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "actual current screenshot opened and pixel-diffed against the prior accepted capture",
+        "priorSHA256": "7a666b58dd27792d5962bf8edb53e3178baa507591be52f30672b7bbd6bec33c",
+        "notes": "Opened current and prior captures and pixel-diffed them: 1,608 px differ inside bbox (347,412)-(1093,456), the \"B-check -> D-package\" edge control, which now carries the same emphasised-edge outline Chromium already painted for this state. Layout identical."
+      }
+    },
+    {
+      "name": "webkit-branch-desktop-canonical-task.png",
+      "sha256": "79c529427af55d64da37aad6a6df5952cd4667145997cb1a0d271d1e136ad4f5",
+      "state": "canonical-task",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated capture",
+          "reviewer": "timeline_research agent",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Expanded canonical EDN keeps exact B-check identity and interval readable; both dependency controls and close remain visible while later query disclosures continue vertically."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-branch-desktop-light.png",
+      "sha256": "6b2d9250ec623476a50f27216793d605657be75d93cd307e6bdacf7997e8507d",
+      "state": "light",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "light",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated capture",
+          "reviewer": "timeline_research agent",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Light theme retains readable labels, controls, ruler and distinct selected dependency arrows across all four desktop rows."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-branch-narrow-overview.png",
+      "sha256": "ec23109f9af3336c7d1d9db58c6ab4e98e11dddcd91c74eb68bf054ee4047e1c",
+      "state": "overview",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated capture",
+          "reviewer": "timeline_research agent",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Narrow desktop overview shows all four bars and connecting arrows with legible labels and ruler; no horizontal clipping."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-branch-narrow-detail.png",
+      "sha256": "1e0f446797dfb9fdb9c79237184a434acff61dc7526df862c3cf14ec04790ba4",
+      "state": "detail",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "actual current screenshot opened and pixel-diffed against the prior accepted capture",
+        "priorSHA256": "24c648ccdce63427fe7f571d412054b28a22742574f120fc691e8e40980873bf",
+        "notes": "Opened current and prior captures and pixel-diffed them: 1,608 px differ inside bbox (139,412)-(885,456), the \"B-check -> D-package\" edge control, which now carries the same emphasised-edge outline Chromium already painted for this state. Layout identical."
+      }
+    },
+    {
+      "name": "webkit-branch-narrow-light.png",
+      "sha256": "cd7e7af61a5097927dae9594ef0ecfe5ff56ffc1d7b20fe1eac124893c145023",
+      "state": "light",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "fullPage": false,
+      "theme": "light",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated capture",
+          "reviewer": "timeline_research agent",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Narrow light theme controls and top timeline rows remain readable; lower timeline continues vertically beneath the short capture."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-branch-iphone-portrait-overview.png",
+      "sha256": "60ca396f31ec6d02b09d4c5aec8069ccd883a4571ba041adc58dd93a679b4b32",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Text and controls fit; focus/close visible in dialogs; canonical text and dependency controls wrap. Short landscape content continues by vertical scroll. Light/dark hierarchy and ruler readable. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-branch-iphone-portrait-detail.png",
+      "sha256": "99d8a58fe6cc787e9195430d7b944a0c76e4b32da64cb39e0b61555b1afd7b65",
+      "state": "detail",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Text and controls fit; focus/close visible in dialogs; canonical text and dependency controls wrap. Short landscape content continues by vertical scroll. Light/dark hierarchy and ruler readable. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-branch-iphone-portrait-canonical-task.png",
+      "sha256": "e46004ea4187f9ee821aa7c50a2f4cff1ec4e09f707caaff67d2c81518d46a32",
+      "state": "canonical-task",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Text and controls fit; focus/close visible in dialogs; canonical text and dependency controls wrap. Short landscape content continues by vertical scroll. Light/dark hierarchy and ruler readable. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-branch-iphone-portrait-light.png",
+      "sha256": "0ad11f2b7810d5164e72cb65adc140399a8625064c8a8c09a4150467df81b33d",
+      "state": "light",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "light",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Text and controls fit; focus/close visible in dialogs; canonical text and dependency controls wrap. Short landscape content continues by vertical scroll. Light/dark hierarchy and ruler readable. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-branch-iphone-landscape-overview.png",
+      "sha256": "ca9ad791465c97970b1032f3ea80dda1466a3788eec2a8d6e1c6377e1c649584",
+      "state": "overview",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Text and controls fit; focus/close visible in dialogs; canonical text and dependency controls wrap. Short landscape content continues by vertical scroll. Light/dark hierarchy and ruler readable. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-branch-iphone-landscape-detail.png",
+      "sha256": "969f09586b7a9c49935d234eeee5cf75baf5245790ca861f39200fd174e6e3d5",
+      "state": "detail",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Text and controls fit; focus/close visible in dialogs; canonical text and dependency controls wrap. Short landscape content continues by vertical scroll. Light/dark hierarchy and ruler readable. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-branch-iphone-landscape-light.png",
+      "sha256": "028e28d48f420a73e58d97379a7f54813eca6d3e61397dc393582b9b5d8f9d1e",
+      "state": "light",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "light",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Text and controls fit; focus/close visible in dialogs; canonical text and dependency controls wrap. Short landscape content continues by vertical scroll. Light/dark hierarchy and ruler readable. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-branch-portrait-full-overview.png",
+      "sha256": "b140e81b9bf5f4b213a0246e4272f6f4ed2d5481835fc156dd60e6f7b73df3d6",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Portrait timeline keeps full-width bars and readable tick labels. Dense folds show distinct envelope/occupied/summed values and separate member/evidence controls; drilled page count and dependencies readable. Attention filter isolates failure. Decision detail explicitly says decision only. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-branch-portrait-full-detail.png",
+      "sha256": "29f8b2ddaaec9df233e1ccc583855e2a81f4d1837af2c70a7e14d19c870e7333",
+      "state": "detail",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Portrait timeline keeps full-width bars and readable tick labels. Dense folds show distinct envelope/occupied/summed values and separate member/evidence controls; drilled page count and dependencies readable. Attention filter isolates failure. Decision detail explicitly says decision only. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-branch-portrait-full-light.png",
+      "sha256": "5f8058dfd0993a9e235223e859f9e059be4414dfa741f1113a9494d6390cb081",
+      "state": "light",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fullPage": false,
+      "theme": "light",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Portrait timeline keeps full-width bars and readable tick labels. Dense folds show distinct envelope/occupied/summed values and separate member/evidence controls; drilled page count and dependencies readable. Attention filter isolates failure. Decision detail explicitly says decision only. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-branch-landscape-full-overview.png",
+      "sha256": "97a19dbd051cb382e1230a7fbe478be34fdb4a90d7e47c00cec25e8fa147385d",
+      "state": "overview",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Text and controls fit; focus/close visible in dialogs; canonical text and dependency controls wrap. Short landscape content continues by vertical scroll. Light/dark hierarchy and ruler readable. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-branch-landscape-full-detail.png",
+      "sha256": "d05530b8a9179135dfae778b7992fd18e1c771a8218956358c2087fcb0288e9a",
+      "state": "detail",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Text and controls fit; focus/close visible in dialogs; canonical text and dependency controls wrap. Short landscape content continues by vertical scroll. Light/dark hierarchy and ruler readable. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-branch-landscape-full-light.png",
+      "sha256": "4dcc5a99bd4eb6e3b3ca2c12f47b36d13454446a11b9f8355c967d574653bc40",
+      "state": "light",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "fullPage": false,
+      "theme": "light",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Text and controls fit; focus/close visible in dialogs; canonical text and dependency controls wrap. Short landscape content continues by vertical scroll. Light/dark hierarchy and ruler readable. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-dense-desktop-overview.png",
+      "sha256": "ff462ce2372c695d5e4c4e293d0a6ef5b157f1cb770ba01409da42682ace8de8",
+      "state": "overview",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated WebKit PNG",
+          "reviewer": "Codex api_research independent reviewer",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Four-task run overview has a readable longest-gate action, explicit absent CPU/RAM/I/O, and an Open 3000 children action where that row is in frame."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-dense-desktop-attention.png",
+      "sha256": "ed6331d45f6474d87da05b9fa5e2699294a5c48ba59a25e03244cb83b3b9a88b",
+      "state": "attention",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated WebKit PNG",
+          "reviewer": "Codex api_research independent reviewer",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Whole-graph attention view isolates child-1500 as failed, with one matching task and a narrow red execution mark. Missing resource evidence stays explicit."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-dense-desktop-folds.png",
+      "sha256": "834e2453acfc45d026d0a553578595e7cddf1ad39d2f7a5bf7e86cbb660c0b4a",
+      "state": "folds",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated WebKit PNG",
+          "reviewer": "Codex api_research independent reviewer",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Fold view identifies 3000 matching tasks and 24 lanes. Group controls and Group evidence remain legible; envelope 75 ms, occupied 75 ms and summed durations 128 ms are visibly distinct. Dependency strokes stay out of label text."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-dense-desktop-companion.png",
+      "sha256": "5e88f79ffb4453e3859d086602d65e7c0e91101e2fec38209cc031be0d1ef8fd",
+      "state": "companion",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated WebKit PNG",
+          "reviewer": "Codex api_research independent reviewer",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Inside the group identifies 128 members, 24 visible lanes and 104 remaining lanes. Individual child identities are readable beside narrow duration marks; connectors remain separate from text."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-dense-iphone-portrait-overview.png",
+      "sha256": "679a84686e01db90e3696c83c077476a1cb5c664f044705644100c35f5cf4e62",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Portrait timeline keeps full-width bars and readable tick labels. Dense folds show distinct envelope/occupied/summed values and separate member/evidence controls; drilled page count and dependencies readable. Attention filter isolates failure. Decision detail explicitly says decision only. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-dense-iphone-portrait-attention.png",
+      "sha256": "050a378cbfc20d4b2f5f118e0015cff1f9e7a3fbe3c0a384dfbb8670f4286364",
+      "state": "attention",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Portrait timeline keeps full-width bars and readable tick labels. Dense folds show distinct envelope/occupied/summed values and separate member/evidence controls; drilled page count and dependencies readable. Attention filter isolates failure. Decision detail explicitly says decision only. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-dense-iphone-portrait-folds.png",
+      "sha256": "10829929c489d744ac31bff5e83632d12b53d26c8cb162e1aabe779894bbb306",
+      "state": "folds",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Portrait timeline keeps full-width bars and readable tick labels. Dense folds show distinct envelope/occupied/summed values and separate member/evidence controls; drilled page count and dependencies readable. Attention filter isolates failure. Decision detail explicitly says decision only. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-dense-iphone-portrait-companion.png",
+      "sha256": "8b0fa5bb63ab01714312aa7898978eee0ae774c3384aa7b636fcd62ca5e38d32",
+      "state": "companion",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Portrait timeline keeps full-width bars and readable tick labels. Dense folds show distinct envelope/occupied/summed values and separate member/evidence controls; drilled page count and dependencies readable. Attention filter isolates failure. Decision detail explicitly says decision only. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-dense-iphone-landscape-overview.png",
+      "sha256": "c19e1d332299be10301b1ac0070227a854d9045de56f33c7eb0f56578e9f09be",
+      "state": "overview",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Portrait timeline keeps full-width bars and readable tick labels. Dense folds show distinct envelope/occupied/summed values and separate member/evidence controls; drilled page count and dependencies readable. Attention filter isolates failure. Decision detail explicitly says decision only. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-dense-iphone-landscape-attention.png",
+      "sha256": "c3c9ea7771b8ca61254c2f77d67ecae701473172a8b5532876c643f7023d5af9",
+      "state": "attention",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Portrait timeline keeps full-width bars and readable tick labels. Dense folds show distinct envelope/occupied/summed values and separate member/evidence controls; drilled page count and dependencies readable. Attention filter isolates failure. Decision detail explicitly says decision only. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-dense-iphone-landscape-folds.png",
+      "sha256": "4334dc9629b16428ba2eda1facc8caae37f7f54555cda41c81c604b799aa309f",
+      "state": "folds",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Portrait timeline keeps full-width bars and readable tick labels. Dense folds show distinct envelope/occupied/summed values and separate member/evidence controls; drilled page count and dependencies readable. Attention filter isolates failure. Decision detail explicitly says decision only. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-dense-iphone-landscape-companion.png",
+      "sha256": "464c599ed935423be05d7f3c91711171806ad4a431a259100dfb2d8a55747d2e",
+      "state": "companion",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Portrait timeline keeps full-width bars and readable tick labels. Dense folds show distinct envelope/occupied/summed values and separate member/evidence controls; drilled page count and dependencies readable. Attention filter isolates failure. Decision detail explicitly says decision only. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-desktop-overview.png",
+      "sha256": "4583691ed6e9e6fa4d9528ab91d4c87dd7aba3d6696fa217ab1fb7ada8b29aa3",
+      "state": "overview",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "tools.view_image; actual assistant visual inspection of rendered image",
+          "reviewer": "metrics_research",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Complete-capture summary and candidate disclosure are readable. Four timeline lanes have clear labels, duration bars and dependency arrows; arrows do not obscure task text."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-desktop-candidate-list.png",
+      "sha256": "5b897f02acdf1009b3b74571e1619ce39516859171c0728ebb69949bb87fc735",
+      "state": "candidate-list",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "tools.view_image; actual assistant visual inspection of rendered image",
+          "reviewer": "metrics_research",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "All six candidate buttons fit in two wrapping rows. Baseline count, consecutive-sample threshold and bounded scan policy are visible above them. Timeline remains readable below."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-desktop-candidate-detail.png",
+      "sha256": "39cc804056f879e4b610bd7034e57a8a73961c961409a4b20793b42acd1b6794",
+      "state": "candidate-detail",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "tools.view_image; actual assistant visual inspection of rendered image",
+          "reviewer": "metrics_research",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Experiment paragraph, expanded exact measurement IDs, eligibility caveat, three coincident-task buttons and two query disclosures fit the centered dialog. Canonical EDN wraps inside its panel."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-desktop-candidate-tasks.png",
+      "sha256": "d30589e31bc4bb9e179c64e9ec1df57b8d4c893e6f87ee404fd4c75ca4f385c5",
+      "state": "candidate-tasks",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "tools.view_image; actual assistant visual inspection of rendered image",
+          "reviewer": "metrics_research",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Collapsed measurement-ID disclosure exposes the investigation explanation and B-check, C-check and root controls. Eligibility uncertainty is explicit. Both query disclosures and close control are readable."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-desktop-window-resources.png",
+      "sha256": "9dfb5fe60bad480edd12ad88cc5fce17d325d2575ee28e13ef030a4254e544dc",
+      "state": "window-resources",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "tools.view_image; actual assistant visual inspection of rendered image",
+          "reviewer": "metrics_research",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Core CPU, disk throughput, GPU, host CPU and memory tracks use separated labels and plots. Dip, burst and orange marker remain discernible. Native-unit captions and evidence/removal controls are readable."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-desktop-gpu.png",
+      "sha256": "e69f7c320ae35e950c7b2a053e3517dba1a572d3c3bee5f6a8f8ec7fecb18602",
+      "state": "gpu",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "tools.view_image; actual assistant visual inspection of rendered image",
+          "reviewer": "metrics_research",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "GPU stepped trace, orange marker and later gap are visible among neighboring tracks. Native units and independent-observation captions distinguish GPU percent from core CPU and disk throughput."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-desktop-resource-evidence.png",
+      "sha256": "4b1221ef1cdf9419f4fff56108eec5039b9a5a4307f48cb5aa8d07455aa2784c",
+      "state": "resource-evidence",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "tools.view_image; actual assistant visual inspection of rendered image",
+          "reviewer": "metrics_research",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Centered GPU evidence dialog has a visible focused close button. Cadence, coverage, source, task scope and sampling-limit explanation are readable; both query disclosures fit."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-desktop-resource-evidence-expanded.png",
+      "sha256": "0170492aeb1ea94280ff12c4461f130b72a9883088bd9ec37d6cc47bc01c1d9a",
+      "state": "resource-evidence-expanded",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "tools.view_image; actual assistant visual inspection of rendered image",
+          "reviewer": "metrics_research",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Expanded GPU evidence EDN shows artifact, interval, accounting, method, scope and measured values in a wrapping code panel. Dialog width and close control remain intact; long evidence continues below viewport."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-desktop-light-resources-full.png",
+      "sha256": "cdf8c5f034e931eaf35a4445b6862eb57f07f8443ecc7bbb768d5bac0d5ae218",
+      "state": "light-resources",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": true,
+      "theme": "light",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "tools.view_image; actual assistant visual inspection of rendered image",
+          "reviewer": "metrics_research",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Full light-theme page shows timeline and all six selected resource tracks, including PSI interval-stall-time. Shared orange cursor aligns across plots. Text, controls, boundaries and bottom canonical-EDN disclosure remain distinguishable."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-iphone-portrait-overview.png",
+      "sha256": "67531fb3189a4b0f51b222a3e56f402571deaa3a1fa4e7dd91ebd1d429755b11",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-iphone-portrait-candidate-list.png",
+      "sha256": "e5d0561e551b3c405f472bb7b0e410a2049266dbd319a6522504248ee212785c",
+      "state": "candidate-list",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-iphone-portrait-candidate-detail.png",
+      "sha256": "896901c9278c46c04ce0f5675424c975a70c0d56ad9e51bbf10777d1ee23c619",
+      "state": "candidate-detail",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-iphone-portrait-candidate-tasks.png",
+      "sha256": "384364d72ec4af1db81edc00c919178f2b4ffbb34a315fea40df1e479862c3b6",
+      "state": "candidate-tasks",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-iphone-portrait-window-resources.png",
+      "sha256": "3687595a24e7ecee986a66f3afe242a50dc4d202a617037d924d9d055a670714",
+      "state": "window-resources",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened: portrait evidence modal is centered with focus/close visible and scope caveats readable; windowed resource traces retain aligned cursor and visible missing interval. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-iphone-portrait-gpu.png",
+      "sha256": "260099fd02db04cfbbb368c8ffd2ed4e96a962189deff7ffa1304b7175b26828",
+      "state": "gpu",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-iphone-portrait-resource-evidence.png",
+      "sha256": "1c791dd3170fb0616a51084a2430e394732f0a24c4f420c982727e5979afa541",
+      "state": "resource-evidence",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened: portrait evidence modal is centered with focus/close visible and scope caveats readable; windowed resource traces retain aligned cursor and visible missing interval. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-iphone-portrait-resource-evidence-expanded.png",
+      "sha256": "f78000759bb166d703ff01d82467b5d13f5b539477aedfba332496d30148aa36",
+      "state": "resource-evidence-expanded",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-iphone-portrait-light-resources-full.png",
+      "sha256": "6974b543cea6e3c02d73d49edf80ddaad8527f3f98c2f116a2b3c2de5c916ea3",
+      "state": "light-resources",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": true,
+      "theme": "light",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-iphone-landscape-overview.png",
+      "sha256": "08cd36a552b37553c1e53dcf3173f9aefa20e351f7ba2f76620771e68cada4d2",
+      "state": "overview",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-iphone-landscape-candidate-list.png",
+      "sha256": "fd9e8798996cdb90946d28715f40179e06b8b9c96404c1d18f0e9b92e27e75be",
+      "state": "candidate-list",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-iphone-landscape-candidate-detail.png",
+      "sha256": "789224fe46a00fba30d98383fa55c2fddf4230457a7e292e842fbce06dd05c63",
+      "state": "candidate-detail",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-iphone-landscape-candidate-tasks.png",
+      "sha256": "cb0ea259ce4e9f25d9b58570c944577d8b3fa21278ebf1d90ac28e2aed3f3579",
+      "state": "candidate-tasks",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-iphone-landscape-window-resources.png",
+      "sha256": "ac059847a5734ff166cc668824b07b7c8f26706ddf4a26185572f696f9c677f4",
+      "state": "window-resources",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-iphone-landscape-gpu.png",
+      "sha256": "9f71e6465e7564d4f879ef83c931594977e016bb193217a8549db7db4360a857",
+      "state": "gpu",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-iphone-landscape-resource-evidence.png",
+      "sha256": "a1eb1595f4f4c1bd45a2da1f45c425f190fccfa4244f69da46d4f7ddbc1ba70f",
+      "state": "resource-evidence",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-signals-iphone-landscape-light-resources-full.png",
+      "sha256": "9d578fa2b1aa1dd110eaf0dbe235b862995a8e54c9a9a900f81b09892be6a0c4",
+      "state": "light-resources",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": true,
+      "theme": "light",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-incomplete-desktop-overview.png",
+      "sha256": "72b7733c1b8fb62392be2162f5471448e84feebd68e72cd04993e3ee842ec3ac",
+      "state": "overview",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated WebKit PNG",
+          "reviewer": "Codex api_research independent reviewer",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Incomplete capture and three attention items are readable; cached A-build uses a point mark rather than an invented execution bar when the timeline is in frame. Cached, blocked and final-boundary deselected marks are all painted inside their tracks; the cancelled execution remains a duration bar."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-incomplete-desktop-decision-detail.png",
+      "sha256": "692ae2872e432722deadd5014a802f9360ae4dd8c33f8b211b6fed99fc743d39",
+      "state": "decision-detail",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated WebKit PNG",
+          "reviewer": "Codex api_research independent reviewer",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Dialog visibly labels A-build cached and Decision only with its synthetic reason. Close details is visible with an orange focus ring; canonical task and evidence disclosures are visually distinguishable in the visible area."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-incomplete-desktop-unfinished-detail.png",
+      "sha256": "7d3884e6ef8c949d638886959fb0a4dffda0eff99017a086dfb483d7ca6537d9",
+      "state": "unfinished-detail",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated WebKit PNG",
+          "reviewer": "Codex api_research independent reviewer",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Dialog visibly labels root running and Unfinished - final duration unknown. Close details is visible with an orange focus ring; no completed duration is invented."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-incomplete-iphone-portrait-overview.png",
+      "sha256": "40a5d7c2ff11ca5570a5544690d2ca04b6a9e813d0efe6b54a36edd4e12d7418",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-incomplete-iphone-portrait-decision-detail.png",
+      "sha256": "a723b196dc55568a35abab8e18f92dd0f4809e029aa1882c749014860325efe8",
+      "state": "decision-detail",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-incomplete-iphone-portrait-unfinished-detail.png",
+      "sha256": "d66fdbfa4808241532f3a17f06bde65bb670bbaa453b8e91e4423b18dcfe7c49",
+      "state": "unfinished-detail",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-incomplete-iphone-landscape-overview.png",
+      "sha256": "54e2dbf4b21eaf316e162d6d11245f2086ad1050bbeca7212677d3b3e68271b9",
+      "state": "overview",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-incomplete-iphone-landscape-decision-detail.png",
+      "sha256": "b93a7ed60b2b714d25b00098c3da5dee8494c2804be9bb3bf0a941bd37133ab2",
+      "state": "decision-detail",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Portrait timeline keeps full-width bars and readable tick labels. Dense folds show distinct envelope/occupied/summed values and separate member/evidence controls; drilled page count and dependencies readable. Attention filter isolates failure. Decision detail explicitly says decision only. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-incomplete-iphone-landscape-unfinished-detail.png",
+      "sha256": "fbfafb4dd98cc59d7adcf53b2d28fbf72c73a4a3cae92fb13295cbf612988da5",
+      "state": "unfinished-detail",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-malformed-desktop-refused.png",
+      "sha256": "3b520ed2493a2f284c61cd19799b37a7c01c8798092ed1f33ec658e3946b9745",
+      "state": "refused",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "viewer-integrated-visual-manifest.json",
+        "priorReview": {
+          "method": "Actual view_image opening of this integrated WebKit PNG",
+          "reviewer": "Codex api_research independent reviewer",
+          "collection": "integrated-webkit-01",
+          "findings": [
+            "Report refused with invalid-input-shape and offset 0 is legible; timeline data and investigation controls are absent. The canonical EDN disclosure remains available."
+          ]
+        }
+      }
+    },
+    {
+      "name": "webkit-malformed-iphone-portrait-refused.png",
+      "sha256": "77f413e79f760a7c1625ed5edefb490f76b374e9dc398c0fb28fb49bb355935c",
+      "state": "refused",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-malformed-iphone-landscape-refused.png",
+      "sha256": "d7b69efbc303afc7e9a3c8a9b8eae410f4c3e59ffaa827f2ffc754321356bb56",
+      "state": "refused",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-leaf-iphone-portrait-overview.png",
+      "sha256": "92c2152c4eb15ff027f0a2155228fa73528ed6d3873999c172be145e5bda09db",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    },
+    {
+      "name": "webkit-open-signals-iphone-portrait-overview.png",
+      "sha256": "2a0e41a6280ee0889c82b8280eb37c9be8b95a05c91282832f9529533202f85b",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "review": {
+        "method": "exact image byte identity with previously accepted review",
+        "reference": "the preceding checkpoint of this manifest (bundle d5696701e769b8e2b4c560f08166b34472a0c5036ab8c18c1318d52304769042, now overwritten); its actual-opening record is retained inline as priorReview",
+        "priorReview": {
+          "method": "actual current screenshot opened",
+          "notes": "Actually opened current WebKit render. Incomplete/decision/unfinished states are explicit; refusal text wraps; candidate intervals, thresholds and next experiments readable; dialogs retain close controls. Resource plots use shared cursor, visible gaps and separate units/evidence controls. Full-page light views keep lane/track alignment and distinct sections. No finding."
+        }
+      }
+    }
+  ],
+  "blockingVisualFindings": [],
+  "limitations": [
+    "Browser emulation, not physical iPhone testing.",
+    "WebKit fixed portrait/landscape only: the active-rotation probe fails its layout-width check and rotation is not accepted.",
+    "WebKit offline context emulation disabled; both engines ran in network-disabled containers with every non-file request aborted.",
+    "Renderer visuals are accepted separately (docs/DEPENDENCY-UPGRADE.md)."
+  ],
+  "counts": {
+    "acceptedImages": 148,
+    "actualCurrentOpens": 3,
+    "exactPriorReviewReuse": 145
+  }
+}

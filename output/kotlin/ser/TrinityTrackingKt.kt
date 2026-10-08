@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: opaque/trinity_tracking.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -54,10 +55,10 @@ public object TrinityTrackingKt {
      * `.ser.TrinityBoardVersion board_version = 1 [(.buf.validate.field) = { ... }`
      */
     public var boardVersion: ser.TrinityTrackingOuterClass.TrinityBoardVersion
-      @JvmName("getBoardVersion")
-      get() = _builder.boardVersion
-      @JvmName("setBoardVersion")
-      set(value) {
+      @kotlin.jvm.JvmName("getBoardVersion")
+        get() = _builder.boardVersion
+      @kotlin.jvm.JvmName("setBoardVersion")
+        set(value) {
         _builder.boardVersion = value
       }
     /**
@@ -106,10 +107,10 @@ public object TrinityTrackingKt {
      * `uint64 capture_time_ns = 2 [(.buf.validate.field) = { ... }`
      */
     public var captureTimeNs: kotlin.Long
-      @JvmName("getCaptureTimeNs")
-      get() = _builder.captureTimeNs
-      @JvmName("setCaptureTimeNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getCaptureTimeNs")
+        get() = _builder.captureTimeNs
+      @kotlin.jvm.JvmName("setCaptureTimeNs")
+        set(value) {
         _builder.captureTimeNs = value
       }
     /**
@@ -130,17 +131,17 @@ public object TrinityTrackingKt {
      * `.ser.TrinityTrackingStatus status = 3 [(.buf.validate.field) = { ... }`
      */
     public var status: ser.TrinityTrackingOuterClass.TrinityTrackingStatus
-      @JvmName("getStatus")
-      get() = _builder.status
-      @JvmName("setStatus")
-      set(value) {
+      @kotlin.jvm.JvmName("getStatus")
+        get() = _builder.status
+      @kotlin.jvm.JvmName("setStatus")
+        set(value) {
         _builder.status = value
       }
     public var statusValue: kotlin.Int
-      @JvmName("getStatusValue")
-      get() = _builder.statusValue
-      @JvmName("setStatusValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getStatusValue")
+        get() = _builder.statusValue
+      @kotlin.jvm.JvmName("setStatusValue")
+        set(value) {
         _builder.statusValue = value
       }
     /**
@@ -176,10 +177,10 @@ public object TrinityTrackingKt {
      * `double position_x_m = 4;`
      */
     public var positionXM: kotlin.Double
-      @JvmName("getPositionXM")
-      get() = _builder.positionXM
-      @JvmName("setPositionXM")
-      set(value) {
+      @kotlin.jvm.JvmName("getPositionXM")
+        get() = _builder.positionXM
+      @kotlin.jvm.JvmName("setPositionXM")
+        set(value) {
         _builder.positionXM = value
       }
     /**
@@ -215,10 +216,10 @@ public object TrinityTrackingKt {
      * `double position_y_m = 5;`
      */
     public var positionYM: kotlin.Double
-      @JvmName("getPositionYM")
-      get() = _builder.positionYM
-      @JvmName("setPositionYM")
-      set(value) {
+      @kotlin.jvm.JvmName("getPositionYM")
+        get() = _builder.positionYM
+      @kotlin.jvm.JvmName("setPositionYM")
+        set(value) {
         _builder.positionYM = value
       }
     /**
@@ -232,10 +233,10 @@ public object TrinityTrackingKt {
      * `double position_z_m = 6 [(.buf.validate.field) = { ... }`
      */
     public var positionZM: kotlin.Double
-      @JvmName("getPositionZM")
-      get() = _builder.positionZM
-      @JvmName("setPositionZM")
-      set(value) {
+      @kotlin.jvm.JvmName("getPositionZM")
+        get() = _builder.positionZM
+      @kotlin.jvm.JvmName("setPositionZM")
+        set(value) {
         _builder.positionZM = value
       }
     /**
@@ -258,10 +259,10 @@ public object TrinityTrackingKt {
      * `double quat_w = 7 [(.buf.validate.field) = { ... }`
      */
     public var quatW: kotlin.Double
-      @JvmName("getQuatW")
-      get() = _builder.quatW
-      @JvmName("setQuatW")
-      set(value) {
+      @kotlin.jvm.JvmName("getQuatW")
+        get() = _builder.quatW
+      @kotlin.jvm.JvmName("setQuatW")
+        set(value) {
         _builder.quatW = value
       }
     /**
@@ -284,10 +285,10 @@ public object TrinityTrackingKt {
      * `double quat_x = 8 [(.buf.validate.field) = { ... }`
      */
     public var quatX: kotlin.Double
-      @JvmName("getQuatX")
-      get() = _builder.quatX
-      @JvmName("setQuatX")
-      set(value) {
+      @kotlin.jvm.JvmName("getQuatX")
+        get() = _builder.quatX
+      @kotlin.jvm.JvmName("setQuatX")
+        set(value) {
         _builder.quatX = value
       }
     /**
@@ -301,10 +302,10 @@ public object TrinityTrackingKt {
      * `double quat_y = 9 [(.buf.validate.field) = { ... }`
      */
     public var quatY: kotlin.Double
-      @JvmName("getQuatY")
-      get() = _builder.quatY
-      @JvmName("setQuatY")
-      set(value) {
+      @kotlin.jvm.JvmName("getQuatY")
+        get() = _builder.quatY
+      @kotlin.jvm.JvmName("setQuatY")
+        set(value) {
         _builder.quatY = value
       }
     /**
@@ -318,10 +319,10 @@ public object TrinityTrackingKt {
      * `double quat_z = 10 [(.buf.validate.field) = { ... }`
      */
     public var quatZ: kotlin.Double
-      @JvmName("getQuatZ")
-      get() = _builder.quatZ
-      @JvmName("setQuatZ")
-      set(value) {
+      @kotlin.jvm.JvmName("getQuatZ")
+        get() = _builder.quatZ
+      @kotlin.jvm.JvmName("setQuatZ")
+        set(value) {
         _builder.quatZ = value
       }
     /**
@@ -346,10 +347,10 @@ public object TrinityTrackingKt {
      * `double sigma_position_m = 11;`
      */
     public var sigmaPositionM: kotlin.Double
-      @JvmName("getSigmaPositionM")
-      get() = _builder.sigmaPositionM
-      @JvmName("setSigmaPositionM")
-      set(value) {
+      @kotlin.jvm.JvmName("getSigmaPositionM")
+        get() = _builder.sigmaPositionM
+      @kotlin.jvm.JvmName("setSigmaPositionM")
+        set(value) {
         _builder.sigmaPositionM = value
       }
     /**
@@ -378,10 +379,10 @@ public object TrinityTrackingKt {
      * `double sigma_range_m = 12;`
      */
     public var sigmaRangeM: kotlin.Double
-      @JvmName("getSigmaRangeM")
-      get() = _builder.sigmaRangeM
-      @JvmName("setSigmaRangeM")
-      set(value) {
+      @kotlin.jvm.JvmName("getSigmaRangeM")
+        get() = _builder.sigmaRangeM
+      @kotlin.jvm.JvmName("setSigmaRangeM")
+        set(value) {
         _builder.sigmaRangeM = value
       }
     /**
@@ -406,10 +407,10 @@ public object TrinityTrackingKt {
      * `double sigma_orientation_mrad = 13;`
      */
     public var sigmaOrientationMrad: kotlin.Double
-      @JvmName("getSigmaOrientationMrad")
-      get() = _builder.sigmaOrientationMrad
-      @JvmName("setSigmaOrientationMrad")
-      set(value) {
+      @kotlin.jvm.JvmName("getSigmaOrientationMrad")
+        get() = _builder.sigmaOrientationMrad
+      @kotlin.jvm.JvmName("setSigmaOrientationMrad")
+        set(value) {
         _builder.sigmaOrientationMrad = value
       }
     /**
@@ -438,10 +439,10 @@ public object TrinityTrackingKt {
      * `bool ambiguity_resolved = 14;`
      */
     public var ambiguityResolved: kotlin.Boolean
-      @JvmName("getAmbiguityResolved")
-      get() = _builder.ambiguityResolved
-      @JvmName("setAmbiguityResolved")
-      set(value) {
+      @kotlin.jvm.JvmName("getAmbiguityResolved")
+        get() = _builder.ambiguityResolved
+      @kotlin.jvm.JvmName("setAmbiguityResolved")
+        set(value) {
         _builder.ambiguityResolved = value
       }
     /**
@@ -467,10 +468,10 @@ public object TrinityTrackingKt {
      * `.ser.TrinityAltPose alternate = 15;`
      */
     public var alternate: ser.TrinityTrackingOuterClass.TrinityAltPose
-      @JvmName("getAlternate")
-      get() = _builder.alternate
-      @JvmName("setAlternate")
-      set(value) {
+      @kotlin.jvm.JvmName("getAlternate")
+        get() = _builder.alternate
+      @kotlin.jvm.JvmName("setAlternate")
+        set(value) {
         _builder.alternate = value
       }
     /**
@@ -511,17 +512,17 @@ public object TrinityTrackingKt {
      * `.ser.TrinityRangeSource range_source = 19 [(.buf.validate.field) = { ... }`
      */
     public var rangeSource: ser.TrinityTrackingOuterClass.TrinityRangeSource
-      @JvmName("getRangeSource")
-      get() = _builder.rangeSource
-      @JvmName("setRangeSource")
-      set(value) {
+      @kotlin.jvm.JvmName("getRangeSource")
+        get() = _builder.rangeSource
+      @kotlin.jvm.JvmName("setRangeSource")
+        set(value) {
         _builder.rangeSource = value
       }
     public var rangeSourceValue: kotlin.Int
-      @JvmName("getRangeSourceValue")
-      get() = _builder.rangeSourceValue
-      @JvmName("setRangeSourceValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getRangeSourceValue")
+        get() = _builder.rangeSourceValue
+      @kotlin.jvm.JvmName("setRangeSourceValue")
+        set(value) {
         _builder.rangeSourceValue = value
       }
     /**
@@ -548,10 +549,10 @@ public object TrinityTrackingKt {
      * `uint32 anchors_seen = 16 [(.buf.validate.field) = { ... }`
      */
     public var anchorsSeen: kotlin.Int
-      @JvmName("getAnchorsSeen")
-      get() = _builder.anchorsSeen
-      @JvmName("setAnchorsSeen")
-      set(value) {
+      @kotlin.jvm.JvmName("getAnchorsSeen")
+        get() = _builder.anchorsSeen
+      @kotlin.jvm.JvmName("setAnchorsSeen")
+        set(value) {
         _builder.anchorsSeen = value
       }
     /**
@@ -569,10 +570,10 @@ public object TrinityTrackingKt {
      * `double board_extent_px = 17 [(.buf.validate.field) = { ... }`
      */
     public var boardExtentPx: kotlin.Double
-      @JvmName("getBoardExtentPx")
-      get() = _builder.boardExtentPx
-      @JvmName("setBoardExtentPx")
-      set(value) {
+      @kotlin.jvm.JvmName("getBoardExtentPx")
+        get() = _builder.boardExtentPx
+      @kotlin.jvm.JvmName("setBoardExtentPx")
+        set(value) {
         _builder.boardExtentPx = value
       }
     /**
@@ -586,10 +587,10 @@ public object TrinityTrackingKt {
      * `double reprojection_rms_px = 18 [(.buf.validate.field) = { ... }`
      */
     public var reprojectionRmsPx: kotlin.Double
-      @JvmName("getReprojectionRmsPx")
-      get() = _builder.reprojectionRmsPx
-      @JvmName("setReprojectionRmsPx")
-      set(value) {
+      @kotlin.jvm.JvmName("getReprojectionRmsPx")
+        get() = _builder.reprojectionRmsPx
+      @kotlin.jvm.JvmName("setReprojectionRmsPx")
+        set(value) {
         _builder.reprojectionRmsPx = value
       }
     /**

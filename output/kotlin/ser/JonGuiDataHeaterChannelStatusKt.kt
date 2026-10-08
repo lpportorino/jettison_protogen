@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_heater.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -36,10 +37,10 @@ public object JonGuiDataHeaterChannelStatusKt {
      * `float temperature = 1;`
      */
     public var temperature: kotlin.Float
-      @JvmName("getTemperature")
-      get() = _builder.temperature
-      @JvmName("setTemperature")
-      set(value) {
+      @kotlin.jvm.JvmName("getTemperature")
+        get() = _builder.temperature
+      @kotlin.jvm.JvmName("setTemperature")
+        set(value) {
         _builder.temperature = value
       }
     /**
@@ -53,10 +54,10 @@ public object JonGuiDataHeaterChannelStatusKt {
      * `float applied_voltage_V = 2 [(.buf.validate.field) = { ... }`
      */
     public var appliedVoltageV: kotlin.Float
-      @JvmName("getAppliedVoltageV")
-      get() = _builder.appliedVoltageV
-      @JvmName("setAppliedVoltageV")
-      set(value) {
+      @kotlin.jvm.JvmName("getAppliedVoltageV")
+        get() = _builder.appliedVoltageV
+      @kotlin.jvm.JvmName("setAppliedVoltageV")
+        set(value) {
         _builder.appliedVoltageV = value
       }
     /**
@@ -70,10 +71,10 @@ public object JonGuiDataHeaterChannelStatusKt {
      * `float target_voltage_V = 3 [(.buf.validate.field) = { ... }`
      */
     public var targetVoltageV: kotlin.Float
-      @JvmName("getTargetVoltageV")
-      get() = _builder.targetVoltageV
-      @JvmName("setTargetVoltageV")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetVoltageV")
+        get() = _builder.targetVoltageV
+      @kotlin.jvm.JvmName("setTargetVoltageV")
+        set(value) {
         _builder.targetVoltageV = value
       }
     /**
@@ -87,10 +88,10 @@ public object JonGuiDataHeaterChannelStatusKt {
      * `bool enabled = 4;`
      */
     public var enabled: kotlin.Boolean
-      @JvmName("getEnabled")
-      get() = _builder.enabled
-      @JvmName("setEnabled")
-      set(value) {
+      @kotlin.jvm.JvmName("getEnabled")
+        get() = _builder.enabled
+      @kotlin.jvm.JvmName("setEnabled")
+        set(value) {
         _builder.enabled = value
       }
     /**

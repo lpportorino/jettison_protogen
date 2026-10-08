@@ -83,7 +83,7 @@
    implementation marks internal in a polyglot exception's stack trace; without
    it they are filtered out. MEASURED: a trap inside a WASI builtin — the
    renderer reaches its assets through those — keeps the builtin's own frame
-   (`wasm-function:__wasi_fd_write`) only with the option on, and otherwise
+   (`wasm-function:__wasi_fd_fdstat_get`) only with the option on, and otherwise
    names only the calling function.
 
    WHAT IT DOES NOT DO, because it is the obvious thing to expect of the name:

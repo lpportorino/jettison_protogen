@@ -2,7 +2,8 @@ import jon_shared_data_types_pb2 as _jon_shared_data_types_pb2
 from opaque import trinity_tracking_pb2 as _trinity_tracking_pb2
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
+from collections.abc import Mapping as _Mapping
+from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -86,7 +87,7 @@ class SetAutoFocus(_message.Message):
     VALUE_FIELD_NUMBER: _ClassVar[int]
     channel: _jon_shared_data_types_pb2.JonGuiDataVideoChannel
     value: bool
-    def __init__(self, channel: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataVideoChannel, str]] = ..., value: bool = ...) -> None: ...
+    def __init__(self, channel: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataVideoChannel, str]] = ..., value: _Optional[bool] = ...) -> None: ...
 
 class StartTrackNDC(_message.Message):
     __slots__ = ("channel", "x", "y", "frame_time", "state_time")
@@ -126,10 +127,10 @@ class BridgeStop(_message.Message):
     __slots__ = ("force",)
     FORCE_FIELD_NUMBER: _ClassVar[int]
     force: bool
-    def __init__(self, force: bool = ...) -> None: ...
+    def __init__(self, force: _Optional[bool] = ...) -> None: ...
 
 class BridgeRestart(_message.Message):
     __slots__ = ("force",)
     FORCE_FIELD_NUMBER: _ClassVar[int]
     force: bool
-    def __init__(self, force: bool = ...) -> None: ...
+    def __init__(self, force: _Optional[bool] = ...) -> None: ...

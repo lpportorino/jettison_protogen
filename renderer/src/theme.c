@@ -1326,7 +1326,8 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
       lv_obj_add_style(obj, &t->styles.track_bg, LV_PART_MAIN);
       /* Checked (ON) fill — cyan over stock's violet indicator. */
       lv_obj_add_style(obj, &t->styles.checked_accent,
-                       LV_PART_INDICATOR | LV_STATE_CHECKED);
+                       (lv_style_selector_t)LV_PART_INDICATOR |
+                           (lv_style_selector_t)LV_STATE_CHECKED);
       /* DISABLED — the PAIR SWAP, NOT the fade the slider arm takes. Both are
        * text-free geometry, but only the switch carries its VALUE in
        * knob-vs-track contrast, and folding MAIN's opa into layer->opa fades
@@ -1337,11 +1338,14 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
        * as an explicit pair instead, so the state stays readable while still
        * reading as disabled. */
       lv_obj_add_style(obj, &t->styles.disabled_track,
-                       LV_PART_MAIN | LV_STATE_DISABLED);
+                       (lv_style_selector_t)LV_PART_MAIN |
+                           (lv_style_selector_t)LV_STATE_DISABLED);
       lv_obj_add_style(obj, &t->styles.disabled_track,
-                       LV_PART_INDICATOR | LV_STATE_DISABLED);
+                       (lv_style_selector_t)LV_PART_INDICATOR |
+                           (lv_style_selector_t)LV_STATE_DISABLED);
       lv_obj_add_style(obj, &t->styles.disabled_knob,
-                       LV_PART_KNOB | LV_STATE_DISABLED);
+                       (lv_style_selector_t)LV_PART_KNOB |
+                           (lv_style_selector_t)LV_STATE_DISABLED);
       /* Body radius must AGREE with the knob's. `knob` gives asgard a crisp
        * THEME_RADIUS_CONTROL corner, but the switch MAIN was left to stock —
        * whose radius is LV_RADIUS_CIRCLE — so the track stayed a full pill
@@ -1385,11 +1389,15 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
        * KNOB second: shrunk to a ring-thick pointer tip in the same tone, so
        * a value at the floor still has a mark and no value reads as grabbable. */
       lv_obj_add_style(obj, &t->styles.readout_arc,
-                       LV_PART_INDICATOR | LV_STATE_USER_2);
+                       (lv_style_selector_t)LV_PART_INDICATOR |
+                           (lv_style_selector_t)LV_STATE_USER_2);
       lv_obj_add_style(obj, &t->styles.readout_knob,
-                       LV_PART_KNOB | LV_STATE_USER_2);
+                       (lv_style_selector_t)LV_PART_KNOB |
+                           (lv_style_selector_t)LV_STATE_USER_2);
       lv_obj_add_style(obj, &t->styles.readout_knob_off,
-                       LV_PART_KNOB | LV_STATE_USER_2 | LV_STATE_DISABLED);
+                       (lv_style_selector_t)LV_PART_KNOB |
+                           (lv_style_selector_t)LV_STATE_USER_2 |
+                           (lv_style_selector_t)LV_STATE_DISABLED);
     }
     add_interactive(t, obj);
     return;
@@ -1472,13 +1480,16 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
        * without it, cancelling the grow left press feedback 2-4x weaker
        * than stock's own. */
       lv_obj_add_style(obj, &t->styles.cb_grow_off,
-                       LV_PART_INDICATOR | LV_STATE_PRESSED);
+                       (lv_style_selector_t)LV_PART_INDICATOR |
+                           (lv_style_selector_t)LV_STATE_PRESSED);
       lv_obj_add_style(obj, &t->styles.pressed,
-                       LV_PART_INDICATOR | LV_STATE_PRESSED);
+                       (lv_style_selector_t)LV_PART_INDICATOR |
+                           (lv_style_selector_t)LV_STATE_PRESSED);
       /* Checked fill — cyan over stock's violet indicator; stock's white
        * checkmark rides on top (white-on-cyan token-proven >=4.5:1). */
       lv_obj_add_style(obj, &t->styles.checked_accent,
-                       LV_PART_INDICATOR | LV_STATE_CHECKED);
+                       (lv_style_selector_t)LV_PART_INDICATOR |
+                           (lv_style_selector_t)LV_STATE_CHECKED);
       /* DISABLED — per part, per content class, and the ONE place both
        * variants meet on one widget. The INDICATOR is a box: no glyph, so it
        * takes the fade. MAIN carries the label, so it takes the swap. The
@@ -1486,7 +1497,8 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
        * reads `opa` off LV_PART_MAIN only, so the indicator's fade scales
        * the indicator's own draws and never reaches the label. */
       lv_obj_add_style(obj, &t->styles.disabled_dim,
-                       LV_PART_INDICATOR | LV_STATE_DISABLED);
+                       (lv_style_selector_t)LV_PART_INDICATOR |
+                           (lv_style_selector_t)LV_STATE_DISABLED);
       lv_obj_add_style(obj, &t->styles.disabled, LV_STATE_DISABLED);
     }
     add_interactive(t, obj);
@@ -1534,7 +1546,8 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
        * open-list decode path — so this is inert-but-correct affordance
        * coverage for the day it lands. */
       lv_obj_add_style(obj, &t->styles.checked_accent,
-                       LV_PART_SELECTED | LV_STATE_CHECKED);
+                       (lv_style_selector_t)LV_PART_SELECTED |
+                           (lv_style_selector_t)LV_STATE_CHECKED);
     }
     return;
   }
@@ -1587,7 +1600,8 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
        * box and the selected option's glyphs at 52-63, at min, mid AND max
        * (`clojure -M:bindings:roller-bounds`). */
       lv_obj_add_style(obj, &t->styles.roller_sel_dis,
-                       LV_PART_SELECTED | LV_STATE_DISABLED);
+                       (lv_style_selector_t)LV_PART_SELECTED |
+                           (lv_style_selector_t)LV_STATE_DISABLED);
       /* Edited (encoder-adjust) ring — cyan over stock's red edited outline. */
       lv_obj_add_style(obj, &t->styles.edited_edge, LV_STATE_EDITED);
       /* Stock cards the roller MAIN (rounded) while its SELECTED band is a
@@ -1670,7 +1684,8 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
        * so it is the least acceptable place to lose contrast. */
       lv_obj_add_style(obj, &t->styles.accent_ink, LV_PART_CURSOR);
       lv_obj_add_style(obj, &t->styles.cursor_off,
-                       LV_PART_CURSOR | LV_STATE_DISABLED);
+                       (lv_style_selector_t)LV_PART_CURSOR |
+                           (lv_style_selector_t)LV_STATE_DISABLED);
       /* Edited (encoder-adjust) ring — cyan over stock's red edited outline. */
       lv_obj_add_style(obj, &t->styles.edited_edge, LV_STATE_EDITED);
     }
@@ -1692,7 +1707,8 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
      * set_selected_button), so inert-but-correct affordance coverage. */
     if (t->family == ASGARD_THEME_FAMILY_ASGARD)
       lv_obj_add_style(obj, &t->styles.checked_accent,
-                       LV_PART_ITEMS | LV_STATE_CHECKED);
+                       (lv_style_selector_t)LV_PART_ITEMS |
+                           (lv_style_selector_t)LV_STATE_CHECKED);
     /* Square the MAIN container: stock cards the buttonmatrix (rounded) while
      * the items are already crisp chips (item_rad) — the same
      * round-container/crisp-inner dissonance the dropdown-list and roller arms

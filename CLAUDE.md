@@ -649,10 +649,10 @@ pinned protovalidate commit every validate-aware leg copies `validate.proto`
 from.
 
 **The Go leg is now fully offline; the whole target is not.**
-`TYPESCRIPT_SCRIPT` runs `npm install ts-proto` and `RUST_SCRIPT` runs
-`cargo build` against caret-ranged `prost`/`prost-build`, both of which fetch at
-generation time and neither of which is version-pinned. So `make generate` still
-needs a network — what it no longer needs is a CREDENTIAL, and no leg can now
+`TYPESCRIPT_SCRIPT` installs the `ts-proto` pinned in `Dockerfile.base` and
+`RUST_SCRIPT` runs `cargo build` against the exact `prost`/`prost-build`
+versions `generate-protos.sh` names, and both fetch at generation time. So
+`make generate` still needs a network — what it no longer needs is a CREDENTIAL, and no leg can now
 fail on somebody else's rate limit.
 
 **No retry, no backoff, and no `Retry-After` handling exists anywhere**, and

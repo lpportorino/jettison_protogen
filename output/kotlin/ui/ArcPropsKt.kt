@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -32,10 +33,10 @@ public object ArcPropsKt {
      * `uint32 start_angle = 1 [(.buf.validate.field) = { ... }`
      */
     public var startAngle: kotlin.Int
-      @JvmName("getStartAngle")
-      get() = _builder.startAngle
-      @JvmName("setStartAngle")
-      set(value) {
+      @kotlin.jvm.JvmName("getStartAngle")
+        get() = _builder.startAngle
+      @kotlin.jvm.JvmName("setStartAngle")
+        set(value) {
         _builder.startAngle = value
       }
     /**
@@ -49,10 +50,10 @@ public object ArcPropsKt {
      * `uint32 end_angle = 2 [(.buf.validate.field) = { ... }`
      */
     public var endAngle: kotlin.Int
-      @JvmName("getEndAngle")
-      get() = _builder.endAngle
-      @JvmName("setEndAngle")
-      set(value) {
+      @kotlin.jvm.JvmName("getEndAngle")
+        get() = _builder.endAngle
+      @kotlin.jvm.JvmName("setEndAngle")
+        set(value) {
         _builder.endAngle = value
       }
     /**
@@ -66,10 +67,10 @@ public object ArcPropsKt {
      * `uint32 bg_start_angle = 3 [(.buf.validate.field) = { ... }`
      */
     public var bgStartAngle: kotlin.Int
-      @JvmName("getBgStartAngle")
-      get() = _builder.bgStartAngle
-      @JvmName("setBgStartAngle")
-      set(value) {
+      @kotlin.jvm.JvmName("getBgStartAngle")
+        get() = _builder.bgStartAngle
+      @kotlin.jvm.JvmName("setBgStartAngle")
+        set(value) {
         _builder.bgStartAngle = value
       }
     /**
@@ -83,10 +84,10 @@ public object ArcPropsKt {
      * `uint32 bg_end_angle = 4 [(.buf.validate.field) = { ... }`
      */
     public var bgEndAngle: kotlin.Int
-      @JvmName("getBgEndAngle")
-      get() = _builder.bgEndAngle
-      @JvmName("setBgEndAngle")
-      set(value) {
+      @kotlin.jvm.JvmName("getBgEndAngle")
+        get() = _builder.bgEndAngle
+      @kotlin.jvm.JvmName("setBgEndAngle")
+        set(value) {
         _builder.bgEndAngle = value
       }
     /**
@@ -100,10 +101,10 @@ public object ArcPropsKt {
      * `int32 rotation = 5;`
      */
     public var rotation: kotlin.Int
-      @JvmName("getRotation")
-      get() = _builder.rotation
-      @JvmName("setRotation")
-      set(value) {
+      @kotlin.jvm.JvmName("getRotation")
+        get() = _builder.rotation
+      @kotlin.jvm.JvmName("setRotation")
+        set(value) {
         _builder.rotation = value
       }
     /**
@@ -117,17 +118,17 @@ public object ArcPropsKt {
      * `.ui.ArcMode mode = 6 [(.buf.validate.field) = { ... }`
      */
     public var mode: ui.UiAst.ArcMode
-      @JvmName("getMode")
-      get() = _builder.mode
-      @JvmName("setMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getMode")
+        get() = _builder.mode
+      @kotlin.jvm.JvmName("setMode")
+        set(value) {
         _builder.mode = value
       }
     public var modeValue: kotlin.Int
-      @JvmName("getModeValue")
-      get() = _builder.modeValue
-      @JvmName("setModeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getModeValue")
+        get() = _builder.modeValue
+      @kotlin.jvm.JvmName("setModeValue")
+        set(value) {
         _builder.modeValue = value
       }
     /**
@@ -141,10 +142,10 @@ public object ArcPropsKt {
      * `int32 min_value = 7;`
      */
     public var minValue: kotlin.Int
-      @JvmName("getMinValue")
-      get() = _builder.minValue
-      @JvmName("setMinValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getMinValue")
+        get() = _builder.minValue
+      @kotlin.jvm.JvmName("setMinValue")
+        set(value) {
         _builder.minValue = value
       }
     /**
@@ -158,10 +159,10 @@ public object ArcPropsKt {
      * `int32 max_value = 8;`
      */
     public var maxValue: kotlin.Int
-      @JvmName("getMaxValue")
-      get() = _builder.maxValue
-      @JvmName("setMaxValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getMaxValue")
+        get() = _builder.maxValue
+      @kotlin.jvm.JvmName("setMaxValue")
+        set(value) {
         _builder.maxValue = value
       }
     /**
@@ -175,10 +176,10 @@ public object ArcPropsKt {
      * `int32 value = 9;`
      */
     public var value: kotlin.Int
-      @JvmName("getValue")
-      get() = _builder.value
-      @JvmName("setValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getValue")
+        get() = _builder.value
+      @kotlin.jvm.JvmName("setValue")
+        set(value) {
         _builder.value = value
       }
     /**

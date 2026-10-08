@@ -12,15 +12,15 @@
 #    native-toolchain generation job; the devcard runner is pure JVM+GraalWasm
 #    with no Jetson dependency, so it gets the free, fast, standard runner.
 #
-# 2. JAVA PROVISIONING: this draft uses `graalvm/setup-graalvm@v1`
-#    (distribution: graalvm-community, java-version: '25') directly on the
-#    runner, NOT a `container:` built from protogen's own Dockerfile.base —
+# 2. JAVA PROVISIONING: the runner installs the EXACT GraalVM CE release asset
+#    Dockerfile.base pins (resolved from its ENV lines, sha256-verified, via
+#    setup-java's `jdkfile`), NOT a `container:` built from Dockerfile.base —
 #    a reasoned divergence from container parity. Reason, verified
 #    first-hand by a provisioning bench at drafting time:
 #      - build-and-release.yml's OWN base-image build
 #        (`docker build -t jettison-proto-generator-base:latest -f
 #        Dockerfile.base .`) has NO layer cache and NO registry cache wired —
-#        every run rebuilds protoc+go+rust+zig+node+nanopb from scratch. That
+#        every run rebuilds protoc+go+rust+node+nanopb from scratch. That
 #        cost is fine to pay once per proto push; it is a bad tax to add to
 #        EVERY devcards push (tools/devcards/**, output/manifests/**, the
 #        vendored wasm/assets, proto/ui/**), most of which touch nothing the
@@ -185,7 +185,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v5
+      uses: actions/checkout@v7.0.1
     - # FIRST and CHEAP, before any toolchain is provisioned: bash, cp and
       # mktemp only. It is the canary for
       # .claude/skills/ui-standard-review/preflight.sh, which resolves the
@@ -206,21 +206,44 @@ jobs:
       # provisioning question: build, don't vendor.
       name: Build controls.wasm from source
       uses: ./.github/actions/build-controls-wasm
-    - name: Set up GraalVM CE for JDK 25 (LTS)
-      uses: graalvm/setup-graalvm@v1
+    - # THE RUNNER'S JDK IS THE IMAGE'S JDK, BYTE FOR BYTE. The pins have ONE home,
+      # Dockerfile.base's ENV GRAALVM_VERSION / GRAALVM_JDK_VERSION, and this step
+      # downloads the identical release asset the image downloads and verifies the
+      # release's own sha256 file before installing it through setup-java's
+      # documented `jdkfile` distribution. setup-graalvm cannot do this: its
+      # java-version path composes `jdk-<v>/graalvm-community-jdk-<v>_…`, and the
+      # pinned release publishes under tag `graal-<version>` with a differently
+      # named JDK asset, so the composed URL does not exist. The JDK matters here
+      # beyond "a JDK": the gallery JPEGs this job diffs are encoded by javax.imageio,
+      # and a different JDK rewrites them.
+      name: Resolve the pinned GraalVM CE from Dockerfile.base
+      id: graalvm
+      run: |
+        set -euo pipefail
+        version="$(sed -n 's/^ENV GRAALVM_VERSION=//p' Dockerfile.base)"
+        jdk="$(sed -n 's/^ENV GRAALVM_JDK_VERSION=//p' Dockerfile.base)"
+        test -n "$version" && test -n "$jdk"
+        asset="graalvm-community-jdk-${jdk}_linux-x64_bin.tar.gz"
+        url="https://github.com/graalvm/graalvm-ce-builds/releases/download/graal-${version}"
+        curl -fsSL "$url/$asset" -o "$RUNNER_TEMP/graalvm.tar.gz"
+        curl -fsSL "$url/$asset.sha256" -o "$RUNNER_TEMP/graalvm.sha256"
+        awk -v f="$RUNNER_TEMP/graalvm.tar.gz" '{ print $1 "  " f }' "$RUNNER_TEMP/graalvm.sha256" | sha256sum -c -
+        echo "major=${jdk##*-}" | sed 's/\..*//' >> "$GITHUB_OUTPUT"
+    - name: Set up pinned GraalVM CE
+      uses: actions/setup-java@v6.0.1
       with:
-        java-version: "25"
-        distribution: "graalvm-community"
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        distribution: jdkfile
+        jdkFile: ${{ runner.temp }}/graalvm.tar.gz
+        java-version: ${{ steps.graalvm.outputs.major }}
     - name: Set up Clojure CLI
-      uses: DeLaGuardo/setup-clojure@13.6.1
+      uses: DeLaGuardo/setup-clojure@13.7.0
       with:
         # Verified against https://github.com/clojure/brew-install/releases
         # — pin, don't float; bump deliberately alongside
         # tools/devcards/deps.edn.
-        cli: "1.12.5.1654"
+        cli: "1.12.6.1673"
     - name: Cache Maven-resolved deps (tools.deps ~/.m2, not Maven's own cache mode — no pom.xml here)
-      uses: actions/cache@v5
+      uses: actions/cache@v6.1.0
       with:
         path: |
           ~/.m2/repository
@@ -233,7 +256,7 @@ jobs:
       # the two jobs share one cache namespace rather than each paying a cold
       # Rust build; this runner is the plain one, so CARGO_HOME is ~/.cargo.
       name: Cache cargo registry + interaction-harness target
-      uses: actions/cache@v5
+      uses: actions/cache@v6.1.0
       with:
         path: |
           ~/.cargo/registry
@@ -393,7 +416,7 @@ jobs:
       run: make -f renderer.mk scratchcard-brief
     - name: Upload gallery + golden manifest (debug artifact, not published)
       if: always()
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7.0.2
       with:
         name: devcards-gate-output
         path: |

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_gps.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.Gps;
@@ -32,10 +33,10 @@ public object RootKt {
      * `.cmd.Gps.Start start = 1;`
      */
     public var start: cmd.Gps.JonSharedCmdGps.Start
-      @JvmName("getStart")
-      get() = _builder.start
-      @JvmName("setStart")
-      set(value) {
+      @kotlin.jvm.JvmName("getStart")
+        get() = _builder.start
+      @kotlin.jvm.JvmName("setStart")
+        set(value) {
         _builder.start = value
       }
     /**
@@ -56,10 +57,10 @@ public object RootKt {
      * `.cmd.Gps.Stop stop = 2;`
      */
     public var stop: cmd.Gps.JonSharedCmdGps.Stop
-      @JvmName("getStop")
-      get() = _builder.stop
-      @JvmName("setStop")
-      set(value) {
+      @kotlin.jvm.JvmName("getStop")
+        get() = _builder.stop
+      @kotlin.jvm.JvmName("setStop")
+        set(value) {
         _builder.stop = value
       }
     /**
@@ -80,10 +81,10 @@ public object RootKt {
      * `.cmd.Gps.SetManualPosition set_manual_position = 3;`
      */
     public var setManualPosition: cmd.Gps.JonSharedCmdGps.SetManualPosition
-      @JvmName("getSetManualPosition")
-      get() = _builder.setManualPosition
-      @JvmName("setSetManualPosition")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetManualPosition")
+        get() = _builder.setManualPosition
+      @kotlin.jvm.JvmName("setSetManualPosition")
+        set(value) {
         _builder.setManualPosition = value
       }
     /**
@@ -104,10 +105,10 @@ public object RootKt {
      * `.cmd.Gps.SetUseManualPosition set_use_manual_position = 4;`
      */
     public var setUseManualPosition: cmd.Gps.JonSharedCmdGps.SetUseManualPosition
-      @JvmName("getSetUseManualPosition")
-      get() = _builder.setUseManualPosition
-      @JvmName("setSetUseManualPosition")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetUseManualPosition")
+        get() = _builder.setUseManualPosition
+      @kotlin.jvm.JvmName("setSetUseManualPosition")
+        set(value) {
         _builder.setUseManualPosition = value
       }
     /**
@@ -128,10 +129,10 @@ public object RootKt {
      * `.cmd.Gps.GetMeteo get_meteo = 5;`
      */
     public var getMeteo: cmd.Gps.JonSharedCmdGps.GetMeteo
-      @JvmName("getGetMeteo")
-      get() = _builder.getMeteo
-      @JvmName("setGetMeteo")
-      set(value) {
+      @kotlin.jvm.JvmName("getGetMeteo")
+        get() = _builder.getMeteo
+      @kotlin.jvm.JvmName("setGetMeteo")
+        set(value) {
         _builder.getMeteo = value
       }
     /**

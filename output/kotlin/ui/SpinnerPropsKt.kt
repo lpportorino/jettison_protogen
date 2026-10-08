@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -32,10 +33,10 @@ public object SpinnerPropsKt {
      * `uint32 spin_time = 1;`
      */
     public var spinTime: kotlin.Int
-      @JvmName("getSpinTime")
-      get() = _builder.spinTime
-      @JvmName("setSpinTime")
-      set(value) {
+      @kotlin.jvm.JvmName("getSpinTime")
+        get() = _builder.spinTime
+      @kotlin.jvm.JvmName("setSpinTime")
+        set(value) {
         _builder.spinTime = value
       }
     /**
@@ -49,10 +50,10 @@ public object SpinnerPropsKt {
      * `uint32 arc_length = 2;`
      */
     public var arcLength: kotlin.Int
-      @JvmName("getArcLength")
-      get() = _builder.arcLength
-      @JvmName("setArcLength")
-      set(value) {
+      @kotlin.jvm.JvmName("getArcLength")
+        get() = _builder.arcLength
+      @kotlin.jvm.JvmName("setArcLength")
+        set(value) {
         _builder.arcLength = value
       }
     /**

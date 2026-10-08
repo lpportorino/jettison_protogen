@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_cv_dump_archive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.cvdump;
@@ -48,10 +49,10 @@ public object MachineIdentityKt {
      * `optional string machine_id = 1;`
      */
     public var machineId: kotlin.String
-      @JvmName("getMachineId")
-      get() = _builder.machineId
-      @JvmName("setMachineId")
-      set(value) {
+      @kotlin.jvm.JvmName("getMachineId")
+        get() = _builder.machineId
+      @kotlin.jvm.JvmName("setMachineId")
+        set(value) {
         _builder.machineId = value
       }
     /**
@@ -80,10 +81,10 @@ public object MachineIdentityKt {
      * `optional string hostname = 2;`
      */
     public var hostname: kotlin.String
-      @JvmName("getHostname")
-      get() = _builder.hostname
-      @JvmName("setHostname")
-      set(value) {
+      @kotlin.jvm.JvmName("getHostname")
+        get() = _builder.hostname
+      @kotlin.jvm.JvmName("setHostname")
+        set(value) {
         _builder.hostname = value
       }
     /**
@@ -108,10 +109,10 @@ public object MachineIdentityKt {
      * `optional string hw_model = 3;`
      */
     public var hwModel: kotlin.String
-      @JvmName("getHwModel")
-      get() = _builder.hwModel
-      @JvmName("setHwModel")
-      set(value) {
+      @kotlin.jvm.JvmName("getHwModel")
+        get() = _builder.hwModel
+      @kotlin.jvm.JvmName("setHwModel")
+        set(value) {
         _builder.hwModel = value
       }
     /**
@@ -144,10 +145,10 @@ public object MachineIdentityKt {
      * `optional string boot_id = 4;`
      */
     public var bootId: kotlin.String
-      @JvmName("getBootId")
-      get() = _builder.bootId
-      @JvmName("setBootId")
-      set(value) {
+      @kotlin.jvm.JvmName("getBootId")
+        get() = _builder.bootId
+      @kotlin.jvm.JvmName("setBootId")
+        set(value) {
         _builder.bootId = value
       }
     /**
@@ -182,10 +183,10 @@ public object MachineIdentityKt {
      * `.jon.cvdump.DeployFingerprint deploy = 5;`
      */
     public var deploy: jon.cvdump.JonCvDumpArchive.DeployFingerprint
-      @JvmName("getDeploy")
-      get() = _builder.deploy
-      @JvmName("setDeploy")
-      set(value) {
+      @kotlin.jvm.JvmName("getDeploy")
+        get() = _builder.deploy
+      @kotlin.jvm.JvmName("setDeploy")
+        set(value) {
         _builder.deploy = value
       }
     /**
@@ -235,7 +236,7 @@ public object MachineIdentityKt {
      */
      public val channelsConfig: com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ChannelConfig, ChannelsConfigProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.channelsConfigList
       )
     /**
@@ -250,7 +251,7 @@ public object MachineIdentityKt {
      * @param value The channelsConfig to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addChannelsConfig")
+@kotlin.jvm.JvmName("addChannelsConfig")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ChannelConfig, ChannelsConfigProxy>.add(value: jon.cvdump.JonCvDumpArchive.ChannelConfig) {
       _builder.addChannelsConfig(value)
     }
@@ -266,7 +267,7 @@ public object MachineIdentityKt {
      * @param value The channelsConfig to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignChannelsConfig")
+@kotlin.jvm.JvmName("plusAssignChannelsConfig")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ChannelConfig, ChannelsConfigProxy>.plusAssign(value: jon.cvdump.JonCvDumpArchive.ChannelConfig) {
       add(value)
@@ -283,7 +284,7 @@ public object MachineIdentityKt {
      * @param values The channelsConfig to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllChannelsConfig")
+@kotlin.jvm.JvmName("addAllChannelsConfig")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ChannelConfig, ChannelsConfigProxy>.addAll(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.ChannelConfig>) {
       _builder.addAllChannelsConfig(values)
     }
@@ -299,7 +300,7 @@ public object MachineIdentityKt {
      * @param values The channelsConfig to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllChannelsConfig")
+@kotlin.jvm.JvmName("plusAssignAllChannelsConfig")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ChannelConfig, ChannelsConfigProxy>.plusAssign(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.ChannelConfig>) {
       addAll(values)
@@ -317,7 +318,7 @@ public object MachineIdentityKt {
      * @param value The channelsConfig to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setChannelsConfig")
+@kotlin.jvm.JvmName("setChannelsConfig")
     public operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ChannelConfig, ChannelsConfigProxy>.set(index: kotlin.Int, value: jon.cvdump.JonCvDumpArchive.ChannelConfig) {
       _builder.setChannelsConfig(index, value)
     }
@@ -332,11 +333,10 @@ public object MachineIdentityKt {
      * `repeated .jon.cvdump.ChannelConfig channels_config = 6;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearChannelsConfig")
+@kotlin.jvm.JvmName("clearChannelsConfig")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ChannelConfig, ChannelsConfigProxy>.clear() {
       _builder.clearChannelsConfig()
     }
-
 
     /**
      * ```
@@ -346,10 +346,10 @@ public object MachineIdentityKt {
      * `bool machine_incomplete = 7;`
      */
     public var machineIncomplete: kotlin.Boolean
-      @JvmName("getMachineIncomplete")
-      get() = _builder.machineIncomplete
-      @JvmName("setMachineIncomplete")
-      set(value) {
+      @kotlin.jvm.JvmName("getMachineIncomplete")
+        get() = _builder.machineIncomplete
+      @kotlin.jvm.JvmName("setMachineIncomplete")
+        set(value) {
         _builder.machineIncomplete = value
       }
     /**

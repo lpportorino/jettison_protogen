@@ -4,7 +4,8 @@ import jon_shared_data_rotary_pb2 as _jon_shared_data_rotary_pb2
 from google.protobuf.internal import containers as _containers
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Iterable as _Iterable, Mapping as _Mapping, Optional as _Optional, Union as _Union
+from collections.abc import Iterable as _Iterable, Mapping as _Mapping
+from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -38,7 +39,7 @@ class CvChannelMeta(_message.Message):
     gain_valid: bool
     sensor_exposure: int
     exposure_valid: bool
-    def __init__(self, pts_ns: _Optional[int] = ..., capture_time_ns: _Optional[int] = ..., generation: _Optional[int] = ..., sharpness_level0: _Optional[float] = ..., sharpness_level1: _Optional[_Iterable[float]] = ..., sharpness_level2: _Optional[_Iterable[float]] = ..., sharpness_level3: _Optional[_Iterable[float]] = ..., sharpness_compute_ns: _Optional[int] = ..., sharpness_total_ns: _Optional[int] = ..., sharpness_valid: bool = ..., sensor_gain: _Optional[int] = ..., gain_valid: bool = ..., sensor_exposure: _Optional[int] = ..., exposure_valid: bool = ...) -> None: ...
+    def __init__(self, pts_ns: _Optional[int] = ..., capture_time_ns: _Optional[int] = ..., generation: _Optional[int] = ..., sharpness_level0: _Optional[float] = ..., sharpness_level1: _Optional[_Iterable[float]] = ..., sharpness_level2: _Optional[_Iterable[float]] = ..., sharpness_level3: _Optional[_Iterable[float]] = ..., sharpness_compute_ns: _Optional[int] = ..., sharpness_total_ns: _Optional[int] = ..., sharpness_valid: _Optional[bool] = ..., sensor_gain: _Optional[int] = ..., gain_valid: _Optional[bool] = ..., sensor_exposure: _Optional[int] = ..., exposure_valid: _Optional[bool] = ...) -> None: ...
 
 class CvMeta(_message.Message):
     __slots__ = ("capture_monotonic_us", "updated_sources", "camera_day", "camera_heat", "rotary", "channel_day", "channel_heat")

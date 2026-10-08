@@ -186,7 +186,7 @@ is_path_like() {
   case "$t" in
     *.md | *.sh | *.mk | *.clj | *.cljc | *.cljs | *.edn | *.c | *.h | *.rs \
       | *.py | *.yml | *.yaml | *.json | *.awk | *.proto | *.ts | *.go \
-      | *.java | *.kt | *.zig)
+      | *.java | *.kt)
       return 0
       ;;
   esac

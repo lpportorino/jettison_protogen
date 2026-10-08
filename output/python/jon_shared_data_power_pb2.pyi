@@ -1,7 +1,8 @@
 import jon_shared_data_types_pb2 as _jon_shared_data_types_pb2
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
+from collections.abc import Mapping as _Mapping
+from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -17,7 +18,7 @@ class JonGuiDataPowerModule(_message.Message):
     power: float
     is_on: bool
     has_alarm: bool
-    def __init__(self, voltage: _Optional[float] = ..., current: _Optional[float] = ..., power: _Optional[float] = ..., is_on: bool = ..., has_alarm: bool = ...) -> None: ...
+    def __init__(self, voltage: _Optional[float] = ..., current: _Optional[float] = ..., power: _Optional[float] = ..., is_on: _Optional[bool] = ..., has_alarm: _Optional[bool] = ...) -> None: ...
 
 class JonGuiDataPower(_message.Message):
     __slots__ = ("s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "accumulator_state", "ext_bat_capacity", "ext_bat_status", "meteo", "health")

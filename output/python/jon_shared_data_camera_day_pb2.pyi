@@ -1,7 +1,8 @@
 import jon_shared_data_types_pb2 as _jon_shared_data_types_pb2
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
+from collections.abc import Mapping as _Mapping
+from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -51,4 +52,4 @@ class JonGuiDataCameraDay(_message.Message):
     delivered_fps: float
     content_fps: float
     health: _jon_shared_data_types_pb2.JonGuiDataModuleHealth
-    def __init__(self, focus_pos: _Optional[float] = ..., zoom_pos: _Optional[float] = ..., iris_pos: _Optional[float] = ..., infrared_filter: bool = ..., zoom_table_pos: _Optional[int] = ..., zoom_table_pos_max: _Optional[int] = ..., fx_mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataFxModeDay, str]] = ..., auto_focus: bool = ..., auto_iris: bool = ..., auto_gain: bool = ..., digital_zoom_level: _Optional[float] = ..., clahe_level: _Optional[float] = ..., horizontal_fov_degrees: _Optional[float] = ..., vertical_fov_degrees: _Optional[float] = ..., is_started: bool = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ..., sensor_gain: _Optional[float] = ..., exposure: _Optional[float] = ..., capture_monotonic_us: _Optional[int] = ..., delivered_fps: _Optional[float] = ..., content_fps: _Optional[float] = ..., health: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataModuleHealth, _Mapping]] = ...) -> None: ...
+    def __init__(self, focus_pos: _Optional[float] = ..., zoom_pos: _Optional[float] = ..., iris_pos: _Optional[float] = ..., infrared_filter: _Optional[bool] = ..., zoom_table_pos: _Optional[int] = ..., zoom_table_pos_max: _Optional[int] = ..., fx_mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataFxModeDay, str]] = ..., auto_focus: _Optional[bool] = ..., auto_iris: _Optional[bool] = ..., auto_gain: _Optional[bool] = ..., digital_zoom_level: _Optional[float] = ..., clahe_level: _Optional[float] = ..., horizontal_fov_degrees: _Optional[float] = ..., vertical_fov_degrees: _Optional[float] = ..., is_started: _Optional[bool] = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ..., sensor_gain: _Optional[float] = ..., exposure: _Optional[float] = ..., capture_monotonic_us: _Optional[int] = ..., delivered_fps: _Optional[float] = ..., content_fps: _Optional[float] = ..., health: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataModuleHealth, _Mapping]] = ...) -> None: ...

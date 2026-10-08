@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_day_camera.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.DayCamera;
@@ -32,10 +33,10 @@ public object ZoomKt {
      * `.cmd.DayCamera.SetValue set_value = 1;`
      */
     public var setValue: cmd.DayCamera.JonSharedCmdDayCamera.SetValue
-      @JvmName("getSetValue")
-      get() = _builder.setValue
-      @JvmName("setSetValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetValue")
+        get() = _builder.setValue
+      @kotlin.jvm.JvmName("setSetValue")
+        set(value) {
         _builder.setValue = value
       }
     /**
@@ -56,10 +57,10 @@ public object ZoomKt {
      * `.cmd.DayCamera.Move move = 2;`
      */
     public var move: cmd.DayCamera.JonSharedCmdDayCamera.Move
-      @JvmName("getMove")
-      get() = _builder.move
-      @JvmName("setMove")
-      set(value) {
+      @kotlin.jvm.JvmName("getMove")
+        get() = _builder.move
+      @kotlin.jvm.JvmName("setMove")
+        set(value) {
         _builder.move = value
       }
     /**
@@ -80,10 +81,10 @@ public object ZoomKt {
      * `.cmd.DayCamera.Halt halt = 3;`
      */
     public var halt: cmd.DayCamera.JonSharedCmdDayCamera.Halt
-      @JvmName("getHalt")
-      get() = _builder.halt
-      @JvmName("setHalt")
-      set(value) {
+      @kotlin.jvm.JvmName("getHalt")
+        get() = _builder.halt
+      @kotlin.jvm.JvmName("setHalt")
+        set(value) {
         _builder.halt = value
       }
     /**
@@ -104,10 +105,10 @@ public object ZoomKt {
      * `.cmd.DayCamera.SetZoomTableValue set_zoom_table_value = 4;`
      */
     public var setZoomTableValue: cmd.DayCamera.JonSharedCmdDayCamera.SetZoomTableValue
-      @JvmName("getSetZoomTableValue")
-      get() = _builder.setZoomTableValue
-      @JvmName("setSetZoomTableValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetZoomTableValue")
+        get() = _builder.setZoomTableValue
+      @kotlin.jvm.JvmName("setSetZoomTableValue")
+        set(value) {
         _builder.setZoomTableValue = value
       }
     /**
@@ -128,10 +129,10 @@ public object ZoomKt {
      * `.cmd.DayCamera.NextZoomTablePos next_zoom_table_pos = 5;`
      */
     public var nextZoomTablePos: cmd.DayCamera.JonSharedCmdDayCamera.NextZoomTablePos
-      @JvmName("getNextZoomTablePos")
-      get() = _builder.nextZoomTablePos
-      @JvmName("setNextZoomTablePos")
-      set(value) {
+      @kotlin.jvm.JvmName("getNextZoomTablePos")
+        get() = _builder.nextZoomTablePos
+      @kotlin.jvm.JvmName("setNextZoomTablePos")
+        set(value) {
         _builder.nextZoomTablePos = value
       }
     /**
@@ -152,10 +153,10 @@ public object ZoomKt {
      * `.cmd.DayCamera.PrevZoomTablePos prev_zoom_table_pos = 6;`
      */
     public var prevZoomTablePos: cmd.DayCamera.JonSharedCmdDayCamera.PrevZoomTablePos
-      @JvmName("getPrevZoomTablePos")
-      get() = _builder.prevZoomTablePos
-      @JvmName("setPrevZoomTablePos")
-      set(value) {
+      @kotlin.jvm.JvmName("getPrevZoomTablePos")
+        get() = _builder.prevZoomTablePos
+      @kotlin.jvm.JvmName("setPrevZoomTablePos")
+        set(value) {
         _builder.prevZoomTablePos = value
       }
     /**
@@ -176,10 +177,10 @@ public object ZoomKt {
      * `.cmd.DayCamera.Offset offset = 7;`
      */
     public var offset: cmd.DayCamera.JonSharedCmdDayCamera.Offset
-      @JvmName("getOffset")
-      get() = _builder.offset
-      @JvmName("setOffset")
-      set(value) {
+      @kotlin.jvm.JvmName("getOffset")
+        get() = _builder.offset
+      @kotlin.jvm.JvmName("setOffset")
+        set(value) {
         _builder.offset = value
       }
     /**
@@ -200,10 +201,10 @@ public object ZoomKt {
      * `.cmd.DayCamera.ResetZoom reset_zoom = 8;`
      */
     public var resetZoom: cmd.DayCamera.JonSharedCmdDayCamera.ResetZoom
-      @JvmName("getResetZoom")
-      get() = _builder.resetZoom
-      @JvmName("setResetZoom")
-      set(value) {
+      @kotlin.jvm.JvmName("getResetZoom")
+        get() = _builder.resetZoom
+      @kotlin.jvm.JvmName("setResetZoom")
+        set(value) {
         _builder.resetZoom = value
       }
     /**
@@ -224,10 +225,10 @@ public object ZoomKt {
      * `.cmd.DayCamera.SaveToTable save_to_table = 9;`
      */
     public var saveToTable: cmd.DayCamera.JonSharedCmdDayCamera.SaveToTable
-      @JvmName("getSaveToTable")
-      get() = _builder.saveToTable
-      @JvmName("setSaveToTable")
-      set(value) {
+      @kotlin.jvm.JvmName("getSaveToTable")
+        get() = _builder.saveToTable
+      @kotlin.jvm.JvmName("setSaveToTable")
+        set(value) {
         _builder.saveToTable = value
       }
     /**
@@ -248,10 +249,10 @@ public object ZoomKt {
      * `.cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;`
      */
     public var zoomStepPlus: cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus
-      @JvmName("getZoomStepPlus")
-      get() = _builder.zoomStepPlus
-      @JvmName("setZoomStepPlus")
-      set(value) {
+      @kotlin.jvm.JvmName("getZoomStepPlus")
+        get() = _builder.zoomStepPlus
+      @kotlin.jvm.JvmName("setZoomStepPlus")
+        set(value) {
         _builder.zoomStepPlus = value
       }
     /**
@@ -272,10 +273,10 @@ public object ZoomKt {
      * `.cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;`
      */
     public var zoomStepMinus: cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus
-      @JvmName("getZoomStepMinus")
-      get() = _builder.zoomStepMinus
-      @JvmName("setZoomStepMinus")
-      set(value) {
+      @kotlin.jvm.JvmName("getZoomStepMinus")
+        get() = _builder.zoomStepMinus
+      @kotlin.jvm.JvmName("setZoomStepMinus")
+        set(value) {
         _builder.zoomStepMinus = value
       }
     /**

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_sych_archive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.archive;
@@ -40,10 +41,10 @@ public object TimelineIndexKt {
      * `uint32 total_frames = 1 [(.buf.validate.field) = { ... }`
      */
     public var totalFrames: kotlin.Int
-      @JvmName("getTotalFrames")
-      get() = _builder.totalFrames
-      @JvmName("setTotalFrames")
-      set(value) {
+      @kotlin.jvm.JvmName("getTotalFrames")
+        get() = _builder.totalFrames
+      @kotlin.jvm.JvmName("setTotalFrames")
+        set(value) {
         _builder.totalFrames = value
       }
     /**
@@ -65,10 +66,10 @@ public object TimelineIndexKt {
      * `uint32 total_duration_ms = 2 [(.buf.validate.field) = { ... }`
      */
     public var totalDurationMs: kotlin.Int
-      @JvmName("getTotalDurationMs")
-      get() = _builder.totalDurationMs
-      @JvmName("setTotalDurationMs")
-      set(value) {
+      @kotlin.jvm.JvmName("getTotalDurationMs")
+        get() = _builder.totalDurationMs
+      @kotlin.jvm.JvmName("setTotalDurationMs")
+        set(value) {
         _builder.totalDurationMs = value
       }
     /**
@@ -97,7 +98,7 @@ public object TimelineIndexKt {
      */
      public val videos: com.google.protobuf.kotlin.DslList<jon.archive.JonSychArchive.VideoEntry, VideosProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.videosList
       )
     /**
@@ -109,7 +110,7 @@ public object TimelineIndexKt {
      * @param value The videos to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addVideos")
+@kotlin.jvm.JvmName("addVideos")
     public fun com.google.protobuf.kotlin.DslList<jon.archive.JonSychArchive.VideoEntry, VideosProxy>.add(value: jon.archive.JonSychArchive.VideoEntry) {
       _builder.addVideos(value)
     }
@@ -122,7 +123,7 @@ public object TimelineIndexKt {
      * @param value The videos to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignVideos")
+@kotlin.jvm.JvmName("plusAssignVideos")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.archive.JonSychArchive.VideoEntry, VideosProxy>.plusAssign(value: jon.archive.JonSychArchive.VideoEntry) {
       add(value)
@@ -136,7 +137,7 @@ public object TimelineIndexKt {
      * @param values The videos to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllVideos")
+@kotlin.jvm.JvmName("addAllVideos")
     public fun com.google.protobuf.kotlin.DslList<jon.archive.JonSychArchive.VideoEntry, VideosProxy>.addAll(values: kotlin.collections.Iterable<jon.archive.JonSychArchive.VideoEntry>) {
       _builder.addAllVideos(values)
     }
@@ -149,7 +150,7 @@ public object TimelineIndexKt {
      * @param values The videos to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllVideos")
+@kotlin.jvm.JvmName("plusAssignAllVideos")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.archive.JonSychArchive.VideoEntry, VideosProxy>.plusAssign(values: kotlin.collections.Iterable<jon.archive.JonSychArchive.VideoEntry>) {
       addAll(values)
@@ -164,7 +165,7 @@ public object TimelineIndexKt {
      * @param value The videos to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setVideos")
+@kotlin.jvm.JvmName("setVideos")
     public operator fun com.google.protobuf.kotlin.DslList<jon.archive.JonSychArchive.VideoEntry, VideosProxy>.set(index: kotlin.Int, value: jon.archive.JonSychArchive.VideoEntry) {
       _builder.setVideos(index, value)
     }
@@ -176,11 +177,10 @@ public object TimelineIndexKt {
      * `repeated .jon.archive.VideoEntry videos = 3 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearVideos")
+@kotlin.jvm.JvmName("clearVideos")
     public fun com.google.protobuf.kotlin.DslList<jon.archive.JonSychArchive.VideoEntry, VideosProxy>.clear() {
       _builder.clearVideos()
     }
-
   }
 }
 @kotlin.jvm.JvmSynthetic

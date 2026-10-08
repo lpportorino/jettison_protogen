@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_heater.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.Heater;
@@ -32,10 +33,10 @@ public object RootKt {
      * `.cmd.Heater.Start start = 1;`
      */
     public var start: cmd.Heater.JonSharedCmdHeater.Start
-      @JvmName("getStart")
-      get() = _builder.start
-      @JvmName("setStart")
-      set(value) {
+      @kotlin.jvm.JvmName("getStart")
+        get() = _builder.start
+      @kotlin.jvm.JvmName("setStart")
+        set(value) {
         _builder.start = value
       }
     /**
@@ -56,10 +57,10 @@ public object RootKt {
      * `.cmd.Heater.Stop stop = 2;`
      */
     public var stop: cmd.Heater.JonSharedCmdHeater.Stop
-      @JvmName("getStop")
-      get() = _builder.stop
-      @JvmName("setStop")
-      set(value) {
+      @kotlin.jvm.JvmName("getStop")
+        get() = _builder.stop
+      @kotlin.jvm.JvmName("setStop")
+        set(value) {
         _builder.stop = value
       }
     /**
@@ -80,10 +81,10 @@ public object RootKt {
      * `.cmd.Heater.SetHeating set_heating = 3;`
      */
     public var setHeating: cmd.Heater.JonSharedCmdHeater.SetHeating
-      @JvmName("getSetHeating")
-      get() = _builder.setHeating
-      @JvmName("setSetHeating")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetHeating")
+        get() = _builder.setHeating
+      @kotlin.jvm.JvmName("setSetHeating")
+        set(value) {
         _builder.setHeating = value
       }
     /**
@@ -104,10 +105,10 @@ public object RootKt {
      * `.cmd.Heater.GetStatus get_status = 4;`
      */
     public var getStatus: cmd.Heater.JonSharedCmdHeater.GetStatus
-      @JvmName("getGetStatus")
-      get() = _builder.getStatus
-      @JvmName("setGetStatus")
-      set(value) {
+      @kotlin.jvm.JvmName("getGetStatus")
+        get() = _builder.getStatus
+      @kotlin.jvm.JvmName("setGetStatus")
+        set(value) {
         _builder.getStatus = value
       }
     /**
@@ -128,10 +129,10 @@ public object RootKt {
      * `.cmd.Heater.EnableAutomaticControl enable_automatic_control = 5;`
      */
     public var enableAutomaticControl: cmd.Heater.JonSharedCmdHeater.EnableAutomaticControl
-      @JvmName("getEnableAutomaticControl")
-      get() = _builder.enableAutomaticControl
-      @JvmName("setEnableAutomaticControl")
-      set(value) {
+      @kotlin.jvm.JvmName("getEnableAutomaticControl")
+        get() = _builder.enableAutomaticControl
+      @kotlin.jvm.JvmName("setEnableAutomaticControl")
+        set(value) {
         _builder.enableAutomaticControl = value
       }
     /**
@@ -152,10 +153,10 @@ public object RootKt {
      * `.cmd.Heater.DisableAutomaticControl disable_automatic_control = 6;`
      */
     public var disableAutomaticControl: cmd.Heater.JonSharedCmdHeater.DisableAutomaticControl
-      @JvmName("getDisableAutomaticControl")
-      get() = _builder.disableAutomaticControl
-      @JvmName("setDisableAutomaticControl")
-      set(value) {
+      @kotlin.jvm.JvmName("getDisableAutomaticControl")
+        get() = _builder.disableAutomaticControl
+      @kotlin.jvm.JvmName("setDisableAutomaticControl")
+        set(value) {
         _builder.disableAutomaticControl = value
       }
     /**
@@ -176,10 +177,10 @@ public object RootKt {
      * `.cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7;`
      */
     public var setAutomaticControlParams: cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams
-      @JvmName("getSetAutomaticControlParams")
-      get() = _builder.setAutomaticControlParams
-      @JvmName("setSetAutomaticControlParams")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetAutomaticControlParams")
+        get() = _builder.setAutomaticControlParams
+      @kotlin.jvm.JvmName("setSetAutomaticControlParams")
+        set(value) {
         _builder.setAutomaticControlParams = value
       }
     /**
@@ -200,10 +201,10 @@ public object RootKt {
      * `.cmd.Heater.SetSystemPower set_system_power = 8;`
      */
     public var setSystemPower: cmd.Heater.JonSharedCmdHeater.SetSystemPower
-      @JvmName("getSetSystemPower")
-      get() = _builder.setSystemPower
-      @JvmName("setSetSystemPower")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetSystemPower")
+        get() = _builder.setSystemPower
+      @kotlin.jvm.JvmName("setSetSystemPower")
+        set(value) {
         _builder.setSystemPower = value
       }
     /**

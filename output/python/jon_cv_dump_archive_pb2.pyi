@@ -2,7 +2,8 @@ from google.protobuf.internal import containers as _containers
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Iterable as _Iterable, Mapping as _Mapping, Optional as _Optional, Union as _Union
+from collections.abc import Iterable as _Iterable, Mapping as _Mapping
+from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -153,7 +154,7 @@ class MachineIdentity(_message.Message):
     deploy: DeployFingerprint
     channels_config: _containers.RepeatedCompositeFieldContainer[ChannelConfig]
     machine_incomplete: bool
-    def __init__(self, machine_id: _Optional[str] = ..., hostname: _Optional[str] = ..., hw_model: _Optional[str] = ..., boot_id: _Optional[str] = ..., deploy: _Optional[_Union[DeployFingerprint, _Mapping]] = ..., channels_config: _Optional[_Iterable[_Union[ChannelConfig, _Mapping]]] = ..., machine_incomplete: bool = ...) -> None: ...
+    def __init__(self, machine_id: _Optional[str] = ..., hostname: _Optional[str] = ..., hw_model: _Optional[str] = ..., boot_id: _Optional[str] = ..., deploy: _Optional[_Union[DeployFingerprint, _Mapping]] = ..., channels_config: _Optional[_Iterable[_Union[ChannelConfig, _Mapping]]] = ..., machine_incomplete: _Optional[bool] = ...) -> None: ...
 
 class DeployFingerprint(_message.Message):
     __slots__ = ("fingerprint", "jettison_sha", "describe", "deployed_at")
@@ -205,7 +206,7 @@ class IntegrityReport(_message.Message):
     truncated_sources: _containers.RepeatedScalarFieldContainer[str]
     telemetry_incomplete: bool
     io_records_incomplete: bool
-    def __init__(self, status: _Optional[_Union[ArchiveStatus, str]] = ..., lapped_segments: _Optional[int] = ..., window_start_lost: bool = ..., writer_seg_skipped: bool = ..., rec_control_unknown: bool = ..., rec_enable_failed: bool = ..., no_window_video_channels: _Optional[_Iterable[str]] = ..., truncated_sources: _Optional[_Iterable[str]] = ..., telemetry_incomplete: bool = ..., io_records_incomplete: bool = ...) -> None: ...
+    def __init__(self, status: _Optional[_Union[ArchiveStatus, str]] = ..., lapped_segments: _Optional[int] = ..., window_start_lost: _Optional[bool] = ..., writer_seg_skipped: _Optional[bool] = ..., rec_control_unknown: _Optional[bool] = ..., rec_enable_failed: _Optional[bool] = ..., no_window_video_channels: _Optional[_Iterable[str]] = ..., truncated_sources: _Optional[_Iterable[str]] = ..., telemetry_incomplete: _Optional[bool] = ..., io_records_incomplete: _Optional[bool] = ...) -> None: ...
 
 class VideoChannel(_message.Message):
     __slots__ = ("channel", "segments")
@@ -231,7 +232,7 @@ class VideoSegment(_message.Message):
     start_ns: int
     end_ns: int
     open_end: bool
-    def __init__(self, sequence: _Optional[int] = ..., path: _Optional[str] = ..., bytes: _Optional[int] = ..., sha256: _Optional[str] = ..., start_ns: _Optional[int] = ..., end_ns: _Optional[int] = ..., open_end: bool = ...) -> None: ...
+    def __init__(self, sequence: _Optional[int] = ..., path: _Optional[str] = ..., bytes: _Optional[int] = ..., sha256: _Optional[str] = ..., start_ns: _Optional[int] = ..., end_ns: _Optional[int] = ..., open_end: _Optional[bool] = ...) -> None: ...
 
 class StreamGroup(_message.Message):
     __slots__ = ("kind", "source", "codec", "record_count", "decoded_bytes", "decoded_sha256", "truncated", "columns", "payload")
@@ -253,7 +254,7 @@ class StreamGroup(_message.Message):
     truncated: bool
     columns: _containers.RepeatedCompositeFieldContainer[ColumnDef]
     payload: bytes
-    def __init__(self, kind: _Optional[_Union[StreamKind, str]] = ..., source: _Optional[str] = ..., codec: _Optional[_Union[ArchiveCodec, str]] = ..., record_count: _Optional[int] = ..., decoded_bytes: _Optional[int] = ..., decoded_sha256: _Optional[str] = ..., truncated: bool = ..., columns: _Optional[_Iterable[_Union[ColumnDef, _Mapping]]] = ..., payload: _Optional[bytes] = ...) -> None: ...
+    def __init__(self, kind: _Optional[_Union[StreamKind, str]] = ..., source: _Optional[str] = ..., codec: _Optional[_Union[ArchiveCodec, str]] = ..., record_count: _Optional[int] = ..., decoded_bytes: _Optional[int] = ..., decoded_sha256: _Optional[str] = ..., truncated: _Optional[bool] = ..., columns: _Optional[_Iterable[_Union[ColumnDef, _Mapping]]] = ..., payload: _Optional[bytes] = ...) -> None: ...
 
 class ColumnDef(_message.Message):
     __slots__ = ("name", "type")

@@ -76,7 +76,7 @@ pub struct CvDumpArchive {
 }
 /// One plane of one channel's photo. The output format keys on the plane's
 /// FORMAT tag from the control block, never on the plane index.
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct ShotPlane {
     /// Ring plane index (0..3).
     #[prost(uint32, tag = "1")]
@@ -141,7 +141,7 @@ pub struct ShotCapture {
 /// the segment-timeline join key. They are only comparable ACROSS bundles when
 /// MachineIdentity.boot_id matches, because boot_id is the namespace of every
 /// CLOCK_BOOTTIME value here.
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct CaptureWindow {
     /// ISO-8601, RFC3339 with nanoseconds, UTC
     #[prost(string, tag = "1")]
@@ -193,7 +193,7 @@ pub struct MachineIdentity {
     pub machine_incomplete: bool,
 }
 /// The deploy the capture ran under. Values are opaque strings to a consumer.
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct DeployFingerprint {
     /// repo_state.fingerprint_sha256
     #[prost(string, tag = "1")]
@@ -210,7 +210,7 @@ pub struct DeployFingerprint {
 }
 /// Frozen per-channel stream constants (day: 1920x1080; heat: a 900x720 crop of
 /// the 1280x720 core).
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct ChannelConfig {
     /// "day" | "heat"
     #[prost(string, tag = "1")]
@@ -232,7 +232,7 @@ pub struct ChannelConfig {
 /// Whether the capture is trustworthy, and why. Every bool here is a DEGRADE
 /// FLAG: any one of them set means status is PARTIAL at best, never a silent
 /// COMPLETE.
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct IntegrityReport {
     #[prost(enumeration = "ArchiveStatus", tag = "1")]
     pub status: i32,
@@ -310,7 +310,7 @@ pub struct VideoChannel {
 /// now_ns, and the per-record ctl capture_time_ns is documented monotonic),
 /// compared here against a CLOCK_BOOTTIME window. On a target that never
 /// suspends the two coincide; that is a premise, not an identity.
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct VideoSegment {
     /// the NNNNNNNN of seg_NNNNNNNN.bin
     #[prost(uint32, tag = "1")]
@@ -383,7 +383,7 @@ pub struct StreamGroup {
     pub payload: ::prost::alloc::vec::Vec<u8>,
 }
 /// One column of a TSDB table.
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct ColumnDef {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -413,7 +413,7 @@ pub struct RedisStreamRecord {
 /// A single redis field. value is RAW BYTES and is never UTF-8 decoded: the
 /// io-record streams carry binary payloads (DATCON frames, CAN blobs) that a
 /// text round-trip would destroy.
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct RedisStreamField {
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
@@ -421,7 +421,7 @@ pub struct RedisStreamField {
     pub value: ::prost::alloc::vec::Vec<u8>,
 }
 /// The decoded payload of a TSDB-table group (StreamKind 4).
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct TableRows {
     /// One row per entry, each the UTF-8 text of PostgreSQL row_to_json(t) — so a
     /// row carries its own column names and survives schema drift. Ordered by the

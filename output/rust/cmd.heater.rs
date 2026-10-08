@@ -27,10 +27,10 @@ pub mod root {
     }
 }
 /// Start initiates communication with the heater controller
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct Start {}
 /// Stop terminates communication with the heater controller
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct Stop {}
 /// SetHeating configures heating targets for all channels
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -51,13 +51,13 @@ pub struct SetHeating {
     pub temp_error_2: f32,
 }
 /// GetStatus requests current heater status
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct GetStatus {}
 /// EnableAutomaticControl enables automatic heater control
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct EnableAutomaticControl {}
 /// DisableAutomaticControl disables automatic heater control
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct DisableAutomaticControl {}
 /// AutomaticControlChannelParams contains automatic regulation parameters for a single heater channel
 /// Note: PID gains (kp, ki, kd) are loaded from Redis config_editor, not sent via command

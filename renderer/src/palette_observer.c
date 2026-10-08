@@ -59,8 +59,8 @@ static void observe_color(lv_draw_task_t *task, const lv_draw_dsc_base_t *base,
   const lv_color32_t recolor = effective_recolor(base);
   palette_observation_t next = {
       .rgb = color_rgb(color),
-      .recolor_rgb = ((uint32_t)recolor.red << 16) |
-                     ((uint32_t)recolor.green << 8) | (uint32_t)recolor.blue,
+      .recolor_rgb = ((uint32_t)recolor.red << 16u) |
+                     ((uint32_t)recolor.green << 8u) | (uint32_t)recolor.blue,
       .object = (uint32_t)(uintptr_t)base->obj,
       .part = base->part,
       .task_type = (uint32_t)task->type,

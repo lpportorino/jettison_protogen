@@ -43,7 +43,7 @@ jobs:
       # therefore complete for this job, and saying so beats a reader wondering
       # whether a missing `fetch-depth: 0` is an oversight.
       name: Checkout
-      uses: actions/checkout@v5
+      uses: actions/checkout@v7.0.1
 
     - # The canaries FIRST, and this ordering is load-bearing rather than tidy.
       # The gate below has several clauses that can each refuse the same input, so
@@ -103,21 +103,21 @@ jobs:
       # against https://github.com/clojure/brew-install/releases — an invented tag
       # kills the job at setup, before a single gate runs.
       name: Set up JDK 27
-      uses: actions/setup-java@v5
+      uses: actions/setup-java@v6.0.1
       with:
         distribution: temurin
         java-version: "27"
 
     - name: Set up Clojure CLI
-      uses: DeLaGuardo/setup-clojure@13.6.1
+      uses: DeLaGuardo/setup-clojure@13.7.0
       with:
-        cli: "1.12.5.1654"
+        cli: "1.12.6.1673"
 
     - # Cache on the ROOT deps.edn — the `:lint-gate` alias declares no
       # `:extra-deps`, so a warm run resolves nothing, but the Clojure CLI still
       # wants its tools cache and a cold miss costs a fetch per job.
       name: Cache Maven-resolved deps
-      uses: actions/cache@v5
+      uses: actions/cache@v6.1.0
       with:
         path: |
           ~/.m2/repository

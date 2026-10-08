@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -39,7 +40,7 @@ public object LinePropsKt {
      */
      public val points: com.google.protobuf.kotlin.DslList<ui.UiAst.Point, PointsProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.pointsList
       )
     /**
@@ -47,7 +48,7 @@ public object LinePropsKt {
      * @param value The points to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addPoints")
+@kotlin.jvm.JvmName("addPoints")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.Point, PointsProxy>.add(value: ui.UiAst.Point) {
       _builder.addPoints(value)
     }
@@ -56,7 +57,7 @@ public object LinePropsKt {
      * @param value The points to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignPoints")
+@kotlin.jvm.JvmName("plusAssignPoints")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.Point, PointsProxy>.plusAssign(value: ui.UiAst.Point) {
       add(value)
@@ -66,7 +67,7 @@ public object LinePropsKt {
      * @param values The points to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllPoints")
+@kotlin.jvm.JvmName("addAllPoints")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.Point, PointsProxy>.addAll(values: kotlin.collections.Iterable<ui.UiAst.Point>) {
       _builder.addAllPoints(values)
     }
@@ -75,7 +76,7 @@ public object LinePropsKt {
      * @param values The points to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllPoints")
+@kotlin.jvm.JvmName("plusAssignAllPoints")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.Point, PointsProxy>.plusAssign(values: kotlin.collections.Iterable<ui.UiAst.Point>) {
       addAll(values)
@@ -86,7 +87,7 @@ public object LinePropsKt {
      * @param value The points to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setPoints")
+@kotlin.jvm.JvmName("setPoints")
     public operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.Point, PointsProxy>.set(index: kotlin.Int, value: ui.UiAst.Point) {
       _builder.setPoints(index, value)
     }
@@ -94,20 +95,19 @@ public object LinePropsKt {
      * `repeated .ui.Point points = 1;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearPoints")
+@kotlin.jvm.JvmName("clearPoints")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.Point, PointsProxy>.clear() {
       _builder.clearPoints()
     }
-
 
     /**
      * `bool y_invert = 2;`
      */
     public var yInvert: kotlin.Boolean
-      @JvmName("getYInvert")
-      get() = _builder.yInvert
-      @JvmName("setYInvert")
-      set(value) {
+      @kotlin.jvm.JvmName("getYInvert")
+        get() = _builder.yInvert
+      @kotlin.jvm.JvmName("setYInvert")
+        set(value) {
         _builder.yInvert = value
       }
     /**

@@ -61,14 +61,8 @@
 #   fmt-c / fmt-c-fix  container or host — the pinned clang-format lives in the
 #                      WASI-SDK, so `tools/uber.sh` is the correct entry point.
 #   fmt-clj*           container or host — cljfmt is a pinned dep in deps.edn.
-#   lint-clj           HOST or CI only — clj-kondo is NOT in the uber image, and
-#                      does not need to be: a linter emits findings, never a
-#                      committed artifact, so the uber-container rule does not
-#                      reach it. CI pins it in .github/workflows/lint.yml,
-#                      alongside the Clojure CLI — see that file for the action
-#                      and versions rather than copying pins here. This is why
-#                      `tools/uber.sh 'make -f lint.mk lint'` fails on lint-clj
-#                      while each other lane runs there happily.
+#   lint-clj           host, container or CI — the repository JVM wrapper
+#                      verifies its patched source artifact before analysis.
 #
 # PARALLELISM — every lane saturates the machine it runs on. NPROC is detected
 # at run time (Linux/macOS/POSIX fallback) rather than pinned, because dev
@@ -108,6 +102,9 @@ CLANG_FORMAT := $(firstword $(wildcard /opt/wasi-sdk/bin/clang-format) clang-for
 # tool at once rather than the JVMs alone. It is deliberately NOT done here — it
 # changes a shared image and every lane's behaviour, so it deserves its own
 # change with its own battery run rather than riding along inside a lint fix.
+# All lint consumers, including structural analysis subprocesses, use the
+# checksum-verified source artifact. Test fixtures can still prepend their stubs.
+export PATH := $(CURDIR)/tools/lint/bin:$(PATH)
 CLJ := clojure -J-Dstdout.encoding=UTF-8 -J-Dstderr.encoding=UTF-8
 
 # Same resolution, same reason, for clang-tidy's driver. The SDK is not on
@@ -149,6 +146,7 @@ LINT_CLJ_PATHS := tools/devcards/src \
 	docs/.protodoc/tools/test \
 	docs/.protodoc/tools/build.clj \
 	tools/lint/src \
+	tools/lint/kondo/test \
 	tools/protocol-gen/src \
 	tools/protocol-gen/test \
 	tools/protocol-gen/verify \
@@ -426,7 +424,7 @@ hooks-status:
 lint:
 	@$(MAKE) --no-print-directory -f lint.mk -j$(NPROC) lint-lanes
 
-lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-cmd-no-any-bytes-test lint-cmd-no-any-bytes lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test uber-safe-directory-test leg-strictness-test wasm-provenance-test ts-validated-repro-test wire-contract-codec-test wire-contract-envelope-test fork-hazards protocol-gen-test protocol-gen-canary fmt-clj lint-clj fmt-c
+lint-lanes: kondo-regression lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-cmd-no-any-bytes-test lint-cmd-no-any-bytes lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test uber-safe-directory-test leg-strictness-test wasm-provenance-test ts-validated-repro-test wire-contract-codec-test wire-contract-envelope-test fork-hazards protocol-gen-test protocol-gen-canary fmt-clj lint-clj fmt-c
 
 ## lint-python / lint-python-test: pinned Ruff over the enrolled Python gate drivers
 # The bounded enrollment lives in tools/lint/python_check.sh; experiment and data
@@ -518,7 +516,7 @@ protocol-gen-canary:
 # SAME PATH LIST as every other Clojure lane — LINT_CLJ_PATHS, the positive
 # allowlist. `make -f lint.mk audit-clj-paths` is what keeps it honest.
 #
-# NEEDS clj-kondo, so it sits with lint-clj on the HOST/CI side of the container
+# Uses the same verified clj-kondo wrapper as lint-clj
 # split (see this file's header). It reads the --analysis output rather than
 # parsing source, because the analysis is a RESOLVED graph: it knows a var's
 # :private and resolves aliases a text scan cannot.
@@ -970,7 +968,7 @@ forks-release-test:
 # generate-protos.sh's LEG STRICTNESS preamble — the one line that decides whether
 # a language leg can fail on the LEFT of a pipe. Every payload re-arms a bare
 # `set -e`, which clears neither -u nor pipefail, so the prepend at the dispatcher
-# reaches all eleven legs. It rides `lint` for the same reasons the two above do:
+# reaches every declared leg. It rides `lint` for the same reasons the two above do:
 # no rendered surface, and its cases are hermetic bash over synthetic payloads.
 #
 # It asserts BOTH directions and attributes the red: the mutant (pipefail silenced)
@@ -1230,7 +1228,7 @@ lint-ci:
 		printf '  This gate judges workflow syntax; skipping it would let a broken\n' >&2; \
 		printf '  workflow reach CI unchecked, so it fails rather than passing.\n' >&2; \
 		printf '  Install the pinned version (same one .github/workflows/lint.yml uses):\n' >&2; \
-		printf '    curl -fsSL https://github.com/rhysd/actionlint/releases/download/v1.7.10/actionlint_1.7.10_linux_amd64.tar.gz \\\n' >&2; \
+		printf '    curl -fsSL https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz \\\n' >&2; \
 		printf '      | tar -xz -C ~/.local/bin actionlint\n' >&2; \
 		exit 1; \
 	}
@@ -1457,3 +1455,10 @@ fmt-c-fix:
 	@printf '\033[32m[fmt-c-fix]\033[0m %s -i (%s cpus)\n' "$(CLANG_FORMAT)" "$(NPROC)"
 	@printf '%s\n' $(FMT_C_FILES) \
 		| xargs -P $(NPROC) -n 1 $(CLANG_FORMAT) --style=file -i
+
+.PHONY: kondo-regression
+kondo-regression: ## Verify patched linter provenance and map-return regression cases
+	@bash tools/lint/kondo/test-artifact.sh
+	@bash tools/lint/kondo/test-wrapper-cwd.sh
+	@python3 tools/lint/kondo/rebuild.py
+	@cd tools/lint/kondo && $(CLJ) -M:test

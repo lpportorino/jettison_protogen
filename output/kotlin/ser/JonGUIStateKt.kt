@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -36,10 +37,10 @@ public object JonGUIStateKt {
      * `uint32 protocol_version = 1 [(.buf.validate.field) = { ... }`
      */
     public var protocolVersion: kotlin.Int
-      @JvmName("getProtocolVersion")
-      get() = _builder.protocolVersion
-      @JvmName("setProtocolVersion")
-      set(value) {
+      @kotlin.jvm.JvmName("getProtocolVersion")
+        get() = _builder.protocolVersion
+      @kotlin.jvm.JvmName("setProtocolVersion")
+        set(value) {
         _builder.protocolVersion = value
       }
     /**
@@ -57,10 +58,10 @@ public object JonGUIStateKt {
      * `uint64 system_monotonic_time_us = 2 [(.buf.validate.field) = { ... }`
      */
     public var systemMonotonicTimeUs: kotlin.Long
-      @JvmName("getSystemMonotonicTimeUs")
-      get() = _builder.systemMonotonicTimeUs
-      @JvmName("setSystemMonotonicTimeUs")
-      set(value) {
+      @kotlin.jvm.JvmName("getSystemMonotonicTimeUs")
+        get() = _builder.systemMonotonicTimeUs
+      @kotlin.jvm.JvmName("setSystemMonotonicTimeUs")
+        set(value) {
         _builder.systemMonotonicTimeUs = value
       }
     /**
@@ -78,17 +79,17 @@ public object JonGUIStateKt {
      * `.ser.JonGuiDataStateSource state_source = 3 [(.buf.validate.field) = { ... }`
      */
     public var stateSource: ser.JonSharedDataTypes.JonGuiDataStateSource
-      @JvmName("getStateSource")
-      get() = _builder.stateSource
-      @JvmName("setStateSource")
-      set(value) {
+      @kotlin.jvm.JvmName("getStateSource")
+        get() = _builder.stateSource
+      @kotlin.jvm.JvmName("setStateSource")
+        set(value) {
         _builder.stateSource = value
       }
     public var stateSourceValue: kotlin.Int
-      @JvmName("getStateSourceValue")
-      get() = _builder.stateSourceValue
-      @JvmName("setStateSourceValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getStateSourceValue")
+        get() = _builder.stateSourceValue
+      @kotlin.jvm.JvmName("setStateSourceValue")
+        set(value) {
         _builder.stateSourceValue = value
       }
     /**
@@ -106,10 +107,10 @@ public object JonGUIStateKt {
      * `uint64 frame_pts_day_ns = 4 [(.buf.validate.field) = { ... }`
      */
     public var framePtsDayNs: kotlin.Long
-      @JvmName("getFramePtsDayNs")
-      get() = _builder.framePtsDayNs
-      @JvmName("setFramePtsDayNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getFramePtsDayNs")
+        get() = _builder.framePtsDayNs
+      @kotlin.jvm.JvmName("setFramePtsDayNs")
+        set(value) {
         _builder.framePtsDayNs = value
       }
     /**
@@ -131,10 +132,10 @@ public object JonGUIStateKt {
      * `uint64 frame_pts_heat_ns = 5 [(.buf.validate.field) = { ... }`
      */
     public var framePtsHeatNs: kotlin.Long
-      @JvmName("getFramePtsHeatNs")
-      get() = _builder.framePtsHeatNs
-      @JvmName("setFramePtsHeatNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getFramePtsHeatNs")
+        get() = _builder.framePtsHeatNs
+      @kotlin.jvm.JvmName("setFramePtsHeatNs")
+        set(value) {
         _builder.framePtsHeatNs = value
       }
     /**
@@ -156,10 +157,10 @@ public object JonGUIStateKt {
      * `uint64 frame_monotonic_day_us = 6 [(.buf.validate.field) = { ... }`
      */
     public var frameMonotonicDayUs: kotlin.Long
-      @JvmName("getFrameMonotonicDayUs")
-      get() = _builder.frameMonotonicDayUs
-      @JvmName("setFrameMonotonicDayUs")
-      set(value) {
+      @kotlin.jvm.JvmName("getFrameMonotonicDayUs")
+        get() = _builder.frameMonotonicDayUs
+      @kotlin.jvm.JvmName("setFrameMonotonicDayUs")
+        set(value) {
         _builder.frameMonotonicDayUs = value
       }
     /**
@@ -181,10 +182,10 @@ public object JonGUIStateKt {
      * `uint64 frame_monotonic_heat_us = 7 [(.buf.validate.field) = { ... }`
      */
     public var frameMonotonicHeatUs: kotlin.Long
-      @JvmName("getFrameMonotonicHeatUs")
-      get() = _builder.frameMonotonicHeatUs
-      @JvmName("setFrameMonotonicHeatUs")
-      set(value) {
+      @kotlin.jvm.JvmName("getFrameMonotonicHeatUs")
+        get() = _builder.frameMonotonicHeatUs
+      @kotlin.jvm.JvmName("setFrameMonotonicHeatUs")
+        set(value) {
         _builder.frameMonotonicHeatUs = value
       }
     /**
@@ -213,7 +214,7 @@ public object JonGUIStateKt {
      */
      public val opaquePayloads: com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonOpaquePayload, OpaquePayloadsProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.opaquePayloadsList
       )
     /**
@@ -225,7 +226,7 @@ public object JonGUIStateKt {
      * @param value The opaquePayloads to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addOpaquePayloads")
+@kotlin.jvm.JvmName("addOpaquePayloads")
     public fun com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonOpaquePayload, OpaquePayloadsProxy>.add(value: ser.JonSharedDataTypes.JonOpaquePayload) {
       _builder.addOpaquePayloads(value)
     }
@@ -238,7 +239,7 @@ public object JonGUIStateKt {
      * @param value The opaquePayloads to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignOpaquePayloads")
+@kotlin.jvm.JvmName("plusAssignOpaquePayloads")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonOpaquePayload, OpaquePayloadsProxy>.plusAssign(value: ser.JonSharedDataTypes.JonOpaquePayload) {
       add(value)
@@ -252,7 +253,7 @@ public object JonGUIStateKt {
      * @param values The opaquePayloads to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllOpaquePayloads")
+@kotlin.jvm.JvmName("addAllOpaquePayloads")
     public fun com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonOpaquePayload, OpaquePayloadsProxy>.addAll(values: kotlin.collections.Iterable<ser.JonSharedDataTypes.JonOpaquePayload>) {
       _builder.addAllOpaquePayloads(values)
     }
@@ -265,7 +266,7 @@ public object JonGUIStateKt {
      * @param values The opaquePayloads to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllOpaquePayloads")
+@kotlin.jvm.JvmName("plusAssignAllOpaquePayloads")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonOpaquePayload, OpaquePayloadsProxy>.plusAssign(values: kotlin.collections.Iterable<ser.JonSharedDataTypes.JonOpaquePayload>) {
       addAll(values)
@@ -280,7 +281,7 @@ public object JonGUIStateKt {
      * @param value The opaquePayloads to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setOpaquePayloads")
+@kotlin.jvm.JvmName("setOpaquePayloads")
     public operator fun com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonOpaquePayload, OpaquePayloadsProxy>.set(index: kotlin.Int, value: ser.JonSharedDataTypes.JonOpaquePayload) {
       _builder.setOpaquePayloads(index, value)
     }
@@ -292,20 +293,19 @@ public object JonGUIStateKt {
      * `repeated .ser.JonOpaquePayload opaque_payloads = 8;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearOpaquePayloads")
+@kotlin.jvm.JvmName("clearOpaquePayloads")
     public fun com.google.protobuf.kotlin.DslList<ser.JonSharedDataTypes.JonOpaquePayload, OpaquePayloadsProxy>.clear() {
       _builder.clearOpaquePayloads()
     }
-
 
     /**
      * `.ser.JonGuiDataSystem system = 13 [(.buf.validate.field) = { ... }`
      */
     public var system: ser.JonSharedDataSystem.JonGuiDataSystem
-      @JvmName("getSystem")
-      get() = _builder.system
-      @JvmName("setSystem")
-      set(value) {
+      @kotlin.jvm.JvmName("getSystem")
+        get() = _builder.system
+      @kotlin.jvm.JvmName("setSystem")
+        set(value) {
         _builder.system = value
       }
     /**
@@ -329,10 +329,10 @@ public object JonGUIStateKt {
      * `.ser.JonGuiDataMeteo meteo_internal = 14 [(.buf.validate.field) = { ... }`
      */
     public var meteoInternal: ser.JonSharedDataTypes.JonGuiDataMeteo
-      @JvmName("getMeteoInternal")
-      get() = _builder.meteoInternal
-      @JvmName("setMeteoInternal")
-      set(value) {
+      @kotlin.jvm.JvmName("getMeteoInternal")
+        get() = _builder.meteoInternal
+      @kotlin.jvm.JvmName("setMeteoInternal")
+        set(value) {
         _builder.meteoInternal = value
       }
     /**
@@ -356,10 +356,10 @@ public object JonGUIStateKt {
      * `.ser.JonGuiDataLrf lrf = 15 [(.buf.validate.field) = { ... }`
      */
     public var lrf: ser.JonSharedDataLrf.JonGuiDataLrf
-      @JvmName("getLrf")
-      get() = _builder.lrf
-      @JvmName("setLrf")
-      set(value) {
+      @kotlin.jvm.JvmName("getLrf")
+        get() = _builder.lrf
+      @kotlin.jvm.JvmName("setLrf")
+        set(value) {
         _builder.lrf = value
       }
     /**
@@ -383,10 +383,10 @@ public object JonGUIStateKt {
      * `.ser.JonGuiDataTime time = 16 [(.buf.validate.field) = { ... }`
      */
     public var time: ser.JonSharedDataTime.JonGuiDataTime
-      @JvmName("getTime")
-      get() = _builder.time
-      @JvmName("setTime")
-      set(value) {
+      @kotlin.jvm.JvmName("getTime")
+        get() = _builder.time
+      @kotlin.jvm.JvmName("setTime")
+        set(value) {
         _builder.time = value
       }
     /**
@@ -410,10 +410,10 @@ public object JonGUIStateKt {
      * `.ser.JonGuiDataGps gps = 17 [(.buf.validate.field) = { ... }`
      */
     public var gps: ser.JonSharedDataGps.JonGuiDataGps
-      @JvmName("getGps")
-      get() = _builder.gps
-      @JvmName("setGps")
-      set(value) {
+      @kotlin.jvm.JvmName("getGps")
+        get() = _builder.gps
+      @kotlin.jvm.JvmName("setGps")
+        set(value) {
         _builder.gps = value
       }
     /**
@@ -437,10 +437,10 @@ public object JonGUIStateKt {
      * `.ser.JonGuiDataCompass compass = 18 [(.buf.validate.field) = { ... }`
      */
     public var compass: ser.JonSharedDataCompass.JonGuiDataCompass
-      @JvmName("getCompass")
-      get() = _builder.compass
-      @JvmName("setCompass")
-      set(value) {
+      @kotlin.jvm.JvmName("getCompass")
+        get() = _builder.compass
+      @kotlin.jvm.JvmName("setCompass")
+        set(value) {
         _builder.compass = value
       }
     /**
@@ -464,10 +464,10 @@ public object JonGUIStateKt {
      * `.ser.JonGuiDataRotary rotary = 19 [(.buf.validate.field) = { ... }`
      */
     public var rotary: ser.JonSharedDataRotary.JonGuiDataRotary
-      @JvmName("getRotary")
-      get() = _builder.rotary
-      @JvmName("setRotary")
-      set(value) {
+      @kotlin.jvm.JvmName("getRotary")
+        get() = _builder.rotary
+      @kotlin.jvm.JvmName("setRotary")
+        set(value) {
         _builder.rotary = value
       }
     /**
@@ -491,10 +491,10 @@ public object JonGUIStateKt {
      * `.ser.JonGuiDataCameraDay camera_day = 20 [(.buf.validate.field) = { ... }`
      */
     public var cameraDay: ser.JonSharedDataCameraDay.JonGuiDataCameraDay
-      @JvmName("getCameraDay")
-      get() = _builder.cameraDay
-      @JvmName("setCameraDay")
-      set(value) {
+      @kotlin.jvm.JvmName("getCameraDay")
+        get() = _builder.cameraDay
+      @kotlin.jvm.JvmName("setCameraDay")
+        set(value) {
         _builder.cameraDay = value
       }
     /**
@@ -518,10 +518,10 @@ public object JonGUIStateKt {
      * `.ser.JonGuiDataCameraHeat camera_heat = 21 [(.buf.validate.field) = { ... }`
      */
     public var cameraHeat: ser.JonSharedDataCameraHeat.JonGuiDataCameraHeat
-      @JvmName("getCameraHeat")
-      get() = _builder.cameraHeat
-      @JvmName("setCameraHeat")
-      set(value) {
+      @kotlin.jvm.JvmName("getCameraHeat")
+        get() = _builder.cameraHeat
+      @kotlin.jvm.JvmName("setCameraHeat")
+        set(value) {
         _builder.cameraHeat = value
       }
     /**
@@ -545,10 +545,10 @@ public object JonGUIStateKt {
      * `.ser.JonGuiDataCompassCalibration compass_calibration = 22 [(.buf.validate.field) = { ... }`
      */
     public var compassCalibration: ser.JonSharedDataCompassCalibration.JonGuiDataCompassCalibration
-      @JvmName("getCompassCalibration")
-      get() = _builder.compassCalibration
-      @JvmName("setCompassCalibration")
-      set(value) {
+      @kotlin.jvm.JvmName("getCompassCalibration")
+        get() = _builder.compassCalibration
+      @kotlin.jvm.JvmName("setCompassCalibration")
+        set(value) {
         _builder.compassCalibration = value
       }
     /**
@@ -572,10 +572,10 @@ public object JonGUIStateKt {
      * `.ser.JonGuiDataRecOsd rec_osd = 23 [(.buf.validate.field) = { ... }`
      */
     public var recOsd: ser.JonSharedDataRecOsd.JonGuiDataRecOsd
-      @JvmName("getRecOsd")
-      get() = _builder.recOsd
-      @JvmName("setRecOsd")
-      set(value) {
+      @kotlin.jvm.JvmName("getRecOsd")
+        get() = _builder.recOsd
+      @kotlin.jvm.JvmName("setRecOsd")
+        set(value) {
         _builder.recOsd = value
       }
     /**
@@ -599,10 +599,10 @@ public object JonGUIStateKt {
      * `.ser.JonGuiDataActualSpaceTime actual_space_time = 25 [(.buf.validate.field) = { ... }`
      */
     public var actualSpaceTime: ser.JonSharedDataActualSpaceTime.JonGuiDataActualSpaceTime
-      @JvmName("getActualSpaceTime")
-      get() = _builder.actualSpaceTime
-      @JvmName("setActualSpaceTime")
-      set(value) {
+      @kotlin.jvm.JvmName("getActualSpaceTime")
+        get() = _builder.actualSpaceTime
+      @kotlin.jvm.JvmName("setActualSpaceTime")
+        set(value) {
         _builder.actualSpaceTime = value
       }
     /**
@@ -626,10 +626,10 @@ public object JonGUIStateKt {
      * `.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }`
      */
     public var power: ser.JonSharedDataPower.JonGuiDataPower
-      @JvmName("getPower")
-      get() = _builder.power
-      @JvmName("setPower")
-      set(value) {
+      @kotlin.jvm.JvmName("getPower")
+        get() = _builder.power
+      @kotlin.jvm.JvmName("setPower")
+        set(value) {
         _builder.power = value
       }
     /**
@@ -653,10 +653,10 @@ public object JonGUIStateKt {
      * `.ser.JonGuiDataCV cv = 27;`
      */
     public var cv: ser.JonSharedDataCv.JonGuiDataCV
-      @JvmName("getCv")
-      get() = _builder.cv
-      @JvmName("setCv")
-      set(value) {
+      @kotlin.jvm.JvmName("getCv")
+        get() = _builder.cv
+      @kotlin.jvm.JvmName("setCv")
+        set(value) {
         _builder.cv = value
       }
     /**
@@ -680,10 +680,10 @@ public object JonGUIStateKt {
      * `.ser.JonGuiDataPMU pmu = 28 [(.buf.validate.field) = { ... }`
      */
     public var pmu: ser.JonSharedDataPmu.JonGuiDataPMU
-      @JvmName("getPmu")
-      get() = _builder.pmu
-      @JvmName("setPmu")
-      set(value) {
+      @kotlin.jvm.JvmName("getPmu")
+        get() = _builder.pmu
+      @kotlin.jvm.JvmName("setPmu")
+        set(value) {
         _builder.pmu = value
       }
     /**
@@ -707,10 +707,10 @@ public object JonGUIStateKt {
      * `.ser.JonGuiDataHeater heater = 29;`
      */
     public var heater: ser.JonSharedDataHeater.JonGuiDataHeater
-      @JvmName("getHeater")
-      get() = _builder.heater
-      @JvmName("setHeater")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeater")
+        get() = _builder.heater
+      @kotlin.jvm.JvmName("setHeater")
+        set(value) {
         _builder.heater = value
       }
     /**
@@ -734,10 +734,10 @@ public object JonGUIStateKt {
      * `.ser.JonGuiDataDrive drive = 30;`
      */
     public var drive: ser.JonSharedDataDrive.JonGuiDataDrive
-      @JvmName("getDrive")
-      get() = _builder.drive
-      @JvmName("setDrive")
-      set(value) {
+      @kotlin.jvm.JvmName("getDrive")
+        get() = _builder.drive
+      @kotlin.jvm.JvmName("setDrive")
+        set(value) {
         _builder.drive = value
       }
     /**
@@ -768,10 +768,10 @@ public object JonGUIStateKt {
      * `.ser.JonGuiDataScene scene = 31;`
      */
     public var scene: ser.JonSharedDataScene.JonGuiDataScene
-      @JvmName("getScene")
-      get() = _builder.scene
-      @JvmName("setScene")
-      set(value) {
+      @kotlin.jvm.JvmName("getScene")
+        get() = _builder.scene
+      @kotlin.jvm.JvmName("setScene")
+        set(value) {
         _builder.scene = value
       }
     /**

@@ -12,7 +12,7 @@ use std::sync::{Arc, Mutex, OnceLock};
 use wasmtime::{Caller, Engine, Extern, Instance, Linker, Memory, Module, Store, TypedFunc};
 use wasmtime_wasi::p1::WasiP1Ctx;
 use wasmtime_wasi::p2::pipe::MemoryOutputPipe;
-use wasmtime_wasi::{DirPerms, FilePerms, WasiCtxBuilder};
+use wasmtime_wasi::{FsPerms, WasiCtxBuilder};
 /// Process-wide compiled-module cache: each DISTINCT wasm binary is
 /// cranelift-compiled once per process, not once per `ControlsHost` — the
 /// multi-MB compile dominated per-test time in the visual-regression suite.
@@ -601,7 +601,7 @@ impl ControlsHost {
                 ))
             })?;
             let _ = builder
-                .preopened_dir(&abs, "/", DirPerms::READ, FilePerms::READ)
+                .preopened_dir(&abs, "/", FsPerms::ReadOnly)
                 .map_err(|err| HarnessError::Wasm(format!("preopened_dir: {err}")))?;
         }
         let wasi_ctx = builder.build_p1();

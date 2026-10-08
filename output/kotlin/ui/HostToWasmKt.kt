@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_input.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -38,10 +39,10 @@ public object HostToWasmKt {
      * `uint32 version = 1 [(.buf.validate.field) = { ... }`
      */
     public var version: kotlin.Int
-      @JvmName("getVersion")
-      get() = _builder.version
-      @JvmName("setVersion")
-      set(value) {
+      @kotlin.jvm.JvmName("getVersion")
+        get() = _builder.version
+      @kotlin.jvm.JvmName("setVersion")
+        set(value) {
         _builder.version = value
       }
     /**
@@ -55,10 +56,10 @@ public object HostToWasmKt {
      * `.ui.PointerEvent pointer = 2;`
      */
     public var pointer: ui.UiInput.PointerEvent
-      @JvmName("getPointer")
-      get() = _builder.pointer
-      @JvmName("setPointer")
-      set(value) {
+      @kotlin.jvm.JvmName("getPointer")
+        get() = _builder.pointer
+      @kotlin.jvm.JvmName("setPointer")
+        set(value) {
         _builder.pointer = value
       }
     /**
@@ -79,10 +80,10 @@ public object HostToWasmKt {
      * `.ui.Lifecycle lifecycle = 3;`
      */
     public var lifecycle: ui.UiInput.Lifecycle
-      @JvmName("getLifecycle")
-      get() = _builder.lifecycle
-      @JvmName("setLifecycle")
-      set(value) {
+      @kotlin.jvm.JvmName("getLifecycle")
+        get() = _builder.lifecycle
+      @kotlin.jvm.JvmName("setLifecycle")
+        set(value) {
         _builder.lifecycle = value
       }
     /**

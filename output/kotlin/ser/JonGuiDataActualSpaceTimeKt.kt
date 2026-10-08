@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_actual_space_time.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -32,10 +33,10 @@ public object JonGuiDataActualSpaceTimeKt {
      * `double azimuth = 1 [(.buf.validate.field) = { ... }`
      */
     public var azimuth: kotlin.Double
-      @JvmName("getAzimuth")
-      get() = _builder.azimuth
-      @JvmName("setAzimuth")
-      set(value) {
+      @kotlin.jvm.JvmName("getAzimuth")
+        get() = _builder.azimuth
+      @kotlin.jvm.JvmName("setAzimuth")
+        set(value) {
         _builder.azimuth = value
       }
     /**
@@ -49,10 +50,10 @@ public object JonGuiDataActualSpaceTimeKt {
      * `double elevation = 2 [(.buf.validate.field) = { ... }`
      */
     public var elevation: kotlin.Double
-      @JvmName("getElevation")
-      get() = _builder.elevation
-      @JvmName("setElevation")
-      set(value) {
+      @kotlin.jvm.JvmName("getElevation")
+        get() = _builder.elevation
+      @kotlin.jvm.JvmName("setElevation")
+        set(value) {
         _builder.elevation = value
       }
     /**
@@ -66,10 +67,10 @@ public object JonGuiDataActualSpaceTimeKt {
      * `double bank = 3 [(.buf.validate.field) = { ... }`
      */
     public var bank: kotlin.Double
-      @JvmName("getBank")
-      get() = _builder.bank
-      @JvmName("setBank")
-      set(value) {
+      @kotlin.jvm.JvmName("getBank")
+        get() = _builder.bank
+      @kotlin.jvm.JvmName("setBank")
+        set(value) {
         _builder.bank = value
       }
     /**
@@ -83,10 +84,10 @@ public object JonGuiDataActualSpaceTimeKt {
      * `double latitude = 4 [(.buf.validate.field) = { ... }`
      */
     public var latitude: kotlin.Double
-      @JvmName("getLatitude")
-      get() = _builder.latitude
-      @JvmName("setLatitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getLatitude")
+        get() = _builder.latitude
+      @kotlin.jvm.JvmName("setLatitude")
+        set(value) {
         _builder.latitude = value
       }
     /**
@@ -100,10 +101,10 @@ public object JonGuiDataActualSpaceTimeKt {
      * `double longitude = 5 [(.buf.validate.field) = { ... }`
      */
     public var longitude: kotlin.Double
-      @JvmName("getLongitude")
-      get() = _builder.longitude
-      @JvmName("setLongitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getLongitude")
+        get() = _builder.longitude
+      @kotlin.jvm.JvmName("setLongitude")
+        set(value) {
         _builder.longitude = value
       }
     /**
@@ -123,10 +124,10 @@ public object JonGuiDataActualSpaceTimeKt {
      * `double altitude = 6;`
      */
     public var altitude: kotlin.Double
-      @JvmName("getAltitude")
-      get() = _builder.altitude
-      @JvmName("setAltitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getAltitude")
+        get() = _builder.altitude
+      @kotlin.jvm.JvmName("setAltitude")
+        set(value) {
         _builder.altitude = value
       }
     /**
@@ -146,10 +147,10 @@ public object JonGuiDataActualSpaceTimeKt {
      * `int64 timestamp = 7 [(.buf.validate.field) = { ... }`
      */
     public var timestamp: kotlin.Long
-      @JvmName("getTimestamp")
-      get() = _builder.timestamp
-      @JvmName("setTimestamp")
-      set(value) {
+      @kotlin.jvm.JvmName("getTimestamp")
+        get() = _builder.timestamp
+      @kotlin.jvm.JvmName("setTimestamp")
+        set(value) {
         _builder.timestamp = value
       }
     /**

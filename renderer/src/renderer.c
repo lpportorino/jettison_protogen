@@ -2207,7 +2207,7 @@ static void slider_press_seek_cb(lv_event_t *e) {
   const int32_t range = slider->bar.max_value - slider->bar.min_value;
   const bool is_rtl =
       LV_BASE_DIR_RTL == lv_obj_get_style_base_dir(obj, LV_PART_MAIN);
-  const bool is_reversed = slider->bar.val_reversed ^ (is_rtl && is_hor);
+  const bool is_reversed = slider->bar.val_reversed != (is_rtl && is_hor);
   int32_t new_value = 0;
   if (is_hor) {
     const int32_t bg_left = lv_obj_get_style_pad_left(obj, LV_PART_MAIN);
@@ -3497,6 +3497,7 @@ static int32_t *alloc_grid_template(const int32_t *tracks, pb_size_t count) {
   int32_t *slot = grid_template_pool[grid_template_count++];
   for (pb_size_t i = 0; i < count; i++)
     slot[i] = tracks[i];
+  /* LVGL owns this sentinel: LV_COORD_MAX is the representable (1 << 29)-1. */
   slot[count] = LV_GRID_TEMPLATE_LAST;
   return slot;
 }

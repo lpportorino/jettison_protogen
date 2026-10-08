@@ -8,10 +8,9 @@
 #
 #   tools/uber.sh 'tools/gen_fonts.sh'
 #
-# REPRODUCIBILITY. lv_font_conv is pinned to 1.5.2 in Dockerfile.base — the
-# newest release whose rasterizer reproduces the historically-committed glyph
-# bitmaps byte-for-byte (1.5.3 changed the anti-aliasing, which would re-mint
-# every font-bearing golden). The output is RAW lv_font_conv (no clang-format):
+# REPRODUCIBILITY. lv_font_conv is pinned in Dockerfile.base. Version 1.5.3
+# changes anti-aliasing relative to 1.5.2, so its upgrade includes a font,
+# golden and gallery regeneration. The output is RAW lv_font_conv:
 # .clang-format excludes renderer/src/font_*.c as "generated LVGL font data ...
 # never handed to the tool", so raw generator output is the canonical form.
 # Idempotent: re-running produces byte-identical files.

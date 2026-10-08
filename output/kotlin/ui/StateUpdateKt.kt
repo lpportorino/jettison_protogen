@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -43,7 +44,7 @@ public object StateUpdateKt {
      */
      public val values: com.google.protobuf.kotlin.DslList<ui.UiAst.SubjectValue, ValuesProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.valuesList
       )
     /**
@@ -51,7 +52,7 @@ public object StateUpdateKt {
      * @param value The values to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addValues")
+@kotlin.jvm.JvmName("addValues")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.SubjectValue, ValuesProxy>.add(value: ui.UiAst.SubjectValue) {
       _builder.addValues(value)
     }
@@ -60,7 +61,7 @@ public object StateUpdateKt {
      * @param value The values to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignValues")
+@kotlin.jvm.JvmName("plusAssignValues")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.SubjectValue, ValuesProxy>.plusAssign(value: ui.UiAst.SubjectValue) {
       add(value)
@@ -70,7 +71,7 @@ public object StateUpdateKt {
      * @param values The values to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllValues")
+@kotlin.jvm.JvmName("addAllValues")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.SubjectValue, ValuesProxy>.addAll(values: kotlin.collections.Iterable<ui.UiAst.SubjectValue>) {
       _builder.addAllValues(values)
     }
@@ -79,7 +80,7 @@ public object StateUpdateKt {
      * @param values The values to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllValues")
+@kotlin.jvm.JvmName("plusAssignAllValues")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.SubjectValue, ValuesProxy>.plusAssign(values: kotlin.collections.Iterable<ui.UiAst.SubjectValue>) {
       addAll(values)
@@ -90,7 +91,7 @@ public object StateUpdateKt {
      * @param value The values to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setValues")
+@kotlin.jvm.JvmName("setValues")
     public operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.SubjectValue, ValuesProxy>.set(index: kotlin.Int, value: ui.UiAst.SubjectValue) {
       _builder.setValues(index, value)
     }
@@ -98,11 +99,10 @@ public object StateUpdateKt {
      * `repeated .ui.SubjectValue values = 1;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearValues")
+@kotlin.jvm.JvmName("clearValues")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.SubjectValue, ValuesProxy>.clear() {
       _builder.clearValues()
     }
-
   }
 }
 @kotlin.jvm.JvmSynthetic

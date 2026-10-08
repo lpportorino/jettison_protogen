@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_cv_dump_archive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.cvdump;
@@ -59,17 +60,17 @@ public object CvDumpArchiveKt {
      * `.jon.cvdump.ArchiveFormatVersion version = 1;`
      */
     public var version: jon.cvdump.JonCvDumpArchive.ArchiveFormatVersion
-      @JvmName("getVersion")
-      get() = _builder.version
-      @JvmName("setVersion")
-      set(value) {
+      @kotlin.jvm.JvmName("getVersion")
+        get() = _builder.version
+      @kotlin.jvm.JvmName("setVersion")
+        set(value) {
         _builder.version = value
       }
     public var versionValue: kotlin.Int
-      @JvmName("getVersionValue")
-      get() = _builder.versionValue
-      @JvmName("setVersionValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getVersionValue")
+        get() = _builder.versionValue
+      @kotlin.jvm.JvmName("setVersionValue")
+        set(value) {
         _builder.versionValue = value
       }
     /**
@@ -94,10 +95,10 @@ public object CvDumpArchiveKt {
      * `string id = 2 [(.buf.validate.field) = { ... }`
      */
     public var id: kotlin.String
-      @JvmName("getId")
-      get() = _builder.id
-      @JvmName("setId")
-      set(value) {
+      @kotlin.jvm.JvmName("getId")
+        get() = _builder.id
+      @kotlin.jvm.JvmName("setId")
+        set(value) {
         _builder.id = value
       }
     /**
@@ -122,10 +123,10 @@ public object CvDumpArchiveKt {
      * `string generated_at = 3;`
      */
     public var generatedAt: kotlin.String
-      @JvmName("getGeneratedAt")
-      get() = _builder.generatedAt
-      @JvmName("setGeneratedAt")
-      set(value) {
+      @kotlin.jvm.JvmName("getGeneratedAt")
+        get() = _builder.generatedAt
+      @kotlin.jvm.JvmName("setGeneratedAt")
+        set(value) {
         _builder.generatedAt = value
       }
     /**
@@ -148,10 +149,10 @@ public object CvDumpArchiveKt {
      * `.jon.cvdump.CaptureWindow window = 4;`
      */
     public var window: jon.cvdump.JonCvDumpArchive.CaptureWindow
-      @JvmName("getWindow")
-      get() = _builder.window
-      @JvmName("setWindow")
-      set(value) {
+      @kotlin.jvm.JvmName("getWindow")
+        get() = _builder.window
+      @kotlin.jvm.JvmName("setWindow")
+        set(value) {
         _builder.window = value
       }
     /**
@@ -183,17 +184,17 @@ public object CvDumpArchiveKt {
      * `.jon.cvdump.SessionProvenance provenance = 5;`
      */
     public var provenance: jon.cvdump.JonCvDumpArchive.SessionProvenance
-      @JvmName("getProvenance")
-      get() = _builder.provenance
-      @JvmName("setProvenance")
-      set(value) {
+      @kotlin.jvm.JvmName("getProvenance")
+        get() = _builder.provenance
+      @kotlin.jvm.JvmName("setProvenance")
+        set(value) {
         _builder.provenance = value
       }
     public var provenanceValue: kotlin.Int
-      @JvmName("getProvenanceValue")
-      get() = _builder.provenanceValue
-      @JvmName("setProvenanceValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getProvenanceValue")
+        get() = _builder.provenanceValue
+      @kotlin.jvm.JvmName("setProvenanceValue")
+        set(value) {
         _builder.provenanceValue = value
       }
     /**
@@ -214,10 +215,10 @@ public object CvDumpArchiveKt {
      * `string note = 6;`
      */
     public var note: kotlin.String
-      @JvmName("getNote")
-      get() = _builder.note
-      @JvmName("setNote")
-      set(value) {
+      @kotlin.jvm.JvmName("getNote")
+        get() = _builder.note
+      @kotlin.jvm.JvmName("setNote")
+        set(value) {
         _builder.note = value
       }
     /**
@@ -242,10 +243,10 @@ public object CvDumpArchiveKt {
      * `.jon.cvdump.MachineIdentity machine = 7;`
      */
     public var machine: jon.cvdump.JonCvDumpArchive.MachineIdentity
-      @JvmName("getMachine")
-      get() = _builder.machine
-      @JvmName("setMachine")
-      set(value) {
+      @kotlin.jvm.JvmName("getMachine")
+        get() = _builder.machine
+      @kotlin.jvm.JvmName("setMachine")
+        set(value) {
         _builder.machine = value
       }
     /**
@@ -282,10 +283,10 @@ public object CvDumpArchiveKt {
      * `.jon.cvdump.IntegrityReport integrity = 8;`
      */
     public var integrity: jon.cvdump.JonCvDumpArchive.IntegrityReport
-      @JvmName("getIntegrity")
-      get() = _builder.integrity
-      @JvmName("setIntegrity")
-      set(value) {
+      @kotlin.jvm.JvmName("getIntegrity")
+        get() = _builder.integrity
+      @kotlin.jvm.JvmName("setIntegrity")
+        set(value) {
         _builder.integrity = value
       }
     /**
@@ -338,7 +339,7 @@ public object CvDumpArchiveKt {
      */
      public val video: com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.VideoChannel, VideoProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.videoList
       )
     /**
@@ -358,7 +359,7 @@ public object CvDumpArchiveKt {
      * @param value The video to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addVideo")
+@kotlin.jvm.JvmName("addVideo")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.VideoChannel, VideoProxy>.add(value: jon.cvdump.JonCvDumpArchive.VideoChannel) {
       _builder.addVideo(value)
     }
@@ -379,7 +380,7 @@ public object CvDumpArchiveKt {
      * @param value The video to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignVideo")
+@kotlin.jvm.JvmName("plusAssignVideo")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.VideoChannel, VideoProxy>.plusAssign(value: jon.cvdump.JonCvDumpArchive.VideoChannel) {
       add(value)
@@ -401,7 +402,7 @@ public object CvDumpArchiveKt {
      * @param values The video to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllVideo")
+@kotlin.jvm.JvmName("addAllVideo")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.VideoChannel, VideoProxy>.addAll(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.VideoChannel>) {
       _builder.addAllVideo(values)
     }
@@ -422,7 +423,7 @@ public object CvDumpArchiveKt {
      * @param values The video to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllVideo")
+@kotlin.jvm.JvmName("plusAssignAllVideo")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.VideoChannel, VideoProxy>.plusAssign(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.VideoChannel>) {
       addAll(values)
@@ -445,7 +446,7 @@ public object CvDumpArchiveKt {
      * @param value The video to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setVideo")
+@kotlin.jvm.JvmName("setVideo")
     public operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.VideoChannel, VideoProxy>.set(index: kotlin.Int, value: jon.cvdump.JonCvDumpArchive.VideoChannel) {
       _builder.setVideo(index, value)
     }
@@ -465,11 +466,10 @@ public object CvDumpArchiveKt {
      * `repeated .jon.cvdump.VideoChannel video = 9;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearVideo")
+@kotlin.jvm.JvmName("clearVideo")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.VideoChannel, VideoProxy>.clear() {
       _builder.clearVideo()
     }
-
 
     /**
      * An uninstantiable, behaviorless type to represent the field in
@@ -487,7 +487,7 @@ public object CvDumpArchiveKt {
      */
      public val streams: com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.StreamGroup, StreamsProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.streamsList
       )
     /**
@@ -500,7 +500,7 @@ public object CvDumpArchiveKt {
      * @param value The streams to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addStreams")
+@kotlin.jvm.JvmName("addStreams")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.StreamGroup, StreamsProxy>.add(value: jon.cvdump.JonCvDumpArchive.StreamGroup) {
       _builder.addStreams(value)
     }
@@ -514,7 +514,7 @@ public object CvDumpArchiveKt {
      * @param value The streams to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignStreams")
+@kotlin.jvm.JvmName("plusAssignStreams")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.StreamGroup, StreamsProxy>.plusAssign(value: jon.cvdump.JonCvDumpArchive.StreamGroup) {
       add(value)
@@ -529,7 +529,7 @@ public object CvDumpArchiveKt {
      * @param values The streams to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllStreams")
+@kotlin.jvm.JvmName("addAllStreams")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.StreamGroup, StreamsProxy>.addAll(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.StreamGroup>) {
       _builder.addAllStreams(values)
     }
@@ -543,7 +543,7 @@ public object CvDumpArchiveKt {
      * @param values The streams to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllStreams")
+@kotlin.jvm.JvmName("plusAssignAllStreams")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.StreamGroup, StreamsProxy>.plusAssign(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.StreamGroup>) {
       addAll(values)
@@ -559,7 +559,7 @@ public object CvDumpArchiveKt {
      * @param value The streams to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setStreams")
+@kotlin.jvm.JvmName("setStreams")
     public operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.StreamGroup, StreamsProxy>.set(index: kotlin.Int, value: jon.cvdump.JonCvDumpArchive.StreamGroup) {
       _builder.setStreams(index, value)
     }
@@ -572,11 +572,10 @@ public object CvDumpArchiveKt {
      * `repeated .jon.cvdump.StreamGroup streams = 10;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearStreams")
+@kotlin.jvm.JvmName("clearStreams")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.StreamGroup, StreamsProxy>.clear() {
       _builder.clearStreams()
     }
-
 
     /**
      * An uninstantiable, behaviorless type to represent the field in
@@ -597,7 +596,7 @@ public object CvDumpArchiveKt {
      */
      public val shots: com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotCapture, ShotsProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.shotsList
       )
     /**
@@ -613,7 +612,7 @@ public object CvDumpArchiveKt {
      * @param value The shots to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addShots")
+@kotlin.jvm.JvmName("addShots")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotCapture, ShotsProxy>.add(value: jon.cvdump.JonCvDumpArchive.ShotCapture) {
       _builder.addShots(value)
     }
@@ -630,7 +629,7 @@ public object CvDumpArchiveKt {
      * @param value The shots to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignShots")
+@kotlin.jvm.JvmName("plusAssignShots")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotCapture, ShotsProxy>.plusAssign(value: jon.cvdump.JonCvDumpArchive.ShotCapture) {
       add(value)
@@ -648,7 +647,7 @@ public object CvDumpArchiveKt {
      * @param values The shots to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllShots")
+@kotlin.jvm.JvmName("addAllShots")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotCapture, ShotsProxy>.addAll(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.ShotCapture>) {
       _builder.addAllShots(values)
     }
@@ -665,7 +664,7 @@ public object CvDumpArchiveKt {
      * @param values The shots to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllShots")
+@kotlin.jvm.JvmName("plusAssignAllShots")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotCapture, ShotsProxy>.plusAssign(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.ShotCapture>) {
       addAll(values)
@@ -684,7 +683,7 @@ public object CvDumpArchiveKt {
      * @param value The shots to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setShots")
+@kotlin.jvm.JvmName("setShots")
     public operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotCapture, ShotsProxy>.set(index: kotlin.Int, value: jon.cvdump.JonCvDumpArchive.ShotCapture) {
       _builder.setShots(index, value)
     }
@@ -700,11 +699,10 @@ public object CvDumpArchiveKt {
      * `repeated .jon.cvdump.ShotCapture shots = 11;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearShots")
+@kotlin.jvm.JvmName("clearShots")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.ShotCapture, ShotsProxy>.clear() {
       _builder.clearShots()
     }
-
   }
 }
 @kotlin.jvm.JvmSynthetic

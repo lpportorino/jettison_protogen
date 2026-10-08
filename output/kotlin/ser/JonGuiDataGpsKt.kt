@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_gps.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -32,10 +33,10 @@ public object JonGuiDataGpsKt {
      * `double longitude = 1 [(.buf.validate.field) = { ... }`
      */
     public var longitude: kotlin.Double
-      @JvmName("getLongitude")
-      get() = _builder.longitude
-      @JvmName("setLongitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getLongitude")
+        get() = _builder.longitude
+      @kotlin.jvm.JvmName("setLongitude")
+        set(value) {
         _builder.longitude = value
       }
     /**
@@ -49,10 +50,10 @@ public object JonGuiDataGpsKt {
      * `double latitude = 2 [(.buf.validate.field) = { ... }`
      */
     public var latitude: kotlin.Double
-      @JvmName("getLatitude")
-      get() = _builder.latitude
-      @JvmName("setLatitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getLatitude")
+        get() = _builder.latitude
+      @kotlin.jvm.JvmName("setLatitude")
+        set(value) {
         _builder.latitude = value
       }
     /**
@@ -72,10 +73,10 @@ public object JonGuiDataGpsKt {
      * `double altitude = 3;`
      */
     public var altitude: kotlin.Double
-      @JvmName("getAltitude")
-      get() = _builder.altitude
-      @JvmName("setAltitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getAltitude")
+        get() = _builder.altitude
+      @kotlin.jvm.JvmName("setAltitude")
+        set(value) {
         _builder.altitude = value
       }
     /**
@@ -95,10 +96,10 @@ public object JonGuiDataGpsKt {
      * `double manual_longitude = 4 [(.buf.validate.field) = { ... }`
      */
     public var manualLongitude: kotlin.Double
-      @JvmName("getManualLongitude")
-      get() = _builder.manualLongitude
-      @JvmName("setManualLongitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getManualLongitude")
+        get() = _builder.manualLongitude
+      @kotlin.jvm.JvmName("setManualLongitude")
+        set(value) {
         _builder.manualLongitude = value
       }
     /**
@@ -112,10 +113,10 @@ public object JonGuiDataGpsKt {
      * `double manual_latitude = 5 [(.buf.validate.field) = { ... }`
      */
     public var manualLatitude: kotlin.Double
-      @JvmName("getManualLatitude")
-      get() = _builder.manualLatitude
-      @JvmName("setManualLatitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getManualLatitude")
+        get() = _builder.manualLatitude
+      @kotlin.jvm.JvmName("setManualLatitude")
+        set(value) {
         _builder.manualLatitude = value
       }
     /**
@@ -133,10 +134,10 @@ public object JonGuiDataGpsKt {
      * `double manual_altitude = 6;`
      */
     public var manualAltitude: kotlin.Double
-      @JvmName("getManualAltitude")
-      get() = _builder.manualAltitude
-      @JvmName("setManualAltitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getManualAltitude")
+        get() = _builder.manualAltitude
+      @kotlin.jvm.JvmName("setManualAltitude")
+        set(value) {
         _builder.manualAltitude = value
       }
     /**
@@ -154,17 +155,17 @@ public object JonGuiDataGpsKt {
      * `.ser.JonGuiDataGpsFixType fix_type = 7 [(.buf.validate.field) = { ... }`
      */
     public var fixType: ser.JonSharedDataTypes.JonGuiDataGpsFixType
-      @JvmName("getFixType")
-      get() = _builder.fixType
-      @JvmName("setFixType")
-      set(value) {
+      @kotlin.jvm.JvmName("getFixType")
+        get() = _builder.fixType
+      @kotlin.jvm.JvmName("setFixType")
+        set(value) {
         _builder.fixType = value
       }
     public var fixTypeValue: kotlin.Int
-      @JvmName("getFixTypeValue")
-      get() = _builder.fixTypeValue
-      @JvmName("setFixTypeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getFixTypeValue")
+        get() = _builder.fixTypeValue
+      @kotlin.jvm.JvmName("setFixTypeValue")
+        set(value) {
         _builder.fixTypeValue = value
       }
     /**
@@ -178,10 +179,10 @@ public object JonGuiDataGpsKt {
      * `bool use_manual = 8;`
      */
     public var useManual: kotlin.Boolean
-      @JvmName("getUseManual")
-      get() = _builder.useManual
-      @JvmName("setUseManual")
-      set(value) {
+      @kotlin.jvm.JvmName("getUseManual")
+        get() = _builder.useManual
+      @kotlin.jvm.JvmName("setUseManual")
+        set(value) {
         _builder.useManual = value
       }
     /**
@@ -199,10 +200,10 @@ public object JonGuiDataGpsKt {
      * `int64 timestamp = 9;`
      */
     public var timestamp: kotlin.Long
-      @JvmName("getTimestamp")
-      get() = _builder.timestamp
-      @JvmName("setTimestamp")
-      set(value) {
+      @kotlin.jvm.JvmName("getTimestamp")
+        get() = _builder.timestamp
+      @kotlin.jvm.JvmName("setTimestamp")
+        set(value) {
         _builder.timestamp = value
       }
     /**
@@ -220,10 +221,10 @@ public object JonGuiDataGpsKt {
      * `bool is_started = 10;`
      */
     public var isStarted: kotlin.Boolean
-      @JvmName("getIsStarted")
-      get() = _builder.isStarted
-      @JvmName("setIsStarted")
-      set(value) {
+      @kotlin.jvm.JvmName("getIsStarted")
+        get() = _builder.isStarted
+      @kotlin.jvm.JvmName("setIsStarted")
+        set(value) {
         _builder.isStarted = value
       }
     /**
@@ -237,10 +238,10 @@ public object JonGuiDataGpsKt {
      * `.ser.JonGuiDataMeteo meteo = 11;`
      */
     public var meteo: ser.JonSharedDataTypes.JonGuiDataMeteo
-      @JvmName("getMeteo")
-      get() = _builder.meteo
-      @JvmName("setMeteo")
-      set(value) {
+      @kotlin.jvm.JvmName("getMeteo")
+        get() = _builder.meteo
+      @kotlin.jvm.JvmName("setMeteo")
+        set(value) {
         _builder.meteo = value
       }
     /**
@@ -264,10 +265,10 @@ public object JonGuiDataGpsKt {
      * `.ser.JonGuiDataModuleHealth health = 40;`
      */
     public var health: ser.JonSharedDataTypes.JonGuiDataModuleHealth
-      @JvmName("getHealth")
-      get() = _builder.health
-      @JvmName("setHealth")
-      set(value) {
+      @kotlin.jvm.JvmName("getHealth")
+        get() = _builder.health
+      @kotlin.jvm.JvmName("setHealth")
+        set(value) {
         _builder.health = value
       }
     /**

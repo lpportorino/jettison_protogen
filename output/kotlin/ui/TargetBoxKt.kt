@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -47,10 +48,10 @@ public object TargetBoxKt {
      * `int32 x = 1;`
      */
     public var x: kotlin.Int
-      @JvmName("getX")
-      get() = _builder.x
-      @JvmName("setX")
-      set(value) {
+      @kotlin.jvm.JvmName("getX")
+        get() = _builder.x
+      @kotlin.jvm.JvmName("setX")
+        set(value) {
         _builder.x = value
       }
     /**
@@ -74,10 +75,10 @@ public object TargetBoxKt {
      * `int32 y = 2;`
      */
     public var y: kotlin.Int
-      @JvmName("getY")
-      get() = _builder.y
-      @JvmName("setY")
-      set(value) {
+      @kotlin.jvm.JvmName("getY")
+        get() = _builder.y
+      @kotlin.jvm.JvmName("setY")
+        set(value) {
         _builder.y = value
       }
     /**
@@ -91,10 +92,10 @@ public object TargetBoxKt {
      * `int32 w = 3;`
      */
     public var w: kotlin.Int
-      @JvmName("getW")
-      get() = _builder.w
-      @JvmName("setW")
-      set(value) {
+      @kotlin.jvm.JvmName("getW")
+        get() = _builder.w
+      @kotlin.jvm.JvmName("setW")
+        set(value) {
         _builder.w = value
       }
     /**
@@ -108,10 +109,10 @@ public object TargetBoxKt {
      * `int32 h = 4;`
      */
     public var h: kotlin.Int
-      @JvmName("getH")
-      get() = _builder.h
-      @JvmName("setH")
-      set(value) {
+      @kotlin.jvm.JvmName("getH")
+        get() = _builder.h
+      @kotlin.jvm.JvmName("setH")
+        set(value) {
         _builder.h = value
       }
     /**
@@ -136,10 +137,10 @@ public object TargetBoxKt {
      * `string label = 5 [(.buf.validate.field) = { ... }`
      */
     public var label: kotlin.String
-      @JvmName("getLabel")
-      get() = _builder.label
-      @JvmName("setLabel")
-      set(value) {
+      @kotlin.jvm.JvmName("getLabel")
+        get() = _builder.label
+      @kotlin.jvm.JvmName("setLabel")
+        set(value) {
         _builder.label = value
       }
     /**
@@ -171,10 +172,10 @@ public object TargetBoxKt {
      * `.ui.Color color = 6;`
      */
     public var color: ui.UiAst.Color
-      @JvmName("getColor")
-      get() = _builder.color
-      @JvmName("setColor")
-      set(value) {
+      @kotlin.jvm.JvmName("getColor")
+        get() = _builder.color
+      @kotlin.jvm.JvmName("setColor")
+        set(value) {
         _builder.color = value
       }
     /**

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_video_meta.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.video;
@@ -37,10 +38,10 @@ public object VideoMetaKt {
      * `string uuid = 1;`
      */
     public var uuid: kotlin.String
-      @JvmName("getUuid")
-      get() = _builder.uuid
-      @JvmName("setUuid")
-      set(value) {
+      @kotlin.jvm.JvmName("getUuid")
+        get() = _builder.uuid
+      @kotlin.jvm.JvmName("setUuid")
+        set(value) {
         _builder.uuid = value
       }
     /**
@@ -54,10 +55,10 @@ public object VideoMetaKt {
      * `int32 session_id = 2;`
      */
     public var sessionId: kotlin.Int
-      @JvmName("getSessionId")
-      get() = _builder.sessionId
-      @JvmName("setSessionId")
-      set(value) {
+      @kotlin.jvm.JvmName("getSessionId")
+        get() = _builder.sessionId
+      @kotlin.jvm.JvmName("setSessionId")
+        set(value) {
         _builder.sessionId = value
       }
     /**
@@ -75,10 +76,10 @@ public object VideoMetaKt {
      * `uint64 timestamp = 3;`
      */
     public var timestamp: kotlin.Long
-      @JvmName("getTimestamp")
-      get() = _builder.timestamp
-      @JvmName("setTimestamp")
-      set(value) {
+      @kotlin.jvm.JvmName("getTimestamp")
+        get() = _builder.timestamp
+      @kotlin.jvm.JvmName("setTimestamp")
+        set(value) {
         _builder.timestamp = value
       }
     /**
@@ -100,10 +101,10 @@ public object VideoMetaKt {
      * `string storage_path = 4;`
      */
     public var storagePath: kotlin.String
-      @JvmName("getStoragePath")
-      get() = _builder.storagePath
-      @JvmName("setStoragePath")
-      set(value) {
+      @kotlin.jvm.JvmName("getStoragePath")
+        get() = _builder.storagePath
+      @kotlin.jvm.JvmName("setStoragePath")
+        set(value) {
         _builder.storagePath = value
       }
     /**
@@ -125,10 +126,10 @@ public object VideoMetaKt {
      * `string source_type = 5;`
      */
     public var sourceType: kotlin.String
-      @JvmName("getSourceType")
-      get() = _builder.sourceType
-      @JvmName("setSourceType")
-      set(value) {
+      @kotlin.jvm.JvmName("getSourceType")
+        get() = _builder.sourceType
+      @kotlin.jvm.JvmName("setSourceType")
+        set(value) {
         _builder.sourceType = value
       }
     /**
@@ -150,10 +151,10 @@ public object VideoMetaKt {
      * `uint32 frame_count = 6;`
      */
     public var frameCount: kotlin.Int
-      @JvmName("getFrameCount")
-      get() = _builder.frameCount
-      @JvmName("setFrameCount")
-      set(value) {
+      @kotlin.jvm.JvmName("getFrameCount")
+        get() = _builder.frameCount
+      @kotlin.jvm.JvmName("setFrameCount")
+        set(value) {
         _builder.frameCount = value
       }
     /**
@@ -171,10 +172,10 @@ public object VideoMetaKt {
      * `uint32 duration_ms = 7;`
      */
     public var durationMs: kotlin.Int
-      @JvmName("getDurationMs")
-      get() = _builder.durationMs
-      @JvmName("setDurationMs")
-      set(value) {
+      @kotlin.jvm.JvmName("getDurationMs")
+        get() = _builder.durationMs
+      @kotlin.jvm.JvmName("setDurationMs")
+        set(value) {
         _builder.durationMs = value
       }
     /**
@@ -192,10 +193,10 @@ public object VideoMetaKt {
      * `.jon.video.SampleTable sample_table = 12;`
      */
     public var sampleTable: jon.video.JonVideoMeta.SampleTable
-      @JvmName("getSampleTable")
-      get() = _builder.sampleTable
-      @JvmName("setSampleTable")
-      set(value) {
+      @kotlin.jvm.JvmName("getSampleTable")
+        get() = _builder.sampleTable
+      @kotlin.jvm.JvmName("setSampleTable")
+        set(value) {
         _builder.sampleTable = value
       }
     /**

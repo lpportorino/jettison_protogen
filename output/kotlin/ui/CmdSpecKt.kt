@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -41,10 +42,10 @@ public object CmdSpecKt {
      * `string command_id = 1 [(.buf.validate.field) = { ... }`
      */
     public var commandId: kotlin.String
-      @JvmName("getCommandId")
-      get() = _builder.commandId
-      @JvmName("setCommandId")
-      set(value) {
+      @kotlin.jvm.JvmName("getCommandId")
+        get() = _builder.commandId
+      @kotlin.jvm.JvmName("setCommandId")
+        set(value) {
         _builder.commandId = value
       }
     /**
@@ -68,10 +69,10 @@ public object CmdSpecKt {
      * `bytes root_template = 2;`
      */
     public var rootTemplate: com.google.protobuf.ByteString
-      @JvmName("getRootTemplate")
-      get() = _builder.rootTemplate
-      @JvmName("setRootTemplate")
-      set(value) {
+      @kotlin.jvm.JvmName("getRootTemplate")
+        get() = _builder.rootTemplate
+      @kotlin.jvm.JvmName("setRootTemplate")
+        set(value) {
         _builder.rootTemplate = value
       }
     /**
@@ -106,7 +107,7 @@ public object CmdSpecKt {
      */
      public val patches: com.google.protobuf.kotlin.DslList<ui.UiAst.FieldPatch, PatchesProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.patchesList
       )
     /**
@@ -123,7 +124,7 @@ public object CmdSpecKt {
      * @param value The patches to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addPatches")
+@kotlin.jvm.JvmName("addPatches")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.FieldPatch, PatchesProxy>.add(value: ui.UiAst.FieldPatch) {
       _builder.addPatches(value)
     }
@@ -141,7 +142,7 @@ public object CmdSpecKt {
      * @param value The patches to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignPatches")
+@kotlin.jvm.JvmName("plusAssignPatches")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.FieldPatch, PatchesProxy>.plusAssign(value: ui.UiAst.FieldPatch) {
       add(value)
@@ -160,7 +161,7 @@ public object CmdSpecKt {
      * @param values The patches to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllPatches")
+@kotlin.jvm.JvmName("addAllPatches")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.FieldPatch, PatchesProxy>.addAll(values: kotlin.collections.Iterable<ui.UiAst.FieldPatch>) {
       _builder.addAllPatches(values)
     }
@@ -178,7 +179,7 @@ public object CmdSpecKt {
      * @param values The patches to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllPatches")
+@kotlin.jvm.JvmName("plusAssignAllPatches")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.FieldPatch, PatchesProxy>.plusAssign(values: kotlin.collections.Iterable<ui.UiAst.FieldPatch>) {
       addAll(values)
@@ -198,7 +199,7 @@ public object CmdSpecKt {
      * @param value The patches to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setPatches")
+@kotlin.jvm.JvmName("setPatches")
     public operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.FieldPatch, PatchesProxy>.set(index: kotlin.Int, value: ui.UiAst.FieldPatch) {
       _builder.setPatches(index, value)
     }
@@ -215,11 +216,10 @@ public object CmdSpecKt {
      * `repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearPatches")
+@kotlin.jvm.JvmName("clearPatches")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.FieldPatch, PatchesProxy>.clear() {
       _builder.clearPatches()
     }
-
 
     /**
      * ```
@@ -231,17 +231,17 @@ public object CmdSpecKt {
      * `.ui.NdcYSense ndc_y_sense = 4 [(.buf.validate.field) = { ... }`
      */
     public var ndcYSense: ui.UiAst.NdcYSense
-      @JvmName("getNdcYSense")
-      get() = _builder.ndcYSense
-      @JvmName("setNdcYSense")
-      set(value) {
+      @kotlin.jvm.JvmName("getNdcYSense")
+        get() = _builder.ndcYSense
+      @kotlin.jvm.JvmName("setNdcYSense")
+        set(value) {
         _builder.ndcYSense = value
       }
     public var ndcYSenseValue: kotlin.Int
-      @JvmName("getNdcYSenseValue")
-      get() = _builder.ndcYSenseValue
-      @JvmName("setNdcYSenseValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getNdcYSenseValue")
+        get() = _builder.ndcYSenseValue
+      @kotlin.jvm.JvmName("setNdcYSenseValue")
+        set(value) {
         _builder.ndcYSenseValue = value
       }
     /**

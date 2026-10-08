@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_cv_dump_archive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.cvdump;
@@ -46,10 +47,10 @@ public object CaptureWindowKt {
      * `string t0_wall = 1;`
      */
     public var t0Wall: kotlin.String
-      @JvmName("getT0Wall")
-      get() = _builder.t0Wall
-      @JvmName("setT0Wall")
-      set(value) {
+      @kotlin.jvm.JvmName("getT0Wall")
+        get() = _builder.t0Wall
+      @kotlin.jvm.JvmName("setT0Wall")
+        set(value) {
         _builder.t0Wall = value
       }
     /**
@@ -67,10 +68,10 @@ public object CaptureWindowKt {
      * `string t1_wall = 2;`
      */
     public var t1Wall: kotlin.String
-      @JvmName("getT1Wall")
-      get() = _builder.t1Wall
-      @JvmName("setT1Wall")
-      set(value) {
+      @kotlin.jvm.JvmName("getT1Wall")
+        get() = _builder.t1Wall
+      @kotlin.jvm.JvmName("setT1Wall")
+        set(value) {
         _builder.t1Wall = value
       }
     /**
@@ -88,10 +89,10 @@ public object CaptureWindowKt {
      * `int64 t0_boot_ns = 3;`
      */
     public var t0BootNs: kotlin.Long
-      @JvmName("getT0BootNs")
-      get() = _builder.t0BootNs
-      @JvmName("setT0BootNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getT0BootNs")
+        get() = _builder.t0BootNs
+      @kotlin.jvm.JvmName("setT0BootNs")
+        set(value) {
         _builder.t0BootNs = value
       }
     /**
@@ -113,10 +114,10 @@ public object CaptureWindowKt {
      * `int64 t1_boot_ns = 4;`
      */
     public var t1BootNs: kotlin.Long
-      @JvmName("getT1BootNs")
-      get() = _builder.t1BootNs
-      @JvmName("setT1BootNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getT1BootNs")
+        get() = _builder.t1BootNs
+      @kotlin.jvm.JvmName("setT1BootNs")
+        set(value) {
         _builder.t1BootNs = value
       }
     /**

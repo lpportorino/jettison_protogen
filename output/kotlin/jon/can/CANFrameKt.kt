@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_can_stream.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.can;
@@ -40,10 +41,10 @@ public object CANFrameKt {
      * `uint64 timestamp_us = 1;`
      */
     public var timestampUs: kotlin.Long
-      @JvmName("getTimestampUs")
-      get() = _builder.timestampUs
-      @JvmName("setTimestampUs")
-      set(value) {
+      @kotlin.jvm.JvmName("getTimestampUs")
+        get() = _builder.timestampUs
+      @kotlin.jvm.JvmName("setTimestampUs")
+        set(value) {
         _builder.timestampUs = value
       }
     /**
@@ -65,10 +66,10 @@ public object CANFrameKt {
      * `uint32 can_id = 2 [(.buf.validate.field) = { ... }`
      */
     public var canId: kotlin.Int
-      @JvmName("getCanId")
-      get() = _builder.canId
-      @JvmName("setCanId")
-      set(value) {
+      @kotlin.jvm.JvmName("getCanId")
+        get() = _builder.canId
+      @kotlin.jvm.JvmName("setCanId")
+        set(value) {
         _builder.canId = value
       }
     /**
@@ -90,10 +91,10 @@ public object CANFrameKt {
      * `bool is_rx = 3;`
      */
     public var isRx: kotlin.Boolean
-      @JvmName("getIsRx")
-      get() = _builder.isRx
-      @JvmName("setIsRx")
-      set(value) {
+      @kotlin.jvm.JvmName("getIsRx")
+        get() = _builder.isRx
+      @kotlin.jvm.JvmName("setIsRx")
+        set(value) {
         _builder.isRx = value
       }
     /**
@@ -115,10 +116,10 @@ public object CANFrameKt {
      * `bool is_fd = 4;`
      */
     public var isFd: kotlin.Boolean
-      @JvmName("getIsFd")
-      get() = _builder.isFd
-      @JvmName("setIsFd")
-      set(value) {
+      @kotlin.jvm.JvmName("getIsFd")
+        get() = _builder.isFd
+      @kotlin.jvm.JvmName("setIsFd")
+        set(value) {
         _builder.isFd = value
       }
     /**
@@ -140,10 +141,10 @@ public object CANFrameKt {
      * `bytes data = 5 [(.buf.validate.field) = { ... }`
      */
     public var data: com.google.protobuf.ByteString
-      @JvmName("getData")
-      get() = _builder.data
-      @JvmName("setData")
-      set(value) {
+      @kotlin.jvm.JvmName("getData")
+        get() = _builder.data
+      @kotlin.jvm.JvmName("setData")
+        set(value) {
         _builder.data = value
       }
     /**
@@ -167,17 +168,17 @@ public object CANFrameKt {
      * `.jon.can.CANDirection dir = 6;`
      */
     public var dir: jon.can.JonCanStream.CANDirection
-      @JvmName("getDir")
-      get() = _builder.dir
-      @JvmName("setDir")
-      set(value) {
+      @kotlin.jvm.JvmName("getDir")
+        get() = _builder.dir
+      @kotlin.jvm.JvmName("setDir")
+        set(value) {
         _builder.dir = value
       }
     public var dirValue: kotlin.Int
-      @JvmName("getDirValue")
-      get() = _builder.dirValue
-      @JvmName("setDirValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getDirValue")
+        get() = _builder.dirValue
+      @kotlin.jvm.JvmName("setDirValue")
+        set(value) {
         _builder.dirValue = value
       }
     /**
@@ -204,10 +205,10 @@ public object CANFrameKt {
      * `uint64 kernel_ns = 7;`
      */
     public var kernelNs: kotlin.Long
-      @JvmName("getKernelNs")
-      get() = _builder.kernelNs
-      @JvmName("setKernelNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getKernelNs")
+        get() = _builder.kernelNs
+      @kotlin.jvm.JvmName("setKernelNs")
+        set(value) {
         _builder.kernelNs = value
       }
     /**
@@ -233,10 +234,10 @@ public object CANFrameKt {
      * `uint64 seq64 = 8;`
      */
     public var seq64: kotlin.Long
-      @JvmName("getSeq64")
-      get() = _builder.seq64
-      @JvmName("setSeq64")
-      set(value) {
+      @kotlin.jvm.JvmName("getSeq64")
+        get() = _builder.seq64
+      @kotlin.jvm.JvmName("setSeq64")
+        set(value) {
         _builder.seq64 = value
       }
     /**
@@ -260,10 +261,10 @@ public object CANFrameKt {
      * `uint64 drops = 9;`
      */
     public var drops: kotlin.Long
-      @JvmName("getDrops")
-      get() = _builder.drops
-      @JvmName("setDrops")
-      set(value) {
+      @kotlin.jvm.JvmName("getDrops")
+        get() = _builder.drops
+      @kotlin.jvm.JvmName("setDrops")
+        set(value) {
         _builder.drops = value
       }
     /**

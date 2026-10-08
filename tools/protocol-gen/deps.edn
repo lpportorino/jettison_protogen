@@ -15,8 +15,8 @@
 ;; their one home (`:fmt`, `:splint`, `:lint-gate`), and every lane is invoked
 ;; from the root with an explicit path list.
 {:paths ["src"]
- :deps {org.clojure/clojure {:mvn/version "1.12.5"}
-        metosin/malli {:mvn/version "0.20.2"}}
+ :deps {org.clojure/clojure {:mvn/version "1.12.6"}
+        metosin/malli {:mvn/version "0.20.3"}}
  :aliases
  {;; The generator CLI: policy + database -> per-group `.proto` + permission
   ;; mirror. See `protocol-gen.core`'s docstring for the subcommands.
@@ -41,6 +41,6 @@
   ;; for sun.misc.Unsafe and the runtime warns about it on every start, four
   ;; lines at a time, into the stream a canary reads its findings from.
   :verify {:extra-paths ["verify"]
-           :extra-deps {com.google.protobuf/protobuf-java {:mvn/version "4.35.0"}}
+           :extra-deps {com.google.protobuf/protobuf-java {:mvn/version "4.36.2"}}
            :jvm-opts ["--sun-misc-unsafe-memory-access=allow"]
            :main-opts ["-m" "protocol-gen.verify"]}}}

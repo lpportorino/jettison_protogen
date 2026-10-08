@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_heater.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.Heater;
@@ -36,10 +37,10 @@ public object SetAutomaticControlParamsKt {
      * `.cmd.Heater.AutomaticControlChannelParams channel_0 = 1;`
      */
     public var channel0: cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams
-      @JvmName("getChannel0")
-      get() = _builder.channel0
-      @JvmName("setChannel0")
-      set(value) {
+      @kotlin.jvm.JvmName("getChannel0")
+        get() = _builder.channel0
+      @kotlin.jvm.JvmName("setChannel0")
+        set(value) {
         _builder.channel0 = value
       }
     /**
@@ -63,10 +64,10 @@ public object SetAutomaticControlParamsKt {
      * `.cmd.Heater.AutomaticControlChannelParams channel_1 = 2;`
      */
     public var channel1: cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams
-      @JvmName("getChannel1")
-      get() = _builder.channel1
-      @JvmName("setChannel1")
-      set(value) {
+      @kotlin.jvm.JvmName("getChannel1")
+        get() = _builder.channel1
+      @kotlin.jvm.JvmName("setChannel1")
+        set(value) {
         _builder.channel1 = value
       }
     /**
@@ -90,10 +91,10 @@ public object SetAutomaticControlParamsKt {
      * `.cmd.Heater.AutomaticControlChannelParams channel_2 = 3;`
      */
     public var channel2: cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams
-      @JvmName("getChannel2")
-      get() = _builder.channel2
-      @JvmName("setChannel2")
-      set(value) {
+      @kotlin.jvm.JvmName("getChannel2")
+        get() = _builder.channel2
+      @kotlin.jvm.JvmName("setChannel2")
+        set(value) {
         _builder.channel2 = value
       }
     /**

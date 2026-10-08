@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: opaque/detection_common.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -40,10 +41,10 @@ public object DetectionConfigKt {
      * `float confidence_threshold = 1 [(.buf.validate.field) = { ... }`
      */
     public var confidenceThreshold: kotlin.Float
-      @JvmName("getConfidenceThreshold")
-      get() = _builder.confidenceThreshold
-      @JvmName("setConfidenceThreshold")
-      set(value) {
+      @kotlin.jvm.JvmName("getConfidenceThreshold")
+        get() = _builder.confidenceThreshold
+      @kotlin.jvm.JvmName("setConfidenceThreshold")
+        set(value) {
         _builder.confidenceThreshold = value
       }
     /**
@@ -65,10 +66,10 @@ public object DetectionConfigKt {
      * `float nms_iou_threshold = 2 [(.buf.validate.field) = { ... }`
      */
     public var nmsIouThreshold: kotlin.Float
-      @JvmName("getNmsIouThreshold")
-      get() = _builder.nmsIouThreshold
-      @JvmName("setNmsIouThreshold")
-      set(value) {
+      @kotlin.jvm.JvmName("getNmsIouThreshold")
+        get() = _builder.nmsIouThreshold
+      @kotlin.jvm.JvmName("setNmsIouThreshold")
+        set(value) {
         _builder.nmsIouThreshold = value
       }
     /**

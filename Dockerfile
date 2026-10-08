@@ -1,4 +1,5 @@
-FROM jettison-proto-generator-base:latest
+ARG GENERATOR_BASE_IMAGE=jettison-proto-generator-base:latest
+FROM ${GENERATOR_BASE_IMAGE}
 
 # Create workspace directory
 WORKDIR /workspace

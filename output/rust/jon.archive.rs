@@ -24,7 +24,7 @@ pub struct SychArchiveIndex {
     pub osd: ::core::option::Option<OsdReference>,
 }
 /// Entry in the archive file index, used for direct seeking to files
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct ArchiveEntry {
     /// Path within tar (e.g., "videos/001_abc.mp4")
     #[prost(string, tag = "1")]
@@ -72,7 +72,7 @@ pub struct VideoEntry {
     pub meta: ::core::option::Option<super::video::VideoMeta>,
 }
 /// Reference to OSD package and config within the archive
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct OsdReference {
     /// Path to OSD package tar within archive (e.g., "osd/package.tar")
     #[prost(string, tag = "1")]

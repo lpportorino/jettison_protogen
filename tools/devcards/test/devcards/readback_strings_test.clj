@@ -228,7 +228,7 @@
     ;; the pools, their ORDER and the sequence of nextInt calls are unchanged. It
     ;; cannot by itself prove CROSS-JVM stability — a single run sees one JVM —
     ;; but the two JVMs this repo uses were measured agreeing on the version-1
-    ;; literal (GraalVM CE 25.0.2 in the uber image, OpenJDK 26.0.1 on the host),
+    ;; literal (the GraalVM CE `Dockerfile.base` pins for the uber image, and the host JDK),
     ;; which is what `Random.nextInt`'s specified algorithm predicts and is the
     ;; reason `rand-int`/`shuffle` are banned in the instrument.
     (is (= "WO2Y10XCET9C" (rb/gen-string "pin-seed" "pin-cell"

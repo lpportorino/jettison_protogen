@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -32,10 +33,10 @@ public object LedPropsKt {
      * `.ui.Color color = 1;`
      */
     public var color: ui.UiAst.Color
-      @JvmName("getColor")
-      get() = _builder.color
-      @JvmName("setColor")
-      set(value) {
+      @kotlin.jvm.JvmName("getColor")
+        get() = _builder.color
+      @kotlin.jvm.JvmName("setColor")
+        set(value) {
         _builder.color = value
       }
     /**
@@ -59,10 +60,10 @@ public object LedPropsKt {
      * `uint32 brightness = 2 [(.buf.validate.field) = { ... }`
      */
     public var brightness: kotlin.Int
-      @JvmName("getBrightness")
-      get() = _builder.brightness
-      @JvmName("setBrightness")
-      set(value) {
+      @kotlin.jvm.JvmName("getBrightness")
+        get() = _builder.brightness
+      @kotlin.jvm.JvmName("setBrightness")
+        set(value) {
         _builder.brightness = value
       }
     /**

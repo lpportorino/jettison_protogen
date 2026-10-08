@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_system.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.System;
@@ -36,10 +37,10 @@ public object StepDayKt {
      * `int32 offset = 1;`
      */
     public var offset: kotlin.Int
-      @JvmName("getOffset")
-      get() = _builder.offset
-      @JvmName("setOffset")
-      set(value) {
+      @kotlin.jvm.JvmName("getOffset")
+        get() = _builder.offset
+      @kotlin.jvm.JvmName("setOffset")
+        set(value) {
         _builder.offset = value
       }
     /**

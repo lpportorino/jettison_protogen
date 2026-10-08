@@ -9,23 +9,23 @@
 name = "lvgl_harness"
 version = "0.1.0"
 edition = "2024"
-rust-version = "1.87.0"
+rust-version = "1.96.0"
 publish = false
 
 # Empty workspace table → standalone crate (ignore any parent workspace search).
 [workspace]
 
 [dependencies]
-wasmtime = "45"
-wasmtime-wasi = "45"
-thiserror = "2"
-tracing = "0.1"
-png = "0.17"
-clap = { version = "4.5", features = ["derive"] }
-notify = "8"
-notify-debouncer-mini = "0.7"
-tracing-subscriber = { version = "0.3", features = ["env-filter"] }
-serde_json = "1.0.150"
+wasmtime = "49.0.2"
+wasmtime-wasi = "49.0.2"
+thiserror = "2.0.21"
+tracing = "0.1.44"
+png = "0.18.1"
+clap = { version = "4.6.7", features = ["derive"] }
+notify = "8.2.0"
+notify-debouncer-mini = "0.7.0"
+tracing-subscriber = { version = "0.3.23", features = ["env-filter"] }
+serde_json = "1.0.151"
 json-patch = "4.2.0"
 
 # R5b cmd-out: decode the OPAQUE cmd.* bytes captured from host_command (the
@@ -40,10 +40,10 @@ json-patch = "4.2.0"
 # well-known type. cargo-machete flagged it correctly. If a WKT (Timestamp,
 # Duration, Any, Struct) is ever added to a proto, prost will generate
 # `::prost_types::` paths and the dependency comes back with it.
-prost = "0.13"
+prost = "0.14.4"
 
 [dev-dependencies]
-serde_json = "1.0.150"
+serde_json = "1.0.151"
 
 # Optimise DEPENDENCIES ONLY. Every test here costs the same as nine, because
 # the fixed cost is per-PROCESS, not per-test: wasmtime cranelift-compiles the

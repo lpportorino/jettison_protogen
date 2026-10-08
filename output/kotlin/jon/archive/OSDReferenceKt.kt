@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_sych_archive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.archive;
@@ -40,10 +41,10 @@ public object OSDReferenceKt {
      * `string package_path = 1 [(.buf.validate.field) = { ... }`
      */
     public var packagePath: kotlin.String
-      @JvmName("getPackagePath")
-      get() = _builder.packagePath
-      @JvmName("setPackagePath")
-      set(value) {
+      @kotlin.jvm.JvmName("getPackagePath")
+        get() = _builder.packagePath
+      @kotlin.jvm.JvmName("setPackagePath")
+        set(value) {
         _builder.packagePath = value
       }
     /**
@@ -65,10 +66,10 @@ public object OSDReferenceKt {
      * `string config_path = 2 [(.buf.validate.field) = { ... }`
      */
     public var configPath: kotlin.String
-      @JvmName("getConfigPath")
-      get() = _builder.configPath
-      @JvmName("setConfigPath")
-      set(value) {
+      @kotlin.jvm.JvmName("getConfigPath")
+        get() = _builder.configPath
+      @kotlin.jvm.JvmName("setConfigPath")
+        set(value) {
         _builder.configPath = value
       }
     /**
@@ -90,10 +91,10 @@ public object OSDReferenceKt {
      * `string package_name = 3 [(.buf.validate.field) = { ... }`
      */
     public var packageName: kotlin.String
-      @JvmName("getPackageName")
-      get() = _builder.packageName
-      @JvmName("setPackageName")
-      set(value) {
+      @kotlin.jvm.JvmName("getPackageName")
+        get() = _builder.packageName
+      @kotlin.jvm.JvmName("setPackageName")
+        set(value) {
         _builder.packageName = value
       }
     /**
@@ -111,10 +112,10 @@ public object OSDReferenceKt {
      * `string package_version = 4 [(.buf.validate.field) = { ... }`
      */
     public var packageVersion: kotlin.String
-      @JvmName("getPackageVersion")
-      get() = _builder.packageVersion
-      @JvmName("setPackageVersion")
-      set(value) {
+      @kotlin.jvm.JvmName("getPackageVersion")
+        get() = _builder.packageVersion
+      @kotlin.jvm.JvmName("setPackageVersion")
+        set(value) {
         _builder.packageVersion = value
       }
     /**
@@ -132,10 +133,10 @@ public object OSDReferenceKt {
      * `string package_variant = 5 [(.buf.validate.field) = { ... }`
      */
     public var packageVariant: kotlin.String
-      @JvmName("getPackageVariant")
-      get() = _builder.packageVariant
-      @JvmName("setPackageVariant")
-      set(value) {
+      @kotlin.jvm.JvmName("getPackageVariant")
+        get() = _builder.packageVariant
+      @kotlin.jvm.JvmName("setPackageVariant")
+        set(value) {
         _builder.packageVariant = value
       }
     /**

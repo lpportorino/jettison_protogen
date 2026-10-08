@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -32,10 +33,10 @@ public object TextareaPropsKt {
      * `string placeholder = 1 [(.buf.validate.field) = { ... }`
      */
     public var placeholder: kotlin.String
-      @JvmName("getPlaceholder")
-      get() = _builder.placeholder
-      @JvmName("setPlaceholder")
-      set(value) {
+      @kotlin.jvm.JvmName("getPlaceholder")
+        get() = _builder.placeholder
+      @kotlin.jvm.JvmName("setPlaceholder")
+        set(value) {
         _builder.placeholder = value
       }
     /**
@@ -49,10 +50,10 @@ public object TextareaPropsKt {
      * `uint32 max_length = 2;`
      */
     public var maxLength: kotlin.Int
-      @JvmName("getMaxLength")
-      get() = _builder.maxLength
-      @JvmName("setMaxLength")
-      set(value) {
+      @kotlin.jvm.JvmName("getMaxLength")
+        get() = _builder.maxLength
+      @kotlin.jvm.JvmName("setMaxLength")
+        set(value) {
         _builder.maxLength = value
       }
     /**
@@ -66,10 +67,10 @@ public object TextareaPropsKt {
      * `bool one_line = 3;`
      */
     public var oneLine: kotlin.Boolean
-      @JvmName("getOneLine")
-      get() = _builder.oneLine
-      @JvmName("setOneLine")
-      set(value) {
+      @kotlin.jvm.JvmName("getOneLine")
+        get() = _builder.oneLine
+      @kotlin.jvm.JvmName("setOneLine")
+        set(value) {
         _builder.oneLine = value
       }
     /**
@@ -83,10 +84,10 @@ public object TextareaPropsKt {
      * `bool password_mode = 4;`
      */
     public var passwordMode: kotlin.Boolean
-      @JvmName("getPasswordMode")
-      get() = _builder.passwordMode
-      @JvmName("setPasswordMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getPasswordMode")
+        get() = _builder.passwordMode
+      @kotlin.jvm.JvmName("setPasswordMode")
+        set(value) {
         _builder.passwordMode = value
       }
     /**

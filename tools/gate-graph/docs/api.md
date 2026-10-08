@@ -94,3 +94,7 @@ Run from the module directory with a freshly built viewer. The campaign binds
 source, tests, dependency declarations and packaged resources; do not edit those
 inputs during execution. Source acquisition, automatic completeness, CLJS
 parity and real consumer adoption remain separate obligations.
+
+[Passive source observations](api-source.md) now provide bounded CLJ/CLJS
+declaration and registration evidence. They do not establish complete exports
+or replace independent runtime/analyzer reconciliation and manifest freshness.

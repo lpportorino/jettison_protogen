@@ -20,7 +20,7 @@ else
     printf 'Python gate: expected both native probe drivers; discovered %s.\n' "${#files[@]}" >&2
     exit 2
   }
-  files+=(renderer/tools/lvgl-reactive-mutations.py renderer/tools/renderer-gen-schema-mutations.py tools/wire_contract_check.py)
+  files+=(tools/lint/kondo/rebuild.py renderer/tools/lvgl-reactive-mutations.py renderer/tools/renderer-gen-schema-mutations.py tools/wire_contract_check.py)
   # gate-trace: every module in its two directories, discovered as REGULAR files,
   # and each named module asserted to be AMONG what was discovered. An existence
   # test would follow a symlink that discovery skips, and pass while the module

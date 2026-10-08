@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -37,17 +38,17 @@ public object ChartPropsKt {
      * `.ui.ChartType type = 1 [(.buf.validate.field) = { ... }`
      */
     public var type: ui.UiAst.ChartType
-      @JvmName("getType")
-      get() = _builder.type
-      @JvmName("setType")
-      set(value) {
+      @kotlin.jvm.JvmName("getType")
+        get() = _builder.type
+      @kotlin.jvm.JvmName("setType")
+        set(value) {
         _builder.type = value
       }
     public var typeValue: kotlin.Int
-      @JvmName("getTypeValue")
-      get() = _builder.typeValue
-      @JvmName("setTypeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getTypeValue")
+        get() = _builder.typeValue
+      @kotlin.jvm.JvmName("setTypeValue")
+        set(value) {
         _builder.typeValue = value
       }
     /**
@@ -70,10 +71,10 @@ public object ChartPropsKt {
      * `uint32 point_count = 2;`
      */
     public var pointCount: kotlin.Int
-      @JvmName("getPointCount")
-      get() = _builder.pointCount
-      @JvmName("setPointCount")
-      set(value) {
+      @kotlin.jvm.JvmName("getPointCount")
+        get() = _builder.pointCount
+      @kotlin.jvm.JvmName("setPointCount")
+        set(value) {
         _builder.pointCount = value
       }
     /**
@@ -97,10 +98,10 @@ public object ChartPropsKt {
      * `bool has_div_lines = 3;`
      */
     public var hasDivLines: kotlin.Boolean
-      @JvmName("getHasDivLines")
-      get() = _builder.hasDivLines
-      @JvmName("setHasDivLines")
-      set(value) {
+      @kotlin.jvm.JvmName("getHasDivLines")
+        get() = _builder.hasDivLines
+      @kotlin.jvm.JvmName("setHasDivLines")
+        set(value) {
         _builder.hasDivLines = value
       }
     /**
@@ -120,10 +121,10 @@ public object ChartPropsKt {
      * `uint32 hdiv_count = 4 [(.buf.validate.field) = { ... }`
      */
     public var hdivCount: kotlin.Int
-      @JvmName("getHdivCount")
-      get() = _builder.hdivCount
-      @JvmName("setHdivCount")
-      set(value) {
+      @kotlin.jvm.JvmName("getHdivCount")
+        get() = _builder.hdivCount
+      @kotlin.jvm.JvmName("setHdivCount")
+        set(value) {
         _builder.hdivCount = value
       }
     /**
@@ -137,10 +138,10 @@ public object ChartPropsKt {
      * `uint32 vdiv_count = 5 [(.buf.validate.field) = { ... }`
      */
     public var vdivCount: kotlin.Int
-      @JvmName("getVdivCount")
-      get() = _builder.vdivCount
-      @JvmName("setVdivCount")
-      set(value) {
+      @kotlin.jvm.JvmName("getVdivCount")
+        get() = _builder.vdivCount
+      @kotlin.jvm.JvmName("setVdivCount")
+        set(value) {
         _builder.vdivCount = value
       }
     /**
@@ -161,7 +162,7 @@ public object ChartPropsKt {
      */
      public val series: com.google.protobuf.kotlin.DslList<ui.UiAst.ChartSeries, SeriesProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.seriesList
       )
     /**
@@ -169,7 +170,7 @@ public object ChartPropsKt {
      * @param value The series to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addSeries")
+@kotlin.jvm.JvmName("addSeries")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.ChartSeries, SeriesProxy>.add(value: ui.UiAst.ChartSeries) {
       _builder.addSeries(value)
     }
@@ -178,7 +179,7 @@ public object ChartPropsKt {
      * @param value The series to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignSeries")
+@kotlin.jvm.JvmName("plusAssignSeries")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.ChartSeries, SeriesProxy>.plusAssign(value: ui.UiAst.ChartSeries) {
       add(value)
@@ -188,7 +189,7 @@ public object ChartPropsKt {
      * @param values The series to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllSeries")
+@kotlin.jvm.JvmName("addAllSeries")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.ChartSeries, SeriesProxy>.addAll(values: kotlin.collections.Iterable<ui.UiAst.ChartSeries>) {
       _builder.addAllSeries(values)
     }
@@ -197,7 +198,7 @@ public object ChartPropsKt {
      * @param values The series to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllSeries")
+@kotlin.jvm.JvmName("plusAssignAllSeries")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.ChartSeries, SeriesProxy>.plusAssign(values: kotlin.collections.Iterable<ui.UiAst.ChartSeries>) {
       addAll(values)
@@ -208,7 +209,7 @@ public object ChartPropsKt {
      * @param value The series to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setSeries")
+@kotlin.jvm.JvmName("setSeries")
     public operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.ChartSeries, SeriesProxy>.set(index: kotlin.Int, value: ui.UiAst.ChartSeries) {
       _builder.setSeries(index, value)
     }
@@ -216,11 +217,10 @@ public object ChartPropsKt {
      * `repeated .ui.ChartSeries series = 6 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearSeries")
+@kotlin.jvm.JvmName("clearSeries")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.ChartSeries, SeriesProxy>.clear() {
       _builder.clearSeries()
     }
-
 
     /**
      * ```
@@ -231,10 +231,10 @@ public object ChartPropsKt {
      * `bool fade_area = 7;`
      */
     public var fadeArea: kotlin.Boolean
-      @JvmName("getFadeArea")
-      get() = _builder.fadeArea
-      @JvmName("setFadeArea")
-      set(value) {
+      @kotlin.jvm.JvmName("getFadeArea")
+        get() = _builder.fadeArea
+      @kotlin.jvm.JvmName("setFadeArea")
+        set(value) {
         _builder.fadeArea = value
       }
     /**

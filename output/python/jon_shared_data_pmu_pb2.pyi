@@ -1,7 +1,8 @@
 import jon_shared_data_types_pb2 as _jon_shared_data_types_pb2
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
+from collections.abc import Mapping as _Mapping
+from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -29,4 +30,4 @@ class JonGuiDataPMU(_message.Message):
     ina_power_fault: bool
     charge_disabled: bool
     health: _jon_shared_data_types_pb2.JonGuiDataModuleHealth
-    def __init__(self, temperature: _Optional[float] = ..., is_started: bool = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ..., voltage: _Optional[float] = ..., heater_power_state: bool = ..., ina_voltage: _Optional[float] = ..., ina_current: _Optional[float] = ..., ina_power: _Optional[float] = ..., ina_power_fault: bool = ..., charge_disabled: bool = ..., health: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataModuleHealth, _Mapping]] = ...) -> None: ...
+    def __init__(self, temperature: _Optional[float] = ..., is_started: _Optional[bool] = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ..., voltage: _Optional[float] = ..., heater_power_state: _Optional[bool] = ..., ina_voltage: _Optional[float] = ..., ina_current: _Optional[float] = ..., ina_power: _Optional[float] = ..., ina_power_fault: _Optional[bool] = ..., charge_disabled: _Optional[bool] = ..., health: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataModuleHealth, _Mapping]] = ...) -> None: ...

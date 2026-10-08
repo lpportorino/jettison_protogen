@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_rec_osd.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -32,17 +33,17 @@ public object JonGuiDataRecOsdKt {
      * `.ser.JonGuiDataRecOsdScreen screen = 1 [(.buf.validate.field) = { ... }`
      */
     public var screen: ser.JonSharedDataTypes.JonGuiDataRecOsdScreen
-      @JvmName("getScreen")
-      get() = _builder.screen
-      @JvmName("setScreen")
-      set(value) {
+      @kotlin.jvm.JvmName("getScreen")
+        get() = _builder.screen
+      @kotlin.jvm.JvmName("setScreen")
+        set(value) {
         _builder.screen = value
       }
     public var screenValue: kotlin.Int
-      @JvmName("getScreenValue")
-      get() = _builder.screenValue
-      @JvmName("setScreenValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getScreenValue")
+        get() = _builder.screenValue
+      @kotlin.jvm.JvmName("setScreenValue")
+        set(value) {
         _builder.screenValue = value
       }
     /**
@@ -56,10 +57,10 @@ public object JonGuiDataRecOsdKt {
      * `bool heat_osd_enabled = 2;`
      */
     public var heatOsdEnabled: kotlin.Boolean
-      @JvmName("getHeatOsdEnabled")
-      get() = _builder.heatOsdEnabled
-      @JvmName("setHeatOsdEnabled")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeatOsdEnabled")
+        get() = _builder.heatOsdEnabled
+      @kotlin.jvm.JvmName("setHeatOsdEnabled")
+        set(value) {
         _builder.heatOsdEnabled = value
       }
     /**
@@ -73,10 +74,10 @@ public object JonGuiDataRecOsdKt {
      * `bool day_osd_enabled = 3;`
      */
     public var dayOsdEnabled: kotlin.Boolean
-      @JvmName("getDayOsdEnabled")
-      get() = _builder.dayOsdEnabled
-      @JvmName("setDayOsdEnabled")
-      set(value) {
+      @kotlin.jvm.JvmName("getDayOsdEnabled")
+        get() = _builder.dayOsdEnabled
+      @kotlin.jvm.JvmName("setDayOsdEnabled")
+        set(value) {
         _builder.dayOsdEnabled = value
       }
     /**
@@ -90,10 +91,10 @@ public object JonGuiDataRecOsdKt {
      * `int32 heat_crosshair_offset_horizontal = 4;`
      */
     public var heatCrosshairOffsetHorizontal: kotlin.Int
-      @JvmName("getHeatCrosshairOffsetHorizontal")
-      get() = _builder.heatCrosshairOffsetHorizontal
-      @JvmName("setHeatCrosshairOffsetHorizontal")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeatCrosshairOffsetHorizontal")
+        get() = _builder.heatCrosshairOffsetHorizontal
+      @kotlin.jvm.JvmName("setHeatCrosshairOffsetHorizontal")
+        set(value) {
         _builder.heatCrosshairOffsetHorizontal = value
       }
     /**
@@ -107,10 +108,10 @@ public object JonGuiDataRecOsdKt {
      * `int32 heat_crosshair_offset_vertical = 5;`
      */
     public var heatCrosshairOffsetVertical: kotlin.Int
-      @JvmName("getHeatCrosshairOffsetVertical")
-      get() = _builder.heatCrosshairOffsetVertical
-      @JvmName("setHeatCrosshairOffsetVertical")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeatCrosshairOffsetVertical")
+        get() = _builder.heatCrosshairOffsetVertical
+      @kotlin.jvm.JvmName("setHeatCrosshairOffsetVertical")
+        set(value) {
         _builder.heatCrosshairOffsetVertical = value
       }
     /**
@@ -124,10 +125,10 @@ public object JonGuiDataRecOsdKt {
      * `int32 day_crosshair_offset_horizontal = 6;`
      */
     public var dayCrosshairOffsetHorizontal: kotlin.Int
-      @JvmName("getDayCrosshairOffsetHorizontal")
-      get() = _builder.dayCrosshairOffsetHorizontal
-      @JvmName("setDayCrosshairOffsetHorizontal")
-      set(value) {
+      @kotlin.jvm.JvmName("getDayCrosshairOffsetHorizontal")
+        get() = _builder.dayCrosshairOffsetHorizontal
+      @kotlin.jvm.JvmName("setDayCrosshairOffsetHorizontal")
+        set(value) {
         _builder.dayCrosshairOffsetHorizontal = value
       }
     /**
@@ -141,10 +142,10 @@ public object JonGuiDataRecOsdKt {
      * `int32 day_crosshair_offset_vertical = 7;`
      */
     public var dayCrosshairOffsetVertical: kotlin.Int
-      @JvmName("getDayCrosshairOffsetVertical")
-      get() = _builder.dayCrosshairOffsetVertical
-      @JvmName("setDayCrosshairOffsetVertical")
-      set(value) {
+      @kotlin.jvm.JvmName("getDayCrosshairOffsetVertical")
+        get() = _builder.dayCrosshairOffsetVertical
+      @kotlin.jvm.JvmName("setDayCrosshairOffsetVertical")
+        set(value) {
         _builder.dayCrosshairOffsetVertical = value
       }
     /**

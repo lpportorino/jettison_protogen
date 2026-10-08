@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: opaque/cv_meta.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -41,10 +42,10 @@ public object CvChannelMetaKt {
      * `uint64 pts_ns = 1 [(.buf.validate.field) = { ... }`
      */
     public var ptsNs: kotlin.Long
-      @JvmName("getPtsNs")
-      get() = _builder.ptsNs
-      @JvmName("setPtsNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getPtsNs")
+        get() = _builder.ptsNs
+      @kotlin.jvm.JvmName("setPtsNs")
+        set(value) {
         _builder.ptsNs = value
       }
     /**
@@ -62,10 +63,10 @@ public object CvChannelMetaKt {
      * `uint64 capture_time_ns = 2 [(.buf.validate.field) = { ... }`
      */
     public var captureTimeNs: kotlin.Long
-      @JvmName("getCaptureTimeNs")
-      get() = _builder.captureTimeNs
-      @JvmName("setCaptureTimeNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getCaptureTimeNs")
+        get() = _builder.captureTimeNs
+      @kotlin.jvm.JvmName("setCaptureTimeNs")
+        set(value) {
         _builder.captureTimeNs = value
       }
     /**
@@ -79,10 +80,10 @@ public object CvChannelMetaKt {
      * `uint32 generation = 3;`
      */
     public var generation: kotlin.Int
-      @JvmName("getGeneration")
-      get() = _builder.generation
-      @JvmName("setGeneration")
-      set(value) {
+      @kotlin.jvm.JvmName("getGeneration")
+        get() = _builder.generation
+      @kotlin.jvm.JvmName("setGeneration")
+        set(value) {
         _builder.generation = value
       }
     /**
@@ -101,10 +102,10 @@ public object CvChannelMetaKt {
      * `float sharpness_level0 = 4 [(.buf.validate.field) = { ... }`
      */
     public var sharpnessLevel0: kotlin.Float
-      @JvmName("getSharpnessLevel0")
-      get() = _builder.sharpnessLevel0
-      @JvmName("setSharpnessLevel0")
-      set(value) {
+      @kotlin.jvm.JvmName("getSharpnessLevel0")
+        get() = _builder.sharpnessLevel0
+      @kotlin.jvm.JvmName("setSharpnessLevel0")
+        set(value) {
         _builder.sharpnessLevel0 = value
       }
     /**
@@ -134,7 +135,7 @@ public object CvChannelMetaKt {
      */
      public val sharpnessLevel1: com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel1Proxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.sharpnessLevel1List
       )
     /**
@@ -146,7 +147,7 @@ public object CvChannelMetaKt {
      * @param value The sharpnessLevel1 to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addSharpnessLevel1")
+@kotlin.jvm.JvmName("addSharpnessLevel1")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel1Proxy>.add(value: kotlin.Float) {
       _builder.addSharpnessLevel1(value)
     }/**
@@ -158,7 +159,7 @@ public object CvChannelMetaKt {
      * @param value The sharpnessLevel1 to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignSharpnessLevel1")
+@kotlin.jvm.JvmName("plusAssignSharpnessLevel1")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel1Proxy>.plusAssign(value: kotlin.Float) {
       add(value)
@@ -171,7 +172,7 @@ public object CvChannelMetaKt {
      * @param values The sharpnessLevel1 to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllSharpnessLevel1")
+@kotlin.jvm.JvmName("addAllSharpnessLevel1")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel1Proxy>.addAll(values: kotlin.collections.Iterable<kotlin.Float>) {
       _builder.addAllSharpnessLevel1(values)
     }/**
@@ -183,7 +184,7 @@ public object CvChannelMetaKt {
      * @param values The sharpnessLevel1 to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllSharpnessLevel1")
+@kotlin.jvm.JvmName("plusAssignAllSharpnessLevel1")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel1Proxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.Float>) {
       addAll(values)
@@ -197,7 +198,7 @@ public object CvChannelMetaKt {
      * @param value The sharpnessLevel1 to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setSharpnessLevel1")
+@kotlin.jvm.JvmName("setSharpnessLevel1")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel1Proxy>.set(index: kotlin.Int, value: kotlin.Float) {
       _builder.setSharpnessLevel1(index, value)
     }/**
@@ -208,7 +209,7 @@ public object CvChannelMetaKt {
      * `repeated float sharpness_level1 = 5 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearSharpnessLevel1")
+@kotlin.jvm.JvmName("clearSharpnessLevel1")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel1Proxy>.clear() {
       _builder.clearSharpnessLevel1()
     }
@@ -227,7 +228,7 @@ public object CvChannelMetaKt {
      */
      public val sharpnessLevel2: com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel2Proxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.sharpnessLevel2List
       )
     /**
@@ -239,7 +240,7 @@ public object CvChannelMetaKt {
      * @param value The sharpnessLevel2 to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addSharpnessLevel2")
+@kotlin.jvm.JvmName("addSharpnessLevel2")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel2Proxy>.add(value: kotlin.Float) {
       _builder.addSharpnessLevel2(value)
     }/**
@@ -251,7 +252,7 @@ public object CvChannelMetaKt {
      * @param value The sharpnessLevel2 to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignSharpnessLevel2")
+@kotlin.jvm.JvmName("plusAssignSharpnessLevel2")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel2Proxy>.plusAssign(value: kotlin.Float) {
       add(value)
@@ -264,7 +265,7 @@ public object CvChannelMetaKt {
      * @param values The sharpnessLevel2 to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllSharpnessLevel2")
+@kotlin.jvm.JvmName("addAllSharpnessLevel2")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel2Proxy>.addAll(values: kotlin.collections.Iterable<kotlin.Float>) {
       _builder.addAllSharpnessLevel2(values)
     }/**
@@ -276,7 +277,7 @@ public object CvChannelMetaKt {
      * @param values The sharpnessLevel2 to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllSharpnessLevel2")
+@kotlin.jvm.JvmName("plusAssignAllSharpnessLevel2")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel2Proxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.Float>) {
       addAll(values)
@@ -290,7 +291,7 @@ public object CvChannelMetaKt {
      * @param value The sharpnessLevel2 to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setSharpnessLevel2")
+@kotlin.jvm.JvmName("setSharpnessLevel2")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel2Proxy>.set(index: kotlin.Int, value: kotlin.Float) {
       _builder.setSharpnessLevel2(index, value)
     }/**
@@ -301,7 +302,7 @@ public object CvChannelMetaKt {
      * `repeated float sharpness_level2 = 6 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearSharpnessLevel2")
+@kotlin.jvm.JvmName("clearSharpnessLevel2")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel2Proxy>.clear() {
       _builder.clearSharpnessLevel2()
     }
@@ -320,7 +321,7 @@ public object CvChannelMetaKt {
      */
      public val sharpnessLevel3: com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel3Proxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.sharpnessLevel3List
       )
     /**
@@ -332,7 +333,7 @@ public object CvChannelMetaKt {
      * @param value The sharpnessLevel3 to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addSharpnessLevel3")
+@kotlin.jvm.JvmName("addSharpnessLevel3")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel3Proxy>.add(value: kotlin.Float) {
       _builder.addSharpnessLevel3(value)
     }/**
@@ -344,7 +345,7 @@ public object CvChannelMetaKt {
      * @param value The sharpnessLevel3 to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignSharpnessLevel3")
+@kotlin.jvm.JvmName("plusAssignSharpnessLevel3")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel3Proxy>.plusAssign(value: kotlin.Float) {
       add(value)
@@ -357,7 +358,7 @@ public object CvChannelMetaKt {
      * @param values The sharpnessLevel3 to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllSharpnessLevel3")
+@kotlin.jvm.JvmName("addAllSharpnessLevel3")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel3Proxy>.addAll(values: kotlin.collections.Iterable<kotlin.Float>) {
       _builder.addAllSharpnessLevel3(values)
     }/**
@@ -369,7 +370,7 @@ public object CvChannelMetaKt {
      * @param values The sharpnessLevel3 to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllSharpnessLevel3")
+@kotlin.jvm.JvmName("plusAssignAllSharpnessLevel3")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel3Proxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.Float>) {
       addAll(values)
@@ -383,7 +384,7 @@ public object CvChannelMetaKt {
      * @param value The sharpnessLevel3 to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setSharpnessLevel3")
+@kotlin.jvm.JvmName("setSharpnessLevel3")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel3Proxy>.set(index: kotlin.Int, value: kotlin.Float) {
       _builder.setSharpnessLevel3(index, value)
     }/**
@@ -394,7 +395,7 @@ public object CvChannelMetaKt {
      * `repeated float sharpness_level3 = 7 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearSharpnessLevel3")
+@kotlin.jvm.JvmName("clearSharpnessLevel3")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Float, SharpnessLevel3Proxy>.clear() {
       _builder.clearSharpnessLevel3()
     }
@@ -406,10 +407,10 @@ public object CvChannelMetaKt {
      * `uint64 sharpness_compute_ns = 8 [(.buf.validate.field) = { ... }`
      */
     public var sharpnessComputeNs: kotlin.Long
-      @JvmName("getSharpnessComputeNs")
-      get() = _builder.sharpnessComputeNs
-      @JvmName("setSharpnessComputeNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getSharpnessComputeNs")
+        get() = _builder.sharpnessComputeNs
+      @kotlin.jvm.JvmName("setSharpnessComputeNs")
+        set(value) {
         _builder.sharpnessComputeNs = value
       }
     /**
@@ -427,10 +428,10 @@ public object CvChannelMetaKt {
      * `uint64 sharpness_total_ns = 9 [(.buf.validate.field) = { ... }`
      */
     public var sharpnessTotalNs: kotlin.Long
-      @JvmName("getSharpnessTotalNs")
-      get() = _builder.sharpnessTotalNs
-      @JvmName("setSharpnessTotalNs")
-      set(value) {
+      @kotlin.jvm.JvmName("getSharpnessTotalNs")
+        get() = _builder.sharpnessTotalNs
+      @kotlin.jvm.JvmName("setSharpnessTotalNs")
+        set(value) {
         _builder.sharpnessTotalNs = value
       }
     /**
@@ -444,10 +445,10 @@ public object CvChannelMetaKt {
      * `bool sharpness_valid = 10;`
      */
     public var sharpnessValid: kotlin.Boolean
-      @JvmName("getSharpnessValid")
-      get() = _builder.sharpnessValid
-      @JvmName("setSharpnessValid")
-      set(value) {
+      @kotlin.jvm.JvmName("getSharpnessValid")
+        get() = _builder.sharpnessValid
+      @kotlin.jvm.JvmName("setSharpnessValid")
+        set(value) {
         _builder.sharpnessValid = value
       }
     /**
@@ -465,10 +466,10 @@ public object CvChannelMetaKt {
      * `int32 sensor_gain = 11;`
      */
     public var sensorGain: kotlin.Int
-      @JvmName("getSensorGain")
-      get() = _builder.sensorGain
-      @JvmName("setSensorGain")
-      set(value) {
+      @kotlin.jvm.JvmName("getSensorGain")
+        get() = _builder.sensorGain
+      @kotlin.jvm.JvmName("setSensorGain")
+        set(value) {
         _builder.sensorGain = value
       }
     /**
@@ -486,10 +487,10 @@ public object CvChannelMetaKt {
      * `bool gain_valid = 12;`
      */
     public var gainValid: kotlin.Boolean
-      @JvmName("getGainValid")
-      get() = _builder.gainValid
-      @JvmName("setGainValid")
-      set(value) {
+      @kotlin.jvm.JvmName("getGainValid")
+        get() = _builder.gainValid
+      @kotlin.jvm.JvmName("setGainValid")
+        set(value) {
         _builder.gainValid = value
       }
     /**
@@ -508,10 +509,10 @@ public object CvChannelMetaKt {
      * `int32 sensor_exposure = 13;`
      */
     public var sensorExposure: kotlin.Int
-      @JvmName("getSensorExposure")
-      get() = _builder.sensorExposure
-      @JvmName("setSensorExposure")
-      set(value) {
+      @kotlin.jvm.JvmName("getSensorExposure")
+        get() = _builder.sensorExposure
+      @kotlin.jvm.JvmName("setSensorExposure")
+        set(value) {
         _builder.sensorExposure = value
       }
     /**
@@ -530,10 +531,10 @@ public object CvChannelMetaKt {
      * `bool exposure_valid = 14;`
      */
     public var exposureValid: kotlin.Boolean
-      @JvmName("getExposureValid")
-      get() = _builder.exposureValid
-      @JvmName("setExposureValid")
-      set(value) {
+      @kotlin.jvm.JvmName("getExposureValid")
+        get() = _builder.exposureValid
+      @kotlin.jvm.JvmName("setExposureValid")
+        set(value) {
         _builder.exposureValid = value
       }
     /**

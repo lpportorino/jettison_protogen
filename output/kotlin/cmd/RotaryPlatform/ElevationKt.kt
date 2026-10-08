@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_rotary.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.RotaryPlatform;
@@ -32,10 +33,10 @@ public object ElevationKt {
      * `.cmd.RotaryPlatform.SetElevationValue set_value = 1;`
      */
     public var setValue: cmd.RotaryPlatform.JonSharedCmdRotary.SetElevationValue
-      @JvmName("getSetValue")
-      get() = _builder.setValue
-      @JvmName("setSetValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetValue")
+        get() = _builder.setValue
+      @kotlin.jvm.JvmName("setSetValue")
+        set(value) {
         _builder.setValue = value
       }
     /**
@@ -56,10 +57,10 @@ public object ElevationKt {
      * `.cmd.RotaryPlatform.RotateElevationTo rotate_to = 2;`
      */
     public var rotateTo: cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevationTo
-      @JvmName("getRotateTo")
-      get() = _builder.rotateTo
-      @JvmName("setRotateTo")
-      set(value) {
+      @kotlin.jvm.JvmName("getRotateTo")
+        get() = _builder.rotateTo
+      @kotlin.jvm.JvmName("setRotateTo")
+        set(value) {
         _builder.rotateTo = value
       }
     /**
@@ -80,10 +81,10 @@ public object ElevationKt {
      * `.cmd.RotaryPlatform.RotateElevation rotate = 3;`
      */
     public var rotate: cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevation
-      @JvmName("getRotate")
-      get() = _builder.rotate
-      @JvmName("setRotate")
-      set(value) {
+      @kotlin.jvm.JvmName("getRotate")
+        get() = _builder.rotate
+      @kotlin.jvm.JvmName("setRotate")
+        set(value) {
         _builder.rotate = value
       }
     /**
@@ -104,10 +105,10 @@ public object ElevationKt {
      * `.cmd.RotaryPlatform.RotateElevationRelative relative = 4;`
      */
     public var relative: cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevationRelative
-      @JvmName("getRelative")
-      get() = _builder.relative
-      @JvmName("setRelative")
-      set(value) {
+      @kotlin.jvm.JvmName("getRelative")
+        get() = _builder.relative
+      @kotlin.jvm.JvmName("setRelative")
+        set(value) {
         _builder.relative = value
       }
     /**
@@ -128,10 +129,10 @@ public object ElevationKt {
      * `.cmd.RotaryPlatform.RotateElevationRelativeSet relative_set = 5;`
      */
     public var relativeSet: cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevationRelativeSet
-      @JvmName("getRelativeSet")
-      get() = _builder.relativeSet
-      @JvmName("setRelativeSet")
-      set(value) {
+      @kotlin.jvm.JvmName("getRelativeSet")
+        get() = _builder.relativeSet
+      @kotlin.jvm.JvmName("setRelativeSet")
+        set(value) {
         _builder.relativeSet = value
       }
     /**
@@ -152,10 +153,10 @@ public object ElevationKt {
      * `.cmd.RotaryPlatform.HaltElevation halt = 6;`
      */
     public var halt: cmd.RotaryPlatform.JonSharedCmdRotary.HaltElevation
-      @JvmName("getHalt")
-      get() = _builder.halt
-      @JvmName("setHalt")
-      set(value) {
+      @kotlin.jvm.JvmName("getHalt")
+        get() = _builder.halt
+      @kotlin.jvm.JvmName("setHalt")
+        set(value) {
         _builder.halt = value
       }
     /**

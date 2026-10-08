@@ -56,7 +56,7 @@ Two guards you will meet:
 
 | lane | runs | why |
 |---|---|---|
-| `cljfmt`, `clj-kondo`, `lint-sh` (`bash -n` + payload apostrophes), `actionlint`, `lint-clj-gate-test`, `wasm-provenance-test`, `uber-safe-directory-test`, the namespace-size ceiling, spec presence | `lint.yml`, plain runner | fast; kondo is a native binary, cljfmt and the two structural lanes named here need only the CLI, the provenance canary needs neither toolchain — it stubs the compiler, so it is bash and make over a `mktemp` fixture — and the safe.directory canary needs only git, stubbing `docker` |
+| `cljfmt`, `clj-kondo`, `lint-sh` (`bash -n` + payload apostrophes), `actionlint`, `lint-clj-gate-test`, `wasm-provenance-test`, `uber-safe-directory-test`, the namespace-size ceiling, spec presence | `lint.yml`, plain runner | kondo uses the checksum-verified patched JVM source artifact; cljfmt and the structural lanes use the CLI, the provenance canary needs neither toolchain — it stubs the compiler, so it is bash and make over a `mktemp` fixture — and the safe.directory canary needs only git, stubbing `docker` |
 | `clang-format`, `clang-tidy` | `renderer.yml`, inside the pinned image — and `clang-tidy` also from the pre-push hook, docker-gated, via `tools/uber.sh` | the only PINNED clang tooling is the WASI-SDK's; clang-tidy also needs a compile database emitted from the build's own flags, so it cannot join the bare-invoked `lint` aggregate |
 | Ruff lint and format, with deliberate failing canaries (`lint-python`) | `renderer.yml`, inside the pinned image — and from the pre-push hook, docker-gated, via `tools/uber.sh` | `tools/lint/ruff.sh` pins both release archive and executable digests and populates its cache only inside a container (the image prewarms it), so like `clang-tidy` it cannot join the bare-invoked `lint` aggregate; `python_check.sh` explicitly enrolls the native probe drivers, the wire-contract gate and the gate-trace tool, without claiming the other experiment scripts |
 | the gate-trace suite and its mutation fail canary (`gate-trace-test`) | `lint.yml`, plain runner — and from the pre-push hook, docker-gated, via `tools/uber.sh` | it needs dash, GNU make's jobserver and Python 3.12, which the runner and the image carry and a bare host may not, so it is out of the bare-invoked `lint` aggregate and refuses with exit 2 when one is missing; the canary breaks each guarantee alone and requires its own test to FAIL |
@@ -165,10 +165,16 @@ its keep anyway, since the one real narrowing bug found this session was an
 EXPLICIT cast the check does not flag. The mine, not the gate, is where narrowing
 gets caught.
 
-clj-kondo is deliberately NOT in the uber image and does not need to be: a linter
-emits findings, never a committed artifact, so the uber-container rule does not
-reach it. This is why `tools/uber.sh 'make -f lint.mk lint'` fails on `lint-clj`
-while every other lane runs there happily.
+clj-kondo runs through `tools/lint/bin/clj-kondo`, which verifies the patched
+source artifact, resolves the root `:kondo` alias's classpath and runs
+`clj-kondo.main` from the CALLER's directory — relative `--lint` paths belong to
+the caller; a wrapper that `cd`s to the root first resolves them against the
+root, every fixture suite then sees an empty analysis and refuses with CANNOT
+RUN (`tools/lint/kondo/test-wrapper-cwd.sh`, run by `kondo-regression`, is the
+guard). `lint.mk`
+exports that wrapper on PATH for both ordinary lint and structural subprocesses. The patch
+preserves nullable/open map return semantics; its regression and reconstruction
+are part of `kondo-regression`. See `tools/lint/kondo/README.md`.
 
 ## Never suppress; fix at the source
 

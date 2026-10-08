@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_cv_dump_archive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.cvdump;
@@ -50,7 +51,7 @@ public object TableRowsKt {
      */
      public val rows: com.google.protobuf.kotlin.DslList<com.google.protobuf.ByteString, RowsProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.rowsList
       )
     /**
@@ -65,7 +66,7 @@ public object TableRowsKt {
      * @param value The rows to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addRows")
+@kotlin.jvm.JvmName("addRows")
     public fun com.google.protobuf.kotlin.DslList<com.google.protobuf.ByteString, RowsProxy>.add(value: com.google.protobuf.ByteString) {
       _builder.addRows(value)
     }/**
@@ -80,7 +81,7 @@ public object TableRowsKt {
      * @param value The rows to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignRows")
+@kotlin.jvm.JvmName("plusAssignRows")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<com.google.protobuf.ByteString, RowsProxy>.plusAssign(value: com.google.protobuf.ByteString) {
       add(value)
@@ -96,7 +97,7 @@ public object TableRowsKt {
      * @param values The rows to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllRows")
+@kotlin.jvm.JvmName("addAllRows")
     public fun com.google.protobuf.kotlin.DslList<com.google.protobuf.ByteString, RowsProxy>.addAll(values: kotlin.collections.Iterable<com.google.protobuf.ByteString>) {
       _builder.addAllRows(values)
     }/**
@@ -111,7 +112,7 @@ public object TableRowsKt {
      * @param values The rows to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllRows")
+@kotlin.jvm.JvmName("plusAssignAllRows")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<com.google.protobuf.ByteString, RowsProxy>.plusAssign(values: kotlin.collections.Iterable<com.google.protobuf.ByteString>) {
       addAll(values)
@@ -128,7 +129,7 @@ public object TableRowsKt {
      * @param value The rows to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setRows")
+@kotlin.jvm.JvmName("setRows")
     public operator fun com.google.protobuf.kotlin.DslList<com.google.protobuf.ByteString, RowsProxy>.set(index: kotlin.Int, value: com.google.protobuf.ByteString) {
       _builder.setRows(index, value)
     }/**
@@ -142,7 +143,7 @@ public object TableRowsKt {
      * `repeated bytes rows = 1;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearRows")
+@kotlin.jvm.JvmName("clearRows")
     public fun com.google.protobuf.kotlin.DslList<com.google.protobuf.ByteString, RowsProxy>.clear() {
       _builder.clearRows()
     }}

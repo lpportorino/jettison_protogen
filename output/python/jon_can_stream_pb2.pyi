@@ -2,7 +2,8 @@ from google.protobuf.internal import containers as _containers
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Iterable as _Iterable, Mapping as _Mapping, Optional as _Optional, Union as _Union
+from collections.abc import Iterable as _Iterable, Mapping as _Mapping
+from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -37,7 +38,7 @@ class CANFrame(_message.Message):
     kernel_ns: int
     seq64: int
     drops: int
-    def __init__(self, timestamp_us: _Optional[int] = ..., can_id: _Optional[int] = ..., is_rx: bool = ..., is_fd: bool = ..., data: _Optional[bytes] = ..., dir: _Optional[_Union[CANDirection, str]] = ..., kernel_ns: _Optional[int] = ..., seq64: _Optional[int] = ..., drops: _Optional[int] = ...) -> None: ...
+    def __init__(self, timestamp_us: _Optional[int] = ..., can_id: _Optional[int] = ..., is_rx: _Optional[bool] = ..., is_fd: _Optional[bool] = ..., data: _Optional[bytes] = ..., dir: _Optional[_Union[CANDirection, str]] = ..., kernel_ns: _Optional[int] = ..., seq64: _Optional[int] = ..., drops: _Optional[int] = ...) -> None: ...
 
 class CANFrameBatch(_message.Message):
     __slots__ = ("frames",)

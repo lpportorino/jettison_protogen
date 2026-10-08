@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_cv_dump_archive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.cvdump;
@@ -41,10 +42,10 @@ public object ShotPlaneKt {
      * `uint32 plane = 1 [(.buf.validate.field) = { ... }`
      */
     public var plane: kotlin.Int
-      @JvmName("getPlane")
-      get() = _builder.plane
-      @JvmName("setPlane")
-      set(value) {
+      @kotlin.jvm.JvmName("getPlane")
+        get() = _builder.plane
+      @kotlin.jvm.JvmName("setPlane")
+        set(value) {
         _builder.plane = value
       }
     /**
@@ -67,10 +68,10 @@ public object ShotPlaneKt {
      * `uint32 tag = 2;`
      */
     public var tag: kotlin.Int
-      @JvmName("getTag")
-      get() = _builder.tag
-      @JvmName("setTag")
-      set(value) {
+      @kotlin.jvm.JvmName("getTag")
+        get() = _builder.tag
+      @kotlin.jvm.JvmName("setTag")
+        set(value) {
         _builder.tag = value
       }
     /**
@@ -94,10 +95,10 @@ public object ShotPlaneKt {
      * `uint32 source_format = 3;`
      */
     public var sourceFormat: kotlin.Int
-      @JvmName("getSourceFormat")
-      get() = _builder.sourceFormat
-      @JvmName("setSourceFormat")
-      set(value) {
+      @kotlin.jvm.JvmName("getSourceFormat")
+        get() = _builder.sourceFormat
+      @kotlin.jvm.JvmName("setSourceFormat")
+        set(value) {
         _builder.sourceFormat = value
       }
     /**
@@ -120,10 +121,10 @@ public object ShotPlaneKt {
      * `string path = 4 [(.buf.validate.field) = { ... }`
      */
     public var path: kotlin.String
-      @JvmName("getPath")
-      get() = _builder.path
-      @JvmName("setPath")
-      set(value) {
+      @kotlin.jvm.JvmName("getPath")
+        get() = _builder.path
+      @kotlin.jvm.JvmName("setPath")
+        set(value) {
         _builder.path = value
       }
     /**
@@ -145,10 +146,10 @@ public object ShotPlaneKt {
      * `string encoding = 5 [(.buf.validate.field) = { ... }`
      */
     public var encoding: kotlin.String
-      @JvmName("getEncoding")
-      get() = _builder.encoding
-      @JvmName("setEncoding")
-      set(value) {
+      @kotlin.jvm.JvmName("getEncoding")
+        get() = _builder.encoding
+      @kotlin.jvm.JvmName("setEncoding")
+        set(value) {
         _builder.encoding = value
       }
     /**
@@ -166,10 +167,10 @@ public object ShotPlaneKt {
      * `uint32 width = 6;`
      */
     public var width: kotlin.Int
-      @JvmName("getWidth")
-      get() = _builder.width
-      @JvmName("setWidth")
-      set(value) {
+      @kotlin.jvm.JvmName("getWidth")
+        get() = _builder.width
+      @kotlin.jvm.JvmName("setWidth")
+        set(value) {
         _builder.width = value
       }
     /**
@@ -183,10 +184,10 @@ public object ShotPlaneKt {
      * `uint32 height = 7;`
      */
     public var height: kotlin.Int
-      @JvmName("getHeight")
-      get() = _builder.height
-      @JvmName("setHeight")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeight")
+        get() = _builder.height
+      @kotlin.jvm.JvmName("setHeight")
+        set(value) {
         _builder.height = value
       }
     /**
@@ -204,10 +205,10 @@ public object ShotPlaneKt {
      * `uint32 pitch = 8;`
      */
     public var pitch: kotlin.Int
-      @JvmName("getPitch")
-      get() = _builder.pitch
-      @JvmName("setPitch")
-      set(value) {
+      @kotlin.jvm.JvmName("getPitch")
+        get() = _builder.pitch
+      @kotlin.jvm.JvmName("setPitch")
+        set(value) {
         _builder.pitch = value
       }
     /**
@@ -229,10 +230,10 @@ public object ShotPlaneKt {
      * `uint32 uv_offset = 9;`
      */
     public var uvOffset: kotlin.Int
-      @JvmName("getUvOffset")
-      get() = _builder.uvOffset
-      @JvmName("setUvOffset")
-      set(value) {
+      @kotlin.jvm.JvmName("getUvOffset")
+        get() = _builder.uvOffset
+      @kotlin.jvm.JvmName("setUvOffset")
+        set(value) {
         _builder.uvOffset = value
       }
     /**
@@ -250,10 +251,10 @@ public object ShotPlaneKt {
      * `uint64 bytes = 10;`
      */
     public var bytes: kotlin.Long
-      @JvmName("getBytes")
-      get() = _builder.bytes
-      @JvmName("setBytes")
-      set(value) {
+      @kotlin.jvm.JvmName("getBytes")
+        get() = _builder.bytes
+      @kotlin.jvm.JvmName("setBytes")
+        set(value) {
         _builder.bytes = value
       }
     /**
@@ -271,10 +272,10 @@ public object ShotPlaneKt {
      * `string sha256 = 11 [(.buf.validate.field) = { ... }`
      */
     public var sha256: kotlin.String
-      @JvmName("getSha256")
-      get() = _builder.sha256
-      @JvmName("setSha256")
-      set(value) {
+      @kotlin.jvm.JvmName("getSha256")
+        get() = _builder.sha256
+      @kotlin.jvm.JvmName("setSha256")
+        set(value) {
         _builder.sha256 = value
       }
     /**

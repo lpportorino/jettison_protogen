@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_rotary.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.RotaryPlatform;
@@ -32,10 +33,10 @@ public object ScanSelectNodeKt {
      * `int32 index = 1 [(.buf.validate.field) = { ... }`
      */
     public var index: kotlin.Int
-      @JvmName("getIndex")
-      get() = _builder.index
-      @JvmName("setIndex")
-      set(value) {
+      @kotlin.jvm.JvmName("getIndex")
+        get() = _builder.index
+      @kotlin.jvm.JvmName("setIndex")
+        set(value) {
         _builder.index = value
       }
     /**

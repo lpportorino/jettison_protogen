@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_compass.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.Compass;
@@ -32,10 +33,10 @@ public object RootKt {
      * `.cmd.Compass.Start start = 1;`
      */
     public var start: cmd.Compass.JonSharedCmdCompass.Start
-      @JvmName("getStart")
-      get() = _builder.start
-      @JvmName("setStart")
-      set(value) {
+      @kotlin.jvm.JvmName("getStart")
+        get() = _builder.start
+      @kotlin.jvm.JvmName("setStart")
+        set(value) {
         _builder.start = value
       }
     /**
@@ -56,10 +57,10 @@ public object RootKt {
      * `.cmd.Compass.Stop stop = 2;`
      */
     public var stop: cmd.Compass.JonSharedCmdCompass.Stop
-      @JvmName("getStop")
-      get() = _builder.stop
-      @JvmName("setStop")
-      set(value) {
+      @kotlin.jvm.JvmName("getStop")
+        get() = _builder.stop
+      @kotlin.jvm.JvmName("setStop")
+        set(value) {
         _builder.stop = value
       }
     /**
@@ -80,10 +81,10 @@ public object RootKt {
      * `.cmd.Compass.SetMagneticDeclination set_magnetic_declination = 3;`
      */
     public var setMagneticDeclination: cmd.Compass.JonSharedCmdCompass.SetMagneticDeclination
-      @JvmName("getSetMagneticDeclination")
-      get() = _builder.setMagneticDeclination
-      @JvmName("setSetMagneticDeclination")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetMagneticDeclination")
+        get() = _builder.setMagneticDeclination
+      @kotlin.jvm.JvmName("setSetMagneticDeclination")
+        set(value) {
         _builder.setMagneticDeclination = value
       }
     /**
@@ -104,10 +105,10 @@ public object RootKt {
      * `.cmd.Compass.SetOffsetAngleAzimuth set_offset_angle_azimuth = 4;`
      */
     public var setOffsetAngleAzimuth: cmd.Compass.JonSharedCmdCompass.SetOffsetAngleAzimuth
-      @JvmName("getSetOffsetAngleAzimuth")
-      get() = _builder.setOffsetAngleAzimuth
-      @JvmName("setSetOffsetAngleAzimuth")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetOffsetAngleAzimuth")
+        get() = _builder.setOffsetAngleAzimuth
+      @kotlin.jvm.JvmName("setSetOffsetAngleAzimuth")
+        set(value) {
         _builder.setOffsetAngleAzimuth = value
       }
     /**
@@ -128,10 +129,10 @@ public object RootKt {
      * `.cmd.Compass.SetOffsetAngleElevation set_offset_angle_elevation = 5;`
      */
     public var setOffsetAngleElevation: cmd.Compass.JonSharedCmdCompass.SetOffsetAngleElevation
-      @JvmName("getSetOffsetAngleElevation")
-      get() = _builder.setOffsetAngleElevation
-      @JvmName("setSetOffsetAngleElevation")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetOffsetAngleElevation")
+        get() = _builder.setOffsetAngleElevation
+      @kotlin.jvm.JvmName("setSetOffsetAngleElevation")
+        set(value) {
         _builder.setOffsetAngleElevation = value
       }
     /**
@@ -152,10 +153,10 @@ public object RootKt {
      * `.cmd.Compass.SetUseRotaryPosition set_use_rotary_position = 6;`
      */
     public var setUseRotaryPosition: cmd.Compass.JonSharedCmdCompass.SetUseRotaryPosition
-      @JvmName("getSetUseRotaryPosition")
-      get() = _builder.setUseRotaryPosition
-      @JvmName("setSetUseRotaryPosition")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetUseRotaryPosition")
+        get() = _builder.setUseRotaryPosition
+      @kotlin.jvm.JvmName("setSetUseRotaryPosition")
+        set(value) {
         _builder.setUseRotaryPosition = value
       }
     /**
@@ -176,10 +177,10 @@ public object RootKt {
      * `.cmd.Compass.CalibrateStartLong start_calibrate_long = 7;`
      */
     public var startCalibrateLong: cmd.Compass.JonSharedCmdCompass.CalibrateStartLong
-      @JvmName("getStartCalibrateLong")
-      get() = _builder.startCalibrateLong
-      @JvmName("setStartCalibrateLong")
-      set(value) {
+      @kotlin.jvm.JvmName("getStartCalibrateLong")
+        get() = _builder.startCalibrateLong
+      @kotlin.jvm.JvmName("setStartCalibrateLong")
+        set(value) {
         _builder.startCalibrateLong = value
       }
     /**
@@ -200,10 +201,10 @@ public object RootKt {
      * `.cmd.Compass.CalibrateStartShort start_calibrate_short = 8;`
      */
     public var startCalibrateShort: cmd.Compass.JonSharedCmdCompass.CalibrateStartShort
-      @JvmName("getStartCalibrateShort")
-      get() = _builder.startCalibrateShort
-      @JvmName("setStartCalibrateShort")
-      set(value) {
+      @kotlin.jvm.JvmName("getStartCalibrateShort")
+        get() = _builder.startCalibrateShort
+      @kotlin.jvm.JvmName("setStartCalibrateShort")
+        set(value) {
         _builder.startCalibrateShort = value
       }
     /**
@@ -224,10 +225,10 @@ public object RootKt {
      * `.cmd.Compass.CalibrateNext calibrate_next = 9;`
      */
     public var calibrateNext: cmd.Compass.JonSharedCmdCompass.CalibrateNext
-      @JvmName("getCalibrateNext")
-      get() = _builder.calibrateNext
-      @JvmName("setCalibrateNext")
-      set(value) {
+      @kotlin.jvm.JvmName("getCalibrateNext")
+        get() = _builder.calibrateNext
+      @kotlin.jvm.JvmName("setCalibrateNext")
+        set(value) {
         _builder.calibrateNext = value
       }
     /**
@@ -248,10 +249,10 @@ public object RootKt {
      * `.cmd.Compass.CalibrateCencel calibrate_cencel = 10;`
      */
     public var calibrateCencel: cmd.Compass.JonSharedCmdCompass.CalibrateCencel
-      @JvmName("getCalibrateCencel")
-      get() = _builder.calibrateCencel
-      @JvmName("setCalibrateCencel")
-      set(value) {
+      @kotlin.jvm.JvmName("getCalibrateCencel")
+        get() = _builder.calibrateCencel
+      @kotlin.jvm.JvmName("setCalibrateCencel")
+        set(value) {
         _builder.calibrateCencel = value
       }
     /**
@@ -272,10 +273,10 @@ public object RootKt {
      * `.cmd.Compass.GetMeteo get_meteo = 11;`
      */
     public var getMeteo: cmd.Compass.JonSharedCmdCompass.GetMeteo
-      @JvmName("getGetMeteo")
-      get() = _builder.getMeteo
-      @JvmName("setGetMeteo")
-      set(value) {
+      @kotlin.jvm.JvmName("getGetMeteo")
+        get() = _builder.getMeteo
+      @kotlin.jvm.JvmName("setGetMeteo")
+        set(value) {
         _builder.getMeteo = value
       }
     /**

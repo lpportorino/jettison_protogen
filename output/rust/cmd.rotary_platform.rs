@@ -70,7 +70,7 @@ pub struct Axis {
     #[prost(message, optional, tag = "2")]
     pub elevation: ::core::option::Option<Elevation>,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct SetMode {
     #[prost(enumeration = "super::super::ser::JonGuiDataRotaryMode", tag = "1")]
     pub mode: i32,
@@ -164,7 +164,7 @@ pub struct SetPlatformBank {
     #[prost(double, tag = "1")]
     pub value: f64,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct GetMeteo {}
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct Azimuth {
@@ -189,36 +189,36 @@ pub mod azimuth {
         Halt(super::HaltAzimuth),
     }
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct Start {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct Stop {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct Halt {}
 /// Release the transport-park latch (set by cmd.System.enter_transport) WITHOUT
 /// the full Start lifecycle re-arm — resumes operator/tracker motion on a parked
 /// platform instead of requiring a shutdown/Start cycle.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct Unpark {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct ScanStart {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct ScanStop {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct ScanPause {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct ScanUnpause {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct HaltAzimuth {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct HaltElevation {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct ScanPrev {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct ScanNext {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct ScanRefreshNodeList {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct ScanSelectNode {
     #[prost(int32, tag = "1")]
     pub index: i32,
@@ -227,7 +227,7 @@ pub struct ScanSelectNode {
 /// Redis db8 `rotary:poi:<index>`) and apply its day/heat zoom-table
 /// positions. Consumed by eutropia's drive host, which runs the verified
 /// look-at program; the frontend no longer composes axis commands itself.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct PoiLookAt {
     #[prost(int32, tag = "1")]
     pub index: i32,
@@ -235,7 +235,7 @@ pub struct PoiLookAt {
 /// Store the current pointing (compensated azimuth/elevation + both
 /// zoom-table positions) into POI slot `index`. Consumed by eutropia's
 /// drive host, which snapshots state and POSTs to poi_api_server.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct PoiSaveCurrent {
     #[prost(int32, tag = "1")]
     pub index: i32,
@@ -263,7 +263,7 @@ pub mod elevation {
         Halt(super::HaltElevation),
     }
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct SetUseRotaryAsCompass {
     #[prost(bool, tag = "1")]
     pub flag: bool,

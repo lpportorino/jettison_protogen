@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_cv.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.CV;
@@ -41,17 +42,17 @@ public object StartTrackTrinityKt {
      * `.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }`
      */
     public var channel: ser.JonSharedDataTypes.JonGuiDataVideoChannel
-      @JvmName("getChannel")
-      get() = _builder.channel
-      @JvmName("setChannel")
-      set(value) {
+      @kotlin.jvm.JvmName("getChannel")
+        get() = _builder.channel
+      @kotlin.jvm.JvmName("setChannel")
+        set(value) {
         _builder.channel = value
       }
     public var channelValue: kotlin.Int
-      @JvmName("getChannelValue")
-      get() = _builder.channelValue
-      @JvmName("setChannelValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getChannelValue")
+        get() = _builder.channelValue
+      @kotlin.jvm.JvmName("setChannelValue")
+        set(value) {
         _builder.channelValue = value
       }
     /**
@@ -73,10 +74,10 @@ public object StartTrackTrinityKt {
      * `.ser.TrinityBoardVersion expect_board = 2;`
      */
     public var expectBoard: ser.TrinityTrackingOuterClass.TrinityBoardVersion
-      @JvmName("getExpectBoard")
-      get() = _builder.expectBoard
-      @JvmName("setExpectBoard")
-      set(value) {
+      @kotlin.jvm.JvmName("getExpectBoard")
+        get() = _builder.expectBoard
+      @kotlin.jvm.JvmName("setExpectBoard")
+        set(value) {
         _builder.expectBoard = value
       }
     /**

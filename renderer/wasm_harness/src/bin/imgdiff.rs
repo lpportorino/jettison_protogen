@@ -50,7 +50,13 @@ fn load_png(path: &Path) -> Result<Image, HarnessError> {
     let mut reader = decoder
         .read_info()
         .map_err(|err| HarnessError::PngEncode(format!("read {}: {err}", path.display())))?;
-    let mut buf = vec![0_u8; reader.output_buffer_size()];
+    let buffer_size = reader.output_buffer_size().ok_or_else(|| {
+        HarnessError::PngEncode(format!(
+            "{}: decoded image exceeds addressable memory",
+            path.display()
+        ))
+    })?;
+    let mut buf = vec![0_u8; buffer_size];
     let info = reader
         .next_frame(&mut buf)
         .map_err(|err| HarnessError::PngEncode(format!("decode {}: {err}", path.display())))?;

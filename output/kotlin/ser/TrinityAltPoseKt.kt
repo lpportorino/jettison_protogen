@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: opaque/trinity_tracking.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -36,10 +37,10 @@ public object TrinityAltPoseKt {
      * `double position_x_m = 1;`
      */
     public var positionXM: kotlin.Double
-      @JvmName("getPositionXM")
-      get() = _builder.positionXM
-      @JvmName("setPositionXM")
-      set(value) {
+      @kotlin.jvm.JvmName("getPositionXM")
+        get() = _builder.positionXM
+      @kotlin.jvm.JvmName("setPositionXM")
+        set(value) {
         _builder.positionXM = value
       }
     /**
@@ -53,10 +54,10 @@ public object TrinityAltPoseKt {
      * `double position_y_m = 2;`
      */
     public var positionYM: kotlin.Double
-      @JvmName("getPositionYM")
-      get() = _builder.positionYM
-      @JvmName("setPositionYM")
-      set(value) {
+      @kotlin.jvm.JvmName("getPositionYM")
+        get() = _builder.positionYM
+      @kotlin.jvm.JvmName("setPositionYM")
+        set(value) {
         _builder.positionYM = value
       }
     /**
@@ -70,10 +71,10 @@ public object TrinityAltPoseKt {
      * `double position_z_m = 3;`
      */
     public var positionZM: kotlin.Double
-      @JvmName("getPositionZM")
-      get() = _builder.positionZM
-      @JvmName("setPositionZM")
-      set(value) {
+      @kotlin.jvm.JvmName("getPositionZM")
+        get() = _builder.positionZM
+      @kotlin.jvm.JvmName("setPositionZM")
+        set(value) {
         _builder.positionZM = value
       }
     /**
@@ -87,10 +88,10 @@ public object TrinityAltPoseKt {
      * `double quat_w = 4;`
      */
     public var quatW: kotlin.Double
-      @JvmName("getQuatW")
-      get() = _builder.quatW
-      @JvmName("setQuatW")
-      set(value) {
+      @kotlin.jvm.JvmName("getQuatW")
+        get() = _builder.quatW
+      @kotlin.jvm.JvmName("setQuatW")
+        set(value) {
         _builder.quatW = value
       }
     /**
@@ -104,10 +105,10 @@ public object TrinityAltPoseKt {
      * `double quat_x = 5;`
      */
     public var quatX: kotlin.Double
-      @JvmName("getQuatX")
-      get() = _builder.quatX
-      @JvmName("setQuatX")
-      set(value) {
+      @kotlin.jvm.JvmName("getQuatX")
+        get() = _builder.quatX
+      @kotlin.jvm.JvmName("setQuatX")
+        set(value) {
         _builder.quatX = value
       }
     /**
@@ -121,10 +122,10 @@ public object TrinityAltPoseKt {
      * `double quat_y = 6;`
      */
     public var quatY: kotlin.Double
-      @JvmName("getQuatY")
-      get() = _builder.quatY
-      @JvmName("setQuatY")
-      set(value) {
+      @kotlin.jvm.JvmName("getQuatY")
+        get() = _builder.quatY
+      @kotlin.jvm.JvmName("setQuatY")
+        set(value) {
         _builder.quatY = value
       }
     /**
@@ -138,10 +139,10 @@ public object TrinityAltPoseKt {
      * `double quat_z = 7;`
      */
     public var quatZ: kotlin.Double
-      @JvmName("getQuatZ")
-      get() = _builder.quatZ
-      @JvmName("setQuatZ")
-      set(value) {
+      @kotlin.jvm.JvmName("getQuatZ")
+        get() = _builder.quatZ
+      @kotlin.jvm.JvmName("setQuatZ")
+        set(value) {
         _builder.quatZ = value
       }
     /**
@@ -155,10 +156,10 @@ public object TrinityAltPoseKt {
      * `double reprojection_rms_px = 8;`
      */
     public var reprojectionRmsPx: kotlin.Double
-      @JvmName("getReprojectionRmsPx")
-      get() = _builder.reprojectionRmsPx
-      @JvmName("setReprojectionRmsPx")
-      set(value) {
+      @kotlin.jvm.JvmName("getReprojectionRmsPx")
+        get() = _builder.reprojectionRmsPx
+      @kotlin.jvm.JvmName("setReprojectionRmsPx")
+        set(value) {
         _builder.reprojectionRmsPx = value
       }
     /**

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_video_meta.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.video;
@@ -47,7 +48,7 @@ public object VideoMetaResponseKt {
      */
      public val videos: com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.VideoMeta, VideosProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.videosList
       )
     /**
@@ -59,7 +60,7 @@ public object VideoMetaResponseKt {
      * @param value The videos to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addVideos")
+@kotlin.jvm.JvmName("addVideos")
     public fun com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.VideoMeta, VideosProxy>.add(value: jon.video.JonVideoMeta.VideoMeta) {
       _builder.addVideos(value)
     }
@@ -72,7 +73,7 @@ public object VideoMetaResponseKt {
      * @param value The videos to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignVideos")
+@kotlin.jvm.JvmName("plusAssignVideos")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.VideoMeta, VideosProxy>.plusAssign(value: jon.video.JonVideoMeta.VideoMeta) {
       add(value)
@@ -86,7 +87,7 @@ public object VideoMetaResponseKt {
      * @param values The videos to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllVideos")
+@kotlin.jvm.JvmName("addAllVideos")
     public fun com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.VideoMeta, VideosProxy>.addAll(values: kotlin.collections.Iterable<jon.video.JonVideoMeta.VideoMeta>) {
       _builder.addAllVideos(values)
     }
@@ -99,7 +100,7 @@ public object VideoMetaResponseKt {
      * @param values The videos to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllVideos")
+@kotlin.jvm.JvmName("plusAssignAllVideos")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.VideoMeta, VideosProxy>.plusAssign(values: kotlin.collections.Iterable<jon.video.JonVideoMeta.VideoMeta>) {
       addAll(values)
@@ -114,7 +115,7 @@ public object VideoMetaResponseKt {
      * @param value The videos to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setVideos")
+@kotlin.jvm.JvmName("setVideos")
     public operator fun com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.VideoMeta, VideosProxy>.set(index: kotlin.Int, value: jon.video.JonVideoMeta.VideoMeta) {
       _builder.setVideos(index, value)
     }
@@ -126,11 +127,10 @@ public object VideoMetaResponseKt {
      * `repeated .jon.video.VideoMeta videos = 1;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearVideos")
+@kotlin.jvm.JvmName("clearVideos")
     public fun com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.VideoMeta, VideosProxy>.clear() {
       _builder.clearVideos()
     }
-
 
     /**
      * An uninstantiable, behaviorless type to represent the field in
@@ -147,7 +147,7 @@ public object VideoMetaResponseKt {
      */
      public val errors: com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.VideoError, ErrorsProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.errorsList
       )
     /**
@@ -159,7 +159,7 @@ public object VideoMetaResponseKt {
      * @param value The errors to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addErrors")
+@kotlin.jvm.JvmName("addErrors")
     public fun com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.VideoError, ErrorsProxy>.add(value: jon.video.JonVideoMeta.VideoError) {
       _builder.addErrors(value)
     }
@@ -172,7 +172,7 @@ public object VideoMetaResponseKt {
      * @param value The errors to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignErrors")
+@kotlin.jvm.JvmName("plusAssignErrors")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.VideoError, ErrorsProxy>.plusAssign(value: jon.video.JonVideoMeta.VideoError) {
       add(value)
@@ -186,7 +186,7 @@ public object VideoMetaResponseKt {
      * @param values The errors to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllErrors")
+@kotlin.jvm.JvmName("addAllErrors")
     public fun com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.VideoError, ErrorsProxy>.addAll(values: kotlin.collections.Iterable<jon.video.JonVideoMeta.VideoError>) {
       _builder.addAllErrors(values)
     }
@@ -199,7 +199,7 @@ public object VideoMetaResponseKt {
      * @param values The errors to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllErrors")
+@kotlin.jvm.JvmName("plusAssignAllErrors")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.VideoError, ErrorsProxy>.plusAssign(values: kotlin.collections.Iterable<jon.video.JonVideoMeta.VideoError>) {
       addAll(values)
@@ -214,7 +214,7 @@ public object VideoMetaResponseKt {
      * @param value The errors to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setErrors")
+@kotlin.jvm.JvmName("setErrors")
     public operator fun com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.VideoError, ErrorsProxy>.set(index: kotlin.Int, value: jon.video.JonVideoMeta.VideoError) {
       _builder.setErrors(index, value)
     }
@@ -226,11 +226,10 @@ public object VideoMetaResponseKt {
      * `repeated .jon.video.VideoError errors = 2;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearErrors")
+@kotlin.jvm.JvmName("clearErrors")
     public fun com.google.protobuf.kotlin.DslList<jon.video.JonVideoMeta.VideoError, ErrorsProxy>.clear() {
       _builder.clearErrors()
     }
-
 
     /**
      * ```
@@ -240,10 +239,10 @@ public object VideoMetaResponseKt {
      * `uint32 total_count = 3;`
      */
     public var totalCount: kotlin.Int
-      @JvmName("getTotalCount")
-      get() = _builder.totalCount
-      @JvmName("setTotalCount")
-      set(value) {
+      @kotlin.jvm.JvmName("getTotalCount")
+        get() = _builder.totalCount
+      @kotlin.jvm.JvmName("setTotalCount")
+        set(value) {
         _builder.totalCount = value
       }
     /**
@@ -265,10 +264,10 @@ public object VideoMetaResponseKt {
      * `uint32 width = 10;`
      */
     public var width: kotlin.Int
-      @JvmName("getWidth")
-      get() = _builder.width
-      @JvmName("setWidth")
-      set(value) {
+      @kotlin.jvm.JvmName("getWidth")
+        get() = _builder.width
+      @kotlin.jvm.JvmName("setWidth")
+        set(value) {
         _builder.width = value
       }
     /**
@@ -290,10 +289,10 @@ public object VideoMetaResponseKt {
      * `uint32 height = 11;`
      */
     public var height: kotlin.Int
-      @JvmName("getHeight")
-      get() = _builder.height
-      @JvmName("setHeight")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeight")
+        get() = _builder.height
+      @kotlin.jvm.JvmName("setHeight")
+        set(value) {
         _builder.height = value
       }
     /**
@@ -315,10 +314,10 @@ public object VideoMetaResponseKt {
      * `bytes dsi = 12;`
      */
     public var dsi: com.google.protobuf.ByteString
-      @JvmName("getDsi")
-      get() = _builder.dsi
-      @JvmName("setDsi")
-      set(value) {
+      @kotlin.jvm.JvmName("getDsi")
+        get() = _builder.dsi
+      @kotlin.jvm.JvmName("setDsi")
+        set(value) {
         _builder.dsi = value
       }
     /**
@@ -340,10 +339,10 @@ public object VideoMetaResponseKt {
      * `uint32 timescale = 13;`
      */
     public var timescale: kotlin.Int
-      @JvmName("getTimescale")
-      get() = _builder.timescale
-      @JvmName("setTimescale")
-      set(value) {
+      @kotlin.jvm.JvmName("getTimescale")
+        get() = _builder.timescale
+      @kotlin.jvm.JvmName("setTimescale")
+        set(value) {
         _builder.timescale = value
       }
     /**

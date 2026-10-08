@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_day_camera.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.DayCamera;
@@ -32,10 +33,10 @@ public object MoveKt {
      * `double target_value = 1 [(.buf.validate.field) = { ... }`
      */
     public var targetValue: kotlin.Double
-      @JvmName("getTargetValue")
-      get() = _builder.targetValue
-      @JvmName("setTargetValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetValue")
+        get() = _builder.targetValue
+      @kotlin.jvm.JvmName("setTargetValue")
+        set(value) {
         _builder.targetValue = value
       }
     /**
@@ -49,10 +50,10 @@ public object MoveKt {
      * `double speed = 2 [(.buf.validate.field) = { ... }`
      */
     public var speed: kotlin.Double
-      @JvmName("getSpeed")
-      get() = _builder.speed
-      @JvmName("setSpeed")
-      set(value) {
+      @kotlin.jvm.JvmName("getSpeed")
+        get() = _builder.speed
+      @kotlin.jvm.JvmName("setSpeed")
+        set(value) {
         _builder.speed = value
       }
     /**

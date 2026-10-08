@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_rotary.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.RotaryPlatform;
@@ -32,17 +33,17 @@ public object RotateToNDCKt {
      * `.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }`
      */
     public var channel: ser.JonSharedDataTypes.JonGuiDataVideoChannel
-      @JvmName("getChannel")
-      get() = _builder.channel
-      @JvmName("setChannel")
-      set(value) {
+      @kotlin.jvm.JvmName("getChannel")
+        get() = _builder.channel
+      @kotlin.jvm.JvmName("setChannel")
+        set(value) {
         _builder.channel = value
       }
     public var channelValue: kotlin.Int
-      @JvmName("getChannelValue")
-      get() = _builder.channelValue
-      @JvmName("setChannelValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getChannelValue")
+        get() = _builder.channelValue
+      @kotlin.jvm.JvmName("setChannelValue")
+        set(value) {
         _builder.channelValue = value
       }
     /**
@@ -56,10 +57,10 @@ public object RotateToNDCKt {
      * `double x = 2 [(.buf.validate.field) = { ... }`
      */
     public var x: kotlin.Double
-      @JvmName("getX")
-      get() = _builder.x
-      @JvmName("setX")
-      set(value) {
+      @kotlin.jvm.JvmName("getX")
+        get() = _builder.x
+      @kotlin.jvm.JvmName("setX")
+        set(value) {
         _builder.x = value
       }
     /**
@@ -73,10 +74,10 @@ public object RotateToNDCKt {
      * `double y = 3 [(.buf.validate.field) = { ... }`
      */
     public var y: kotlin.Double
-      @JvmName("getY")
-      get() = _builder.y
-      @JvmName("setY")
-      set(value) {
+      @kotlin.jvm.JvmName("getY")
+        get() = _builder.y
+      @kotlin.jvm.JvmName("setY")
+        set(value) {
         _builder.y = value
       }
     /**
@@ -94,10 +95,10 @@ public object RotateToNDCKt {
      * `uint64 frame_time = 4;`
      */
     public var frameTime: kotlin.Long
-      @JvmName("getFrameTime")
-      get() = _builder.frameTime
-      @JvmName("setFrameTime")
-      set(value) {
+      @kotlin.jvm.JvmName("getFrameTime")
+        get() = _builder.frameTime
+      @kotlin.jvm.JvmName("setFrameTime")
+        set(value) {
         _builder.frameTime = value
       }
     /**
@@ -119,10 +120,10 @@ public object RotateToNDCKt {
      * `uint64 state_time = 5;`
      */
     public var stateTime: kotlin.Long
-      @JvmName("getStateTime")
-      get() = _builder.stateTime
-      @JvmName("setStateTime")
-      set(value) {
+      @kotlin.jvm.JvmName("getStateTime")
+        get() = _builder.stateTime
+      @kotlin.jvm.JvmName("setStateTime")
+        set(value) {
         _builder.stateTime = value
       }
     /**

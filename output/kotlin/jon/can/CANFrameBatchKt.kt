@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_can_stream.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.can;
@@ -43,7 +44,7 @@ public object CANFrameBatchKt {
      */
      public val frames: com.google.protobuf.kotlin.DslList<jon.can.JonCanStream.CANFrame, FramesProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.framesList
       )
     /**
@@ -51,7 +52,7 @@ public object CANFrameBatchKt {
      * @param value The frames to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addFrames")
+@kotlin.jvm.JvmName("addFrames")
     public fun com.google.protobuf.kotlin.DslList<jon.can.JonCanStream.CANFrame, FramesProxy>.add(value: jon.can.JonCanStream.CANFrame) {
       _builder.addFrames(value)
     }
@@ -60,7 +61,7 @@ public object CANFrameBatchKt {
      * @param value The frames to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignFrames")
+@kotlin.jvm.JvmName("plusAssignFrames")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.can.JonCanStream.CANFrame, FramesProxy>.plusAssign(value: jon.can.JonCanStream.CANFrame) {
       add(value)
@@ -70,7 +71,7 @@ public object CANFrameBatchKt {
      * @param values The frames to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllFrames")
+@kotlin.jvm.JvmName("addAllFrames")
     public fun com.google.protobuf.kotlin.DslList<jon.can.JonCanStream.CANFrame, FramesProxy>.addAll(values: kotlin.collections.Iterable<jon.can.JonCanStream.CANFrame>) {
       _builder.addAllFrames(values)
     }
@@ -79,7 +80,7 @@ public object CANFrameBatchKt {
      * @param values The frames to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllFrames")
+@kotlin.jvm.JvmName("plusAssignAllFrames")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.can.JonCanStream.CANFrame, FramesProxy>.plusAssign(values: kotlin.collections.Iterable<jon.can.JonCanStream.CANFrame>) {
       addAll(values)
@@ -90,7 +91,7 @@ public object CANFrameBatchKt {
      * @param value The frames to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setFrames")
+@kotlin.jvm.JvmName("setFrames")
     public operator fun com.google.protobuf.kotlin.DslList<jon.can.JonCanStream.CANFrame, FramesProxy>.set(index: kotlin.Int, value: jon.can.JonCanStream.CANFrame) {
       _builder.setFrames(index, value)
     }
@@ -98,11 +99,10 @@ public object CANFrameBatchKt {
      * `repeated .jon.can.CANFrame frames = 1;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearFrames")
+@kotlin.jvm.JvmName("clearFrames")
     public fun com.google.protobuf.kotlin.DslList<jon.can.JonCanStream.CANFrame, FramesProxy>.clear() {
       _builder.clearFrames()
     }
-
   }
 }
 @kotlin.jvm.JvmSynthetic

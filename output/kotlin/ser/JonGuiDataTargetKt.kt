@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_lrf.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -32,10 +33,10 @@ public object JonGuiDataTargetKt {
      * `int64 timestamp = 1 [(.buf.validate.field) = { ... }`
      */
     public var timestamp: kotlin.Long
-      @JvmName("getTimestamp")
-      get() = _builder.timestamp
-      @JvmName("setTimestamp")
-      set(value) {
+      @kotlin.jvm.JvmName("getTimestamp")
+        get() = _builder.timestamp
+      @kotlin.jvm.JvmName("setTimestamp")
+        set(value) {
         _builder.timestamp = value
       }
     /**
@@ -49,10 +50,10 @@ public object JonGuiDataTargetKt {
      * `double target_longitude = 2 [(.buf.validate.field) = { ... }`
      */
     public var targetLongitude: kotlin.Double
-      @JvmName("getTargetLongitude")
-      get() = _builder.targetLongitude
-      @JvmName("setTargetLongitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetLongitude")
+        get() = _builder.targetLongitude
+      @kotlin.jvm.JvmName("setTargetLongitude")
+        set(value) {
         _builder.targetLongitude = value
       }
     /**
@@ -66,10 +67,10 @@ public object JonGuiDataTargetKt {
      * `double target_latitude = 3 [(.buf.validate.field) = { ... }`
      */
     public var targetLatitude: kotlin.Double
-      @JvmName("getTargetLatitude")
-      get() = _builder.targetLatitude
-      @JvmName("setTargetLatitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetLatitude")
+        get() = _builder.targetLatitude
+      @kotlin.jvm.JvmName("setTargetLatitude")
+        set(value) {
         _builder.targetLatitude = value
       }
     /**
@@ -88,10 +89,10 @@ public object JonGuiDataTargetKt {
      * `double target_altitude = 4;`
      */
     public var targetAltitude: kotlin.Double
-      @JvmName("getTargetAltitude")
-      get() = _builder.targetAltitude
-      @JvmName("setTargetAltitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetAltitude")
+        get() = _builder.targetAltitude
+      @kotlin.jvm.JvmName("setTargetAltitude")
+        set(value) {
         _builder.targetAltitude = value
       }
     /**
@@ -110,10 +111,10 @@ public object JonGuiDataTargetKt {
      * `double observer_longitude = 5 [(.buf.validate.field) = { ... }`
      */
     public var observerLongitude: kotlin.Double
-      @JvmName("getObserverLongitude")
-      get() = _builder.observerLongitude
-      @JvmName("setObserverLongitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getObserverLongitude")
+        get() = _builder.observerLongitude
+      @kotlin.jvm.JvmName("setObserverLongitude")
+        set(value) {
         _builder.observerLongitude = value
       }
     /**
@@ -127,10 +128,10 @@ public object JonGuiDataTargetKt {
      * `double observer_latitude = 6 [(.buf.validate.field) = { ... }`
      */
     public var observerLatitude: kotlin.Double
-      @JvmName("getObserverLatitude")
-      get() = _builder.observerLatitude
-      @JvmName("setObserverLatitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getObserverLatitude")
+        get() = _builder.observerLatitude
+      @kotlin.jvm.JvmName("setObserverLatitude")
+        set(value) {
         _builder.observerLatitude = value
       }
     /**
@@ -148,10 +149,10 @@ public object JonGuiDataTargetKt {
      * `double observer_altitude = 7;`
      */
     public var observerAltitude: kotlin.Double
-      @JvmName("getObserverAltitude")
-      get() = _builder.observerAltitude
-      @JvmName("setObserverAltitude")
-      set(value) {
+      @kotlin.jvm.JvmName("getObserverAltitude")
+        get() = _builder.observerAltitude
+      @kotlin.jvm.JvmName("setObserverAltitude")
+        set(value) {
         _builder.observerAltitude = value
       }
     /**
@@ -169,10 +170,10 @@ public object JonGuiDataTargetKt {
      * `double observer_azimuth = 8 [(.buf.validate.field) = { ... }`
      */
     public var observerAzimuth: kotlin.Double
-      @JvmName("getObserverAzimuth")
-      get() = _builder.observerAzimuth
-      @JvmName("setObserverAzimuth")
-      set(value) {
+      @kotlin.jvm.JvmName("getObserverAzimuth")
+        get() = _builder.observerAzimuth
+      @kotlin.jvm.JvmName("setObserverAzimuth")
+        set(value) {
         _builder.observerAzimuth = value
       }
     /**
@@ -186,10 +187,10 @@ public object JonGuiDataTargetKt {
      * `double observer_elevation = 9 [(.buf.validate.field) = { ... }`
      */
     public var observerElevation: kotlin.Double
-      @JvmName("getObserverElevation")
-      get() = _builder.observerElevation
-      @JvmName("setObserverElevation")
-      set(value) {
+      @kotlin.jvm.JvmName("getObserverElevation")
+        get() = _builder.observerElevation
+      @kotlin.jvm.JvmName("setObserverElevation")
+        set(value) {
         _builder.observerElevation = value
       }
     /**
@@ -203,10 +204,10 @@ public object JonGuiDataTargetKt {
      * `double observer_bank = 10 [(.buf.validate.field) = { ... }`
      */
     public var observerBank: kotlin.Double
-      @JvmName("getObserverBank")
-      get() = _builder.observerBank
-      @JvmName("setObserverBank")
-      set(value) {
+      @kotlin.jvm.JvmName("getObserverBank")
+        get() = _builder.observerBank
+      @kotlin.jvm.JvmName("setObserverBank")
+        set(value) {
         _builder.observerBank = value
       }
     /**
@@ -220,10 +221,10 @@ public object JonGuiDataTargetKt {
      * `double distance_2d = 11 [(.buf.validate.field) = { ... }`
      */
     public var distance2D: kotlin.Double
-      @JvmName("getDistance2D")
-      get() = _builder.distance2D
-      @JvmName("setDistance2D")
-      set(value) {
+      @kotlin.jvm.JvmName("getDistance2D")
+        get() = _builder.distance2D
+      @kotlin.jvm.JvmName("setDistance2D")
+        set(value) {
         _builder.distance2D = value
       }
     /**
@@ -237,10 +238,10 @@ public object JonGuiDataTargetKt {
      * `double distance_3b = 12 [(.buf.validate.field) = { ... }`
      */
     public var distance3B: kotlin.Double
-      @JvmName("getDistance3B")
-      get() = _builder.distance3B
-      @JvmName("setDistance3B")
-      set(value) {
+      @kotlin.jvm.JvmName("getDistance3B")
+        get() = _builder.distance3B
+      @kotlin.jvm.JvmName("setDistance3B")
+        set(value) {
         _builder.distance3B = value
       }
     /**
@@ -254,10 +255,10 @@ public object JonGuiDataTargetKt {
      * `double distance_c = 22 [(.buf.validate.field) = { ... }`
      */
     public var distanceC: kotlin.Double
-      @JvmName("getDistanceC")
-      get() = _builder.distanceC
-      @JvmName("setDistanceC")
-      set(value) {
+      @kotlin.jvm.JvmName("getDistanceC")
+        get() = _builder.distanceC
+      @kotlin.jvm.JvmName("setDistanceC")
+        set(value) {
         _builder.distanceC = value
       }
     /**
@@ -271,17 +272,17 @@ public object JonGuiDataTargetKt {
      * `.ser.JonGuiDataGpsFixType observer_fix_type = 13 [(.buf.validate.field) = { ... }`
      */
     public var observerFixType: ser.JonSharedDataTypes.JonGuiDataGpsFixType
-      @JvmName("getObserverFixType")
-      get() = _builder.observerFixType
-      @JvmName("setObserverFixType")
-      set(value) {
+      @kotlin.jvm.JvmName("getObserverFixType")
+        get() = _builder.observerFixType
+      @kotlin.jvm.JvmName("setObserverFixType")
+        set(value) {
         _builder.observerFixType = value
       }
     public var observerFixTypeValue: kotlin.Int
-      @JvmName("getObserverFixTypeValue")
-      get() = _builder.observerFixTypeValue
-      @JvmName("setObserverFixTypeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getObserverFixTypeValue")
+        get() = _builder.observerFixTypeValue
+      @kotlin.jvm.JvmName("setObserverFixTypeValue")
+        set(value) {
         _builder.observerFixTypeValue = value
       }
     /**
@@ -295,10 +296,10 @@ public object JonGuiDataTargetKt {
      * `int32 session_id = 14 [(.buf.validate.field) = { ... }`
      */
     public var sessionId: kotlin.Int
-      @JvmName("getSessionId")
-      get() = _builder.sessionId
-      @JvmName("setSessionId")
-      set(value) {
+      @kotlin.jvm.JvmName("getSessionId")
+        get() = _builder.sessionId
+      @kotlin.jvm.JvmName("setSessionId")
+        set(value) {
         _builder.sessionId = value
       }
     /**
@@ -312,10 +313,10 @@ public object JonGuiDataTargetKt {
      * `int32 target_id = 15 [(.buf.validate.field) = { ... }`
      */
     public var targetId: kotlin.Int
-      @JvmName("getTargetId")
-      get() = _builder.targetId
-      @JvmName("setTargetId")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetId")
+        get() = _builder.targetId
+      @kotlin.jvm.JvmName("setTargetId")
+        set(value) {
         _builder.targetId = value
       }
     /**
@@ -329,10 +330,10 @@ public object JonGuiDataTargetKt {
      * `.ser.RgbColor target_color = 16;`
      */
     public var targetColor: ser.JonSharedDataLrf.RgbColor
-      @JvmName("getTargetColor")
-      get() = _builder.targetColor
-      @JvmName("setTargetColor")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetColor")
+        get() = _builder.targetColor
+      @kotlin.jvm.JvmName("setTargetColor")
+        set(value) {
         _builder.targetColor = value
       }
     /**
@@ -360,10 +361,10 @@ public object JonGuiDataTargetKt {
      * `int32 uuid_part1 = 18;`
      */
     public var uuidPart1: kotlin.Int
-      @JvmName("getUuidPart1")
-      get() = _builder.uuidPart1
-      @JvmName("setUuidPart1")
-      set(value) {
+      @kotlin.jvm.JvmName("getUuidPart1")
+        get() = _builder.uuidPart1
+      @kotlin.jvm.JvmName("setUuidPart1")
+        set(value) {
         _builder.uuidPart1 = value
       }
     /**
@@ -381,10 +382,10 @@ public object JonGuiDataTargetKt {
      * `int32 uuid_part2 = 19;`
      */
     public var uuidPart2: kotlin.Int
-      @JvmName("getUuidPart2")
-      get() = _builder.uuidPart2
-      @JvmName("setUuidPart2")
-      set(value) {
+      @kotlin.jvm.JvmName("getUuidPart2")
+        get() = _builder.uuidPart2
+      @kotlin.jvm.JvmName("setUuidPart2")
+        set(value) {
         _builder.uuidPart2 = value
       }
     /**
@@ -398,10 +399,10 @@ public object JonGuiDataTargetKt {
      * `int32 uuid_part3 = 20;`
      */
     public var uuidPart3: kotlin.Int
-      @JvmName("getUuidPart3")
-      get() = _builder.uuidPart3
-      @JvmName("setUuidPart3")
-      set(value) {
+      @kotlin.jvm.JvmName("getUuidPart3")
+        get() = _builder.uuidPart3
+      @kotlin.jvm.JvmName("setUuidPart3")
+        set(value) {
         _builder.uuidPart3 = value
       }
     /**
@@ -415,10 +416,10 @@ public object JonGuiDataTargetKt {
      * `int32 uuid_part4 = 21;`
      */
     public var uuidPart4: kotlin.Int
-      @JvmName("getUuidPart4")
-      get() = _builder.uuidPart4
-      @JvmName("setUuidPart4")
-      set(value) {
+      @kotlin.jvm.JvmName("getUuidPart4")
+        get() = _builder.uuidPart4
+      @kotlin.jvm.JvmName("setUuidPart4")
+        set(value) {
         _builder.uuidPart4 = value
       }
     /**
@@ -438,17 +439,17 @@ public object JonGuiDataTargetKt {
      * `.ser.JonGuiDataTargetType capture_type = 23 [(.buf.validate.field) = { ... }`
      */
     public var captureType: ser.JonSharedDataTypes.JonGuiDataTargetType
-      @JvmName("getCaptureType")
-      get() = _builder.captureType
-      @JvmName("setCaptureType")
-      set(value) {
+      @kotlin.jvm.JvmName("getCaptureType")
+        get() = _builder.captureType
+      @kotlin.jvm.JvmName("setCaptureType")
+        set(value) {
         _builder.captureType = value
       }
     public var captureTypeValue: kotlin.Int
-      @JvmName("getCaptureTypeValue")
-      get() = _builder.captureTypeValue
-      @JvmName("setCaptureTypeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getCaptureTypeValue")
+        get() = _builder.captureTypeValue
+      @kotlin.jvm.JvmName("setCaptureTypeValue")
+        set(value) {
         _builder.captureTypeValue = value
       }
     /**

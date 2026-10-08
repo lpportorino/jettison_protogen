@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_lrf.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -32,10 +33,10 @@ public object JonGuiDataLrfKt {
      * `bool is_scanning = 1;`
      */
     public var isScanning: kotlin.Boolean
-      @JvmName("getIsScanning")
-      get() = _builder.isScanning
-      @JvmName("setIsScanning")
-      set(value) {
+      @kotlin.jvm.JvmName("getIsScanning")
+        get() = _builder.isScanning
+      @kotlin.jvm.JvmName("setIsScanning")
+        set(value) {
         _builder.isScanning = value
       }
     /**
@@ -49,10 +50,10 @@ public object JonGuiDataLrfKt {
      * `bool is_measuring = 2;`
      */
     public var isMeasuring: kotlin.Boolean
-      @JvmName("getIsMeasuring")
-      get() = _builder.isMeasuring
-      @JvmName("setIsMeasuring")
-      set(value) {
+      @kotlin.jvm.JvmName("getIsMeasuring")
+        get() = _builder.isMeasuring
+      @kotlin.jvm.JvmName("setIsMeasuring")
+        set(value) {
         _builder.isMeasuring = value
       }
     /**
@@ -66,10 +67,10 @@ public object JonGuiDataLrfKt {
      * `int32 measure_id = 3 [(.buf.validate.field) = { ... }`
      */
     public var measureId: kotlin.Int
-      @JvmName("getMeasureId")
-      get() = _builder.measureId
-      @JvmName("setMeasureId")
-      set(value) {
+      @kotlin.jvm.JvmName("getMeasureId")
+        get() = _builder.measureId
+      @kotlin.jvm.JvmName("setMeasureId")
+        set(value) {
         _builder.measureId = value
       }
     /**
@@ -83,10 +84,10 @@ public object JonGuiDataLrfKt {
      * `.ser.JonGuiDataTarget target = 4;`
      */
     public var target: ser.JonSharedDataLrf.JonGuiDataTarget
-      @JvmName("getTarget")
-      get() = _builder.target
-      @JvmName("setTarget")
-      set(value) {
+      @kotlin.jvm.JvmName("getTarget")
+        get() = _builder.target
+      @kotlin.jvm.JvmName("setTarget")
+        set(value) {
         _builder.target = value
       }
     /**
@@ -110,17 +111,17 @@ public object JonGuiDataLrfKt {
      * `.ser.JonGuiDatatLrfLaserPointerModes pointer_mode = 5 [(.buf.validate.field) = { ... }`
      */
     public var pointerMode: ser.JonSharedDataTypes.JonGuiDatatLrfLaserPointerModes
-      @JvmName("getPointerMode")
-      get() = _builder.pointerMode
-      @JvmName("setPointerMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getPointerMode")
+        get() = _builder.pointerMode
+      @kotlin.jvm.JvmName("setPointerMode")
+        set(value) {
         _builder.pointerMode = value
       }
     public var pointerModeValue: kotlin.Int
-      @JvmName("getPointerModeValue")
-      get() = _builder.pointerModeValue
-      @JvmName("setPointerModeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getPointerModeValue")
+        get() = _builder.pointerModeValue
+      @kotlin.jvm.JvmName("setPointerModeValue")
+        set(value) {
         _builder.pointerModeValue = value
       }
     /**
@@ -134,10 +135,10 @@ public object JonGuiDataLrfKt {
      * `bool fogModeEnabled = 6;`
      */
     public var fogModeEnabled: kotlin.Boolean
-      @JvmName("getFogModeEnabled")
-      get() = _builder.fogModeEnabled
-      @JvmName("setFogModeEnabled")
-      set(value) {
+      @kotlin.jvm.JvmName("getFogModeEnabled")
+        get() = _builder.fogModeEnabled
+      @kotlin.jvm.JvmName("setFogModeEnabled")
+        set(value) {
         _builder.fogModeEnabled = value
       }
     /**
@@ -151,10 +152,10 @@ public object JonGuiDataLrfKt {
      * `bool is_refining = 7;`
      */
     public var isRefining: kotlin.Boolean
-      @JvmName("getIsRefining")
-      get() = _builder.isRefining
-      @JvmName("setIsRefining")
-      set(value) {
+      @kotlin.jvm.JvmName("getIsRefining")
+        get() = _builder.isRefining
+      @kotlin.jvm.JvmName("setIsRefining")
+        set(value) {
         _builder.isRefining = value
       }
     /**
@@ -168,10 +169,10 @@ public object JonGuiDataLrfKt {
      * `bool is_continuous_measuring = 8;`
      */
     public var isContinuousMeasuring: kotlin.Boolean
-      @JvmName("getIsContinuousMeasuring")
-      get() = _builder.isContinuousMeasuring
-      @JvmName("setIsContinuousMeasuring")
-      set(value) {
+      @kotlin.jvm.JvmName("getIsContinuousMeasuring")
+        get() = _builder.isContinuousMeasuring
+      @kotlin.jvm.JvmName("setIsContinuousMeasuring")
+        set(value) {
         _builder.isContinuousMeasuring = value
       }
     /**
@@ -185,10 +186,10 @@ public object JonGuiDataLrfKt {
      * `bool is_started = 9;`
      */
     public var isStarted: kotlin.Boolean
-      @JvmName("getIsStarted")
-      get() = _builder.isStarted
-      @JvmName("setIsStarted")
-      set(value) {
+      @kotlin.jvm.JvmName("getIsStarted")
+        get() = _builder.isStarted
+      @kotlin.jvm.JvmName("setIsStarted")
+        set(value) {
         _builder.isStarted = value
       }
     /**
@@ -202,10 +203,10 @@ public object JonGuiDataLrfKt {
      * `.ser.JonGuiDataMeteo meteo = 10;`
      */
     public var meteo: ser.JonSharedDataTypes.JonGuiDataMeteo
-      @JvmName("getMeteo")
-      get() = _builder.meteo
-      @JvmName("setMeteo")
-      set(value) {
+      @kotlin.jvm.JvmName("getMeteo")
+        get() = _builder.meteo
+      @kotlin.jvm.JvmName("setMeteo")
+        set(value) {
         _builder.meteo = value
       }
     /**
@@ -233,10 +234,10 @@ public object JonGuiDataLrfKt {
      * `int32 scan_mode = 11;`
      */
     public var scanMode: kotlin.Int
-      @JvmName("getScanMode")
-      get() = _builder.scanMode
-      @JvmName("setScanMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getScanMode")
+        get() = _builder.scanMode
+      @kotlin.jvm.JvmName("setScanMode")
+        set(value) {
         _builder.scanMode = value
       }
     /**
@@ -254,10 +255,10 @@ public object JonGuiDataLrfKt {
      * `.ser.JonGuiDataModuleHealth health = 40;`
      */
     public var health: ser.JonSharedDataTypes.JonGuiDataModuleHealth
-      @JvmName("getHealth")
-      get() = _builder.health
-      @JvmName("setHealth")
-      set(value) {
+      @kotlin.jvm.JvmName("getHealth")
+        get() = _builder.health
+      @kotlin.jvm.JvmName("setHealth")
+        set(value) {
         _builder.health = value
       }
     /**

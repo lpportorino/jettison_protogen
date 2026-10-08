@@ -1,12 +1,19 @@
 [{:msg-name "ser.JonGuiDataGps",
   :seed 1,
   :file "ser_JonGuiDataGps-seed1.bin",
-  :byte-count 98,
+  :byte-count 117,
   :sha256
-  "4304f6e675f70948e5d3e670d522324517a9a0e0ced5fdb42a3f78e03cbe9175",
+  "5eba693816161740a200afdaf6e1a2d24fbdd4e9dd9bd96b9dd977841f932e26",
   :edn-value
   {"manual_latitude" 1.248046875,
    "fix_type" 4,
+   "health"
+   {"queue_cap_0" 509144766,
+    "peak_depth_0" 120968,
+    "dropped_oldest_0" 0,
+    "queue_cap_1" 5394681,
+    "peak_depth_1" 369152137,
+    "dropped_oldest_1" 1913984},
    "longitude" -0.010141372680664062,
    "is_started" false,
    "timestamp" -264525251,
@@ -14,20 +21,25 @@
    "altitude" -0.16310715675354004,
    "latitude" -1.5,
    "meteo"
-   {"temperature" 0.00691986083984375,
-    "humidity" 0.90625,
-    "pressure" 1.7604130506515503},
+   {"temperature" 0.0, "humidity" 3.62957763671875, "pressure" 2.0},
    "manual_longitude" 0.05615234375,
    "use_manual" true}}
  {:msg-name "ser.JonGuiDataGps",
   :seed 42,
   :file "ser_JonGuiDataGps-seed42.bin",
-  :byte-count 98,
+  :byte-count 122,
   :sha256
-  "e7c1d5feed7074dcf994f3d8116758a755f1049d42d0587d330e266d5449fead",
+  "365a36b7d8a44be66a4f0618299954c857fa720c0306bfac88886e203c7e5670",
   :edn-value
   {"manual_latitude" -0.0,
    "fix_type" 4,
+   "health"
+   {"queue_cap_0" 1101827,
+    "peak_depth_0" 523,
+    "dropped_oldest_0" 178773168,
+    "queue_cap_1" 32,
+    "peak_depth_1" 27804158,
+    "dropped_oldest_1" 16},
    "longitude" 0.049560546875,
    "is_started" false,
    "timestamp" -2,
@@ -35,9 +47,9 @@
    "altitude" 0.008906837087124586,
    "latitude" -2.5283203125,
    "meteo"
-   {"temperature" 0.00513085033162497,
-    "humidity" 92.36665725708008,
-    "pressure" 458.791015625},
+   {"temperature" -22.6536865234375,
+    "humidity" 32.405287981033325,
+    "pressure" 295.19769287109375},
    "manual_longitude" 34.545921325683594,
    "use_manual" true}}
  {:msg-name "ser.CvChannelMeta",

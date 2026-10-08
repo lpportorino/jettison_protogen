@@ -2,7 +2,8 @@ import jon_shared_data_types_pb2 as _jon_shared_data_types_pb2
 from google.protobuf.internal import containers as _containers
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Iterable as _Iterable, Optional as _Optional, Union as _Union
+from collections.abc import Iterable as _Iterable
+from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -38,4 +39,4 @@ class JonGuiDataScene(_message.Message):
     heat_mode: _jon_shared_data_types_pb2.JonGuiDataFxModeHeat
     heat_scores: _containers.RepeatedScalarFieldContainer[float]
     shadow: bool
-    def __init__(self, day_auto: bool = ..., day_class: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataSceneClass, str]] = ..., day_challenger: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataSceneClass, str]] = ..., day_hold_s: _Optional[int] = ..., day_hold_reason: _Optional[str] = ..., day_mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataFxModeDay, str]] = ..., day_scores: _Optional[_Iterable[float]] = ..., heat_auto: bool = ..., heat_class: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataHeatSceneClass, str]] = ..., heat_challenger: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataHeatSceneClass, str]] = ..., heat_hold_s: _Optional[int] = ..., heat_hold_reason: _Optional[str] = ..., heat_mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataFxModeHeat, str]] = ..., heat_scores: _Optional[_Iterable[float]] = ..., shadow: bool = ...) -> None: ...
+    def __init__(self, day_auto: _Optional[bool] = ..., day_class: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataSceneClass, str]] = ..., day_challenger: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataSceneClass, str]] = ..., day_hold_s: _Optional[int] = ..., day_hold_reason: _Optional[str] = ..., day_mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataFxModeDay, str]] = ..., day_scores: _Optional[_Iterable[float]] = ..., heat_auto: _Optional[bool] = ..., heat_class: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataHeatSceneClass, str]] = ..., heat_challenger: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataHeatSceneClass, str]] = ..., heat_hold_s: _Optional[int] = ..., heat_hold_reason: _Optional[str] = ..., heat_mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataFxModeHeat, str]] = ..., heat_scores: _Optional[_Iterable[float]] = ..., shadow: _Optional[bool] = ...) -> None: ...

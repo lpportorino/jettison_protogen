@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -32,10 +33,10 @@ public object CheckboxPropsKt {
      * `bool checked = 1;`
      */
     public var checked: kotlin.Boolean
-      @JvmName("getChecked")
-      get() = _builder.checked
-      @JvmName("setChecked")
-      set(value) {
+      @kotlin.jvm.JvmName("getChecked")
+        get() = _builder.checked
+      @kotlin.jvm.JvmName("setChecked")
+        set(value) {
         _builder.checked = value
       }
     /**

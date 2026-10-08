@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_cv_dump_archive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.cvdump;
@@ -41,10 +42,10 @@ public object ChannelConfigKt {
      * `string channel = 1;`
      */
     public var channel: kotlin.String
-      @JvmName("getChannel")
-      get() = _builder.channel
-      @JvmName("setChannel")
-      set(value) {
+      @kotlin.jvm.JvmName("getChannel")
+        get() = _builder.channel
+      @kotlin.jvm.JvmName("setChannel")
+        set(value) {
         _builder.channel = value
       }
     /**
@@ -62,10 +63,10 @@ public object ChannelConfigKt {
      * `uint32 width = 2;`
      */
     public var width: kotlin.Int
-      @JvmName("getWidth")
-      get() = _builder.width
-      @JvmName("setWidth")
-      set(value) {
+      @kotlin.jvm.JvmName("getWidth")
+        get() = _builder.width
+      @kotlin.jvm.JvmName("setWidth")
+        set(value) {
         _builder.width = value
       }
     /**
@@ -79,10 +80,10 @@ public object ChannelConfigKt {
      * `uint32 height = 3;`
      */
     public var height: kotlin.Int
-      @JvmName("getHeight")
-      get() = _builder.height
-      @JvmName("setHeight")
-      set(value) {
+      @kotlin.jvm.JvmName("getHeight")
+        get() = _builder.height
+      @kotlin.jvm.JvmName("setHeight")
+        set(value) {
         _builder.height = value
       }
     /**
@@ -100,10 +101,10 @@ public object ChannelConfigKt {
      * `uint32 fps_limit = 4;`
      */
     public var fpsLimit: kotlin.Int
-      @JvmName("getFpsLimit")
-      get() = _builder.fpsLimit
-      @JvmName("setFpsLimit")
-      set(value) {
+      @kotlin.jvm.JvmName("getFpsLimit")
+        get() = _builder.fpsLimit
+      @kotlin.jvm.JvmName("setFpsLimit")
+        set(value) {
         _builder.fpsLimit = value
       }
     /**
@@ -125,10 +126,10 @@ public object ChannelConfigKt {
      * `uint32 sensor_fps = 5;`
      */
     public var sensorFps: kotlin.Int
-      @JvmName("getSensorFps")
-      get() = _builder.sensorFps
-      @JvmName("setSensorFps")
-      set(value) {
+      @kotlin.jvm.JvmName("getSensorFps")
+        get() = _builder.sensorFps
+      @kotlin.jvm.JvmName("setSensorFps")
+        set(value) {
         _builder.sensorFps = value
       }
     /**
@@ -150,10 +151,10 @@ public object ChannelConfigKt {
      * `uint32 crop_margins = 6;`
      */
     public var cropMargins: kotlin.Int
-      @JvmName("getCropMargins")
-      get() = _builder.cropMargins
-      @JvmName("setCropMargins")
-      set(value) {
+      @kotlin.jvm.JvmName("getCropMargins")
+        get() = _builder.cropMargins
+      @kotlin.jvm.JvmName("setCropMargins")
+        set(value) {
         _builder.cropMargins = value
       }
     /**

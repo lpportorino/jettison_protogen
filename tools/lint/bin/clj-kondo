@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Run the verified patched source artifact rather than an unrelated PATH binary.
+#
+# The classpath is resolved from the repository root (that is where the :kondo
+# alias lives), but kondo itself runs in the CALLER's directory: relative --lint
+# paths belong to the caller. tools/lint/kondo/test-wrapper-cwd.sh guards this.
+set -euo pipefail
+root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../.." && pwd -P)
+python3 "$root/tools/lint/kondo/rebuild.py" --artifact-only >/dev/null
+cp=$(cd "$root" && clojure -Spath -M:kondo)
+exec java -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 -cp "$cp" clojure.main -m clj-kondo.main "$@"

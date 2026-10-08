@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -41,10 +42,10 @@ public object ScreenPatchKt {
      * `uint32 base_hash = 1;`
      */
     public var baseHash: kotlin.Int
-      @JvmName("getBaseHash")
-      get() = _builder.baseHash
-      @JvmName("setBaseHash")
-      set(value) {
+      @kotlin.jvm.JvmName("getBaseHash")
+        get() = _builder.baseHash
+      @kotlin.jvm.JvmName("setBaseHash")
+        set(value) {
         _builder.baseHash = value
       }
     /**
@@ -68,10 +69,10 @@ public object ScreenPatchKt {
      * `uint32 target_hash = 2;`
      */
     public var targetHash: kotlin.Int
-      @JvmName("getTargetHash")
-      get() = _builder.targetHash
-      @JvmName("setTargetHash")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetHash")
+        get() = _builder.targetHash
+      @kotlin.jvm.JvmName("setTargetHash")
+        set(value) {
         _builder.targetHash = value
       }
     /**
@@ -97,7 +98,7 @@ public object ScreenPatchKt {
      */
      public val ops: com.google.protobuf.kotlin.DslList<ui.UiAst.TreePatchOp, OpsProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.opsList
       )
     /**
@@ -105,7 +106,7 @@ public object ScreenPatchKt {
      * @param value The ops to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addOps")
+@kotlin.jvm.JvmName("addOps")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.TreePatchOp, OpsProxy>.add(value: ui.UiAst.TreePatchOp) {
       _builder.addOps(value)
     }
@@ -114,7 +115,7 @@ public object ScreenPatchKt {
      * @param value The ops to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignOps")
+@kotlin.jvm.JvmName("plusAssignOps")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.TreePatchOp, OpsProxy>.plusAssign(value: ui.UiAst.TreePatchOp) {
       add(value)
@@ -124,7 +125,7 @@ public object ScreenPatchKt {
      * @param values The ops to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllOps")
+@kotlin.jvm.JvmName("addAllOps")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.TreePatchOp, OpsProxy>.addAll(values: kotlin.collections.Iterable<ui.UiAst.TreePatchOp>) {
       _builder.addAllOps(values)
     }
@@ -133,7 +134,7 @@ public object ScreenPatchKt {
      * @param values The ops to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllOps")
+@kotlin.jvm.JvmName("plusAssignAllOps")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.TreePatchOp, OpsProxy>.plusAssign(values: kotlin.collections.Iterable<ui.UiAst.TreePatchOp>) {
       addAll(values)
@@ -144,7 +145,7 @@ public object ScreenPatchKt {
      * @param value The ops to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setOps")
+@kotlin.jvm.JvmName("setOps")
     public operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.TreePatchOp, OpsProxy>.set(index: kotlin.Int, value: ui.UiAst.TreePatchOp) {
       _builder.setOps(index, value)
     }
@@ -152,11 +153,10 @@ public object ScreenPatchKt {
      * `repeated .ui.TreePatchOp ops = 3;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearOps")
+@kotlin.jvm.JvmName("clearOps")
     public fun com.google.protobuf.kotlin.DslList<ui.UiAst.TreePatchOp, OpsProxy>.clear() {
       _builder.clearOps()
     }
-
   }
 }
 @kotlin.jvm.JvmSynthetic

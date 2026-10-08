@@ -19,7 +19,7 @@
 # (a host builder problem to fix, not a repo one).
 set -euo pipefail
 
-IMG="jettison-proto-generator-base:latest"
+IMG="${PROTOGEN_IMAGE_TAG:-jettison-proto-generator-base:latest}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # THE MOUNT PATH HAS ONE HOME. It is the bind-mount destination, the working

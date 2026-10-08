@@ -64,6 +64,16 @@
 #                           real narrowing bug the mining pass found (gesture.c
 #                           t_ms) was an EXPLICIT cast, which this check does not
 #                           flag. Declined here to stay consistent with the build.
+#   -bugprone-signed-bitwise  every remaining hit is inside an LVGL-OWNED macro —
+#                           LV_OPA_MIX2, LV_COORD_MAX, LV_GRID_TEMPLATE_LAST —
+#                           whose expansion does signed bitwise arithmetic on
+#                           LVGL's own typedefs, which first-party code cannot
+#                           rewrite and must keep calling. The first-party sites
+#                           the check DID reach (style selectors, literal
+#                           suffixes) were fixed at the source and stay fixed;
+#                           what is declined is re-flagging the vendored
+#                           expansions at every call site, which this file's
+#                           own rule forbids answering with per-site NOLINTs.
 # Genuine defects the mining pass found were fixed at the source or carry a
 # NOLINT(check) with a justification at the site — see .claude/rules/lint-gates.md.
 Checks: >
@@ -100,6 +110,7 @@ Checks: >
   -readability-implicit-bool-conversion,
   -readability-isolate-declaration,
   -bugprone-narrowing-conversions,
+  -bugprone-signed-bitwise,
   readability-function-size
 
 WarningsAsErrors: '*'

@@ -11,7 +11,7 @@ pub struct JonGuiDataMeteo {
 /// Per-module CAN-FD queue health. Each queue channel reports its configured
 /// capacity, its peak observed depth, and the count of oldest entries dropped
 /// on overflow; a module carries at most two such channels.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct JonGuiDataModuleHealth {
     #[prost(uint32, tag = "1")]
     pub queue_cap_0: u32,
@@ -28,7 +28,7 @@ pub struct JonGuiDataModuleHealth {
 }
 /// Structured version for opaque payloads.
 /// Enables simple numeric comparison without string parsing.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct JonOpaquePayloadVersion {
     #[prost(uint32, tag = "1")]
     pub major: u32,
@@ -41,7 +41,7 @@ pub struct JonOpaquePayloadVersion {
 /// Opaque extension payload for subsystem-specific data.
 /// Transport layer passes through without interpretation.
 /// Handlers match on type_uuid and check version compatibility.
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct JonOpaquePayload {
     /// UUIDv7 identifying the payload type (e.g., "019415a9-5c34-7def-8000-000000000001")
     #[prost(string, tag = "1")]
@@ -1411,7 +1411,7 @@ pub struct TrinityTracking {
     pub reprojection_rms_px: f64,
 }
 /// Which physical board revision this pose refers to.
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct TrinityBoardVersion {
     /// Board family, e.g. "ring-trinity"
     #[prost(string, tag = "1")]
@@ -1544,7 +1544,7 @@ impl TrinityTrackingStatus {
         }
     }
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct JonGuiDataTime {
     #[prost(int64, tag = "1")]
     pub timestamp: i64,
@@ -1696,7 +1696,7 @@ pub struct JonGuiDataTarget {
     #[prost(enumeration = "JonGuiDataTargetType", tag = "23")]
     pub capture_type: i32,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct RgbColor {
     #[prost(uint32, tag = "1")]
     pub red: u32,
@@ -1979,7 +1979,7 @@ pub struct JonGuiDataCameraHeat {
     #[prost(message, optional, tag = "40")]
     pub health: ::core::option::Option<JonGuiDataModuleHealth>,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct JonGuiDataRecOsd {
     #[prost(enumeration = "JonGuiDataRecOsdScreen", tag = "1")]
     pub screen: i32,
@@ -2586,7 +2586,7 @@ pub struct JonGuiDataHeater {
 /// eutropia's DriveHost. Published every state tick from the owning program's
 /// OUTPUT status block; `rotary.is_scanning` and friends stay the scan-specific
 /// surface, this message is the program-agnostic one.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct JonGuiDataDrive {
     /// Program that currently owns the platform (NONE when idle).
     #[prost(enumeration = "JonGuiDataDriveProgram", tag = "1")]
@@ -2927,7 +2927,7 @@ pub struct DetectionConfig {
     pub nms_iou_threshold: f32,
 }
 /// Frame metadata for temporal correlation.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct DetectionFrameMeta {
     /// Presentation timestamp (nanoseconds, must be non-negative)
     #[prost(uint64, tag = "1")]
@@ -3095,7 +3095,7 @@ pub struct OsdClientMetadata {
     pub theme_lightness: f32,
 }
 /// Frame metadata for SAM tracking correlation.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct SamTrackingFrameMeta {
     /// Presentation timestamp (nanoseconds)
     #[prost(uint64, tag = "1")]

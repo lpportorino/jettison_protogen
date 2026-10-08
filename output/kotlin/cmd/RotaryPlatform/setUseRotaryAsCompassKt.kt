@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_rotary.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.RotaryPlatform;
@@ -32,10 +33,10 @@ public object setUseRotaryAsCompassKt {
      * `bool flag = 1;`
      */
     public var flag: kotlin.Boolean
-      @JvmName("getFlag")
-      get() = _builder.flag
-      @JvmName("setFlag")
-      set(value) {
+      @kotlin.jvm.JvmName("getFlag")
+        get() = _builder.flag
+      @kotlin.jvm.JvmName("setFlag")
+        set(value) {
         _builder.flag = value
       }
     /**

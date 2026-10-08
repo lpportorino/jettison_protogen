@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_cv_dump_archive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.cvdump;
@@ -40,10 +41,10 @@ public object DeployFingerprintKt {
      * `string fingerprint = 1;`
      */
     public var fingerprint: kotlin.String
-      @JvmName("getFingerprint")
-      get() = _builder.fingerprint
-      @JvmName("setFingerprint")
-      set(value) {
+      @kotlin.jvm.JvmName("getFingerprint")
+        get() = _builder.fingerprint
+      @kotlin.jvm.JvmName("setFingerprint")
+        set(value) {
         _builder.fingerprint = value
       }
     /**
@@ -65,10 +66,10 @@ public object DeployFingerprintKt {
      * `string jettison_sha = 2;`
      */
     public var jettisonSha: kotlin.String
-      @JvmName("getJettisonSha")
-      get() = _builder.jettisonSha
-      @JvmName("setJettisonSha")
-      set(value) {
+      @kotlin.jvm.JvmName("getJettisonSha")
+        get() = _builder.jettisonSha
+      @kotlin.jvm.JvmName("setJettisonSha")
+        set(value) {
         _builder.jettisonSha = value
       }
     /**
@@ -90,10 +91,10 @@ public object DeployFingerprintKt {
      * `string describe = 3;`
      */
     public var describe: kotlin.String
-      @JvmName("getDescribe")
-      get() = _builder.describe
-      @JvmName("setDescribe")
-      set(value) {
+      @kotlin.jvm.JvmName("getDescribe")
+        get() = _builder.describe
+      @kotlin.jvm.JvmName("setDescribe")
+        set(value) {
         _builder.describe = value
       }
     /**
@@ -115,10 +116,10 @@ public object DeployFingerprintKt {
      * `string deployed_at = 4;`
      */
     public var deployedAt: kotlin.String
-      @JvmName("getDeployedAt")
-      get() = _builder.deployedAt
-      @JvmName("setDeployedAt")
-      set(value) {
+      @kotlin.jvm.JvmName("getDeployedAt")
+        get() = _builder.deployedAt
+      @kotlin.jvm.JvmName("setDeployedAt")
+        set(value) {
         _builder.deployedAt = value
       }
     /**

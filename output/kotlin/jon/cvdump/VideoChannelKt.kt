@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_cv_dump_archive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package jon.cvdump;
@@ -41,10 +42,10 @@ public object VideoChannelKt {
      * `string channel = 1;`
      */
     public var channel: kotlin.String
-      @JvmName("getChannel")
-      get() = _builder.channel
-      @JvmName("setChannel")
-      set(value) {
+      @kotlin.jvm.JvmName("getChannel")
+        get() = _builder.channel
+      @kotlin.jvm.JvmName("setChannel")
+        set(value) {
         _builder.channel = value
       }
     /**
@@ -69,7 +70,7 @@ public object VideoChannelKt {
      */
      public val segments: com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.VideoSegment, SegmentsProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.segmentsList
       )
     /**
@@ -77,7 +78,7 @@ public object VideoChannelKt {
      * @param value The segments to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addSegments")
+@kotlin.jvm.JvmName("addSegments")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.VideoSegment, SegmentsProxy>.add(value: jon.cvdump.JonCvDumpArchive.VideoSegment) {
       _builder.addSegments(value)
     }
@@ -86,7 +87,7 @@ public object VideoChannelKt {
      * @param value The segments to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignSegments")
+@kotlin.jvm.JvmName("plusAssignSegments")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.VideoSegment, SegmentsProxy>.plusAssign(value: jon.cvdump.JonCvDumpArchive.VideoSegment) {
       add(value)
@@ -96,7 +97,7 @@ public object VideoChannelKt {
      * @param values The segments to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllSegments")
+@kotlin.jvm.JvmName("addAllSegments")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.VideoSegment, SegmentsProxy>.addAll(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.VideoSegment>) {
       _builder.addAllSegments(values)
     }
@@ -105,7 +106,7 @@ public object VideoChannelKt {
      * @param values The segments to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllSegments")
+@kotlin.jvm.JvmName("plusAssignAllSegments")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.VideoSegment, SegmentsProxy>.plusAssign(values: kotlin.collections.Iterable<jon.cvdump.JonCvDumpArchive.VideoSegment>) {
       addAll(values)
@@ -116,7 +117,7 @@ public object VideoChannelKt {
      * @param value The segments to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setSegments")
+@kotlin.jvm.JvmName("setSegments")
     public operator fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.VideoSegment, SegmentsProxy>.set(index: kotlin.Int, value: jon.cvdump.JonCvDumpArchive.VideoSegment) {
       _builder.setSegments(index, value)
     }
@@ -124,11 +125,10 @@ public object VideoChannelKt {
      * `repeated .jon.cvdump.VideoSegment segments = 2;`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearSegments")
+@kotlin.jvm.JvmName("clearSegments")
     public fun com.google.protobuf.kotlin.DslList<jon.cvdump.JonCvDumpArchive.VideoSegment, SegmentsProxy>.clear() {
       _builder.clearSegments()
     }
-
   }
 }
 @kotlin.jvm.JvmSynthetic

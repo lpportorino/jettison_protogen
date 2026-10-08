@@ -1,7 +1,8 @@
 import jon_shared_data_types_pb2 as _jon_shared_data_types_pb2
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
+from collections.abc import Mapping as _Mapping
+from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -15,7 +16,7 @@ class JonGuiDataHeaterChannelStatus(_message.Message):
     applied_voltage_V: float
     target_voltage_V: float
     enabled: bool
-    def __init__(self, temperature: _Optional[float] = ..., applied_voltage_V: _Optional[float] = ..., target_voltage_V: _Optional[float] = ..., enabled: bool = ...) -> None: ...
+    def __init__(self, temperature: _Optional[float] = ..., applied_voltage_V: _Optional[float] = ..., target_voltage_V: _Optional[float] = ..., enabled: _Optional[bool] = ...) -> None: ...
 
 class JonGuiDataHeater(_message.Message):
     __slots__ = ("bus_voltage_V", "current_A", "power_W", "channel_0", "channel_1", "channel_2", "automatic_control_enabled", "target_temp_channel_0", "target_temp_channel_1", "target_temp_channel_2", "budget_unrelayed_steps", "health")
@@ -43,4 +44,4 @@ class JonGuiDataHeater(_message.Message):
     target_temp_channel_2: float
     budget_unrelayed_steps: int
     health: _jon_shared_data_types_pb2.JonGuiDataModuleHealth
-    def __init__(self, bus_voltage_V: _Optional[float] = ..., current_A: _Optional[float] = ..., power_W: _Optional[float] = ..., channel_0: _Optional[_Union[JonGuiDataHeaterChannelStatus, _Mapping]] = ..., channel_1: _Optional[_Union[JonGuiDataHeaterChannelStatus, _Mapping]] = ..., channel_2: _Optional[_Union[JonGuiDataHeaterChannelStatus, _Mapping]] = ..., automatic_control_enabled: bool = ..., target_temp_channel_0: _Optional[float] = ..., target_temp_channel_1: _Optional[float] = ..., target_temp_channel_2: _Optional[float] = ..., budget_unrelayed_steps: _Optional[int] = ..., health: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataModuleHealth, _Mapping]] = ...) -> None: ...
+    def __init__(self, bus_voltage_V: _Optional[float] = ..., current_A: _Optional[float] = ..., power_W: _Optional[float] = ..., channel_0: _Optional[_Union[JonGuiDataHeaterChannelStatus, _Mapping]] = ..., channel_1: _Optional[_Union[JonGuiDataHeaterChannelStatus, _Mapping]] = ..., channel_2: _Optional[_Union[JonGuiDataHeaterChannelStatus, _Mapping]] = ..., automatic_control_enabled: _Optional[bool] = ..., target_temp_channel_0: _Optional[float] = ..., target_temp_channel_1: _Optional[float] = ..., target_temp_channel_2: _Optional[float] = ..., budget_unrelayed_steps: _Optional[int] = ..., health: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataModuleHealth, _Mapping]] = ...) -> None: ...

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: opaque/trinity_tracking.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -40,10 +41,10 @@ public object TrinityBoardVersionKt {
      * `string family = 1 [(.buf.validate.field) = { ... }`
      */
     public var family: kotlin.String
-      @JvmName("getFamily")
-      get() = _builder.family
-      @JvmName("setFamily")
-      set(value) {
+      @kotlin.jvm.JvmName("getFamily")
+        get() = _builder.family
+      @kotlin.jvm.JvmName("setFamily")
+        set(value) {
         _builder.family = value
       }
     /**
@@ -61,10 +62,10 @@ public object TrinityBoardVersionKt {
      * `uint32 major = 2;`
      */
     public var major: kotlin.Int
-      @JvmName("getMajor")
-      get() = _builder.major
-      @JvmName("setMajor")
-      set(value) {
+      @kotlin.jvm.JvmName("getMajor")
+        get() = _builder.major
+      @kotlin.jvm.JvmName("setMajor")
+        set(value) {
         _builder.major = value
       }
     /**
@@ -78,10 +79,10 @@ public object TrinityBoardVersionKt {
      * `uint32 minor = 3;`
      */
     public var minor: kotlin.Int
-      @JvmName("getMinor")
-      get() = _builder.minor
-      @JvmName("setMinor")
-      set(value) {
+      @kotlin.jvm.JvmName("getMinor")
+        get() = _builder.minor
+      @kotlin.jvm.JvmName("setMinor")
+        set(value) {
         _builder.minor = value
       }
     /**
@@ -102,10 +103,10 @@ public object TrinityBoardVersionKt {
      * `string geometry_sha256 = 4 [(.buf.validate.field) = { ... }`
      */
     public var geometrySha256: kotlin.String
-      @JvmName("getGeometrySha256")
-      get() = _builder.geometrySha256
-      @JvmName("setGeometrySha256")
-      set(value) {
+      @kotlin.jvm.JvmName("getGeometrySha256")
+        get() = _builder.geometrySha256
+      @kotlin.jvm.JvmName("setGeometrySha256")
+        set(value) {
         _builder.geometrySha256 = value
       }
     /**

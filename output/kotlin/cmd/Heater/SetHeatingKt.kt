@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_heater.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.Heater;
@@ -40,10 +41,10 @@ public object SetHeatingKt {
      * `float target_0 = 1 [(.buf.validate.field) = { ... }`
      */
     public var target0: kotlin.Float
-      @JvmName("getTarget0")
-      get() = _builder.target0
-      @JvmName("setTarget0")
-      set(value) {
+      @kotlin.jvm.JvmName("getTarget0")
+        get() = _builder.target0
+      @kotlin.jvm.JvmName("setTarget0")
+        set(value) {
         _builder.target0 = value
       }
     /**
@@ -61,10 +62,10 @@ public object SetHeatingKt {
      * `float target_1 = 2 [(.buf.validate.field) = { ... }`
      */
     public var target1: kotlin.Float
-      @JvmName("getTarget1")
-      get() = _builder.target1
-      @JvmName("setTarget1")
-      set(value) {
+      @kotlin.jvm.JvmName("getTarget1")
+        get() = _builder.target1
+      @kotlin.jvm.JvmName("setTarget1")
+        set(value) {
         _builder.target1 = value
       }
     /**
@@ -78,10 +79,10 @@ public object SetHeatingKt {
      * `float target_2 = 3 [(.buf.validate.field) = { ... }`
      */
     public var target2: kotlin.Float
-      @JvmName("getTarget2")
-      get() = _builder.target2
-      @JvmName("setTarget2")
-      set(value) {
+      @kotlin.jvm.JvmName("getTarget2")
+        get() = _builder.target2
+      @kotlin.jvm.JvmName("setTarget2")
+        set(value) {
         _builder.target2 = value
       }
     /**
@@ -99,10 +100,10 @@ public object SetHeatingKt {
      * `float temp_error_0 = 4 [(.buf.validate.field) = { ... }`
      */
     public var tempError0: kotlin.Float
-      @JvmName("getTempError0")
-      get() = _builder.tempError0
-      @JvmName("setTempError0")
-      set(value) {
+      @kotlin.jvm.JvmName("getTempError0")
+        get() = _builder.tempError0
+      @kotlin.jvm.JvmName("setTempError0")
+        set(value) {
         _builder.tempError0 = value
       }
     /**
@@ -120,10 +121,10 @@ public object SetHeatingKt {
      * `float temp_error_1 = 5 [(.buf.validate.field) = { ... }`
      */
     public var tempError1: kotlin.Float
-      @JvmName("getTempError1")
-      get() = _builder.tempError1
-      @JvmName("setTempError1")
-      set(value) {
+      @kotlin.jvm.JvmName("getTempError1")
+        get() = _builder.tempError1
+      @kotlin.jvm.JvmName("setTempError1")
+        set(value) {
         _builder.tempError1 = value
       }
     /**
@@ -137,10 +138,10 @@ public object SetHeatingKt {
      * `float temp_error_2 = 6 [(.buf.validate.field) = { ... }`
      */
     public var tempError2: kotlin.Float
-      @JvmName("getTempError2")
-      get() = _builder.tempError2
-      @JvmName("setTempError2")
-      set(value) {
+      @kotlin.jvm.JvmName("getTempError2")
+        get() = _builder.tempError2
+      @kotlin.jvm.JvmName("setTempError2")
+        set(value) {
         _builder.tempError2 = value
       }
     /**

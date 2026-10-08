@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_heat_camera.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.HeatCamera;
@@ -32,10 +33,10 @@ public object ZoomKt {
      * `.cmd.HeatCamera.SetZoomTableValue set_zoom_table_value = 1;`
      */
     public var setZoomTableValue: cmd.HeatCamera.JonSharedCmdHeatCamera.SetZoomTableValue
-      @JvmName("getSetZoomTableValue")
-      get() = _builder.setZoomTableValue
-      @JvmName("setSetZoomTableValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetZoomTableValue")
+        get() = _builder.setZoomTableValue
+      @kotlin.jvm.JvmName("setSetZoomTableValue")
+        set(value) {
         _builder.setZoomTableValue = value
       }
     /**
@@ -56,10 +57,10 @@ public object ZoomKt {
      * `.cmd.HeatCamera.NextZoomTablePos next_zoom_table_pos = 2;`
      */
     public var nextZoomTablePos: cmd.HeatCamera.JonSharedCmdHeatCamera.NextZoomTablePos
-      @JvmName("getNextZoomTablePos")
-      get() = _builder.nextZoomTablePos
-      @JvmName("setNextZoomTablePos")
-      set(value) {
+      @kotlin.jvm.JvmName("getNextZoomTablePos")
+        get() = _builder.nextZoomTablePos
+      @kotlin.jvm.JvmName("setNextZoomTablePos")
+        set(value) {
         _builder.nextZoomTablePos = value
       }
     /**
@@ -80,10 +81,10 @@ public object ZoomKt {
      * `.cmd.HeatCamera.PrevZoomTablePos prev_zoom_table_pos = 3;`
      */
     public var prevZoomTablePos: cmd.HeatCamera.JonSharedCmdHeatCamera.PrevZoomTablePos
-      @JvmName("getPrevZoomTablePos")
-      get() = _builder.prevZoomTablePos
-      @JvmName("setPrevZoomTablePos")
-      set(value) {
+      @kotlin.jvm.JvmName("getPrevZoomTablePos")
+        get() = _builder.prevZoomTablePos
+      @kotlin.jvm.JvmName("setPrevZoomTablePos")
+        set(value) {
         _builder.prevZoomTablePos = value
       }
     /**

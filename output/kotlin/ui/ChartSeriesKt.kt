@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -41,10 +42,10 @@ public object ChartSeriesKt {
      * `.ui.Color color = 1;`
      */
     public var color: ui.UiAst.Color
-      @JvmName("getColor")
-      get() = _builder.color
-      @JvmName("setColor")
-      set(value) {
+      @kotlin.jvm.JvmName("getColor")
+        get() = _builder.color
+      @kotlin.jvm.JvmName("setColor")
+        set(value) {
         _builder.color = value
       }
     /**
@@ -83,17 +84,17 @@ public object ChartSeriesKt {
      * `.ui.ChartAxis axis = 2 [(.buf.validate.field) = { ... }`
      */
     public var axis: ui.UiAst.ChartAxis
-      @JvmName("getAxis")
-      get() = _builder.axis
-      @JvmName("setAxis")
-      set(value) {
+      @kotlin.jvm.JvmName("getAxis")
+        get() = _builder.axis
+      @kotlin.jvm.JvmName("setAxis")
+        set(value) {
         _builder.axis = value
       }
     public var axisValue: kotlin.Int
-      @JvmName("getAxisValue")
-      get() = _builder.axisValue
-      @JvmName("setAxisValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getAxisValue")
+        get() = _builder.axisValue
+      @kotlin.jvm.JvmName("setAxisValue")
+        set(value) {
         _builder.axisValue = value
       }
     /**
@@ -125,7 +126,7 @@ public object ChartSeriesKt {
      */
      public val values: com.google.protobuf.kotlin.DslList<kotlin.Int, ValuesProxy>
       @kotlin.jvm.JvmSynthetic
-      get() = com.google.protobuf.kotlin.DslList(
+  get() = com.google.protobuf.kotlin.DslList(
         _builder.valuesList
       )
     /**
@@ -139,7 +140,7 @@ public object ChartSeriesKt {
      * @param value The values to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addValues")
+@kotlin.jvm.JvmName("addValues")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, ValuesProxy>.add(value: kotlin.Int) {
       _builder.addValues(value)
     }/**
@@ -153,7 +154,7 @@ public object ChartSeriesKt {
      * @param value The values to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignValues")
+@kotlin.jvm.JvmName("plusAssignValues")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, ValuesProxy>.plusAssign(value: kotlin.Int) {
       add(value)
@@ -168,7 +169,7 @@ public object ChartSeriesKt {
      * @param values The values to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllValues")
+@kotlin.jvm.JvmName("addAllValues")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, ValuesProxy>.addAll(values: kotlin.collections.Iterable<kotlin.Int>) {
       _builder.addAllValues(values)
     }/**
@@ -182,7 +183,7 @@ public object ChartSeriesKt {
      * @param values The values to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllValues")
+@kotlin.jvm.JvmName("plusAssignAllValues")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, ValuesProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.Int>) {
       addAll(values)
@@ -198,7 +199,7 @@ public object ChartSeriesKt {
      * @param value The values to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setValues")
+@kotlin.jvm.JvmName("setValues")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, ValuesProxy>.set(index: kotlin.Int, value: kotlin.Int) {
       _builder.setValues(index, value)
     }/**
@@ -211,7 +212,7 @@ public object ChartSeriesKt {
      * `repeated int32 values = 3 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearValues")
+@kotlin.jvm.JvmName("clearValues")
     public fun com.google.protobuf.kotlin.DslList<kotlin.Int, ValuesProxy>.clear() {
       _builder.clearValues()
     }}

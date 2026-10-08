@@ -13,7 +13,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
 # Configuration
-DOCKER_IMAGE="jettison-proto-generator:latest"
+DOCKER_IMAGE="${PROTOGEN_GENERATOR_IMAGE:-jettison-proto-generator:latest}"
 PROTO_SOURCE_DIR="${PROTO_SOURCE_DIR:-../proto}"
 OUTPUT_BASE_DIR="${OUTPUT_BASE_DIR:-./output}"
 
@@ -21,7 +21,7 @@ OUTPUT_BASE_DIR="${OUTPUT_BASE_DIR:-./output}"
 # that this list has exactly one home and that re-enumerating it anywhere is what
 # kept getting it wrong — so every site below expands this array and none retypes
 # it. Adding a language is one edit here.
-LANGS=(c cpp go kotlin python typescript rust zig java json-descriptors typescript-validated)
+LANGS=(c cpp go kotlin python typescript rust java json-descriptors typescript-validated)
 
 # Function to print colored output
 print_info() {
@@ -280,7 +280,7 @@ GO_MOD_GO_DIRECTIVE="1.26"
 # dashboard -- resolves this SDK through the module proxy and compiles against
 # IT, never against the validate.pb.go this leg emits. The two pins answer
 # different questions and move independently.
-PROTOVALIDATE_BSR_REF="20250130201111-63bb56e20495.1"
+PROTOVALIDATE_BSR_REF="20260825204119-511051f7f437.2"
 
 # The leg generates into an EMPTY scratch directory and copies the result into
 # /workspace/output at the end. The output directory is a bind mount of the
@@ -558,15 +558,12 @@ find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; 
     awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$relpath"
 done
 
-# Create temporary node project for ts-proto
-cd /tmp
-npm init -y
-npm install ts-proto
+# Use the version installed and pinned in the toolchain image.
 
 # Find all proto files for protoc
 PROTO_FILES=$(find /tmp/cleaned_proto -name "*.proto" -type f | sort)
 protoc -I/tmp/cleaned_proto \
-    --plugin=protoc-gen-ts_proto=/tmp/node_modules/.bin/protoc-gen-ts_proto \
+    --plugin=protoc-gen-ts_proto=/usr/local/bin/protoc-gen-ts_proto \
     --ts_proto_opt=outputIndex=true \
     --ts_proto_opt=esModuleInterop=true \
     --ts_proto_opt=forceLong=long \
@@ -634,10 +631,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-prost = "0.13"
+prost = "=0.14.4"
 
 [build-dependencies]
-prost-build = "0.13"
+prost-build = "=0.14.4"
 EOF
 
 mkdir -p src
@@ -687,38 +684,6 @@ fn main() {}
 EOF
 
 cargo build 2>&1 | tail -5
-'
-
-# Zig generation script
-ZIG_SCRIPT='
-set -e
-mkdir -p /tmp/cleaned_proto
-
-# Process all proto files including subdirectories
-find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
-    relpath="${proto#proto/}"
-    dirname=$(dirname "$relpath")
-    mkdir -p "/tmp/cleaned_proto/$dirname"
-    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$relpath"
-done
-
-# Generate Zig bindings using protoc-gen-zig
-PROTO_FILES=$(find /tmp/cleaned_proto -name "*.proto" -type f | sort)
-protoc --plugin=protoc-gen-zig=/opt/zig-protobuf/zig-out/bin/protoc-gen-zig \
-    -I/tmp/cleaned_proto \
-    --zig_out=/workspace/output \
-    $PROTO_FILES
-
-# Verify files were generated
-# `\( … \)` IS LOAD-BEARING: find binds -a tighter than -o, so the ungrouped
-# form parses as `(-name "*.zig") OR (-name "*.pb.zig" AND -type f)` — the first
-# alternative then matches DIRECTORIES, and a stray directory alone satisfies
-# the assertion.
-if [ -z "$(find /workspace/output \( -name "*.zig" -o -name "*.pb.zig" \) -type f 2>/dev/null)" ]; then
-    echo "ERROR: No Zig files were generated!"
-    exit 1
-fi
-echo "Zig generation successful, found $(find /workspace/output \( -name "*.zig" -o -name "*.pb.zig" \) -type f | wc -l) Zig files"
 '
 
 # Java generation script with buf.validate support
@@ -923,8 +888,8 @@ cat > /workspace/output/package.json << "PKG_EOF"
   "types": "index.d.ts",
   "files": ["**/*.js", "**/*.d.ts"],
   "dependencies": {
-    "@bufbuild/protobuf": "^2.2.2",
-    "@bufbuild/protovalidate": "^0.8.1"
+    "@bufbuild/protobuf": "2.16.0",
+    "@bufbuild/protovalidate": "1.3.0"
   },
   "repository": {
     "type": "git",
@@ -937,8 +902,7 @@ cat > /workspace/output/package.json << "PKG_EOF"
 PKG_EOF
 
 # Verify files were generated
-# Grouped for the same reason as the zig leg above: ungrouped, `-type f` binds
-# only to the second -name, so a directory matching the first satisfies it.
+# Group the name alternatives so the regular-file constraint applies to both.
 if [ -z "$(find /workspace/output \( -name "*_pb.js" -o -name "*_pb.ts" \) -type f 2>/dev/null)" ]; then
     echo "ERROR: No TypeScript files were generated!"
     exit 1
@@ -958,7 +922,6 @@ for lang in "${LANGS[@]}"; do
         python) script="$PYTHON_SCRIPT" ;;
         typescript) script="$TYPESCRIPT_SCRIPT" ;;
         rust) script="$RUST_SCRIPT" ;;
-        zig) script="$ZIG_SCRIPT" ;;
         java) script="$JAVA_SCRIPT" ;;
         json-descriptors) script="$JSON_DESCRIPTOR_SCRIPT" ;;
         typescript-validated) script="$TYPESCRIPT_VALIDATED_SCRIPT" ;;

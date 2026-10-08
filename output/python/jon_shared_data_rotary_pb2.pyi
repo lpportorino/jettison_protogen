@@ -1,7 +1,8 @@
 import jon_shared_data_types_pb2 as _jon_shared_data_types_pb2
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
+from collections.abc import Mapping as _Mapping
+from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -55,7 +56,7 @@ class JonGuiDataRotary(_message.Message):
     capture_monotonic_us: int
     is_parked: bool
     health: _jon_shared_data_types_pb2.JonGuiDataModuleHealth
-    def __init__(self, azimuth: _Optional[float] = ..., azimuth_speed: _Optional[float] = ..., elevation: _Optional[float] = ..., elevation_speed: _Optional[float] = ..., platform_azimuth: _Optional[float] = ..., platform_elevation: _Optional[float] = ..., platform_bank: _Optional[float] = ..., is_moving: bool = ..., mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataRotaryMode, str]] = ..., is_scanning: bool = ..., is_scanning_paused: bool = ..., use_rotary_as_compass: bool = ..., scan_target: _Optional[int] = ..., scan_target_max: _Optional[int] = ..., sun_azimuth: _Optional[float] = ..., sun_elevation: _Optional[float] = ..., current_scan_node: _Optional[_Union[ScanNode, _Mapping]] = ..., is_started: bool = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ..., pan_init_status: _Optional[int] = ..., tilt_init_status: _Optional[int] = ..., capture_monotonic_us: _Optional[int] = ..., is_parked: bool = ..., health: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataModuleHealth, _Mapping]] = ...) -> None: ...
+    def __init__(self, azimuth: _Optional[float] = ..., azimuth_speed: _Optional[float] = ..., elevation: _Optional[float] = ..., elevation_speed: _Optional[float] = ..., platform_azimuth: _Optional[float] = ..., platform_elevation: _Optional[float] = ..., platform_bank: _Optional[float] = ..., is_moving: _Optional[bool] = ..., mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataRotaryMode, str]] = ..., is_scanning: _Optional[bool] = ..., is_scanning_paused: _Optional[bool] = ..., use_rotary_as_compass: _Optional[bool] = ..., scan_target: _Optional[int] = ..., scan_target_max: _Optional[int] = ..., sun_azimuth: _Optional[float] = ..., sun_elevation: _Optional[float] = ..., current_scan_node: _Optional[_Union[ScanNode, _Mapping]] = ..., is_started: _Optional[bool] = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ..., pan_init_status: _Optional[int] = ..., tilt_init_status: _Optional[int] = ..., capture_monotonic_us: _Optional[int] = ..., is_parked: _Optional[bool] = ..., health: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataModuleHealth, _Mapping]] = ...) -> None: ...
 
 class ScanNode(_message.Message):
     __slots__ = ("index", "DayZoomTableValue", "HeatZoomTableValue", "azimuth", "elevation", "linger", "speed")

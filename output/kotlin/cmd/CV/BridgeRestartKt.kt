@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_cv.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.CV;
@@ -36,10 +37,10 @@ public object BridgeRestartKt {
      * `bool force = 1;`
      */
     public var force: kotlin.Boolean
-      @JvmName("getForce")
-      get() = _builder.force
-      @JvmName("setForce")
-      set(value) {
+      @kotlin.jvm.JvmName("getForce")
+        get() = _builder.force
+      @kotlin.jvm.JvmName("setForce")
+        set(value) {
         _builder.force = value
       }
     /**

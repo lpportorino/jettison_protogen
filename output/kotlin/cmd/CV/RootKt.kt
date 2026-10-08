@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_cv.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.CV;
@@ -32,10 +33,10 @@ public object RootKt {
      * `.cmd.CV.SetAutoFocus set_auto_focus = 1;`
      */
     public var setAutoFocus: cmd.CV.JonSharedCmdCv.SetAutoFocus
-      @JvmName("getSetAutoFocus")
-      get() = _builder.setAutoFocus
-      @JvmName("setSetAutoFocus")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetAutoFocus")
+        get() = _builder.setAutoFocus
+      @kotlin.jvm.JvmName("setSetAutoFocus")
+        set(value) {
         _builder.setAutoFocus = value
       }
     /**
@@ -56,10 +57,10 @@ public object RootKt {
      * `.cmd.CV.StartTrackNDC start_track_ndc = 2;`
      */
     public var startTrackNdc: cmd.CV.JonSharedCmdCv.StartTrackNDC
-      @JvmName("getStartTrackNdc")
-      get() = _builder.startTrackNdc
-      @JvmName("setStartTrackNdc")
-      set(value) {
+      @kotlin.jvm.JvmName("getStartTrackNdc")
+        get() = _builder.startTrackNdc
+      @kotlin.jvm.JvmName("setStartTrackNdc")
+        set(value) {
         _builder.startTrackNdc = value
       }
     /**
@@ -80,10 +81,10 @@ public object RootKt {
      * `.cmd.CV.StopTrack stop_track = 3;`
      */
     public var stopTrack: cmd.CV.JonSharedCmdCv.StopTrack
-      @JvmName("getStopTrack")
-      get() = _builder.stopTrack
-      @JvmName("setStopTrack")
-      set(value) {
+      @kotlin.jvm.JvmName("getStopTrack")
+        get() = _builder.stopTrack
+      @kotlin.jvm.JvmName("setStopTrack")
+        set(value) {
         _builder.stopTrack = value
       }
     /**
@@ -104,10 +105,10 @@ public object RootKt {
      * `.cmd.CV.VampireModeEnable vampire_mode_enable = 4;`
      */
     public var vampireModeEnable: cmd.CV.JonSharedCmdCv.VampireModeEnable
-      @JvmName("getVampireModeEnable")
-      get() = _builder.vampireModeEnable
-      @JvmName("setVampireModeEnable")
-      set(value) {
+      @kotlin.jvm.JvmName("getVampireModeEnable")
+        get() = _builder.vampireModeEnable
+      @kotlin.jvm.JvmName("setVampireModeEnable")
+        set(value) {
         _builder.vampireModeEnable = value
       }
     /**
@@ -128,10 +129,10 @@ public object RootKt {
      * `.cmd.CV.VampireModeDisable vampire_mode_disable = 5;`
      */
     public var vampireModeDisable: cmd.CV.JonSharedCmdCv.VampireModeDisable
-      @JvmName("getVampireModeDisable")
-      get() = _builder.vampireModeDisable
-      @JvmName("setVampireModeDisable")
-      set(value) {
+      @kotlin.jvm.JvmName("getVampireModeDisable")
+        get() = _builder.vampireModeDisable
+      @kotlin.jvm.JvmName("setVampireModeDisable")
+        set(value) {
         _builder.vampireModeDisable = value
       }
     /**
@@ -152,10 +153,10 @@ public object RootKt {
      * `.cmd.CV.StabilizationModeEnable stabilization_mode_enable = 6;`
      */
     public var stabilizationModeEnable: cmd.CV.JonSharedCmdCv.StabilizationModeEnable
-      @JvmName("getStabilizationModeEnable")
-      get() = _builder.stabilizationModeEnable
-      @JvmName("setStabilizationModeEnable")
-      set(value) {
+      @kotlin.jvm.JvmName("getStabilizationModeEnable")
+        get() = _builder.stabilizationModeEnable
+      @kotlin.jvm.JvmName("setStabilizationModeEnable")
+        set(value) {
         _builder.stabilizationModeEnable = value
       }
     /**
@@ -176,10 +177,10 @@ public object RootKt {
      * `.cmd.CV.StabilizationModeDisable stabilization_mode_disable = 7;`
      */
     public var stabilizationModeDisable: cmd.CV.JonSharedCmdCv.StabilizationModeDisable
-      @JvmName("getStabilizationModeDisable")
-      get() = _builder.stabilizationModeDisable
-      @JvmName("setStabilizationModeDisable")
-      set(value) {
+      @kotlin.jvm.JvmName("getStabilizationModeDisable")
+        get() = _builder.stabilizationModeDisable
+      @kotlin.jvm.JvmName("setStabilizationModeDisable")
+        set(value) {
         _builder.stabilizationModeDisable = value
       }
     /**
@@ -200,10 +201,10 @@ public object RootKt {
      * `.cmd.CV.DumpStart dump_start = 8;`
      */
     public var dumpStart: cmd.CV.JonSharedCmdCv.DumpStart
-      @JvmName("getDumpStart")
-      get() = _builder.dumpStart
-      @JvmName("setDumpStart")
-      set(value) {
+      @kotlin.jvm.JvmName("getDumpStart")
+        get() = _builder.dumpStart
+      @kotlin.jvm.JvmName("setDumpStart")
+        set(value) {
         _builder.dumpStart = value
       }
     /**
@@ -224,10 +225,10 @@ public object RootKt {
      * `.cmd.CV.DumpStop dump_stop = 9;`
      */
     public var dumpStop: cmd.CV.JonSharedCmdCv.DumpStop
-      @JvmName("getDumpStop")
-      get() = _builder.dumpStop
-      @JvmName("setDumpStop")
-      set(value) {
+      @kotlin.jvm.JvmName("getDumpStop")
+        get() = _builder.dumpStop
+      @kotlin.jvm.JvmName("setDumpStop")
+        set(value) {
         _builder.dumpStop = value
       }
     /**
@@ -248,10 +249,10 @@ public object RootKt {
      * `.cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;`
      */
     public var recognitionModeEnable: cmd.CV.JonSharedCmdCv.RecognitionModeEnable
-      @JvmName("getRecognitionModeEnable")
-      get() = _builder.recognitionModeEnable
-      @JvmName("setRecognitionModeEnable")
-      set(value) {
+      @kotlin.jvm.JvmName("getRecognitionModeEnable")
+        get() = _builder.recognitionModeEnable
+      @kotlin.jvm.JvmName("setRecognitionModeEnable")
+        set(value) {
         _builder.recognitionModeEnable = value
       }
     /**
@@ -272,10 +273,10 @@ public object RootKt {
      * `.cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;`
      */
     public var recognitionModeDisable: cmd.CV.JonSharedCmdCv.RecognitionModeDisable
-      @JvmName("getRecognitionModeDisable")
-      get() = _builder.recognitionModeDisable
-      @JvmName("setRecognitionModeDisable")
-      set(value) {
+      @kotlin.jvm.JvmName("getRecognitionModeDisable")
+        get() = _builder.recognitionModeDisable
+      @kotlin.jvm.JvmName("setRecognitionModeDisable")
+        set(value) {
         _builder.recognitionModeDisable = value
       }
     /**
@@ -300,10 +301,10 @@ public object RootKt {
      * `.cmd.CV.StartTrackTrinity start_track_trinity = 12;`
      */
     public var startTrackTrinity: cmd.CV.JonSharedCmdCv.StartTrackTrinity
-      @JvmName("getStartTrackTrinity")
-      get() = _builder.startTrackTrinity
-      @JvmName("setStartTrackTrinity")
-      set(value) {
+      @kotlin.jvm.JvmName("getStartTrackTrinity")
+        get() = _builder.startTrackTrinity
+      @kotlin.jvm.JvmName("setStartTrackTrinity")
+        set(value) {
         _builder.startTrackTrinity = value
       }
     /**
@@ -332,10 +333,10 @@ public object RootKt {
      * `.cmd.CV.StopTrackTrinity stop_track_trinity = 13;`
      */
     public var stopTrackTrinity: cmd.CV.JonSharedCmdCv.StopTrackTrinity
-      @JvmName("getStopTrackTrinity")
-      get() = _builder.stopTrackTrinity
-      @JvmName("setStopTrackTrinity")
-      set(value) {
+      @kotlin.jvm.JvmName("getStopTrackTrinity")
+        get() = _builder.stopTrackTrinity
+      @kotlin.jvm.JvmName("setStopTrackTrinity")
+        set(value) {
         _builder.stopTrackTrinity = value
       }
     /**
@@ -363,10 +364,10 @@ public object RootKt {
      * `.cmd.CV.DumpShot dump_shot = 14;`
      */
     public var dumpShot: cmd.CV.JonSharedCmdCv.DumpShot
-      @JvmName("getDumpShot")
-      get() = _builder.dumpShot
-      @JvmName("setDumpShot")
-      set(value) {
+      @kotlin.jvm.JvmName("getDumpShot")
+        get() = _builder.dumpShot
+      @kotlin.jvm.JvmName("setDumpShot")
+        set(value) {
         _builder.dumpShot = value
       }
     /**
@@ -405,10 +406,10 @@ public object RootKt {
      * `.cmd.CV.BridgeStart bridge_start = 20;`
      */
     public var bridgeStart: cmd.CV.JonSharedCmdCv.BridgeStart
-      @JvmName("getBridgeStart")
-      get() = _builder.bridgeStart
-      @JvmName("setBridgeStart")
-      set(value) {
+      @kotlin.jvm.JvmName("getBridgeStart")
+        get() = _builder.bridgeStart
+      @kotlin.jvm.JvmName("setBridgeStart")
+        set(value) {
         _builder.bridgeStart = value
       }
     /**
@@ -437,10 +438,10 @@ public object RootKt {
      * `.cmd.CV.BridgeStop bridge_stop = 21;`
      */
     public var bridgeStop: cmd.CV.JonSharedCmdCv.BridgeStop
-      @JvmName("getBridgeStop")
-      get() = _builder.bridgeStop
-      @JvmName("setBridgeStop")
-      set(value) {
+      @kotlin.jvm.JvmName("getBridgeStop")
+        get() = _builder.bridgeStop
+      @kotlin.jvm.JvmName("setBridgeStop")
+        set(value) {
         _builder.bridgeStop = value
       }
     /**
@@ -461,10 +462,10 @@ public object RootKt {
      * `.cmd.CV.BridgeRestart bridge_restart = 22;`
      */
     public var bridgeRestart: cmd.CV.JonSharedCmdCv.BridgeRestart
-      @JvmName("getBridgeRestart")
-      get() = _builder.bridgeRestart
-      @JvmName("setBridgeRestart")
-      set(value) {
+      @kotlin.jvm.JvmName("getBridgeRestart")
+        get() = _builder.bridgeRestart
+      @kotlin.jvm.JvmName("setBridgeRestart")
+        set(value) {
         _builder.bridgeRestart = value
       }
     /**

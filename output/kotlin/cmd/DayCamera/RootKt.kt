@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_day_camera.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.DayCamera;
@@ -32,10 +33,10 @@ public object RootKt {
      * `.cmd.DayCamera.Focus focus = 1;`
      */
     public var focus: cmd.DayCamera.JonSharedCmdDayCamera.Focus
-      @JvmName("getFocus")
-      get() = _builder.focus
-      @JvmName("setFocus")
-      set(value) {
+      @kotlin.jvm.JvmName("getFocus")
+        get() = _builder.focus
+      @kotlin.jvm.JvmName("setFocus")
+        set(value) {
         _builder.focus = value
       }
     /**
@@ -56,10 +57,10 @@ public object RootKt {
      * `.cmd.DayCamera.Zoom zoom = 2;`
      */
     public var zoom: cmd.DayCamera.JonSharedCmdDayCamera.Zoom
-      @JvmName("getZoom")
-      get() = _builder.zoom
-      @JvmName("setZoom")
-      set(value) {
+      @kotlin.jvm.JvmName("getZoom")
+        get() = _builder.zoom
+      @kotlin.jvm.JvmName("setZoom")
+        set(value) {
         _builder.zoom = value
       }
     /**
@@ -80,10 +81,10 @@ public object RootKt {
      * `.cmd.DayCamera.SetIris set_iris = 3;`
      */
     public var setIris: cmd.DayCamera.JonSharedCmdDayCamera.SetIris
-      @JvmName("getSetIris")
-      get() = _builder.setIris
-      @JvmName("setSetIris")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetIris")
+        get() = _builder.setIris
+      @kotlin.jvm.JvmName("setSetIris")
+        set(value) {
         _builder.setIris = value
       }
     /**
@@ -104,10 +105,10 @@ public object RootKt {
      * `.cmd.DayCamera.SetInfraRedFilter set_infra_red_filter = 4;`
      */
     public var setInfraRedFilter: cmd.DayCamera.JonSharedCmdDayCamera.SetInfraRedFilter
-      @JvmName("getSetInfraRedFilter")
-      get() = _builder.setInfraRedFilter
-      @JvmName("setSetInfraRedFilter")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetInfraRedFilter")
+        get() = _builder.setInfraRedFilter
+      @kotlin.jvm.JvmName("setSetInfraRedFilter")
+        set(value) {
         _builder.setInfraRedFilter = value
       }
     /**
@@ -128,10 +129,10 @@ public object RootKt {
      * `.cmd.DayCamera.Start start = 5;`
      */
     public var start: cmd.DayCamera.JonSharedCmdDayCamera.Start
-      @JvmName("getStart")
-      get() = _builder.start
-      @JvmName("setStart")
-      set(value) {
+      @kotlin.jvm.JvmName("getStart")
+        get() = _builder.start
+      @kotlin.jvm.JvmName("setStart")
+        set(value) {
         _builder.start = value
       }
     /**
@@ -152,10 +153,10 @@ public object RootKt {
      * `.cmd.DayCamera.Stop stop = 6;`
      */
     public var stop: cmd.DayCamera.JonSharedCmdDayCamera.Stop
-      @JvmName("getStop")
-      get() = _builder.stop
-      @JvmName("setStop")
-      set(value) {
+      @kotlin.jvm.JvmName("getStop")
+        get() = _builder.stop
+      @kotlin.jvm.JvmName("setStop")
+        set(value) {
         _builder.stop = value
       }
     /**
@@ -176,10 +177,10 @@ public object RootKt {
      * `.cmd.DayCamera.Photo photo = 7;`
      */
     public var photo: cmd.DayCamera.JonSharedCmdDayCamera.Photo
-      @JvmName("getPhoto")
-      get() = _builder.photo
-      @JvmName("setPhoto")
-      set(value) {
+      @kotlin.jvm.JvmName("getPhoto")
+        get() = _builder.photo
+      @kotlin.jvm.JvmName("setPhoto")
+        set(value) {
         _builder.photo = value
       }
     /**
@@ -200,10 +201,10 @@ public object RootKt {
      * `.cmd.DayCamera.SetAutoIris set_auto_iris = 8;`
      */
     public var setAutoIris: cmd.DayCamera.JonSharedCmdDayCamera.SetAutoIris
-      @JvmName("getSetAutoIris")
-      get() = _builder.setAutoIris
-      @JvmName("setSetAutoIris")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetAutoIris")
+        get() = _builder.setAutoIris
+      @kotlin.jvm.JvmName("setSetAutoIris")
+        set(value) {
         _builder.setAutoIris = value
       }
     /**
@@ -224,10 +225,10 @@ public object RootKt {
      * `.cmd.DayCamera.HaltAll halt_all = 9;`
      */
     public var haltAll: cmd.DayCamera.JonSharedCmdDayCamera.HaltAll
-      @JvmName("getHaltAll")
-      get() = _builder.haltAll
-      @JvmName("setHaltAll")
-      set(value) {
+      @kotlin.jvm.JvmName("getHaltAll")
+        get() = _builder.haltAll
+      @kotlin.jvm.JvmName("setHaltAll")
+        set(value) {
         _builder.haltAll = value
       }
     /**
@@ -248,10 +249,10 @@ public object RootKt {
      * `.cmd.DayCamera.SetFxMode set_fx_mode = 10;`
      */
     public var setFxMode: cmd.DayCamera.JonSharedCmdDayCamera.SetFxMode
-      @JvmName("getSetFxMode")
-      get() = _builder.setFxMode
-      @JvmName("setSetFxMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetFxMode")
+        get() = _builder.setFxMode
+      @kotlin.jvm.JvmName("setSetFxMode")
+        set(value) {
         _builder.setFxMode = value
       }
     /**
@@ -272,10 +273,10 @@ public object RootKt {
      * `.cmd.DayCamera.NextFxMode next_fx_mode = 11;`
      */
     public var nextFxMode: cmd.DayCamera.JonSharedCmdDayCamera.NextFxMode
-      @JvmName("getNextFxMode")
-      get() = _builder.nextFxMode
-      @JvmName("setNextFxMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getNextFxMode")
+        get() = _builder.nextFxMode
+      @kotlin.jvm.JvmName("setNextFxMode")
+        set(value) {
         _builder.nextFxMode = value
       }
     /**
@@ -296,10 +297,10 @@ public object RootKt {
      * `.cmd.DayCamera.PrevFxMode prev_fx_mode = 12;`
      */
     public var prevFxMode: cmd.DayCamera.JonSharedCmdDayCamera.PrevFxMode
-      @JvmName("getPrevFxMode")
-      get() = _builder.prevFxMode
-      @JvmName("setPrevFxMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getPrevFxMode")
+        get() = _builder.prevFxMode
+      @kotlin.jvm.JvmName("setPrevFxMode")
+        set(value) {
         _builder.prevFxMode = value
       }
     /**
@@ -320,10 +321,10 @@ public object RootKt {
      * `.cmd.DayCamera.GetMeteo get_meteo = 13;`
      */
     public var getMeteo: cmd.DayCamera.JonSharedCmdDayCamera.GetMeteo
-      @JvmName("getGetMeteo")
-      get() = _builder.getMeteo
-      @JvmName("setGetMeteo")
-      set(value) {
+      @kotlin.jvm.JvmName("getGetMeteo")
+        get() = _builder.getMeteo
+      @kotlin.jvm.JvmName("setGetMeteo")
+        set(value) {
         _builder.getMeteo = value
       }
     /**
@@ -344,10 +345,10 @@ public object RootKt {
      * `.cmd.DayCamera.RefreshFxMode refresh_fx_mode = 14;`
      */
     public var refreshFxMode: cmd.DayCamera.JonSharedCmdDayCamera.RefreshFxMode
-      @JvmName("getRefreshFxMode")
-      get() = _builder.refreshFxMode
-      @JvmName("setRefreshFxMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getRefreshFxMode")
+        get() = _builder.refreshFxMode
+      @kotlin.jvm.JvmName("setRefreshFxMode")
+        set(value) {
         _builder.refreshFxMode = value
       }
     /**
@@ -368,10 +369,10 @@ public object RootKt {
      * `.cmd.DayCamera.SetDigitalZoomLevel set_digital_zoom_level = 15;`
      */
     public var setDigitalZoomLevel: cmd.DayCamera.JonSharedCmdDayCamera.SetDigitalZoomLevel
-      @JvmName("getSetDigitalZoomLevel")
-      get() = _builder.setDigitalZoomLevel
-      @JvmName("setSetDigitalZoomLevel")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetDigitalZoomLevel")
+        get() = _builder.setDigitalZoomLevel
+      @kotlin.jvm.JvmName("setSetDigitalZoomLevel")
+        set(value) {
         _builder.setDigitalZoomLevel = value
       }
     /**
@@ -392,10 +393,10 @@ public object RootKt {
      * `.cmd.DayCamera.SetClaheLevel set_clahe_level = 16;`
      */
     public var setClaheLevel: cmd.DayCamera.JonSharedCmdDayCamera.SetClaheLevel
-      @JvmName("getSetClaheLevel")
-      get() = _builder.setClaheLevel
-      @JvmName("setSetClaheLevel")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetClaheLevel")
+        get() = _builder.setClaheLevel
+      @kotlin.jvm.JvmName("setSetClaheLevel")
+        set(value) {
         _builder.setClaheLevel = value
       }
     /**
@@ -416,10 +417,10 @@ public object RootKt {
      * `.cmd.DayCamera.ShiftClaheLevel shift_clahe_level = 17;`
      */
     public var shiftClaheLevel: cmd.DayCamera.JonSharedCmdDayCamera.ShiftClaheLevel
-      @JvmName("getShiftClaheLevel")
-      get() = _builder.shiftClaheLevel
-      @JvmName("setShiftClaheLevel")
-      set(value) {
+      @kotlin.jvm.JvmName("getShiftClaheLevel")
+        get() = _builder.shiftClaheLevel
+      @kotlin.jvm.JvmName("setShiftClaheLevel")
+        set(value) {
         _builder.shiftClaheLevel = value
       }
     /**
@@ -440,10 +441,10 @@ public object RootKt {
      * `.cmd.DayCamera.FocusROI focus_roi = 18;`
      */
     public var focusRoi: cmd.DayCamera.JonSharedCmdDayCamera.FocusROI
-      @JvmName("getFocusRoi")
-      get() = _builder.focusRoi
-      @JvmName("setFocusRoi")
-      set(value) {
+      @kotlin.jvm.JvmName("getFocusRoi")
+        get() = _builder.focusRoi
+      @kotlin.jvm.JvmName("setFocusRoi")
+        set(value) {
         _builder.focusRoi = value
       }
     /**
@@ -464,10 +465,10 @@ public object RootKt {
      * `.cmd.DayCamera.TrackROI track_roi = 19;`
      */
     public var trackRoi: cmd.DayCamera.JonSharedCmdDayCamera.TrackROI
-      @JvmName("getTrackRoi")
-      get() = _builder.trackRoi
-      @JvmName("setTrackRoi")
-      set(value) {
+      @kotlin.jvm.JvmName("getTrackRoi")
+        get() = _builder.trackRoi
+      @kotlin.jvm.JvmName("setTrackRoi")
+        set(value) {
         _builder.trackRoi = value
       }
     /**
@@ -488,10 +489,10 @@ public object RootKt {
      * `.cmd.DayCamera.ZoomROI zoom_roi = 20;`
      */
     public var zoomRoi: cmd.DayCamera.JonSharedCmdDayCamera.ZoomROI
-      @JvmName("getZoomRoi")
-      get() = _builder.zoomRoi
-      @JvmName("setZoomRoi")
-      set(value) {
+      @kotlin.jvm.JvmName("getZoomRoi")
+        get() = _builder.zoomRoi
+      @kotlin.jvm.JvmName("setZoomRoi")
+        set(value) {
         _builder.zoomRoi = value
       }
     /**
@@ -512,10 +513,10 @@ public object RootKt {
      * `.cmd.DayCamera.FxROI fx_roi = 21;`
      */
     public var fxRoi: cmd.DayCamera.JonSharedCmdDayCamera.FxROI
-      @JvmName("getFxRoi")
-      get() = _builder.fxRoi
-      @JvmName("setFxRoi")
-      set(value) {
+      @kotlin.jvm.JvmName("getFxRoi")
+        get() = _builder.fxRoi
+      @kotlin.jvm.JvmName("setFxRoi")
+        set(value) {
         _builder.fxRoi = value
       }
     /**
@@ -536,10 +537,10 @@ public object RootKt {
      * `.cmd.DayCamera.SetAutoGain set_auto_gain = 22;`
      */
     public var setAutoGain: cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain
-      @JvmName("getSetAutoGain")
-      get() = _builder.setAutoGain
-      @JvmName("setSetAutoGain")
-      set(value) {
+      @kotlin.jvm.JvmName("getSetAutoGain")
+        get() = _builder.setAutoGain
+      @kotlin.jvm.JvmName("setSetAutoGain")
+        set(value) {
         _builder.setAutoGain = value
       }
     /**
@@ -560,10 +561,10 @@ public object RootKt {
      * `.cmd.DayCamera.SceneAuto scene_auto = 23;`
      */
     public var sceneAuto: cmd.DayCamera.JonSharedCmdDayCamera.SceneAuto
-      @JvmName("getSceneAuto")
-      get() = _builder.sceneAuto
-      @JvmName("setSceneAuto")
-      set(value) {
+      @kotlin.jvm.JvmName("getSceneAuto")
+        get() = _builder.sceneAuto
+      @kotlin.jvm.JvmName("setSceneAuto")
+        set(value) {
         _builder.sceneAuto = value
       }
     /**

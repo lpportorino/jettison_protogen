@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_system.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.System;
@@ -32,10 +33,10 @@ public object SetTimeZoneKt {
      * `int32 zone_id = 1 [(.buf.validate.field) = { ... }`
      */
     public var zoneId: kotlin.Int
-      @JvmName("getZoneId")
-      get() = _builder.zoneId
-      @JvmName("setZoneId")
-      set(value) {
+      @kotlin.jvm.JvmName("getZoneId")
+        get() = _builder.zoneId
+      @kotlin.jvm.JvmName("setZoneId")
+        set(value) {
         _builder.zoneId = value
       }
     /**

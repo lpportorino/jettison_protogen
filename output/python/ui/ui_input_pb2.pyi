@@ -1,7 +1,8 @@
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
+from collections.abc import Mapping as _Mapping
+from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -86,7 +87,7 @@ class Lifecycle(_message.Message):
     theme: ThemeMode
     focused: bool
     visible: bool
-    def __init__(self, theme: _Optional[_Union[ThemeMode, str]] = ..., focused: bool = ..., visible: bool = ...) -> None: ...
+    def __init__(self, theme: _Optional[_Union[ThemeMode, str]] = ..., focused: _Optional[bool] = ..., visible: _Optional[bool] = ...) -> None: ...
 
 class HostToWasm(_message.Message):
     __slots__ = ("version", "pointer", "lifecycle")
@@ -104,7 +105,7 @@ class HoverState(_message.Message):
     INTERACTIVE_FIELD_NUMBER: _ClassVar[int]
     hovered_uid: int
     interactive: bool
-    def __init__(self, hovered_uid: _Optional[int] = ..., interactive: bool = ...) -> None: ...
+    def __init__(self, hovered_uid: _Optional[int] = ..., interactive: _Optional[bool] = ...) -> None: ...
 
 class CursorRequest(_message.Message):
     __slots__ = ("cursor",)

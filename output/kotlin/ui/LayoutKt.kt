@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -32,17 +33,17 @@ public object LayoutKt {
      * `.ui.FlexFlow flow = 1 [(.buf.validate.field) = { ... }`
      */
     public var flow: ui.UiAst.FlexFlow
-      @JvmName("getFlow")
-      get() = _builder.flow
-      @JvmName("setFlow")
-      set(value) {
+      @kotlin.jvm.JvmName("getFlow")
+        get() = _builder.flow
+      @kotlin.jvm.JvmName("setFlow")
+        set(value) {
         _builder.flow = value
       }
     public var flowValue: kotlin.Int
-      @JvmName("getFlowValue")
-      get() = _builder.flowValue
-      @JvmName("setFlowValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getFlowValue")
+        get() = _builder.flowValue
+      @kotlin.jvm.JvmName("setFlowValue")
+        set(value) {
         _builder.flowValue = value
       }
     /**
@@ -56,17 +57,17 @@ public object LayoutKt {
      * `.ui.FlexAlign main_place = 2 [(.buf.validate.field) = { ... }`
      */
     public var mainPlace: ui.UiAst.FlexAlign
-      @JvmName("getMainPlace")
-      get() = _builder.mainPlace
-      @JvmName("setMainPlace")
-      set(value) {
+      @kotlin.jvm.JvmName("getMainPlace")
+        get() = _builder.mainPlace
+      @kotlin.jvm.JvmName("setMainPlace")
+        set(value) {
         _builder.mainPlace = value
       }
     public var mainPlaceValue: kotlin.Int
-      @JvmName("getMainPlaceValue")
-      get() = _builder.mainPlaceValue
-      @JvmName("setMainPlaceValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getMainPlaceValue")
+        get() = _builder.mainPlaceValue
+      @kotlin.jvm.JvmName("setMainPlaceValue")
+        set(value) {
         _builder.mainPlaceValue = value
       }
     /**
@@ -80,17 +81,17 @@ public object LayoutKt {
      * `.ui.FlexAlign cross_place = 3 [(.buf.validate.field) = { ... }`
      */
     public var crossPlace: ui.UiAst.FlexAlign
-      @JvmName("getCrossPlace")
-      get() = _builder.crossPlace
-      @JvmName("setCrossPlace")
-      set(value) {
+      @kotlin.jvm.JvmName("getCrossPlace")
+        get() = _builder.crossPlace
+      @kotlin.jvm.JvmName("setCrossPlace")
+        set(value) {
         _builder.crossPlace = value
       }
     public var crossPlaceValue: kotlin.Int
-      @JvmName("getCrossPlaceValue")
-      get() = _builder.crossPlaceValue
-      @JvmName("setCrossPlaceValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getCrossPlaceValue")
+        get() = _builder.crossPlaceValue
+      @kotlin.jvm.JvmName("setCrossPlaceValue")
+        set(value) {
         _builder.crossPlaceValue = value
       }
     /**
@@ -104,17 +105,17 @@ public object LayoutKt {
      * `.ui.FlexAlign track_place = 4 [(.buf.validate.field) = { ... }`
      */
     public var trackPlace: ui.UiAst.FlexAlign
-      @JvmName("getTrackPlace")
-      get() = _builder.trackPlace
-      @JvmName("setTrackPlace")
-      set(value) {
+      @kotlin.jvm.JvmName("getTrackPlace")
+        get() = _builder.trackPlace
+      @kotlin.jvm.JvmName("setTrackPlace")
+        set(value) {
         _builder.trackPlace = value
       }
     public var trackPlaceValue: kotlin.Int
-      @JvmName("getTrackPlaceValue")
-      get() = _builder.trackPlaceValue
-      @JvmName("setTrackPlaceValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getTrackPlaceValue")
+        get() = _builder.trackPlaceValue
+      @kotlin.jvm.JvmName("setTrackPlaceValue")
+        set(value) {
         _builder.trackPlaceValue = value
       }
     /**

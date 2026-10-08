@@ -24,7 +24,7 @@ runs:
       echo "version=$ver" >> "$GITHUB_OUTPUT"
   - name: Cache the WASI-SDK install
     id: cache-wasi
-    uses: actions/cache@v5
+    uses: actions/cache@v6.1.0
     with:
       # A RUNNER-WRITABLE path (~ = the runner user's home), NOT /opt: an
       # absolute root-owned system path would need sudo to install and could not

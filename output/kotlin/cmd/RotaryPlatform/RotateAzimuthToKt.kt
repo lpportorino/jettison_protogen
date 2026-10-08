@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_cmd_rotary.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package cmd.RotaryPlatform;
@@ -32,10 +33,10 @@ public object RotateAzimuthToKt {
      * `double target_value = 1 [(.buf.validate.field) = { ... }`
      */
     public var targetValue: kotlin.Double
-      @JvmName("getTargetValue")
-      get() = _builder.targetValue
-      @JvmName("setTargetValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getTargetValue")
+        get() = _builder.targetValue
+      @kotlin.jvm.JvmName("setTargetValue")
+        set(value) {
         _builder.targetValue = value
       }
     /**
@@ -49,10 +50,10 @@ public object RotateAzimuthToKt {
      * `double speed = 2 [(.buf.validate.field) = { ... }`
      */
     public var speed: kotlin.Double
-      @JvmName("getSpeed")
-      get() = _builder.speed
-      @JvmName("setSpeed")
-      set(value) {
+      @kotlin.jvm.JvmName("getSpeed")
+        get() = _builder.speed
+      @kotlin.jvm.JvmName("setSpeed")
+        set(value) {
         _builder.speed = value
       }
     /**
@@ -66,17 +67,17 @@ public object RotateAzimuthToKt {
      * `.ser.JonGuiDataRotaryDirection direction = 3 [(.buf.validate.field) = { ... }`
      */
     public var direction: ser.JonSharedDataTypes.JonGuiDataRotaryDirection
-      @JvmName("getDirection")
-      get() = _builder.direction
-      @JvmName("setDirection")
-      set(value) {
+      @kotlin.jvm.JvmName("getDirection")
+        get() = _builder.direction
+      @kotlin.jvm.JvmName("setDirection")
+        set(value) {
         _builder.direction = value
       }
     public var directionValue: kotlin.Int
-      @JvmName("getDirectionValue")
-      get() = _builder.directionValue
-      @JvmName("setDirectionValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getDirectionValue")
+        get() = _builder.directionValue
+      @kotlin.jvm.JvmName("setDirectionValue")
+        set(value) {
         _builder.directionValue = value
       }
     /**

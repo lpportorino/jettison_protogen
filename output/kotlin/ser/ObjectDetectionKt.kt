@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: opaque/detection_common.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -42,10 +43,10 @@ public object ObjectDetectionKt {
      * `float x1 = 1 [(.buf.validate.field) = { ... }`
      */
     public var x1: kotlin.Float
-      @JvmName("getX1")
-      get() = _builder.x1
-      @JvmName("setX1")
-      set(value) {
+      @kotlin.jvm.JvmName("getX1")
+        get() = _builder.x1
+      @kotlin.jvm.JvmName("setX1")
+        set(value) {
         _builder.x1 = value
       }
     /**
@@ -67,10 +68,10 @@ public object ObjectDetectionKt {
      * `float y1 = 2 [(.buf.validate.field) = { ... }`
      */
     public var y1: kotlin.Float
-      @JvmName("getY1")
-      get() = _builder.y1
-      @JvmName("setY1")
-      set(value) {
+      @kotlin.jvm.JvmName("getY1")
+        get() = _builder.y1
+      @kotlin.jvm.JvmName("setY1")
+        set(value) {
         _builder.y1 = value
       }
     /**
@@ -92,10 +93,10 @@ public object ObjectDetectionKt {
      * `float x2 = 3 [(.buf.validate.field) = { ... }`
      */
     public var x2: kotlin.Float
-      @JvmName("getX2")
-      get() = _builder.x2
-      @JvmName("setX2")
-      set(value) {
+      @kotlin.jvm.JvmName("getX2")
+        get() = _builder.x2
+      @kotlin.jvm.JvmName("setX2")
+        set(value) {
         _builder.x2 = value
       }
     /**
@@ -117,10 +118,10 @@ public object ObjectDetectionKt {
      * `float y2 = 4 [(.buf.validate.field) = { ... }`
      */
     public var y2: kotlin.Float
-      @JvmName("getY2")
-      get() = _builder.y2
-      @JvmName("setY2")
-      set(value) {
+      @kotlin.jvm.JvmName("getY2")
+        get() = _builder.y2
+      @kotlin.jvm.JvmName("setY2")
+        set(value) {
         _builder.y2 = value
       }
     /**
@@ -142,10 +143,10 @@ public object ObjectDetectionKt {
      * `float confidence = 5 [(.buf.validate.field) = { ... }`
      */
     public var confidence: kotlin.Float
-      @JvmName("getConfidence")
-      get() = _builder.confidence
-      @JvmName("setConfidence")
-      set(value) {
+      @kotlin.jvm.JvmName("getConfidence")
+        get() = _builder.confidence
+      @kotlin.jvm.JvmName("setConfidence")
+        set(value) {
         _builder.confidence = value
       }
     /**
@@ -167,10 +168,10 @@ public object ObjectDetectionKt {
      * `int32 class_id = 6 [(.buf.validate.field) = { ... }`
      */
     public var classId: kotlin.Int
-      @JvmName("getClassId")
-      get() = _builder.classId
-      @JvmName("setClassId")
-      set(value) {
+      @kotlin.jvm.JvmName("getClassId")
+        get() = _builder.classId
+      @kotlin.jvm.JvmName("setClassId")
+        set(value) {
         _builder.classId = value
       }
     /**

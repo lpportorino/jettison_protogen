@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_camera_heat.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -32,10 +33,10 @@ public object JonGuiDataCameraHeatKt {
      * `double zoom_pos = 1 [(.buf.validate.field) = { ... }`
      */
     public var zoomPos: kotlin.Double
-      @JvmName("getZoomPos")
-      get() = _builder.zoomPos
-      @JvmName("setZoomPos")
-      set(value) {
+      @kotlin.jvm.JvmName("getZoomPos")
+        get() = _builder.zoomPos
+      @kotlin.jvm.JvmName("setZoomPos")
+        set(value) {
         _builder.zoomPos = value
       }
     /**
@@ -49,17 +50,17 @@ public object JonGuiDataCameraHeatKt {
      * `.ser.JonGuiDataVideoChannelHeatAGCModes agc_mode = 2 [(.buf.validate.field) = { ... }`
      */
     public var agcMode: ser.JonSharedDataTypes.JonGuiDataVideoChannelHeatAGCModes
-      @JvmName("getAgcMode")
-      get() = _builder.agcMode
-      @JvmName("setAgcMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getAgcMode")
+        get() = _builder.agcMode
+      @kotlin.jvm.JvmName("setAgcMode")
+        set(value) {
         _builder.agcMode = value
       }
     public var agcModeValue: kotlin.Int
-      @JvmName("getAgcModeValue")
-      get() = _builder.agcModeValue
-      @JvmName("setAgcModeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getAgcModeValue")
+        get() = _builder.agcModeValue
+      @kotlin.jvm.JvmName("setAgcModeValue")
+        set(value) {
         _builder.agcModeValue = value
       }
     /**
@@ -73,17 +74,17 @@ public object JonGuiDataCameraHeatKt {
      * `.ser.JonGuiDataVideoChannelHeatFilters filter = 3 [(.buf.validate.field) = { ... }`
      */
     public var filter: ser.JonSharedDataTypes.JonGuiDataVideoChannelHeatFilters
-      @JvmName("getFilter")
-      get() = _builder.filter
-      @JvmName("setFilter")
-      set(value) {
+      @kotlin.jvm.JvmName("getFilter")
+        get() = _builder.filter
+      @kotlin.jvm.JvmName("setFilter")
+        set(value) {
         _builder.filter = value
       }
     public var filterValue: kotlin.Int
-      @JvmName("getFilterValue")
-      get() = _builder.filterValue
-      @JvmName("setFilterValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getFilterValue")
+        get() = _builder.filterValue
+      @kotlin.jvm.JvmName("setFilterValue")
+        set(value) {
         _builder.filterValue = value
       }
     /**
@@ -97,10 +98,10 @@ public object JonGuiDataCameraHeatKt {
      * `bool auto_focus = 4;`
      */
     public var autoFocus: kotlin.Boolean
-      @JvmName("getAutoFocus")
-      get() = _builder.autoFocus
-      @JvmName("setAutoFocus")
-      set(value) {
+      @kotlin.jvm.JvmName("getAutoFocus")
+        get() = _builder.autoFocus
+      @kotlin.jvm.JvmName("setAutoFocus")
+        set(value) {
         _builder.autoFocus = value
       }
     /**
@@ -114,10 +115,10 @@ public object JonGuiDataCameraHeatKt {
      * `int32 zoom_table_pos = 5 [(.buf.validate.field) = { ... }`
      */
     public var zoomTablePos: kotlin.Int
-      @JvmName("getZoomTablePos")
-      get() = _builder.zoomTablePos
-      @JvmName("setZoomTablePos")
-      set(value) {
+      @kotlin.jvm.JvmName("getZoomTablePos")
+        get() = _builder.zoomTablePos
+      @kotlin.jvm.JvmName("setZoomTablePos")
+        set(value) {
         _builder.zoomTablePos = value
       }
     /**
@@ -131,10 +132,10 @@ public object JonGuiDataCameraHeatKt {
      * `int32 zoom_table_pos_max = 6 [(.buf.validate.field) = { ... }`
      */
     public var zoomTablePosMax: kotlin.Int
-      @JvmName("getZoomTablePosMax")
-      get() = _builder.zoomTablePosMax
-      @JvmName("setZoomTablePosMax")
-      set(value) {
+      @kotlin.jvm.JvmName("getZoomTablePosMax")
+        get() = _builder.zoomTablePosMax
+      @kotlin.jvm.JvmName("setZoomTablePosMax")
+        set(value) {
         _builder.zoomTablePosMax = value
       }
     /**
@@ -148,10 +149,10 @@ public object JonGuiDataCameraHeatKt {
      * `int32 dde_level = 7 [(.buf.validate.field) = { ... }`
      */
     public var ddeLevel: kotlin.Int
-      @JvmName("getDdeLevel")
-      get() = _builder.ddeLevel
-      @JvmName("setDdeLevel")
-      set(value) {
+      @kotlin.jvm.JvmName("getDdeLevel")
+        get() = _builder.ddeLevel
+      @kotlin.jvm.JvmName("setDdeLevel")
+        set(value) {
         _builder.ddeLevel = value
       }
     /**
@@ -165,10 +166,10 @@ public object JonGuiDataCameraHeatKt {
      * `bool dde_enabled = 8;`
      */
     public var ddeEnabled: kotlin.Boolean
-      @JvmName("getDdeEnabled")
-      get() = _builder.ddeEnabled
-      @JvmName("setDdeEnabled")
-      set(value) {
+      @kotlin.jvm.JvmName("getDdeEnabled")
+        get() = _builder.ddeEnabled
+      @kotlin.jvm.JvmName("setDdeEnabled")
+        set(value) {
         _builder.ddeEnabled = value
       }
     /**
@@ -182,17 +183,17 @@ public object JonGuiDataCameraHeatKt {
      * `.ser.JonGuiDataFxModeHeat fx_mode = 9 [(.buf.validate.field) = { ... }`
      */
     public var fxMode: ser.JonSharedDataTypes.JonGuiDataFxModeHeat
-      @JvmName("getFxMode")
-      get() = _builder.fxMode
-      @JvmName("setFxMode")
-      set(value) {
+      @kotlin.jvm.JvmName("getFxMode")
+        get() = _builder.fxMode
+      @kotlin.jvm.JvmName("setFxMode")
+        set(value) {
         _builder.fxMode = value
       }
     public var fxModeValue: kotlin.Int
-      @JvmName("getFxModeValue")
-      get() = _builder.fxModeValue
-      @JvmName("setFxModeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getFxModeValue")
+        get() = _builder.fxModeValue
+      @kotlin.jvm.JvmName("setFxModeValue")
+        set(value) {
         _builder.fxModeValue = value
       }
     /**
@@ -206,10 +207,10 @@ public object JonGuiDataCameraHeatKt {
      * `double digital_zoom_level = 10 [(.buf.validate.field) = { ... }`
      */
     public var digitalZoomLevel: kotlin.Double
-      @JvmName("getDigitalZoomLevel")
-      get() = _builder.digitalZoomLevel
-      @JvmName("setDigitalZoomLevel")
-      set(value) {
+      @kotlin.jvm.JvmName("getDigitalZoomLevel")
+        get() = _builder.digitalZoomLevel
+      @kotlin.jvm.JvmName("setDigitalZoomLevel")
+        set(value) {
         _builder.digitalZoomLevel = value
       }
     /**
@@ -223,10 +224,10 @@ public object JonGuiDataCameraHeatKt {
      * `double clahe_level = 11 [(.buf.validate.field) = { ... }`
      */
     public var claheLevel: kotlin.Double
-      @JvmName("getClaheLevel")
-      get() = _builder.claheLevel
-      @JvmName("setClaheLevel")
-      set(value) {
+      @kotlin.jvm.JvmName("getClaheLevel")
+        get() = _builder.claheLevel
+      @kotlin.jvm.JvmName("setClaheLevel")
+        set(value) {
         _builder.claheLevel = value
       }
     /**
@@ -240,10 +241,10 @@ public object JonGuiDataCameraHeatKt {
      * `double horizontal_fov_degrees = 12 [(.buf.validate.field) = { ... }`
      */
     public var horizontalFovDegrees: kotlin.Double
-      @JvmName("getHorizontalFovDegrees")
-      get() = _builder.horizontalFovDegrees
-      @JvmName("setHorizontalFovDegrees")
-      set(value) {
+      @kotlin.jvm.JvmName("getHorizontalFovDegrees")
+        get() = _builder.horizontalFovDegrees
+      @kotlin.jvm.JvmName("setHorizontalFovDegrees")
+        set(value) {
         _builder.horizontalFovDegrees = value
       }
     /**
@@ -257,10 +258,10 @@ public object JonGuiDataCameraHeatKt {
      * `double vertical_fov_degrees = 13 [(.buf.validate.field) = { ... }`
      */
     public var verticalFovDegrees: kotlin.Double
-      @JvmName("getVerticalFovDegrees")
-      get() = _builder.verticalFovDegrees
-      @JvmName("setVerticalFovDegrees")
-      set(value) {
+      @kotlin.jvm.JvmName("getVerticalFovDegrees")
+        get() = _builder.verticalFovDegrees
+      @kotlin.jvm.JvmName("setVerticalFovDegrees")
+        set(value) {
         _builder.verticalFovDegrees = value
       }
     /**
@@ -274,10 +275,10 @@ public object JonGuiDataCameraHeatKt {
      * `bool is_started = 14;`
      */
     public var isStarted: kotlin.Boolean
-      @JvmName("getIsStarted")
-      get() = _builder.isStarted
-      @JvmName("setIsStarted")
-      set(value) {
+      @kotlin.jvm.JvmName("getIsStarted")
+        get() = _builder.isStarted
+      @kotlin.jvm.JvmName("setIsStarted")
+        set(value) {
         _builder.isStarted = value
       }
     /**
@@ -291,10 +292,10 @@ public object JonGuiDataCameraHeatKt {
      * `.ser.JonGuiDataMeteo meteo = 15;`
      */
     public var meteo: ser.JonSharedDataTypes.JonGuiDataMeteo
-      @JvmName("getMeteo")
-      get() = _builder.meteo
-      @JvmName("setMeteo")
-      set(value) {
+      @kotlin.jvm.JvmName("getMeteo")
+        get() = _builder.meteo
+      @kotlin.jvm.JvmName("setMeteo")
+        set(value) {
         _builder.meteo = value
       }
     /**
@@ -322,10 +323,10 @@ public object JonGuiDataCameraHeatKt {
      * `uint64 capture_monotonic_us = 16;`
      */
     public var captureMonotonicUs: kotlin.Long
-      @JvmName("getCaptureMonotonicUs")
-      get() = _builder.captureMonotonicUs
-      @JvmName("setCaptureMonotonicUs")
-      set(value) {
+      @kotlin.jvm.JvmName("getCaptureMonotonicUs")
+        get() = _builder.captureMonotonicUs
+      @kotlin.jvm.JvmName("setCaptureMonotonicUs")
+        set(value) {
         _builder.captureMonotonicUs = value
       }
     /**
@@ -357,10 +358,10 @@ public object JonGuiDataCameraHeatKt {
      * `optional double delivered_fps = 17 [(.buf.validate.field) = { ... }`
      */
     public var deliveredFps: kotlin.Double
-      @JvmName("getDeliveredFps")
-      get() = _builder.deliveredFps
-      @JvmName("setDeliveredFps")
-      set(value) {
+      @kotlin.jvm.JvmName("getDeliveredFps")
+        get() = _builder.deliveredFps
+      @kotlin.jvm.JvmName("setDeliveredFps")
+        set(value) {
         _builder.deliveredFps = value
       }
     /**
@@ -409,10 +410,10 @@ public object JonGuiDataCameraHeatKt {
      * `optional double content_fps = 18 [(.buf.validate.field) = { ... }`
      */
     public var contentFps: kotlin.Double
-      @JvmName("getContentFps")
-      get() = _builder.contentFps
-      @JvmName("setContentFps")
-      set(value) {
+      @kotlin.jvm.JvmName("getContentFps")
+        get() = _builder.contentFps
+      @kotlin.jvm.JvmName("setContentFps")
+        set(value) {
         _builder.contentFps = value
       }
     /**
@@ -433,10 +434,10 @@ public object JonGuiDataCameraHeatKt {
      * `.ser.JonGuiDataModuleHealth health = 40;`
      */
     public var health: ser.JonSharedDataTypes.JonGuiDataModuleHealth
-      @JvmName("getHealth")
-      get() = _builder.health
-      @JvmName("setHealth")
-      set(value) {
+      @kotlin.jvm.JvmName("getHealth")
+        get() = _builder.health
+      @kotlin.jvm.JvmName("setHealth")
+        set(value) {
         _builder.health = value
       }
     /**

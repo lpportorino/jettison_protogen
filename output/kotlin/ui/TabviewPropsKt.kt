@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -45,7 +46,7 @@ public object TabviewPropsKt {
      * @return A list containing the tabNames.
      */
     public val tabNames: com.google.protobuf.kotlin.DslList<kotlin.String, TabNamesProxy>
-      @kotlin.jvm.JvmSynthetic
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
       get() = com.google.protobuf.kotlin.DslList(
         _builder.tabNamesList
       )
@@ -60,7 +61,7 @@ public object TabviewPropsKt {
      * @param value The tabNames to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addTabNames")
+@kotlin.jvm.JvmName("addTabNames")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, TabNamesProxy>.add(value: kotlin.String) {
       _builder.addTabNames(value)
     }
@@ -75,7 +76,7 @@ public object TabviewPropsKt {
      * @param value The tabNames to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignTabNames")
+@kotlin.jvm.JvmName("plusAssignTabNames")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, TabNamesProxy>.plusAssign(value: kotlin.String) {
       add(value)
@@ -91,7 +92,7 @@ public object TabviewPropsKt {
      * @param values The tabNames to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("addAllTabNames")
+@kotlin.jvm.JvmName("addAllTabNames")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, TabNamesProxy>.addAll(values: kotlin.collections.Iterable<kotlin.String>) {
       _builder.addAllTabNames(values)
     }
@@ -106,7 +107,7 @@ public object TabviewPropsKt {
      * @param values The tabNames to add.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("plusAssignAllTabNames")
+@kotlin.jvm.JvmName("plusAssignAllTabNames")
     @Suppress("NOTHING_TO_INLINE")
     public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.String, TabNamesProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.String>) {
       addAll(values)
@@ -123,7 +124,7 @@ public object TabviewPropsKt {
      * @param value The tabNames to set.
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("setTabNames")
+@kotlin.jvm.JvmName("setTabNames")
     public operator fun com.google.protobuf.kotlin.DslList<kotlin.String, TabNamesProxy>.set(index: kotlin.Int, value: kotlin.String) {
       _builder.setTabNames(index, value)
     }/**
@@ -136,7 +137,7 @@ public object TabviewPropsKt {
      * `repeated string tab_names = 1 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
-    @kotlin.jvm.JvmName("clearTabNames")
+@kotlin.jvm.JvmName("setTabNames")
     public fun com.google.protobuf.kotlin.DslList<kotlin.String, TabNamesProxy>.clear() {
       _builder.clearTabNames()
     }
@@ -155,10 +156,10 @@ public object TabviewPropsKt {
      * `optional int32 tab_bar_size = 2;`
      */
     public var tabBarSize: kotlin.Int
-      @JvmName("getTabBarSize")
-      get() = _builder.tabBarSize
-      @JvmName("setTabBarSize")
-      set(value) {
+      @kotlin.jvm.JvmName("getTabBarSize")
+        get() = _builder.tabBarSize
+      @kotlin.jvm.JvmName("setTabBarSize")
+        set(value) {
         _builder.tabBarSize = value
       }
     /**
@@ -205,10 +206,10 @@ public object TabviewPropsKt {
      * `uint32 active_index = 3;`
      */
     public var activeIndex: kotlin.Int
-      @JvmName("getActiveIndex")
-      get() = _builder.activeIndex
-      @JvmName("setActiveIndex")
-      set(value) {
+      @kotlin.jvm.JvmName("getActiveIndex")
+        get() = _builder.activeIndex
+      @kotlin.jvm.JvmName("setActiveIndex")
+        set(value) {
         _builder.activeIndex = value
       }
     /**
@@ -231,17 +232,17 @@ public object TabviewPropsKt {
      * `.ui.Dir tab_bar_position = 4 [(.buf.validate.field) = { ... }`
      */
     public var tabBarPosition: ui.UiAst.Dir
-      @JvmName("getTabBarPosition")
-      get() = _builder.tabBarPosition
-      @JvmName("setTabBarPosition")
-      set(value) {
+      @kotlin.jvm.JvmName("getTabBarPosition")
+        get() = _builder.tabBarPosition
+      @kotlin.jvm.JvmName("setTabBarPosition")
+        set(value) {
         _builder.tabBarPosition = value
       }
     public var tabBarPositionValue: kotlin.Int
-      @JvmName("getTabBarPositionValue")
-      get() = _builder.tabBarPositionValue
-      @JvmName("setTabBarPositionValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getTabBarPositionValue")
+        get() = _builder.tabBarPositionValue
+      @kotlin.jvm.JvmName("setTabBarPositionValue")
+        set(value) {
         _builder.tabBarPositionValue = value
       }
     /**
@@ -266,10 +267,10 @@ public object TabviewPropsKt {
      * `int32 tab_bar_pad_left = 5;`
      */
     public var tabBarPadLeft: kotlin.Int
-      @JvmName("getTabBarPadLeft")
-      get() = _builder.tabBarPadLeft
-      @JvmName("setTabBarPadLeft")
-      set(value) {
+      @kotlin.jvm.JvmName("getTabBarPadLeft")
+        get() = _builder.tabBarPadLeft
+      @kotlin.jvm.JvmName("setTabBarPadLeft")
+        set(value) {
         _builder.tabBarPadLeft = value
       }
     /**

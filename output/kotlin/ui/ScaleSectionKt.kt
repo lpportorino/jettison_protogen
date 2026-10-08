@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_ast.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -32,10 +33,10 @@ public object ScaleSectionKt {
      * `int32 range_min = 1;`
      */
     public var rangeMin: kotlin.Int
-      @JvmName("getRangeMin")
-      get() = _builder.rangeMin
-      @JvmName("setRangeMin")
-      set(value) {
+      @kotlin.jvm.JvmName("getRangeMin")
+        get() = _builder.rangeMin
+      @kotlin.jvm.JvmName("setRangeMin")
+        set(value) {
         _builder.rangeMin = value
       }
     /**
@@ -49,10 +50,10 @@ public object ScaleSectionKt {
      * `int32 range_max = 2;`
      */
     public var rangeMax: kotlin.Int
-      @JvmName("getRangeMax")
-      get() = _builder.rangeMax
-      @JvmName("setRangeMax")
-      set(value) {
+      @kotlin.jvm.JvmName("getRangeMax")
+        get() = _builder.rangeMax
+      @kotlin.jvm.JvmName("setRangeMax")
+        set(value) {
         _builder.rangeMax = value
       }
     /**
@@ -71,10 +72,10 @@ public object ScaleSectionKt {
      * `.ui.Color color = 3;`
      */
     public var color: ui.UiAst.Color
-      @JvmName("getColor")
-      get() = _builder.color
-      @JvmName("setColor")
-      set(value) {
+      @kotlin.jvm.JvmName("getColor")
+        get() = _builder.color
+      @kotlin.jvm.JvmName("setColor")
+        set(value) {
         _builder.color = value
       }
     /**
@@ -108,10 +109,10 @@ public object ScaleSectionKt {
      * `uint32 width = 4;`
      */
     public var width: kotlin.Int
-      @JvmName("getWidth")
-      get() = _builder.width
-      @JvmName("setWidth")
-      set(value) {
+      @kotlin.jvm.JvmName("getWidth")
+        get() = _builder.width
+      @kotlin.jvm.JvmName("setWidth")
+        set(value) {
         _builder.width = value
       }
     /**
@@ -133,10 +134,10 @@ public object ScaleSectionKt {
      * `.ui.Color main_color = 5;`
      */
     public var mainColor: ui.UiAst.Color
-      @JvmName("getMainColor")
-      get() = _builder.mainColor
-      @JvmName("setMainColor")
-      set(value) {
+      @kotlin.jvm.JvmName("getMainColor")
+        get() = _builder.mainColor
+      @kotlin.jvm.JvmName("setMainColor")
+        set(value) {
         _builder.mainColor = value
       }
     /**
@@ -176,10 +177,10 @@ public object ScaleSectionKt {
      * `uint32 main_width = 6;`
      */
     public var mainWidth: kotlin.Int
-      @JvmName("getMainWidth")
-      get() = _builder.mainWidth
-      @JvmName("setMainWidth")
-      set(value) {
+      @kotlin.jvm.JvmName("getMainWidth")
+        get() = _builder.mainWidth
+      @kotlin.jvm.JvmName("setMainWidth")
+        set(value) {
         _builder.mainWidth = value
       }
     /**

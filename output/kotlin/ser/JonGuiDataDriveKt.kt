@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: jon_shared_data_drive.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ser;
@@ -43,17 +44,17 @@ public object JonGuiDataDriveKt {
      * `.ser.JonGuiDataDriveProgram program = 1 [(.buf.validate.field) = { ... }`
      */
     public var program: ser.JonSharedDataTypes.JonGuiDataDriveProgram
-      @JvmName("getProgram")
-      get() = _builder.program
-      @JvmName("setProgram")
-      set(value) {
+      @kotlin.jvm.JvmName("getProgram")
+        get() = _builder.program
+      @kotlin.jvm.JvmName("setProgram")
+        set(value) {
         _builder.program = value
       }
     public var programValue: kotlin.Int
-      @JvmName("getProgramValue")
-      get() = _builder.programValue
-      @JvmName("setProgramValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getProgramValue")
+        get() = _builder.programValue
+      @kotlin.jvm.JvmName("setProgramValue")
+        set(value) {
         _builder.programValue = value
       }
     /**
@@ -75,17 +76,17 @@ public object JonGuiDataDriveKt {
      * `.ser.JonGuiDataDriveState state = 2 [(.buf.validate.field) = { ... }`
      */
     public var state: ser.JonSharedDataTypes.JonGuiDataDriveState
-      @JvmName("getState")
-      get() = _builder.state
-      @JvmName("setState")
-      set(value) {
+      @kotlin.jvm.JvmName("getState")
+        get() = _builder.state
+      @kotlin.jvm.JvmName("setState")
+        set(value) {
         _builder.state = value
       }
     public var stateValue: kotlin.Int
-      @JvmName("getStateValue")
-      get() = _builder.stateValue
-      @JvmName("setStateValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getStateValue")
+        get() = _builder.stateValue
+      @kotlin.jvm.JvmName("setStateValue")
+        set(value) {
         _builder.stateValue = value
       }
     /**
@@ -108,10 +109,10 @@ public object JonGuiDataDriveKt {
      * `int32 phase = 3 [(.buf.validate.field) = { ... }`
      */
     public var phase: kotlin.Int
-      @JvmName("getPhase")
-      get() = _builder.phase
-      @JvmName("setPhase")
-      set(value) {
+      @kotlin.jvm.JvmName("getPhase")
+        get() = _builder.phase
+      @kotlin.jvm.JvmName("setPhase")
+        set(value) {
         _builder.phase = value
       }
     /**
@@ -134,10 +135,10 @@ public object JonGuiDataDriveKt {
      * `int32 error_code = 4 [(.buf.validate.field) = { ... }`
      */
     public var errorCode: kotlin.Int
-      @JvmName("getErrorCode")
-      get() = _builder.errorCode
-      @JvmName("setErrorCode")
-      set(value) {
+      @kotlin.jvm.JvmName("getErrorCode")
+        get() = _builder.errorCode
+      @kotlin.jvm.JvmName("setErrorCode")
+        set(value) {
         _builder.errorCode = value
       }
     /**
@@ -159,10 +160,10 @@ public object JonGuiDataDriveKt {
      * `int32 poi_index = 5 [(.buf.validate.field) = { ... }`
      */
     public var poiIndex: kotlin.Int
-      @JvmName("getPoiIndex")
-      get() = _builder.poiIndex
-      @JvmName("setPoiIndex")
-      set(value) {
+      @kotlin.jvm.JvmName("getPoiIndex")
+        get() = _builder.poiIndex
+      @kotlin.jvm.JvmName("setPoiIndex")
+        set(value) {
         _builder.poiIndex = value
       }
     /**
@@ -184,10 +185,10 @@ public object JonGuiDataDriveKt {
      * `bool park_in_progress = 6;`
      */
     public var parkInProgress: kotlin.Boolean
-      @JvmName("getParkInProgress")
-      get() = _builder.parkInProgress
-      @JvmName("setParkInProgress")
-      set(value) {
+      @kotlin.jvm.JvmName("getParkInProgress")
+        get() = _builder.parkInProgress
+      @kotlin.jvm.JvmName("setParkInProgress")
+        set(value) {
         _builder.parkInProgress = value
       }
     /**
@@ -210,10 +211,10 @@ public object JonGuiDataDriveKt {
      * `uint32 tables_generation = 7;`
      */
     public var tablesGeneration: kotlin.Int
-      @JvmName("getTablesGeneration")
-      get() = _builder.tablesGeneration
-      @JvmName("setTablesGeneration")
-      set(value) {
+      @kotlin.jvm.JvmName("getTablesGeneration")
+        get() = _builder.tablesGeneration
+      @kotlin.jvm.JvmName("setTablesGeneration")
+        set(value) {
         _builder.tablesGeneration = value
       }
     /**
@@ -237,10 +238,10 @@ public object JonGuiDataDriveKt {
      * `int32 wasm_version = 8 [(.buf.validate.field) = { ... }`
      */
     public var wasmVersion: kotlin.Int
-      @JvmName("getWasmVersion")
-      get() = _builder.wasmVersion
-      @JvmName("setWasmVersion")
-      set(value) {
+      @kotlin.jvm.JvmName("getWasmVersion")
+        get() = _builder.wasmVersion
+      @kotlin.jvm.JvmName("setWasmVersion")
+        set(value) {
         _builder.wasmVersion = value
       }
     /**
@@ -264,10 +265,10 @@ public object JonGuiDataDriveKt {
      * `uint32 rejected_commands = 9;`
      */
     public var rejectedCommands: kotlin.Int
-      @JvmName("getRejectedCommands")
-      get() = _builder.rejectedCommands
-      @JvmName("setRejectedCommands")
-      set(value) {
+      @kotlin.jvm.JvmName("getRejectedCommands")
+        get() = _builder.rejectedCommands
+      @kotlin.jvm.JvmName("setRejectedCommands")
+        set(value) {
         _builder.rejectedCommands = value
       }
     /**

@@ -2,6 +2,7 @@
 // NO CHECKED-IN PROTOBUF GENCODE
 // source: ui/ui_input.proto
 
+@file:com.google.protobuf.Generated
 // Generated files should ignore deprecation warnings
 @file:Suppress("DEPRECATION")
 package ui;
@@ -38,17 +39,17 @@ public object LifecycleKt {
      * `.ui.ThemeMode theme = 1 [(.buf.validate.field) = { ... }`
      */
     public var theme: ui.UiInput.ThemeMode
-      @JvmName("getTheme")
-      get() = _builder.theme
-      @JvmName("setTheme")
-      set(value) {
+      @kotlin.jvm.JvmName("getTheme")
+        get() = _builder.theme
+      @kotlin.jvm.JvmName("setTheme")
+        set(value) {
         _builder.theme = value
       }
     public var themeValue: kotlin.Int
-      @JvmName("getThemeValue")
-      get() = _builder.themeValue
-      @JvmName("setThemeValue")
-      set(value) {
+      @kotlin.jvm.JvmName("getThemeValue")
+        get() = _builder.themeValue
+      @kotlin.jvm.JvmName("setThemeValue")
+        set(value) {
         _builder.themeValue = value
       }
     /**
@@ -62,10 +63,10 @@ public object LifecycleKt {
      * `bool focused = 2;`
      */
     public var focused: kotlin.Boolean
-      @JvmName("getFocused")
-      get() = _builder.focused
-      @JvmName("setFocused")
-      set(value) {
+      @kotlin.jvm.JvmName("getFocused")
+        get() = _builder.focused
+      @kotlin.jvm.JvmName("setFocused")
+        set(value) {
         _builder.focused = value
       }
     /**
@@ -79,10 +80,10 @@ public object LifecycleKt {
      * `bool visible = 3;`
      */
     public var visible: kotlin.Boolean
-      @JvmName("getVisible")
-      get() = _builder.visible
-      @JvmName("setVisible")
-      set(value) {
+      @kotlin.jvm.JvmName("getVisible")
+        get() = _builder.visible
+      @kotlin.jvm.JvmName("setVisible")
+        set(value) {
         _builder.visible = value
       }
     /**

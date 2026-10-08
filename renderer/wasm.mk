@@ -393,6 +393,11 @@ $(OBJ_DIR)/src/%.o: src/%.c $(LV_CONF)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(APP_STD) $(WARN_FLAGS) -c -o $@ $<
 
+# ThorVG uses free() without including its declaring header in this file.
+# libc++ 23 no longer supplies it transitively; keep the vendored source exact
+# and declare the required standard header for this translation unit.
+$(OBJ_DIR)/lvgl/src/libs/thorvg/tvgCompressor.o: CXXFLAGS_COMPILE += -include stdlib.h
+
 # ThorVG C++ sources
 $(OBJ_DIR)/%.o: %.cpp $(LV_CONF)
 	@mkdir -p $(dir $@)
