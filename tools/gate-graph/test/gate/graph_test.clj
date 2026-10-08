@@ -2,10 +2,49 @@
   "Named negative graph fixtures distinguish shape, reference and causal failures."
   (:require [clojure.test :refer [deftest is testing]]
             [gate.contract :as c]
+            [gate.diagnostic :as diagnostic]
             [gate.fixtures :as f]
             [gate.graph :as g]
             [gate.schema :as schema]
             [malli.core :as m]))
+
+(defn populated-graph [size]
+  (let [base (f/example)
+        ids (mapv #(str "task-" %) (range size))
+        nodes (mapv #(assoc (get-in base [:nodes 1]) :id % :key % :kind :test) ids)
+        measurements (into [] (mapcat (fn [id]
+                                        (map (fn [[suffix start end]]
+                                               (assoc (f/measurement) :id (str "metric-" id suffix)
+                                                      :node id :accounting :exclusive
+                                                      :interval {:start-ns start :end-ns end}))
+                                             [["-a" "0" "20"] ["-b" "20" "40"]]))) ids)]
+    (-> base
+        (update :nodes into nodes)
+        (assoc :measurements measurements
+               :partitions (mapv #(hash-map :id (str "partition-" %) :source "capture"
+                                            :quantity :cpu-user-ns
+                                            :members [(str "metric-" % "-a") (str "metric-" % "-b")]) ids))
+        (update :edges into
+                (mapv #(assoc (get-in base [:edges 0]) :id (str "edge-" %)
+                              :from {:node "root" :phase :start}
+                              :to {:node % :phase :start}) ids)))))
+
+(defn validation-work [size]
+  (let [graph (populated-graph size) calls (atom 0) original re-find]
+    (with-redefs [clojure.core/re-find
+                  (fn
+                    ([matcher] (swap! calls inc) (original matcher))
+                    ([pattern text] (swap! calls inc) (original pattern text)))]
+      (is (= [] (g/findings graph))))
+    @calls))
+
+(deftest instrumented-validation-work-scales-with-records
+  ;; Count actual schema regex checks, not contested wall time. Doubling a valid
+  ;; graph must not cause each record's contract to rescan the whole collection.
+  (diagnostic/install!)
+  (let [small (validation-work 24) large (validation-work 48)]
+    (is (pos? small) "The instrumentation work counter must observe schema validation")
+    (is (< large (* 5/2 small)) (pr-str {:small small :large large}))))
 
 (deftest complete-execution-and-greater-than-wall-cpu-are-valid
   (is (= [] (g/findings (f/example))))

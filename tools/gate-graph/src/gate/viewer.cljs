@@ -1,6 +1,7 @@
 (ns gate.viewer
   "Offline bounded drill UI. Shared CLJC admission and query code owns data semantics."
   (:require [gate.admission :as admission]
+            [gate.archive :as archive]
             [gate.canonical :as canonical]
             [gate.contract :as c]
             [gate.decimal :as decimal]
@@ -123,11 +124,15 @@
 (m/=> drill! [:=> [:cat [:maybe c/Id] [:maybe ic/Cursor]] :nil])
 
 (defn init!
-  "Admit the embedded graph before exposing any drill controls."
+  "Admit the embedded graph and optional archive binding before exposing any drill controls."
   []
   (try
     (let [data (.-textContent (.getElementById js/document "gate-data"))
           value (admission/decode data :graph admission/default-limits)]
+      (when-let [metadata (.getElementById js/document "archive-data")]
+        (archive/require-valid! (assoc (admission/decode (.-textContent metadata) :archive-metadata
+                                                         (assoc admission/default-limits :bytes 8388608))
+                                       :graph value)))
       (reset! context (query/prepare value))
       (reset! nodes (into {} (map (juxt :id identity) (:nodes value))))
       (set! (.-textContent (.getElementById js/document "status"))
@@ -135,6 +140,8 @@
                  " · " (count (:nodes value)) " tasks · " (count (:measurements value)) " measurements"))
       (drill! nil nil))
     (catch :default error
+      (when-let [status (.getElementById js/document "archive-status")]
+        (set! (.-textContent status) "Archive refused"))
       (set! (.-textContent (.getElementById js/document "status"))
             (str "Report refused: " (pr-str (ex-data error))))))
   nil)

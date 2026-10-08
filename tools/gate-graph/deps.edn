@@ -6,6 +6,8 @@
  :aliases
  {:viewer-build {:main-opts ["-m" "gate.viewer-build"]}
   :viewer-campaign {:main-opts ["-m" "gate.viewer-campaign"]}
+  :repository-campaign {:main-opts ["-m" "gate.repository-campaign"]}
+  :archive-campaign {:main-opts ["-m" "gate.archive-campaign"]}
   :demo {:extra-paths ["test"] :main-opts ["-m" "gate.demo"]}
   :inspection {:extra-paths ["test"] :main-opts ["-m" "gate.inspection-dogfood"]}
   :coordinator-dogfood {:extra-paths ["test"] :main-opts ["-m" "gate.coordinator-dogfood"]}

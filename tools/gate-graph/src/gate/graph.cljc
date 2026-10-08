@@ -6,6 +6,7 @@
             [malli.core :as m]))
 
 (def ^:private graph-schema (m/schema c/Graph))
+(def MeasurementLookup [:=> [:cat c/Id] [:maybe c/Measurement]])
 
 (defn issue
   "Construct a bounded, schema-described diagnostic referencing graph identities."
@@ -58,14 +59,20 @@
   (or (nil? end) (d/before-or-equal? start end)))
 (m/=> ordered? [:=> [:cat c/Natural [:maybe c/Natural]] :boolean])
 
-(defn endpoint-time
+(defn- resolved-endpoint-time
   "Resolve an endpoint only when its phase belongs to that node's record type."
-  [nodes endpoint]
-  (when-let [node (get nodes (:node endpoint))]
+  [node endpoint]
+  (when node
     (case (:phase endpoint)
       :decision (when (= :decision (:record node)) (:at-ns node))
       :start (when (= :execution (:record node)) (node-start node))
       :finish (when (= :execution (:record node)) (node-end node)))))
+(m/=> resolved-endpoint-time [:=> [:cat [:maybe c/Node] c/Endpoint] [:maybe c/Natural]])
+
+(defn endpoint-time
+  "Resolve a public node-index endpoint; record loops resolve owners once before validation."
+  [nodes endpoint]
+  (resolved-endpoint-time (get nodes (:node endpoint)) endpoint))
 (m/=> endpoint-time [:=> [:cat c/NodeIndex c/Endpoint] [:maybe c/Natural]])
 
 (defn endpoint-vertex
@@ -99,9 +106,9 @@
 
 (defn- parent-findings
   "Containment is a forest; an instantaneous decision cannot own a running child."
-  [nodes node]
+  [parent node]
   (if-let [parent-id (:parent node)]
-    (if-let [parent (get nodes parent-id)]
+    (if parent
       (cond
         (= :decision (:record parent)) [(issue :parent-kind (:id node) parent-id)]
         (or (not (d/before-or-equal? (node-start parent) (node-start node)))
@@ -112,12 +119,12 @@
         :else [])
       [(issue :missing-parent (:id node) parent-id)])
     []))
-(m/=> parent-findings [:=> [:cat c/NodeIndex c/Node] c/Findings])
+(m/=> parent-findings [:=> [:cat [:maybe c/Node] c/Node] c/Findings])
 
 (defn- node-findings
   "Check execution states and temporal containment without inventing cache durations."
-  [graph nodes node]
-  (let [id (:id node) end (node-end node) run-end (get-in graph [:run :end-ns])
+  [run-end parent node]
+  (let [id (:id node) end (node-end node)
         execution? (= :execution (:record node))
         expected-reasons {:cached #{:cache-hit} :deselected #{:unchanged}
                           :blocked #{:prerequisite-failed}
@@ -125,7 +132,7 @@
                           :cancelled #{:cancellation-requested}}]
     (vec
      (concat
-      (parent-findings nodes node)
+      (parent-findings parent node)
       (when-not (ordered? (node-start node) end) [(issue :interval-order id nil)])
       (when (and run-end (or (not (ordered? (node-start node) run-end))
                              (and end (not (ordered? end run-end)))))
@@ -136,7 +143,7 @@
                  (not (contains? (get expected-reasons (:outcome node))
                                  (get-in node [:reason :code]))))
         [(issue :decision-reason id nil)])))))
-(m/=> node-findings [:=> [:cat c/Graph c/NodeIndex c/Node] c/Findings])
+(m/=> node-findings [:=> [:cat [:maybe c/Natural] [:maybe c/Node] c/Node] c/Findings])
 
 (defn- run-findings
   "A complete run accounts for its declared gate inventory, including decisions."
@@ -171,28 +178,28 @@
 
 (defn- endpoint-findings
   "A missing endpoint differs from a valid but still-unfinished execution."
-  [nodes edge endpoint]
-  (if-let [node (get nodes (:node endpoint))]
+  [node edge endpoint]
+  (if node
     (if (= (= :decision (:record node)) (= :decision (:phase endpoint))) []
         [(issue :endpoint-phase (:id edge) (:node endpoint))])
     [(issue :missing-node (:id edge) (:node endpoint))]))
-(m/=> endpoint-findings [:=> [:cat c/NodeIndex c/Edge c/Endpoint] c/Findings])
+(m/=> endpoint-findings [:=> [:cat [:maybe c/Node] c/Edge c/Endpoint] c/Findings])
 
 (defn- edge-findings
   "Only observed edges assert temporal causation; declared edges can await evidence."
-  [nodes edge]
-  (let [from (endpoint-time nodes (:from edge)) to (endpoint-time nodes (:to edge))]
+  [from-node to-node edge]
+  (let [from (resolved-endpoint-time from-node (:from edge)) to (resolved-endpoint-time to-node (:to edge))]
     (vec
      (concat
-      (endpoint-findings nodes edge (:from edge))
-      (endpoint-findings nodes edge (:to edge))
+      (endpoint-findings from-node edge (:from edge))
+      (endpoint-findings to-node edge (:to edge))
       (when (and (= :observed (:evidence edge)) (or (nil? from) (nil? to)))
         [(issue :edge-unobserved (:id edge) nil)])
       (when (and (= :invalidates (:kind edge)) (= :observed (:evidence edge)))
         [(issue :edge-evidence (:id edge) nil)])
       (when (and (= :observed (:evidence edge)) from to (not (d/before-or-equal? from to)))
         [(issue :edge-time (:id edge) nil)])))))
-(m/=> edge-findings [:=> [:cat c/NodeIndex c/Edge] c/Findings])
+(m/=> edge-findings [:=> [:cat [:maybe c/Node] [:maybe c/Node] c/Edge] c/Findings])
 
 (defn- causal-findings
   "Check event-phase causality; parent spawn/join must not create a false node cycle."
@@ -226,11 +233,9 @@
 
 (defn- measurement-findings
   "Keep unavailable, estimated, partial and measured quantities distinct."
-  [graph nodes resources measurement]
+  [run-end owner device measurement]
   (let [{:keys [id node resource quantity form status value reason interval]} measurement
-        owner (get nodes node) device (get resources resource)
         {:keys [start-ns end-ns]} interval
-        run-end (get-in graph [:run :end-ns])
         state-valid? (case status
                        :measured (and (some? value) (nil? reason))
                        :unavailable (and (nil? value) (some? reason))
@@ -255,7 +260,7 @@
                  (not= status :unavailable))
         [(issue :host-cpu-full id resource)])))))
 (m/=> measurement-findings
-      [:=> [:cat c/Graph c/NodeIndex c/ResourceIndex c/Measurement] c/Findings])
+      [:=> [:cat [:maybe c/Natural] [:maybe c/Node] [:maybe c/Resource] c/Measurement] c/Findings])
 
 (defn- partition-findings
   "Check a producer assertion's internal consistency; provenance is still the producer's obligation."
@@ -286,24 +291,30 @@
                                  (ordered? (get-in b [:interval :start-ns]) (get-in b [:interval :end-ns]))
                                  (not (interval/separated? (:interval a) (:interval b))))]
                   (issue :partition-overlap id (:id b))))) groups)))))
-(m/=> partition-findings [:=> [:cat c/MeasurementIndex c/Partition] c/Findings])
+(m/=> partition-findings [:=> [:cat MeasurementLookup c/Partition] c/Findings])
 
 (defn findings
-  "Return at most 128 named findings; nonempty always means this graph is invalid."
+  "Return at most 128 named findings; nonempty always means this graph is invalid.
+   Validate full collections at entry, then pass resolved records to local checks so Malli
+   instrumentation does not rescan the whole graph for every node, edge or measurement."
   [graph]
   (if-not (m/validate graph-schema graph)
     [(issue :shape "graph" nil)]
     (let [nodes (into {} (map (juxt :id identity)) (:nodes graph))
           resources (into {} (map (juxt :id identity)) (:resources graph))
-          measurements (into {} (map (juxt :id identity)) (:measurements graph))]
+          measurements (into {} (map (juxt :id identity)) (:measurements graph))
+          lookup-measurement #(get measurements %)
+          run-end (get-in graph [:run :end-ns])]
       (into [] (take 128)
             (concat (identity-findings graph) (source-findings graph) (run-findings graph)
                     (forest-findings graph)
-                    (mapcat #(node-findings graph nodes %) (:nodes graph))
-                    (mapcat #(edge-findings nodes %) (:edges graph))
+                    (mapcat #(node-findings run-end (get nodes (:parent %)) %) (:nodes graph))
+                    (mapcat #(edge-findings (get nodes (get-in % [:from :node]))
+                                            (get nodes (get-in % [:to :node])) %) (:edges graph))
                     (causal-findings graph)
-                    (mapcat #(measurement-findings graph nodes resources %) (:measurements graph))
-                    (mapcat #(partition-findings measurements %) (:partitions graph)))))))
+                    (mapcat #(measurement-findings run-end (get nodes (:node %))
+                                                   (get resources (:resource %)) %) (:measurements graph))
+                    (mapcat #(partition-findings lookup-measurement %) (:partitions graph)))))))
 (m/=> findings [:=> [:cat c/Graph] c/Findings])
 
 (defn require-valid!

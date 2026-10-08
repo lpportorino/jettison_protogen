@@ -1,7 +1,9 @@
 (ns gate.report-io
   "Byte-bounded local report loading for consumer toolboxes."
   (:require [gate.admission :as admission]
+            [gate.archive-contract :as ac]
             [gate.contract :as c]
+            [gate.repository-contract :as rc]
             [malli.core :as m])
   (:import [java.nio ByteBuffer]
            [java.nio.charset StandardCharsets CodingErrorAction CharacterCodingException]
@@ -54,3 +56,16 @@
     (refuse! :report-policy))
   (admission/decode (read-text! path (:bytes limits)) :graph limits))
 (m/=> read-graph! [:=> [:cat PathName c/AdmissionLimits] c/Graph])
+
+(defn read-archive!
+  "Read bounded strict UTF-8 archive EDN and check graph, provenance, verdict and content identity.
+   A consistent archive does not independently prove producer honesty or complete CI enrollment."
+  [path limits]
+  (admission/decode (read-text! path (:bytes limits)) :run-archive limits))
+(m/=> read-archive! [:=> [:cat PathName c/AdmissionLimits] ac/Document])
+
+(defn read-repository!
+  "Read a bounded full repository observation and verify hashes, policy and nested checkout bindings."
+  [path limits]
+  (admission/decode (read-text! path (:bytes limits)) :repository-observation limits))
+(m/=> read-repository! [:=> [:cat PathName c/AdmissionLimits] rc/Observation])

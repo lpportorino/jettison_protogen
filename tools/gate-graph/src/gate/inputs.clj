@@ -13,6 +13,12 @@
 
 (def Root [:string {:min 1 :max 4096}])
 (def Limits r/InputLimits)
+(def ReadLimits
+  "In-memory streaming budgets can exceed the persisted cache-input contract's 2 GiB ceiling."
+  (into (subvec Limits 0 2)
+        (map (fn [field] (if (= :bytes (first field))
+                           [:bytes [:int {:min 1 :max 1099511627776}]] field)))
+        (subvec Limits 2)))
 (def default-limits {:files 100000 :entries 1000000 :bytes 1073741824 :depth 64})
 (def Environment [:map-of {:max 256} r/EnvName [:maybe r/Text]])
 (def Toolchains [:map-of {:max 64} c/Id c/Digest])
@@ -21,6 +27,7 @@
 (def NativePath [:fn #(instance? Path %)])
 (def Attributes [:fn #(instance? BasicFileAttributes %)])
 (def Budget [:fn #(instance? clojure.lang.Atom %)])
+(def Checkpoint [:=> [:cat] :nil])
 (def Selectors [:vector {:max 1024} r/Input])
 (def Memberships [:vector {:max 1024} r/Membership])
 (def Matchers [:vector {:max 256} [:fn #(instance? PathMatcher %)]])
@@ -37,7 +44,7 @@
   [budget limits kind amount]
   (when (> (get (swap! budget update kind + amount) kind) (get limits kind))
     (refuse! :budget-exhausted)))
-(m/=> spend! [:=> [:cat Budget Limits [:enum :files :entries :bytes] [:int {:min 0 :max 2147483647}]] :nil])
+(m/=> spend! [:=> [:cat Budget ReadLimits [:enum :files :entries :bytes] [:int {:min 0 :max 2147483647}]] :nil])
 
 (defn- attributes
   "Read final-entry metadata without following a symlink; inaccessible entries are not absent."
@@ -149,10 +156,11 @@
     (boolean (some #(.contains permissions %) [PosixFilePermission/OWNER_EXECUTE PosixFilePermission/GROUP_EXECUTE PosixFilePermission/OTHERS_EXECUTE]))))
 (m/=> executable-mode? [:=> [:cat NativePath] :boolean])
 
-(defn- hash-file
+(defn- hash-file-checked
   "Stream bytes through a fixed 64 KiB buffer. Every observation rehashes; size/mtime never memoize SHA.
    Open the final component no-follow, and reject observed changes in identity, size, mtime or execution mode."
-  [root relative limits budget]
+  [root relative limits budget checkpoint]
+  (checkpoint)
   (spend! budget limits :files 1)
   (let [path (safe-path root relative) before (attributes path)
         executable? (executable-mode? path) digest (MessageDigest/getInstance "SHA-256")]
@@ -160,6 +168,7 @@
     (with-open [channel (Files/newByteChannel path (into-array OpenOption [StandardOpenOption/READ LinkOption/NOFOLLOW_LINKS]))]
       (let [buffer (ByteBuffer/allocate 65536)]
         (loop []
+          (checkpoint)
           (let [n (.read channel buffer)]
             (when (not (neg? n))
               (spend! budget limits :bytes n)
@@ -169,7 +178,24 @@
               (not= executable? (executable-mode? path)))
       (refuse! :unstable-input))
     {:path relative :digest (.formatHex (HexFormat/of) (.digest digest)) :executable? executable?}))
-(m/=> hash-file [:=> [:cat NativePath r/Path Limits Budget] r/File])
+(m/=> hash-file-checked [:=> [:cat NativePath r/Path ReadLimits Budget Checkpoint] r/File])
+
+(defn- hash-file
+  "Hash one file with the normal uninterrupted input observer; preserve its shared budget."
+  [root relative limits budget]
+  (hash-file-checked root relative limits budget (fn [] nil)))
+(m/=> hash-file [:=> [:cat NativePath r/Path ReadLimits Budget] r/File])
+
+(defn read-file!
+  "Hash one root-relative regular file, spending a shared initialized observation budget.
+   The root must be a real trusted directory; budget starts with :files/:entries/:bytes
+   zero and may be shared across roots. Refuses links and observed byte-read changes.
+   An optional cooperative checkpoint runs before each 64 KiB read; regular filesystem reads
+   themselves are not forcibly interruptible. Failures and checkpoint exceptions reach the caller."
+  ([root relative limits budget] (hash-file root relative limits budget))
+  ([root relative limits budget checkpoint] (hash-file-checked root relative limits budget checkpoint)))
+(m/=> read-file! [:function [:=> [:cat NativePath r/Path ReadLimits Budget] r/File]
+                  [:=> [:cat NativePath r/Path ReadLimits Budget Checkpoint] r/File]])
 
 (defn system-environment
   "Observe declared environment names, preserving absent versus empty; values stay local to the consumer.

@@ -139,7 +139,7 @@
 (def PartitionIndex [:map-of {:max 4096} Id Partition])
 (def Vertex [:string {:min 1 :max 180}])
 (def Arcs [:vector {:max 640000} [:tuple Vertex Vertex]])
-(def AdmissionTarget [:enum :graph :query-request :aggregate-request :diff-request :value :viewer-manifest
+(def AdmissionTarget [:enum :run-archive :archive-metadata :repository-observation :graph :query-request :aggregate-request :diff-request :value :viewer-manifest
                       :gate-definitions :cache-receipt :input-snapshot :coordinator-batch :attempt-observation :process-observation :clocked-process :process-capture :process-batch-report :container-observation :output-publication :contained-observation :runtime-observation :test-observation :clocked-tests])
 (def AdmissionLimits
   [:map {:closed true} [:bytes [:int {:min 1 :max 134217728}]]

@@ -12,17 +12,18 @@ or exception. Java specifies that hooks run concurrently and that shutdown
 ends when they finish; see the
 [Runtime shutdown contract](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Runtime.html#addShutdownHook(java.lang.Thread)).
 
-Source draft, not an accepted release. JVM tests and pinned formatting/native
-kondo pass; the EDN admission boundary has an attributed mutation campaign.
-Full CLJS/browser parity, broader mutation coverage and real CI-scale acceptance
-remain. Version 1 is still under development; native test DAG execution is
-available, while full process/cache graph joining and consumer adoption remain.
+Version 1 is still under development. Native test DAGs, subprocess batches,
+cache/input contracts and standalone report publication have instrumented tests
+and scoped fault campaigns. Offline browser checks exercise real module reports.
+Complete CI enrollment, read-set auditing, the full inspection algebra, richer
+viewer interactions and objective/background metering remain separate acceptance
+requirements; module tests do not establish those capabilities.
 
-The library consumes data supplied by its caller. It has no repository
-discovery, private namespace dependency, container naming convention or private
-fixtures. Source/graph/query contracts are CLJC; the current test entrypoint
-runs on the JVM. Consumer inventories, commands, receipts and observations stay
-with the consumer.
+The library consumes data supplied by its caller. Repository observation starts
+at an explicit caller-supplied checkout. It has no private namespace dependency,
+container naming convention or private fixtures. Source/graph/query contracts
+are CLJC; the current test entrypoint runs on the JVM. Consumer inventories,
+commands, receipts and observations stay with the consumer.
 
 ## Per-test observations
 
@@ -1052,3 +1053,142 @@ canary; CI and pre-push invoke it. Remaining integration requirements:
   samples with actual execution intervals and prove full-run coverage.
 - Validate real scale/overhead, then produce and review each consumer's own
   private EDN/HTML evidence. Keep public fixtures and compiled assets generic.
+
+## Git-visible repository provenance
+
+`gate.repository/observe!` records a checkout's actual Git-visible working tree,
+including initialized nested Git links. It binds HEAD, index objects/modes,
+tracked deletions, nonignored untracked membership, freshly hashed file bytes,
+POSIX executable bits and symlink targets. A child checkout's actual HEAD and
+content are recorded even when they differ from the parent's recorded gitlink.
+The closed portable contracts live in `gate.repository-contract`; normalized
+observations use canonical EDN. Bounded `:repository-observation` admission
+checks both shapes and content/hierarchy consistency; `:value` checks shapes.
+
+```clojure
+(require '[gate.repository :as repository])
+
+(repository/observe!
+  checkout-directory
+  {:excluded ["reports/gates"]
+   :protected ["src" "test" "deps.edn" "gate-policy.edn"]}
+  {:git "/usr/bin/git"
+   :log-directory existing-scratch-directory-outside-checkout
+   :timeout-ms 10000
+   :output-bytes 16777216}
+  repository/default-limits)
+```
+
+Supply the real source, declaration and input roots, including the file that
+owns the exclusion policy. Exclusions compare whole path components and refuse
+any overlap with protected roots in either direction. Protecting `"."` therefore
+forbids exclusions. Policy normalization is part of the identity. Repository
+and total membership/file/byte/depth limits apply across recursive checkouts;
+Git output and deadlines have separate per-command bounds. Logs stay in the
+caller-owned scratch directory. The observer clears inherited Git environment
+and disables system/global configuration and fsmonitor before invoking Git.
+The default byte budget is 1 GiB. Repository callers can explicitly increase
+`:inputs :bytes` up to 1 TiB without widening the persisted cache-input contract.
+Budget diagnostics identify the exceeded resource and exact decimal used/maximum
+quantities. Nonignored build outputs count as Git-visible input; no implicit
+build-directory exclusion makes a large checkout appear cheap to observe.
+
+This profile is **Git-visible POSIX provenance**, not a complete runtime input
+read set. Ignored files, external symlink targets, Git administrative files,
+toolchains and other undeclared reads require separate evidence. Unsupported
+paths, uninitialized submodules, merge-conflict stages, malformed UTF-8,
+exhausted budgets and observed changes refuse with a closed `Failure` in
+exception data. No partial identity is returned. Validating recorded hashes
+checks consistency; it does not independently attest the filesystem contents.
+
+Take observations before and after the judged run and retain both. Equality
+cannot prove absence of intervening edits and reverts, and this observer does
+not make an atomic snapshot or defend against hostile concurrent filesystem
+replacement. Reports are excluded deliberately, generated after execution and
+committed separately; the observer itself neither publishes nor commits them.
+Consumer before/after integration and committed archive publication remain
+separate work.
+
+The repository slice passes 281 module tests / 10,636 assertions, including
+seeded Malli-derived prefix trials. Its attributed campaign kills eleven
+selected faults with passing controls and full before/after suites:
+`clojure -M:test:repository-campaign OWNED_NEW_OUTPUT_PARENT`. These are scoped
+faults, not whole-module mutation coverage. The rebuilt viewer also passes
+offline drill/pagination/identity checks on 282 observed invocations, including
+the repeated cold-parser test, with zero external requests or browser errors.
+
+An optional fifth argument to `observe!` supplies the shared cancellation atom.
+Cancellation is checked before Git operations, between entries and during
+64 KiB streaming file reads. It returns the closed `:repository-cancelled`
+refusal. These checkpoints do not forcibly interrupt a blocked filesystem
+operation or canonical encoding; they are not a hard real-time guarantee.
+
+## Run archives and deliberate committed evidence
+
+`gate.archive-contract` defines closed `Scope`, `Snapshot`, `Acquisition`,
+`Provenance`, `Document` and `Metadata` schemas. A document binds its normalized
+graph, declared coverage, before/after repository evidence and derived status
+to one canonical digest. Graph identity remains separate so existing graph
+queries and comparisons continue to work. Metadata plus the embedded graph
+also reconstructs the complete document within the standalone HTML.
+
+| API | Responsibility |
+| --- | --- |
+| `gate.repository-identity/summarize` | Check full inventory hashes, paths, exclusions and nested bindings; retain compact checkout headers. |
+| `gate.archive/create` | Bind scope, graph and explicit observed/unavailable acquisitions; derive status and artifact identity. |
+| `gate.archive/require-valid!` | Recompute graph invariants, provenance classification, status and archive identity. |
+| `gate.archive-run/run!` | Observe before, execute the callback once with the shared cancellation token, observe after, retain private inventories and publish. |
+| `gate.archive-run/require-passed!` | Prevent an otherwise successful command/signature when archive evidence is incomplete, changed or cancelled. |
+| `gate.report-io/read-archive!` | Read bounded strict UTF-8 EDN and validate the full archive binding. |
+| `gate.report-io/read-repository!` | Read a full private observation and validate hashes and checkout hierarchy. |
+| `gate.archive-io/export!` | Publish into a fresh repository-relative directory covered by explicit, checked report exclusions. |
+
+`archive-run/run!` takes `Options`, a verified viewer asset, the cancellation
+atom and a callback returning a graph. Options contain `:repository`, `:policy`,
+`:git`, `:limits`, `:scope` and `:output`. The callback owns actual gate execution
+and must create the fresh output directory, normally through the batch runner.
+Keep this entire lifecycle inside `process-batch/run-cli!`. Preserve the batch's
+original failure/exit semantics; call `require-passed!` after publication when
+the underlying batch would otherwise succeed. Do not publish HTML twice.
+
+Known observation refusals produce explicit unavailable acquisitions and still
+allow the runner callback to execute. Callback, programming and publication
+exceptions propagate. A passed graph with changed/missing provenance has
+`:incomplete` archive status; failures and cancellations remain explicit. A
+passing archive proves only its declared scope. `:kind :full-ci` cannot list
+known omissions, but the producer must still establish actual whole-CI coverage.
+
+Publication retains `graph.edn`, self-contained `index.html`, and `run.edn`.
+Full inventories stay locally as `repository-before.edn` and
+`repository-after.edn`; export carries compact headers rather than those file
+inventories. Keep the originals when per-file audits are needed: header digests
+cannot reconstruct omitted files. The HTML shows scope, omissions and provenance
+status, and validates its archive binding before exposing drill controls.
+
+The publisher can reuse an existing regular `graph.edn` only when its normalized
+graph matches. All other outputs are create-only. It writes `run.edn` last as
+the completed archive record; earlier files may remain after failure. Atomic
+hard-link installation prevents replacement, but this is not an fsync guarantee
+or a multi-file filesystem transaction. Parent directories must remain trusted.
+
+Export requires the destination to be excluded by the current policy and both
+available observation policies. Policies must protect actual source, declaration
+and input roots, including the policy's own definition. A checked exclusion does
+not establish completeness of undeclared runtime reads. Export neither changes
+the tested revision nor stages or commits anything; consumers deliberately commit
+reviewed EDN and HTML after execution.
+
+Run the complete archive/reader/graph assessment from this module with
+`clojure -M:test:archive-campaign OWNED_NEW_OUTPUT_PARENT`. It runs full baselines,
+isolated faulty implementations and passing controls against frozen source/test/
+dependency/resource bytes. `archive-run-test` includes real temporary Git
+repositories and executed callbacks; `archive-io-test` exercises actual publication
+and export, including refused overwrites and symlink paths. Seeded Malli trials
+cover acquisition states. Graph and reader scaling regressions count validation
+operations, rather than using machine-dependent timing thresholds.
+
+The archive assessment passes 302 tests / 15,263 assertions before and after
+50 selected faults, with passing controls and an independent 121-file
+source/log/counter audit. Current offline browser checks cover all four displayed
+archive states, hostile labels and graph/identity tampering. These scoped checks
+do not establish full CI coverage or consumer integration.

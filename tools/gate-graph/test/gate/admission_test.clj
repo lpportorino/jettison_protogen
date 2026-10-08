@@ -8,6 +8,7 @@
             [gate.admission :as admission]
             [gate.canonical :as canonical]
             [gate.contract :as c]
+            [gate.diagnostic :as diagnostic]
             [gate.fixtures :as f]
             [malli.core :as m]))
 
@@ -19,6 +20,23 @@
     (admission/decode text :value (merge admission/default-limits overrides))
     nil
     (catch clojure.lang.ExceptionInfo error (ex-data error))))
+
+(defn reader-validation-work [size]
+  (let [value {:op :sum :measurements (mapv #(str "measurement-" %) (range size))
+               :budget {:pairs 32640 :bytes 65536}}
+        text (pr-str value) work (atom 0) original reduce
+        counted (fn [f] (fn ([] (f)) ([a b] (swap! work inc) (f a b))))]
+    (with-redefs [clojure.core/reduce (fn ([f values] (original (counted f) values))
+                                        ([f initial values] (original (counted f) initial values)))]
+      (is (= value (admission/decode text :aggregate-request admission/default-limits))))
+    @work))
+
+(deftest instrumented-reader-does-not-rescan-growing-collections
+  ;; Count schema/reader reduction work instead of timing a contested machine.
+  (diagnostic/install!)
+  (let [small (reader-validation-work 64) large (reader-validation-work 128)]
+    (is (pos? small) "The counter must observe real validation work")
+    (is (< large (* 5/2 small)) (pr-str {:small small :large large}))))
 
 (deftest canonical-and-human-edn-have-the-same-meaning
   (doseq [value [(f/example) (f/decision) (f/measurement)

@@ -1,8 +1,12 @@
 (ns gate.admission
   "Bounded EDN profile for artifacts and toolbox requests; no general reader or evaluation."
-  (:require [gate.contract :as c]
+  (:require [gate.archive :as archive]
+            [gate.archive-contract :as ac]
+            [gate.contract :as c]
             [gate.graph :as graph]
             [gate.inspection-contract :as ic]
+            [gate.repository-contract :as rc]
+            [gate.repository-identity :as repository]
             [gate.run-contract :as r]
             [gate.schema :as schema]
             [gate.viewer-contract :as vc]
@@ -41,8 +45,12 @@
    [:map {:closed true} [:kind [:= :vector]] [:items [:vector {:max 1000000} raw-value]]]
    [:map {:closed true} [:kind [:= :map]]
     [:entries [:map-of {:max 1000000} keyword-schema raw-value]] [:field [:maybe keyword-schema]]]])
+(def ^:private frame-header-schema
+  [:map {:closed true} [:kind [:enum :vector :map]] [:size count-schema] [:field [:maybe keyword-schema]]])
 (def ^:private target-schemas
-  {:viewer-manifest (m/schema vc/Manifest)
+  {:run-archive (m/schema ac/Document) :archive-metadata (m/schema ac/Metadata)
+   :repository-observation (m/schema rc/Observation)
+   :viewer-manifest (m/schema vc/Manifest)
    :graph (m/schema c/Graph) :query-request (m/schema ic/Request)
    :aggregate-request (m/schema ic/AggregateRequest) :diff-request (m/schema ic/DiffRequest)
    :value (m/schema schema/Encodable) :gate-definitions (m/schema r/Gates)
@@ -176,26 +184,14 @@
   (when (> depth (get-in context [:limits :depth])) (refuse! :input-depth-limit offset))
   (when (>= used (get-in context [:limits :values])) (refuse! :input-value-limit offset))
   (let [limit (get-in context [:limits :collection])]
-    (when (and (= :vector (:kind frame)) (>= (count (:items frame)) limit))
+    (when (and (= :vector (:kind frame)) (>= (:size frame) limit))
       (refuse! :input-collection-limit offset))
     (when (and (= :map (:kind frame)) (nil? (:field frame)))
-      (when (>= (count (:entries frame)) limit) (refuse! :input-collection-limit offset))
+      (when (>= (:size frame) limit) (refuse! :input-collection-limit offset))
       (when-not (= 58 (unit-at (:text context) offset)) (refuse! :invalid-edn offset)))))
 (m/=> admit-next!
-      [:=> [:cat context-schema [:maybe frame-schema] offset-schema count-schema
+      [:=> [:cat context-schema [:maybe frame-header-schema] offset-schema count-schema
             [:int {:min 1 :max 65}]] :nil])
-
-(defn- append-item
-  "Attach a parsed value or reserve a unique map key before parsing its value."
-  [frame item offset]
-  (if (= :vector (:kind frame))
-    (update frame :items conj item)
-    (if-let [field (:field frame)]
-      (-> frame (assoc-in [:entries field] item) (assoc :field nil))
-      (do (when-not (keyword? item) (refuse! :invalid-edn offset))
-          (when (contains? (:entries frame) item) (refuse! :duplicate-map-key offset))
-          (assoc frame :field item)))))
-(m/=> append-item [:=> [:cat frame-schema raw-value offset-schema] frame-schema])
 
 (defn- close-frame
   "Require the matching delimiter and a complete map pair before finishing a collection."
@@ -208,28 +204,42 @@
       [:=> [:cat [:maybe frame-schema] [:enum 93 125] offset-schema] raw-value])
 
 (defn- parse-form
-  "Parse with a bounded explicit frame stack; nesting never grows instrumented call depth."
+  "Parse with a bounded explicit frame stack; nesting never grows instrumented call depth.
+   Closed frame/value schemas check completed collections. The private local append step preserves
+   frame shape without revalidating all retained entries after every token; admission uses only
+   constant-size frame headers. Duplicate keys still refuse before their value is read."
   [context offset]
-  (loop [position offset used 0 frames []]
-    (let [start (skip-space (:text context) position)
-          unit (unit-at (:text context) start)
-          frame (peek frames)]
-      (cond
-        (= -1 unit) (refuse! :invalid-edn start)
-        (contains? #{93 125} unit)
-        (let [value (close-frame frame unit start) remaining (pop frames)]
-          (if (empty? remaining) [(inc start) used value]
-              (recur (inc start) used
-                     (conj (pop remaining) (append-item (peek remaining) value start)))))
-        :else
-        (do (admit-next! context frame start used (inc (count frames)))
-            (case unit
-              91 (recur (inc start) (inc used) (conj frames {:kind :vector :items []}))
-              123 (recur (inc start) (inc used) (conj frames {:kind :map :entries {} :field nil}))
-              (let [[end total value] (if (= 34 unit) (parse-string context start (inc used))
-                                          (parse-token context start (inc used)))]
-                (if (empty? frames) [end total value]
-                    (recur end total (conj (pop frames) (append-item frame value start)))))))))))
+  (letfn [(append-item [frame item offset]
+            (if (= :vector (:kind frame))
+              (update frame :items conj item)
+              (if-let [field (:field frame)]
+                (-> frame (assoc-in [:entries field] item) (assoc :field nil))
+                (do (when-not (keyword? item) (refuse! :invalid-edn offset))
+                    (when (contains? (:entries frame) item) (refuse! :duplicate-map-key offset))
+                    (assoc frame :field item)))))]
+    (loop [position offset used 0 frames []]
+      (let [start (skip-space (:text context) position)
+            unit (unit-at (:text context) start)
+            frame (peek frames)]
+        (cond
+          (= -1 unit) (refuse! :invalid-edn start)
+          (contains? #{93 125} unit)
+          (let [value (close-frame frame unit start) remaining (pop frames)]
+            (if (empty? remaining) [(inc start) used value]
+                (recur (inc start) used
+                       (conj (pop remaining) (append-item (peek remaining) value start)))))
+          :else
+          (do (admit-next! context
+                           (when frame {:kind (:kind frame) :field (:field frame)
+                                        :size (count (if (= :vector (:kind frame)) (:items frame) (:entries frame)))})
+                           start used (inc (count frames)))
+              (case unit
+                91 (recur (inc start) (inc used) (conj frames {:kind :vector :items []}))
+                123 (recur (inc start) (inc used) (conj frames {:kind :map :entries {} :field nil}))
+                (let [[end total value] (if (= 34 unit) (parse-string context start (inc used))
+                                            (parse-token context start (inc used)))]
+                  (if (empty? frames) [end total value]
+                      (recur end total (conj (pop frames) (append-item frame value start))))))))))))
 (m/=> parse-form [:=> [:cat context-schema offset-schema] parsed-schema])
 
 (defn decode
@@ -242,5 +252,8 @@
         trailing (skip-space text end)]
     (when (< trailing (count text)) (refuse! :trailing-input trailing))
     (when-not (m/validate (get target-schemas target) value) (refuse! :invalid-input-shape start))
-    (if (= :graph target) (graph/require-valid! value) value)))
+    (case target :graph (graph/require-valid! value)
+          :run-archive (archive/require-valid! value)
+          :repository-observation (repository/require-observation! value)
+          value)))
 (m/=> decode [:=> [:cat SourceText c/AdmissionTarget c/AdmissionLimits] [:or schema/Encodable r/Encodable]])

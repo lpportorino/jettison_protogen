@@ -31,7 +31,7 @@
 (def Baseline [:map {:closed true} [:execution Execution] [:passed? :boolean]])
 (def Fingerprints [:map-of {:max 256} PathName c/Digest])
 (def Report
-  [:map {:closed true} [:schema/version [:= 1]] [:scope [:enum :viewer-delivery :viewer-manifest :viewer-asset :html-publication :edn-admission :coordinator :adapter-verdict :live-inputs :cache-attempt :process :process-verdict :process-projection :process-batch :process-cli :process-capture-verdict :coverage-unit-verdict :coverage-unit-cache :container :output-publication :contained-completion :runtime :runtime-admission :output-ownership :test-observer :test-projection :test-artifact :native-clock :batch-projection :native-test-batch :graph-evidence :engine-identity]]
+  [:map {:closed true} [:schema/version [:= 1]] [:scope [:enum :archive-delivery :repository :viewer-delivery :viewer-manifest :viewer-asset :html-publication :edn-admission :coordinator :adapter-verdict :live-inputs :cache-attempt :process :process-verdict :process-projection :process-batch :process-cli :process-capture-verdict :coverage-unit-verdict :coverage-unit-cache :container :output-publication :contained-completion :runtime :runtime-admission :output-ownership :test-observer :test-projection :test-artifact :native-clock :batch-projection :native-test-batch :graph-evidence :engine-identity]]
    [:fingerprints Fingerprints]
    [:runtime [:map {:closed true} [:java-version Text] [:java-vm Text] [:clojure-version Text]]]
    [:initial Baseline] [:final [:maybe Baseline]]
@@ -57,9 +57,9 @@
     :test "collection-and-depth-bounds-admit-the-exact-boundary"}
    {:id "value-limit" :anchor "(>= used (get-in context [:limits :values]))" :replacement "false"
     :test "total-values-counts-map-keys-as-well-as-values"}
-   {:id "vector-limit" :anchor "(>= (count (:items frame)) limit)" :replacement "false"
+   {:id "vector-limit" :anchor "(and (= :vector (:kind frame)) (>= (:size frame) limit))" :replacement "false"
     :test "nested-vectors-spend-limits-before-growing"}
-   {:id "map-limit" :anchor "(>= (count (:entries frame)) limit)" :replacement "false"
+   {:id "map-limit" :anchor "(when (>= (:size frame) limit)" :replacement "(when false"
     :test "collection-and-depth-bounds-admit-the-exact-boundary"}
    {:id "string-limit" :anchor "(>= (count parts) limit)" :replacement "false"
     :test "strings-and-tokens-are-bounded-before-retention"}

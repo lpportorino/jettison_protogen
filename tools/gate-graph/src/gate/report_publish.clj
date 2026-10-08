@@ -1,6 +1,7 @@
 (ns gate.report-publish
   "Create-only publication of a complete standalone HTML report next to canonical EDN."
-  (:require [gate.canonical :as canonical]
+  (:require [gate.archive-contract :as ac]
+            [gate.canonical :as canonical]
             [gate.contract :as c]
             [gate.graph :as graph]
             [gate.report :as report]
@@ -35,29 +36,31 @@
    Filesystems without hard links fail closed. This is neither a durable fsync
    protocol nor a transaction with the caller's EDN files. Returned digests bind
    the normalized graph and viewer bytes, including failed/incomplete graphs."
-  [directory value viewer]
-  (when-not (and (m/validate Directory directory) (m/validate asset/Asset viewer))
-    (refuse! :html-policy))
-  (graph/require-valid! value)
-  (when-not (= (:digest viewer) (canonical/sha256 (:javascript viewer)))
-    (refuse! :html-viewer-mismatch))
-  (let [encoded (canonical/encode (canonical/normalize-graph value) 134217728)
-        html (report/render value (:javascript viewer))
-        content (.getBytes ^String html StandardCharsets/UTF_8)]
-    (when (> (alength content) 167772160) (refuse! :html-byte-limit))
-    (try
-      (let [base (Path/of directory (make-array String 0))]
-        (when-not (Files/isDirectory base no-follow) (refuse! :html-directory))
-        (let [temporary (Files/createTempFile base ".html-" ".tmp" (make-array FileAttribute 0))]
-          (try
-            (Files/write temporary content ^"[Ljava.nio.file.OpenOption;" (into-array OpenOption [StandardOpenOption/WRITE StandardOpenOption/TRUNCATE_EXISTING]))
-            (Files/createLink (.resolve base "index.html") temporary)
-            {:file "index.html" :artifact (canonical/sha256 encoded)
-             :viewer (:digest viewer) :bytes (alength content)}
-            (finally (Files/deleteIfExists temporary)))))
-      (catch FileAlreadyExistsException _ (refuse! :html-exists))
-      (catch IllegalArgumentException _ (refuse! :html-policy))
-      (catch java.io.IOException _ (refuse! :html-io))
-      (catch UnsupportedOperationException _ (refuse! :html-io))
-      (catch SecurityException _ (refuse! :html-io)))))
-(m/=> publish! [:=> [:cat Directory c/Graph asset/Asset] Publication])
+  ([directory value viewer] (publish! directory value viewer nil))
+  ([directory value viewer metadata]
+   (when-not (and (m/validate Directory directory) (m/validate asset/Asset viewer))
+     (refuse! :html-policy))
+   (graph/require-valid! value)
+   (when-not (= (:digest viewer) (canonical/sha256 (:javascript viewer)))
+     (refuse! :html-viewer-mismatch))
+   (let [encoded (canonical/encode (canonical/normalize-graph value) 134217728)
+         html (report/render value (:javascript viewer) metadata)
+         content (.getBytes ^String html StandardCharsets/UTF_8)]
+     (when (> (alength content) 167772160) (refuse! :html-byte-limit))
+     (try
+       (let [base (Path/of directory (make-array String 0))]
+         (when-not (Files/isDirectory base no-follow) (refuse! :html-directory))
+         (let [temporary (Files/createTempFile base ".html-" ".tmp" (make-array FileAttribute 0))]
+           (try
+             (Files/write temporary content ^"[Ljava.nio.file.OpenOption;" (into-array OpenOption [StandardOpenOption/WRITE StandardOpenOption/TRUNCATE_EXISTING]))
+             (Files/createLink (.resolve base "index.html") temporary)
+             {:file "index.html" :artifact (canonical/sha256 encoded)
+              :viewer (:digest viewer) :bytes (alength content)}
+             (finally (Files/deleteIfExists temporary)))))
+       (catch FileAlreadyExistsException _ (refuse! :html-exists))
+       (catch IllegalArgumentException _ (refuse! :html-policy))
+       (catch java.io.IOException _ (refuse! :html-io))
+       (catch UnsupportedOperationException _ (refuse! :html-io))
+       (catch SecurityException _ (refuse! :html-io))))))
+(m/=> publish! [:function [:=> [:cat Directory c/Graph asset/Asset] Publication]
+                [:=> [:cat Directory c/Graph asset/Asset [:maybe ac/Metadata]] Publication]])
