@@ -12,6 +12,19 @@ set of actionable investigations, not a gallery of metrics. Read the module's
 actual API and [research rationale](../../../tools/gate-graph/docs/viewer-research.md)
 when interpreting a metric or selecting an implementation.
 
+## Digest first, then drill
+
+Reports are large, and reading one end to end in the main session spends the
+most expensive context on the least selective work. So the first pass is the
+`gate-report-digest` agent (`.claude/agents/`): it runs on Sonnet, loads this
+skill, drills every lens below with the bounded API, and returns a lens-by-lens
+digest with exact evidence IDs and named gaps, plus concrete improvements to the
+report, the telemetry and the inspection API. The main session then drills only
+where the digest points, and re-derives every candidate from the evidence
+before acting on it: a digest line is a lead, not a measurement. Its tooling
+suggestions are triaged like any other finding — fixed at the owning file or
+recorded, never left in the transcript.
+
 ## Admit and scope the evidence
 
 Load the caller's exact archive/graph through `gate.report-io`; validate archive
