@@ -200,6 +200,12 @@ binary-dedup-run: clojure-base-image ## Generate binary dedup tag map (called au
 		--entrypoint bash \
 		$(CLOJURE_IMAGE) \
 		-c 'cp -a /src/deps.edn /src/src /src/resources /app/ && exec clojure -M:run binary-dedup --descriptor /data/descriptors/descriptor-set.json --output /data/output/binary_dedup_tags.ts'
+	@# This leg runs AFTER generate-protos.sh normalized output/ to 777 and in
+	@# its own root container, so its one file came back 644 -- the only
+	@# non-755 path under output/ a consumer's `make proto` left dirty
+	@# (measured in jettison on the 42e9b823 pin). Every file under output/
+	@# is committed 100755; keep this one in step.
+	@chmod 777 output/typescript/binary_dedup_tags.ts
 	@printf "$(GREEN)Binary dedup tag map generated$(NC)\n"
 
 .PHONY: clean-image
