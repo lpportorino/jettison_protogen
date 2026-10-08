@@ -362,7 +362,8 @@ digest and the JVM EDN artifact, with zero external requests and zero
 page/console errors; it prints the engine version it ran under. It is a probe
 over one REAL artifact; the synthetic-fixture acceptance suite is
 `browser/acceptance.mjs` (see `browser/README.md`).
-The browser runtime is not yet enrolled in the public base image or gate roster.
+This real-artifact probe is in no gate; the synthetic-fixture suite is, through
+`browser/run.sh` in `.github/workflows/gate-viewer.yml`.
 Full cross-platform parity, keyboard/hostile-DOM/browser mutation tests and
 scale acceptance remain; one real artifact is not a complete parity suite.
 
@@ -811,8 +812,10 @@ Checks precede retained token/collection growth. Parsing uses an explicit
 bounded frame stack, including under cold Malli instrumentation. The source
 must contain valid Unicode; explicit EDN `\\uXXXX` escapes preserve UTF-16
 units, including lone surrogates, without lossy replacement. Refusals carry
-stable `:code`, `:offset` and `:offset-unit :utf16` fields. They do not echo
-input. Richer bounded schema-path diagnostics remain to implement.
+stable `:code`, `:offset` and `:offset-unit :utf16` fields, `:expected-kind`
+(the document kind that was asked for), and — from the `gate.report-io` file
+readers — `:file`, the basename only. They do not echo input. Richer bounded
+schema-path diagnostics remain to implement.
 
 The caller already owns the input string. File/network adapters must bound
 I/O before allocating it; this API does not establish file admission or a

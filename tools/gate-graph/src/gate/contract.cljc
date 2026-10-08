@@ -121,9 +121,16 @@
   [:enum :input-byte-limit :input-depth-limit :input-value-limit :input-collection-limit
    :input-token-limit :input-string-limit :input-integer-limit :invalid-input-unicode
    :invalid-edn :duplicate-map-key :unknown-keyword :trailing-input :invalid-input-shape])
+(def AdmissionTarget [:enum :view-request :run-archive :archive-metadata :repository-observation :graph :query-request :aggregate-request :diff-request :value :viewer-manifest
+                      :gate-definitions :cache-receipt :input-snapshot :coordinator-batch :attempt-observation :process-observation :clocked-process :process-capture :process-batch-report :container-observation :output-publication :contained-observation :runtime-observation :test-observation :clocked-tests])
 (def AdmissionFailure
+  "A refusal names WHERE (a UTF-16 offset), never echoing input. :expected-kind is
+   the document kind the decoder was asked for; :file is the BASENAME a file reader
+   was handed, never a path, so a caller can tell a wrong file from a damaged one."
   [:map {:closed true} [:code AdmissionCode]
-   [:offset [:int {:min 0 :max 134217728}]] [:offset-unit [:= :utf16]]])
+   [:offset [:int {:min 0 :max 134217728}]] [:offset-unit [:= :utf16]]
+   [:expected-kind {:optional true} AdmissionTarget]
+   [:file {:optional true} [:re #"^[^/\\]{1,255}$"]]])
 (def Failure
   "Closed ex-data for library refusals; Malli argument errors belong to the caller boundary."
   [:or
@@ -139,8 +146,6 @@
 (def PartitionIndex [:map-of {:max 4096} Id Partition])
 (def Vertex [:string {:min 1 :max 180}])
 (def Arcs [:vector {:max 640000} [:tuple Vertex Vertex]])
-(def AdmissionTarget [:enum :view-request :run-archive :archive-metadata :repository-observation :graph :query-request :aggregate-request :diff-request :value :viewer-manifest
-                      :gate-definitions :cache-receipt :input-snapshot :coordinator-batch :attempt-observation :process-observation :clocked-process :process-capture :process-batch-report :container-observation :output-publication :contained-observation :runtime-observation :test-observation :clocked-tests])
 (def AdmissionLimits
   [:map {:closed true} [:bytes [:int {:min 1 :max 134217728}]]
    [:depth [:int {:min 1 :max 64}]] [:values [:int {:min 1 :max 16777216}]]

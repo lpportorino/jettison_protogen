@@ -155,7 +155,7 @@
 
 (deftest refusal-offsets-are-utf16-and-do-not-echo-private-input
   (let [result (failure ";🌳\n{:op :nodes} secret-tail" {})]
-    (is (= {:code :trailing-input :offset 17 :offset-unit :utf16} result))
+    (is (= {:code :trailing-input :offset 17 :offset-unit :utf16 :expected-kind :value} result))
     (is (m/validate c/Failure result))
     (is (not (.contains (pr-str result) "secret-tail")))))
 

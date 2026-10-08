@@ -425,7 +425,7 @@ hooks-status:
 lint:
 	@$(MAKE) --no-print-directory -f lint.mk -j$(NPROC) lint-lanes
 
-lint-lanes: kondo-regression lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-instruction-budget-test lint-instruction-budget ci-annotate-test lint-cmd-no-any-bytes-test lint-cmd-no-any-bytes lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test uber-safe-directory-test leg-strictness-test wasm-provenance-test ts-validated-repro-test wire-contract-codec-test wire-contract-envelope-test fork-hazards protocol-gen-test protocol-gen-canary fmt-clj lint-clj fmt-c
+lint-lanes: kondo-regression lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-instruction-budget-test lint-instruction-budget ci-annotate-test gate-viewer-runner-test lint-cmd-no-any-bytes-test lint-cmd-no-any-bytes lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test uber-safe-directory-test leg-strictness-test wasm-provenance-test ts-validated-repro-test wire-contract-codec-test wire-contract-envelope-test fork-hazards protocol-gen-test protocol-gen-canary fmt-clj lint-clj fmt-c
 
 ## lint-python / lint-python-test: pinned Ruff over the enrolled Python gate drivers
 # The bounded enrollment lives in tools/lint/python_check.sh; experiment and data
@@ -723,6 +723,36 @@ lint-instruction-budget:
 
 lint-instruction-budget-test:
 	@bash tools/lint/instruction_budget.sh --canary
+
+## gate-viewer-acceptance: the offline viewer in real browsers (host-only)
+# NOT IN `lint` / `lint-lanes`, and the reason is mechanical: it drives docker
+# (fixtures in the pinned image, then Chromium and WebKit in the digest-pinned
+# Playwright image with --network none), and `lint` is invoked bare by the
+# pre-push hook. tools/gate-graph/browser/run.sh is the one entry point; exit
+# 1 FAIL / 2 ERROR / 3 CANNOT RUN. Evidence lands under the gitignored
+# tools/gate-graph/browser/evidence/, including a VLM sidecar per capture.
+.PHONY: gate-viewer-acceptance gate-viewer-runner-test
+# Its verdict mapping IS armed in `lint`: run_test.sh stubs docker, so it needs
+# only bash and proves a crash is ERROR (2), never FAIL (1).
+gate-viewer-runner-test:
+	@bash tools/gate-graph/browser/run_test.sh
+
+gate-viewer-acceptance:
+	@bash tools/gate-graph/browser/run.sh tools/gate-graph/browser/evidence/run-$$(date -u +%Y%m%dT%H%M%SZ)
+
+## gate-viewer-canary / lint-js / lint-js-test: the browser harness's own gates (host-only)
+# Host-only for the same reason as acceptance: each drives docker. gate-viewer.yml
+# runs all three; the pre-push hook runs lint-js when docker is present.
+# gate-viewer-canary plants one viewer defect per mutant in a GREEN run's fixtures
+# and requires the harness to FAIL naming that clause: FIXTURES=<run>/fixtures.
+.PHONY: gate-viewer-canary lint-js lint-js-test
+gate-viewer-canary:
+	@test -n "$(FIXTURES)" || { printf 'gate-viewer-canary: set FIXTURES=<evidence-run>/fixtures of a green run\n' >&2; exit 3; }
+	@bash tools/gate-graph/browser/canary.sh tools/gate-graph/browser/evidence/canary-$$(date -u +%Y%m%dT%H%M%SZ) --fixtures "$(FIXTURES)"
+lint-js:
+	@bash tools/gate-graph/browser/lint_js.sh
+lint-js-test:
+	@bash tools/gate-graph/browser/lint_js_test.sh
 
 ## ci-annotate-test: the default CI `run:` shell keeps runner semantics and annotates failures
 # Every workflow's `defaults.run.shell` is tools/ci/annotated-shell.sh, so a defect

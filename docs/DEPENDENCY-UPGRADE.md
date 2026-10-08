@@ -111,10 +111,12 @@ Playwright 1.64.0 ran 24 passing fixture/device cases each in Chromium
 156.0.8078.4 and WebKit 27.2. The public synthetic captures include desktop and
 iPhone 13 portrait/landscape emulation. All 57 changed images and one current
 desktop representative were actually opened and inspected; 90 further images
-were verified byte-for-byte against previously inspected captures. That
-checkpoint's per-image record was overwritten by the final build's
-[manifest](../tools/gate-graph/docs/viewer-upgrade-visual-manifest.json), which
-retains each image's actual-opening record inline as `priorReview`.
+were verified byte-for-byte against previously inspected captures. The
+per-image record kept is the final build's
+[manifest](../tools/gate-graph/docs/viewer-upgrade-visual-manifest.json): each
+entry's `review.run` names the run in which a reviewer actually opened that
+capture, and `review.equivalenceChain` records the byte-identical or
+pixel-equivalent links back to it when that run is an earlier one.
 No new visual defect was found. WebKit's separate rotation probe still fails
 layout-width checks; fixed orientations are accepted, rotation is not. These
 are emulated browsers, not physical-device evidence.
@@ -185,9 +187,10 @@ versions. The browser acceptance runtime is pinned by
 ## Final combined build
 
 Source baseline `0a052cdda212fa7b3d65324320f07c2ca951904a` plus this change
-set. Viewer bundle `tools/gate-graph/resources/gate/viewer/main.js` SHA-256
-`145767e3caa3954734aefcac3468eddc979f9734d97589eda8226d8e95cb8935`; its asset
-manifest SHA-256 `4b3ca026a210ae054f5aba8c918a42453058fdf3b668f1ab2172b1cb30802c7c`;
+set. The viewer bundle's SHA-256 is the `:bundle` that
+`tools/gate-graph/resources/gate/viewer/manifest.edn` records (and
+`clojure -M:viewer-build check` re-derives); the visual manifest's
+`source.bundleSHA256` names the same bundle its captures were taken from.
 `renderer/output/controls.wasm` SHA-256
 `142c3443c25ee447b56953cc546a738794974bf1c3bbec7ff7211379abb17f63`, byte-identical
 before and after the C diagnostic cleanup.
@@ -231,15 +234,17 @@ set is identical to the baseline's; Rust is compiled by the generation leg's own
 `construct-bindings` lane. C++ and Kotlin have no compiler in the generator
 image and are compiled only by consumers.
 
-Browser acceptance on the final bundle: 24 cases per engine, 148 captures, of
-which 145 are byte-identical to captures already opened and accepted and three
-were opened and pixel-diffed against their prior capture — a ≤19/255 tone shift
-in the evidence highlight band of one Chromium phone capture, and WebKit now
-painting the emphasised-edge outline Chromium already painted on the two
-`branch` detail captures. No layout or text changed. The per-image record is the
-[visual manifest](../tools/gate-graph/docs/viewer-upgrade-visual-manifest.json).
+Browser acceptance on the final bundle (`tools/gate-graph/browser/run.sh`): 24
+cases per engine, all passing, and 148 captures. Each capture is linked by the
+[visual manifest](../tools/gate-graph/docs/viewer-upgrade-visual-manifest.json)
+to the capture a reviewer actually opened against its `.png.json` brief —
+through byte identity, or for Chromium's raster jitter through pixel
+equivalence within 2/255. No blocking visual finding remains; the manifest's
+`findingDispositions` records how each non-blocking one was settled.
 
 Not accepted, by name: WebKit active rotation (its probe still fails the
 layout-width check); C++ and Kotlin compilation; the renderer finding tracked
-as RENDER-CONTRAST-001; and the browser acceptance suite itself, which no gate
-runs (`tools/gate-graph/README.md`).
+as RENDER-CONTRAST-001. The browser acceptance suite is a CI gate
+(`.github/workflows/gate-viewer.yml`) but is in no local aggregate: it needs a
+docker CLI and the Playwright image, so locally it runs only as
+`make -f lint.mk gate-viewer-acceptance`.

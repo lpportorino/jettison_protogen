@@ -23,7 +23,64 @@
 (def ^:private last-instant (atom "0"))
 (def ^:private budget {:visits 128000 :rows 100 :bytes 1048576})
 (def ^:private problems #{:failed :error :blocked :refused :cancelled :running})
+(def ^:private opener (atom nil))
+(def ^:private last-activated (atom nil))
 (declare render! navigate! inspect!)
+
+(def ^:private OpenerKey
+  ;; :row is unbounded on purpose: a fold's data-members joins every member Id.
+  [:map {:closed true} [:scope [:maybe [:string {:max 64}]]] [:row [:maybe :string]] [:text :string]])
+
+(defn- row-identity
+  "The identity of the lane, fold or resource track a control sits in, if any."
+  [element]
+  (some-> (.closest element "[data-node],[data-members],[data-track]")
+          (as-> row (or (.getAttribute row "data-node") (.getAttribute row "data-members")
+                        (.getAttribute row "data-track")))))
+(m/=> row-identity [:=> [:cat some?] [:maybe :string]])
+
+(defn- opener-key
+  "Identify a control by what survives a re-render: its panel, its row and its label."
+  [element]
+  (when-let [button (and element (.closest element "button"))]
+    {:scope (some-> (.closest button "#opportunities,#breadcrumbs,#timeline,#resources,#details") .-id)
+     :row (row-identity button)
+     :text (str/trim (.-textContent button))}))
+(m/=> opener-key [:=> [:cat [:maybe some?]] [:maybe OpenerKey]])
+
+(defn- find-opener
+  "Find the control a key names in the CURRENT document, after any re-render."
+  [{:keys [scope row text]}]
+  (let [root (or (when scope (.getElementById js/document scope)) js/document)]
+    (some (fn [button]
+            (when (and (= text (str/trim (.-textContent button))) (= row (row-identity button)))
+              button))
+          (array-seq (.querySelectorAll root "button")))))
+(m/=> find-opener [:=> [:cat OpenerKey] [:maybe some?]])
+
+(defn- remember-opener!
+  "Record WHICH control opened the details dialog, as a key, before any re-render replaces it.
+   The activating click is preferred to focus: Safari and iOS do not focus a button on click."
+  []
+  (when-not (.-open (.getElementById js/document "detail-dialog"))
+    (reset! opener (or @last-activated (opener-key (.-activeElement js/document)))))
+  (reset! last-activated nil)
+  nil)
+(m/=> remember-opener! [:=> [:cat] :nil])
+
+(defn- focus-timeline!
+  "After a navigation, put keyboard focus at the start of the new context, not on <body>."
+  []
+  (when-let [heading (.getElementById js/document "timeline-heading")]
+    (.focus heading (js-obj "preventScroll" true)))
+  nil)
+(m/=> focus-timeline! [:=> [:cat] :nil])
+
+(defn- plural
+  "Count with the right noun form; zero and many take the plural."
+  [n singular plural-form]
+  (str n "\u00a0" (if (= 1 n) singular plural-form)))
+(m/=> plural [:=> [:cat [:int {:min 0}] [:string {:min 1}] [:string {:min 1}]] [:string {:min 3}]])
 
 (defn- graph-value
   "Return the immutable admitted graph owned by this document."
@@ -110,6 +167,7 @@
   (swap! state assoc :anchor anchor :fold fold :offset 0 :search "")
   (write-anchor!) (render!)
   (.scrollIntoView (.getElementById js/document "breadcrumbs") (js-obj "block" "start"))
+  (focus-timeline!)
   nil)
 (m/=> navigate! [:=> [:cat [:maybe c/Id] [:maybe [:vector {:min 1 :max 256} c/Id]]] :nil])
 
@@ -142,6 +200,7 @@
 (defn inspect!
   "Open dismissible task details and bounded typed relationships/correlation without inventing causes."
   [node]
+  (remember-opener!)
   (swap! state assoc :selected (:id node))
   (render!)
   (let [panel (dom/clear! "details")
@@ -154,8 +213,9 @@
       (.append panel (dom/el "p" (if (:end-ns interval)
                                    (str (duration (d/subtract (:end-ns interval) (:start-ns interval))) " elapsed")
                                    "Unfinished · final duration unknown"))))
-    (.append panel (dom/button "Open children" #(do (.close dialog) (navigate! (:id node) nil)))
-             (dom/raw-details "Canonical task" (canonical/encode node 65536)))
+    (when (seq (get-in @context [:children (:id node)]))
+      (.append panel (dom/button "Open children" #(do (.close dialog) (navigate! (:id node) nil)))))
+    (.append panel (dom/raw-details "Canonical task" (canonical/encode node 65536)))
     (.append panel (dom/el "h3" "Dependencies and boundary edges"))
     (let [edges (model/page @context {:select {:op :edges :members [(:id node)]} :budget budget})]
       (doseq [edge (:rows edges)]
@@ -179,7 +239,9 @@
   []
   (let [axis (dom/el "div" "" "ruler") {:keys [start-ns end-ns]} (visible-interval)]
     (doseq [i (range 5)]
-      (.append axis (dom/el "span" (duration (str (js* "(BigInt(~{}) + ((BigInt(~{}) - BigInt(~{})) * BigInt(~{})) / BigInt(4))" start-ns end-ns start-ns i))))))
+      (let [tick (dom/el "span" (duration (str (js* "(BigInt(~{}) + ((BigInt(~{}) - BigInt(~{})) * BigInt(~{})) / BigInt(4))" start-ns end-ns start-ns i))))]
+        (set! (.. tick -style -left) (str (* 25 i) "%"))
+        (.append axis tick)))
     axis))
 (m/=> tick-ruler [:=> [:cat] dom/Element])
 
@@ -216,9 +278,9 @@
   (let [fold (model/fold nodes) row (dom/el "div" "" "row fold-row") head (dom/el "div" "" "row-head")
         track (dom/el "div" "" "track") failures (reduce + 0 (map #(get (:outcomes fold) % 0) problems))]
     (.setAttribute row "data-members" (str/join " " (:members fold)))
-    (.append head (dom/button (str (count nodes) " grouped tasks · " failures " need attention") #(navigate! (:anchor @state) (:members fold))))
+    (.append head (dom/button (str (count nodes) " grouped tasks · " (plural failures "needs attention" "need attention")) #(navigate! (:anchor @state) (:members fold))))
     (.append head (dom/button "Group evidence"
-                              #(let [panel (dom/clear! "details") dialog (.getElementById js/document "detail-dialog")]
+                              #(let [_ (remember-opener!) panel (dom/clear! "details") dialog (.getElementById js/document "detail-dialog")]
                                  (.append panel (dom/el "h2" "Exact group membership and boundary edges")
                                           (dom/raw-details "Fold summary" (canonical/encode fold 1048576)))
                                  (show-page! panel {:select {:op :members :members (:members fold)} :budget budget})
@@ -229,7 +291,7 @@
              (dom/el "p" (str "Envelope " (duration (get-in fold [:summary :envelope-ns]))
                               " · occupied " (duration (get-in fold [:summary :occupied-ns]))
                               " · summed durations " (duration (get-in fold [:summary :duration-sum-ns]))
-                              " · " (:decisions fold) " decisions · " (:unfinished fold) " unfinished") "fold-summary"))
+                              " · " (plural (:decisions fold) "decision" "decisions") " · " (plural (:unfinished fold) "unfinished" "unfinished")) "fold-summary"))
     row))
 (m/=> fold-row [:=> [:cat [:vector {:min 1 :max 256} c/Node]] dom/Element])
 
@@ -240,8 +302,12 @@
         all (cond (or failures (not (str/blank? search))) (get-in @context [:query :ordered-nodes])
                   fold (mapv #(get-in @context [:nodes %]) fold)
                   :else (get-in @context [:children anchor] []))]
-    (vec (filter #(and (or (not failures) (contains? problems (:outcome %)))
-                       (str/includes? (str/lower-case (str (:id %) " " (:key %) " " (:label %) " " (name (:outcome %)))) (str/lower-case search))) all))))
+    (->> all
+         (filter #(and (or (not failures) (contains? problems (:outcome %)))
+                       (str/includes? (str/lower-case (str (:id %) " " (:key %) " " (:label %) " " (name (:outcome %)))) (str/lower-case search))))
+         (sort (fn [a b] (let [c (d/compare (or (graph/node-start a) "0") (or (graph/node-start b) "0"))]
+                           (if (zero? c) (compare (:id a) (:id b)) c))))
+         vec)))
 (m/=> selected-nodes [:=> [:cat] model/Nodes])
 
 (defn- connectors!
@@ -254,7 +320,11 @@
         edges (filter #(and (visible (get-in % [:from :node])) (visible (get-in % [:to :node]))
                             (not (identical? (get index (get-in % [:from :node])) (get index (get-in % [:to :node]))))) (:edges (graph-value)))
         edges (sort-by #(if (or (= (:selected @state) (get-in % [:from :node])) (= (:selected @state) (get-in % [:to :node]))) 0 1) edges)
-        svg (dom/svg "svg" {:class "connectors" :aria-hidden "true"}) box (.getBoundingClientRect panel)]
+        svg (dom/svg "svg" {:class "connectors" :aria-hidden "true"}) box (.getBoundingClientRect panel)
+        ;; Two layers: every casing below every edge, so no edge's casing can notch
+        ;; another edge or its arrowhead where they cross.
+        casings (dom/svg "g" {:class "casings"}) strokes (dom/svg "g" {:class "edges"})]
+    (.append svg casings strokes)
     (doseq [edge (take 120 edges)]
       (let [a (get-in @context [:nodes (get-in edge [:from :node])]) b (get-in @context [:nodes (get-in edge [:to :node])])
             from (get index (:id a)) to (get index (:id b))
@@ -265,10 +335,14 @@
                 x1 (+ (- (.-left f) (.-left box)) (* (.-width f) (/ (position start) 100)))
                 x2 (+ (- (.-left t) (.-left box)) (* (.-width t) (/ (position end) 100)))
                 y1 (+ (- (.-top f) (.-top box)) 14) y2 (+ (- (.-top t) (.-top box)) 14)]
-            (.append svg (dom/svg "path" {:d (str "M" x1 "," y1 " L" x2 "," y2 " l-5,-4 m5,4 l-5,4")
-                                          :data-edge (:id edge) :data-from (:id a) :data-to (:id b)
-                                          :class (str "edge " (name (:evidence edge))
-                                                      (when (or (= (:selected @state) (:id a)) (= (:selected @state) (:id b))) " selected-edge"))}))))))
+            (.append casings (dom/svg "path" {:d (str "M" x1 "," y1 " L" x2 "," y2 " l-5,-4 m5,4 l-5,4")
+                                              :data-casing-for (:id edge)
+                                              :class (str "edge-casing"
+                                                          (when (or (= (:selected @state) (:id a)) (= (:selected @state) (:id b))) " selected-casing"))}))
+            (.append strokes (dom/svg "path" {:d (str "M" x1 "," y1 " L" x2 "," y2 " l-5,-4 m5,4 l-5,4")
+                                              :data-edge (:id edge) :data-from (:id a) :data-to (:id b)
+                                              :class (str "edge " (name (:evidence edge))
+                                                          (when (or (= (:selected @state) (:id a)) (= (:selected @state) (:id b))) " selected-edge"))}))))))
     (when (> (count edges) 120) (.append panel (dom/el "p" (str "Routing first 120 of " (count edges) " visible edges; exact boundary evidence remains in details."))))
     (.append panel svg) nil))
 (m/=> connectors! [:=> [:cat dom/Element model/Nodes] :nil])
@@ -290,8 +364,9 @@
         groups (lane-groups all) offset (min (:offset @state) (* 24 (quot (max 0 (dec (count groups))) 24)))
         shown (subvec groups offset (min (+ offset 24) (count groups)))]
     (swap! state assoc :offset offset)
-    (.append panel (dom/el "h2" (if (:fold @state) "Inside the group" "Execution timeline"))
-             (dom/el "p" (str (count all) " matching tasks · " (count shown) " visible lanes · " (- (count groups) (count shown)) " other lanes. Logical lanes; width is elapsed time.") "caption")
+    (.append panel (doto (dom/el "h2" (if (:fold @state) "Inside the group" "Execution timeline"))
+                     (.setAttribute "id" "timeline-heading") (.setAttribute "tabindex" "-1"))
+             (dom/el "p" (str (plural (count all) "matching task" "matching tasks") " · " (plural (count shown) "visible lane" "visible lanes") " · " (plural (- (count groups) (count shown)) "other lane" "other lanes") ". Logical lanes; width is elapsed time.") "caption")
              (tick-ruler))
     (doseq [group shown] (.append panel (if (= 1 (count group)) (task-row (first group)) (fold-row group))))
     (when (empty? all) (.append panel (dom/el "p" "No matching tasks. Clear the search or return to the overview.")))
@@ -311,6 +386,7 @@
 (defn- inspect-track!
   "Expose scope, coverage and exact samples to touch and keyboard users, independently of tiny marks."
   [track-key]
+  (remember-opener!)
   (let [panel (dom/clear! "details") dialog (.getElementById js/document "detail-dialog")]
     (.append panel (dom/el "h2" (track-name track-key))
              (dom/el "p" "Sample evidence uses the admitted run clock. Each interval is its actual cadence/coverage; source, method, task scope, accounting and unavailable reasons remain explicit below. A sampled gauge does not prove what happened between samples."))
@@ -321,7 +397,8 @@
 (defn- resource-strip
   "Render measured sample intervals only, with gaps and unavailable observations left empty."
   [track-key observations]
-  (let [row (dom/el "div" "" "resource-row") track (dom/el "div" "" "resource-track")
+  (let [row (doto (dom/el "div" "" "resource-row") (.setAttribute "data-track" (pr-str track-key)))
+        track (dom/el "div" "" "resource-track")
         quantity (second track-key) unit (name (:unit (c/quantity-info quantity)))
         homogeneous? (<= (count (set (map #(select-keys % [:source :node :form :accounting :method]) observations))) 1)
         known (when homogeneous? (filter #(some? (opportunity/value %)) observations))
@@ -418,6 +495,7 @@
 (defn- inspect-candidate!
   "Connect a heuristic interval to its exact supporting IDs, active gates and a falsifiable next step."
   [candidate]
+  (remember-opener!)
   (focus-window! (:interval candidate))
   (let [panel (.getElementById js/document "details")
         instruction (case (:quantity candidate)
@@ -425,7 +503,10 @@
                       :memory-current-bytes "Check memory pressure, reclaim/faults and phase changes. A footprint drop is not lost useful work; do not fill RAM merely to raise occupancy."
                       :gpu-utilization-percent "Check GPU feeder CPU work, transfer/wait evidence and device sharing before changing concurrency."
                       "Check whether independent gates were eligible during the CPU dip, then inspect dispatch, waits, prerequisites and quota pressure. Test overlap only when readiness and resource ownership permit it.")]
-    (.prepend panel (dom/el "p" (str "Next experiment: " instruction " Compare full-run elapsed time and unchanged workload/verdict coverage across interleaved runs."))
+    (.prepend panel (doto (dom/el "h2" (str (name (:kind candidate)) " · " (name (:quantity candidate)) " · " (:resource candidate) " · "))
+                      ;; The time range never wraps inside itself ("100 / ms–112 ms").
+                      (.append (dom/el "span" (str (duration (get-in candidate [:interval :start-ns])) "–" (duration (get-in candidate [:interval :end-ns]))) "nowrap")))
+              (dom/el "p" (str "Next experiment: " instruction " Compare full-run elapsed time and unchanged workload/verdict coverage across interleaved runs."))
               (dom/raw-details "Candidate policy and exact measurement IDs" (canonical/encode candidate 65536)))
     nil))
 (m/=> inspect-candidate! [:=> [:cat opportunity/Candidate] :nil])
@@ -436,6 +517,10 @@
   (let [panel (dom/clear! "opportunities")
         {:keys [longest candidates]} @investigations]
     (.append panel (dom/el "h2" "Where to investigate"))
+    (let [failing (count (filter #(problems (:outcome %)) (:nodes (graph-value))))]
+      (when (pos? failing)
+        (.append panel (dom/button (str (plural failing "task needs attention" "tasks need attention") " · show")
+                                   #(do (swap! state assoc :failures true :offset 0) (render!) (focus-timeline!) nil)))))
     (when longest
       (.append panel (dom/button (str "Longest gate: " (:label longest) " · " (duration (d/subtract (graph/node-end longest) (graph/node-start longest))) " · inspect") #(inspect! longest))))
     (if (empty? @series)
@@ -444,9 +529,10 @@
         (.append detail (dom/el "summary" (str (count candidates) " activity-change candidates · inspect scheduling opportunities"))
                  (dom/el "p" "Rule v1: 20 contiguous measured baseline samples; 3 consecutive samples below half or above twice the baseline median. First 64 series, 512 observations per series; up to 6 candidates. Not a bottleneck verdict or speedup estimate." "caption"))
         (doseq [candidate candidates]
-          (.append detail (dom/button (str (name (:kind candidate)) " · " (name (:quantity candidate)) " · " (:resource candidate)
-                                           " · " (duration (get-in candidate [:interval :start-ns])) "–" (duration (get-in candidate [:interval :end-ns])))
-                                      #(inspect-candidate! candidate))))
+          ;; The time range is a no-wrap span: same text, but it never splits at its dash.
+          (.append detail (doto (dom/button (str (name (:kind candidate)) " · " (name (:quantity candidate)) " · " (:resource candidate) " · ")
+                                            #(inspect-candidate! candidate))
+                            (.append (dom/el "span" (str (duration (get-in candidate [:interval :start-ns])) "–" (duration (get-in candidate [:interval :end-ns]))) "nowrap")))))
         (when (empty? candidates) (.append detail (dom/el "p" "No qualifying change in the inspected sample prefix. Sparse, reset or absent evidence cannot establish steady utilization.")))
         (.append detail (dom/el "p" "Try: inspect eligible work during CPU dips; stagger competing disk-heavy gates when bursts coincide with pressure. Memory footprint changes do not establish useful work. Compare interleaved runs with identical coverage."))
         (.append panel detail)))
@@ -484,11 +570,46 @@
              (dom/button "Pan →" #(do (swap! state assoc :exact-window nil) (swap! state update :window (fn [[a b]] (let [delta (min (- 1 b) (/ (- b a) 2))] [(+ a delta) (+ b delta)]))) (render!) nil))
              (dom/button "Reset time" #(do (swap! state assoc :window [0 1] :exact-window nil) (render!) nil))
              (dom/button "Light / dark" #(do (.toggleAttribute (.-documentElement js/document) "data-light") nil)))
-    (.addEventListener (.getElementById js/document "close-details") "click" (fn [_] (.close (.getElementById js/document "detail-dialog"))))
-    (.addEventListener (.getElementById js/document "detail-dialog") "close"
-                       (fn [_] (.focus (or (when-let [id (:selected @state)]
-                                             (.querySelector js/document (str "[data-node=\"" (js/CSS.escape id) "\"] button")))
-                                           (.getElementById js/document "search")))))
+    ;; Focus is restored SYNCHRONOUSLY, in the task that closes the dialog (the
+    ;; Close button, or `cancel` — Escape, which fires before the dialog closes).
+    ;; close() itself returns focus to the opener; the fallback runs only when that
+    ;; opener was re-rendered away. The async `close` event is a fallback only for a
+    ;; close that skipped `cancel` (an Escape with no recent user activation). It is
+    ;; queued, so it can arrive after the dialog was opened AGAIN — then it belongs
+    ;; to a closed dialog that no longer exists and does nothing, leaving the new
+    ;; opener alone, and it acts only while focus is LOST — on the body or inside
+    ;; the closed dialog — so it never takes focus back from a user who moved on.
+    ;; Close and Escape act in the user's own task, so a known opener ALWAYS gets
+    ;; focus there: close() may have handed it to whatever held focus before the
+    ;; dialog opened (a Safari click does not focus the button it activates).
+    (.addEventListener js/document "click" (fn [event] (reset! last-activated (opener-key (.-target event)))) true)
+    (let [dialog (.getElementById js/document "detail-dialog")
+          place-focus! (fn [e only-if-lost?]
+                         (let [found (when e (find-opener e))
+                               active (.-activeElement js/document)
+                               lost? (or (nil? active) (= active (.-body js/document)) (.contains dialog active))]
+                           (when (or lost? (and found (not only-if-lost?)))
+                             ;; The first candidate that ACTUALLY takes focus: a re-rendered opener
+                             ;; can sit inside a closed <details>, where .focus() silently does nothing.
+                             (some (fn [candidate]
+                                     (when candidate
+                                       (.focus candidate)
+                                       (= candidate (.-activeElement js/document))))
+                                   [found
+                                    (some-> found (.closest "details:not([open])") (.querySelector "summary"))
+                                    (when-let [id (:selected @state)]
+                                      (.querySelector js/document (str "[data-node=\"" (js/CSS.escape id) "\"] button")))
+                                    (.getElementById js/document "search")]))))
+          dismiss! (fn []
+                     (let [e @opener]
+                       (reset! opener nil)
+                       (.close dialog)
+                       (place-focus! e false)))]
+      (.addEventListener (.getElementById js/document "close-details") "click" (fn [_] (dismiss!)))
+      (.addEventListener dialog "cancel" (fn [event] (.preventDefault event) (dismiss!)))
+      (.addEventListener dialog "close"
+                         (fn [_] (when-not (.-open dialog)
+                                   (let [e @opener] (reset! opener nil) (place-focus! e true))))))
     (.addEventListener js/window "resize" (fn [_] (render-timeline!)))
     nil))
 (m/=> controls! [:=> [:cat] :nil])
@@ -540,8 +661,8 @@
         (swap! state assoc :tracks (set (take 3 (sort (distinct (map (juxt :resource :quantity) (filter #(and (nil? (:node %)) (host-ids (:resource %))) (:measurements value)))))))))
       (set! (.-textContent (.getElementById js/document "status"))
             (str (if (get-in value [:run :complete?]) "Complete capture" "Incomplete capture") " · " (duration (extent))
-                 " elapsed · " (count (:nodes value)) " tasks · " (count (:measurements value)) " measurements · "
-                 (count (filter #(problems (:outcome %)) (:nodes value))) " need attention"))
+                 " elapsed · " (plural (count (:nodes value)) "task" "tasks") " · " (plural (count (:measurements value)) "measurement" "measurements") " · "
+                 (plural (count (filter #(problems (:outcome %)) (:nodes value))) "needs attention" "need attention")))
       (restore-anchor!) (controls!) (render!))
     (catch :default error
       (when-let [status (.getElementById js/document "archive-status")] (set! (.-textContent status) "Archive refused"))

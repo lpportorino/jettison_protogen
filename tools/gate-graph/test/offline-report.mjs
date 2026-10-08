@@ -23,7 +23,7 @@ try {
   page.on('request', request => { if (!request.url().startsWith('file:')) requests.push(request.url()); });
   await page.goto(pathToFileURL(reportPath).href);
   await page.waitForFunction(() => !document.getElementById('status').textContent.startsWith('Loading'), { timeout: 15000 });
-  assert.match(await page.locator('#status').innerText(), /^Complete capture · \S+ \S+ elapsed · 3 tasks · 6 measurements · 0 need attention$/);
+  assert.match(await page.locator('#status').innerText(), /^Complete capture · \S+\s\S+ elapsed · 3\stasks · 6\smeasurements · 0\sneed attention$/);
   // The overview opens the sole root's children directly (docs/viewer.md).
   assert.equal(await page.locator('#timeline .row').count(), 2, 'overview shows the two captured gates');
   await page.locator('#timeline').getByRole('button', { name: /^graph-tests · / }).click();

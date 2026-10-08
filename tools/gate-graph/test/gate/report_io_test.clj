@@ -3,8 +3,10 @@
   (:require [clojure.test :refer [deftest is]]
             [gate.admission :as admission]
             [gate.canonical :as canonical]
+            [gate.contract :as c]
             [gate.fixtures :as fixtures]
-            [gate.report-io :as report-io])
+            [gate.report-io :as report-io]
+            [malli.core :as m])
   (:import [java.nio.charset StandardCharsets]
            [java.nio.file Files OpenOption Path]
            [java.nio.file.attribute FileAttribute]))
@@ -67,3 +69,33 @@
           (Files/createSymbolicLink link target (make-array FileAttribute 0))
           (is (= {:code :report-unreadable}
                  (failure #(report-io/read-graph! (str link) admission/default-limits)))))))))
+
+(deftest a-refusal-names-the-kind-it-expected-and-the-file-it-read
+  ;; A reader handed the wrong document (a run REPORT where a run ARCHIVE is
+  ;; required) must say which kind it wanted and which file it read, so the caller
+  ;; can tell "wrong file" from "damaged file". Only the basename travels: the
+  ;; directory can be private, and refusals never echo private input.
+  (let [dir (Files/createTempDirectory "gate-refusal-" (make-array FileAttribute 0))
+        file (.resolve ^Path dir "report.edn")]
+    (try
+      (spit (str file) (canonical/encode (fixtures/example) 65536))
+      (let [result (failure #(report-io/read-archive! (str file) admission/default-limits))]
+        (is (= :invalid-input-shape (:code result)))
+        (is (= :run-archive (:expected-kind result)))
+        (is (= "report.edn" (:file result)))
+        (is (m/validate c/Failure result) "the refusal still satisfies the exported closed contract")
+        (is (not (.contains (pr-str result) (str dir))) "the directory never travels"))
+      (finally (Files/deleteIfExists file) (Files/deleteIfExists dir)))))
+
+(deftest a-refusal-file-is-only-ever-a-basename
+  ;; A caller can hand any string as a path; only a separator-free basename may
+  ;; travel. A backslash path must not pass through whole on a POSIX host.
+  (let [dir (Files/createTempDirectory "gate-refusal-" (make-array FileAttribute 0))
+        file (.resolve ^Path dir "a\\b\\report.edn")]
+    (try
+      (spit (str file) (canonical/encode (fixtures/example) 65536))
+      (let [result (failure #(report-io/read-archive! (str file) admission/default-limits))]
+        (is (= :run-archive (:expected-kind result)))
+        (is (= "report.edn" (:file result)) "both separators are stripped")
+        (is (m/validate c/Failure result)))
+      (finally (Files/deleteIfExists file) (Files/deleteIfExists dir)))))

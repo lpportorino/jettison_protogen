@@ -276,6 +276,12 @@ jobs:
       name: annotated-shell canary (runner semantics + failure annotation)
       run: make -f lint.mk ci-annotate-test
 
+    - # THE BROWSER LANE'S VERDICT MAPPING. tools/gate-graph/browser/run.sh is
+      # the gate-viewer workflow's entry point; its canary stubs docker, so it
+      # runs here on bash alone. `**/*.sh` above fires this job when it changes.
+      name: gate-viewer runner canary (crash is ERROR, never FAIL)
+      run: make -f lint.mk gate-viewer-runner-test
+
     - # THE controls.wasm CONTENT-PROVENANCE CANARY. It needs bash, make and
       # coreutils and installs nothing, so it sits in this pre-toolchain block
       # beside the shell lane above.

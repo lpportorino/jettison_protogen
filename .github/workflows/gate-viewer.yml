@@ -1,0 +1,83 @@
+# THE OFFLINE GATE-REPORT VIEWER IN REAL BROWSERS.
+#
+# tools/gate-graph/browser/run.sh is the one entry point — this workflow and
+# lint.mk's `gate-viewer-acceptance` both call it the same way, so the two cannot
+# drift: it builds the fixtures in the pinned toolchain image (built here from
+# Dockerfile.base, as renderer.yml does), then runs Chromium and WebKit in the
+# digest-pinned Playwright image with the network REMOVED. The
+# evidence — screenshots, one VLM review brief (`*.png.json`) per screenshot and
+# `vlm-index.json` — is uploaded on every run, red or green, because a capture
+# is reviewed by opening it, and a red run's captures are the diagnosis.
+name: Gate Viewer
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+    - "tools/gate-graph/**"
+    - ".github/workflows/gate-viewer.yml"
+    - "tools/ci/annotated-shell.sh"
+    - "Dockerfile.base"
+    - "tools/uber.sh"
+    # Dockerfile.base's COPY sources: the image this lane builds changes with them.
+    - "**/deps.edn"
+    - "renderer/wasm_harness/Cargo.*"
+    - "tools/lint/kondo/**"
+    - "tools/lint/ruff.sh"
+  pull_request:
+    paths:
+    - "tools/gate-graph/**"
+    - ".github/workflows/gate-viewer.yml"
+    - "tools/ci/annotated-shell.sh"
+    - "Dockerfile.base"
+    - "tools/uber.sh"
+    # Dockerfile.base's COPY sources: the image this lane builds changes with them.
+    - "**/deps.edn"
+    - "renderer/wasm_harness/Cargo.*"
+    - "tools/lint/kondo/**"
+    - "tools/lint/ruff.sh"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gate-viewer-${{ github.ref }}
+  cancel-in-progress: true
+
+# Every `run:` step goes through tools/ci/annotated-shell.sh: the runner's own
+# `bash --noprofile --norc -eo pipefail` semantics, plus — on failure — one public
+# `::error` annotation carrying the lines that name the failing clause.
+defaults:
+  run:
+    shell: bash tools/ci/annotated-shell.sh {0}
+
+jobs:
+  acceptance:
+    name: browser acceptance (Chromium + WebKit, network removed)
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v7.0.1
+    - name: Build the pinned toolchain image
+      run: docker build -t jettison-proto-generator-base:latest -f Dockerfile.base .
+    - name: ESLint canaries (each config clause broken alone)
+      run: bash tools/gate-graph/browser/lint_js_test.sh
+    - name: ESLint over the hand-authored JavaScript (warnings block)
+      run: bash tools/gate-graph/browser/lint_js.sh
+    - name: Browser acceptance (FAIL 1 / ERROR 2 / CANNOT RUN 3)
+      run: bash tools/gate-graph/browser/run.sh tools/gate-graph/browser/evidence/run
+    - # The harness's own canary: one planted viewer defect per mutant in THIS run's
+      # green fixtures, each required to FAIL naming its clause.
+      name: Acceptance canaries (planted viewer defects must FAIL)
+      run: bash tools/gate-graph/browser/canary.sh tools/gate-graph/browser/evidence/canary --fixtures tools/gate-graph/browser/evidence/run/fixtures
+    - name: Upload screenshots, VLM briefs and manifests
+      if: always()
+      uses: actions/upload-artifact@v7.0.2
+      with:
+        name: gate-viewer-evidence
+        path: |
+          tools/gate-graph/browser/evidence/run/
+          tools/gate-graph/browser/evidence/canary/
+        if-no-files-found: error

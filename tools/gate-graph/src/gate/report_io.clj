@@ -1,6 +1,7 @@
 (ns gate.report-io
   "Byte-bounded local report loading for consumer toolboxes."
-  (:require [gate.admission :as admission]
+  (:require [clojure.string :as str]
+            [gate.admission :as admission]
             [gate.archive-contract :as ac]
             [gate.contract :as c]
             [gate.repository-contract :as rc]
@@ -44,6 +45,22 @@
     (catch SecurityException _ (refuse! :report-unreadable))))
 (m/=> read-text! [:=> [:cat PathName [:int {:min 1 :max 134217728}]] admission/SourceText])
 
+(defn- naming-file
+  "Run one admission, adding the file's BASENAME to an admission refusal. Only the
+   basename: the directory can be private, and refusals never echo private input."
+  [path f]
+  (try (f)
+       (catch clojure.lang.ExceptionInfo error
+         (throw (if (= admission/refusal-message (ex-message error))
+                  (let [base (peek (str/split path #"[/\\\\]"))]
+                    ;; Split on BOTH separators: a backslash path must not pass through whole
+                    ;; on a POSIX host. Attach only what the contract admits, else nothing.
+                    (ex-info (ex-message error)
+                             (cond-> (ex-data error) (and base (re-matches #"[^/\\\\]{1,255}" base)) (assoc :file base))
+                             error))
+                  error)))))
+(m/=> naming-file [:=> [:cat PathName fn?] some?])
+
 (defn read-graph!
   "Load one local graph with explicit I/O, parser and graph-invariant limits.
    Accepts a trusted caller-selected path, never evaluates EDN or follows a leaf
@@ -54,18 +71,18 @@
   [path limits]
   (when-not (and (m/validate PathName path) (m/validate c/AdmissionLimits limits))
     (refuse! :report-policy))
-  (admission/decode (read-text! path (:bytes limits)) :graph limits))
+  (naming-file path #(admission/decode (read-text! path (:bytes limits)) :graph limits)))
 (m/=> read-graph! [:=> [:cat PathName c/AdmissionLimits] c/Graph])
 
 (defn read-archive!
   "Read bounded strict UTF-8 archive EDN and check graph, provenance, verdict and content identity.
    A consistent archive does not independently prove producer honesty or complete CI enrollment."
   [path limits]
-  (admission/decode (read-text! path (:bytes limits)) :run-archive limits))
+  (naming-file path #(admission/decode (read-text! path (:bytes limits)) :run-archive limits)))
 (m/=> read-archive! [:=> [:cat PathName c/AdmissionLimits] ac/Document])
 
 (defn read-repository!
   "Read a bounded full repository observation and verify hashes, policy and nested checkout bindings."
   [path limits]
-  (admission/decode (read-text! path (:bytes limits)) :repository-observation limits))
+  (naming-file path #(admission/decode (read-text! path (:bytes limits)) :repository-observation limits)))
 (m/=> read-repository! [:=> [:cat PathName c/AdmissionLimits] rc/Observation])

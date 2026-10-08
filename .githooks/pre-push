@@ -221,12 +221,20 @@ Error` line above for which.
 EOF
     exit 1
   fi
+  # The browser harness's JavaScript: pinned ESLint in the Playwright image, network
+  # removed (an `npm ci` runs first only when the lockfile moved).
+  if ! bash tools/gate-graph/browser/lint_js.sh; then
+    printf '\033[31m[pre-push] BLOCKED\033[0m — ESLint refused the hand-authored JavaScript (above).\n' >&2
+    printf '  see it   :  make -f lint.mk lint-js\n' >&2
+    exit 1
+  fi
 else
   printf '\033[33m[pre-push]\033[0m no docker — clang-tidy NOT RUN over hand-authored C (CI will run it)\n' >&2
   printf '\033[33m[pre-push]\033[0m no docker — its size-check canary NOT RUN either\n' >&2
   printf '\033[33m[pre-push]\033[0m no docker — lint-python and its canaries NOT RUN (CI runs them only when renderer.yml fires; for a push confined to tools/gate-trace/ nothing runs Ruff)\n' >&2
   printf '\033[33m[pre-push]\033[0m no docker — gate-trace-test and its canary NOT RUN (CI will run them)\n' >&2
   printf '\033[33m[pre-push]\033[0m no docker — gate-graph-test NOT RUN (CI will run it)\n' >&2
+  printf '\033[33m[pre-push]\033[0m no docker — ESLint over the browser harness NOT RUN (gate-viewer.yml will run it)\n' >&2
 fi
 
 # The one PROTO-AWARE check in this hook. It is called separately rather than

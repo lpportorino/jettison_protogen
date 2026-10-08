@@ -65,10 +65,14 @@
    :runtime-observation (m/schema r/RuntimeObservation) :test-observation (m/schema r/TestObservation)
    :clocked-tests (m/schema r/ClockedTests)})
 
+(def refusal-message
+  "The one message every admission refusal carries; wrappers that enrich a refusal match on it."
+  "EDN admission refused")
+
 (defn- refuse!
   "Report a bounded location and named refusal without echoing possibly private input."
   [code offset]
-  (throw (ex-info "EDN admission refused" {:code code :offset offset :offset-unit :utf16})))
+  (throw (ex-info refusal-message {:code code :offset offset :offset-unit :utf16})))
 (m/=> refuse! [:=> [:cat c/AdmissionCode offset-schema] :nil])
 
 (defn- unit-at
@@ -248,14 +252,21 @@
   "Load one closed EDN value under explicit budgets; graph targets also enforce global invariants.
    The caller already owns the input string: file/network adapters must separately bound I/O."
   [text target limits]
-  (admit-bytes! text (:bytes limits))
-  (let [start (skip-space text 0)
-        [end _ value] (parse-form {:text text :limits limits} start)
-        trailing (skip-space text end)]
-    (when (< trailing (count text)) (refuse! :trailing-input trailing))
-    (when-not (m/validate (get target-schemas target) value) (refuse! :invalid-input-shape start))
-    (case target :graph (graph/require-valid! value)
-          :run-archive (archive/require-valid! value)
-          :repository-observation (repository/require-observation! value)
-          value)))
+  ;; Every admission refusal leaves here naming the kind that was expected; the
+  ;; refusal sites deep in the reader need not know it.
+  (try
+    (admit-bytes! text (:bytes limits))
+    (let [start (skip-space text 0)
+          [end _ value] (parse-form {:text text :limits limits} start)
+          trailing (skip-space text end)]
+      (when (< trailing (count text)) (refuse! :trailing-input trailing))
+      (when-not (m/validate (get target-schemas target) value) (refuse! :invalid-input-shape start))
+      (case target :graph (graph/require-valid! value)
+            :run-archive (archive/require-valid! value)
+            :repository-observation (repository/require-observation! value)
+            value))
+    (catch #?(:clj clojure.lang.ExceptionInfo :cljs ExceptionInfo) error
+      (throw (if (= refusal-message (ex-message error))
+               (ex-info (ex-message error) (assoc (ex-data error) :expected-kind target) error)
+               error)))))
 (m/=> decode [:=> [:cat SourceText c/AdmissionTarget c/AdmissionLimits] [:or schema/Encodable r/Encodable]])

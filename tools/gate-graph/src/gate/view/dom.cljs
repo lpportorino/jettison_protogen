@@ -44,5 +44,5 @@
   [tag attributes]
   (let [node (.createElementNS js/document "http://www.w3.org/2000/svg" tag)]
     (doseq [[k value] attributes] (.setAttribute node (name k) (str value))) node))
-(m/=> svg [:=> [:cat [:enum "svg" "path" "line" "rect" "title"]
+(m/=> svg [:=> [:cat [:enum "svg" "g" "path" "line" "rect" "title"]
                 [:map-of {:max 20} :keyword [:or number? [:string {:max 4096}]]]] Element])

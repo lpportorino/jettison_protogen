@@ -1,12 +1,38 @@
 # Offline browser acceptance
 
-Build the viewer and generate the public `gate.view.fixtures` reports before
-running this harness. Pass the directory containing `branch`, `dense`, `signals`,
-`incomplete`, `malformed`, `leaf`, and `open-signals`, followed by a **new** evidence directory:
+Run it through the one entry point, from the checkout root (host, needs docker):
+
+```sh
+make -f lint.mk gate-viewer-acceptance          # or:
+tools/gate-graph/browser/run.sh tools/gate-graph/browser/evidence/<new-dir> [--fixtures DIR]
+```
+
+`run.sh` builds the public `gate.view.fixtures` reports in the pinned image
+(unless `--fixtures` names prebuilt ones), runs `npm ci` from the lockfile, then
+runs `acceptance.mjs` in the digest-pinned Playwright image **with the network
+removed** — Chromium with rotation, WebKit in `--fixed-viewports` mode. Exit
+`0` green, `1` FAIL (an assertion about the viewer did not hold), `2` ERROR (a
+launch failure, a fixture build that failed, or a timeout — not a verdict either
+way, and a locator timeout can be the viewer's fault when a control was removed
+or renamed), `3` CANNOT RUN (no docker or python3, bad arguments, an existing
+evidence directory, a prebuilt fixture missing). The run manifest's
+`failure.kind` carries the same FAIL/ERROR split.
+
+Two more gates guard the harness itself, both in `gate-viewer.yml`:
+`lint_js.sh` runs the lockfile-pinned ESLint (`eslint.config.mjs`, every warning
+blocking) over the repository's hand-authored JavaScript, with `lint_js_test.sh`
+breaking each config clause alone; and `canary.sh` plants one viewer defect per
+mutant — a light mark under 3:1, a lost cursor halo, an edge casing in the
+edge's colour, ruler labels off their times, a call to action that no longer
+names the gate — into a green run's fixtures and requires each to FAIL naming
+its clause (`make -f lint.mk gate-viewer-canary FIXTURES=<run>/fixtures`).
+
+Invoked directly, the harness takes the fixture root (containing `branch`,
+`dense`, `signals`, `incomplete`, `malformed`, `leaf`, `open-signals`) and a
+**new** evidence directory:
 
 ```sh
 node acceptance.mjs /absolute/fixture-root /absolute/new-evidence-root chromium
-node acceptance.mjs /absolute/fixture-root /absolute/new-webkit-evidence-root webkit
 node acceptance.mjs /absolute/fixture-root /absolute/new-webkit-fixed-root webkit --fixed-viewports
 ```
 
@@ -63,30 +89,56 @@ failed run. Never treat a partial manifest as a passing matrix.
 
 Screenshots are evidence for subsequent human or image-tool inspection. The
 harness does not compare approved visual baselines or mark images inspected.
-Text contrast checks cover opaque rendered text/background colors; they do not
-prove focus visibility, chart interpretation, screen-reader semantics or all
-accessibility requirements. Record those findings separately after opening the
-actual captures. Device descriptors and screenshots cannot establish real
-hardware behavior.
+Device descriptors and screenshots cannot establish real hardware behavior.
 
-Read the manifest's `darkContrast` / `lightContrast` as COUNTS: each is the
-number of text elements (`button,p,h1,h2,h3,label,summary,.ruler span,.crumb`
-on the initial overview) whose computed ratio met 4.5:1, which the run asserts
-for every one of them. Neither is a ratio, neither covers `pre` evidence
-blocks, inputs, SVG or non-text marks, and neither is measured inside a dialog,
-fold or companion view.
+**Contrast is measured, and recorded as the minimum ratio found.** Each case's
+`textContrast` and `markContrast` hold `{checked, min}` per theme: `checked` is a
+COUNT of judged elements and `min` the lowest ratio measured. Text — buttons,
+paragraphs, headings, labels, summaries, `pre` evidence blocks, ruler ticks,
+crumbs, and an empty input's placeholder — must reach 4.5:1 against its nearest
+opaque background. Non-text (WCAG 1.4.11) — every solid duration bar, decision
+marker and resource sample against its own track AND against the page-colour
+casing that separates it from a crossing edge or the cursor; the shared cursor
+against its track and against its page-colour halo; every dependency edge, at
+its rendered opacity, against its own casing; and the focus-ring colour against
+the page — must reach 3:1. An edge with no casing, a missing cursor halo, or a
+casing that is not in the layer directly below the edges fails outright.
+Patterned fills (`.running`) have no single colour and are counted under
+`skipped`. Both
+are judged in both themes on each fixture's overview, not inside dialogs,
+folds or companion views; an `axe`-style audit and screen-reader semantics are
+not run.
 
-What `acceptance.mjs` does NOT assert, so a green run says nothing about it:
-the **Longest gate** button and the activity-burst candidate; dialog-internal
-navigation (edge buttons, **Open children**, **Group evidence**, **↑ Parent**,
-**← Pan**, **Next lanes** / **Previous lanes** by click); the **More evidence**
-continuations; the withheld-chart, eight-track and 512-observation messages;
-`attention=` / `exact=` restoration from the URL fragment; focus return on
-dialog close or any `activeElement` at all; modal backdrop blocking; Tab order
-or an axe-style audit. `performance.mjs` records timings and sets no budget.
-There is no browser back/forward behaviour to test: the viewer writes its
-anchor with `history.replaceState` and listens to neither `popstate` nor
-`hashchange`.
+**Every capture has a VLM review brief beside it.** For each `<image>.png` the
+harness writes `<image>.png.json`: the state's `expect` checklist (what only
+looking can confirm — declared per captured state, so an undeclared state is an
+ERROR) plus generic legibility checks, the case identity, and a bounded `dom`
+summary of the page at capture time (status line, breadcrumbs, the investigate
+panel, each lane's label and bar geometry, the open dialog's heading and text,
+the focused element). A full-page capture taller than 1600 CSS px is also cut
+into `.tile-N.png` slices. `vlm-index.json` lists every image with its sidecar,
+so a reviewer is handed a batch rather than a directory to glob.
+Review a batch by launching the `viewer-visual-review` agent (`.claude/agents/`),
+which runs on Sonnet and carries the review brief; do not hand-roll a reviewer
+prompt on a general-purpose agent, which inherits the session's larger model.
+
+Beyond geometry and contrast the harness asserts: the **Longest gate** action
+names the planted gate and duration, is the first keyboard stop, and opens that
+gate with Enter; a details dialog is modal (the controls behind it are not
+hit-testable), an edge button inside it opens the other endpoint, and closing it
+returns focus to the task that opened it; **← Pan** and **Pan →** move the
+window symmetrically; **Group evidence** names the failing member exactly;
+**Open children** inside details opens the folded level and **↑ Parent** returns;
+the planted CPU burst is surfaced as a candidate; `attention=` and `exact=`
+survive reload from the fragment; and the planted unavailable GPU sample is
+counted rather than zero-filled.
+
+Still NOT asserted, because no public fixture reaches it: **Next lanes** /
+**Previous lanes** (dense levels fold into at most 24 lanes), the **More
+evidence** continuations, the withheld mixed-scope chart, the eight-track and
+512-observation messages. `performance.mjs` records timings and sets no budget.
+There is no browser back/forward behaviour to test: the viewer writes its anchor
+with `history.replaceState` and listens to neither `popstate` nor `hashchange`.
 
 The [recorded synthetic visual review](../docs/viewer-visual-review.md) and
 [per-image manifest](../docs/viewer-visual-manifest.json) separate actual image
