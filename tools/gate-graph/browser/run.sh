@@ -57,7 +57,8 @@ mount=(-v "$root:/w" -w /w/tools/gate-graph/browser --user "$uid" -e HOME=/tmp -
 docker run --rm "${mount[@]}" "$PLAYWRIGHT_IMAGE" npm ci --no-audit --no-fund --loglevel=error \
   || { printf '[gate-viewer-acceptance] ERROR — npm ci failed\n' >&2; exit 2; }
 # The lockfile this node_modules came from, so lint_js.sh need not reinstall it.
-sha256sum "$here/package-lock.json" | cut -d' ' -f1 >"$here/node_modules/.installed-from"
+# Best-effort: it is a cache hint, and its absence only costs a reinstall.
+{ sha256sum "$here/package-lock.json" | cut -d' ' -f1 >"$here/node_modules/.installed-from"; } 2>/dev/null || true
 
 in_container() { printf '/w/%s' "${1#"$root"/}"; }
 worst=0
