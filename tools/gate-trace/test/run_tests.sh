@@ -45,4 +45,9 @@ python3 -I -S "$here/test_gate_trace.py"
 if [[ $suite_only == 1 ]]; then
   exit 0
 fi
-python3 -I -S "$here/mutants.py"
+# The canary runs under a caller with a FOREIGN inherited disposition (SIGUSR2
+# ignored, plus the runner's HUP/TERM): a CI runner hands steps dispositions no
+# developer shell has, and an attribution that pinned a raw /proc mask word
+# failed there while every mutant was in fact killed. Attribution must hold for
+# any caller, so the canary is judged under one that is not the default.
+( trap '' USR2 HUP TERM; exec python3 -I -S "$here/mutants.py" )

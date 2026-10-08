@@ -44,6 +44,10 @@ cases() { # cases <wrapper> -> runs every case; prints ok/FAIL; returns nothing
   [ "$rc" -eq 1 ] && ! printf '%s' "$out" | grep -q '^reached$' \
     && ok "errexit: a failing command stops the step (runner default semantics)" || bad "errexit lost: rc=$rc"
 
+  run "$w" $'for i in $(seq 1 400); do echo "  killed mutant-$i: Test.case FAILED; control passed"; done\necho "VERDICT-LINE: 3 mutants survived"\nexit 1'
+  annotation | grep -q 'VERDICT-LINE: 3 mutants survived' \
+    && ok "the tail survives a flood of failure-looking success lines (the verdict is last)" \
+    || bad "tail lost under noise: [$(annotation | cut -c1-300)]"
   run "$w" $'printf "100%% done\\r\\n"\necho "Error: x"\nexit 1'
   annotation | grep -q '100%25 done%0D' && ! annotation | grep -q '100% done' \
     && ok "workflow-command escaping: % and CR are encoded, so the line cannot end or forge the command" \
@@ -91,6 +95,9 @@ m=$(mutate escape "s=\"\${s//\$'\\r'/'%0D'}\"" 's="$s"') \
   && attribute "CR escape removed" "$m" "escaping:" "ANSI colour" || bad "mutation escape did not land"
 m=$(mutate ansi "s/\\x1b\\[[0-9;]*[A-Za-z]//g" "s/NEVERMATCHES//g") \
   && attribute "ANSI strip removed" "$m" "ansi:" "workflow-command escaping" || bad "mutation ansi did not land"
+
+m=$(mutate tail 'tail_part="$(printf '"'"'%s\n'"'"' "$clean" | tail -n 20)"' 'tail_part=""') \
+  && attribute "tail dropped" "$m" "tail lost under noise" "pipefail:" || bad "mutation tail did not land"
 
 echo
 if [ "$fail" -eq 0 ] && [ "$shipped_fail" -eq 0 ]; then

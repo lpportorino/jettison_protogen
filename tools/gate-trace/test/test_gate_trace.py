@@ -120,6 +120,14 @@ def drain(fd):
         out += chunk
 
 
+def signal_name(number):
+    """SIGCHLD for 17; glibc-reserved real-time numbers (32, 33) have no name and print bare."""
+    try:
+        return signal.Signals(number).name
+    except ValueError:
+        return str(number)
+
+
 def signal_line(status_text, field):
     for line in status_text.splitlines():
         if line.startswith(field + ":"):
@@ -506,10 +514,22 @@ class TestSignalFidelity(Fixture):
                     )
                     self.assertEqual(off.returncode, 0)
                     self.assertEqual(on.returncode, 0)
+                    # Compared as the SET OF SIGNALS THAT DIFFER, not as raw words: a
+                    # caller's inherited ignores and blocks appear identically on
+                    # both paths and cancel out, so the verdict and its message do
+                    # not depend on what the runner happened to hand the suite.
                     for field in ("SigIgn", "SigBlk"):
+                        on_mask = int(signal_line(on.stdout.decode(), field).split()[1], 16)
+                        off_mask = int(signal_line(off.stdout.decode(), field).split()[1], 16)
+                        differing = [
+                            signal_name(n)
+                            for n in range(1, 65)
+                            if (on_mask ^ off_mask) >> (n - 1) & 1
+                        ]
                         self.assertEqual(
-                            signal_line(on.stdout.decode(), field),
-                            signal_line(off.stdout.decode(), field),
+                            differing,
+                            [],
+                            f"{field} differs from the off path in: {', '.join(differing)}",
                         )
                     ignored = int(signal_line(on.stdout.decode(), "SigIgn").split()[1], 16)
                     self.assertEqual(bool(ignored & pipe_bit), label == "sigpipe-ignored")

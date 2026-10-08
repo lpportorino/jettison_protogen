@@ -216,6 +216,7 @@ def main():
             and wrong_canary["status"] == "invalid",
         }
     )
+    print("shared-assertion-budget accepted=" + str(report["canaries"][-1]["accepted"]), flush=True)
 
     # This fixture assertion proves the native runner really reports failures.
     row = run(renderer, out, "assertion-canary", source, fail_canary=True)
@@ -225,6 +226,7 @@ def main():
         and "globals.success-and-reinit" in row["passes"]
     )
     report["canaries"].append(row)
+    print(row["name"], row["status"], "accepted=" + str(row["accepted"]), flush=True)
     for name, insertion, expected in (
         ("empty", "exit(0);\n", "invalid"),
         ("compile", "#error deliberate compile refusal\n", "invalid"),
@@ -232,9 +234,22 @@ def main():
         ("timeout", "volatile bool wait_forever = true; while (wait_forever) {}\n", "timeout"),
     ):
         changed = replace_once(source, "  lv_init();", insertion + "  lv_init();")
-        row = run(renderer, out, name + "-canary", changed, timeout=0.25)
+        # Only the deliberately non-terminating probe gets the short budget: it
+        # times out on any machine. A probe that exits or aborts at once gets the
+        # normal one, so a slow or loaded runner (or a host core-dump handler on
+        # abort) can never turn its "invalid" into "timeout" and reject it.
+        row = run(
+            renderer, out, name + "-canary", changed, timeout=0.25 if name == "timeout" else 10
+        )
         row["accepted"] = row["status"] == expected
         report["canaries"].append(row)
+        print(
+            row["name"],
+            row["status"],
+            "expected=" + expected,
+            "accepted=" + str(row["accepted"]),
+            flush=True,
+        )
     if all(row["accepted"] for row in report["canaries"]):
         for fault in faults:
             changed = replace_once(source, fault["old"], fault["new"])
@@ -253,17 +268,33 @@ def main():
         )
     report["input_drift"] = hashes(renderer) != report["inputs"]
     save()
-    return (
-        0
-        if (
-            not report["input_drift"]
-            and all(row["status"] == "passed" for row in report["baselines"])
-            and all(row["accepted"] for row in report["canaries"])
-            and len(report["mutants"]) == len(faults)
-            and all(row["killed"] for row in report["mutants"])
+    # Name every reason on failure: the make recipe deletes the report directory
+    # on exit, so this output is the only evidence a CI log keeps.
+    reasons = []
+    if report["input_drift"]:
+        reasons.append("renderer inputs changed during the run")
+    reasons += [
+        f"baseline {r['name']} {r['status']}"
+        for r in report["baselines"]
+        if r["status"] != "passed"
+    ]
+    reasons += [
+        f"canary {r['name']} rejected (status {r.get('status')})"
+        for r in report["canaries"]
+        if not r["accepted"]
+    ]
+    if len(report["mutants"]) != len(faults):
+        reasons.append(
+            f"{len(report['mutants'])} of {len(faults)} mutants run (they run only after every canary is accepted)"
         )
-        else 1
-    )
+    reasons += [
+        f"mutant {r['name']} not killed (status {r['status']})"
+        for r in report["mutants"]
+        if not r["killed"]
+    ]
+    for reason in reasons:
+        print("lvgl-global-subject-selftest: FAIL " + reason, file=sys.stderr, flush=True)
+    return 1 if reasons else 0
 
 
 if __name__ == "__main__":

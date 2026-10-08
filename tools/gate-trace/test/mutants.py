@@ -473,7 +473,7 @@ MUTANTS += (
         "    failure_r, failure_w = os.pipe()\n    pid = os.fork()",
         [DISPOSITIONS],
         EXIT,
-        "0000000180000000",
+        "SigIgn differs from the off path in: SIGCHLD",
     ),
     (
         "inconsistent-final-dropped",

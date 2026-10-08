@@ -30,24 +30,24 @@ bash --noprofile --norc -eo pipefail "$script" 2>&1 | tee "$log"
 rc=${PIPESTATUS[0]}
 [ "$rc" -eq 0 ] && exit 0
 
-# The annotation body: lines that NAME a failure (bounded), then the tail for
-# context, ANSI colour stripped, de-duplicated in order, capped well under the
-# annotation size limit. Workflow-command escaping: % \r \n -> %25 %0D %0A.
-body="$(
-  sed -e 's/\x1b\[[0-9;]*[A-Za-z]//g' "$log" | awk -v rc="$rc" '
-    { line[NR] = $0 }
-    /FAIL|ERROR|Error|error:|Traceback|Exception|CANNOT RUN|refus|\*\*\* |assert|No such file|not found|denied|exit code|exited/ { hit[++h] = NR }
-    END {
-      start = (h > 25) ? h - 24 : 1
-      for (i = start; i <= h; i++) keep[hit[i]] = 1
-      for (i = (NR > 15 ? NR - 14 : 1); i <= NR; i++) keep[i] = 1
-      prev = 0
-      for (i = 1; i <= NR; i++) if (keep[i]) {
-        if (prev && i > prev + 1) print "…"
-        print line[i]; prev = i
-      }
-    }' | awk 'length($0) > 400 { $0 = substr($0, 1, 400) "…" } { print }' | head -c 6000
-)"
+# The annotation body: the TAIL first — the last lines are where a gate prints
+# its verdict, and a body that loses them is the defect this file exists to
+# fix — then as many of the most recent failure-naming lines as still fit.
+# ANSI colour stripped, lines capped, total bounded well under the annotation
+# limit. Workflow-command escaping (below): % \r \n -> %25 %0D %0A.
+clean="$(sed -e 's/\x1b\[[0-9;]*[A-Za-z]//g' "$log" | awk 'length($0) > 300 { $0 = substr($0, 1, 300) "…" } { print }')"
+tail_part="$(printf '%s\n' "$clean" | tail -n 20)"
+hits_part="$(printf '%s\n' "$clean" | head -n -20 \
+  | grep -E 'FAIL|ERROR|Error|error:|Traceback|Exception|CANNOT RUN|refus|survived|\*\*\* |assert|No such file|not found|denied|exit code|exited' \
+  | grep -vE '^ *(ok|killed) ' | tail -n 15)"
+budget=$(( 5500 - ${#tail_part} ))
+[ "$budget" -lt 0 ] && budget=0
+hits_part="$(printf '%s' "$hits_part" | tail -c "$budget")"
+body="== last lines ==
+${tail_part}"
+[ -n "$hits_part" ] && body="${body}
+== earlier lines naming a failure ==
+${hits_part}"
 title="step failed with exit ${rc}"
 [ -n "${GITHUB_JOB:-}" ] && title="${GITHUB_JOB}: ${title}"
 escape() { local s="${1//'%'/'%25'}"; s="${s//$'\r'/'%0D'}"; printf '%s' "${s//$'\n'/'%0A'}"; }
