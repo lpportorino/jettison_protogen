@@ -176,12 +176,20 @@ fi
 # the suite needs dash, GNU make's jobserver and Python 3.12, which the image
 # carries. Its fail canary is part of the same target and runs after the suite.
 if command -v docker >/dev/null 2>&1; then
-  if ! tools/uber.sh 'make -f lint.mk lint-c-tidy-test lint-c-tidy lint-python gate-trace-test gate-graph-test'; then
+  # UBER_NETWORK=none: these container lanes judge with the network removed, so a
+  # provisioning gap in the image they use fails here by name. That covers ONLY
+  # these five; the bare `make -f lint.mk lint` above runs on the host network, and
+  # the wasmtime harness lanes are not run by this hook at all.
+  if ! UBER_NETWORK=none tools/uber.sh 'make -f lint.mk lint-c-tidy-test lint-c-tidy lint-python gate-trace-test gate-graph-test'; then
     cat >&2 <<'EOF'
 
 [pre-push] BLOCKED — the clang-tidy lane, the Python lane, a gate graph or gate-trace
 suite, or one of their canaries refused. Read the `*** [lint.mk:N: <target>]
 Error` line above for which.
+
+  These lanes run with the NETWORK REMOVED. "Failed to read artifact",
+  "Could not resolve" or "not available offline" means your local base image
+  predates a provisioning change: rebuild it with  tools/uber.sh --build
 
   lint-c-tidy       clang-tidy findings in hand-authored C.
                     see them :  tools/uber.sh 'make -f lint.mk lint-c-tidy'

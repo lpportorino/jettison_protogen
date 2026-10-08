@@ -12,6 +12,11 @@
 #   tools/uber.sh --build        # (re)build the image only
 #   tools/uber.sh --check        # build AND verify the image can execute
 #
+# Environment:
+#   UBER_NETWORK=none            run with the network removed (`docker run --network`);
+#                                cargo is then told it is offline
+#   PROTOGEN_IMAGE_TAG=<tag>     use that image instead of the default base tag
+#
 # Arch detection: docker build+run are pinned to the host's native platform.
 # On some hosts docker/buildkit defaults to a different platform and silently
 # cross-builds, yielding an image whose binaries "cannot execute" — forcing the
@@ -219,6 +224,31 @@ else
 fi
 # ---8<--- safe.directory declaration END
 
+# The image pre-fetches the harness's locked crates into /opt/rust (Dockerfile.base);
+# this run's CARGO_HOME is in the workspace, so the registry is SEEDED from the
+# image once — only when this workspace has none. Seeding holds an flock on
+# $CARGO_HOME/.seed.lock, so concurrent runs copy it exactly once and the rest
+# wait, then find it present: no run sees a half copy, and no losing copy is
+# deleted under another run's chown-back walk. The copy goes to a private temp
+# directory (`mktemp -d`; every container's shell has the same small PID, so a
+# `$$` name would be shared) and is renamed into place. Later runs pay nothing.
+# With UBER_NETWORK=none cargo is told it is offline, so a crate the registry
+# lacks fails by name instead of as a resolver timeout. A seeded registry is
+# never refreshed: after a Cargo.lock bump, rebuild the image
+# (`tools/uber.sh --build`) AND remove the stale seed (`rm -rf .cargo-home/registry`).
+if [ -d /opt/rust/registry ] && [ -n "${CARGO_HOME:-}" ] && [ ! -d "$CARGO_HOME/registry" ]; then
+  mkdir -p "$CARGO_HOME"
+  seed_err="$(
+    exec 9>"$CARGO_HOME/.seed.lock" && flock 9 || exit 1
+    [ -d "$CARGO_HOME/registry" ] && exit 0
+    seed_tmp="$(mktemp -d "$CARGO_HOME/registry.seed.XXXXXX")" || exit 1
+    if cp -a /opt/rust/registry/. "$seed_tmp/" 2>&1 && mv -T "$seed_tmp" "$CARGO_HOME/registry" 2>&1; then exit 0; fi
+    rm -rf "$seed_tmp"
+    [ -d "$CARGO_HOME/registry" ]   # something else put a registry in place: that is not a failure
+  )" || printf 'uber.sh: cargo registry seed from the image FAILED: %s\n' "${seed_err:-lock or mktemp refused}" >&2
+fi
+[ "${UBER_NETWORK_MODE:-}" = none ] && export CARGO_NET_OFFLINE=true
+
 bash -lc "$UBER_CMD"
 rc=$?
 
@@ -260,11 +290,19 @@ exit $rc
 UBER_INNER
 )"
 
+# UBER_NETWORK=none runs the command with NO network: the judge half of
+# provision-then-judge. A gate whose verdict depends on reaching a registry is
+# not deterministic, so lanes are measured and run this way; anything they still
+# fetch is a provisioning gap, named by the failure rather than hidden by a cache.
+NETWORK_ARGS=()
+[ -n "${UBER_NETWORK:-}" ] && NETWORK_ARGS=(--network "$UBER_NETWORK")
+
 exec docker run --rm --platform "$PLATFORM" --entrypoint bash \
+  ${NETWORK_ARGS[@]+"${NETWORK_ARGS[@]}"} \
   -v "$ROOT:$WORKSPACE" -w "$WORKSPACE" \
   ${GIT_MOUNT[@]+"${GIT_MOUNT[@]}"} \
   -e CARGO_HOME="$WORKSPACE/.cargo-home" \
   -e UBER_CMD="$*" -e UBER_UID="$(id -u)" -e UBER_GID="$(id -g)" \
-  -e UBER_WORKSPACE="$WORKSPACE" \
+  -e UBER_WORKSPACE="$WORKSPACE" -e UBER_NETWORK_MODE="${UBER_NETWORK:-}" \
   "$IMG" -lc "$INNER_SCRIPT"
 

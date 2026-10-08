@@ -355,12 +355,34 @@ RUN cd /prefetch/devcards \
     && clojure -P -M:shadow:test \
     && cd /prefetch/root \
     && clojure -P -M:kondo:fmt:splint \
+    && clojure -P -M:kondo \
+    && clojure -P -M:fmt \
+    && clojure -P -M:splint \
+    && clojure -P -M:lint-gate \
     && cd /prefetch/root/tools/lint/kondo \
     && clojure -P -M:test \
     && clojure -P -M:stock:test \
     && rm -rf /prefetch \
     && test -n "$(ls -A /root/.gitlibs/_repos)" \
     && test -n "$(ls -A /root/.m2/repository)"
+# A UNION prefetch is not enough, and that is measured: tools.deps resolves
+# `-P -M:kondo:fmt:splint` to ONE version set, while each lane invokes ONE alias
+# and resolves its own — `-M:kondo` alone wants the edamame its patched JAR's POM
+# names, `-M:fmt` alone a different tools.cli — so a lane run with the network
+# removed died with "Failed to read artifact". The root aliases are therefore
+# also prefetched one at a time, exactly as the lanes invoke them.
+
+# ── Pre-fetch the wasmtime harness's LOCKED crates ───────────────────────────
+# The harness/interaction/oracle lanes otherwise download crates at gate time
+# ("Could not resolve" with the network removed). `--locked` fetches exactly
+# Cargo.lock, so a lockfile change rebuilds this layer and nothing else drifts.
+# Cargo infers its targets from src/, so a stub lib is all the manifest needs.
+# tools/uber.sh copies this registry into the workspace CARGO_HOME it uses.
+COPY renderer/wasm_harness/Cargo.toml renderer/wasm_harness/Cargo.lock /prefetch-rs/
+RUN mkdir -p /prefetch-rs/src && : > /prefetch-rs/src/lib.rs \
+    && cd /prefetch-rs && cargo fetch --locked \
+    && rm -rf /prefetch-rs \
+    && test -n "$(ls -A /opt/rust/registry/cache)"
 
 # ── shellcheck (lint only) ────────────────────────────────────────────────────
 # Placed AFTER the dependency prewarm on purpose. shellcheck takes part in no
