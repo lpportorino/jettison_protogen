@@ -108,6 +108,59 @@ clojure -M:test
 clojure -M:test NEW_REPORT_DIRECTORY
 ```
 
+The command verifies the packaged viewer before starting tests and publishes
+`index.html` beside `graph.edn` on completion, including a failed test result.
+The HTML embeds the graph, CSS and JavaScript and works as a single local file.
+An HTML write failure fails the command. EDN and HTML publication are not a
+multi-file transaction; a later failure may leave the earlier EDN evidence.
+
+Consumer commands can use the same public boundary:
+
+```clojure
+(let [viewer (gate.viewer-asset/load!)
+      result (run-command-batch!)]
+  (gate.report-publish/publish! report-directory (:graph result) viewer)
+  result)
+```
+
+Require those namespaces normally. For process CLI commands, put publication
+inside the `gate.process-batch/run-cli!` callback so its shutdown budget includes
+HTML completion. Supply the graph from that run's EDN publisher. The returned
+closed record binds normalized graph and viewer digests and the HTML byte count.
+Publication requires an existing trusted directory, atomically creates the
+finished `index.html`, and refuses to overwrite a file or symlink. It requires
+hard-link support and does not promise fsync durability or defend against hostile
+replacement of parent directories.
+
+The generic release asset lives under `resources/gate/viewer`; it contains no
+consumer data. The loader checks bounded UTF-8 bytes, the bundle hash and every
+recorded browser source against classpath resources. The manifest records build
+declaration hashes too; the authoring freshness check verifies those and source
+membership. Hash equality detects drift, not malicious provenance or incorrect
+compilation. Consumers do not need Node, shadow-cljs or a private JavaScript copy.
+
+From the module directory, rebuild after changing CLJC/CLJS sources or compiler
+and dependency declarations, then check from a fresh process:
+
+```sh
+clojure -M:viewer-build
+clojure -M:viewer-build check
+```
+
+Commit both generated resources with their source changes. Compiler caches and
+source maps stay in ignored directories. The ordinary module suite checks asset
+freshness; matching offline browser acceptance remains necessary for viewer changes.
+
+Run the scoped delivery fault assessment with
+`clojure -M:test:viewer-campaign OWNED_NEW_OUTPUT_PARENT`. It freezes source,
+tests, build declarations and packaged resources, runs a fresh JVM per fault,
+and shares one full before/after baseline across the declared source files.
+Each case records its source, test namespace, positive control and exact changed
+bytes. The campaign includes the process-capacity race discovered while
+dogfooding publication. Its selected faults do not establish whole-module
+mutation coverage. Namespace source discovery includes nested CLJC/CLJS files;
+links and excess manifest membership refuse. Build declarations hash exact bytes.
+
 Default reports use fresh ignored `.gate-reports` directories. Existing reports
 are never overwritten. The command now uses `gate.test-batch/run!`, described
 below; raw per-test records are under its hashed gate directory. The preceding
@@ -288,9 +341,9 @@ search, background overlays, aggregate controls or CI-scale performance proof.
 Run the scoped public demonstration from the checkout root:
 
 ```sh
-bash tools/uber.sh 'cd tools/gate-graph && clojure -M:shadow release viewer'
+bash tools/uber.sh 'cd tools/gate-graph && clojure -M:viewer-build'
 bash tools/uber.sh 'bash tools/gate-graph/test/capture-public.sh'
-bash tools/uber.sh 'cd tools/gate-graph && clojure -M -m gate.trace-cli "$(cat ../../.fork-scratch/graph-logs/journal-path.txt)" ../../.fork-scratch/graph-report ../../.fork-scratch/gate-viewer/main.js graph-tests gate/graph-tests capture-tests gate/capture-tests'
+bash tools/uber.sh 'cd tools/gate-graph && clojure -M -m gate.trace-cli "$(cat ../../.fork-scratch/graph-logs/journal-path.txt)" ../../.fork-scratch/graph-report resources/gate/viewer/main.js graph-tests gate/graph-tests capture-tests gate/capture-tests'
 ```
 
 The output directory must be new; existing artifacts are not overwritten.

@@ -5,6 +5,7 @@
             [gate.inspection-contract :as ic]
             [gate.run-contract :as r]
             [gate.schema :as schema]
+            [gate.viewer-contract :as vc]
             [malli.core :as m]))
 
 (def default-limits
@@ -41,7 +42,8 @@
    [:map {:closed true} [:kind [:= :map]]
     [:entries [:map-of {:max 1000000} keyword-schema raw-value]] [:field [:maybe keyword-schema]]]])
 (def ^:private target-schemas
-  {:graph (m/schema c/Graph) :query-request (m/schema ic/Request)
+  {:viewer-manifest (m/schema vc/Manifest)
+   :graph (m/schema c/Graph) :query-request (m/schema ic/Request)
    :aggregate-request (m/schema ic/AggregateRequest) :diff-request (m/schema ic/DiffRequest)
    :value (m/schema schema/Encodable) :gate-definitions (m/schema r/Gates)
    :cache-receipt (m/schema r/Receipt) :input-snapshot (m/schema r/Snapshot)

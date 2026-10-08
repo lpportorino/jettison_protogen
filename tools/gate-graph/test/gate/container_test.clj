@@ -187,18 +187,21 @@
       (let [project (Path/of (System/getProperty "user.dir") (make-array String 0))
             staged (.resolve ^Path root "public-suite")
             _ (Files/createDirectory staged (make-array FileAttribute 0))
-            _ (doseq [directory ["src" "test"]] (copy-tree! (.resolve project ^String directory) (.resolve staged ^String directory)))
+            _ (doseq [directory ["src" "test" "resources"]] (copy-tree! (.resolve project ^String directory) (.resolve staged ^String directory)))
+            _ (doseq [file ["deps.edn" "shadow-cljs.edn"]]
+                (Files/copy (.resolve project ^String file) (.resolve staged ^String file) (make-array java.nio.file.CopyOption 0)))
             jars (.resolve staged "jars")
             _ (Files/createDirectory jars (make-array FileAttribute 0))
             dependencies (filter #(str/ends-with? % ".jar") (str/split (System/getProperty "java.class.path") #":"))
             _ (doseq [[i jar] (map-indexed vector dependencies)]
                 (Files/copy (Path/of jar (make-array String 0)) (.resolve jars (str i ".jar")) (make-array java.nio.file.CopyOption 0)))
             gate (assoc fixture/gate :id "public-module"
-                        :outputs ["out/module-report/graph.edn"]
+                        :outputs ["out/module-report/graph.edn" "out/module-report/index.html"]
                         :environment ["PATH"] :toolchains ["image" "container-profile"]
-                        :inputs (mapv #(hash-map :id % :kind :tree :path % :required? true) ["src" "test" "jars"])
+                        :inputs (into (mapv #(hash-map :id % :kind :tree :path % :required? true) ["src" "test" "resources" "jars"])
+                                      (map #(hash-map :id % :kind :file :path % :required? true) ["deps.edn" "shadow-cljs.edn"]))
                         :command [(str (System/getProperty "java.home") "/bin/java") "-cp"
-                                  (str/join ":" (into ["/gate/src" "/gate/test"] (map-indexed (fn [i _] (str "/gate/jars/" i ".jar")) dependencies)))
+                                  (str/join ":" (into ["/gate/src" "/gate/test" "/gate/resources"] (map-indexed (fn [i _] (str "/gate/jars/" i ".jar")) dependencies)))
                                   "clojure.main" "-m" "gate.test-runner" "/gate/out/module-report"])
             runtime (container/profile *image* container/default-limits ["out"])
             req (assoc (request root "") :directory (str staged) :gate gate :output-roots ["out"]

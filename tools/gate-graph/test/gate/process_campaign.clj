@@ -7,6 +7,9 @@
   [{:id "finished-handle-retention"
     :anchor "(swap! handles #(into {} (filter (fn [[_ handle]] (.isAlive ^ProcessHandle handle))) %))"
     :replacement "nil" :test "process-budget-bounds-live-handles-not-finished-sequential-children"}
+   {:id "stale-capacity-at-admission"
+    :anchor "(when (>= (count @handles) limit) (prune-handles! handles))"
+    :replacement "nil" :test "descendant-admission-rechecks-capacity-after-enumeration"}
    {:id "inherited-environment" :anchor "(.clear effective)" :replacement "nil"
     :test "argv-environment-cwd-and-stdin-remain-explicit"}
    {:id "unbounded-output" :anchor "(min n (- limit (:bytes @state)))" :replacement "n"

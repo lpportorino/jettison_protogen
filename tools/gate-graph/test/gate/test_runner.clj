@@ -25,6 +25,8 @@
             [gate.publish-test]
             [gate.query-test]
             [gate.report-io-test]
+            [gate.report-publish :as html]
+            [gate.report-publish-test]
             [gate.report-test]
             [gate.run-test]
             [gate.runtime-test]
@@ -36,14 +38,16 @@
             [gate.test-batch-test]
             [gate.trace-cli]
             [gate.trace-test]
+            [gate.viewer-asset :as viewer]
+            [gate.viewer-asset-test]
             [malli.core :as m]))
 
-(def source-namespaces '[gate.contract gate.inspection-contract gate.schema gate.decimal gate.graph gate.interval gate.canonical gate.query gate.measure gate.diff gate.admission
+(def source-namespaces '[gate.viewer-asset gate.viewer-build gate.report-publish gate.contract gate.inspection-contract gate.schema gate.decimal gate.graph gate.interval gate.canonical gate.query gate.measure gate.diff gate.admission
                          gate.trace-contract gate.trace-io gate.trace-import gate.report gate.report-io gate.trace-cli
                          gate.run-contract gate.plan gate.cache gate.store gate.diagnostic gate.coordinator gate.inputs gate.attempt gate.process gate.process-batch gate.process-graph gate.snapshot gate.container gate.publish gate.contained gate.runtime gate.ownership gate.clojure-test gate.test-graph gate.test-artifact gate.clock gate.batch-graph gate.test-batch gate.verdict])
 
 (def test-namespaces
-  '[gate.admission-test gate.decimal-test gate.graph-test gate.interval-test gate.query-test
+  '[gate.viewer-asset-test gate.report-publish-test gate.admission-test gate.decimal-test gate.graph-test gate.interval-test gate.query-test
     gate.measure-test gate.diff-test gate.trace-test gate.report-test gate.report-io-test gate.run-test gate.store-test
     gate.diagnostic-test gate.coordinator-test gate.inputs-test gate.attempt-test gate.process-test gate.process-batch-test gate.process-cli-test gate.process-graph-test
     gate.snapshot-test gate.publish-test gate.contained-test gate.runtime-test gate.ownership-test
@@ -87,17 +91,21 @@
 (m/=> suite! [:=> [:cat] :nil])
 
 (defn -main
-  "Observe the full suite and save source-bound EDN. Optional argument: fresh report directory.
+  "Observe the full suite and save source-bound EDN with matching standalone HTML.
+   Optional argument: fresh report directory. Verify the packaged viewer before tests.
    Default reports stay in ignored .gate-reports. A failed/refused suite or publication fails the command."
   [& [output]]
   (prepare!)
-  (let [run (str "module-" (java.util.UUID/randomUUID))
+  (let [asset (viewer/load!)
+        run (str "module-" (java.util.UUID/randomUUID))
+        output (or output (str ".gate-reports/" run))
         gate (batch/declaration "gate/module-tests" "Execution graph module tests" test-namespaces [])
         result (try
                  (batch/run! {:run run :key "chain/module-tests" :label "Execution graph module test chain"
                               :coordinator {:jobs 1 :claims {}} :max-tests 10000 :max-assertions 1000000}
                              [gate] [(:id gate)] {(:id gate) {:namespaces test-namespaces :runner suite!}}
-                             (artifact/classpath) (or output (str ".gate-reports/" run)) (atom false))
+                             (artifact/classpath) output (atom false))
                  (finally (shutdown-agents)))]
+    (html/publish! output (:graph result) asset)
     (System/exit (if (= :passed (:status result)) 0 1))))
 (m/=> -main [:=> [:cat [:? :string]] :nil])

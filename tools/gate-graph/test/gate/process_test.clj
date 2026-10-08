@@ -136,6 +136,23 @@
         (is (nil? (:log result)))
         (is (= :cancelled (:outcome (process/work-result fixture/gate result nil))))))))
 
+(deftest descendant-admission-rechecks-capacity-after-enumeration
+  ;; Deterministically finish a retained child after the initial pruning but
+  ;; before the next descendant is admitted. No scheduler timing is involved.
+  (doseq [finishes? [true false]]
+    (let [alive (atom true)
+          parent (reify java.lang.ProcessHandle (pid [_] 11) (isAlive [_] true))
+          previous (reify java.lang.ProcessHandle (pid [_] 12) (isAlive [_] @alive))
+          child (reify java.lang.ProcessHandle (pid [_] 13) (isAlive [_] true))
+          native (proxy [Process] []
+                   (descendants []
+                     (when finishes? (reset! alive false))
+                     (.stream (java.util.ArrayList. [child]))))
+          handles (atom {11 parent 12 previous}) observed (atom 2)]
+      (is (= finishes? (#'process/remember! native handles observed 2)))
+      (is (= (if finishes? #{11 13} #{11 12}) (set (keys @handles))))
+      (is (= (if finishes? 3 2) @observed)))))
+
 (deftest process-budget-bounds-live-handles-not-finished-sequential-children
   (with-directory
     (fn [root]

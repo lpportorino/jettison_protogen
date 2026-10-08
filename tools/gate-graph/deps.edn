@@ -1,10 +1,12 @@
-{:paths ["src"]
+{:paths ["src" "resources"]
  :deps {org.clojure/clojure {:mvn/version "1.12.0"}
         metosin/malli {:mvn/version "0.20.2"}
         metosin/jsonista {:mvn/version "1.0.0"}
         hiccup/hiccup {:mvn/version "2.0.0"}}
  :aliases
- {:demo {:extra-paths ["test"] :main-opts ["-m" "gate.demo"]}
+ {:viewer-build {:main-opts ["-m" "gate.viewer-build"]}
+  :viewer-campaign {:main-opts ["-m" "gate.viewer-campaign"]}
+  :demo {:extra-paths ["test"] :main-opts ["-m" "gate.demo"]}
   :inspection {:extra-paths ["test"] :main-opts ["-m" "gate.inspection-dogfood"]}
   :coordinator-dogfood {:extra-paths ["test"] :main-opts ["-m" "gate.coordinator-dogfood"]}
   :shadow {:extra-deps {thheller/shadow-cljs {:mvn/version "3.5.3"}}

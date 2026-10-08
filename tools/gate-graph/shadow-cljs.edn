@@ -1,5 +1,5 @@
 {:deps {:aliases [:shadow]}
  :builds {:viewer {:target :browser
-                   :output-dir "../../.fork-scratch/gate-viewer"
+                   :output-dir "target/viewer"
                    :modules {:main {:init-fn gate.viewer/init!}}
                    :compiler-options {:optimizations :advanced :infer-externs :auto}}}}

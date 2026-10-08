@@ -16,7 +16,9 @@
 (def Text [:string {:max 4096}])
 (def PathName [:string {:min 1 :max 4096}])
 (def Fault
-  [:map {:closed true} [:id c/Id] [:anchor Text] [:replacement Text] [:test runner/TestName]])
+  [:map {:closed true} [:id c/Id] [:anchor Text] [:replacement Text] [:test runner/TestName]
+   [:source {:optional true} PathName] [:namespace {:optional true} runner/TestNamespace]
+   [:control {:optional true} runner/TestName]])
 (def Execution
   [:map {:closed true} [:command [:vector {:min 1 :max 12} PathName]]
    [:exit :int] [:timed-out? :boolean] [:elapsed-ns c/Natural]
@@ -29,7 +31,7 @@
 (def Baseline [:map {:closed true} [:execution Execution] [:passed? :boolean]])
 (def Fingerprints [:map-of {:max 256} PathName c/Digest])
 (def Report
-  [:map {:closed true} [:schema/version [:= 1]] [:scope [:enum :edn-admission :coordinator :adapter-verdict :live-inputs :cache-attempt :process :process-verdict :process-projection :process-batch :process-cli :process-capture-verdict :coverage-unit-verdict :coverage-unit-cache :container :output-publication :contained-completion :runtime :runtime-admission :output-ownership :test-observer :test-projection :test-artifact :native-clock :batch-projection :native-test-batch :graph-evidence :engine-identity]]
+  [:map {:closed true} [:schema/version [:= 1]] [:scope [:enum :viewer-delivery :viewer-manifest :viewer-asset :html-publication :edn-admission :coordinator :adapter-verdict :live-inputs :cache-attempt :process :process-verdict :process-projection :process-batch :process-cli :process-capture-verdict :coverage-unit-verdict :coverage-unit-cache :container :output-publication :contained-completion :runtime :runtime-admission :output-ownership :test-observer :test-projection :test-artifact :native-clock :batch-projection :native-test-batch :graph-evidence :engine-identity]]
    [:fingerprints Fingerprints]
    [:runtime [:map {:closed true} [:java-version Text] [:java-vm Text] [:clojure-version Text]]]
    [:initial Baseline] [:final [:maybe Baseline]]
@@ -84,9 +86,10 @@
           (for [file (file-seq (io/file root))
                 :when (.isFile ^File file)
                 :let [path (str (.relativize base (.toPath ^File file)))]
-                :when (or (= path "deps.edn")
+                :when (or (contains? #{"deps.edn" "shadow-cljs.edn"} path)
+                          (str/starts-with? path "resources/")
                           (and (or (str/starts-with? path "src/") (str/starts-with? path "test/"))
-                               (re-find #"\.(?:clj|cljc|edn)$" path)))]
+                               (re-find #"\.(?:clj|cljc|cljs|edn)$" path)))]
             [path (canonical/sha256 (slurp file))]))))
 (m/=> fingerprints [:=> [:cat PathName] Fingerprints])
 
@@ -148,9 +151,16 @@
 (m/=> read-counters [:=> [:cat PathName] [:maybe runner/Result]])
 
 (defn assess
-  "Apply one exact fault in the disposable copy, then restore and record both judged hashes."
+  "Apply one exact fault in the disposable copy, then restore and record both judged hashes.
+   Optional per-fault source/namespace/control fields let a multi-file campaign
+   share one full before/after baseline. Sources must belong to the copied census."
   [module output fault]
-  (let [path (io/file module *mutation-source*) original (slurp path)
+  (let [source (or (:source fault) *mutation-source*)
+        namespace-name (or (:namespace fault) *test-namespace*)
+        control (or (:control fault) *control*)
+        _ (when-not (contains? (fingerprints module) source)
+            (throw (ex-info "Fault source is outside the copied census" {:code :invalid-fault-source})))
+        path (io/file module source) original (slurp path)
         {:keys [id anchor replacement]} fault
         occurrences (count (re-seq (re-pattern (java.util.regex.Pattern/quote anchor)) original))]
     (when-not (= 1 occurrences) (throw (ex-info "Fault anchor is not unique" {:code :invalid-fault :id id})))
@@ -160,15 +170,15 @@
         (spit path changed)
         (when (or (= changed original) (str/includes? changed anchor) (not= changed (slurp path)))
           (throw (ex-info "Fault bytes did not land" {:code :invalid-fault :id id})))
-        (let [execution (execute ["clojure" "-M:test:mutation" (:test fault) *control* result-path *test-namespace*]
+        (let [execution (execute ["clojure" "-M:test:mutation" (:test fault) control result-path namespace-name]
                                  module (str (io/file output (str id ".log"))))
               counters (read-counters result-path)
               outcome (classify execution counters)]
           (println id outcome)
           (flush)
-          {:fault fault :source *mutation-source* :original-digest (canonical/sha256 original)
+          {:fault fault :source source :original-digest (canonical/sha256 original)
            :mutant-digest (canonical/sha256 changed) :execution execution
-           :control *control* :counters counters :outcome outcome})
+           :control control :counters counters :outcome outcome})
         (finally (spit path original))))))
 (m/=> assess [:=> [:cat PathName PathName Fault] FaultResult])
 
@@ -191,7 +201,8 @@
   "Run the manual campaign in an isolated copy; keep full logs and closed EDN evidence."
   [output-parent]
   (mi/instrument!)
-  (when-not (m/validate [:vector {:min 1 :max 64} Fault] *faults*)
+  (when-not (and (m/validate [:vector {:min 1 :max 64} Fault] *faults*)
+                 (= (count *faults*) (count (set (map :id *faults*)))))
     (throw (ex-info "Invalid fault declarations" {:code :invalid-faults})))
   (let [root (.getCanonicalPath (io/file ".")) frozen (fingerprints root)
         parent (.toPath (io/file output-parent))]

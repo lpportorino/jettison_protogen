@@ -16,11 +16,13 @@
             [gate.process-graph-test]
             [gate.process-test]
             [gate.publish-test]
+            [gate.report-publish-test]
             [gate.run-test]
             [gate.runtime-test]
             [gate.snapshot-test]
             [gate.test-artifact-test]
             [gate.test-batch-test]
+            [gate.viewer-asset-test]
             [malli.core :as m]
             [malli.instrument :as mi]))
 
@@ -28,7 +30,7 @@
   [:map {:closed true} [:test nat-int?] [:pass nat-int?] [:fail nat-int?] [:error nat-int?]])
 (def Result [:map {:closed true} [:target Counters] [:control Counters]])
 (def TestName [:re #"^[a-z][a-z0-9-]{0,159}$"])
-(def TestNamespace [:enum "gate.admission-test" "gate.coordinator-test" "gate.inputs-test" "gate.attempt-test" "gate.process-test" "gate.process-batch-test" "gate.process-cli-test" "gate.process-graph-test" "gate.container-test" "gate.publish-test" "gate.run-test" "gate.contained-test" "gate.runtime-test" "gate.ownership-test" "gate.clojure-test-test" "gate.test-artifact-test" "gate.batch-graph-test" "gate.test-batch-test" "gate.graph-test" "gate.snapshot-test"])
+(def TestNamespace [:enum "gate.viewer-asset-test" "gate.report-publish-test" "gate.admission-test" "gate.coordinator-test" "gate.inputs-test" "gate.attempt-test" "gate.process-test" "gate.process-batch-test" "gate.process-cli-test" "gate.process-graph-test" "gate.container-test" "gate.publish-test" "gate.run-test" "gate.contained-test" "gate.runtime-test" "gate.ownership-test" "gate.clojure-test-test" "gate.test-artifact-test" "gate.batch-graph-test" "gate.test-batch-test" "gate.graph-test" "gate.snapshot-test"])
 
 (defn run-selected
   "Require one actual test var, execute it, and print counters independently of its neighbor."

@@ -2,3 +2,4 @@
 /.shadow-cljs/
 /.cpcache/
 /.gate-reports/
+/target/

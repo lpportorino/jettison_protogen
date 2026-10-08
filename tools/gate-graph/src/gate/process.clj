@@ -61,17 +61,26 @@
     (.start builder)))
 (m/=> start! [:=> [:cat Request] NativeProcess])
 
+(defn- prune-handles!
+  "Drop exited handles before consuming live-process capacity; retain live reparented children."
+  [handles]
+  (swap! handles #(into {} (filter (fn [[_ handle]] (.isAlive ^ProcessHandle handle))) %))
+  nil)
+(m/=> prune-handles! [:=> [:cat State] :nil])
+
 (defn- remember!
   "Bound retained live handles, counting observed processes separately from active concurrency.
    Keep still-live observed descendants even when they are subsequently reparented.
-   A snapshot can miss a short-lived parent and detached child: this is not containment."
+   Refresh full capacity at admission because a retained child can finish during
+   descendant enumeration. This remains a non-atomic observation, not containment."
   [process handles observed limit]
-  (swap! handles #(into {} (filter (fn [[_ handle]] (.isAlive ^ProcessHandle handle))) %))
+  (prune-handles! handles)
   (with-open [stream (.descendants ^Process process)]
     (let [iterator (.iterator stream)]
       (loop []
         (if (.hasNext iterator)
           (let [^ProcessHandle child (.next iterator) pid (.pid child)]
+            (when (>= (count @handles) limit) (prune-handles! handles))
             (cond
               (or (contains? @handles pid) (not (.isAlive child))) (recur)
               (and (< (count @handles) limit) (< @observed 2147483647))

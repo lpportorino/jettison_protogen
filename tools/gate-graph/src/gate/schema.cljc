@@ -1,15 +1,17 @@
 (ns gate.schema
   "Discoverable graph and inspection schemas; persisted schema names remain stable."
   (:require [gate.contract :as c]
-            [gate.inspection-contract :as ic]))
+            [gate.inspection-contract :as ic]
+            [gate.viewer-contract :as vc]))
 
 (def Encodable
-  [:or c/Graph ic/Selection ic/Request ic/Page c/Node c/Measurement ic/AggregateRequest ic/AggregateResult
+  [:or vc/Manifest c/Graph ic/Selection ic/Request ic/Page c/Node c/Measurement ic/AggregateRequest ic/AggregateResult
    ic/TaskSemantics ic/TaskDuration ic/TaskAssociation ic/Fingerprint ic/DiffSelection ic/DiffRequest ic/DiffRow ic/DiffPage])
 
 (def registry
   "Named schemas for discovery; the normalized boundary contains no open metadata."
-  {:gate.contract/id c/Id :gate.contract/natural c/Natural :gate.contract/digest c/Digest :gate.contract/label c/Label :gate.contract/node-kind c/NodeKind :gate.contract/attempt c/Attempt
+  {:gate.viewer/manifest vc/Manifest
+   :gate.contract/id c/Id :gate.contract/natural c/Natural :gate.contract/digest c/Digest :gate.contract/label c/Label :gate.contract/node-kind c/NodeKind :gate.contract/attempt c/Attempt
    :gate.contract/execution-outcome c/ExecutionOutcome :gate.contract/decision-outcome c/DecisionOutcome :gate.contract/decision-reason c/DecisionReason
    :gate.contract/interval c/Interval
    :gate.contract/open-interval c/OpenInterval :gate.contract/source c/Source :gate.contract/resource c/Resource :gate.contract/execution c/Execution
