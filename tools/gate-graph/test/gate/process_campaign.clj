@@ -4,7 +4,17 @@
             [malli.core :as m]))
 
 (def faults
-  [{:id "finished-handle-retention"
+  [{:id "intermediate-parents-killed-with-leaves"
+    :anchor "(not (contains? parent-pids pid))" :replacement "true"
+    :test "cleanup-keeps-intermediate-waiters-alive-to-reap-their-children"}
+   {:id "reaping-window-skipped"
+    :anchor "reap-deadline (+ started (quot duration 2))" :replacement "reap-deadline started"
+    :test "cleanup-keeps-intermediate-waiters-alive-to-reap-their-children"}
+   {:id "remaining-zombies-reported-stopped"
+    :anchor "(stopped? @handles)\n        (do (cleanup-yield! cancellation interrupted) (recur)))"
+    :replacement "true\n        (do (cleanup-yield! cancellation interrupted) (recur)))"
+    :test "cleanup-keeps-intermediate-waiters-alive-to-reap-their-children"}
+   {:id "finished-handle-retention"
     :anchor "(swap! handles #(into {} (filter (fn [[_ handle]] (.isAlive ^ProcessHandle handle))) %))"
     :replacement "nil" :test "process-budget-bounds-live-handles-not-finished-sequential-children"}
    {:id "stale-capacity-at-admission"

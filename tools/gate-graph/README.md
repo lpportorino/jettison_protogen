@@ -478,6 +478,16 @@ The cumulative count is sampled, not a complete process census. A full counter
 or live-handle limit refuses explicitly. Work left alive at normal exit cannot
 become a passed gate merely because cleanup later kills it.
 
+Cleanup spends the first half of its budget terminating observed leaf children
+in waves, so intermediate waiting parents can reap their children before their
+own termination. It then forcibly terminates remaining observed processes and
+uses the remaining budget to observe termination. An uncooperative parent or
+subreaper can still retain zombies: `:observed-processes-stopped?` remains false
+while any observed handle reports alive. This is bounded snapshot supervision,
+not process containment or a hard wall-clock guarantee under OS scheduling.
+See Java's [snapshot process-handle contract](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/ProcessHandle.html)
+and Linux's [wait semantics](https://www.man7.org/linux/man-pages/man2/wait.2.html).
+
 This profile reports `:containment :none`: detached children may escape descendant
 snapshots. Local filesystem I/O assumes a responsive trusted filesystem. No
 filesystem/network isolation or cache eligibility follows from a process exit.
@@ -1021,8 +1031,10 @@ canary; CI and pre-push invoke it. Remaining integration requirements:
   `bash tools/uber.sh 'cd tools/gate-graph && clojure -M:test:live-campaign ../../.fork-scratch/mutations'`.
   They cover byte bounds, stale digests, membership changes, required inputs,
   exclusions, forced execution, isolation, pre/post snapshots and dependencies.
-- The process campaign detected 6/6 selected faults, including the sequential
-  child-retention defect found by real dogfooding. Run
+- The process and process-verdict campaigns detect 10/10 selected faults,
+  including sequential child retention, leaf-first reaping and falsely reported
+  stopped processes. Actual direct/nested waiter tests supplement the deterministic
+  reaping and non-reaping fixtures. Run
   `bash tools/uber.sh 'cd tools/gate-graph && clojure -M:test:process-campaign ../../.fork-scratch/mutations'`.
 - The separate Docker lane passes eleven tests / 97 assertions, including the
   complete 189-test module suite inside the denied-network profile. It proves
@@ -1151,6 +1163,16 @@ Keep this entire lifecycle inside `process-batch/run-cli!`. Preserve the batch's
 original failure/exit semantics; call `require-passed!` after publication when
 the underlying batch would otherwise succeed. Do not publish HTML twice.
 
+After publication, `run!` samples the shared cancellation token once more. If
+the completed archive is passed but cancellation is now requested, it throws
+closed exception data `{:code :archive-cancelled :status :passed :artifact digest}`.
+The archive remains immutable evidence of completed observations; the exception
+refuses success for the enclosing lifecycle and identifies the retained archive.
+Nonpassing archives retain their original disposition. Preserve nonzero command
+exits and do not admit a success signature after this exception. Cancellation
+after the final token sample belongs to the caller's next action; publication
+and cancellation do not form an atomic filesystem transaction.
+
 Known observation refusals produce explicit unavailable acquisitions and still
 allow the runner callback to execute. Callback, programming and publication
 exceptions propagate. A passed graph with changed/missing provenance has
@@ -1187,8 +1209,8 @@ and export, including refused overwrites and symlink paths. Seeded Malli trials
 cover acquisition states. Graph and reader scaling regressions count validation
 operations, rather than using machine-dependent timing thresholds.
 
-The archive assessment passes 302 tests / 15,263 assertions before and after
-50 selected faults, with passing controls and an independent 121-file
+The archive assessment passes 305 tests / 15,317 assertions before and after
+52 selected faults, with passing controls and an independent 121-file
 source/log/counter audit. Current offline browser checks cover all four displayed
 archive states, hostile labels and graph/identity tampering. These scoped checks
 do not establish full CI coverage or consumer integration.

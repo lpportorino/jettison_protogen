@@ -2,15 +2,56 @@
   "Real Git observations around runner callbacks, including changed inputs and cancellation."
   (:require [clojure.test :refer [deftest is]]
             [gate.admission :as admission]
+            [gate.archive-io :as publication]
             [gate.archive-run :as run]
             [gate.archive-test :as fixture]
             [gate.fixtures :as graph]
             [gate.report-io :as reader]
             [gate.report-publish-test :as publisher]
             [gate.repository :as repository]
-            [gate.repository-test :as git-fixture])
+            [gate.repository-test :as git-fixture]
+            [malli.core :as m])
   (:import [java.nio.file Files Path]
            [java.nio.file.attribute FileAttribute]))
+
+(deftest late-cancellation-refuses-success-without-rewriting-completed-evidence
+  (doseq [phase [:observation-write :publication-enter :publication-return]
+          outcome [:passed :failed]]
+    (git-fixture/with-repository
+      (fn [root settings]
+        (let [options {:repository (str root) :policy {:excluded ["reports"] :protected ["src"]}
+                       :git settings :limits repository/default-limits :scope fixture/scope
+                       :output (str (.resolve ^Path root "reports/run"))}
+              token (atom false) original-publish publication/publish!
+              original-write publication/write-observation! answer (atom nil)
+              failure (with-redefs [publication/write-observation!
+                                    (fn [& args]
+                                      (let [result (apply original-write args)]
+                                        (when (= :observation-write phase) (reset! token true))
+                                        result))
+                                    publication/publish!
+                                    (fn [& args]
+                                      (when (= :publication-enter phase) (reset! token true))
+                                      (let [result (apply original-publish args)]
+                                        (when (= :publication-return phase) (reset! token true))
+                                        result))]
+                        (fixture/failure
+                         #(reset! answer
+                                  (run/run! options publisher/viewer token
+                                            (fn [_]
+                                              (Files/createDirectories (Path/of (:output options) (make-array String 0))
+                                                                       (make-array FileAttribute 0))
+                                              (assoc-in (graph/example) [:nodes 0 :outcome] outcome))))))
+              retained (reader/read-archive! (str (:output options) "/run.edn") admission/default-limits)]
+          (is @token)
+          (is (= outcome (:status retained)))
+          (is (= :unchanged (get-in retained [:provenance :stability])))
+          (if (= :passed outcome)
+            (do (is (nil? @answer))
+                (is (m/validate run/Failure failure))
+                (is (= {:code :archive-cancelled :status :passed :artifact (:artifact retained)} failure)))
+            (do (is (nil? failure))
+                (is (= retained @answer)))))))))
 
 (defn configuration [root settings]
   {:repository (str root) :policy {:excluded ["reports"] :protected ["src"]}

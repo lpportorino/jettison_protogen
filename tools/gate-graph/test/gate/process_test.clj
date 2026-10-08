@@ -18,6 +18,44 @@
 (defn invoke [root command] (process/run! (request root command) (atom false)))
 (defn log-text [root] (slurp (str (.resolve ^Path root "command.log"))))
 
+(deftest cleanup-keeps-intermediate-waiters-alive-to-reap-their-children
+  ;; A deterministic process tree models a subreaper that retains orphan zombies.
+  ;; Killing 12 before it waits for 13 leaves 13 alive in ProcessHandle semantics.
+  (doseq [reaps? [true false]]
+    (let [states (atom {11 :alive 12 :alive 13 :alive}) killed (atom []) handles (atom {})
+          reap! (fn []
+                  (when reaps?
+                    (swap! states
+                           (fn [s]
+                             (let [s (if (and (= :alive (s 12)) (= :zombie (s 13)))
+                                       (assoc s 13 :gone 12 :zombie) s)]
+                               (if (and (= :alive (s 11)) (= :zombie (s 12)))
+                                 (assoc s 12 :gone 11 :gone) s))))))
+          alive? (fn [pid] (reap!) (not= :gone (get @states pid)))
+          kill! (fn [pid] (swap! killed conj pid)
+                  (swap! states assoc pid (if (= pid 11) :gone :zombie)) (reap!) true)]
+      (reset! handles
+              (into (array-map)
+                    (for [pid [11 12 13]]
+                      [pid (reify java.lang.ProcessHandle
+                             (pid [_] pid)
+                             (isAlive [_] (alive? pid))
+                             (parent [_] (java.util.Optional/ofNullable (get @handles (dec pid))))
+                             (destroyForcibly [_] (kill! pid)))])))
+      (let [native (proxy [Process] []
+                     (pid [] 11)
+                     (isAlive [] (alive? 11))
+                     (destroyForcibly [] (kill! 11) nil)
+                     (waitFor [_ _] (Thread/sleep 1) (not (alive? 11))))
+            result (#'process/cleanup! native handles
+                                       (assoc process/default-limits :cleanup-ms 100) (atom false) (atom false))]
+        (is (= reaps? result))
+        (if reaps?
+          (do (is (= #{13} (set @killed)))
+              (is (every? #{:gone} (vals @states))))
+          (do (is (some #{11} @killed))
+              (is (= :zombie (get @states 13)))))))))
+
 (deftest argv-environment-cwd-and-stdin-remain-explicit
   (with-directory
     (fn [root]
@@ -112,6 +150,46 @@
         (is (>= (:observed-processes result) 2))
         (is (:observed-processes-stopped? result))
         (is (= :error (:outcome (process/work-result fixture/gate result fixture/coverage))))))))
+
+(deftest cancellation-reaps-actual-direct-and-nested-waiters
+  (doseq [[shell expected]
+          [["/bin/sleep 90 & echo $! > child.pid; wait" 2]
+           ["/bin/sh -c '/bin/sleep 90 & echo $! > child.pid; wait' & echo $! > parent.pid; wait" 3]]]
+    (with-directory
+      (fn [root]
+        (let [ready (CountDownLatch. 1) cancellation (atom false) answer (promise)
+              pid-files (if (= expected 3) ["child.pid" "parent.pid"] ["child.pid"])
+              remember @#'process/remember!
+              worker (Thread. ^Runnable
+                      (fn []
+                        (try (deliver answer
+                                      (process/run! (request root ["/bin/sh" "-c" shell]) cancellation))
+                             (catch Throwable error (deliver answer error)))))]
+          (with-redefs-fn
+            {#'process/remember!
+             (fn [p handles observed limit]
+               (let [within? (remember p handles observed limit)]
+                 (when (and (>= @observed expected)
+                            (every? #(Files/exists (.resolve ^Path root %) (make-array java.nio.file.LinkOption 0)) pid-files))
+                   (.countDown ready))
+                 within?))}
+            (fn []
+              (try
+                (.start worker)
+                (is (.await ready 5 TimeUnit/SECONDS) "Observe the real child before requesting cancellation")
+                (reset! cancellation true)
+                (let [result (deref answer 5000 :timeout)]
+                  (is (map? result))
+                  (when (map? result)
+                    (is (= :cancelled (:status result)))
+                    (is (>= (:observed-processes result) expected))
+                    (is (:observed-processes-stopped? result))
+                    (doseq [filename pid-files]
+                      (let [pid (parse-long (.trim ^String (slurp (str (.resolve ^Path root filename)))))
+                            handle (java.lang.ProcessHandle/of pid)]
+                        (is (or (not (.isPresent handle)) (not (.isAlive ^java.lang.ProcessHandle (.get handle)))))))))
+                (finally (reset! cancellation true) (.join worker 5000)
+                         (is (not (.isAlive worker))))))))))))
 
 (deftest direct-timeout-must-actually-stop-the-command
   (with-directory

@@ -34,7 +34,13 @@
     :replacement "true" :test "export-requires-exclusion-in-current-and-observed-policies"}])
 
 (def run-faults
-  [{:id "before-observation-replaced-by-after"
+  [{:id "late-cancellation-ignored"
+    :anchor "(and (= :passed (:status document)) @cancellation)" :replacement "false"
+    :test "late-cancellation-refuses-success-without-rewriting-completed-evidence"}
+   {:id "late-cancellation-overwrites-failure"
+    :anchor "(and (= :passed (:status document)) @cancellation)" :replacement "@cancellation"
+    :test "late-cancellation-refuses-success-without-rewriting-completed-evidence"}
+   {:id "before-observation-replaced-by-after"
     :anchor "graph (:acquisition before) (:acquisition after)"
     :replacement "graph (:acquisition after) (:acquisition after)" :test "changed-inputs-retain-the-run-and-prevent-success"}
    {:id "after-observation-skipped" :anchor "after (acquire! options cancellation)"

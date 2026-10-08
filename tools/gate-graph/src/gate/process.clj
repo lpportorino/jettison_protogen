@@ -121,23 +121,53 @@
   (every? #(not (.isAlive ^ProcessHandle %)) (vals handles)))
 (m/=> stopped? [:=> [:cat HandleMap] :boolean])
 
+(defn- terminate-leaves!
+  "Terminate observed live descendants that have no observed live children.
+   Preserve waiting intermediate parents so they can reap children before their own termination.
+   Parent links are snapshots; missing/reparented descendants remain outside containment guarantees."
+  [process handles]
+  (let [children (into {} (filter (fn [[pid child]]
+                                    (and (not= pid (.pid ^Process process))
+                                         (.isAlive ^ProcessHandle child)))) handles)
+        parent-pids (into #{} (keep (fn [^ProcessHandle child]
+                                      (let [parent (.parent child)]
+                                        (when (.isPresent parent) (.pid ^ProcessHandle (.get parent))))))
+                          (vals children))]
+    (doseq [[pid ^ProcessHandle child] children :when (not (contains? parent-pids pid))]
+      (.destroyForcibly child)))
+  nil)
+(m/=> terminate-leaves! [:=> [:cat NativeProcess HandleMap] :nil])
+
+(defn- cleanup-yield!
+  "Yield between cleanup snapshots, preserving interruption as cooperative cancellation."
+  [cancellation interrupted]
+  (try (Thread/sleep 5)
+       (catch InterruptedException _ (reset! interrupted true) (reset! cancellation true)))
+  nil)
+(m/=> cleanup-yield! [:=> [:cat coordinator/Cancellation State] :nil])
+
 (defn- cleanup!
-  "Kill observed children before their parent so a waiting parent can reap them.
-   Bound cleanup latency and report remaining observed handles rather than claiming success."
+  "Spend the first half of cleanup on leaf-first termination, allowing each waiting parent to reap.
+   Then force remaining observed descendants and the direct process, reserving the other half
+   for termination observation. A non-reaping parent may still leave zombies; report incomplete
+   cleanup honestly. Finite snapshots and polling bound work, not OS scheduling or syscall latency."
   [process handles limits cancellation interrupted]
-  (let [deadline (+ (System/nanoTime) (* 1000000 (:cleanup-ms limits)))]
+  (let [started (System/nanoTime) duration (* 1000000 (:cleanup-ms limits))
+        deadline (+ started duration) reap-deadline (+ started (quot duration 2))]
+    (loop []
+      (when (and (not (stopped? @handles)) (< (System/nanoTime) reap-deadline)
+                 (some (fn [[pid child]] (and (not= pid (.pid ^Process process))
+                                              (.isAlive ^ProcessHandle child))) @handles))
+        (terminate-leaves! process @handles)
+        (cleanup-yield! cancellation interrupted)
+        (recur)))
     (doseq [^ProcessHandle child (vals @handles) :when (not= (.pid child) (.pid ^Process process))]
       (when (.isAlive child) (.destroyForcibly child)))
-    ;; Allow an ordinary waiting parent to reap terminated children before killing it.
-    (dotimes [_ 5] (when (and (.isAlive ^Process process) (< (System/nanoTime) deadline))
-                     (wait-short! process cancellation interrupted)))
     (when (.isAlive ^Process process) (.destroyForcibly ^Process process))
     (loop []
       (if (or (stopped? @handles) (>= (System/nanoTime) deadline))
         (stopped? @handles)
-        (do
-          (try (Thread/sleep 5) (catch InterruptedException _ (reset! interrupted true) (reset! cancellation true)))
-          (recur))))))
+        (do (cleanup-yield! cancellation interrupted) (recur))))))
 (m/=> cleanup! [:=> [:cat NativeProcess State Limits coordinator/Cancellation State] :boolean])
 
 (defn- supervise!
