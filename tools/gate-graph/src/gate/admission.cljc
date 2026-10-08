@@ -9,6 +9,7 @@
             [gate.repository-identity :as repository]
             [gate.run-contract :as r]
             [gate.schema :as schema]
+            [gate.view.contract :as view]
             [gate.viewer-contract :as vc]
             [malli.core :as m]))
 
@@ -50,6 +51,7 @@
 (def ^:private target-schemas
   {:run-archive (m/schema ac/Document) :archive-metadata (m/schema ac/Metadata)
    :repository-observation (m/schema rc/Observation)
+   :view-request (m/schema view/Request)
    :viewer-manifest (m/schema vc/Manifest)
    :graph (m/schema c/Graph) :query-request (m/schema ic/Request)
    :aggregate-request (m/schema ic/AggregateRequest) :diff-request (m/schema ic/DiffRequest)

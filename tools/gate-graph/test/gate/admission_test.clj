@@ -90,7 +90,12 @@
     (is (= :trailing-input (:code (failure text {}))))))
 
 (deftest lexical-admission-does-not-authorize-open-normalized-maps
-  (doseq [text ["{}" "[]" "nil" "true" "{:op :nodes :id \"extra\"}"
+  (is (= [] (admission/decode "[]" :value admission/default-limits)))
+  (doseq [target [:graph :query-request :view-request]]
+    (is (= :invalid-input-shape
+           (try (admission/decode "[]" target admission/default-limits)
+                (catch clojure.lang.ExceptionInfo error (:code (ex-data error)))))))
+  (doseq [text ["{}" "[true]" "nil" "true" "{:op :nodes :id \"extra\"}"
                 "{:op :window :interval {:start-ns \"00\" :end-ns \"1\"}}"]]
     (is (= :invalid-input-shape (:code (failure text {}))))))
 

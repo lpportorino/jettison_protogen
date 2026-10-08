@@ -1214,3 +1214,8 @@ The archive assessment passes 305 tests / 15,317 assertions before and after
 source/log/counter audit. Current offline browser checks cover all four displayed
 archive states, hostile labels and graph/identity tampering. These scoped checks
 do not establish full CI coverage or consumer integration.
+
+The chronological offline viewer and its bounded presentation API are documented in
+[the viewer guide](docs/viewer.md).
+See [API identity and explicit adoption](docs/api.md) for the manifest algebra
+and [combined acceptance](docs/integrated-viewer.md) for the rebuilt viewer.

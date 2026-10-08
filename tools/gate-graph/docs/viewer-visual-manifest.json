@@ -1,0 +1,2028 @@
+{
+  "reviewDate": "2026-10-08",
+  "collection": "visual-11",
+  "data": "public synthetic fixtures only",
+  "bundleSHA256": "8552f7957e69bbd9005df0bea61958dffc78275525b99ed93770aa172aadbc31",
+  "engine": "chromium",
+  "browser": "148.0.7778.96",
+  "playwright": "1.60.0",
+  "requiredCases": 24,
+  "passedCases": 24,
+  "requiredImages": 76,
+  "capturedImages": 76,
+  "inspectedImages": 76,
+  "complete": true,
+  "physicalDevice": false,
+  "sourceHTMLhashes": {
+    "branch": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+    "dense": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+    "signals": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+    "incomplete": "5df4ee0daf0ceb2004a711f2a6f8408f4576c9fb5bfe0cd90a173f932a95b955",
+    "malformed": "634e07f75bd45416acb508a8b85fcd27125944f5d7d2f6eec4731c83395b3087",
+    "leaf": "3be1e8ef7082aca4a9b118498e9548d9b6485d0babbed1a987053b815b3c56c6",
+    "open-signals": "f4eb33eba35c14ffa2bc0d9754fcfb1c02ecb851787e3f31f726b9df2d1ea9b9"
+  },
+  "webKit": {
+    "collection": "visual-webkit-06",
+    "browser": "26.4",
+    "passedCases": 24,
+    "capturedImages": 72,
+    "inspectedImages": 0,
+    "visualAcceptance": false,
+    "rotationAccepted": false,
+    "skipped": [
+      {
+        "fixture": "branch",
+        "device": "iphone-portrait",
+        "state": "rotated-detail",
+        "reason": "WebKit mobile resize leaves the layout viewport at the previous width; fixed-viewport mode does not accept rotation."
+      },
+      {
+        "fixture": "branch",
+        "device": "iphone-portrait",
+        "state": "rotated-search",
+        "reason": "WebKit mobile resize leaves the layout viewport at the previous width; fixed-viewport mode does not accept rotation."
+      },
+      {
+        "fixture": "branch",
+        "device": "iphone-landscape",
+        "state": "rotated-detail",
+        "reason": "WebKit mobile resize leaves the layout viewport at the previous width; fixed-viewport mode does not accept rotation."
+      },
+      {
+        "fixture": "branch",
+        "device": "iphone-landscape",
+        "state": "rotated-search",
+        "reason": "WebKit mobile resize leaves the layout viewport at the previous width; fixed-viewport mode does not accept rotation."
+      }
+    ],
+    "emulatedOffline": false,
+    "externalRequestPolicy": "abort and fail on every non-file request"
+  },
+  "limitations": [
+    "Phone descriptors are emulations, not physical iPhone or iOS Safari certification.",
+    "WebKit active rotation is not accepted; four rotation states are explicitly skipped.",
+    "WebKit captures have automated validation only, without actual image inspection.",
+    "Contrast and native control checks do not establish complete accessibility conformance."
+  ],
+  "images": [
+    {
+      "name": "chromium-branch-desktop-overview.png",
+      "sha256": "6937e8ea5dd54cd69a4684239bcb0b773c8d1b6ddc265a394aa7defe9caa959e",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "desktop",
+      "state": "overview",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "primary Codex agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Legible chronological overview and honest absence, or readable selected-task dialog with typed relationships and visible close control."
+      ]
+    },
+    {
+      "name": "chromium-branch-desktop-detail.png",
+      "sha256": "f7f2e645e1e20e0ee06f614c7157bd24ec087aa196b60597e7c104084d15bd10",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "desktop",
+      "state": "detail",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "primary Codex agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-10",
+      "findings": [
+        "Legible chronological overview and honest absence, or readable selected-task dialog with typed relationships and visible close control."
+      ]
+    },
+    {
+      "name": "chromium-branch-desktop-canonical-task.png",
+      "sha256": "af59e56b5098d02113978e53f1124e35db22a6306ff2648fa8054903734ef348",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "desktop",
+      "state": "canonical-task",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls",
+        "Canonical task"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "Expanded canonical task is readable with exact interval and identity; dependency controls and close action remain visible."
+      ]
+    },
+    {
+      "name": "chromium-branch-desktop-light.png",
+      "sha256": "453f957d507342ad912af7cc3634ae5c3d596af05f0d35c9d27fd7719de13a57",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "desktop",
+      "state": "light",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "light",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Light palette remains readable; chronological bars, selected dependency arrows and expanded controls fit the desktop width."
+      ]
+    },
+    {
+      "name": "chromium-branch-narrow-overview.png",
+      "sha256": "73b0e51eea66561047f89443cbe3a79b50ab72673f3f99659f14b60ff33ca059",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "narrow",
+      "state": "overview",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Collapsed controls leave all four branch rows visible; ruler and arrows are legible without horizontal clipping."
+      ]
+    },
+    {
+      "name": "chromium-branch-narrow-detail.png",
+      "sha256": "872cf152db99829b75e2c06cdaff4986addb1f5ba0b29a5c9880dabdc2f6eb19",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "narrow",
+      "state": "detail",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "Narrow dialog retains duration, both dependency directions, readable caveat and visible keyboard focus on close."
+      ]
+    },
+    {
+      "name": "chromium-branch-narrow-light.png",
+      "sha256": "8f0405566accb16363de8fc6f47d947ab247dc68451601044b624653d5005fc3",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "narrow",
+      "state": "light",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "fullPage": false,
+      "theme": "light",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Expanded controls and top timeline rows remain legible in light theme; lower rows require ordinary vertical scrolling."
+      ]
+    },
+    {
+      "name": "chromium-branch-iphone-portrait-overview.png",
+      "sha256": "9ca1f69b7154babfb5ed0d5d8483bf9dca8adba88e435b927311916b98c17c4c",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "iphone-portrait",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Actual view_image opening",
+      "inspectionCollection": "visual-11",
+      "findings": [
+        "Initial portrait keeps first proportional task bar fully in view below readable search, investigation summary and collapsed controls."
+      ]
+    },
+    {
+      "name": "chromium-branch-iphone-portrait-detail.png",
+      "sha256": "baedd0b3781b68cdd7bc5906e64cf393d2e5811c90a2efe44e4987d524fdb464",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "iphone-portrait",
+      "state": "detail",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "primary Codex agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Legible chronological overview and honest absence, or readable selected-task dialog with typed relationships and visible close control."
+      ]
+    },
+    {
+      "name": "chromium-branch-iphone-portrait-canonical-task.png",
+      "sha256": "d28d43327baad050526fc03d339b27d1e9270c3d40a3d1f1930c5c9c4fe6dd95",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "iphone-portrait",
+      "state": "canonical-task",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls",
+        "Canonical task"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "Expanded canonical EDN wraps within portrait dialog; both dependency directions and close action remain visible."
+      ]
+    },
+    {
+      "name": "chromium-branch-iphone-portrait-rotated-detail.png",
+      "sha256": "282de134ea214ebc704d00af398eb591587eeef536aa99dda44f823132635ae5",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "iphone-portrait",
+      "state": "rotated-detail",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "Rotated landscape retains selected task and duration, with close action visible and evidence below available through internal scrolling."
+      ]
+    },
+    {
+      "name": "chromium-branch-iphone-portrait-light.png",
+      "sha256": "bb175927c6994ee64852cdaf8a16c6a3dad8d9d1548dc476c1ff43d4d832e207",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "iphone-portrait",
+      "state": "light",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "light",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Light-theme phone controls wrap cleanly; timeline ruler and first task remain readable in the recorded scrolled viewport."
+      ]
+    },
+    {
+      "name": "chromium-branch-iphone-portrait-rotated-search.png",
+      "sha256": "919d35e2c483740f34c821cc845fade12b2b0a337bbe25da44497eaa8770599d",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "iphone-portrait",
+      "state": "rotated-search",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Landscape search retains C-check and the zoomed ruler; task row lies below this short recorded viewport, accessible by vertical scroll."
+      ]
+    },
+    {
+      "name": "chromium-branch-iphone-landscape-overview.png",
+      "sha256": "936bf135f145d4e59564cf2d96433146a95b96dfe18d5ad2c6557b09dbafbdc8",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "iphone-landscape",
+      "state": "overview",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "primary Codex agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Legible chronological overview and honest absence, or readable selected-task dialog with typed relationships and visible close control."
+      ]
+    },
+    {
+      "name": "chromium-branch-iphone-landscape-detail.png",
+      "sha256": "343310998078094b62e4ebfe5eb2bcd1a08b0199d872fe080fd9b85cf0c3e30b",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "iphone-landscape",
+      "state": "detail",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "primary Codex agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Legible chronological overview and honest absence, or readable selected-task dialog with typed relationships and visible close control."
+      ]
+    },
+    {
+      "name": "chromium-branch-iphone-landscape-rotated-detail.png",
+      "sha256": "a6a5daf316cf455c261faf8f310da0b2c7722513d07c504ee52fb916c3647ce4",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "iphone-landscape",
+      "state": "rotated-detail",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Portrait rotation retains selected task, duration and wrapped dependency labels; close button and evidence disclosures fit."
+      ]
+    },
+    {
+      "name": "chromium-branch-iphone-landscape-light.png",
+      "sha256": "d4bae77f1e35eebaa90e12c76477494ab8d3bd819e8209d47ecb7f4eec05c886",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "iphone-landscape",
+      "state": "light",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "light",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Short landscape viewport shows readable search and expanded controls; timeline begins below them and needs vertical scroll."
+      ]
+    },
+    {
+      "name": "chromium-branch-iphone-landscape-rotated-search.png",
+      "sha256": "a5f6b2b676717e67ee8f63d4b31c77ea078071da8b03957333d2e8d7b22ef170",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "iphone-landscape",
+      "state": "rotated-search",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Portrait search result and zoomed bar are readable; resource absence is explicit and full canonical data remains collapsed."
+      ]
+    },
+    {
+      "name": "chromium-branch-portrait-full-overview.png",
+      "sha256": "20fc965e08388a887d2b258ad3a79f324bba0d031e1a9a025842788c71e9a398",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "portrait-full",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Actual view_image opening",
+      "inspectionCollection": "visual-11",
+      "findings": [
+        "Full-height portrait retains visible proportional bars and routed arrows; row text is now opaque above connectors."
+      ]
+    },
+    {
+      "name": "chromium-branch-portrait-full-detail.png",
+      "sha256": "039bc8e72da9c018907263a2bccea688731533e8de887d589a7aad2ee19bdb40",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "portrait-full",
+      "state": "detail",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Actual view_image opening",
+      "inspectionCollection": "visual-11",
+      "findings": [
+        "Portrait detail clearly preserves task duration, typed boundary relationships and shared-clock caveat with visible close control."
+      ]
+    },
+    {
+      "name": "chromium-branch-portrait-full-light.png",
+      "sha256": "9f8ccf427e17f65ca15e34a6e18c6d9343d58ebbaad567d97d806f989796f5c8",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "portrait-full",
+      "state": "light",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fullPage": false,
+      "theme": "light",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Actual view_image opening",
+      "inspectionCollection": "visual-11",
+      "findings": [
+        "Light portrait controls wrap cleanly; temporal bar remains separate from its readable label and later rows continue vertically."
+      ]
+    },
+    {
+      "name": "chromium-branch-landscape-full-overview.png",
+      "sha256": "ecde0bce158e318f223390609b5139e34cbe806388ea52b99634c37941f061f4",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "landscape-full",
+      "state": "overview",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Overview summary and search fit cleanly; the 390-pixel-high landscape viewport requires vertical scrolling to reach timeline rows."
+      ]
+    },
+    {
+      "name": "chromium-branch-landscape-full-detail.png",
+      "sha256": "ac1d5d315b5ef241cddf11359c499ec3e1cb041e774334d74ca8dc15267686ea",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "landscape-full",
+      "state": "detail",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Landscape dialog keeps close action, selected identity and duration visible; dependency details continue in internal scroll."
+      ]
+    },
+    {
+      "name": "chromium-branch-landscape-full-light.png",
+      "sha256": "35ad46a04910f2904a72497c1bc4b6e05f7c40a823f59e15a8618746923424a7",
+      "sourceHTMLhash": "fe274de7d51e4f32187c10d151f5a9f80dad4a83cc5833977630a4cca05e4ac5",
+      "fixture": "branch",
+      "device": "landscape-full",
+      "state": "light",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "fullPage": false,
+      "theme": "light",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Expanded light-theme controls and elapsed ruler are readable with no horizontal clipping; task rows continue below the short viewport."
+      ]
+    },
+    {
+      "name": "chromium-dense-desktop-overview.png",
+      "sha256": "55f38bcd4e06904ff12dc9127682c5899bc59931261c8de3bfcbc2b8ea3e45d6",
+      "sourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+      "fixture": "dense",
+      "device": "desktop",
+      "state": "overview",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "Root overview retains four clear chronological lanes and dependency arrows while reporting all 2964 recorded edges."
+      ]
+    },
+    {
+      "name": "chromium-dense-desktop-attention.png",
+      "sha256": "869d9776611c9abe4d9fea5155bae12b35da7245ec63c5a02ee9bd1b907e6038",
+      "sourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+      "fixture": "dense",
+      "device": "desktop",
+      "state": "attention",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "Whole-run attention visibly isolates failed child-1500 with its narrow temporal mark and explicit absent resource evidence."
+      ]
+    },
+    {
+      "name": "chromium-dense-desktop-folds.png",
+      "sha256": "59198eacaefb9b1771de95099107baf7022ca34a6e4a28634df67de951836e03",
+      "sourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+      "fixture": "dense",
+      "device": "desktop",
+      "state": "folds",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Actual view_image opening",
+      "inspectionCollection": "visual-11",
+      "findings": [
+        "Fold rows retain readable duration summaries and failure count; connectors pass behind opaque summary bands while arrow endpoints remain visible on bars."
+      ]
+    },
+    {
+      "name": "chromium-dense-desktop-companion.png",
+      "sha256": "29e2910f812a2c9ea994b4496d37dbc26197da10fda155845cd38fbe8dfa92b3",
+      "sourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+      "fixture": "dense",
+      "device": "desktop",
+      "state": "companion",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Actual view_image opening",
+      "inspectionCollection": "visual-11",
+      "findings": [
+        "Companion heading and exact child identities remain clear; thin interval marks and dependency endpoints are visible beside opaque labels."
+      ]
+    },
+    {
+      "name": "chromium-dense-iphone-portrait-overview.png",
+      "sha256": "21b3083f0c4168b67e4eeefe4c5616a4c7da61f6fdbff19465fe8a6b6294cc8f",
+      "sourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+      "fixture": "dense",
+      "device": "iphone-portrait",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Actual view_image opening",
+      "inspectionCollection": "visual-11",
+      "findings": [
+        "Initial dense portrait overview keeps summary, attention affordance and the full first proportional bar visible."
+      ]
+    },
+    {
+      "name": "chromium-dense-iphone-portrait-attention.png",
+      "sha256": "7bb5379624dc253af411d1dc0a18dc3f93d782f172e2da107a28d00f558db2c7",
+      "sourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+      "fixture": "dense",
+      "device": "iphone-portrait",
+      "state": "attention",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "Failed child label and time mark are fully visible in portrait; temporal scale and absent telemetry remain explicit."
+      ]
+    },
+    {
+      "name": "chromium-dense-iphone-portrait-folds.png",
+      "sha256": "185091571c4e448f5332ab5e6156f47f0602946e6115f90d6010003047d7ed80",
+      "sourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+      "fixture": "dense",
+      "device": "iphone-portrait",
+      "state": "folds",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Actual view_image opening",
+      "inspectionCollection": "visual-11",
+      "findings": [
+        "Portrait folded labels and summary text now remain unobscured; connectors pass behind labels and reappear at chronological bar endpoints."
+      ]
+    },
+    {
+      "name": "chromium-dense-iphone-portrait-companion.png",
+      "sha256": "9b9cf48d2683daaf1d19462a80411dbae39a3e9d8ddc096f99895f1648283c82",
+      "sourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+      "fixture": "dense",
+      "device": "iphone-portrait",
+      "state": "companion",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Actual view_image opening",
+      "inspectionCollection": "visual-11",
+      "findings": [
+        "Portrait companion preserves exact child identities in opaque full-width controls; dependency arrows stay visible on bars without crossing text."
+      ]
+    },
+    {
+      "name": "chromium-dense-iphone-landscape-overview.png",
+      "sha256": "3c72cf9a0fda095e4770a513766a3ed2fd0fd785c5f1f655e6ed365e46f66f9a",
+      "sourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+      "fixture": "dense",
+      "device": "iphone-landscape",
+      "state": "overview",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Dense summary and navigation are readable; short landscape viewport requires scrolling to timeline."
+      ]
+    },
+    {
+      "name": "chromium-dense-iphone-landscape-attention.png",
+      "sha256": "ad083a981b925230f85014cd3b3ca6c78481669f0ee59193be5f6185082c1eb4",
+      "sourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+      "fixture": "dense",
+      "device": "iphone-landscape",
+      "state": "attention",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "Failed child and narrow mark fit the landscape viewport with readable ruler and dependency caveat."
+      ]
+    },
+    {
+      "name": "chromium-dense-iphone-landscape-folds.png",
+      "sha256": "a7efc78eb1a2e57343e961d6963e622f2e37f0c7b03ea4736641cbcdc443c886",
+      "sourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+      "fixture": "dense",
+      "device": "iphone-landscape",
+      "state": "folds",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Actual view_image opening",
+      "inspectionCollection": "visual-11",
+      "findings": [
+        "Landscape fold buttons are stacked at full label-column width; summary text is readable above masked connectors with no split-word cramping."
+      ]
+    },
+    {
+      "name": "chromium-dense-iphone-landscape-companion.png",
+      "sha256": "b68cd4fb5cb8a899d994746645d0c3e17a64921014a3de3885aac71168a14a54",
+      "sourceHTMLhash": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+      "fixture": "dense",
+      "device": "iphone-landscape",
+      "state": "companion",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Actual view_image opening",
+      "inspectionCollection": "visual-11",
+      "findings": [
+        "Landscape companion labels and dependency endpoints remain readable; rechecked after the layering fix despite identical PNG bytes."
+      ]
+    },
+    {
+      "name": "chromium-signals-desktop-overview.png",
+      "sha256": "07a398b641a5c2d399d13d3aa661848881bb739737f9b35f4e94ece3010fd4f0",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "desktop",
+      "state": "overview",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Timeline, longest-gate investigation and activity-change disclosure are readable; resource context starts below the main timeline."
+      ]
+    },
+    {
+      "name": "chromium-signals-desktop-candidate-list.png",
+      "sha256": "20e2e81f299c922e5e6fa70759aff5e291b063e251e9570b2f85868fa6a3e1b3",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "desktop",
+      "state": "candidate-list",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "6 activity-change candidates · inspect scheduling opportunities",
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "Expanded six-candidate list includes CPU dip intervals and explicit heuristic limitations with readable desktop controls."
+      ]
+    },
+    {
+      "name": "chromium-signals-desktop-candidate-detail.png",
+      "sha256": "47f3db768f30f154c901e75107197e6e400ec66a2f82ee5cd38d0605511d1b99",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "desktop",
+      "state": "candidate-detail",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls",
+        "Candidate policy and exact measurement IDs"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "Expanded exact candidate IDs, experiment guidance and actionable coincident tasks all fit the desktop dialog."
+      ]
+    },
+    {
+      "name": "chromium-signals-desktop-candidate-tasks.png",
+      "sha256": "afaaff39eaa3f615761fbd2bcddefc88a75200176bc7707c4f79b120bb04655a",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "desktop",
+      "state": "candidate-tasks",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-10",
+      "findings": [
+        "Collapsed candidate IDs expose clear B-check/C-check/root task actions and eligibility caveat within the selected interval."
+      ]
+    },
+    {
+      "name": "chromium-signals-desktop-window-resources.png",
+      "sha256": "1e00ba131da5bf03f786dccb2d4aeac54376e8ff33d27e836612cc672b403879",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "desktop",
+      "state": "window-resources",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls",
+        "Time window and shared cursor"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "Windowed resource strips share an aligned cursor; per-core scale is now 0–1 CPU equivalents and labels remain readable."
+      ]
+    },
+    {
+      "name": "chromium-signals-desktop-gpu.png",
+      "sha256": "c084f2f712ee1647fe60ea2ab90024f9a2d03f7e321eaab7f215f749d26756bf",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "desktop",
+      "state": "gpu",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls",
+        "Time window and shared cursor"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "GPU strip and neighboring host/core/disk evidence controls are readable; measurement gaps stay visibly distinct."
+      ]
+    },
+    {
+      "name": "chromium-signals-desktop-resource-evidence.png",
+      "sha256": "f1e60f9e977e99fd6cc1b27358457aa09d42048b6b6f4e171ae27e0df9203b63",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "desktop",
+      "state": "resource-evidence",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls",
+        "Time window and shared cursor"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "GPU evidence dialog states sampling limitations and provides clear core query disclosures with visible focus."
+      ]
+    },
+    {
+      "name": "chromium-signals-desktop-resource-evidence-expanded.png",
+      "sha256": "2409aa6ac3eb96aab1307f68c3960cc9cd4653bd4c73c1c7e39c542e55fc6c97",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "desktop",
+      "state": "resource-evidence-expanded",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls",
+        "Time window and shared cursor",
+        "Exact core query and evidence"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "Expanded query evidence visibly preserves sample IDs, intervals, quantity and measured status; long EDN wraps and scrolls within dialog."
+      ]
+    },
+    {
+      "name": "chromium-signals-desktop-light-resources-full.png",
+      "sha256": "42572a79f26a1c7c8846b2502c0334895b1fa039ec0151f1c820775b5eb438d1",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "desktop",
+      "state": "light-resources",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": true,
+      "theme": "light",
+      "openDisclosures": [
+        "Timeline controls",
+        "Time window and shared cursor",
+        "Exact core query and evidence"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "Full-page light layout shows aligned timeline and all selected resource tracks; corrected core and pressure scales read 0–1 CPU and 0–80 percent."
+      ]
+    },
+    {
+      "name": "chromium-signals-iphone-portrait-overview.png",
+      "sha256": "981a56fcb6db953a2bb7b766904936a8fc7bc7255886e2700e432b752f0fe442",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "iphone-portrait",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Collapsed activity candidates and controls leave the ruler and first task bar visible on portrait; count and elapsed summary remain readable."
+      ]
+    },
+    {
+      "name": "chromium-signals-iphone-portrait-candidate-list.png",
+      "sha256": "dbe6429005c36f5f454e775a0ebfb256a4aba2e7394a0c57e9228a7608b019fc",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "iphone-portrait",
+      "state": "candidate-list",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "6 activity-change candidates · inspect scheduling opportunities",
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "All six wrapped candidate buttons fit the portrait capture; CPU and footprint changes remain separately labeled."
+      ]
+    },
+    {
+      "name": "chromium-signals-iphone-portrait-candidate-detail.png",
+      "sha256": "d18c1c8bad1f4e819068617b9a1e2ee1880bd3989eb3a1cdef17348b4411bae8",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "iphone-portrait",
+      "state": "candidate-detail",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls",
+        "Candidate policy and exact measurement IDs"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "primary Codex agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-10",
+      "findings": [
+        "Resource-specific next experiment and exact policy/sample IDs readable in internally scrollable portrait dialog; close remains visible."
+      ]
+    },
+    {
+      "name": "chromium-signals-iphone-portrait-candidate-tasks.png",
+      "sha256": "e1784a80be2e968c79da2963a5dc831ad78b7e27810e145ad6dc98c0768b4274",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "iphone-portrait",
+      "state": "candidate-tasks",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-10",
+      "findings": [
+        "Portrait interval view visibly exposes B-check/C-check/root actions and eligibility caveat; close remains fixed and reachable."
+      ]
+    },
+    {
+      "name": "chromium-signals-iphone-portrait-window-resources.png",
+      "sha256": "f9819521643597c562599761108101524eaebb024cb4a56aff2348744376199c",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "iphone-portrait",
+      "state": "window-resources",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls",
+        "Time window and shared cursor"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Windowed GPU and host CPU strips share the cursor; labels, units and sample-gap caveats wrap within phone width."
+      ]
+    },
+    {
+      "name": "chromium-signals-iphone-portrait-gpu.png",
+      "sha256": "b73241bb4459aff594cbbe092ae6738d8bcb3d6d4c3f8ade25e823eef62f2b5a",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "iphone-portrait",
+      "state": "gpu",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls",
+        "Time window and shared cursor"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "primary Codex agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Shared cursor, GPU scale and evidence dialog are readable; tap-capable details retain exact source/interval IDs and dismissible chrome."
+      ]
+    },
+    {
+      "name": "chromium-signals-iphone-portrait-resource-evidence.png",
+      "sha256": "0dc6e97a8aa31db0eaa935ac4846324e37f6e7cea81c16990d4d13e67bb8a223",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "iphone-portrait",
+      "state": "resource-evidence",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls",
+        "Time window and shared cursor"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "primary Codex agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Shared cursor, GPU scale and evidence dialog are readable; tap-capable details retain exact source/interval IDs and dismissible chrome."
+      ]
+    },
+    {
+      "name": "chromium-signals-iphone-portrait-resource-evidence-expanded.png",
+      "sha256": "ffc220a92d044242b52e105583f621a140232729cb2ef0c5d5031bfe4c906b9d",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "iphone-portrait",
+      "state": "resource-evidence-expanded",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls",
+        "Time window and shared cursor",
+        "Exact core query and evidence"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Actual view_image opening",
+      "inspectionCollection": "visual-11",
+      "findings": [
+        "Expanded GPU query evidence preserves readable wrapped sample IDs and intervals inside the portrait dialog with visible close action."
+      ]
+    },
+    {
+      "name": "chromium-signals-iphone-portrait-light-resources-full.png",
+      "sha256": "215512c4a40a7b2b769f5509055fe75b5d5b165d373fc17f1dc3c896b1b6e623",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "iphone-portrait",
+      "state": "light-resources",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": true,
+      "theme": "light",
+      "openDisclosures": [
+        "Timeline controls",
+        "Time window and shared cursor",
+        "Exact core query and evidence"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Actual view_image opening",
+      "inspectionCollection": "visual-11",
+      "findings": [
+        "Full-page light portrait keeps all task labels above connectors and all resource tracks vertically continuous with shared temporal alignment."
+      ]
+    },
+    {
+      "name": "chromium-signals-iphone-landscape-overview.png",
+      "sha256": "f4a38bf1813b2888efd8c2ff979bae242f2eba2c806db69b64dc92be2f043e49",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "iphone-landscape",
+      "state": "overview",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Landscape overview clearly exposes duration, task/measurement count and investigation disclosure; timeline requires vertical scrolling."
+      ]
+    },
+    {
+      "name": "chromium-signals-iphone-landscape-candidate-list.png",
+      "sha256": "644863c52bac22865b9f6ee547eeb945441e95b3154abaf81c5e5d68a52db663",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "iphone-landscape",
+      "state": "candidate-list",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "6 activity-change candidates · inspect scheduling opportunities",
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "Landscape candidate list shows rule and CPU candidates clearly; remaining candidates continue vertically."
+      ]
+    },
+    {
+      "name": "chromium-signals-iphone-landscape-candidate-detail.png",
+      "sha256": "61130a5a2bd77af00a7655c2d2f3a1f3748c4e1cad348daaf198e152cba9f747",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "iphone-landscape",
+      "state": "candidate-detail",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls",
+        "Candidate policy and exact measurement IDs"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "Landscape detail preserves next experiment and expanded IDs; long evidence scrolls inside the dialog, with close action visible."
+      ]
+    },
+    {
+      "name": "chromium-signals-iphone-landscape-candidate-tasks.png",
+      "sha256": "bad3ad05fff19cf511deaf020a6c706bb4fe4c3e89f24f1722c9520ca91cf0ad",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "iphone-landscape",
+      "state": "candidate-tasks",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-10",
+      "findings": [
+        "Short landscape dialog visibly exposes all three coincident task buttons with close action; explanatory content remains accessible by internal scrolling."
+      ]
+    },
+    {
+      "name": "chromium-signals-iphone-landscape-window-resources.png",
+      "sha256": "118addd95318e5e1b1239971cb69a51147f0f6eecb197056786a08dae89be6d2",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "iphone-landscape",
+      "state": "window-resources",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls",
+        "Time window and shared cursor"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Landscape windowed resource labels wrap beside aligned strips; evidence buttons and orange cursor remain readable."
+      ]
+    },
+    {
+      "name": "chromium-signals-iphone-landscape-gpu.png",
+      "sha256": "87c35a9c7bcd097655e2799b88c62b98692b4f0717adeb08357fc8142cbd95ad",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "iphone-landscape",
+      "state": "gpu",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls",
+        "Time window and shared cursor"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "primary Codex agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Shared cursor, GPU scale and evidence dialog are readable; tap-capable details retain exact source/interval IDs and dismissible chrome."
+      ]
+    },
+    {
+      "name": "chromium-signals-iphone-landscape-resource-evidence.png",
+      "sha256": "2b12c70a67da597d9fa57e9d5f71d23074381c2412215215d53aa244801491d0",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "iphone-landscape",
+      "state": "resource-evidence",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls",
+        "Time window and shared cursor"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Actual view_image opening",
+      "inspectionCollection": "visual-11",
+      "findings": [
+        "Landscape GPU evidence dialog fits its explanation, both query disclosures and close control without horizontal clipping."
+      ]
+    },
+    {
+      "name": "chromium-signals-iphone-landscape-light-resources-full.png",
+      "sha256": "18c1f336c0dde3914eeee1f773e10ca0370abd6c5f9924568cfe439821636106",
+      "sourceHTMLhash": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "fixture": "signals",
+      "device": "iphone-landscape",
+      "state": "light-resources",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": true,
+      "theme": "light",
+      "openDisclosures": [
+        "Timeline controls",
+        "Time window and shared cursor"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "Full-page landscape review confirms stacked readable controls, shared temporal alignment and corrected plausible core/pressure units."
+      ]
+    },
+    {
+      "name": "chromium-incomplete-desktop-overview.png",
+      "sha256": "bc1673aa732397f7096f9e69eb451ccd676aa6dcf8199d756b7a01009f6a9e49",
+      "sourceHTMLhash": "5df4ee0daf0ceb2004a711f2a6f8408f4576c9fb5bfe0cd90a173f932a95b955",
+      "fixture": "incomplete",
+      "device": "desktop",
+      "state": "overview",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "Deselected decision is now visibly painted at the right boundary; cached and blocked point decisions remain distinct from cancelled elapsed work."
+      ]
+    },
+    {
+      "name": "chromium-incomplete-desktop-decision-detail.png",
+      "sha256": "d308e4b3d6d92d3a1ff8e6502409f8d3850c879b9596f94cc0e4df3d3dc6e35f",
+      "sourceHTMLhash": "5df4ee0daf0ceb2004a711f2a6f8408f4576c9fb5bfe0cd90a173f932a95b955",
+      "fixture": "incomplete",
+      "device": "desktop",
+      "state": "decision-detail",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Actual view_image opening",
+      "inspectionCollection": "visual-11",
+      "findings": [
+        "Cached detail explicitly identifies decision-only evidence; close focus and no-recorded-dependencies statement remain clear."
+      ]
+    },
+    {
+      "name": "chromium-incomplete-desktop-unfinished-detail.png",
+      "sha256": "85f2f375d4c320d5e3476c08cf9e1f839b4c12e366df05d864c47e6d8c321326",
+      "sourceHTMLhash": "5df4ee0daf0ceb2004a711f2a6f8408f4576c9fb5bfe0cd90a173f932a95b955",
+      "fixture": "incomplete",
+      "device": "desktop",
+      "state": "unfinished-detail",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Actual view_image opening",
+      "inspectionCollection": "visual-11",
+      "findings": [
+        "Running root retains explicit unfinished/final-duration-unknown wording and visible keyboard focus on close."
+      ]
+    },
+    {
+      "name": "chromium-incomplete-iphone-portrait-overview.png",
+      "sha256": "be387930db391e71b48dc505bc072c9841113b47bec7f80e10f3f6a9a9f5bc41",
+      "sourceHTMLhash": "5df4ee0daf0ceb2004a711f2a6f8408f4576c9fb5bfe0cd90a173f932a95b955",
+      "fixture": "incomplete",
+      "device": "iphone-portrait",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Incomplete summary and cached point marker appear on first screen; tiny marker is backed by a full-width label target."
+      ]
+    },
+    {
+      "name": "chromium-incomplete-iphone-portrait-decision-detail.png",
+      "sha256": "bee8d23e8076046ddfb2ed2924f12e56c143ae421d92b3e40b3d87ba4ea1bc45",
+      "sourceHTMLhash": "5df4ee0daf0ceb2004a711f2a6f8408f4576c9fb5bfe0cd90a173f932a95b955",
+      "fixture": "incomplete",
+      "device": "iphone-portrait",
+      "state": "decision-detail",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "Portrait cached task clearly identifies decision-only evidence with readable missing-dependency and shared-clock explanations."
+      ]
+    },
+    {
+      "name": "chromium-incomplete-iphone-portrait-unfinished-detail.png",
+      "sha256": "60331aa97bc51bfd0af63b073901d40c70e1d106b9518dd47b98610d349d204c",
+      "sourceHTMLhash": "5df4ee0daf0ceb2004a711f2a6f8408f4576c9fb5bfe0cd90a173f932a95b955",
+      "fixture": "incomplete",
+      "device": "iphone-portrait",
+      "state": "unfinished-detail",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Running root and unknown final duration remain legible in portrait; modal confines long evidence vertically."
+      ]
+    },
+    {
+      "name": "chromium-incomplete-iphone-landscape-overview.png",
+      "sha256": "cc5e8536aa90ce7cb8babd86249158ae5cf2d59a53324c2f1d1e8092a18a98b2",
+      "sourceHTMLhash": "5df4ee0daf0ceb2004a711f2a6f8408f4576c9fb5bfe0cd90a173f932a95b955",
+      "fixture": "incomplete",
+      "device": "iphone-landscape",
+      "state": "overview",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Incomplete status, last observed elapsed extent and investigation affordance remain readable in the short landscape viewport."
+      ]
+    },
+    {
+      "name": "chromium-incomplete-iphone-landscape-decision-detail.png",
+      "sha256": "6a79e75dd63e5c7af627549292826faf7a8b8dd876c942eb7ec848321239fa04",
+      "sourceHTMLhash": "5df4ee0daf0ceb2004a711f2a6f8408f4576c9fb5bfe0cd90a173f932a95b955",
+      "fixture": "incomplete",
+      "device": "iphone-landscape",
+      "state": "decision-detail",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-09",
+      "findings": [
+        "Landscape decision dialog retains selected identity and decision-only explanation; lower sections scroll internally."
+      ]
+    },
+    {
+      "name": "chromium-incomplete-iphone-landscape-unfinished-detail.png",
+      "sha256": "513dcac0763cfe4d94b6b626699510b231ef4f8b55945a03087b378de7be966e",
+      "sourceHTMLhash": "5df4ee0daf0ceb2004a711f2a6f8408f4576c9fb5bfe0cd90a173f932a95b955",
+      "fixture": "incomplete",
+      "device": "iphone-landscape",
+      "state": "unfinished-detail",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [
+        "Timeline controls"
+      ],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Landscape running-root detail clearly marks final duration unknown with an accessible close action."
+      ]
+    },
+    {
+      "name": "chromium-malformed-desktop-refused.png",
+      "sha256": "0665e762a546b5dcfd70a990dc1044d13c5d2e5146c35bfe279dffe9a46a6817",
+      "sourceHTMLhash": "634e07f75bd45416acb508a8b85fcd27125944f5d7d2f6eec4731c83395b3087",
+      "fixture": "malformed",
+      "device": "desktop",
+      "state": "refused",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Refusal and structured error code are prominent; no task or telemetry marks initialize. Static search/disclosure shell remains visible but cannot imply successful admission."
+      ]
+    },
+    {
+      "name": "chromium-malformed-iphone-portrait-refused.png",
+      "sha256": "d2db1acaa117966af1dd1753a844703e0477f9046f792f8d8b75ba0351b4d392",
+      "sourceHTMLhash": "634e07f75bd45416acb508a8b85fcd27125944f5d7d2f6eec4731c83395b3087",
+      "fixture": "malformed",
+      "device": "iphone-portrait",
+      "state": "refused",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Refusal code wraps legibly without clipping; no admitted timeline or resource results appear."
+      ]
+    },
+    {
+      "name": "chromium-malformed-iphone-landscape-refused.png",
+      "sha256": "7a40ca7a7c1837c900c1e4f54d656a5fe601d03d64e1f06964c0b594ea123ffe",
+      "sourceHTMLhash": "634e07f75bd45416acb508a8b85fcd27125944f5d7d2f6eec4731c83395b3087",
+      "fixture": "malformed",
+      "device": "iphone-landscape",
+      "state": "refused",
+      "viewport": {
+        "width": 750,
+        "height": 342
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Refusal fits the short landscape screen; no initialized task navigation or fabricated results appear."
+      ]
+    },
+    {
+      "name": "chromium-leaf-iphone-portrait-overview.png",
+      "sha256": "abc66a1d8618d1ce889a52fd36e3522582c9ba3217921e8672c11594b74e5857",
+      "sourceHTMLhash": "3be1e8ef7082aca4a9b118498e9548d9b6485d0babbed1a987053b815b3c56c6",
+      "fixture": "leaf",
+      "device": "iphone-portrait",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Single root leaf remains visible with its20 ms interval at the correct late position and an ordinary selectable label."
+      ]
+    },
+    {
+      "name": "chromium-open-signals-iphone-portrait-overview.png",
+      "sha256": "90e2d3046e818d7532ee6a4c74cafe0fd8a12b3dbaa75e2655ea849095a7c8f3",
+      "sourceHTMLhash": "f4eb33eba35c14ffa2bc0d9754fcfb1c02ecb851787e3f31f726b9df2d1ea9b9",
+      "fixture": "open-signals",
+      "device": "iphone-portrait",
+      "state": "overview",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "fullPage": false,
+      "theme": "dark",
+      "openDisclosures": [],
+      "required": true,
+      "captured": true,
+      "inspected": true,
+      "reviewer": "timeline_research agent",
+      "inspectionMethod": "Prior actual view_image opening; identical final PNG SHA-256 verified",
+      "inspectionCollection": "visual-08",
+      "findings": [
+        "Incomplete capture includes260 ms telemetry extent and still labels cached decisions; no invented root completion appears."
+      ]
+    }
+  ]
+}

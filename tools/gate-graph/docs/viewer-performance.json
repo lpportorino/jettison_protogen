@@ -1,0 +1,279 @@
+{
+  "completed": true,
+  "recordedAt": "2026-10-08T11:08:27.783Z",
+  "repeats": 3,
+  "environment": {
+    "browser": "148.0.7778.96",
+    "playwright": "1.60.0",
+    "node": "v24.15.0",
+    "platform": "linux",
+    "release": "7.2.8-arch1-2",
+    "architecture": "x64",
+    "cpuModel": "AMD Ryzen 9 9950X3D 16-Core Processor",
+    "visibleLogicalCPUs": 32,
+    "visibleMemoryBytes": 64916217856,
+    "containerImage": "mcr.microsoft.com/playwright:v1.60.0-noble",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    }
+  },
+  "method": {
+    "load": "Browser navigation time origin to admitted nonempty timeline plus two requestAnimationFrame callbacks.",
+    "interactions": "Native DOM click/change dispatch through synchronous handlers plus two requestAnimationFrame callbacks; excludes Playwright actionability delays.",
+    "isolation": "Fresh context per sample; shared browser process and host filesystem caches. Offline context; every non-file request aborted.",
+    "dom": "Maximum sampled after load and each settled interaction, not a transient allocation or memory peak.",
+    "interpretation": "Finite synthetic measurements, not an SLA, physical-device result, cold-cache claim or statistical performance guarantee."
+  },
+  "fixtures": {
+    "dense": {
+      "tasks": 3005,
+      "edges": 2964,
+      "measurements": 0,
+      "resources": 2,
+      "htmlBytes": 2957794,
+      "htmlSHA256": "c4ca7c694d699882307bfbe2778e8d16aca600b3d2dbe3bab09f4370e00cd2b8",
+      "embeddedBundleBytes": 453547,
+      "embeddedBundleSHA256": "8552f7957e69bbd9005df0bea61958dffc78275525b99ed93770aa172aadbc31"
+    },
+    "signals": {
+      "tasks": 5,
+      "edges": 4,
+      "measurements": 2470,
+      "resources": 36,
+      "logicalCores": 32,
+      "measurementSeries": 38,
+      "htmlBytes": 1866981,
+      "htmlSHA256": "c052918b524b1a61e38f8140d039fa2aef51d8894dd0c44d89e678745cdc8ca4",
+      "embeddedBundleBytes": 453547,
+      "embeddedBundleSHA256": "8552f7957e69bbd9005df0bea61958dffc78275525b99ed93770aa172aadbc31"
+    }
+  },
+  "samples": [
+    {
+      "fixture": "dense",
+      "repeat": 1,
+      "loadToReadyMs": 669.8000000044703,
+      "interactionsMs": {
+        "openChildren": 46.100000001490116,
+        "openFold": 20.700000002980232,
+        "openTaskDetail": 29
+      },
+      "states": [
+        {
+          "state": "overview",
+          "rows": 4,
+          "tracks": 0,
+          "elements": 90
+        },
+        {
+          "state": "folds",
+          "rows": 24,
+          "tracks": 0,
+          "elements": 309
+        },
+        {
+          "state": "companion",
+          "rows": 24,
+          "tracks": 0,
+          "elements": 211
+        },
+        {
+          "state": "detail",
+          "rows": 24,
+          "tracks": 0,
+          "elements": 241
+        }
+      ],
+      "maxSampledRows": 24,
+      "maxSampledTracks": 0,
+      "maxSampledElements": 309,
+      "errors": [],
+      "externalRequests": 0
+    },
+    {
+      "fixture": "dense",
+      "repeat": 2,
+      "loadToReadyMs": 691,
+      "interactionsMs": {
+        "openChildren": 47.70000000298023,
+        "openFold": 28.80000000447035,
+        "openTaskDetail": 30.899999998509884
+      },
+      "states": [
+        {
+          "state": "overview",
+          "rows": 4,
+          "tracks": 0,
+          "elements": 90
+        },
+        {
+          "state": "folds",
+          "rows": 24,
+          "tracks": 0,
+          "elements": 309
+        },
+        {
+          "state": "companion",
+          "rows": 24,
+          "tracks": 0,
+          "elements": 211
+        },
+        {
+          "state": "detail",
+          "rows": 24,
+          "tracks": 0,
+          "elements": 241
+        }
+      ],
+      "maxSampledRows": 24,
+      "maxSampledTracks": 0,
+      "maxSampledElements": 309,
+      "errors": [],
+      "externalRequests": 0
+    },
+    {
+      "fixture": "dense",
+      "repeat": 3,
+      "loadToReadyMs": 772.1999999955297,
+      "interactionsMs": {
+        "openChildren": 52.400000005960464,
+        "openFold": 16.600000001490116,
+        "openTaskDetail": 31
+      },
+      "states": [
+        {
+          "state": "overview",
+          "rows": 4,
+          "tracks": 0,
+          "elements": 90
+        },
+        {
+          "state": "folds",
+          "rows": 24,
+          "tracks": 0,
+          "elements": 309
+        },
+        {
+          "state": "companion",
+          "rows": 24,
+          "tracks": 0,
+          "elements": 211
+        },
+        {
+          "state": "detail",
+          "rows": 24,
+          "tracks": 0,
+          "elements": 241
+        }
+      ],
+      "maxSampledRows": 24,
+      "maxSampledTracks": 0,
+      "maxSampledElements": 309,
+      "errors": [],
+      "externalRequests": 0
+    },
+    {
+      "fixture": "signals",
+      "repeat": 1,
+      "loadToReadyMs": 406.3999999985099,
+      "interactionsMs": {
+        "addFiveResourceTracks": 28.099999994039536,
+        "openResourceDetail": 29.100000001490116
+      },
+      "states": [
+        {
+          "state": "overview",
+          "rows": 4,
+          "tracks": 3,
+          "elements": 354
+        },
+        {
+          "state": "eight-resource-tracks",
+          "rows": 4,
+          "tracks": 8,
+          "elements": 704
+        },
+        {
+          "state": "detail",
+          "rows": 4,
+          "tracks": 8,
+          "elements": 712
+        }
+      ],
+      "maxSampledRows": 4,
+      "maxSampledTracks": 8,
+      "maxSampledElements": 712,
+      "errors": [],
+      "externalRequests": 0
+    },
+    {
+      "fixture": "signals",
+      "repeat": 2,
+      "loadToReadyMs": 428.3999999985099,
+      "interactionsMs": {
+        "addFiveResourceTracks": 28.099999994039536,
+        "openResourceDetail": 27.799999997019768
+      },
+      "states": [
+        {
+          "state": "overview",
+          "rows": 4,
+          "tracks": 3,
+          "elements": 354
+        },
+        {
+          "state": "eight-resource-tracks",
+          "rows": 4,
+          "tracks": 8,
+          "elements": 704
+        },
+        {
+          "state": "detail",
+          "rows": 4,
+          "tracks": 8,
+          "elements": 712
+        }
+      ],
+      "maxSampledRows": 4,
+      "maxSampledTracks": 8,
+      "maxSampledElements": 712,
+      "errors": [],
+      "externalRequests": 0
+    },
+    {
+      "fixture": "signals",
+      "repeat": 3,
+      "loadToReadyMs": 437.79999999701977,
+      "interactionsMs": {
+        "addFiveResourceTracks": 34.70000000298023,
+        "openResourceDetail": 29.600000001490116
+      },
+      "states": [
+        {
+          "state": "overview",
+          "rows": 4,
+          "tracks": 3,
+          "elements": 354
+        },
+        {
+          "state": "eight-resource-tracks",
+          "rows": 4,
+          "tracks": 8,
+          "elements": 704
+        },
+        {
+          "state": "detail",
+          "rows": 4,
+          "tracks": 8,
+          "elements": 712
+        }
+      ],
+      "maxSampledRows": 4,
+      "maxSampledTracks": 8,
+      "maxSampledElements": 712,
+      "errors": [],
+      "externalRequests": 0
+    }
+  ]
+}

@@ -30,13 +30,13 @@
   "Conservatively fingerprint all bundled JVM/CLJC engine sources, including the runtime adapters.
    Resources must be present; each read is bounded to 1 MiB. Source-only/AOT builds must ship them."
   []
-  (let [names ["admission.cljc" "archive.cljc" "archive_contract.cljc" "archive_io.clj" "archive_run.clj" "attempt.clj" "batch_graph.cljc" "cache.cljc" "canonical.cljc"
+  (let [names ["admission.cljc" "api.cljc" "api_contract.cljc" "archive.cljc" "archive_contract.cljc" "archive_io.clj" "archive_run.clj" "attempt.clj" "batch_graph.cljc" "cache.cljc" "canonical.cljc"
                "clock.clj" "clojure_test.clj" "contained.clj" "container.clj" "contract.cljc"
                "coordinator.clj" "decimal.cljc" "diagnostic.clj" "diff.cljc" "graph.cljc" "inputs.clj" "inspection_contract.cljc"
                "interval.cljc" "measure.cljc" "ownership.clj" "plan.cljc" "process.clj" "process_batch.clj" "process_graph.cljc" "publish.clj"
                "query.cljc" "report.clj" "report_io.clj" "report_publish.clj" "repository.clj" "repository_contract.cljc" "repository_git.clj" "repository_identity.cljc" "run_contract.cljc" "runtime.clj" "schema.cljc" "snapshot.clj" "store.clj"
                "test_artifact.clj" "test_batch.clj" "test_graph.cljc" "trace_cli.clj" "trace_contract.clj"
-               "trace_import.clj" "trace_io.clj" "verdict.cljc" "viewer_asset.clj" "viewer_build.clj" "viewer_contract.cljc"]]
+               "trace_import.clj" "trace_io.clj" "verdict.cljc" "view/contract.cljc" "view/model.cljc" "view/opportunity.cljc" "viewer_asset.clj" "viewer_build.clj" "viewer_contract.cljc"]]
     (canonical/sha256
      (str/join "\n" (map (fn [resource-name]
                            (with-open [stream (io/input-stream (or (io/resource (str "gate/" resource-name))

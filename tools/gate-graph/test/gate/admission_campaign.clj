@@ -31,7 +31,7 @@
 (def Baseline [:map {:closed true} [:execution Execution] [:passed? :boolean]])
 (def Fingerprints [:map-of {:max 256} PathName c/Digest])
 (def Report
-  [:map {:closed true} [:schema/version [:= 1]] [:scope [:enum :archive-delivery :repository :viewer-delivery :viewer-manifest :viewer-asset :html-publication :edn-admission :coordinator :adapter-verdict :live-inputs :cache-attempt :process :process-verdict :process-projection :process-batch :process-cli :process-capture-verdict :coverage-unit-verdict :coverage-unit-cache :container :output-publication :contained-completion :runtime :runtime-admission :output-ownership :test-observer :test-projection :test-artifact :native-clock :batch-projection :native-test-batch :graph-evidence :engine-identity]]
+  [:map {:closed true} [:schema/version [:= 1]] [:scope [:enum :api-adoption :archive-delivery :repository :viewer-delivery :viewer-manifest :viewer-asset :html-publication :edn-admission :coordinator :adapter-verdict :live-inputs :cache-attempt :process :process-verdict :process-projection :process-batch :process-cli :process-capture-verdict :coverage-unit-verdict :coverage-unit-cache :container :output-publication :contained-completion :runtime :runtime-admission :output-ownership :test-observer :test-projection :test-artifact :native-clock :batch-projection :native-test-batch :graph-evidence :engine-identity]]
    [:fingerprints Fingerprints]
    [:runtime [:map {:closed true} [:java-version Text] [:java-vm Text] [:clojure-version Text]]]
    [:initial Baseline] [:final [:maybe Baseline]]
