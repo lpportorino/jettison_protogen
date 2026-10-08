@@ -329,15 +329,16 @@ peak. Each covers the work interval and remains **inclusive**. Other resource,
 exit, host and toolchain details remain in the original journal. The importer
 does not invent dependencies, disjointness assertions, background load or PMU counts.
 
-The HTML uses Hiccup 2.0.0 and a shadow-cljs 3.5.3 release bundle. All graph data,
+The HTML uses Hiccup and a shadow-cljs release bundle (both pinned in `deps.edn`). All graph data,
 CSS and JS are embedded; no server or sibling files are needed to view it.
 The browser uses the same CLJC admission, canonicalization and bounded query
-functions. Click a task to inspect exact EDN measurements, or `Children` to open
-its companion timeline. Logical task lanes show concurrency; widths use elapsed
-time. Geometry alone uses floating point, after exact origin subtraction.
+functions. Click a task to inspect exact EDN measurements, or **Open N children**
+to open its companion timeline. Logical task lanes show concurrency; widths use
+elapsed time. Geometry alone uses floating point, after exact origin subtraction.
 Each drill page permits 200 rows, 128,000 visits and 1 MiB, with continuation.
-This initial view does not yet provide cheap-entry folding, dependency connectors,
-search, background overlays, aggregate controls or CI-scale performance proof.
+Folding, dependency connectors, search, resource tracks and the investigation
+overview are described in [docs/viewer.md](docs/viewer.md); CI-scale performance
+proof is not claimed (`browser/performance.mjs` records timings without a budget).
 
 Run the scoped public demonstration from the checkout root:
 
@@ -354,10 +355,13 @@ public CI roster or a replacement for a shared declarative runner.
 The CLI's release bundle is trusted local build output; journal input is bounded.
 
 `test/offline-report.mjs` accepts Playwright's module path, the report path and
-a screenshot destination. With Playwright 1.60.0 / Chromium 148.0.7778.96 in a
-network-disabled container it proved file navigation, drill/back actions,
+a screenshot destination. Run against that report in a network-disabled
+Playwright container it asserts file navigation, drill/back actions,
 measurements, overlapping geometry, and agreement between the browser's canonical
-digest and the JVM EDN artifact. Zero external requests/page/console errors.
+digest and the JVM EDN artifact, with zero external requests and zero
+page/console errors; it prints the engine version it ran under. It is a probe
+over one REAL artifact; the synthetic-fixture acceptance suite is
+`browser/acceptance.mjs` (see `browser/README.md`).
 The browser runtime is not yet enrolled in the public base image or gate roster.
 Full cross-platform parity, keyboard/hostile-DOM/browser mutation tests and
 scale acceptance remain; one real artifact is not a complete parity suite.
@@ -1218,4 +1222,5 @@ do not establish full CI coverage or consumer integration.
 The chronological offline viewer and its bounded presentation API are documented in
 [the viewer guide](docs/viewer.md).
 See [API identity and explicit adoption](docs/api.md) for the manifest algebra
-and [combined acceptance](docs/integrated-viewer.md) for the rebuilt viewer.
+and [passive source observations](docs/api-source.md) for bounded declaration
+reading. [Combined acceptance](docs/integrated-viewer.md) records the integrated viewer.
