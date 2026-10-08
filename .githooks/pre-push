@@ -90,13 +90,19 @@ fi
 # PRIVATE NAMES FIRST: it is milliseconds, it is the one check whose miss cannot
 # be undone (a push is publication), and it reads the push lines git hands this
 # hook on stdin, which nothing below consumes. $1 is the remote git is pushing to:
-# only ITS tracking refs excuse a commit as already published. The list lives in
-# .git/info/, never in the tree; without it the scan says NOT RUN and does not
-# block (`git config protogen.privateNamesRequired true` makes that a refusal).
-if ! tools/lint/private_names.sh --remote "${1:-}"; then
-  printf '\033[31m[pre-push] BLOCKED\033[0m — the push would publish a private name (above), or the scan could not run.\n' >&2
-  exit 1
-fi
+# only ITS tracking refs excuse a commit as already published. The lists live
+# outside every work tree (.git/info/private-names, or a .private-names above the
+# checkout). With none found the scan exits 4, NOT RUN: the push goes through,
+# and the hook's LAST line says nothing was checked, so the warning cannot scroll
+# away (`git config protogen.privateNamesRequired true` makes that a refusal).
+private_names_rc=0
+tools/lint/private_names.sh --remote "${1:-}" || private_names_rc=$?
+case "$private_names_rc" in
+  0 | 4) ;;
+  *)
+    printf '\033[31m[pre-push] BLOCKED\033[0m — the push would publish a private name (above), or the scan could not run.\n' >&2
+    exit 1 ;;
+esac
 
 printf '\033[36m[pre-push]\033[0m format + lint gates\n'
 
@@ -189,9 +195,10 @@ fi
 # carries. Its fail canary is part of the same target and runs after the suite.
 if command -v docker >/dev/null 2>&1; then
   # UBER_NETWORK=none: these container lanes judge with the network removed, so a
-  # provisioning gap in the image they use fails here by name. That covers ONLY
-  # these five; the bare `make -f lint.mk lint` above runs on the host network, and
-  # the wasmtime harness lanes are not run by this hook at all.
+  # provisioning gap in the image they use fails here by name. That covers these
+  # five and the ESLint lane below (its own container is network-removed too); the
+  # bare `make -f lint.mk lint` above runs on the host network, and the wasmtime
+  # harness lanes are not run by this hook at all.
   if ! UBER_NETWORK=none tools/uber.sh 'make -f lint.mk lint-c-tidy-test lint-c-tidy lint-python gate-trace-test gate-graph-test'; then
     cat >&2 <<'EOF'
 
@@ -307,5 +314,9 @@ EOF
   exit 1
 fi
 
-printf '\033[32m[pre-push]\033[0m gates green\n'
+if [ "$private_names_rc" = 4 ]; then
+  printf '\033[33m[pre-push]\033[0m gates green — BUT the private-name scan did NOT RUN: no list was found, so nothing was checked for private names\n'
+else
+  printf '\033[32m[pre-push]\033[0m gates green\n'
+fi
 exit 0

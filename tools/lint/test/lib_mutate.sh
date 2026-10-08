@@ -99,10 +99,8 @@ mutate_file() {
 	content="$(cat -- "$f" && printf 'X')"
 	content="${content%X}"
 
-	# Literal occurrence COUNT. `${rest#*"$old"}` is a shortest-prefix strip whose
-	# needle is quoted, hence literal; the loop is the portable way to count rather
-	# than merely detect.
-	# Count by cutting at each occurrence: `${rest%%"$old"*}` is the text BEFORE the
+	# Literal occurrence COUNT — the needle is quoted, hence literal — counted rather
+	# than merely detected. Count by cutting at each occurrence: `${rest%%"$old"*}` is the text BEFORE the
 	# first one. A leading-`*` pattern (`${rest#*"$old"}`) is retried from every
 	# position by bash's matcher, which is quadratic: minutes on a 500 KB page.
 	rest="$content"

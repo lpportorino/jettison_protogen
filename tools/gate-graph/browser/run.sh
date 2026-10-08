@@ -30,7 +30,7 @@ evidence="${1:-}"; shift || true
 fixtures=""
 while [ $# -gt 0 ]; do
   case "$1" in
-    --fixtures) fixtures="${2:?--fixtures needs a directory}"; shift 2 ;;
+    --fixtures) [ $# -ge 2 ] || cannot_run "--fixtures needs a directory"; fixtures="$2"; shift 2 ;;
     *) cannot_run "unknown argument $1 (usage: run.sh EVIDENCE_DIR [--fixtures DIR])" ;;
   esac
 done
@@ -56,6 +56,8 @@ uid="$(id -u):$(id -g)"
 mount=(-v "$root:/w" -w /w/tools/gate-graph/browser --user "$uid" -e HOME=/tmp -e npm_config_cache=/tmp/.npm)
 docker run --rm "${mount[@]}" "$PLAYWRIGHT_IMAGE" npm ci --no-audit --no-fund --loglevel=error \
   || { printf '[gate-viewer-acceptance] ERROR — npm ci failed\n' >&2; exit 2; }
+# The lockfile this node_modules came from, so lint_js.sh need not reinstall it.
+sha256sum "$here/package-lock.json" | cut -d' ' -f1 >"$here/node_modules/.installed-from"
 
 in_container() { printf '/w/%s' "${1#"$root"/}"; }
 worst=0

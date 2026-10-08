@@ -98,6 +98,9 @@ def main(argv):
         if not run.is_dir():
             cannot_run(f"{run} is not an evidence directory")
     waived = set()
+    # Every refusal happens before anything is written: a refused run must not
+    # leave half its batches behind for a reviewer to pick up.
+    pending, report = [], []
     for engine in ("chromium", "webkit"):
         manifest = read_json(current / engine / "manifest.json", "run manifest")
         if manifest.get("completed") is not True or manifest.get("failure"):
@@ -163,16 +166,18 @@ def main(argv):
         for n, chunk in enumerate(chunks):
             suffix = f"-{chr(ord('a') + n)}" if len(chunks) > 1 else ""
             out = Path(f"{prefix}-{engine}{suffix}.json")
-            out.write_text(json.dumps(chunk, indent=1) + "\n")
-            print(f"{engine}{suffix}: {len(chunk)} to review -> {out}")
-        print(
+            pending.append((out, chunk))
+            report.append(f"{engine}{suffix}: {len(chunk)} to review -> {out}")
+        report.append(
             f"{engine}: {identical} identical, {len(equivalent)} pixel-equivalent (<= {JITTER}/255)"
         )
-        for name in equivalent:
-            print(f"  pixel-equivalent: {name}")
+        report.extend(f"  pixel-equivalent: {name}" for name in equivalent)
     stale = sorted(set(opts.vanished) - waived)
     if stale:
         cannot_run(f"--vanished names captures that did not vanish: {', '.join(stale)}")
+    for out, chunk in pending:
+        out.write_text(json.dumps(chunk, indent=1) + "\n")
+    print("\n".join(report))
     return 0
 
 

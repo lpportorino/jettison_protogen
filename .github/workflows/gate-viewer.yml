@@ -6,8 +6,9 @@
 # Dockerfile.base, as renderer.yml does), then runs Chromium and WebKit in the
 # digest-pinned Playwright image with the network REMOVED. The
 # evidence — screenshots, one VLM review brief (`*.png.json`) per screenshot and
-# `vlm-index.json` — is uploaded on every run, red or green, because a capture
-# is reviewed by opening it, and a red run's captures are the diagnosis.
+# `vlm-index.json`, and the canary's mutant runs — is uploaded whenever a run
+# produced any, red or green, because a capture is reviewed by opening it, and a
+# red run's captures are the diagnosis.
 name: Gate Viewer
 
 on:
@@ -24,6 +25,8 @@ on:
     - "renderer/wasm_harness/Cargo.*"
     - "tools/lint/kondo/**"
     - "tools/lint/ruff.sh"
+    # Sourced by both canaries: a change to it can break them.
+    - "tools/lint/test/lib_mutate.sh"
   pull_request:
     paths:
     - "tools/gate-graph/**"
@@ -36,6 +39,8 @@ on:
     - "renderer/wasm_harness/Cargo.*"
     - "tools/lint/kondo/**"
     - "tools/lint/ruff.sh"
+    # Sourced by both canaries: a change to it can break them.
+    - "tools/lint/test/lib_mutate.sh"
   workflow_dispatch: {}
 
 permissions:
@@ -80,4 +85,6 @@ jobs:
         path: |
           tools/gate-graph/browser/evidence/run/
           tools/gate-graph/browser/evidence/canary/
-        if-no-files-found: error
+        # warn, not error: a lint red stops the job before any evidence exists,
+        # and an upload error there would only add a second, misleading red.
+        if-no-files-found: warn

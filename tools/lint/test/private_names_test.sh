@@ -30,8 +30,21 @@ PASS=0 FAILED=0
 ok() { PASS=$((PASS + 1)); printf '  \033[32mok\033[0m   %s\n' "$*"; }
 bad() { FAILED=$((FAILED + 1)); printf '  \033[31mFAIL\033[0m %s\n' "$*" >&2; }
 banner() { printf '\n== %s\n' "$*"; }
-g() { local repo="$1"; shift; env -u GIT_DIR -u GIT_WORK_TREE git -C "$repo" "$@"; }
+# HERMETIC: the machine's own git config, list variable and lists must not reach a
+# fixture — a global protogen.privateNamesRequired, or a .private-names above the
+# scratch directory, would change verdicts the suite asserts.
+HERMETIC=(env -u GIT_DIR -u GIT_WORK_TREE -u GIT_CEILING_DIRECTORIES -u PROTOGEN_PRIVATE_NAMES
+	GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_NOSYSTEM=1)
+g() {
+	local repo="$1"; shift
+	GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_NOSYSTEM=1 env -u GIT_DIR -u GIT_WORK_TREE -u GIT_CEILING_DIRECTORIES -u PROTOGEN_PRIVATE_NAMES git -C "$repo" "$@"
+}
 
+d="$WORK"
+while :; do
+	[ -e "$d/.private-names" ] && { printf 'CANNOT RUN — %s/.private-names exists above the scratch directory; every walk-up case would see it\n' "$d" >&2; exit 3; }
+	[ "$d" = / ] && break; d="$(dirname -- "$d")"
+done
 LIST="$WORK/names"
 printf '# synthetic private names\n\nquill-forge\nPLUME-[0-9]+\n' >"$LIST"
 NAMED="--list $LIST"
@@ -54,7 +67,7 @@ commit_file() { # commit_file <repo> <path> <content> <message>
 # run <sut> <repo> <stdin> <args…> — merged output; returns the exit code.
 run() {
 	local sut="$1" repo="$2" input="$3"; shift 3
-	(cd "$repo" && printf '%s' "$input" | env -u GIT_DIR -u GIT_WORK_TREE bash "$sut" "$@" 2>&1)
+	(cd "$repo" && printf '%s' "$input" | "${HERMETIC[@]}" bash "$sut" "$@" 2>&1)
 }
 expect() { # expect <sut> <repo> <stdin> <code> <needle> <label> <args…>
 	local sut="$1" repo="$2" input="$3" want="$4" needle="$5" label="$6" out code; shift 6
@@ -77,6 +90,10 @@ R_AUTHOR="$(fixture author)";   printf 'x\n' >"$R_AUTHOR/b.txt"; g "$R_AUTHOR" a
 g "$R_AUTHOR" commit -qm 'add b' --author 'x <x@quill-forge.example>'
 R_COMMITTER="$(fixture committer)"; printf 'x\n' >"$R_COMMITTER/b.txt"; g "$R_COMMITTER" add -A
 GIT_COMMITTER_EMAIL='c@quill-forge.example' g "$R_COMMITTER" commit -qm 'add b'
+# An extra header in the raw commit object, as a merged signed tag leaves one.
+R_HEADER="$(fixture header)"; hdr_tree="$(g "$R_HEADER" rev-parse HEAD^{tree})" hdr_parent="$(g "$R_HEADER" rev-parse HEAD)"
+hdr_commit="$(printf 'tree %s\nparent %s\nauthor t <t@example.invalid> 0 +0000\ncommitter t <t@example.invalid> 0 +0000\nmergetag object %s\n type commit\n tag quill-forge-release\n\nclean message\n' "$hdr_tree" "$hdr_parent" "$hdr_parent" | g "$R_HEADER" hash-object -t commit -w --stdin)"
+g "$R_HEADER" update-ref HEAD "$hdr_commit"
 R_PATH="$(fixture path)";       commit_file "$R_PATH" quill-forge.txt 'clean' 'add a file'
 R_RENAME="$(fixture rename)";   g "$R_RENAME" mv a.txt quill-forge.txt; g "$R_RENAME" commit -qm 'rename'
 R_EMPTY="$(fixture empty)";     : >"$R_EMPTY/quill-forge.txt"; g "$R_EMPTY" add -A; g "$R_EMPTY" commit -qm 'empty'
@@ -104,9 +121,10 @@ Z=0000000000000000000000000000000000000000
 
 banner 'EACH INPUT IS SCANNED (FAIL = 1, naming where)'
 expect "$SUT" "$R_LINE"      '' 1 "added lines $PUBLISH" 'a name in an ADDED LINE fails' $NAMED $LAST
-expect "$SUT" "$R_MSG"       '' 1 "message $PUBLISH" 'a name in the COMMIT MESSAGE fails' $NAMED $LAST
-expect "$SUT" "$R_AUTHOR"    '' 1 "identity $PUBLISH" 'a name in the AUTHOR identity fails' $NAMED $LAST
-expect "$SUT" "$R_COMMITTER" '' 1 "identity $PUBLISH" 'a name in the COMMITTER identity fails' $NAMED $LAST
+expect "$SUT" "$R_MSG"       '' 1 "headers) $PUBLISH" 'a name in the COMMIT MESSAGE fails' $NAMED $LAST
+expect "$SUT" "$R_AUTHOR"    '' 1 "headers) $PUBLISH" 'a name in the AUTHOR identity fails' $NAMED $LAST
+expect "$SUT" "$R_COMMITTER" '' 1 "headers) $PUBLISH" 'a name in the COMMITTER identity fails' $NAMED $LAST
+expect "$SUT" "$R_HEADER"    '' 1 "headers) $PUBLISH" 'a name in an EXTRA commit header fails (e.g. a merged tag)' $NAMED $LAST
 expect "$SUT" "$R_PATH"      '' 1 "paths $PUBLISH" 'a name in a NEW PATH fails' $NAMED $LAST
 expect "$SUT" "$R_RENAME"    '' 1 "paths $PUBLISH" 'a name in a pure RENAME target fails' $NAMED $LAST
 expect "$SUT" "$R_EMPTY"     '' 1 "paths $PUBLISH" 'a name as an EMPTY file fails (no +++ line)' $NAMED $LAST
@@ -134,7 +152,7 @@ expect "$SUT" "$R_PRIV" "refs/heads/new $PRIV_HEAD refs/heads/new $Z
 " 0 'clean — no new commits' 'CONTROL: the same push to the remote that holds it is clean' $NAMED --remote priv
 
 banner 'PRECONDITIONS — NOT RUN only for an absent DEFAULT list; CANNOT RUN (3) otherwise'
-expect "$SUT" "$R_LINE" '' 0 'WARNING — NOT RUN' 'no list anywhere: warns NOT RUN and does not block' $LAST
+expect "$SUT" "$R_LINE" '' 4 'WARNING — NOT RUN' 'no list anywhere: NOT RUN (4) — checked nothing, blocks nothing' $LAST
 expect "$SUT" "$R_LINE" '' 3 'named list' 'a NAMED list that is missing is CANNOT RUN' --list "$WORK/absent" $LAST
 g "$R_CLEAN" config protogen.privateNamesRequired true
 expect "$SUT" "$R_CLEAN" '' 3 'privateNamesRequired' 'a REQUIRED default list that is missing is CANNOT RUN' $LAST
@@ -155,8 +173,8 @@ commit_file "$R_UP" a.txt 'clean' base; commit_file "$R_UP" b.txt 'uses quill-fo
 expect "$SUT" "$R_UP" '' 1 "$PUBLISH" 'a .private-names in a PARENT directory arms the scan' $LAST
 printf 'plume-[0-9]+\n' >"$R_UP/.git/info/private-names"
 commit_file "$R_UP" c.txt 'see plume-7' 'add c'
-expect "$SUT" "$R_UP" '' 1 'matched: plume-7' 'UNION: the .git/info list applies while a parent list exists' $LAST
-expect "$SUT" "$R_UP" '' 1 'matched: quill-forge' 'UNION: the parent list applies while a .git/info list exists' --range HEAD~2..HEAD~1
+expect "$SUT" "$R_UP" '' 1 'pattern at .git/info/private-names:1' 'UNION: the .git/info list applies while a parent list exists' $LAST
+expect "$SUT" "$R_UP" '' 1 "pattern at $OUTER/.private-names:1" 'UNION: the parent list applies while a .git/info list exists' --range HEAD~2..HEAD~1
 R_TOP="$WORK/top"; mkdir -p "$R_TOP"; g "$R_TOP" init -q; g "$R_TOP" config user.email t@example.invalid; g "$R_TOP" config user.name t
 commit_file "$R_TOP" a.txt 'clean' base; commit_file "$R_TOP" b.txt 'uses quill-forge' 'add b'
 printf 'quill-forge\n' >"$R_TOP/.private-names"
@@ -166,11 +184,26 @@ printf 'quill-forge\n' >"$PARENT_REPO/.private-names"
 R_NESTED="$PARENT_REPO/nested"; mkdir -p "$R_NESTED"; g "$R_NESTED" init -q; g "$R_NESTED" config user.email t@example.invalid; g "$R_NESTED" config user.name t
 commit_file "$R_NESTED" a.txt 'clean' base; commit_file "$R_NESTED" b.txt 'clean too' 'add b'
 expect "$SUT" "$R_NESTED" '' 3 'inside a git work tree' 'a list in a parent that is itself a REPOSITORY is refused' $LAST
+printf 'nomatch-pattern' >"$R_UP/.git/info/private-names"            # no trailing newline
+printf 'quill-forge' >"$OUTER/.private-names"
+expect "$SUT" "$R_UP" '' 1 "pattern at $OUTER/.private-names:1" 'lists without trailing newlines do not FUSE' --range HEAD~2..HEAD~1
+printf 'quill-forge\n' >"$OUTER/.private-names"; printf 'plume-[0-9]+\n' >"$R_UP/.git/info/private-names"
+out="$(run "$SUT" "$R_UP" '' --range HEAD~2..HEAD~1)" || true
+if contains "$out" '[private name]' && ! contains "$out" 'quill-forge'; then ok 'a FAIL masks the matched text: the name is never printed'
+else bad 'a FAIL printed the matched name, or masked nothing'; printf '%s\n' "$out" | sed 's/^/       | /' >&2; fi
+R_DIRLIST="$WORK/dirlist"; mkdir -p "$R_DIRLIST/.private-names"; R_DL="$R_DIRLIST/repo"; mkdir -p "$R_DL"; g "$R_DL" init -q
+g "$R_DL" config user.email t@example.invalid; g "$R_DL" config user.name t; commit_file "$R_DL" a.txt 'clean' base
+expect "$SUT" "$R_DL" '' 3 'not a regular file' 'a list that is a DIRECTORY is CANNOT RUN, never skipped' --range HEAD
+R_LINKLIST="$WORK/linklist"; mkdir -p "$R_LINKLIST"; ln -s "$WORK/nowhere/.private-names" "$R_LINKLIST/.private-names"
+R_LL="$R_LINKLIST/repo"; mkdir -p "$R_LL"; g "$R_LL" init -q; g "$R_LL" config user.email t@example.invalid; g "$R_LL" config user.name t
+commit_file "$R_LL" a.txt 'clean' base
+expect "$SUT" "$R_LL" '' 3 'not a regular file' 'a BROKEN SYMLINK list is CANNOT RUN, never "no list"' --range HEAD
+
 m="$WORK/mutant-walk.sh"; cp "$SUT" "$m"
-if err="$(mutate_file "$m" '    [ -e "$dir/.private-names" ] && lists+=("$dir/.private-names")' '    :' 2>&1)"; then
-	expect "$m" "$R_UP" '' 1 'matched: plume-7' 'walk-up clause: CONTROL — the .git/info list still arms the scan' $LAST
+if err="$(mutate_file "$m" '    { [ -e "$dir/.private-names" ] || [ -L "$dir/.private-names" ]; } && lists+=("$dir/.private-names")' '    :' 2>&1)"; then
+	expect "$m" "$R_UP" '' 1 'pattern at .git/info/private-names:1' 'walk-up clause: CONTROL — the .git/info list still arms the scan' $LAST
 	rm -f "$R_UP/.git/info/private-names"
-	expect "$m" "$R_UP" '' 0 'WARNING — NOT RUN' 'walk-up clause: broken, a parent list is never found' $LAST
+	expect "$m" "$R_UP" '' 4 'WARNING — NOT RUN' 'walk-up clause: broken, a parent list is never found' $LAST
 else bad "walk-up mutation did not land: $err"; fi
 m="$WORK/mutant-worktree.sh"; cp "$SUT" "$m"
 if err="$(mutate_file "$m" 'rev-parse --is-inside-work-tree 2>/dev/null)" = true ]' 'rev-parse --is-inside-work-tree 2>/dev/null)" = never ]' 2>&1)"; then
@@ -187,9 +220,9 @@ attribute() {
 	expect "$m" "$green" "$gin" 0 'clean' "$label: with it broken, its own case passes" "$@"
 	expect "$m" "$red" "$rin" 1 "$PUBLISH" "$label: CONTROL — a neighbouring input still fails" "$@"
 }
-attribute 'author clause'    "'%an <%ae>%n%cn <%ce>'" "'%cn <%ce>'" "$R_AUTHOR" '' "$R_COMMITTER" '' $NAMED $LAST
-attribute 'committer clause' "'%an <%ae>%n%cn <%ce>'" "'%an <%ae>'" "$R_COMMITTER" '' "$R_AUTHOR" '' $NAMED $LAST
-attribute 'message clause'   'report "commit $short'"'"'s message" "$work/message"' ':' "$R_MSG" '' "$R_LINE" '' $NAMED $LAST
+for planted in "$R_MSG" "$R_AUTHOR" "$R_COMMITTER" "$R_HEADER"; do
+	attribute "commit-object clause ($(basename "$planted"))" 'report "commit $short'"'"'s object (identity, message, headers)" "$work/object"' ':' "$planted" '' "$R_LINE" '' $NAMED $LAST
+done
 attribute 'paths clause'     'report "commit $short'"'"'s paths" "$work/paths"' ':' "$R_EMPTY" '' "$R_LINE" '' $NAMED $LAST
 attribute 'added-line clause' 'report "commit $short'"'"'s added lines" "$work/added"' ':' "$R_LINE" '' "$R_RENAME" '' $NAMED $LAST
 attribute 'forced-text clause' ' --text --no-renames "$c"' ' --no-renames "$c"' "$R_NUL" '' "$R_LINE" '' $NAMED $LAST

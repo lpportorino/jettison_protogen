@@ -379,6 +379,12 @@ hooks-status:
 #                  when one is missing. The hook runs it in the same
 #                  docker-gated block; lint.yml runs it on the runner, which
 #                  has all three.
+#   lint-js        omitted because it runs ESLint in the Playwright image, which
+#                  needs docker; the hook runs it after the docker-gated block's
+#                  container lanes, and gate-viewer.yml runs it in CI.
+#   the private-name scan  a scan of the PUSH, not of the tree, so it has no
+#                  meaning here; the hook runs it first (its canary, which
+#                  needs nothing, does ride this aggregate).
 # So the HOOK's gate set is strictly wider than this target, by the lanes listed
 # above. NO COUNT IS GIVEN: this sentence said "those three" and went stale the
 # moment a fourth was added to the list it points at. Read the hook for what a

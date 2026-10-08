@@ -28,7 +28,7 @@ evidence="${1:-}"; shift || true
 fixtures=""
 while [ $# -gt 0 ]; do
   case "$1" in
-    --fixtures) fixtures="${2:?--fixtures needs a directory}"; shift 2 ;;
+    --fixtures) [ $# -ge 2 ] || cannot "--fixtures needs a directory"; fixtures="$2"; shift 2 ;;
     *) cannot "unknown argument $1 (usage: canary.sh EVIDENCE_DIR --fixtures GREEN_FIXTURES)" ;;
   esac
 done
@@ -36,9 +36,23 @@ done
 command -v docker >/dev/null 2>&1 || cannot "docker is not on PATH"
 command -v python3 >/dev/null 2>&1 || cannot "python3 is not on PATH (it reads each run's manifest)"
 [ -f "$fixtures/branch/index.html" ] || cannot "$fixtures/branch/index.html missing; pass a green run's fixtures"
+# The fixtures must come from a GREEN run: a mutant's FAIL proves something only
+# against fixtures the harness passes unmutated. run.sh writes them beside its
+# per-engine manifests.
+run_dir="$(cd -- "$fixtures/.." && pwd -P)"
+python3 - "$run_dir/chromium/manifest.json" <<'PY' || cannot "$fixtures is not from a green run (see above)"
+import json, sys
+try:
+    m = json.load(open(sys.argv[1]))
+except (OSError, ValueError) as error:
+    sys.exit(f"no readable run manifest beside the fixtures: {error}")
+if m.get("completed") is not True or m.get("failure"):
+    sys.exit(f"the run that built them is not green: {m.get('failure')}")
+PY
 [ -e "$evidence" ] && cannot "$evidence already exists; evidence directories are never overwritten"
-mkdir -p "$evidence"; evidence="$(cd -- "$evidence" && pwd -P)"; fixtures="$(cd -- "$fixtures" && pwd -P)"
+evidence="$(realpath -m -- "$evidence")"; fixtures="$(cd -- "$fixtures" && pwd -P)"
 case "$evidence" in "$root"/*) ;; *) cannot "$evidence must sit inside the checkout (it is bind-mounted)" ;; esac
+mkdir -p "$evidence"
 image="$(sed -n 's/^PLAYWRIGHT_IMAGE="\(.*\)"$/\1/p' "$here/run.sh")"
 [ -n "$image" ] || cannot "no PLAYWRIGHT_IMAGE line in run.sh"
 [ -x "$here/node_modules/.bin/playwright" ] || cannot "node_modules is not installed; run run.sh first (it runs npm ci)"

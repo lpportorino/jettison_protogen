@@ -7,12 +7,13 @@
 # declared scope exclusions below, unless FILE arguments name them. ESLint is the
 # version package-lock.json pins, run in the same digest-pinned Playwright image
 # as run.sh (whose PLAYWRIGHT_IMAGE line is read, never copied), with the network
-# removed; eslint.config.mjs holds the rules, and every warning blocks
-# (`--max-warnings 0`). A tracked script outside the config's `files` globs is
-# not skipped: ESLint warns that no configuration matched it, and that blocks.
+# removed; eslint.config.mjs holds the rules — applied to every file passed, so
+# what is judged is exactly what is discovered here — and every warning blocks
+# (`--max-warnings 0`).
 #
 # `npm ci` (lockfile-exact, with the network) runs only when node_modules was not
-# installed from the current package-lock.json.
+# installed from the current package-lock.json: this script and run.sh both
+# record the lockfile hash they installed from.
 #
 # Exit 0 clean; 1 FAIL (findings); 2 ERROR (ESLint crashed or its config is
 # broken — not a verdict); 3 CANNOT RUN (no docker, a declared exclusion that
@@ -49,7 +50,6 @@ else
   done
   while IFS= read -r f; do
     [ -n "$f" ] || continue
-    case "$f" in renderer/lvgl/*) continue ;; esac
     skip=0; for x in "${excluded[@]}"; do [ "$f" = "$x" ] && skip=1; done
     [ "$skip" = 1 ] || files+=("$f")
   done <<<"$listing"

@@ -3,3 +3,4 @@
 /.cpcache/
 /.gate-reports/
 /target/
+/lint-canary-outside.tmp/

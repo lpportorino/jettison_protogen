@@ -66,8 +66,9 @@ jobs:
       name: leak-ban canaries (mutation-proven clause attribution)
       run: make -f lint.mk lint-no-host-paths-test
 
-    - # The pre-push private-name scan's canaries. Its list never exists here —
-      # it lives in a pusher's .git/info/ — so CI cannot run the scan itself; it
+    - # The pre-push private-name scan's canaries. Its lists never exist here —
+      # they live outside every work tree on a pusher's machine — so CI cannot
+      # run the scan itself; it
       # proves the scanner on synthetic names instead. bash, git and GNU grep only.
       name: private-name scan canaries (mutation-proven clause attribution)
       run: make -f lint.mk private-names-test
