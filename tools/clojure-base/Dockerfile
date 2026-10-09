@@ -1,33 +1,28 @@
 # syntax=docker/dockerfile:1.7
-# The Jettison Clojure base: the pinned Ubuntu 26.04 image, the Eclipse
-# Temurin 27 JDK and the Clojure CLI. It replaces the upstream
+# A Clojure base image: the pinned Ubuntu 26.04 image, the Eclipse Temurin 27
+# JDK and the Clojure CLI. It replaces the upstream
 # `clojure:temurin-*-tools-deps-*` images, which stop at Temurin 26.
 #
-# ONE DEFINITION, TWO REPOSITORIES. This file is byte-identical in jettison
-# (tools/clojure-base/Dockerfile) and protogen (tools/clojure-base/Dockerfile),
-# and both build it under the tag `jettison-clojure:27-<first 12 hex of this
-# file's sha256>`, so the two repos name and share ONE image. Change it in both
-# places in the same change; jettison's `make clojure-base-image` refuses to
-# build when its submodule copy differs.
+# ONE DEFINITION, SHARED. This file is byte-identical to the superproject's
+# copy, which owns its pins, and both build it under the tag
+# `jettison-clojure:27-<first 12 hex of this file's sha256>`, so they name and
+# share ONE image. Change it there and copy it here in the same change; the
+# superproject refuses to build when the two copies differ.
 #
-# EVERY INPUT IS PINNED BY DIGEST OR BY VERSION + CHECKSUM:
-#   UBUNTU_IMAGE       must equal docker_images.toml's `ubuntu` pin — the same
-#                      Ubuntu layer every target image is appended onto
-#                      (`make clojure-base-image` refuses on a mismatch).
+# WHAT IS PINNED, AND THE ONE THING THAT IS NOT:
+#   UBUNTU_IMAGE       by digest; it must equal the superproject's mirrored
+#                      Ubuntu pin, the layer its target images are built on.
 #   TEMURIN_JDK_IMAGE  the upstream JDK, read by digest; only /opt/java/openjdk
 #                      is taken from it. The Temurin 27 images are themselves
 #                      built on this Ubuntu digest (their bottom two layers are
 #                      byte-identical to it, per platform).
-#   (no apt pin)       git and ca-certificates come from the release's own
-#                      mirror, unpinned: neither reaches any produced byte, and
-#                      snapshot.ubuntu.com does not serve the ports archive
-#                      (arm64), where a snapshot pin installs nothing.
 #   CLOJURE_CLI_*      the release tarball by version; ADD --checksum refuses
 #                      any other bytes. The install mirrors that release's own
 #                      posix-install.sh (the PREFIX/BINDIR substitutions).
-#
-# The bump rule is the uber image's (.devcontainer/Dockerfile carries the same
-# JDK digest and CLI version; .claude/rules/devcontainer-tools.md is the matrix).
+#   (not pinned)       git and ca-certificates come from the release's own
+#                      mirror: neither reaches any produced byte, and
+#                      snapshot.ubuntu.com does not serve the ports archive
+#                      (arm64), where a snapshot pin installs nothing.
 #
 # What it carries beyond the JDK and the CLI: git + ca-certificates, because
 # tools.deps resolves :git/url dependencies with the git CLI. LANG=C.UTF-8 is

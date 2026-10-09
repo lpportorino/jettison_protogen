@@ -6,8 +6,8 @@ DOCKER_BASE_IMAGE := jettison-proto-generator-base:latest
 DOCKER_IMAGE := jettison-proto-generator:latest
 BASE_IMAGE_ARCHIVE := jettison-proto-generator-base.tar.gz
 # The Clojure + Temurin 27 image the binary-dedup leg and the protodoc image run
-# on. tools/clojure-base/Dockerfile defines it (byte-identical to jettison's
-# copy), and the tag is DERIVED from that file's content, so an edited
+# on. tools/clojure-base/Dockerfile defines it (byte-identical to the
+# superproject's copy), and the tag is DERIVED from that file's content, so an edited
 # Dockerfile can never run against a stale image and both repositories name the
 # same image for the same definition.
 CLOJURE_BASE_DOCKERFILE := tools/clojure-base/Dockerfile
