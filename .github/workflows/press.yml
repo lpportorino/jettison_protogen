@@ -31,13 +31,16 @@ jobs:
         mkdir -p .press
         set -o pipefail
         tools/press/bin/press selftest .press/ci-selftest 2>&1 | tee .press/ci-selftest.log
+    - name: Package browser evidence with its original fixture paths
+      if: always()
+      run: bash tools/press/bin/pack-evidence.sh .press/ci-selftest .press/ci-selftest.tar.gz
     - name: Keep browser evidence
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: press-browser-evidence
         path: |
-          .press/ci-selftest
+          .press/ci-selftest.tar.gz
           .press/ci-selftest.log
         include-hidden-files: true
         if-no-files-found: error
