@@ -4,6 +4,7 @@
             [gate.admission :as admission]
             [gate.archive-contract :as ac]
             [gate.contract :as c]
+            [gate.record-view-contract :as view]
             [gate.repository-contract :as rc]
             [malli.core :as m])
   (:import [java.nio ByteBuffer]
@@ -86,3 +87,14 @@
   [path limits]
   (naming-file path #(admission/decode (read-text! path (:bytes limits)) :repository-observation limits)))
 (m/=> read-repository! [:=> [:cat PathName c/AdmissionLimits] rc/Observation])
+
+(defn read-record!
+  "Read one explicitly declared known report kind under strict bounded EDN admission.
+   No filename inference or arbitrary EDN is accepted. The structural navigator separately
+   verifies applicable graph/archive/repository invariants and binds content identity.
+   Reading a sibling record does not establish that it belongs to another archive."
+  [path kind limits]
+  (when-not (and (m/validate PathName path) (m/validate view/Kind kind)
+                 (m/validate c/AdmissionLimits limits)) (refuse! :report-policy))
+  (naming-file path #(admission/decode (read-text! path (:bytes limits)) kind limits)))
+(m/=> read-record! [:=> [:cat PathName view/Kind c/AdmissionLimits] view/Payload])

@@ -1142,6 +1142,133 @@ Cancellation is checked before Git operations, between entries and during
 refusal. These checkpoints do not forcibly interrupt a blocked filesystem
 operation or canonical encoding; they are not a hard real-time guarantee.
 
+## Complete record navigation and optional attention index
+
+`gate.record-view` traverses every field of one explicitly declared admitted
+record. It exposes structural containers, exact child counts, typed coordinates,
+empty containers and exact scalar values. A page lists immediate children;
+repeat the operation at each returned `:path` to reach every descendant. Graph
+node parent IDs and causal edges are different relationships, available through
+`gate.query` and `gate.view.model` on the corresponding graph.
+
+```clojure
+(require '[gate.admission :as admission]
+         '[gate.record-view :as records]
+         '[gate.report-io :as reports]
+         '[gate.run-lens :as lens])
+
+(def document (reports/read-record! "reports/run.edn" :run-archive
+                                     admission/default-limits))
+(def context (records/prepare :run-archive document))
+(def request {:select {:op :children :path []}
+              :budget {:visits 20 :rows 5 :bytes 16384}})
+(def first-page (records/page context request))
+;; Only resume when :next is present, preserving :select.
+(when-let [cursor (:next first-page)]
+  (records/page context (assoc request :cursor cursor)))
+(records/navigate context {:path [:graph :run :complete?]
+                           :direction :self :bytes 16384})
+(lens/digest document {:top 5 :bytes 16384})
+```
+
+The declared kinds are `:run-archive`, `:graph`, `:process-batch-report`,
+`:test-batch-report`, `:gate-definitions`, `:coordinator-batch`,
+`:repository-observation` and `:artifact-catalog`. Each uses its existing closed owner contract;
+applicable graph, archive and full repository invariants are verified. Batch and
+declaration schemas do not independently prove cross-file agreement or producer
+honesty. Unknown EDN and filename-based kind inference are refused. Use
+`records/require-artifact!` when an expected content identity is available.
+Archive and repository records retain their verified producer seals; the other
+known records receive an identity over their whole canonical payload.
+
+Preparation performs whole-record admission and invariant checks (including
+multiple schema passes under instrumentation), then validates the whole bounded input and produces a sealed immutable
+local context. Keep it locally; it is not serializable evidence or an external
+caller input. Reuse it for output pages without repeating whole-record validation
+per row, including under function instrumentation. This is lazy output by caller
+demand, not streaming input or a constant-memory reader. Local path facades that
+read and prepare again for every request pay that whole-input cost each time.
+
+Each descriptor has `:path`, `:parent`, `:slot` and `:kind`. Containers add exact
+`:children`; leaves add their exact `:value`, preserving nil, boolean, keyword,
+integer and string types. Root `[]` and empty containers are observable through
+`:container` or `navigate :self`. Navigation directions are `:self`, `:parent`,
+`:first-child`, `:next-sibling` and `:previous-sibling`. Exhausted movement returns
+`:status :boundary` with nil `:location`; an absent source location refuses.
+Maps use canonical keyword order; vector coordinates retain their actual indices.
+
+Pages report exact `:start`/`:end`, `:children`, candidate `:visited`, `:stop` and
+`:next`. `:complete` means the requested container's remaining children are
+exhausted, not that every descendant or a full CI run was inspected. Cursors bind
+record kind, content identity, selection, version and offset integrity. Altered
+or stale cursors refuse; this binding is not authentication or proof that earlier
+pages were consumed. Row limits are 1–1000, visit limits 1–1000000 and byte limits
+1024–65536. The whole canonical UTF-8 EDN page, including descriptors and cursor,
+fits or refuses. A byte stop may return `:no-progress? true` and the unchanged
+frontier; increase bytes. If even the envelope or selected exact leaf cannot fit,
+`:encoded-byte-limit` refuses. Visiting candidates is bounded separately from
+whole-record admission, schema validation and encoding work.
+
+The optional `gate.run-lens/digest` index lists every archive root field as a
+structural route. It retains declared scope omissions, status, compact provenance,
+all task counts, actual gate counts, producer expected-key observations and
+resource measurement statuses. Attention includes failed, error, cancelled,
+running, blocked and refused records, with exact task/gate counts, top-N rows,
+explicit omitted counts and typed routes into this same archive. Longest gate
+rows retain retries, stable identity ties, exact string nanoseconds and drill
+routes. Open intervals are counted without invented durations. Run elapsed is
+its relative recorded end, never native clock origin subtraction or the sum of
+nested intervals. CPU, critical path and task attribution remain unknown.
+Its whole returned canonical UTF-8 EDN body fits the explicit budget or refuses;
+RPC/JSON wrappers and audit envelopes are separate. The optional index is a
+projection, not a replacement for complete traversal.
+
+Completeness applies only to the requested record. `run.edn` contains compact
+repository summaries; full `repository-before.edn`/`repository-after.edn`,
+producer `report.edn`, `definitions.edn` and `batch.edn` hold additional details
+and require separate explicit admission. The navigator never opens or asserts
+membership of sibling artifacts. Raw process log bytes are separate files;
+report traversal exposes their recorded path, byte count and digest, not log
+contents. Retain failed, incomplete and cancelled records with their original
+status and scope; browsing never upgrades them to a passing receipt.
+
+## Discovering unopened companion artifacts
+
+`gate.catalog-io/open!` acquires a complete immediate local POSIX directory
+listing under explicit hard limits: `{:entries 1000 :bytes 1048576}`. Entry
+limits range from 1 to 100000; canonical metadata bytes from 1024 to 16777216.
+Exceeding either refuses the acquisition; no partial listing is promoted to a
+complete catalog. It reads entry metadata, never file contents, and does not
+recursively list child directories or follow entry symlinks. A directory whose
+leaf is a symlink refuses; trusted ancestor directories are not a sandbox.
+Unrepresentable native filenames refuse instead of being relabeled.
+
+```clojure
+(require '[gate.catalog-io :as catalogs])
+(def listing (catalogs/open! "reports" {:entries 1000 :bytes 1048576}))
+(def catalog (records/prepare :artifact-catalog listing))
+(records/page catalog {:select {:op :children :path [:entries]}
+                       :budget {:visits 20 :rows 5 :bytes 16384}})
+```
+
+Every sorted entry retains its exact `:name`, absolute `:path`, no-follow `:type`
+(`:file`, `:directory`, `:symlink` or `:other`), `:status :unopened`, and zero or
+more report-kind `:hints`. Known basenames provide hints only; `report.edn` has
+both process/test report hints. Unknown names, raw logs, broken symlinks and
+child directories remain visible. An unopened status is immutable inventory
+metadata, not a later admission result. Opening a file requires a separately
+selected known kind through `read-record!`; opening a child directory requires
+another explicit catalog acquisition. Listing presence does not prove that an
+entry is valid, belongs to the run, or matches another artifact's identity.
+
+The catalog identity binds names, paths, types, statuses and hints; it never
+binds entry contents. Editing a file without changing that metadata leaves the
+listing identity unchanged. Membership or type changes invalidate a cursor for
+a newly acquired listing. A locally reused prepared context retains its original
+snapshot. Acquisition spans filesystem operations and is not a race-free or
+current-filesystem proof. Saved catalog records use the same explicit
+`:artifact-catalog` admission and shared structural traversal as other records.
+
 ## Run archives and deliberate committed evidence
 
 `gate.archive-contract` defines closed `Scope`, `Snapshot`, `Acquisition`,

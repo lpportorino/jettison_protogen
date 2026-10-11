@@ -2,6 +2,8 @@
   "Bounded EDN profile for artifacts and toolbox requests; no general reader or evaluation."
   (:require [gate.archive :as archive]
             [gate.archive-contract :as ac]
+            [gate.catalog-contract :as catalog-contract]
+            [gate.catalog-identity :as catalog]
             [gate.contract :as c]
             [gate.graph :as graph]
             [gate.inspection-contract :as ic]
@@ -60,6 +62,8 @@
    :coordinator-batch (m/schema r/Batch) :attempt-observation (m/schema r/AttemptObservation)
    :process-observation (m/schema r/ProcessObservation) :clocked-process (m/schema r/ClockedProcess)
    :process-capture (m/schema r/ProcessCapture) :process-batch-report (m/schema r/ProcessBatchReport)
+   :artifact-catalog (m/schema catalog-contract/Document)
+   :test-batch-report (m/schema r/TestBatchReport)
    :container-observation (m/schema r/ContainerObservation)
    :output-publication (m/schema r/OutputPublication) :contained-observation (m/schema r/ContainedObservation)
    :runtime-observation (m/schema r/RuntimeObservation) :test-observation (m/schema r/TestObservation)
@@ -263,6 +267,7 @@
       (when-not (m/validate (get target-schemas target) value) (refuse! :invalid-input-shape start))
       (case target :graph (graph/require-valid! value)
             :run-archive (archive/require-valid! value)
+            :artifact-catalog (catalog/require-valid! value)
             :repository-observation (repository/require-observation! value)
             value))
     (catch #?(:clj clojure.lang.ExceptionInfo :cljs ExceptionInfo) error
