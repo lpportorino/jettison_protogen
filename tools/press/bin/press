@@ -242,6 +242,8 @@ case "$cmd" in
     # The default is spelled without `..`: the launcher checks compare the paths press prints,
     # which are normalised, against this directory character for character.
     out=${1:-$here/.out/selftest}
+    host_path "$here" dir
+    host_path "$out" dir
     # Every run starts from an EMPTY output directory: several checks assert that a refused
     # command wrote nothing, and a file left by an earlier run would fail them (or, for a check
     # that expects a file, pass it). Only a directory an earlier selftest marked as its own is
@@ -252,10 +254,13 @@ case "$cmd" in
       printf '{"status":"invalid","message":"selftest output %s exists and is not an earlier selftest output (no .press-selftest marker): give an empty or new directory"}\n' "$out"
       exit 6
     fi
-    mkdir -p "$out/fixtures"
+    mkdir -p -- "$out/fixtures"
+    # Docker CLI versions differ on relative -v sources. Bind an absolute physical
+    # directory, and use --mount so a colon in the host path remains literal.
+    out=$(cd "$out" && pwd -P)
     : >"$out/.press-selftest"
     docker run --rm ${PRESS_LABEL:+--label "$PRESS_LABEL"} --network none --shm-size="$PRESS_SHM" --user "$(id -u):$(id -g)" -e HOME=/tmp \
-      -v "$here":/work:ro -v "$out/fixtures":/fx:rw --entrypoint python3 \
+      --mount "type=bind,src=$here,dst=/work,readonly" --mount "type=bind,src=$out/fixtures,dst=/fx" --entrypoint python3 \
       "$PRESS_IMAGE" /work/fixtures/build_fixtures.py /fx
     rc=0
     # Each leg runs in a subshell: a refusal inside run_qa exits the shell it
@@ -263,7 +268,7 @@ case "$cmd" in
     # legs) whatever one leg did.
     (run_qa "$out/fixtures/fixture_bad.html" "$out/bad" --no-contact) >"$out/bad.log" 2>&1 || true
     (run_qa "$out/fixtures/fixture_good.html" "$out/good" --no-contact) >"$out/good.log" 2>&1 || rc=$?
-    docker run --rm ${PRESS_LABEL:+--label "$PRESS_LABEL"} --network none --shm-size="$PRESS_SHM" --user "$(id -u):$(id -g)" -v "$here":/work:ro -v "$out":/out:ro --entrypoint python3 \
+    docker run --rm ${PRESS_LABEL:+--label "$PRESS_LABEL"} --network none --shm-size="$PRESS_SHM" --user "$(id -u):$(id -g)" --mount "type=bind,src=$here,dst=/work,readonly" --mount "type=bind,src=$out,dst=/out,readonly" --entrypoint python3 \
       "$PRESS_IMAGE" /work/fixtures/selftest_verdict.py /out/bad/report.json /out/good/report.json
     if [ "$rc" -ne 0 ]; then
       echo "press: selftest: fixture_good's own QA run exited $rc -- a clean deck must exit 0 ($out/good.log)" >&2
@@ -275,7 +280,7 @@ case "$cmd" in
     grc=0
     "$here/bin/press" pdf "$out/fixtures/paged_bad.html" "$out/paged_bad" --no-pngs >"$out/paged_bad.log" 2>&1 || prc=$?
     "$here/bin/press" pdf "$out/fixtures/paged_good.html" "$out/paged_good" --no-pngs >"$out/paged_good.log" 2>&1 || grc=$?
-    docker run --rm ${PRESS_LABEL:+--label "$PRESS_LABEL"} --network none --shm-size="$PRESS_SHM" --user "$(id -u):$(id -g)" -v "$here":/work:ro -v "$out":/out:ro --entrypoint python3 \
+    docker run --rm ${PRESS_LABEL:+--label "$PRESS_LABEL"} --network none --shm-size="$PRESS_SHM" --user "$(id -u):$(id -g)" --mount "type=bind,src=$here,dst=/work,readonly" --mount "type=bind,src=$out,dst=/out,readonly" --entrypoint python3 \
       "$PRESS_IMAGE" /work/fixtures/selftest_pdf_verdict.py /out/paged_bad/pdf_report.json /out/paged_good/pdf_report.json
     if [ "$prc" -eq 0 ]; then
       echo "press: selftest: paged_bad printed with exit 0 -- a page with dead links must fail the print ($out/paged_bad.log)" >&2
@@ -291,7 +296,7 @@ case "$cmd" in
     mkdir -p "$out/fig"
     frc=0
     docker run --rm ${PRESS_LABEL:+--label "$PRESS_LABEL"} --network none --shm-size="$PRESS_SHM" \
-      --user "$(id -u):$(id -g)" -e HOME=/tmp -e PYTHONPATH=/work/press -v "$here":/work:ro -v "$out/fig":/out:rw \
+      --user "$(id -u):$(id -g)" -e HOME=/tmp -e PYTHONPATH=/work/press --mount "type=bind,src=$here,dst=/work,readonly" --mount "type=bind,src=$out/fig,dst=/out" \
       --entrypoint python3 "$PRESS_IMAGE" /work/fixtures/fig_selftest.py /out >"$out/fig.log" 2>&1 || frc=$?
     grep -E '^(FAIL|fig selftest:)' "$out/fig.log" >&2 || true
     if [ "$frc" -ne 0 ]; then
@@ -312,7 +317,7 @@ case "$cmd" in
     mkdir -p "$out/paged"
     qrc=0
     docker run --rm ${PRESS_LABEL:+--label "$PRESS_LABEL"} --network none --shm-size="$PRESS_SHM" \
-      --user "$(id -u):$(id -g)" -e HOME=/tmp -e PYTHONPATH=/work/press -v "$here":/work:ro -v "$out/paged":/out:rw \
+      --user "$(id -u):$(id -g)" -e HOME=/tmp -e PYTHONPATH=/work/press --mount "type=bind,src=$here,dst=/work,readonly" --mount "type=bind,src=$out/paged,dst=/out" \
       --entrypoint python3 "$PRESS_IMAGE" /work/fixtures/paged_selftest.py /out >"$out/paged.log" 2>&1 || qrc=$?
     grep -E '^(FAIL|paged selftest:)' "$out/paged.log" >&2 || true
     if [ "$qrc" -ne 0 ]; then
@@ -332,7 +337,7 @@ case "$cmd" in
     mkdir -p "$out/chart"
     hrc=0
     docker run --rm ${PRESS_LABEL:+--label "$PRESS_LABEL"} --network none --shm-size="$PRESS_SHM" \
-      --user "$(id -u):$(id -g)" -e HOME=/tmp -e PYTHONPATH=/work/press -v "$here":/work:ro -v "$out/chart":/out:rw \
+      --user "$(id -u):$(id -g)" -e HOME=/tmp -e PYTHONPATH=/work/press --mount "type=bind,src=$here,dst=/work,readonly" --mount "type=bind,src=$out/chart,dst=/out" \
       --entrypoint python3 "$PRESS_IMAGE" /work/fixtures/chart_selftest.py /out >"$out/chart.log" 2>&1 || hrc=$?
     grep -E '^(FAIL|chart selftest:)' "$out/chart.log" >&2 || true
     if [ "$hrc" -ne 0 ]; then
@@ -352,7 +357,7 @@ case "$cmd" in
     # missing or empty directory FAILS, it is never skipped
     crc=0
     docker run --rm ${PRESS_LABEL:+--label "$PRESS_LABEL"} --network none --shm-size="$PRESS_SHM" \
-      --user "$(id -u):$(id -g)" -e HOME=/tmp -e PYTHONPATH=/work/press -v "$here":/work:ro \
+      --user "$(id -u):$(id -g)" -e HOME=/tmp -e PYTHONPATH=/work/press --mount "type=bind,src=$here,dst=/work,readonly" \
       --entrypoint python3 "$PRESS_IMAGE" /work/fixtures/desc_corpus.py /work/fixtures >"$out/corpus.log" 2>&1 || crc=$?
     grep -E '^(FAIL|desc corpus:)' "$out/corpus.log" >&2 || true
     if [ "$crc" -ne 0 ]; then
