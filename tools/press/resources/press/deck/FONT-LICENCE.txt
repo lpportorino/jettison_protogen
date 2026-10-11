@@ -1,0 +1,5 @@
+Inter.var.woff2 — the Inter variable font, v3.19 (Rasmus Andersson), from the
+inter-ui 3.19.3 package as published on cdnjs. Licensed under the SIL Open Font
+License 1.1 (https://scripts.sil.org/OFL): redistribution and embedding are
+permitted; the font may not be sold by itself. Inlined into every deck as a
+data: URI so a deck opens with nothing beside it.

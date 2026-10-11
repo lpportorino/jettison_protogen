@@ -1,0 +1,145 @@
+/* The house document stylesheet press.doc inlines into every page: A4 paged
+   media for the PDF, and a readable screen layout for the same HTML file in a
+   browser. Rules that shape every page: a table, a list, a figure and a boxed
+   note are never split across pages (blank space at the foot of a page is
+   preferred; a table taller than a page still breaks, and its author splits
+   it), except a table its author marks :breakable, which breaks between
+   whole rows and repeats its header; a figure prints at exactly the 168 mm column, never scaled; the cover
+   ends its page and grows with its content. */
+
+@page { size: A4; margin: 22mm 21mm 24mm 21mm; }
+
+:root {
+  --ink: #16202a; --muted: #5b6875; --line: #cfd6dd; --paper: #ffffff;
+  --navy: #1f3a5f; --teal: #1a7f8e; --amber: #b97a12; --red: #a8352f; --green: #2f7d4f;
+  --violet: #6a4c93;
+  --wash: #f2f5f8; --wash2: #e6edf3; --warnwash: #fbf3e6;
+}
+
+html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); }
+/* Inter's contextual alternates turn "0x200" into "0×200"; hex must read as typed */
+body { font-family: "Inter", "Liberation Sans", "DejaVu Sans", Arial, sans-serif;
+       font-size: 10.4pt; line-height: 1.62; font-feature-settings: "calt" 0; }
+.svgtxt, .svgtxt text, figure svg, figure svg text { font-feature-settings: "calt" 0; }
+code, .mono { font-family: "DejaVu Sans Mono", "Liberation Mono", Menlo, monospace; font-size: 0.92em; }
+a { color: inherit; text-decoration: none; }
+a.term { border-bottom: 1px dotted var(--muted); }
+
+h1, h2, h3, h4 { color: var(--navy); line-height: 1.2; margin: 0; break-after: avoid; }
+h1 { font-size: 26pt; font-weight: 700; }
+h2 { font-size: 17pt; font-weight: 700; margin: 0 0 16pt 0; padding-bottom: 6pt; border-bottom: 2px solid var(--navy); }
+h3 { font-size: 12.5pt; font-weight: 700; margin: 26pt 0 10pt 0; }
+p { margin: 0 0 11pt 0; orphans: 3; widows: 3; }
+ul, ol { margin: 0 0 13pt 0; padding-left: 20pt; }
+li { margin-bottom: 5.5pt; }
+.kicker { font-size: 9pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal); font-weight: 700; margin-bottom: 4pt; }
+.lead { font-size: 11.4pt; }
+.muted { color: var(--muted); }
+.small { font-size: 9pt; }
+.nb { white-space: nowrap; }
+
+/* ---- page structure: every skeleton part and every numbered section opens a page */
+.section, .part, .flow { break-before: page; }
+.part-banner { background: var(--navy); color: #fff; padding: 16pt 18pt; border-radius: 4pt; margin-bottom: 24pt; }
+.part-banner .kicker { color: #bfe3e8; }
+.part-banner h2 { color: #fff; border: none; margin: 0; padding: 0; font-size: 19pt; }
+.part-banner p { color: #e6edf3; margin: 5pt 0 0 0; }
+
+/* ---- the cover grows with its content instead of printing its footer over the next page */
+.cover { display: flex; flex-direction: column; justify-content: space-between; }
+.cover .title { margin-top: 0; }
+.cover .verdict { margin: 10pt 0; }
+.cover figure { margin: 12pt 0; }
+.cover .lead { margin-top: 8pt; max-width: 155mm; }
+.cover .meta { font-size: 9.6pt; color: var(--muted); border-top: 1px solid var(--line); padding-top: 8pt; margin-top: 12pt; }
+.cover .meta b { color: var(--ink); }
+
+/* ---- boxes */
+.note { background: var(--wash); border-left: 4px solid var(--teal); padding: 11pt 15pt; margin: 16pt 0; }
+.warn { background: var(--warnwash); border-left: 4px solid var(--amber); padding: 11pt 15pt; margin: 16pt 0; }
+.verdict { background: var(--wash2); border: 1px solid var(--line); border-radius: 4pt; padding: 13pt 17pt; margin: 18pt 0; }
+.note > :last-child, .warn > :last-child, .verdict > :last-child { margin-bottom: 0; }
+.item { margin: 0 0 14pt 0; }
+.item h4 { font-size: 11pt; font-weight: 700; margin: 18pt 0 7pt 0; color: var(--teal); }
+
+/* ---- figures */
+figure { margin: 22pt 0 26pt 0; }
+figure svg { width: 168mm; height: auto; display: block; }
+figcaption { font-size: 9.4pt; color: var(--muted); margin-top: 10pt; line-height: 1.5; }
+figcaption b { color: var(--ink); }
+.fig-absent { border: 1px dashed var(--red); padding: 12pt; color: var(--red); }
+
+/* ---- tables: fixed layout, widths from the document's :cols */
+table { border-collapse: collapse; width: 100%; margin: 14pt 0 20pt 0; font-size: 9.3pt; line-height: 1.45; table-layout: fixed; }
+caption { caption-side: top; text-align: left; font-weight: 700; color: var(--ink); padding: 0 0 6pt 0; font-size: 10.4pt; }
+/* The caption of a :breakable table, emitted as a paragraph before it so the
+   page can never end on the caption alone (see press.doc.render/table-html). */
+p.tcap { text-align: left; font-weight: 700; color: var(--ink); margin: 0; padding: 0 0 6pt 0; font-size: 10.4pt; break-inside: avoid; break-after: avoid; }
+thead { display: table-header-group; }
+th, td { border: 1px solid var(--line); padding: 6.5pt 8pt; vertical-align: top; text-align: left; }
+th { background: var(--wash2); color: var(--navy); font-weight: 700; }
+td.r, th.r { text-align: right; font-variant-numeric: tabular-nums; }
+table.wide { font-size: 8.9pt; }
+table.wide th, table.wide td { padding: 5.5pt 6.5pt; }
+
+/* ---- status marks */
+.pill { display: inline-block; font-size: 7.6pt; font-weight: 700; letter-spacing: 0.06em; padding: 1pt 5pt;
+        border-radius: 8pt; color: #fff; vertical-align: middle; white-space: nowrap; }
+.built { background: var(--green); } .measured { background: var(--teal); } .designed { background: var(--amber); }
+.proposed { background: var(--violet); } .open { background: var(--red); } .ruled { background: var(--navy); }
+.legend .lg { display: block; margin: 0 0 8pt 0; }
+.legend .pill { margin-right: 8pt; min-width: 62pt; text-align: center; }
+
+/* ---- steps: a numbered procedure */
+ol.steps { list-style: none; counter-reset: step; padding-left: 0; }
+ol.steps > li { counter-increment: step; position: relative; padding-left: 26pt; }
+ol.steps > li::before { content: counter(step); position: absolute; left: 0; top: 0; width: 17pt; height: 17pt;
+                        border-radius: 50%; background: var(--navy); color: #fff; font-size: 8.5pt; font-weight: 700;
+                        text-align: center; line-height: 17pt; }
+
+/* ---- contents */
+.toc { columns: 2; column-gap: 26pt; font-size: 10pt; line-height: 1.7; }
+.toc p { break-after: avoid; break-inside: avoid; margin-bottom: 4pt; }
+.toc li { break-inside: avoid; margin-bottom: 2pt; }
+/* section numbers in one left-aligned slot, so "9." and "10." start their titles in one column */
+.toc ol { list-style: none; padding-left: 0; }
+.toc ol > li { padding-left: 20pt; }
+.toc ol > li::before { content: counter(list-item) "."; display: inline-block; width: 20pt; margin-left: -20pt; }
+
+/* ---- glossary: its ENTRIES never split, the list itself flows */
+dl.gloss { margin: 0 0 12pt 0; }
+.gloss dt { font-weight: 700; color: var(--navy); }
+.gloss dd { margin: 0 0 10pt 0; }
+
+/* ---- the house pagination rule */
+table, ul, ol, li, tr, figure, .note, .warn, .verdict, .gl, .legend, .keep { break-inside: avoid; }
+table.breakable { break-inside: auto; }
+/* A breakable table splits between rows, never right after its caption or
+   header: Chromium honours break-before on rows and the header group (not
+   break-after on a caption), so the header and the first three body rows
+   refuse a break before them and travel with the caption. */
+table.breakable thead, table.breakable tbody tr:nth-child(-n+3) { break-before: avoid; }
+.tblock { break-inside: auto; }
+.keep-next, h3, h4 { break-after: avoid; }
+dl.gloss { break-inside: auto; }
+
+.cover { break-after: page; }
+
+/* ---- screen: the same document, readable in a browser */
+@media screen {
+  html { background: #e4e9ee; }
+  body { max-width: 178mm; margin: 10mm auto; padding: 16mm 18mm; background: var(--paper);
+         box-shadow: 0 1px 8px rgba(22, 32, 42, 0.18); }
+  .section, .part, .flow { margin-top: 34pt; padding-top: 22pt; border-top: 1px dashed var(--line); }
+  .cover { padding-bottom: 12pt; }
+  figure svg { width: 100%; }
+}
+@media screen and (max-width: 720px) {
+  body { margin: 0; padding: 16px; box-shadow: none; }
+  .toc { columns: 1; }
+  h1 { font-size: 20pt; }
+  table { display: block; overflow-x: auto; table-layout: auto; }
+}
+
+/* Decoded raster images preserve their aspect ratio inside the authored bounds. */
+figure.raster img { display: block; height: auto; object-fit: contain; margin: 0 auto; }

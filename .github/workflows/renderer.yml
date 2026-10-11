@@ -62,6 +62,7 @@ on:
     - "tools/lint/ruff.sh"
     - "tools/lint/python_check.sh"
     - "tools/lint/test/python_check_test.sh"
+    - "tools/press/**"
     - "tools/wire_contract_check.py"
     - "tools/renderer-gen/**"
     # The freshness lane's canary. A canary whose trigger excludes the file whose
@@ -129,6 +130,7 @@ on:
     - "tools/lint/ruff.sh"
     - "tools/lint/python_check.sh"
     - "tools/lint/test/python_check_test.sh"
+    - "tools/press/**"
     - "tools/wire_contract_check.py"
     - "tools/renderer-gen/**"
     # The freshness lane's canary. A canary whose trigger excludes the file whose

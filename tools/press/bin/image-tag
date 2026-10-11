@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# One authority for the launcher and both consumers' image builds.
+set -euo pipefail
+export LC_ALL=C
+here=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)
+cd "$here"
+[[ $# == 0 ]] || { printf 'image-tag: no arguments expected\n' >&2; exit 2; }
+files=(Dockerfile pins/*)
+[[ ${#files[@]} -gt 1 && ${files[1]} != 'pins/*' ]] || {
+  printf 'image-tag: no image pins found\n' >&2
+  exit 2
+}
+for file in "${files[@]}"; do
+  [[ -f $file && ! -L $file ]] || {
+    printf 'image-tag: not a regular image input: %s\n' "$file" >&2
+    exit 2
+  }
+done
+# Hash named file digests: neither caller cwd nor locale affects their order.
+digest=$(sha256sum "${files[@]}" | sha256sum)
+printf 'protogen_press:%.12s\n' "$digest"

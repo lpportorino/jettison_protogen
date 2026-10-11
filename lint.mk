@@ -151,7 +151,9 @@ LINT_CLJ_PATHS := tools/devcards/src \
 	tools/protocol-gen/test \
 	tools/protocol-gen/verify \
 	tools/gate-graph/src \
-	tools/gate-graph/test
+	tools/gate-graph/test \
+	tools/press/src \
+	tools/press/test
 
 # HAND-AUTHORED CLOJURE JUDGED BY clj-kondo AND cljfmt BUT NOT BY THE
 # STRUCTURAL GATES. `LINT_CLJ_PATHS` above is what every lane receives; this
@@ -281,7 +283,7 @@ export FMT_C_DISCOVERY_ERR
 # under tools/gate-trace/bin/ are the same case — POSIX sh, extensionless
 # because they are commands — and are named by a pathspec for that directory,
 # so a fifth shim joins the lane without an edit here.
-LINT_SH_DISCOVERY_ARGS := --cached --others --exclude-standard '*.sh' .githooks/pre-push tools/scratchcard/bin/scratchcard 'tools/gate-trace/bin/*'
+LINT_SH_DISCOVERY_ARGS := --cached --others --exclude-standard '*.sh' .githooks/pre-push tools/scratchcard/bin/scratchcard 'tools/gate-trace/bin/*' 'tools/press/bin/*'
 LINT_SH_FILES := $(shell git ls-files $(LINT_SH_DISCOVERY_ARGS) 2>/dev/null \
 	| grep -v '^renderer/lvgl/' | sort)
 
@@ -466,6 +468,19 @@ lint-python-test:
 .PHONY: gate-trace-test
 gate-trace-test:
 	@bash tools/gate-trace/test/run_tests.sh
+
+## press-test: the document press's Clojure half, then its generated corpus's freshness
+# The suite discovers and instruments every source namespace. The corpus gate
+# generates in a temporary tree, then compares membership and bytes against
+# both the worktree and Git index. Its canaries must fail on planted stale files
+# and distinguish operational failure from staleness. Run in the pinned image.
+# The BROWSER half's proof is `make -f press.mk selftest`: it needs the host
+# docker CLI and the tool's own image, so it is not a lane of this file.
+.PHONY: press-test
+press-test:
+	@cd tools/press && env -u PRESS_ROOT $(CLJ) -J-Dpress.root="$$(pwd -P)/../.." -M:test
+	@python3 -m unittest discover -s tools/press/test -p '*_test.py'
+	@bash tools/press/check_corpus.sh
 
 ## gate-graph-test: instrumented runner, real EDN reports and attributed coverage canary
 .PHONY: gate-graph-test

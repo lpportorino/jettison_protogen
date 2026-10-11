@@ -121,7 +121,8 @@
              "tools/renderer-gen/src"
              "tools/lint/src"
              "tools/protocol-gen/src"
-             "tools/gate-graph/src"]}
+             "tools/gate-graph/src"
+             "tools/press/src"]}
 
  ;; ── spec-shape ───────────────────────────────────────────────────────────
  ;;
@@ -135,7 +136,8 @@
              "docs/.protodoc/tools/src"
              "tools/lint/src"
              "tools/protocol-gen/src"
-             "tools/gate-graph/src"]}
+             "tools/gate-graph/src"
+             "tools/press/src"]}
 
  ;; ── spec-presence ────────────────────────────────────────────────────────
  ;;
@@ -259,6 +261,19 @@
              "lvgl-codegen.schema"
              "lvgl-codegen.style-props"
              "lvgl-codegen.theme-tokens"
+             "press.config"
+             "press.deck"
+             "press.doc"
+             "press.doc.desc"
+             "press.doc.figure"
+             "press.doc.image"
+             "press.doc.io"
+             "press.doc.render"
+             "press.doc.report"
+             "press.doc.rules"
+             "press.doc.spec"
+             "press.doc.svg"
+             "press.doc.view"
              "uigen.cmd-spec"
              "uigen.resolve"
              "uigen.scales"

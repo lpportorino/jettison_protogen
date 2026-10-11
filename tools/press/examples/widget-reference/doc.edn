@@ -1,0 +1,63 @@
+{:title "A printed reference for three widgets"
+ :kicker "Protogen · Press worked example"
+ :what-this-is "Buttons, sliders and charts from the public devcards gallery, with their source images embedded directly in each printed page."
+ :audience "Developers learning the paged document model and comparing widget states."
+ :snapshot {:commit "40feb9f965" :date "2026-10-11"}
+ :problem [[:doc/lead "A widget reference needs its pictures and its text to travel together."]
+           [:doc/p "The public devcards gallery records each widget " [:doc/term "state"] " as an image. This example places a small selection of those existing images in a self-contained document."]
+           [:doc/p "The printed pictures show the gallery's output. They do not establish a display's physical readability or suitability for a particular environment."]]
+ :status [[:doc/lead "This example uses existing public source files without copying the gallery's image collection."]
+          [:doc/table {:cols [35 65] :head ["Input" "Source"]
+                       :rows [["Widget descriptions" "tools/devcards/docs/widgets/*/README.md"]
+                              ["Widget pictures" "The JPEG files beside each widget README"]
+                              ["Document layout" "tools/press/examples/widget-reference/doc.edn"]]}]]
+ :body [{:title "Gallery samples"
+         :summary "Each page names the source card and theme. Captions describe the specific image, rather than a promise about every possible rendering."
+         :sections [{:id "button" :title "Button"
+                     :blocks [[:doc/lead "A button groups an action with a label."]
+                              [:doc/p "The gallery's button cards contain an explicit label child. The shared widget contract supplies text, children, style groups and states; ButtonProps has no additional properties."]
+                              [:doc/image {:src "../../../devcards/docs/widgets/WIDGET_BUTTON/WIDGET_BUTTON-default_medium-asgard-light.jpg"
+                                           :alt "The Save button in its default state, with white text on purple."
+                                           :caption "default/medium · asgard light" :width-percent 20 :max-height-mm 25}]
+                              [:doc/image {:src "../../../devcards/docs/widgets/WIDGET_BUTTON/WIDGET_BUTTON-pressed_medium-asgard-light.jpg"
+                                           :alt "The Save button in its pressed state."
+                                           :caption "pressed/medium · asgard light" :width-percent 20 :max-height-mm 25}]
+                              [:doc/image {:src "../../../devcards/docs/widgets/WIDGET_BUTTON/WIDGET_BUTTON-disabled_medium-asgard-light.jpg"
+                                           :alt "The Save button in its disabled state."
+                                           :caption "disabled/medium · asgard light" :width-percent 20 :max-height-mm 25}]
+                              [:doc/small "Source: tools/devcards/docs/widgets/WIDGET_BUTTON/README.md and the three named JPEG files."]]}
+                    {:id "slider" :title "Slider"
+                     :blocks [[:doc/lead "A slider represents a value between a minimum and a maximum."]
+                              [:doc/table {:cols [40 60] :head ["Property" "Descriptor type"]
+                                           :rows [[[:doc/code "min_value"] "int32"]
+                                                  [[:doc/code "max_value"] "int32"]
+                                                  [[:doc/code "value"] "int32"]
+                                                  [[:doc/code "mode"] "ui.BarMode"]
+                                                  [[:doc/code "seek_on_press"] "bool"]]}]
+                              [:doc/image {:src "../../../devcards/docs/widgets/WIDGET_SLIDER/WIDGET_SLIDER-default_medium_mid-asgard-light.jpg"
+                                           :alt "A horizontal slider at its middle value in the default state."
+                                           :caption "default/medium/mid · asgard light" :width-percent 45 :max-height-mm 45}]
+                              [:doc/image {:src "../../../devcards/docs/widgets/WIDGET_SLIDER/WIDGET_SLIDER-disabled_medium_mid-asgard-light.jpg"
+                                           :alt "A horizontal slider at its middle value in the disabled state."
+                                           :caption "disabled/medium/mid · asgard light" :width-percent 45 :max-height-mm 45}]
+                              [:doc/small "The gallery records edited as encoder-only and checked as unavailable for this widget. Source: tools/devcards/docs/widgets/WIDGET_SLIDER/README.md."]]}
+                    {:id "chart" :title "Chart"
+                     :blocks [[:doc/lead "A chart draws a series of values as lines or bars."]
+                              [:doc/p "The public chart gallery documents the default state. Its descriptor supports up to eight series and division counts of at most 255."]
+                              [:doc/image {:src "../../../devcards/docs/widgets/WIDGET_CHART/WIDGET_CHART-default_medium_line-asgard-light.jpg"
+                                           :alt "A line chart with several colored series on a light plotting area."
+                                           :caption "default/medium/line · asgard light" :width-percent 65 :max-height-mm 65}]
+                              [:doc/image {:src "../../../devcards/docs/widgets/WIDGET_CHART/WIDGET_CHART-default_large_bar-asgard-light.jpg"
+                                           :alt "A bar chart with grouped colored bars on a light plotting area."
+                                           :caption "default/large/bar · asgard light" :width-percent 65 :max-height-mm 65}]
+                              [:doc/small "Source: tools/devcards/docs/widgets/WIDGET_CHART/README.md. The documented small-bar visibility limitation still applies; this example includes a large bar card."]]}]}]
+ :open-questions [[:doc/lead "A printed sample leaves interactive behavior to the live gallery."]
+                  [:doc/ul "Use the gallery to inspect the other sizes, themes and states."
+                   "Use the descriptor and widget sources when authoring a screen; this document covers three widgets only."]]
+ :glossary [{:term "state" :def "A widget condition, such as default, pressed or disabled, selected when a gallery card is rendered."}]
+ :sources [[:doc/lead "All widget facts and pictures in this example come from Protogen's public gallery."]
+           [:doc/ul "tools/devcards/docs/widgets/WIDGET_BUTTON/README.md"
+                    "tools/devcards/docs/widgets/WIDGET_SLIDER/README.md"
+                    "tools/devcards/docs/widgets/WIDGET_CHART/README.md"
+                    "proto/ui/ui_ast.proto"]
+           [:doc/p "The captions name the original gallery card and theme. The source JPEGs remain in their original directories; the build embeds their bytes and includes their hashes in the page's freshness stamp."]]}

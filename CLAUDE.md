@@ -556,6 +556,11 @@ ui_ast reference interpreter above.
   manifests, invariants, the JPEG gallery and per-widget docs.
 - `tools/renderer-gen/` — the renderer vocabulary/fixture codegen seam.
 - `tools/scratchcard/` — the scratch-devcard warm render daemon and its client.
+- `tools/press/` — the document press: slide decks and paged documents built
+  from data into one self-contained HTML file (Clojure, `press.*`), printed to
+  PDF and checked for layout defects in headless Chromium (Python, `bin/press`,
+  its own image). Consumers supply their documents and house style; see its
+  `README.md`. `press.mk` builds the image and runs the browser half's selftest.
 - `docs/` — the Obsidian vault of generated per-message and per-enum markdown.
   Implementation lives in `docs/.protodoc/`; user-written descriptions survive
   regeneration by roundtrip extraction.

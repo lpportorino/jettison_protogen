@@ -331,6 +331,7 @@ COPY docs/.protodoc/tools/deps.edn /prefetch/protodoc/deps.edn
 COPY tools/scratchcard/deps.edn /prefetch/scratchcard/deps.edn
 COPY tools/protocol-gen/deps.edn /prefetch/protocol-gen/deps.edn
 COPY tools/gate-graph/deps.edn /prefetch/gate-graph/deps.edn
+COPY tools/press/deps.edn /prefetch/press/deps.edn
 COPY deps.edn /prefetch/root/deps.edn
 COPY tools/lint/kondo/deps.edn /prefetch/root/tools/lint/kondo/deps.edn
 COPY tools/lint/kondo/clj-kondo-2026.08.04-protogen.1.jar /prefetch/root/tools/lint/kondo/clj-kondo-2026.08.04-protogen.1.jar
@@ -353,6 +354,9 @@ RUN cd /prefetch/devcards \
     && clojure -P -M:test:verify \
     && cd /prefetch/gate-graph \
     && clojure -P -M:shadow:test \
+    && cd /prefetch/press \
+    && clojure -P -M:test \
+    && clojure -P -M:corpus \
     && cd /prefetch/root \
     && clojure -P -M:kondo:fmt:splint \
     && clojure -P -M:kondo \

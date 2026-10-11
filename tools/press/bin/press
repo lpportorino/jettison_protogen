@@ -1,0 +1,367 @@
+#!/usr/bin/env bash
+# press -- run the deck shooter + defect detectors inside the press container.
+#
+#   press qa <deck.html> <out-dir> [deck_qa.py args...]
+#        shoot every slide of ONE self-contained deck into <out-dir>
+#        (slideNN.png, contact.png, report.json, report.md); `--strict` exits 1
+#        for slide or deck errors; a completed run without it exits 0 and reports findings
+#   press pdf <page.html> <out-dir> [deck_pdf.py args...]
+#        print ONE self-contained PAGED document (not a slide deck) to A4 PDF
+#        through the same Chromium, and rasterise every page of the finished
+#        PDF to <out-dir>/page-NN.png for the eyeball (an earlier print's page-NN.png
+#        files there are removed first); writes pdf_report.json.
+#        Exit 1 on a blank page or on any external request the page attempted.
+#   press fig solve   <fig.json> <out-dir> [--n 8] [--cap-s 3]
+#   press fig pick    <fig.json> <out-dir> <tile> <pick.json> <out.svg>
+#   press fig rebuild <fig.json> <pick.json> <out.svg>
+#   press fig check   <file.svg> [--json report.json]
+#   press fig shoot   <file.svg> <out.png>
+#        the figure pipeline (press/fig/, README "Figures"): place a
+#        coordinate-free figure description with CP-SAT, route it with
+#        libavoid, check it, pick one candidate from the numbered
+#        sheet, rebuild it byte-identically from the pick record. Each prints
+#        one JSON object; exit codes are in press/fig/cli.py and the README.
+#   press pdfcheck <file.pdf> --margins T,R,B,L [--json report.json]
+#        the layout detectors that hold up on an ARCHIVED PDF with no HTML
+#        (press/paged/pdfonly.py); the report names the ones that did not run
+#   press chart <chart.fig.json> <pick.json> <out.svg> [--json report.json]
+#        a chart (bar | stacked | timeline) from data, over measured text, checked
+#        by the figure checker; writes the SVG and its pick record (press/chart/)
+#   press selftest [out-dir]
+#        build the two fixtures (identical decks that differ only in whether
+#        each defect is present), run both, and FAIL unless every planted
+#        defect fires on fixture_bad AND fixture_good reports zero slide
+#        errors and zero slide warnings -- the both-directions proof; then
+#        the figure pipeline's own proof (fixtures/fig_selftest.py inside the
+#        image, then fixtures/fig_launcher_selftest.sh through this launcher),
+#        the paged layout pass (paged_selftest.py, paged_launcher_selftest.sh),
+#        the charts (chart_selftest.py, chart_launcher_selftest.sh) and LAST the
+#        shared description corpus (desc_corpus.py)
+#
+# Image: $PRESS_IMAGE, default derived by bin/image-tag from the Dockerfile and
+# lock files under pins/ -- the same derivation the root
+# press.mk's PRESS_IMAGE uses, so both always name the image built from THIS
+# Dockerfile and these pins (`make -f press.mk image`).
+# Every container runs with --network none: the decks and pages are self-contained by
+# contract, the deck shooter intercepts every request itself (D10) and the page printer aborts
+# every request but the document (external-resource). Every container gets a PRIVATE /dev/shm of
+# $PRESS_SHM (default 1g), never the host's (--ipc=host would let a page read what other processes
+# keep there): Chromium keeps its renderer-to-browser frames and the print/raster buffers in
+# /dev/shm, and docker's 64 MB default crashes a renderer on a large page; the tmpfs is allocated
+# only as used, so 1g is a ceiling, not a cost.
+# Input and output paths are refused when they are symlinks (a link would be resolved INSIDE the
+# container, to whatever that path names there) and when they hold a comma (--mount syntax).
+# Every container carries the docker label $PRESS_LABEL (`key=value`) when the
+# caller exported it: a caller that enforces a time cap stops the container by
+# that label, because killing this script does not.
+set -euo pipefail
+here=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+PRESS_SHM=${PRESS_SHM:-1g}
+PRESS_IMAGE=${PRESS_IMAGE:-$("$here/bin/image-tag")}
+if ! docker image inspect "$PRESS_IMAGE" >/dev/null 2>&1; then
+  echo "press: image $PRESS_IMAGE missing -- run 'make -f press.mk image' first" >&2
+  exit 2
+fi
+run_qa() { # deck-file out-dir args...
+  local deck=$1 out=$2
+  shift 2
+  host_path "$deck" in
+  host_path "$out" dir
+  local deckdir
+  deckdir=$(cd "$(dirname "$deck")" && pwd)
+  mkdir -p "$out"
+  out=$(cd "$out" && pwd)
+  docker run --rm ${PRESS_LABEL:+--label "$PRESS_LABEL"} --network none --shm-size="$PRESS_SHM" \
+    --user "$(id -u):$(id -g)" -e HOME=/tmp \
+    --mount "type=bind,src=$here,dst=/work,readonly" --mount "type=bind,src=$deckdir,dst=/deck,readonly" \
+    --mount "type=bind,src=$out,dst=/out" \
+    "$PRESS_IMAGE" --html "/deck/$(basename "$deck")" --out /out "$@"
+}
+# The figure commands take files in several directories: each distinct directory is mounted at
+# /m<k> -- read-only unless something is written into it -- and every path argument is rewritten
+# to it. Mounts use --mount (a colon or a space in a path is fine; a comma is refused). Every
+# container of fig, pdfcheck, chart and pdf runs with --network none. A refusal here prints the same
+# one-line JSON the tool does.
+fig_dirs=()
+fig_rw=()
+fig_path=""
+fig_refuse() { # <status> <message> -> one JSON line, exit 6
+  local m=${2//\\/\\\\}
+  m=${m//\"/\\\"}
+  printf '{"status": "%s", "message": "%s"}\n' "$1" "$m"
+  exit 6
+}
+host_path() { # <host path> <in|out|dir> -- refuse what cannot be mounted faithfully
+  local p=$1 kind=$2
+  case "$p" in *,*) fig_refuse bad-argument "$p: a path with a comma cannot be mounted" ;; esac
+  if [ -L "$p" ]; then
+    fig_refuse bad-argument "$p: a symlink; give the real path (a link is resolved inside the container, to whatever that names there)"
+  fi
+  if [ "$kind" = in ] && [ ! -f "$p" ]; then
+    fig_refuse missing-file "$p: no such file"
+  fi
+}
+out_dir=""
+fig_map() { # <host path> <in|out|dir|outdir> -> sets fig_path to the container path
+  local p=$1 kind=$2 dir base="" k rw=1
+  host_path "$p" "$kind"
+  if [ "$kind" = outdir ]; then
+    # the page printer's output directory is always /out: the report names its PDF /out/<name>.pdf
+    mkdir -p "$p"
+    out_dir=$(cd "$p" && pwd)
+    fig_path=/out
+    return
+  fi
+  if [ "$kind" = dir ]; then
+    mkdir -p "$p"
+    dir=$(cd "$p" && pwd)
+  else
+    if [ "$kind" = in ]; then
+      rw=0
+    else
+      mkdir -p "$(dirname "$p")"
+    fi
+    dir=$(cd "$(dirname "$p")" && pwd)
+    base=/$(basename "$p")
+  fi
+  for k in "${!fig_dirs[@]}"; do
+    if [ "${fig_dirs[$k]}" = "$dir" ]; then
+      [ "$rw" -eq 1 ] && fig_rw[k]=1
+      fig_path=/m$k$base
+      return
+    fi
+  done
+  fig_dirs+=("$dir")
+  fig_rw+=("$rw")
+  fig_path=/m$((${#fig_dirs[@]} - 1))$base
+}
+run_fig() { # <sub> args...
+  local sub=${1:-} kinds
+  shift || true
+  case "$sub" in
+    solve) kinds="in dir" ;;
+    pick) kinds="in dir - out out" ;;
+    rebuild) kinds="in in out" ;;
+    check) kinds="in" ;;
+    shoot) kinds="in out" ;;
+    *) fig_refuse bad-argument "press fig: unknown command '$sub' (solve|pick|rebuild|check|shoot)" ;;
+  esac
+  run_mounted "$kinds" fig.cli "$sub" "$@"
+}
+run_mounted() { # <positional kinds> <python module> <module args before the paths...> -- then the user args
+  # kinds name each positional argument in order: in (a file read), out (a file written), dir (a
+  # directory written), - (a plain value). Flags: --n/--cap-s/--total-s/--margins take a value,
+  # --json takes a path written.
+  local kinds=$1 mod=$2 pre=$3
+  shift 3
+  case "$here" in *,*) fig_refuse bad-argument "$here: the tool directory holds a comma; it cannot be mounted" ;; esac
+  local -a args=() vols=() kl
+  local pos=0 kind i
+  read -r -a kl <<<"$kinds"
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --n | --cap-s | --total-s | --margins | --name | --dpi | --margin | --allow-layout | --timeout-ms)
+        [ $# -ge 2 ] || fig_refuse bad-argument "$1 needs a value"
+        args+=("$1" "$2")
+        shift 2
+        ;;
+      --json)
+        [ $# -ge 2 ] || fig_refuse bad-argument "--json needs a path"
+        fig_map "$2" out
+        args+=(--json "$fig_path")
+        shift 2
+        ;;
+      --*)
+        args+=("$1") # a switch (--no-pngs, --allow-overflow, ...): passed as is
+        shift
+        ;;
+      *)
+        kind=${kl[$pos]:-}
+        pos=$((pos + 1))
+        if [ -z "$kind" ] || [ "$kind" = - ]; then
+          args+=("$1")
+        else
+          fig_map "$1" "$kind"
+          args+=("$fig_path")
+        fi
+        shift
+        ;;
+    esac
+  done
+  local pathmap="" ro
+  for i in "${!fig_dirs[@]}"; do
+    ro=",readonly"
+    [ "${fig_rw[$i]}" -eq 1 ] && ro=""
+    vols+=(--mount "type=bind,src=${fig_dirs[$i]},dst=/m$i$ro")
+    pathmap+="/m$i=${fig_dirs[$i]}"$'\n'
+  done
+  if [ -n "$out_dir" ]; then
+    vols+=(--mount "type=bind,src=$out_dir,dst=/out")
+    pathmap+="/out=$out_dir"$'\n'
+  fi
+  # A consumer's own house style: $PRESS_HOUSE names a house.json on the host; it is mounted
+  # read-only and named to the tool, which otherwise reads its default (press/house.json).
+  local house=()
+  if [ -n "${PRESS_HOUSE:-}" ]; then
+    host_path "$PRESS_HOUSE" in
+    house=(--mount "type=bind,src=$(cd "$(dirname "$PRESS_HOUSE")" && pwd)/$(basename "$PRESS_HOUSE"),dst=/house/house.json,readonly"
+      -e PRESS_HOUSE=/house/house.json)
+  fi
+  docker run --rm ${PRESS_LABEL:+--label "$PRESS_LABEL"} --network none --shm-size="$PRESS_SHM" \
+    --user "$(id -u):$(id -g)" -e HOME=/tmp -e PYTHONPATH=/work/press -e PRESS_PATHMAP="$pathmap" \
+    --mount "type=bind,src=$here,dst=/work,readonly" "${vols[@]}" ${house[@]+"${house[@]}"} \
+    --entrypoint python3 "$PRESS_IMAGE" -m "$mod" ${pre:+"$pre"} "${args[@]}"
+}
+cmd=${1:?qa|pdf|pdfcheck|fig|chart|selftest}
+shift
+case "$cmd" in
+  pdf)
+    [ $# -ge 2 ] || fig_refuse bad-argument "usage: press pdf <page.html> <out-dir> [--name n] [--allow-layout d,...]"
+    run_mounted "in outdir" deck_pdf "" "$@"
+    ;;
+  fig)
+    run_fig "$@"
+    ;;
+  pdfcheck)
+    run_mounted "in" paged.pdfonly "" "$@"
+    ;;
+  chart)
+    run_mounted "in out out" chart.cli "" "$@"
+    ;;
+  qa)
+    deck=${1:?deck.html}
+    out=${2:?out-dir}
+    shift 2
+    [ -f "$deck" ] || {
+      echo "press: no such deck: $deck" >&2
+      exit 2
+    }
+    run_qa "$deck" "$out" "$@"
+    ;;
+  selftest)
+    # The default is spelled without `..`: the launcher checks compare the paths press prints,
+    # which are normalised, against this directory character for character.
+    out=${1:-$here/.out/selftest}
+    # Every run starts from an EMPTY output directory: several checks assert that a refused
+    # command wrote nothing, and a file left by an earlier run would fail them (or, for a check
+    # that expects a file, pass it). Only a directory an earlier selftest marked as its own is
+    # removed; any other non-empty directory is refused rather than deleted.
+    if [ -f "$out/.press-selftest" ]; then
+      rm -rf -- "$out"
+    elif [ -e "$out" ] && { [ ! -d "$out" ] || [ -n "$(ls -A -- "$out")" ]; }; then
+      printf '{"status":"invalid","message":"selftest output %s exists and is not an earlier selftest output (no .press-selftest marker): give an empty or new directory"}\n' "$out"
+      exit 6
+    fi
+    mkdir -p "$out/fixtures"
+    : >"$out/.press-selftest"
+    docker run --rm ${PRESS_LABEL:+--label "$PRESS_LABEL"} --network none --shm-size="$PRESS_SHM" --user "$(id -u):$(id -g)" -e HOME=/tmp \
+      -v "$here":/work:ro -v "$out/fixtures":/fx:rw --entrypoint python3 \
+      "$PRESS_IMAGE" /work/fixtures/build_fixtures.py /fx
+    rc=0
+    # Each leg runs in a subshell: a refusal inside run_qa exits the shell it
+    # runs in, and the selftest must go on to the verdict (and to the later
+    # legs) whatever one leg did.
+    (run_qa "$out/fixtures/fixture_bad.html" "$out/bad" --no-contact) >"$out/bad.log" 2>&1 || true
+    (run_qa "$out/fixtures/fixture_good.html" "$out/good" --no-contact) >"$out/good.log" 2>&1 || rc=$?
+    docker run --rm ${PRESS_LABEL:+--label "$PRESS_LABEL"} --network none --shm-size="$PRESS_SHM" --user "$(id -u):$(id -g)" -v "$here":/work:ro -v "$out":/out:ro --entrypoint python3 \
+      "$PRESS_IMAGE" /work/fixtures/selftest_verdict.py /out/bad/report.json /out/good/report.json
+    if [ "$rc" -ne 0 ]; then
+      echo "press: selftest: fixture_good's own QA run exited $rc -- a clean deck must exit 0 ($out/good.log)" >&2
+      exit 1
+    fi
+    # the paged printer's link audit, both directions: the bad page must FAIL the
+    # print on its dead links, the good page must print clean
+    prc=0
+    grc=0
+    "$here/bin/press" pdf "$out/fixtures/paged_bad.html" "$out/paged_bad" --no-pngs >"$out/paged_bad.log" 2>&1 || prc=$?
+    "$here/bin/press" pdf "$out/fixtures/paged_good.html" "$out/paged_good" --no-pngs >"$out/paged_good.log" 2>&1 || grc=$?
+    docker run --rm ${PRESS_LABEL:+--label "$PRESS_LABEL"} --network none --shm-size="$PRESS_SHM" --user "$(id -u):$(id -g)" -v "$here":/work:ro -v "$out":/out:ro --entrypoint python3 \
+      "$PRESS_IMAGE" /work/fixtures/selftest_pdf_verdict.py /out/paged_bad/pdf_report.json /out/paged_good/pdf_report.json
+    if [ "$prc" -eq 0 ]; then
+      echo "press: selftest: paged_bad printed with exit 0 -- a page with dead links must fail the print ($out/paged_bad.log)" >&2
+      exit 1
+    fi
+    if [ "$grc" -ne 0 ]; then
+      echo "press: selftest: paged_good's print exited $grc -- a page whose links resolve must exit 0 ($out/paged_good.log)" >&2
+      exit 1
+    fi
+    # the figure pipeline, both directions: good figures solve/pick/check clean, each of its
+    # checks fires on its plant, rebuild refuses changed input (2) and tampered records (3),
+    # unsatisfiable input exits 4 naming its constraint, over-budget input exits 5
+    mkdir -p "$out/fig"
+    frc=0
+    docker run --rm ${PRESS_LABEL:+--label "$PRESS_LABEL"} --network none --shm-size="$PRESS_SHM" \
+      --user "$(id -u):$(id -g)" -e HOME=/tmp -e PYTHONPATH=/work/press -v "$here":/work:ro -v "$out/fig":/out:rw \
+      --entrypoint python3 "$PRESS_IMAGE" /work/fixtures/fig_selftest.py /out >"$out/fig.log" 2>&1 || frc=$?
+    grep -E '^(FAIL|fig selftest:)' "$out/fig.log" >&2 || true
+    if [ "$frc" -ne 0 ]; then
+      echo "press: selftest: the figure pipeline's selftest failed ($out/fig.log)" >&2
+      exit 1
+    fi
+    # the same commands driven through this launcher, as a user runs them
+    lrc=0
+    PRESS_IMAGE=$PRESS_IMAGE "$here/fixtures/fig_launcher_selftest.sh" "$here/bin/press" "$out/fig-launcher" >"$out/fig-launcher.log" 2>&1 || lrc=$?
+    grep -E '^(FAIL|fig launcher selftest:)' "$out/fig-launcher.log" >&2 || true
+    if [ "$lrc" -ne 0 ]; then
+      echo "press: selftest: the launcher's figure selftest failed ($out/fig-launcher.log)" >&2
+      exit 1
+    fi
+    # the paged-layout pass of `press pdf` and `press pdfcheck`, both directions: every planted page fails
+    # the print naming its detector and its twin prints clean, the tagged-PDF join guard refuses an
+    # untagged print, the two tightened detectors go red with the tightening undone
+    mkdir -p "$out/paged"
+    qrc=0
+    docker run --rm ${PRESS_LABEL:+--label "$PRESS_LABEL"} --network none --shm-size="$PRESS_SHM" \
+      --user "$(id -u):$(id -g)" -e HOME=/tmp -e PYTHONPATH=/work/press -v "$here":/work:ro -v "$out/paged":/out:rw \
+      --entrypoint python3 "$PRESS_IMAGE" /work/fixtures/paged_selftest.py /out >"$out/paged.log" 2>&1 || qrc=$?
+    grep -E '^(FAIL|paged selftest:)' "$out/paged.log" >&2 || true
+    if [ "$qrc" -ne 0 ]; then
+      echo "press: selftest: the paged-layout selftest failed ($out/paged.log)" >&2
+      exit 1
+    fi
+    plrc=0
+    PRESS_IMAGE=$PRESS_IMAGE "$here/fixtures/paged_launcher_selftest.sh" "$here/bin/press" "$out/paged/pages" "$out/paged-launcher" \
+      >"$out/paged-launcher.log" 2>&1 || plrc=$?
+    grep -E '^(FAIL|paged launcher selftest:)' "$out/paged-launcher.log" >&2 || true
+    if [ "$plrc" -ne 0 ]; then
+      echo "press: selftest: the launcher's paged selftest failed ($out/paged-launcher.log)" >&2
+      exit 1
+    fi
+    # press chart, both directions: the three reference charts draw clean and rebuild byte-identically,
+    # an over-wide label is refused with what it needs (4), bad input exits 6
+    mkdir -p "$out/chart"
+    hrc=0
+    docker run --rm ${PRESS_LABEL:+--label "$PRESS_LABEL"} --network none --shm-size="$PRESS_SHM" \
+      --user "$(id -u):$(id -g)" -e HOME=/tmp -e PYTHONPATH=/work/press -v "$here":/work:ro -v "$out/chart":/out:rw \
+      --entrypoint python3 "$PRESS_IMAGE" /work/fixtures/chart_selftest.py /out >"$out/chart.log" 2>&1 || hrc=$?
+    grep -E '^(FAIL|chart selftest:)' "$out/chart.log" >&2 || true
+    if [ "$hrc" -ne 0 ]; then
+      echo "press: selftest: the chart selftest failed ($out/chart.log)" >&2
+      exit 1
+    fi
+    hlrc=0
+    PRESS_IMAGE=$PRESS_IMAGE "$here/fixtures/chart_launcher_selftest.sh" "$here/bin/press" "$out/chart" "$out/chart-launcher" \
+      >"$out/chart-launcher.log" 2>&1 || hlrc=$?
+    grep -E '^(FAIL|chart launcher selftest:)' "$out/chart-launcher.log" >&2 || true
+    if [ "$hlrc" -ne 0 ]; then
+      echo "press: selftest: the launcher's chart selftest failed ($out/chart-launcher.log)" >&2
+      exit 1
+    fi
+    # LAST: the shared description corpus both halves must agree on --
+    # fixtures/desc_negative/ all refused (6, never 7), fixtures/desc_positive/ all accepted; a
+    # missing or empty directory FAILS, it is never skipped
+    crc=0
+    docker run --rm ${PRESS_LABEL:+--label "$PRESS_LABEL"} --network none --shm-size="$PRESS_SHM" \
+      --user "$(id -u):$(id -g)" -e HOME=/tmp -e PYTHONPATH=/work/press -v "$here":/work:ro \
+      --entrypoint python3 "$PRESS_IMAGE" /work/fixtures/desc_corpus.py /work/fixtures >"$out/corpus.log" 2>&1 || crc=$?
+    grep -E '^(FAIL|desc corpus:)' "$out/corpus.log" >&2 || true
+    if [ "$crc" -ne 0 ]; then
+      echo "press: selftest: the shared description corpus check failed ($out/corpus.log)" >&2
+      exit 1
+    fi
+    ;;
+  *)
+    echo "unknown: $cmd" >&2
+    exit 2
+    ;;
+esac

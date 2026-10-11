@@ -1,0 +1,183 @@
+{
+  "scope": "Press publication corpus, source/test discovery, deterministic image identity, deck selftest verdict and raster integrity/resource boundaries. Resolved-house routing, caption pagination, raster layout/alt/freshness have an additional affected-scope campaign.",
+  "suites": {
+    "corpus": {
+      "command": "UBER_NETWORK=none tools/uber.sh 'python3 -m unittest discover -v -s tools/press/test -p corpus_compare_test.py'",
+      "timeout": 300
+    },
+    "image-tag": {
+      "command": "UBER_NETWORK=none tools/uber.sh 'python3 -m unittest discover -v -s tools/press/test -p image_tag_test.py'",
+      "timeout": 300
+    },
+    "discovery": {
+      "command": "UBER_NETWORK=none tools/uber.sh 'cd tools/press && clojure -M:test'",
+      "timeout": 300
+    },
+    "deck-verdict": {
+      "command": "UBER_NETWORK=none tools/uber.sh 'python3 -m unittest discover -v -s tools/press/test -p selftest_verdict_test.py'",
+      "timeout": 300
+    },
+    "raster-boundaries": {
+      "command": "UBER_NETWORK=none tools/uber.sh 'cd tools/press && clojure -J-Xmx512m -M:test'",
+      "timeout": 300
+    }
+  },
+  "faults": [
+    {
+      "id": "ignore-index",
+      "source": "tools/press/test/corpus_compare.py",
+      "anchor": "((\"worktree\", actual), (\"index\", index))",
+      "replacement": "((\"worktree\", actual),)",
+      "suite": "corpus",
+      "kill": "FAIL: test_staged_only_change_fails",
+      "control": "test_fresh .* \\.\\.\\. ok"
+    },
+    {
+      "id": "ignore-worktree",
+      "source": "tools/press/test/corpus_compare.py",
+      "anchor": "((\"worktree\", actual), (\"index\", index))",
+      "replacement": "((\"index\", index),)",
+      "suite": "corpus",
+      "kill": "FAIL: test_unstaged_change_fails_without_rewriting",
+      "control": "test_fresh .* \\.\\.\\. ok"
+    },
+    {
+      "id": "ignore-extra-files",
+      "source": "tools/press/test/corpus_compare.py",
+      "anchor": "problems.append(f\"{label}: unexpected {path}\")",
+      "replacement": "pass",
+      "suite": "corpus",
+      "kill": "FAIL: test_extra_untracked_file_fails_even_if_ignored",
+      "control": "test_fresh .* \\.\\.\\. ok"
+    },
+    {
+      "id": "ignore-stale-bytes",
+      "source": "tools/press/test/corpus_compare.py",
+      "anchor": "problems.append(f\"{label}: stale {path}\")",
+      "replacement": "pass",
+      "suite": "corpus",
+      "kill": "FAIL: test_generator_changed_bytes_fails",
+      "control": "test_fresh .* \\.\\.\\. ok"
+    },
+    {
+      "id": "ignore-pin-bytes",
+      "source": "tools/press/bin/image-tag",
+      "anchor": "digest=$(sha256sum \"${files[@]}\" | sha256sum)",
+      "replacement": "digest=$(printf '%s\\n' \"${files[@]}\" | sha256sum)",
+      "suite": "image-tag",
+      "kill": "FAIL: test_pin_change_changes_identity",
+      "control": "test_missing_dockerfile_fails .* \\.\\.\\. ok"
+    },
+    {
+      "id": "allow-empty-discovery",
+      "source": "tools/press/test/press/test_runner.clj",
+      "anchor": "(empty? names)",
+      "replacement": "false",
+      "suite": "discovery",
+      "kill": "FAIL in \\(refuses-vacuous-and-ambiguous-discovery\\)",
+      "control": "Ran [1-9][0-9]* tests containing [1-9][0-9]* assertions\\.",
+      "only": "refuses-vacuous-and-ambiguous-discovery"
+    },
+    {
+      "id": "allow-duplicate-discovery",
+      "source": "tools/press/test/press/test_runner.clj",
+      "anchor": "(not= (count names) (count (distinct names)))",
+      "replacement": "false",
+      "suite": "discovery",
+      "kill": "FAIL in \\(refuses-vacuous-and-ambiguous-discovery\\)",
+      "control": "Ran [1-9][0-9]* tests containing [1-9][0-9]* assertions\\.",
+      "only": "refuses-vacuous-and-ambiguous-discovery"
+    },
+    {
+      "id": "ignore-deck-warning-summary",
+      "source": "tools/press/fixtures/selftest_verdict.py",
+      "anchor": "\"slide_errors\", \"slide_warnings\", \"deck_errors\", \"deck_warnings\"",
+      "replacement": "\"slide_errors\", \"slide_warnings\", \"deck_errors\"",
+      "suite": "deck-verdict",
+      "kill": "FAIL: test_each_summary_count_is_enforced",
+      "control": "test_detector_warning_is_rejected_even_if_totals_are_zero .* \\.\\.\\. ok"
+    },
+    {
+      "id": "ignore-detector-warning",
+      "source": "tools/press/fixtures/selftest_verdict.py",
+      "anchor": "k.endswith((\"/error\", \"/warn\"))",
+      "replacement": "k.endswith(\"/error\")",
+      "suite": "deck-verdict",
+      "kill": "FAIL: test_detector_warning_is_rejected_even_if_totals_are_zero",
+      "control": "test_each_summary_count_is_enforced .* \\.\\.\\. ok"
+    },
+    {
+      "id": "ignore-recorded-warning",
+      "source": "tools/press/fixtures/selftest_verdict.py",
+      "anchor": "finding.get(\"severity\") in (\"warn\", \"error\")",
+      "replacement": "finding.get(\"severity\") in (\"error\",)",
+      "suite": "deck-verdict",
+      "kill": "FAIL: test_recorded_findings_are_enforced_independently_of_aggregates",
+      "control": "test_detector_warning_is_rejected_even_if_totals_are_zero .* \\.\\.\\. ok"
+    },
+    {
+      "id": "ignore-bad-detector-coverage",
+      "source": "tools/press/fixtures/selftest_verdict.py",
+      "anchor": "if not fired:",
+      "replacement": "if False and not fired:",
+      "suite": "deck-verdict",
+      "kill": "FAIL: test_missing_bad_detector_remains_a_failure",
+      "control": "test_each_summary_count_is_enforced .* \\.\\.\\. ok"
+    },
+    {
+      "id": "accept-nonpositive-bad-count",
+      "source": "tools/press/fixtures/selftest_verdict.py",
+      "anchor": "count > 0 and k.startswith(d + \"-\")",
+      "replacement": "k.startswith(d + \"-\")",
+      "suite": "deck-verdict",
+      "kill": "FAIL: test_nonpositive_bad_count_does_not_fire",
+      "control": "test_missing_bad_detector_remains_a_failure .* \\.\\.\\. ok"
+    },
+    {
+      "id": "ignore-png-integrity",
+      "source": "tools/press/src/press/doc/image.clj",
+      "anchor": "(png-integrity! raster-bytes)",
+      "replacement": "nil",
+      "suite": "raster-boundaries",
+      "kill": "FAIL in \\(incomplete-or-corrupt-png-chunks-are-refused\\)",
+      "control": "Ran [1-9][0-9]* tests containing [1-9][0-9]* assertions\\."
+    },
+    {
+      "id": "ignore-png-crc",
+      "source": "tools/press/src/press/doc/image.clj",
+      "anchor": "(not= stored (.getValue crc))",
+      "replacement": "false",
+      "suite": "raster-boundaries",
+      "kill": "FAIL in \\(incomplete-or-corrupt-png-chunks-are-refused\\)",
+      "control": "Ran [1-9][0-9]* tests containing [1-9][0-9]* assertions\\."
+    },
+    {
+      "id": "hash-oversized-raster",
+      "source": "tools/press/src/press/doc/io.clj",
+      "anchor": "(> (.length f) image/max-bytes)",
+      "replacement": "false",
+      "suite": "raster-boundaries",
+      "kill": "FAIL in \\(oversized-raster-is-refused-before-stamp-hashing\\)",
+      "control": "Ran [1-9][0-9]* tests containing [1-9][0-9]* assertions\\."
+    },
+    {
+      "id": "ignore-pixel-budget",
+      "source": "tools/press/src/press/doc/image.clj",
+      "anchor": "(<= (* (long w) h) 16000000)",
+      "replacement": "true",
+      "suite": "raster-boundaries",
+      "kill": "FAIL in \\(compressed-image-pixel-budget-precedes-decoding\\)",
+      "control": "Ran [1-9][0-9]* tests containing [1-9][0-9]* assertions\\."
+    }
+  ],
+  "excluded": [
+    {
+      "behavior": "Git and generator operational errors",
+      "reason": "Persistent controls assert exit 2 and explicit cannot-run diagnostics; exceptions and failed generation must never count as mutation kills."
+    },
+    {
+      "behavior": "Private fixture provenance",
+      "reason": "An independent privacy review compares content, topology and source origins; software mutants do not establish declassification."
+    }
+  ]
+}

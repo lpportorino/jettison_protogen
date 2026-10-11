@@ -2,7 +2,9 @@
 # Enrolled maintained Python gates: native renderer drivers, the manual mutation
 # campaign drivers, wire contracts, the gate-trace tool (its library, its test
 # suite and its fail canary), the viewer visual-review batch resolver, and the
-# mutation campaign driver.
+# mutation campaign driver, and the document press (tools/press: the tool package
+# and its selftest fixtures; judged as Python 3.10, the interpreter of its own
+# image — .ruff.toml per-file-target-version).
 # Other experiment/data scripts are outside this deliberately bounded lane.
 set -euo pipefail
 root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd -P)
@@ -38,6 +40,24 @@ else
     done
     ((discovered)) || {
       printf 'Python gate: gate-trace module %s is missing or not a regular file\n' "$required" >&2
+      exit 2
+    }
+  done
+  files+=("${found[@]}")
+  # press: the whole package tree and the selftest drivers, discovered as REGULAR
+  # files, with one named module per directory asserted AMONG what was discovered
+  # (the same membership rule as gate-trace, for the same reason).
+  mapfile -d '' found < <(find tools/press/press tools/press/fixtures tools/press/test -name '*.py' -type f -print0)
+  for required in tools/press/press/deck_qa.py tools/press/press/deck_pdf.py \
+    tools/press/press/fig/cli.py tools/press/press/chart/cli.py \
+    tools/press/press/paged/detect.py tools/press/fixtures/fig_selftest.py \
+    tools/press/test/corpus_compare.py tools/press/test/corpus_compare_test.py; do
+    discovered=0
+    for path in "${found[@]}"; do
+      [[ $path != "$required" ]] || discovered=1
+    done
+    ((discovered)) || {
+      printf 'Python gate: press module %s is missing or not a regular file\n' "$required" >&2
       exit 2
     }
   done

@@ -1,0 +1,22 @@
+;; press — the Clojure half of the document press: documents and slide decks as
+;; data, checked and built into ONE self-contained HTML file each. The browser
+;; half (tools/press/press, run through tools/press/bin/press) lays figures
+;; out and prints; this half never starts it — it returns the host command.
+;;
+;; cheshire reads JSON here (house constants, pick records, print reports). The
+;; canonical figure JSON is written by press.doc.figure itself, byte for byte
+;; what the browser half writes, so no JSON library decides those bytes.
+{:paths ["src" "resources"]
+ :deps {org.clojure/clojure {:mvn/version "1.12.6"}
+        metosin/malli {:mvn/version "0.20.3"}
+        hiccup/hiccup {:mvn/version "2.0.0"}
+        cheshire/cheshire {:mvn/version "5.13.0"}}
+ :aliases
+ {;; The whole suite, every `m/=>` instrumented: `clojure -M:test` from this
+  ;; directory. Needs no container and no browser.
+  :test {:extra-paths ["test"]
+         :main-opts ["-m" "press.test-runner"]}
+  ;; Rewrite the shared description corpus (fixtures/desc_negative and
+  ;; fixtures/desc_positive) from press.doc.negatives: `clojure -M:corpus`.
+  :corpus {:extra-paths ["test"]
+           :main-opts ["-m" "press.doc.negatives"]}}}

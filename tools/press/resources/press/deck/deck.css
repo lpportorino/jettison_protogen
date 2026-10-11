@@ -1,0 +1,102 @@
+
+  :root{
+    --bg:{{bg}}; --panel:{{panel}}; --panel2:{{panel2}};
+    --line:{{line}}; --line2:{{line2}};
+    --ink:{{ink}}; --mut:{{mut}}; --dim:{{dim}};
+    --amber:{{amber}}; --slate:{{slate}}; --cad:{{cad}}; --cyan:{{cyan}}; --bad:{{bad}};
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--ink);
+    font-family:"Inter","Inter UI","Segoe UI",system-ui,-apple-system,"DejaVu Sans",Arial,sans-serif;
+    font-feature-settings:"cv05","cv11";overflow:hidden;-webkit-font-smoothing:antialiased}
+  .deck{height:100vh;width:100vw;position:relative;overflow:hidden}
+  .slide{position:absolute;inset:0;display:none;flex-direction:column;gap:clamp(9px,1.5vh,18px);
+    padding:clamp(20px,3.6vh,40px) clamp(20px,4.4vw,72px) clamp(56px,7vh,76px);
+    max-width:1560px;margin:0 auto;overflow-y:auto;overscroll-behavior:contain}
+  .slide.on{display:flex}
+  h1{font-size:clamp(34px,5.2vw,68px);font-weight:800;letter-spacing:-.033em;line-height:1.03}
+  h2{font-size:clamp(23px,3.05vw,39px);font-weight:760;letter-spacing:-.027em;line-height:1.12}
+  h3{font-size:clamp(15px,1.65vw,20px);font-weight:690;letter-spacing:-.014em;margin-bottom:.35em;color:var(--ink)}
+  p,li{font-size:clamp(13px,1.42vw,17px);line-height:1.56;color:var(--mut)}
+  li{margin-left:1.05em;margin-bottom:.42em}
+  p strong,li strong,p b,li b{color:var(--ink);font-weight:660}
+  .lead{color:var(--ink);font-size:clamp(15px,1.75vw,21px);line-height:1.5;font-weight:450}
+  .kicker{font-size:clamp(12px,1.25vw,15px);color:var(--dim);letter-spacing:.01em}
+  .kicker b{font-weight:690;color:var(--slate)}
+  h1,h2,h3{text-wrap:balance} p,li{text-wrap:pretty}
+  ::selection{background:#2C3A52}
+  .num{font-family:ui-monospace,"Cascadia Mono",Consolas,"SF Mono","DejaVu Sans Mono",monospace;
+       font-variant-numeric:tabular-nums;font-size:.94em}
+  .amend{font-size:.56em;vertical-align:.32em;letter-spacing:.06em;color:var(--cad);
+         font-weight:700;border:1px solid var(--cad);border-radius:5px;padding:1px 5px;margin-left:6px}
+  .grid{display:grid;gap:clamp(10px,1.5vw,18px)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:13px;
+        padding:clamp(13px,1.7vw,21px)}
+  .risk{border-left:3px solid var(--bad);border-radius:7px 13px 13px 7px}
+  .ok{border-left:3px solid var(--cad);border-radius:7px 13px 13px 7px}
+  .fill{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-evenly;gap:clamp(10px,1.8vh,22px)}
+  .fill.grow{min-height:max-content}
+  /* The body stacks at its NATURAL height and the slide scrolls if it has to.
+     With `flex:1;min-height:0` the children could shrink below their content
+     and a figcaption printed straight over the paragraph after it — measured
+     on the two video slides, where the caption and the caveat collided. */
+  .body{flex:0 0 auto;display:flex;flex-direction:column;gap:clamp(9px,1.4vh,16px)}
+  figure.fig{margin:0;display:flex;flex-direction:column;gap:7px;flex:0 0 auto}
+  figure.fig img,figure.fig video{width:100%;height:auto;max-height:50vh;object-fit:contain;
+        border:1px solid var(--line);border-radius:11px;background:#0A0C11;display:block;
+        flex:0 0 auto}
+  .grid figure.fig img,.grid figure.fig video{max-height:42vh}
+  /* a slide carrying a video AND cards has to fit both */
+  .slide:has(figure.fig video) + * {}
+  .body > figure.fig + p + .grid figure.fig img{max-height:38vh}
+  figcaption{font-size:clamp(11.5px,1.16vw,14px);color:var(--dim);line-height:1.45;flex:0 0 auto}
+  figcaption b{color:var(--mut)}
+  blockquote{border-left:3px solid var(--amber);background:var(--panel);border-radius:0 11px 11px 0;
+        padding:clamp(11px,1.5vw,18px) clamp(14px,1.9vw,24px);color:var(--ink);
+        font-size:clamp(14px,1.6vw,19px);line-height:1.5}
+  blockquote.cadq{border-left-color:var(--cad);color:var(--cad);
+        font-family:ui-monospace,Consolas,"DejaVu Sans Mono",monospace;font-size:clamp(12px,1.3vw,15.5px)}
+  pre.code{background:#0A0C11;border:1px solid var(--line);border-radius:11px;
+        padding:clamp(11px,1.5vw,18px);color:var(--mut);overflow-x:auto;
+        font-family:ui-monospace,Consolas,"DejaVu Sans Mono",monospace;
+        font-size:clamp(11.5px,1.22vw,15px);line-height:1.55;white-space:pre}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:13px;background:var(--panel)}
+  .tbl{width:100%;border-collapse:collapse}
+  .tbl th,.tbl td{padding:9px 14px;text-align:left;font-size:clamp(12px,1.26vw,15.5px);
+        border-bottom:1px solid var(--line);vertical-align:top}
+  .tbl tr:last-child td{border-bottom:0}
+  .tbl th{color:var(--dim);font-weight:640;background:var(--panel2);white-space:nowrap}
+  .tbl td{color:var(--mut)} .tbl td:first-child{color:var(--ink);font-weight:640;white-space:nowrap}
+  .nav{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);display:flex;justify-content:center;
+       gap:7px;z-index:9;background:rgba(15,17,22,.9);backdrop-filter:blur(5px);padding:7px 12px;
+       border-radius:999px;border:1px solid var(--line);flex-wrap:wrap;max-width:78vw}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--line2);border:0;cursor:pointer;padding:0}
+  .dot.on{background:var(--amber)}
+  .arrows{position:fixed;bottom:8px;right:14px;display:flex;gap:8px;z-index:9}
+  .abtn{background:var(--panel);border:1px solid var(--line2);color:var(--ink);border-radius:10px;
+        width:42px;height:36px;font-size:17px;cursor:pointer}
+  .abtn:hover{background:var(--panel2)}
+  .pdf{position:fixed;bottom:8px;left:14px;z-index:9;background:var(--panel);border:1px solid var(--line2);
+       color:var(--mut);border-radius:10px;padding:8px 14px;font-size:14px;cursor:pointer}
+  .pdf:hover{color:var(--ink)}
+  .pageno{position:fixed;top:11px;right:16px;color:var(--dim);font-size:13px;z-index:9}
+  button:focus-visible,.dot:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+  @media (max-width:900px){
+    .slide{padding:18px 16px 68px}
+    .fill{justify-content:flex-start}
+    .grid{grid-template-columns:1fr !important}
+    h1{font-size:clamp(30px,9vw,46px)}
+    figure.fig img,figure.fig video{max-height:none}
+  }
+  @media print{
+    body{overflow:visible;background:#fff}
+    .deck{height:auto;width:auto;overflow:visible}
+    .slide{display:flex !important;position:relative;inset:auto;page-break-after:always;
+           height:auto;min-height:100vh;max-width:none;overflow:visible}
+    .card,figure.fig,.tblwrap{break-inside:avoid}
+    figure.fig img,figure.fig video{max-height:none}
+    .nav,.arrows,.pdf,.pageno{display:none}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+  @page{size:A4 landscape;margin:0}

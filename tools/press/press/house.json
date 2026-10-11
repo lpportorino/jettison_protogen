@@ -1,0 +1,223 @@
+{
+ "_doc": "House constants for document figures: the ONE copy; press.doc reads this file from the repository root (tools/press/press/house.json). 1 unit = 1 pt on paper; the canvas is the 168 mm print column. text: style -> [size pt, weight, colour]; looks: box look -> [fill, stroke, corner radius, dash]; edge-looks: -> [colour, stroke width, dash]. text-ink: a colour used for TEXT is drawn in its ink variant (darker, so small text reaches the 4.5:1 contrast the figure checker demands over the house fills).",
+ "canvas-width": 476,
+ "page-budget": [
+  476,
+  620
+ ],
+ "text-floor": 7,
+ "body-size": 7.5,
+ "title-size": 8.5,
+ "font-family": "Inter",
+ "line-height": 1.3,
+ "pad": 6,
+ "note-pad": 1,
+ "column-gap": 10,
+ "clearance": 4,
+ "arrow-room": 9,
+ "tap-room": 6,
+ "corridor": 18,
+ "colors": {
+  "NAVY": "#1f3a5f",
+  "TEAL": "#1a7f8e",
+  "AMBER": "#b97a12",
+  "RED": "#a8352f",
+  "GREEN": "#2f7d4f",
+  "INK": "#16202a",
+  "MUTED": "#5b6875",
+  "LINE": "#cfd6dd",
+  "WASH": "#f2f5f8",
+  "HOST": "#dbe7f3",
+  "NODE": "#d8f0ee",
+  "DEV": "#f6ead6",
+  "WHITE": "#ffffff",
+  "HUB": "#e6edf3",
+  "MID": "#4d6a8f",
+  "REDWASH": "#fbe9e7",
+  "TEALINK": "#166b78",
+  "AMBERINK": "#8a5b0d"
+ },
+ "text-ink": {
+  "TEAL": "TEALINK",
+  "AMBER": "AMBERINK"
+ },
+ "text": {
+  "H": [
+   9,
+   700,
+   "NAVY"
+  ],
+  "h": [
+   8.5,
+   700,
+   "NAVY"
+  ],
+  "t": [
+   8.5,
+   700,
+   "TEALINK"
+  ],
+  "a": [
+   8.5,
+   700,
+   "AMBERINK"
+  ],
+  "hb": [
+   8.5,
+   700,
+   "INK"
+  ],
+  "o": [
+   8,
+   700,
+   "INK"
+  ],
+  "b": [
+   7.5,
+   700,
+   "INK"
+  ],
+  "bt": [
+   7.5,
+   700,
+   "TEALINK"
+  ],
+  "bn": [
+   7.5,
+   700,
+   "NAVY"
+  ],
+  "n": [
+   7.5,
+   400,
+   "INK"
+  ],
+  "m": [
+   7.5,
+   400,
+   "MUTED"
+  ]
+ },
+ "looks": {
+  "plain": [
+   "WHITE",
+   "MUTED",
+   4,
+   null
+  ],
+  "host": [
+   "HOST",
+   "NAVY",
+   6,
+   null
+  ],
+  "white": [
+   "WHITE",
+   "NAVY",
+   4,
+   null
+  ],
+  "hub": [
+   "HUB",
+   "TEAL",
+   4,
+   null
+  ],
+  "wash": [
+   "WASH",
+   "LINE",
+   4,
+   null
+  ],
+  "node": [
+   "NODE",
+   "TEAL",
+   4,
+   null
+  ],
+  "rowteal": [
+   "WHITE",
+   "TEAL",
+   3,
+   null
+  ],
+  "rowamber": [
+   "WHITE",
+   "AMBER",
+   3,
+   null
+  ],
+  "dev": [
+   "DEV",
+   "AMBER",
+   4,
+   null
+  ],
+  "gateway": [
+   "NODE",
+   "NAVY",
+   4,
+   "4 3"
+  ],
+  "devbox": [
+   "WHITE",
+   "AMBER",
+   3,
+   null
+  ],
+  "note": [
+   null,
+   null,
+   0,
+   null
+  ],
+  "whiteteal": [
+   "WHITE",
+   "TEAL",
+   4,
+   null
+  ]
+ },
+ "edge-looks": {
+  "solid": [
+   "NAVY",
+   1.2,
+   null
+  ],
+  "tap": [
+   "NAVY",
+   1.2,
+   null
+  ],
+  "tealtap": [
+   "TEAL",
+   1.6,
+   null
+  ],
+  "amber": [
+   "AMBER",
+   1.2,
+   null
+  ],
+  "dashed": [
+   "MUTED",
+   1.2,
+   "3 2"
+  ],
+  "bus": [
+   "NAVY",
+   3.2,
+   null
+  ],
+  "stub": [
+   "NAVY",
+   2,
+   null
+  ],
+  "unrouted": [
+   "RED",
+   1.2,
+   "2 2"
+  ]
+ }
+}
