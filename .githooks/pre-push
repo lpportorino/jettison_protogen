@@ -86,6 +86,11 @@ if ! cd "$root"; then
   printf '\033[31m[pre-push] CANNOT RUN\033[0m — cannot enter %s, so NO gate has run.\n' "$root" >&2
   exit 1
 fi
+# Git exports GIT_DIR into this hook. Every lane below discovers its repository from
+# its own working directory, and a fixture lane that builds a scratch repository
+# (tools/mutation/campaign_test.sh) is answered for THIS one if the variable leaks.
+# The root is resolved and entered, so neither variable carries anything further.
+unset GIT_DIR GIT_WORK_TREE
 
 # PRIVATE NAMES FIRST: it is milliseconds, it is the one check whose miss cannot
 # be undone (a push is publication), and it reads the push lines git hands this

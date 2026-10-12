@@ -197,6 +197,13 @@ def first_match(pattern, log):
 
 
 def main(argv):
+    # The checkout is discovered from the working directory, and every clone, prepare and
+    # suite must act on its own tree. A GIT_DIR or GIT_WORK_TREE inherited from a git hook
+    # overrides both: discovery answers for the hook's repository (every fault then refuses
+    # as "missing source") and a suite's own git would act on the original, not its clone.
+    # Drop them for this process and so for every child it starts.
+    for name in ("GIT_DIR", "GIT_WORK_TREE"):
+        os.environ.pop(name, None)
     parser = argparse.ArgumentParser(prog="campaign.py")
     parser.add_argument("faults")
     parser.add_argument("out")

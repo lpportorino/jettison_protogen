@@ -74,6 +74,13 @@ camp 2 'a hung suite is invalid' --only hang; expect_outcome hang invalid
 camp 2 'untrusted evidence outranks a survivor' --only comment --only absent
 grep -q '"passed": true' "$work/out1/report.json" && ok 'the all-killed report says passed' || bad 'the all-killed report does not say passed'
 
+printf '\n== a git hook environment\n'
+# Git exports GIT_DIR into hooks; the campaign must still discover and mutate ITS checkout.
+other="$work/other"; mkdir -p "$other"
+GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_NOSYSTEM=1 env -u GIT_DIR -u GIT_WORK_TREE git -C "$other" init -q
+GIT_DIR="$other/.git" GIT_WORK_TREE="$other" camp 0 'GIT_DIR and GIT_WORK_TREE naming another repository' --only real
+expect_outcome real killed
+
 printf '\n== CANNOT RUN (3)\n'
 camp 3 'a failing prepare' --only prep
 printf 'dirt\n' >>"$repo/src.sh"; camp 3 'a dirty tree' --only real; g checkout -q -- src.sh
