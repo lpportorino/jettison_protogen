@@ -140,6 +140,11 @@ ROOT="$(cd -- "$SCRIPT_DIR/../../.." && pwd -P)"
 PG="$ROOT/tools/protocol-gen"
 DESCRIPTOR_SET="$ROOT/output/json-descriptors/descriptor-set.binpb"
 EMITTED_FILES="sensor-reader.proto,commander.proto"
+# Every JVM this suite starts writes UTF-8, whatever the locale. The checks below
+# match the verifier's own sentences, em dashes included, and a POSIX-locale
+# container (tools/uber.sh) otherwise encodes stdout as ASCII and prints `?`,
+# failing two oracles that agreed. Same flags as the Makefile's PROTOCOL_GEN_CLJ.
+CLJ=(clojure -J-Dstdout.encoding=UTF-8 -J-Dstderr.encoding=UTF-8)
 
 # A MISSING TOOL IS A HARD FAILURE WITH AN INSTALL HINT, never a skip: a canary
 # that passed because its toolchain was absent is the defect it exists to catch,
@@ -210,7 +215,7 @@ generate() {
 	local registry="${5:-fixtures/numbering-registry.edn}"
 	local mints="${6:-fixtures/minted.edn}"
 	set +e
-	GEN_OUT="$(cd "$tool" && clojure -M:run generate \
+	GEN_OUT="$(cd "$tool" && "${CLJ[@]}" -M:run generate \
 		--db "$database" --minted "$mints" \
 		--registry "$registry" --policy "$policy" --out "$out" 2>&1)"
 	GEN_RC=$?
@@ -315,7 +320,7 @@ VA_RC=0
 VA_OUT=""
 verify_access() {
 	set +e
-	VA_OUT="$(cd "$PG" && clojure -M:verify rust-access --dump "$1" --policy "$2" 2>&1)"
+	VA_OUT="$(cd "$PG" && "${CLJ[@]}" -M:verify rust-access --dump "$1" --policy "$2" 2>&1)"
 	VA_RC=$?
 	set -e
 }
@@ -338,7 +343,7 @@ verify() {
 		return
 	fi
 	set +e
-	VER_OUT="$(cd "$PG" && clojure -M:verify emitted \
+	VER_OUT="$(cd "$PG" && "${CLJ[@]}" -M:verify emitted \
 		--descriptor "$out/emitted.binpb" --files "$files" \
 		--policy fixtures/policy.edn --db fixtures/db.edn \
 		--minted fixtures/minted.edn --registry fixtures/numbering-registry.edn \
@@ -565,7 +570,7 @@ VS_RC=0
 VS_OUT=""
 verify_state() {
 	set +e
-	VS_OUT="$(cd "$PG" && clojure -M:verify state-table --dump "$1" --policy "$2" 2>&1)"
+	VS_OUT="$(cd "$PG" && "${CLJ[@]}" -M:verify state-table --dump "$1" --policy "$2" 2>&1)"
 	VS_RC=$?
 	set -e
 }
@@ -578,7 +583,7 @@ VT_OUT=""
 verify_tree() {
 	local database="${3:-fixtures/db.edn}"
 	set +e
-	VT_OUT="$(cd "$PG" && clojure -M:verify permission-tree --dump "$1" --policy "$2" \
+	VT_OUT="$(cd "$PG" && "${CLJ[@]}" -M:verify permission-tree --dump "$1" --policy "$2" \
 		--db "$database" --minted fixtures/minted.edn \
 		--registry fixtures/numbering-registry.edn 2>&1)"
 	VT_RC=$?
@@ -618,7 +623,7 @@ else
 	bad "the fixture protos do not compile: $(cat "$FIXWORK/protoc.log")"
 fi
 set +e
-FIX_OUT="$(cd "$PG" && clojure -M:verify fixture-db \
+FIX_OUT="$(cd "$PG" && "${CLJ[@]}" -M:verify fixture-db \
 	--descriptor "$FIXWORK/fixtures.binpb" --files fixture_core.proto \
 	--db fixtures/db.edn 2>&1)"
 FIX_RC=$?
@@ -637,7 +642,7 @@ mutate_file "$MFIX/fixtures/db.edn" \
 	'{:number 4 :name "value" :type :double :constraints {:gte -1 :lte 1}}' \
 	|| bad "the fixture-database mutation did not land"
 set +e
-MFIX_OUT="$(cd "$MFIX" && clojure -M:verify fixture-db \
+MFIX_OUT="$(cd "$MFIX" && "${CLJ[@]}" -M:verify fixture-db \
 	--descriptor "$FIXWORK/fixtures.binpb" --files fixture_core.proto \
 	--db fixtures/db.edn 2>&1)"
 MFIX_RC=$?
@@ -789,7 +794,7 @@ fi
 survey() {
 	local tool="$1" database="$2"
 	set +e
-	GEN_OUT="$(cd "$tool" && clojure -M:run survey --db "$database" 2>&1)"
+	GEN_OUT="$(cd "$tool" && "${CLJ[@]}" -M:run survey --db "$database" 2>&1)"
 	GEN_RC=$?
 	set -e
 }
