@@ -60,6 +60,9 @@
 (defn prepare! [options]
   (Files/createDirectories (Path/of (:output options) (make-array String 0)) (make-array FileAttribute 0)))
 
+(defn inventory ^Path [options phase]
+  (Path/of (str (:output options) "/repository-" (name phase) ".edn") (make-array String 0)))
+
 (deftest actual-run-is-bracketed-and-all-archives-roundtrip
   (git-fixture/with-repository
     (fn [root settings]
@@ -74,7 +77,9 @@
         (is (= result (reader/read-archive! (str (:output options) "/run.edn") admission/default-limits)))
         (doseq [phase [:before :after]]
           (let [full (reader/read-repository! (str (:output options) "/repository-" (name phase) ".edn") admission/default-limits)]
-            (is (= (:content full) (get-in result [:provenance phase :snapshot :content])))))))))
+            (is (= (:content full) (get-in result [:provenance phase :snapshot :content])))))
+        (is (Files/isSameFile (inventory options :before) (inventory options :after))
+            "an unchanged tree retains one inventory, linked under both names")))))
 
 (deftest changed-inputs-retain-the-run-and-prevent-success
   (git-fixture/with-repository
@@ -86,7 +91,11 @@
         (is (= :changed (get-in result [:provenance :stability])))
         (is (= :archive-not-passed (:code (fixture/failure #(run/require-passed! result)))))
         (is (= :passed (get-in result [:graph :nodes 0 :outcome])))
-        (is (= result (reader/read-archive! (str (:output options) "/run.edn") admission/default-limits)))))))
+        (is (= result (reader/read-archive! (str (:output options) "/run.edn") admission/default-limits)))
+        (is (not (Files/isSameFile (inventory options :before) (inventory options :after)))
+            "a changed tree retains two distinct inventories")
+        (is (not= (get-in result [:provenance :before :snapshot :content])
+                  (:content (reader/read-repository! (str (inventory options :after)) admission/default-limits))))))))
 
 (deftest cancellation-retains-known-before-evidence-without-a-fabricated-after
   (git-fixture/with-repository

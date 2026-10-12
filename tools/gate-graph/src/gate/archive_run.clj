@@ -52,14 +52,19 @@
    Already published evidence remains immutable and describes observations completed before cancellation;
    the failure identifies that archive. Failed/cancelled evidence retains its original disposition.
    Cancellation after this final sample belongs to the caller's next action, not an atomic filesystem promise.
-   Full private inventories stay beside the run; deliberate export carries compact checked headers."
+   Full private inventories stay beside the run; deliberate export carries compact checked headers.
+   An unchanged tree retains one inventory: the after file is a hard link to the before file."
   [options asset cancellation runner]
   (let [before (acquire! options cancellation)
         graph (runner cancellation)
         after (acquire! options cancellation)
         document (archive/create (:scope options) graph (:acquisition before) (:acquisition after))]
-    (doseq [[phase evidence] [[:before before] [:after after]] :when (:observation evidence)]
-      (publication/write-observation! (:output options) phase (:observation evidence)))
+    (let [prior (:observation before) later (:observation after)]
+      (when prior (publication/write-observation! (:output options) :before prior))
+      (when later
+        (if (= prior later)
+          (publication/link-observation! (:output options))
+          (publication/write-observation! (:output options) :after later))))
     (publication/publish! (:output options) document asset)
     (when (and (= :passed (:status document)) @cancellation)
       (throw (ex-info "Archive lifecycle cancelled after observations completed"

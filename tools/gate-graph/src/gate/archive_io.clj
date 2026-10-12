@@ -59,6 +59,24 @@
          (catch SecurityException _ (refuse! :archive-output-io)))))
 (m/=> write-observation! [:=> [:cat inputs/Root [:enum :before :after] rc/Observation] :nil])
 
+(defn link-observation!
+  "Retain an after inventory equal to the before inventory as a create-only hard link to repository-before.edn.
+   Equal values have equal canonical text, so this skips a second full verification and encoding;
+   the caller decides equality on the observations themselves, never on the files.
+   The before inventory must already be a regular file in this run directory."
+  [directory]
+  (try (let [base (Path/of directory (make-array String 0))
+             before (.resolve base "repository-before.edn")]
+         (when-not (Files/isRegularFile before no-follow) (refuse! :archive-output-policy))
+         (Files/createLink (.resolve base "repository-after.edn") before)
+         nil)
+       (catch FileAlreadyExistsException _ (refuse! :archive-output-exists))
+       (catch IllegalArgumentException _ (refuse! :archive-output-policy))
+       (catch java.io.IOException _ (refuse! :archive-output-io))
+       (catch UnsupportedOperationException _ (refuse! :archive-output-io))
+       (catch SecurityException _ (refuse! :archive-output-io))))
+(m/=> link-observation! [:=> [:cat inputs/Root] :nil])
+
 (defn publish!
   "Publish run.edn and matching standalone HTML in an existing trusted run directory.
    Reuse an existing regular graph.edn only when its normalized graph equals the archive graph.

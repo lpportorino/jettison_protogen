@@ -67,6 +67,17 @@
                  (fixture/failure #(archive/publish! (str root) (fixture/document) publisher/viewer))))
           (is (Files/isSymbolicLink path)))))))
 
+(deftest an-equal-after-inventory-links-only-to-an-existing-before-file
+  (with-directory
+    (fn [root]
+      (is (= {:code :archive-output-policy} (fixture/failure #(archive/link-observation! (str root)))))
+      (is (not (exists? root "repository-after.edn")))
+      (spit (str (child root "repository-before.edn")) "inventory\n")
+      (is (nil? (archive/link-observation! (str root))))
+      (is (Files/isSameFile (child root "repository-before.edn") (child root "repository-after.edn")))
+      (is (= {:code :archive-output-exists} (fixture/failure #(archive/link-observation! (str root)))))
+      (is (= "inventory\n" (slurp (str (child root "repository-after.edn"))))))))
+
 (deftest html-failure-does-not-create-a-completed-archive-record
   (with-directory
     (fn [root]
