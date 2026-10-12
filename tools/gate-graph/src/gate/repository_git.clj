@@ -15,8 +15,12 @@
 (def Text [:string {:max 67108864}])
 (def CountLimit [:int {:min 1 :max 1000000}])
 (def Settings
+  "trusted-owner? declares each queried checkout directory as git safe.directory on the command line,
+   for a caller that observes its own checkout through a different uid (a root container over a host
+   bind mount). Default off; it never trusts any other directory."
   [:map {:closed true} [:git inputs/Root] [:log-directory inputs/Root]
-   [:timeout-ms [:int {:min 1 :max 600000}]] [:output-bytes [:int {:min 1 :max 67108864}]]])
+   [:timeout-ms [:int {:min 1 :max 600000}]] [:output-bytes [:int {:min 1 :max 67108864}]]
+   [:trusted-owner? {:optional true} :boolean]])
 (def Arguments [:vector {:min 1 :max 32} process/Argument])
 (def environment
   {"PATH" "/usr/bin:/bin" "LC_ALL" "C" "GIT_CONFIG_NOSYSTEM" "1"
@@ -53,13 +57,17 @@
   "Execute read-only Git argv through the bounded process supervisor and retain its local log.
    Refuse nonzero exit, timeout, truncation or incomplete observed-process cleanup. Environment
    is cleared, system/global config and fsmonitor disabled; local repository config stays input.
+   With :trusted-owner? the queried directory alone is declared safe.directory as command-line config.
    Callers must verify Git's top-level directory before trusting a checkout boundary."
   ([directory settings arguments] (command! directory settings arguments (atom false)))
   ([directory settings arguments cancellation]
    (let [log (str "git-" (UUID/randomUUID) ".log")
          result (process/run! {:directory directory :cwd "." :stdin nil
-                               :command (into [(:git settings) "--no-optional-locks" "--literal-pathspecs"
-                                               "-c" "core.fsmonitor=false" "-c" "core.untrackedCache=false"] arguments)
+                               :command (-> [(:git settings) "--no-optional-locks" "--literal-pathspecs"
+                                             "-c" "core.fsmonitor=false" "-c" "core.untrackedCache=false"]
+                                            (cond-> (:trusted-owner? settings)
+                                              (into ["-c" (str "safe.directory=" directory)]))
+                                            (into arguments))
                                :environment environment :log-directory (:log-directory settings) :log log
                                :limits {:timeout-ms (:timeout-ms settings) :cleanup-ms 1000
                                         :log-bytes (:output-bytes settings) :processes 32 :stdin-bytes 1}}

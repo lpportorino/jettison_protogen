@@ -83,3 +83,4 @@ tools/devcards/pdl-r-reference/frozen_corpus_result.json
 # harness's own test litter into a commit. Ignoring it makes the name mean one
 # thing in every clone.
 .fork-scratch/
+/.gate-reports/

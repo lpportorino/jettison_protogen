@@ -8,6 +8,7 @@
             [gate.admission :as admission]
             [gate.canonical :as canonical]
             [gate.inputs :as inputs]
+            [gate.process :as process]
             [gate.repository :as repository]
             [gate.repository-contract :as rc]
             [gate.repository-git :as git]
@@ -257,3 +258,20 @@
                 (code #(repository/observe! (str root) {:excluded [] :protected ["src"]}
                                             settings repository/default-limits cancelled))))
          (is @cancelled))))))
+
+(deftest trusted-owner-declares-only-the-queried-directory-safe
+  (let [seen (atom [])
+        settings {:git "/usr/bin/git" :log-directory "/tmp" :timeout-ms 1000 :output-bytes 1024}]
+    (with-redefs [process/run! (fn [request _] (swap! seen conj (:command request))
+                                 (throw (ex-info "argv captured" {:code :argv-captured})))]
+      (doseq [owned [settings (assoc settings :trusted-owner? true)]]
+        (try (git/command! "/repo/checkout" owned ["status"])
+             (catch clojure.lang.ExceptionInfo error
+               (is (= :argv-captured (:code (ex-data error))))))))
+    (let [[strict trusted] @seen]
+      (is (not-any? #(str/includes? % "safe.directory") strict) "default stays as strict as before")
+      (is (= ["-c" "safe.directory=/repo/checkout"]
+             (->> trusted (partition 2 1) (filter #(= "-c" (first %)))
+                  (filter #(str/starts-with? (second %) "safe.directory")) (map vec) first)))
+      (is (= 1 (count (filter #(str/starts-with? % "safe.directory") trusted))) "only the queried directory")
+      (is (= "status" (last trusted))))))

@@ -414,10 +414,15 @@ hooks-status:
 # variants is what exposed it. A speedup measured against a contaminated baseline
 # overstates itself in exactly the direction that flatters the change.
 #
-# WHY A SUB-MAKE RATHER THAN TELLING PEOPLE TO PASS -j: the hook and CI invoke
+# WHY A BATTERY RATHER THAN TELLING PEOPLE TO PASS -j: the hook and CI invoke
 # `make -f lint.mk lint` with no flags, so a speedup that depends on the caller
-# remembering a flag is a speedup nobody gets. renderer.mk's `check-renderer` uses
-# exactly this shape for exactly this reason.
+# remembering a flag is a speedup nobody gets. `lint` runs every lane on the
+# `lint-lanes` line as one gate of tools/gate-graph's make-battery, NPROC at a time,
+# and publishes the run under .gate-reports/lint/run-<UTC stamp>/: run.edn and
+# graph.edn for the gates/* readers, index.html for a person, and each lane's own
+# command.log. The line is read as text, exactly as tools/offline_lanes.sh reads it,
+# so that line stays the one list. `make -f lint.mk -j lint-lanes` still runs the
+# same lanes with no report.
 #
 # VERIFIED NOT TO CHECK LESS, which is the trap a parallel gate invites: every lane
 # named on the prerequisite line below prints its completion marker in the -j12 log and
@@ -426,12 +431,16 @@ hooks-status:
 # prerequisite line is the population, and a tally beside it rots the next time a lane
 # lands, which this sentence's own did.
 #
-# WHAT PARALLELISM COSTS: interleaved output. A failing lane is still named by make's
-# own `*** [<target>] Error N` line, and the canary suites print their own labels, so a
-# red stays attributable — but a reader scanning for context around a failure will find
-# it interleaved with other lanes. Run the single lane to read it cleanly.
+# WHAT PARALLELISM COSTS: nothing on the console. Each lane writes only to its own
+# command.log; the console gets one line per finished lane, and for a red lane its log
+# path and last 25 lines. The newest 20 runs are kept.
 lint:
-	@$(MAKE) --no-print-directory -f lint.mk -j$(NPROC) lint-lanes
+	@ls -1dt .gate-reports/lint/run-*/ 2>/dev/null | tail -n +20 | xargs -r rm -rf
+	@lanes=$$(sed -n 's/^lint-lanes: //p' lint.mk | head -1); \
+	 [ -n "$$lanes" ] || { echo '[lint] CANNOT RUN — no lanes on the lint-lanes line' >&2; exit 3; }; \
+	 cd tools/gate-graph && $(CLJ) -M -m gate.make-battery "$(CURDIR)" \
+	   "$(CURDIR)/.gate-reports/lint/run-$$(date -u +%Y%m%dT%H%M%SZ)" $(NPROC) $(MAKE) lint.mk lint \
+	   "protogen lint lanes" $$lanes
 
 lint-lanes: kondo-regression lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths private-names-test prepush-scan-test lint-file-size-test lint-file-size lint-instruction-budget-test lint-instruction-budget ci-annotate-test gate-viewer-runner-test lint-cmd-no-any-bytes-test lint-cmd-no-any-bytes lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test uber-safe-directory-test uber-seed-test mutation-campaign-test leg-strictness-test wasm-provenance-test ts-validated-repro-test wire-contract-codec-test wire-contract-envelope-test fork-hazards protocol-gen-test protocol-gen-canary fmt-clj lint-clj fmt-c
 

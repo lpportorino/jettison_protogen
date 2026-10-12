@@ -1288,6 +1288,7 @@ also reconstructs the complete document within the standalone HTML.
 | `gate.report-io/read-archive!` | Read bounded strict UTF-8 EDN and validate the full archive binding. |
 | `gate.report-io/read-repository!` | Read a full private observation and validate hashes and checkout hierarchy. |
 | `gate.archive-io/export!` | Publish into a fresh repository-relative directory covered by explicit, checked report exclusions. |
+| `gate.archive-io/link-observation!` | Retain an after inventory equal to the before inventory as a create-only hard link to it. |
 
 `archive-run/run!` takes `Options`, a verified viewer asset, the cancellation
 atom and a callback returning a graph. Options contain `:repository`, `:policy`,
@@ -1316,8 +1317,9 @@ known omissions, but the producer must still establish actual whole-CI coverage.
 
 Publication retains `graph.edn`, self-contained `index.html`, and `run.edn`.
 Full inventories stay locally as `repository-before.edn` and
-`repository-after.edn`; export carries compact headers rather than those file
-inventories. Keep the originals when per-file audits are needed: header digests
+`repository-after.edn`; when the two observations are equal, the after name is a
+hard link to the before file, so an unchanged run stores and encodes one
+inventory. Export carries compact headers rather than those file inventories. Keep the originals when per-file audits are needed: header digests
 cannot reconstruct omitted files. The HTML shows scope, omissions and provenance
 status, and validates its archive binding before exposing drill controls.
 
@@ -1348,6 +1350,48 @@ The archive assessment passes 305 tests / 15,317 assertions before and after
 source/log/counter audit. Current offline browser checks cover all four displayed
 archive states, hostile labels and graph/identity tampering. These scoped checks
 do not establish full CI coverage or consumer integration.
+
+## Make targets as an archived battery
+
+`gate.make-battery` turns a list of Make targets into one observed battery and
+publishes the archive above, so a project's own checks get the same report the
+`gates` readers and the viewer already understand. Each target becomes one gate
+running `make --no-print-directory -f MAKEFILE TARGET` as an argv vector, with its
+exit status, bounded `command.log` and duration retained under
+`gates/SHA256_ID/`. Targets run under the shared scheduler, `JOBS` at a time.
+
+```sh
+cd tools/gate-graph
+clojure -M -m gate.make-battery REPOSITORY OUTPUT JOBS make MAKEFILE KEY "LABEL" TARGET...
+```
+
+`OUTPUT` must be a fresh directory inside `REPOSITORY`; its parent is excluded
+from the observed tree and `MAKEFILE` is protected. The console gets one line per
+finished target and, for each target that did not pass, its log path and last 25
+lines. Exit status is 0 for a passing archive, 130 for cancellation and 1
+otherwise. A run whose targets all pass still fails when the tree changed between
+the before and after observations, and says so: a target wrote into the checkout,
+or something else did. The observation reads git with no global configuration, so
+files only your global excludes ignore (editor swap files, `.idea/`) count as
+part of the tree; do not edit the checkout while a battery runs. The run also
+refuses before any target starts when the packaged viewer is stale against its
+sources (`gate.viewer-asset/load!`): rebuild the viewer first.
+
+Only an allowlist of variables (`gate.make-battery/environment-names`: path,
+locale, home, toolchain caches, `GIT_CONFIG_GLOBAL`) reaches a target. Their
+VALUES are recorded in each gate's local input snapshot, so the list leaves out
+variables that commonly carry secrets (`JAVA_TOOL_OPTIONS`, `DOCKER_HOST`, the
+proxy variables); a target that needs one must set it itself. Make's own
+`MAKEFLAGS`/`MAKELEVEL` are excluded because a parent's jobserver cannot reach a
+separately launched make, so a command-line variable override does not reach the
+targets either. Each gate counts one command
+invocation; it does not see the checks a target runs internally, and its
+declared input is the Makefile alone. Both limits are listed as omissions in the
+archive's scope.
+
+This repository's `make -f lint.mk lint` runs every lane on the `lint-lanes`
+line this way and publishes under `.gate-reports/lint/run-UTC/`, keeping the
+newest 20 runs. `make -f lint.mk -j lint-lanes` runs the same lanes with no report.
 
 The chronological offline viewer and its bounded presentation API are documented in
 [the viewer guide](docs/viewer.md).
