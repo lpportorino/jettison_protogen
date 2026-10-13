@@ -65,6 +65,68 @@ export function cANDirectionToJSON(object: CANDirection): string {
   }
 }
 
+/**
+ * Who first put a module-bus record into a datagram: the envelope's origin byte
+ * (JONCAN_ENV_ORIGIN_* in the superproject's inc/util/joncan/joncan_envelope.h)
+ * plus one, so that the zero value can mean "the stream entry named no origin
+ * the envelope defines" rather than silently reading as the bus.
+ */
+export enum BusOrigin {
+  /** BUS_ORIGIN_UNSPECIFIED - the entry carried no origin, or one past JONCAN_ENV_ORIGIN_MAX */
+  BUS_ORIGIN_UNSPECIFIED = 0,
+  /** BUS_ORIGIN_BUS - JONCAN_ENV_ORIGIN_BUS: read off the CAN bus (or vcan0) */
+  BUS_ORIGIN_BUS = 1,
+  /** BUS_ORIGIN_ORIN - JONCAN_ENV_ORIGIN_ORIN: the hub sent it */
+  BUS_ORIGIN_ORIN = 2,
+  /** BUS_ORIGIN_CARAMBOLA - JONCAN_ENV_ORIGIN_CARAMBOLA: Carambola sent it */
+  BUS_ORIGIN_CARAMBOLA = 3,
+  /** BUS_ORIGIN_LOCAL - JONCAN_ENV_ORIGIN_LOCAL: a guest hosted beside the bridge */
+  BUS_ORIGIN_LOCAL = 4,
+  UNRECOGNIZED = -1,
+}
+
+export function busOriginFromJSON(object: any): BusOrigin {
+  switch (object) {
+    case 0:
+    case "BUS_ORIGIN_UNSPECIFIED":
+      return BusOrigin.BUS_ORIGIN_UNSPECIFIED;
+    case 1:
+    case "BUS_ORIGIN_BUS":
+      return BusOrigin.BUS_ORIGIN_BUS;
+    case 2:
+    case "BUS_ORIGIN_ORIN":
+      return BusOrigin.BUS_ORIGIN_ORIN;
+    case 3:
+    case "BUS_ORIGIN_CARAMBOLA":
+      return BusOrigin.BUS_ORIGIN_CARAMBOLA;
+    case 4:
+    case "BUS_ORIGIN_LOCAL":
+      return BusOrigin.BUS_ORIGIN_LOCAL;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return BusOrigin.UNRECOGNIZED;
+  }
+}
+
+export function busOriginToJSON(object: BusOrigin): string {
+  switch (object) {
+    case BusOrigin.BUS_ORIGIN_UNSPECIFIED:
+      return "BUS_ORIGIN_UNSPECIFIED";
+    case BusOrigin.BUS_ORIGIN_BUS:
+      return "BUS_ORIGIN_BUS";
+    case BusOrigin.BUS_ORIGIN_ORIN:
+      return "BUS_ORIGIN_ORIN";
+    case BusOrigin.BUS_ORIGIN_CARAMBOLA:
+      return "BUS_ORIGIN_CARAMBOLA";
+    case BusOrigin.BUS_ORIGIN_LOCAL:
+      return "BUS_ORIGIN_LOCAL";
+    case BusOrigin.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
 /** Single CAN/CAN-FD frame */
 export interface CANFrame {
   /** Timestamp in microseconds */
@@ -111,6 +173,189 @@ export interface CANFrameBatch {
 export interface CANStreamConnected {
   /** Discovered CAN stream IDs (e.g., "0x304", "0x510") */
   streams: string[];
+}
+
+/** Why the module-bus decoder could not make a message of a record. */
+export interface BusRefusal {
+  /**
+   * The decoder's refusal code (the joncandec Code* constants, e.g. "proto",
+   * "orphan_fragment", "unknown_topic").
+   */
+  code: string;
+  /** The decoder's explanation, free text. */
+  detail: string;
+}
+
+/**
+ * One module-bus message as the CAN stream relay decoded it from the
+ * `logs:bus:0x<id>` Redis streams: the decoded payload, the joncan header facts
+ * and the record facts of the frame that completed it. Decoding happens once,
+ * on the relay; a client renders these fields and never parses the wire.
+ */
+export interface BusRecord {
+  /** Arrival number: 1 for the first message the relay decoded since it started. */
+  n: Long;
+  /**
+   * The row's title: the decode-table family name, the command root member that
+   * was set, or "refused: <code>".
+   */
+  title: string;
+  /**
+   * What the message is (joncandec Kind*): "family", "health", "announce",
+   * "command", "debug", "log" or "unknown".
+   */
+  kind: string;
+  /**
+   * "cmd" (hub to node) or "state" (node to hub); empty when the CAN id was
+   * wider than the joncan id map.
+   */
+  dir: string;
+  /**
+   * The CAN id's node field and the module that node is (a command's
+   * DESTINATION node); module is empty when no decode-table entry names the node.
+   */
+  node: number;
+  module: string;
+  /** The CAN id's topic field. */
+  topic: number;
+  /**
+   * The decode-table row name (empty for a command) and the command root
+   * member that was set (empty unless a command).
+   */
+  family: string;
+  command: string;
+  /**
+   * The full name of the proto message the body decoded as; empty for an
+   * announce, a debug or a log message.
+   */
+  message: string;
+  /**
+   * The decoded payload as JSON: proto3 JSON with proto field names, sorted
+   * keys, every owned field present. "null" when nothing was decoded.
+   */
+  decodedJson: string;
+  /** Set when the decoder refused the record; the raw bytes are in `data`. */
+  refusal:
+    | BusRefusal
+    | undefined;
+  /**
+   * The record facts. ts_ns: when the frame was seen, ns, on the producer's
+   * clock (0 = the producer did not know).
+   */
+  tsNs: Long;
+  origin: BusOrigin;
+  /**
+   * The datagram's hop sequence and the node id of the datagram's sender (the
+   * envelope header); absent when the stream entry did not carry them.
+   */
+  hopSeq?: number | undefined;
+  sender?:
+    | number
+    | undefined;
+  /** The sender's module, from the decode table; empty when no entry names it. */
+  senderModule: string;
+  /** The frame's 11-bit CAN id. */
+  canId: number;
+  /**
+   * The record's frame flags (JONCAN_ENV_FRAME_*) and their names, lowest bit
+   * first ("FD BRS"); a bit no flag names reads as hex.
+   */
+  fflags: number;
+  frameFlags: string;
+  /**
+   * The completing record's 70-byte blob: frame type, CAN id (little-endian),
+   * length, 64 data bytes. For a message carried in several frames this is the
+   * LAST frame's record.
+   */
+  data: Uint8Array;
+  /** The message body, reassembled across fragments. */
+  payload: Uint8Array;
+  /**
+   * The joncan header: the CAN id's priority, the message type, the message
+   * counter, the fragments the message was carried in, the sender's transmit
+   * time (ns) and whether that time was valid.
+   */
+  prio: number;
+  type: number;
+  seq: number;
+  fragTotal: number;
+  txTimeNs: Long;
+  tsValid: boolean;
+  /**
+   * The Redis stream key (logs:bus:0x<id>), the entry id, and the entry id's
+   * millisecond (the Redis server's wall clock when the entry was appended).
+   */
+  stream: string;
+  entryId: string;
+  timeMs: Long;
+}
+
+/** The relay's module-bus accounting since it started. */
+export interface BusStreamStats {
+  /** Stream records fed to the decoder. */
+  records: Long;
+  /** Messages the records produced (decoded messages plus refusals). */
+  messages: Long;
+  /** Messages carrying a refusal, and their count per refusal code. */
+  refused: Long;
+  refusedBy: { [key: string]: Long };
+  /** Records absorbed as fragments of a message still open, or as retransmits. */
+  absorbed: Long;
+  /**
+   * Open multi-frame messages the decoder dropped, by reason ("expired",
+   * "restarted").
+   */
+  dropped: { [key: string]: Long };
+  /**
+   * Per-sender hop-sequence discontinuities, judged only once every stream
+   * that can hold an earlier record was known and read to its tip: datagrams
+   * lost between the bridge and the stream, datagrams the collector refused,
+   * or a sender restart.
+   */
+  hopGaps: Long;
+  /** Distinct datagram senders seen, and logs:bus:* streams discovered. */
+  senders: number;
+  streams: number;
+  /** Whether the logs Redis was reachable at the last read. */
+  sourceConnected: boolean;
+}
+
+export interface BusStreamStats_RefusedByEntry {
+  key: string;
+  value: Long;
+}
+
+export interface BusStreamStats_DroppedEntry {
+  key: string;
+  value: Long;
+}
+
+/** Batch of module-bus messages, oldest first, with the accounting at the read. */
+export interface BusRecordBatch {
+  records: BusRecord[];
+  stats:
+    | BusStreamStats
+    | undefined;
+  /**
+   * Messages decoded since the previous batch to this client that it was
+   * never sent because it fell behind the relay's buffer.
+   */
+  evicted: Long;
+}
+
+/** Sent once when a module-bus WebSocket connects. */
+export interface BusStreamConnected {
+  /** Discovered module-bus stream ids (the `0x<id>` of each logs:bus:0x<id>). */
+  streams: string[];
+}
+
+/**
+ * Every message the module-bus WebSocket sends: exactly one member is set, so a
+ * client decodes one type and never guesses which message a frame holds.
+ */
+export interface BusStreamMessage {
+  connected?: BusStreamConnected | undefined;
+  batch?: BusRecordBatch | undefined;
 }
 
 function createBaseCANFrame(): CANFrame {
@@ -482,6 +727,1472 @@ export const CANStreamConnected: MessageFns<CANStreamConnected> = {
   },
 };
 
+function createBaseBusRefusal(): BusRefusal {
+  return { code: "", detail: "" };
+}
+
+export const BusRefusal: MessageFns<BusRefusal> = {
+  encode(message: BusRefusal, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.code !== "") {
+      writer.uint32(10).string(message.code);
+    }
+    if (message.detail !== "") {
+      writer.uint32(18).string(message.detail);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): BusRefusal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const previousRecursionDepth = (reader as any).__tsProtoDecodeDepth ?? 0;
+    if (previousRecursionDepth >= 100) {
+      throw new globalThis.Error("protobuf decode recursion limit exceeded");
+    }
+    (reader as any).__tsProtoDecodeDepth = previousRecursionDepth + 1;
+    try {
+      const end = length === undefined ? reader.len : reader.pos + length;
+      const message = createBaseBusRefusal();
+      while (reader.pos < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1: {
+            if (tag !== 10) {
+              break;
+            }
+
+            message.code = reader.string();
+            continue;
+          }
+          case 2: {
+            if (tag !== 18) {
+              break;
+            }
+
+            message.detail = reader.string();
+            continue;
+          }
+        }
+        if ((tag & 7) === 4 || tag === 0) {
+          break;
+        }
+        reader.skip(tag & 7);
+      }
+      return message;
+    } finally {
+      (reader as any).__tsProtoDecodeDepth = previousRecursionDepth;
+    }
+  },
+
+  fromJSON(object: any): BusRefusal {
+    return {
+      code: isSet(object.code) ? globalThis.String(object.code) : "",
+      detail: isSet(object.detail) ? globalThis.String(object.detail) : "",
+    };
+  },
+
+  toJSON(message: BusRefusal): unknown {
+    const obj: any = {};
+    if (message.code !== "") {
+      obj.code = message.code;
+    }
+    if (message.detail !== "") {
+      obj.detail = message.detail;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<BusRefusal>, I>>(base?: I): BusRefusal {
+    return BusRefusal.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<BusRefusal>, I>>(object: I): BusRefusal {
+    const message = createBaseBusRefusal();
+    message.code = object.code ?? "";
+    message.detail = object.detail ?? "";
+    return message;
+  },
+};
+
+function createBaseBusRecord(): BusRecord {
+  return {
+    n: Long.UZERO,
+    title: "",
+    kind: "",
+    dir: "",
+    node: 0,
+    module: "",
+    topic: 0,
+    family: "",
+    command: "",
+    message: "",
+    decodedJson: "",
+    refusal: undefined,
+    tsNs: Long.UZERO,
+    origin: 0,
+    hopSeq: undefined,
+    sender: undefined,
+    senderModule: "",
+    canId: 0,
+    fflags: 0,
+    frameFlags: "",
+    data: new Uint8Array(0),
+    payload: new Uint8Array(0),
+    prio: 0,
+    type: 0,
+    seq: 0,
+    fragTotal: 0,
+    txTimeNs: Long.UZERO,
+    tsValid: false,
+    stream: "",
+    entryId: "",
+    timeMs: Long.ZERO,
+  };
+}
+
+export const BusRecord: MessageFns<BusRecord> = {
+  encode(message: BusRecord, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (!message.n.equals(Long.UZERO)) {
+      writer.uint32(8).uint64(message.n.toString());
+    }
+    if (message.title !== "") {
+      writer.uint32(18).string(message.title);
+    }
+    if (message.kind !== "") {
+      writer.uint32(26).string(message.kind);
+    }
+    if (message.dir !== "") {
+      writer.uint32(34).string(message.dir);
+    }
+    if (message.node !== 0) {
+      writer.uint32(40).uint32(message.node);
+    }
+    if (message.module !== "") {
+      writer.uint32(50).string(message.module);
+    }
+    if (message.topic !== 0) {
+      writer.uint32(56).uint32(message.topic);
+    }
+    if (message.family !== "") {
+      writer.uint32(66).string(message.family);
+    }
+    if (message.command !== "") {
+      writer.uint32(74).string(message.command);
+    }
+    if (message.message !== "") {
+      writer.uint32(82).string(message.message);
+    }
+    if (message.decodedJson !== "") {
+      writer.uint32(90).string(message.decodedJson);
+    }
+    if (message.refusal !== undefined) {
+      BusRefusal.encode(message.refusal, writer.uint32(98).fork()).join();
+    }
+    if (!message.tsNs.equals(Long.UZERO)) {
+      writer.uint32(104).uint64(message.tsNs.toString());
+    }
+    if (message.origin !== 0) {
+      writer.uint32(112).int32(message.origin);
+    }
+    if (message.hopSeq !== undefined) {
+      writer.uint32(120).uint32(message.hopSeq);
+    }
+    if (message.sender !== undefined) {
+      writer.uint32(128).uint32(message.sender);
+    }
+    if (message.senderModule !== "") {
+      writer.uint32(138).string(message.senderModule);
+    }
+    if (message.canId !== 0) {
+      writer.uint32(144).uint32(message.canId);
+    }
+    if (message.fflags !== 0) {
+      writer.uint32(152).uint32(message.fflags);
+    }
+    if (message.frameFlags !== "") {
+      writer.uint32(162).string(message.frameFlags);
+    }
+    if (message.data.length !== 0) {
+      writer.uint32(170).bytes(message.data);
+    }
+    if (message.payload.length !== 0) {
+      writer.uint32(178).bytes(message.payload);
+    }
+    if (message.prio !== 0) {
+      writer.uint32(184).uint32(message.prio);
+    }
+    if (message.type !== 0) {
+      writer.uint32(192).uint32(message.type);
+    }
+    if (message.seq !== 0) {
+      writer.uint32(200).uint32(message.seq);
+    }
+    if (message.fragTotal !== 0) {
+      writer.uint32(208).uint32(message.fragTotal);
+    }
+    if (!message.txTimeNs.equals(Long.UZERO)) {
+      writer.uint32(216).uint64(message.txTimeNs.toString());
+    }
+    if (message.tsValid !== false) {
+      writer.uint32(224).bool(message.tsValid);
+    }
+    if (message.stream !== "") {
+      writer.uint32(234).string(message.stream);
+    }
+    if (message.entryId !== "") {
+      writer.uint32(242).string(message.entryId);
+    }
+    if (!message.timeMs.equals(Long.ZERO)) {
+      writer.uint32(248).int64(message.timeMs.toString());
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): BusRecord {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const previousRecursionDepth = (reader as any).__tsProtoDecodeDepth ?? 0;
+    if (previousRecursionDepth >= 100) {
+      throw new globalThis.Error("protobuf decode recursion limit exceeded");
+    }
+    (reader as any).__tsProtoDecodeDepth = previousRecursionDepth + 1;
+    try {
+      const end = length === undefined ? reader.len : reader.pos + length;
+      const message = createBaseBusRecord();
+      while (reader.pos < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1: {
+            if (tag !== 8) {
+              break;
+            }
+
+            message.n = Long.fromString(reader.uint64().toString(), true);
+            continue;
+          }
+          case 2: {
+            if (tag !== 18) {
+              break;
+            }
+
+            message.title = reader.string();
+            continue;
+          }
+          case 3: {
+            if (tag !== 26) {
+              break;
+            }
+
+            message.kind = reader.string();
+            continue;
+          }
+          case 4: {
+            if (tag !== 34) {
+              break;
+            }
+
+            message.dir = reader.string();
+            continue;
+          }
+          case 5: {
+            if (tag !== 40) {
+              break;
+            }
+
+            message.node = reader.uint32();
+            continue;
+          }
+          case 6: {
+            if (tag !== 50) {
+              break;
+            }
+
+            message.module = reader.string();
+            continue;
+          }
+          case 7: {
+            if (tag !== 56) {
+              break;
+            }
+
+            message.topic = reader.uint32();
+            continue;
+          }
+          case 8: {
+            if (tag !== 66) {
+              break;
+            }
+
+            message.family = reader.string();
+            continue;
+          }
+          case 9: {
+            if (tag !== 74) {
+              break;
+            }
+
+            message.command = reader.string();
+            continue;
+          }
+          case 10: {
+            if (tag !== 82) {
+              break;
+            }
+
+            message.message = reader.string();
+            continue;
+          }
+          case 11: {
+            if (tag !== 90) {
+              break;
+            }
+
+            message.decodedJson = reader.string();
+            continue;
+          }
+          case 12: {
+            if (tag !== 98) {
+              break;
+            }
+
+            message.refusal = BusRefusal.decode(reader, reader.uint32());
+            continue;
+          }
+          case 13: {
+            if (tag !== 104) {
+              break;
+            }
+
+            message.tsNs = Long.fromString(reader.uint64().toString(), true);
+            continue;
+          }
+          case 14: {
+            if (tag !== 112) {
+              break;
+            }
+
+            message.origin = reader.int32() as any;
+            continue;
+          }
+          case 15: {
+            if (tag !== 120) {
+              break;
+            }
+
+            message.hopSeq = reader.uint32();
+            continue;
+          }
+          case 16: {
+            if (tag !== 128) {
+              break;
+            }
+
+            message.sender = reader.uint32();
+            continue;
+          }
+          case 17: {
+            if (tag !== 138) {
+              break;
+            }
+
+            message.senderModule = reader.string();
+            continue;
+          }
+          case 18: {
+            if (tag !== 144) {
+              break;
+            }
+
+            message.canId = reader.uint32();
+            continue;
+          }
+          case 19: {
+            if (tag !== 152) {
+              break;
+            }
+
+            message.fflags = reader.uint32();
+            continue;
+          }
+          case 20: {
+            if (tag !== 162) {
+              break;
+            }
+
+            message.frameFlags = reader.string();
+            continue;
+          }
+          case 21: {
+            if (tag !== 170) {
+              break;
+            }
+
+            message.data = reader.bytes();
+            continue;
+          }
+          case 22: {
+            if (tag !== 178) {
+              break;
+            }
+
+            message.payload = reader.bytes();
+            continue;
+          }
+          case 23: {
+            if (tag !== 184) {
+              break;
+            }
+
+            message.prio = reader.uint32();
+            continue;
+          }
+          case 24: {
+            if (tag !== 192) {
+              break;
+            }
+
+            message.type = reader.uint32();
+            continue;
+          }
+          case 25: {
+            if (tag !== 200) {
+              break;
+            }
+
+            message.seq = reader.uint32();
+            continue;
+          }
+          case 26: {
+            if (tag !== 208) {
+              break;
+            }
+
+            message.fragTotal = reader.uint32();
+            continue;
+          }
+          case 27: {
+            if (tag !== 216) {
+              break;
+            }
+
+            message.txTimeNs = Long.fromString(reader.uint64().toString(), true);
+            continue;
+          }
+          case 28: {
+            if (tag !== 224) {
+              break;
+            }
+
+            message.tsValid = reader.bool();
+            continue;
+          }
+          case 29: {
+            if (tag !== 234) {
+              break;
+            }
+
+            message.stream = reader.string();
+            continue;
+          }
+          case 30: {
+            if (tag !== 242) {
+              break;
+            }
+
+            message.entryId = reader.string();
+            continue;
+          }
+          case 31: {
+            if (tag !== 248) {
+              break;
+            }
+
+            message.timeMs = Long.fromString(reader.int64().toString());
+            continue;
+          }
+        }
+        if ((tag & 7) === 4 || tag === 0) {
+          break;
+        }
+        reader.skip(tag & 7);
+      }
+      return message;
+    } finally {
+      (reader as any).__tsProtoDecodeDepth = previousRecursionDepth;
+    }
+  },
+
+  fromJSON(object: any): BusRecord {
+    return {
+      n: isSet(object.n) ? Long.fromValue(object.n) : Long.UZERO,
+      title: isSet(object.title) ? globalThis.String(object.title) : "",
+      kind: isSet(object.kind) ? globalThis.String(object.kind) : "",
+      dir: isSet(object.dir) ? globalThis.String(object.dir) : "",
+      node: isSet(object.node) ? globalThis.Number(object.node) : 0,
+      module: isSet(object.module) ? globalThis.String(object.module) : "",
+      topic: isSet(object.topic) ? globalThis.Number(object.topic) : 0,
+      family: isSet(object.family) ? globalThis.String(object.family) : "",
+      command: isSet(object.command) ? globalThis.String(object.command) : "",
+      message: isSet(object.message) ? globalThis.String(object.message) : "",
+      decodedJson: isSet(object.decodedJson)
+        ? globalThis.String(object.decodedJson)
+        : isSet(object.decoded_json)
+        ? globalThis.String(object.decoded_json)
+        : "",
+      refusal: isSet(object.refusal) ? BusRefusal.fromJSON(object.refusal) : undefined,
+      tsNs: isSet(object.tsNs)
+        ? Long.fromValue(object.tsNs)
+        : isSet(object.ts_ns)
+        ? Long.fromValue(object.ts_ns)
+        : Long.UZERO,
+      origin: isSet(object.origin) ? busOriginFromJSON(object.origin) : 0,
+      hopSeq: isSet(object.hopSeq)
+        ? globalThis.Number(object.hopSeq)
+        : isSet(object.hop_seq)
+        ? globalThis.Number(object.hop_seq)
+        : undefined,
+      sender: isSet(object.sender) ? globalThis.Number(object.sender) : undefined,
+      senderModule: isSet(object.senderModule)
+        ? globalThis.String(object.senderModule)
+        : isSet(object.sender_module)
+        ? globalThis.String(object.sender_module)
+        : "",
+      canId: isSet(object.canId)
+        ? globalThis.Number(object.canId)
+        : isSet(object.can_id)
+        ? globalThis.Number(object.can_id)
+        : 0,
+      fflags: isSet(object.fflags) ? globalThis.Number(object.fflags) : 0,
+      frameFlags: isSet(object.frameFlags)
+        ? globalThis.String(object.frameFlags)
+        : isSet(object.frame_flags)
+        ? globalThis.String(object.frame_flags)
+        : "",
+      data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(0),
+      payload: isSet(object.payload) ? bytesFromBase64(object.payload) : new Uint8Array(0),
+      prio: isSet(object.prio) ? globalThis.Number(object.prio) : 0,
+      type: isSet(object.type) ? globalThis.Number(object.type) : 0,
+      seq: isSet(object.seq) ? globalThis.Number(object.seq) : 0,
+      fragTotal: isSet(object.fragTotal)
+        ? globalThis.Number(object.fragTotal)
+        : isSet(object.frag_total)
+        ? globalThis.Number(object.frag_total)
+        : 0,
+      txTimeNs: isSet(object.txTimeNs)
+        ? Long.fromValue(object.txTimeNs)
+        : isSet(object.tx_time_ns)
+        ? Long.fromValue(object.tx_time_ns)
+        : Long.UZERO,
+      tsValid: isSet(object.tsValid)
+        ? globalThis.Boolean(object.tsValid)
+        : isSet(object.ts_valid)
+        ? globalThis.Boolean(object.ts_valid)
+        : false,
+      stream: isSet(object.stream) ? globalThis.String(object.stream) : "",
+      entryId: isSet(object.entryId)
+        ? globalThis.String(object.entryId)
+        : isSet(object.entry_id)
+        ? globalThis.String(object.entry_id)
+        : "",
+      timeMs: isSet(object.timeMs)
+        ? Long.fromValue(object.timeMs)
+        : isSet(object.time_ms)
+        ? Long.fromValue(object.time_ms)
+        : Long.ZERO,
+    };
+  },
+
+  toJSON(message: BusRecord): unknown {
+    const obj: any = {};
+    if (!message.n.equals(Long.UZERO)) {
+      obj.n = (message.n || Long.UZERO).toString();
+    }
+    if (message.title !== "") {
+      obj.title = message.title;
+    }
+    if (message.kind !== "") {
+      obj.kind = message.kind;
+    }
+    if (message.dir !== "") {
+      obj.dir = message.dir;
+    }
+    if (message.node !== 0) {
+      obj.node = Math.round(message.node);
+    }
+    if (message.module !== "") {
+      obj.module = message.module;
+    }
+    if (message.topic !== 0) {
+      obj.topic = Math.round(message.topic);
+    }
+    if (message.family !== "") {
+      obj.family = message.family;
+    }
+    if (message.command !== "") {
+      obj.command = message.command;
+    }
+    if (message.message !== "") {
+      obj.message = message.message;
+    }
+    if (message.decodedJson !== "") {
+      obj.decodedJson = message.decodedJson;
+    }
+    if (message.refusal !== undefined) {
+      obj.refusal = BusRefusal.toJSON(message.refusal);
+    }
+    if (!message.tsNs.equals(Long.UZERO)) {
+      obj.tsNs = (message.tsNs || Long.UZERO).toString();
+    }
+    if (message.origin !== 0) {
+      obj.origin = busOriginToJSON(message.origin);
+    }
+    if (message.hopSeq !== undefined) {
+      obj.hopSeq = Math.round(message.hopSeq);
+    }
+    if (message.sender !== undefined) {
+      obj.sender = Math.round(message.sender);
+    }
+    if (message.senderModule !== "") {
+      obj.senderModule = message.senderModule;
+    }
+    if (message.canId !== 0) {
+      obj.canId = Math.round(message.canId);
+    }
+    if (message.fflags !== 0) {
+      obj.fflags = Math.round(message.fflags);
+    }
+    if (message.frameFlags !== "") {
+      obj.frameFlags = message.frameFlags;
+    }
+    if (message.data.length !== 0) {
+      obj.data = base64FromBytes(message.data);
+    }
+    if (message.payload.length !== 0) {
+      obj.payload = base64FromBytes(message.payload);
+    }
+    if (message.prio !== 0) {
+      obj.prio = Math.round(message.prio);
+    }
+    if (message.type !== 0) {
+      obj.type = Math.round(message.type);
+    }
+    if (message.seq !== 0) {
+      obj.seq = Math.round(message.seq);
+    }
+    if (message.fragTotal !== 0) {
+      obj.fragTotal = Math.round(message.fragTotal);
+    }
+    if (!message.txTimeNs.equals(Long.UZERO)) {
+      obj.txTimeNs = (message.txTimeNs || Long.UZERO).toString();
+    }
+    if (message.tsValid !== false) {
+      obj.tsValid = message.tsValid;
+    }
+    if (message.stream !== "") {
+      obj.stream = message.stream;
+    }
+    if (message.entryId !== "") {
+      obj.entryId = message.entryId;
+    }
+    if (!message.timeMs.equals(Long.ZERO)) {
+      obj.timeMs = (message.timeMs || Long.ZERO).toString();
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<BusRecord>, I>>(base?: I): BusRecord {
+    return BusRecord.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<BusRecord>, I>>(object: I): BusRecord {
+    const message = createBaseBusRecord();
+    message.n = (object.n !== undefined && object.n !== null) ? Long.fromValue(object.n) : Long.UZERO;
+    message.title = object.title ?? "";
+    message.kind = object.kind ?? "";
+    message.dir = object.dir ?? "";
+    message.node = object.node ?? 0;
+    message.module = object.module ?? "";
+    message.topic = object.topic ?? 0;
+    message.family = object.family ?? "";
+    message.command = object.command ?? "";
+    message.message = object.message ?? "";
+    message.decodedJson = object.decodedJson ?? "";
+    message.refusal = (object.refusal !== undefined && object.refusal !== null)
+      ? BusRefusal.fromPartial(object.refusal)
+      : undefined;
+    message.tsNs = (object.tsNs !== undefined && object.tsNs !== null) ? Long.fromValue(object.tsNs) : Long.UZERO;
+    message.origin = object.origin ?? 0;
+    message.hopSeq = object.hopSeq ?? undefined;
+    message.sender = object.sender ?? undefined;
+    message.senderModule = object.senderModule ?? "";
+    message.canId = object.canId ?? 0;
+    message.fflags = object.fflags ?? 0;
+    message.frameFlags = object.frameFlags ?? "";
+    message.data = object.data ?? new Uint8Array(0);
+    message.payload = object.payload ?? new Uint8Array(0);
+    message.prio = object.prio ?? 0;
+    message.type = object.type ?? 0;
+    message.seq = object.seq ?? 0;
+    message.fragTotal = object.fragTotal ?? 0;
+    message.txTimeNs = (object.txTimeNs !== undefined && object.txTimeNs !== null)
+      ? Long.fromValue(object.txTimeNs)
+      : Long.UZERO;
+    message.tsValid = object.tsValid ?? false;
+    message.stream = object.stream ?? "";
+    message.entryId = object.entryId ?? "";
+    message.timeMs = (object.timeMs !== undefined && object.timeMs !== null)
+      ? Long.fromValue(object.timeMs)
+      : Long.ZERO;
+    return message;
+  },
+};
+
+function createBaseBusStreamStats(): BusStreamStats {
+  return {
+    records: Long.UZERO,
+    messages: Long.UZERO,
+    refused: Long.UZERO,
+    refusedBy: {},
+    absorbed: Long.UZERO,
+    dropped: {},
+    hopGaps: Long.UZERO,
+    senders: 0,
+    streams: 0,
+    sourceConnected: false,
+  };
+}
+
+export const BusStreamStats: MessageFns<BusStreamStats> = {
+  encode(message: BusStreamStats, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (!message.records.equals(Long.UZERO)) {
+      writer.uint32(8).uint64(message.records.toString());
+    }
+    if (!message.messages.equals(Long.UZERO)) {
+      writer.uint32(16).uint64(message.messages.toString());
+    }
+    if (!message.refused.equals(Long.UZERO)) {
+      writer.uint32(24).uint64(message.refused.toString());
+    }
+    globalThis.Object.entries(message.refusedBy).forEach(([key, value]: [string, Long]) => {
+      BusStreamStats_RefusedByEntry.encode({ key: key as any, value }, writer.uint32(34).fork()).join();
+    });
+    if (!message.absorbed.equals(Long.UZERO)) {
+      writer.uint32(40).uint64(message.absorbed.toString());
+    }
+    globalThis.Object.entries(message.dropped).forEach(([key, value]: [string, Long]) => {
+      BusStreamStats_DroppedEntry.encode({ key: key as any, value }, writer.uint32(50).fork()).join();
+    });
+    if (!message.hopGaps.equals(Long.UZERO)) {
+      writer.uint32(56).uint64(message.hopGaps.toString());
+    }
+    if (message.senders !== 0) {
+      writer.uint32(64).uint32(message.senders);
+    }
+    if (message.streams !== 0) {
+      writer.uint32(72).uint32(message.streams);
+    }
+    if (message.sourceConnected !== false) {
+      writer.uint32(80).bool(message.sourceConnected);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): BusStreamStats {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const previousRecursionDepth = (reader as any).__tsProtoDecodeDepth ?? 0;
+    if (previousRecursionDepth >= 100) {
+      throw new globalThis.Error("protobuf decode recursion limit exceeded");
+    }
+    (reader as any).__tsProtoDecodeDepth = previousRecursionDepth + 1;
+    try {
+      const end = length === undefined ? reader.len : reader.pos + length;
+      const message = createBaseBusStreamStats();
+      while (reader.pos < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1: {
+            if (tag !== 8) {
+              break;
+            }
+
+            message.records = Long.fromString(reader.uint64().toString(), true);
+            continue;
+          }
+          case 2: {
+            if (tag !== 16) {
+              break;
+            }
+
+            message.messages = Long.fromString(reader.uint64().toString(), true);
+            continue;
+          }
+          case 3: {
+            if (tag !== 24) {
+              break;
+            }
+
+            message.refused = Long.fromString(reader.uint64().toString(), true);
+            continue;
+          }
+          case 4: {
+            if (tag !== 34) {
+              break;
+            }
+
+            const entry4 = BusStreamStats_RefusedByEntry.decode(reader, reader.uint32());
+            if (entry4.value !== undefined) {
+              message.refusedBy[entry4.key] = entry4.value;
+            }
+            continue;
+          }
+          case 5: {
+            if (tag !== 40) {
+              break;
+            }
+
+            message.absorbed = Long.fromString(reader.uint64().toString(), true);
+            continue;
+          }
+          case 6: {
+            if (tag !== 50) {
+              break;
+            }
+
+            const entry6 = BusStreamStats_DroppedEntry.decode(reader, reader.uint32());
+            if (entry6.value !== undefined) {
+              message.dropped[entry6.key] = entry6.value;
+            }
+            continue;
+          }
+          case 7: {
+            if (tag !== 56) {
+              break;
+            }
+
+            message.hopGaps = Long.fromString(reader.uint64().toString(), true);
+            continue;
+          }
+          case 8: {
+            if (tag !== 64) {
+              break;
+            }
+
+            message.senders = reader.uint32();
+            continue;
+          }
+          case 9: {
+            if (tag !== 72) {
+              break;
+            }
+
+            message.streams = reader.uint32();
+            continue;
+          }
+          case 10: {
+            if (tag !== 80) {
+              break;
+            }
+
+            message.sourceConnected = reader.bool();
+            continue;
+          }
+        }
+        if ((tag & 7) === 4 || tag === 0) {
+          break;
+        }
+        reader.skip(tag & 7);
+      }
+      return message;
+    } finally {
+      (reader as any).__tsProtoDecodeDepth = previousRecursionDepth;
+    }
+  },
+
+  fromJSON(object: any): BusStreamStats {
+    return {
+      records: isSet(object.records) ? Long.fromValue(object.records) : Long.UZERO,
+      messages: isSet(object.messages) ? Long.fromValue(object.messages) : Long.UZERO,
+      refused: isSet(object.refused) ? Long.fromValue(object.refused) : Long.UZERO,
+      refusedBy: isObject(object.refusedBy)
+        ? (globalThis.Object.entries(object.refusedBy) as [string, any][]).reduce(
+          (acc: { [key: string]: Long }, [key, value]: [string, any]) => {
+            globalThis.Object.defineProperty(acc, key, {
+              value: Long.fromValue(value as Long | string),
+              enumerable: true,
+              configurable: true,
+              writable: true,
+            });
+            return acc;
+          },
+          {},
+        )
+        : isObject(object.refused_by)
+        ? (globalThis.Object.entries(object.refused_by) as [string, any][]).reduce(
+          (acc: { [key: string]: Long }, [key, value]: [string, any]) => {
+            globalThis.Object.defineProperty(acc, key, {
+              value: Long.fromValue(value as Long | string),
+              enumerable: true,
+              configurable: true,
+              writable: true,
+            });
+            return acc;
+          },
+          {},
+        )
+        : {},
+      absorbed: isSet(object.absorbed) ? Long.fromValue(object.absorbed) : Long.UZERO,
+      dropped: isObject(object.dropped)
+        ? (globalThis.Object.entries(object.dropped) as [string, any][]).reduce(
+          (acc: { [key: string]: Long }, [key, value]: [string, any]) => {
+            globalThis.Object.defineProperty(acc, key, {
+              value: Long.fromValue(value as Long | string),
+              enumerable: true,
+              configurable: true,
+              writable: true,
+            });
+            return acc;
+          },
+          {},
+        )
+        : {},
+      hopGaps: isSet(object.hopGaps)
+        ? Long.fromValue(object.hopGaps)
+        : isSet(object.hop_gaps)
+        ? Long.fromValue(object.hop_gaps)
+        : Long.UZERO,
+      senders: isSet(object.senders) ? globalThis.Number(object.senders) : 0,
+      streams: isSet(object.streams) ? globalThis.Number(object.streams) : 0,
+      sourceConnected: isSet(object.sourceConnected)
+        ? globalThis.Boolean(object.sourceConnected)
+        : isSet(object.source_connected)
+        ? globalThis.Boolean(object.source_connected)
+        : false,
+    };
+  },
+
+  toJSON(message: BusStreamStats): unknown {
+    const obj: any = {};
+    if (!message.records.equals(Long.UZERO)) {
+      obj.records = (message.records || Long.UZERO).toString();
+    }
+    if (!message.messages.equals(Long.UZERO)) {
+      obj.messages = (message.messages || Long.UZERO).toString();
+    }
+    if (!message.refused.equals(Long.UZERO)) {
+      obj.refused = (message.refused || Long.UZERO).toString();
+    }
+    if (message.refusedBy) {
+      const entries = globalThis.Object.entries(message.refusedBy) as [string, Long][];
+      if (entries.length > 0) {
+        obj.refusedBy = {};
+        entries.forEach(([k, v]) => {
+          obj.refusedBy[k] = v.toString();
+        });
+      }
+    }
+    if (!message.absorbed.equals(Long.UZERO)) {
+      obj.absorbed = (message.absorbed || Long.UZERO).toString();
+    }
+    if (message.dropped) {
+      const entries = globalThis.Object.entries(message.dropped) as [string, Long][];
+      if (entries.length > 0) {
+        obj.dropped = {};
+        entries.forEach(([k, v]) => {
+          obj.dropped[k] = v.toString();
+        });
+      }
+    }
+    if (!message.hopGaps.equals(Long.UZERO)) {
+      obj.hopGaps = (message.hopGaps || Long.UZERO).toString();
+    }
+    if (message.senders !== 0) {
+      obj.senders = Math.round(message.senders);
+    }
+    if (message.streams !== 0) {
+      obj.streams = Math.round(message.streams);
+    }
+    if (message.sourceConnected !== false) {
+      obj.sourceConnected = message.sourceConnected;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<BusStreamStats>, I>>(base?: I): BusStreamStats {
+    return BusStreamStats.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<BusStreamStats>, I>>(object: I): BusStreamStats {
+    const message = createBaseBusStreamStats();
+    message.records = (object.records !== undefined && object.records !== null)
+      ? Long.fromValue(object.records)
+      : Long.UZERO;
+    message.messages = (object.messages !== undefined && object.messages !== null)
+      ? Long.fromValue(object.messages)
+      : Long.UZERO;
+    message.refused = (object.refused !== undefined && object.refused !== null)
+      ? Long.fromValue(object.refused)
+      : Long.UZERO;
+    message.refusedBy = (globalThis.Object.entries(object.refusedBy ?? {}) as [string, Long][]).reduce(
+      (acc: { [key: string]: Long }, [key, value]: [string, Long]) => {
+        if (value !== undefined) {
+          acc[key] = Long.fromValue(value);
+        }
+        return acc;
+      },
+      {},
+    );
+    message.absorbed = (object.absorbed !== undefined && object.absorbed !== null)
+      ? Long.fromValue(object.absorbed)
+      : Long.UZERO;
+    message.dropped = (globalThis.Object.entries(object.dropped ?? {}) as [string, Long][]).reduce(
+      (acc: { [key: string]: Long }, [key, value]: [string, Long]) => {
+        if (value !== undefined) {
+          acc[key] = Long.fromValue(value);
+        }
+        return acc;
+      },
+      {},
+    );
+    message.hopGaps = (object.hopGaps !== undefined && object.hopGaps !== null)
+      ? Long.fromValue(object.hopGaps)
+      : Long.UZERO;
+    message.senders = object.senders ?? 0;
+    message.streams = object.streams ?? 0;
+    message.sourceConnected = object.sourceConnected ?? false;
+    return message;
+  },
+};
+
+function createBaseBusStreamStats_RefusedByEntry(): BusStreamStats_RefusedByEntry {
+  return { key: "", value: Long.UZERO };
+}
+
+export const BusStreamStats_RefusedByEntry: MessageFns<BusStreamStats_RefusedByEntry> = {
+  encode(message: BusStreamStats_RefusedByEntry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.key !== "") {
+      writer.uint32(10).string(message.key);
+    }
+    if (!message.value.equals(Long.UZERO)) {
+      writer.uint32(16).uint64(message.value.toString());
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): BusStreamStats_RefusedByEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const previousRecursionDepth = (reader as any).__tsProtoDecodeDepth ?? 0;
+    if (previousRecursionDepth >= 100) {
+      throw new globalThis.Error("protobuf decode recursion limit exceeded");
+    }
+    (reader as any).__tsProtoDecodeDepth = previousRecursionDepth + 1;
+    try {
+      const end = length === undefined ? reader.len : reader.pos + length;
+      const message = createBaseBusStreamStats_RefusedByEntry();
+      while (reader.pos < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1: {
+            if (tag !== 10) {
+              break;
+            }
+
+            message.key = reader.string();
+            continue;
+          }
+          case 2: {
+            if (tag !== 16) {
+              break;
+            }
+
+            message.value = Long.fromString(reader.uint64().toString(), true);
+            continue;
+          }
+        }
+        if ((tag & 7) === 4 || tag === 0) {
+          break;
+        }
+        reader.skip(tag & 7);
+      }
+      return message;
+    } finally {
+      (reader as any).__tsProtoDecodeDepth = previousRecursionDepth;
+    }
+  },
+
+  fromJSON(object: any): BusStreamStats_RefusedByEntry {
+    return {
+      key: isSet(object.key) ? globalThis.String(object.key) : "",
+      value: isSet(object.value) ? Long.fromValue(object.value) : Long.UZERO,
+    };
+  },
+
+  toJSON(message: BusStreamStats_RefusedByEntry): unknown {
+    const obj: any = {};
+    if (message.key !== "") {
+      obj.key = message.key;
+    }
+    if (!message.value.equals(Long.UZERO)) {
+      obj.value = (message.value || Long.UZERO).toString();
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<BusStreamStats_RefusedByEntry>, I>>(base?: I): BusStreamStats_RefusedByEntry {
+    return BusStreamStats_RefusedByEntry.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<BusStreamStats_RefusedByEntry>, I>>(
+    object: I,
+  ): BusStreamStats_RefusedByEntry {
+    const message = createBaseBusStreamStats_RefusedByEntry();
+    message.key = object.key ?? "";
+    message.value = (object.value !== undefined && object.value !== null) ? Long.fromValue(object.value) : Long.UZERO;
+    return message;
+  },
+};
+
+function createBaseBusStreamStats_DroppedEntry(): BusStreamStats_DroppedEntry {
+  return { key: "", value: Long.UZERO };
+}
+
+export const BusStreamStats_DroppedEntry: MessageFns<BusStreamStats_DroppedEntry> = {
+  encode(message: BusStreamStats_DroppedEntry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.key !== "") {
+      writer.uint32(10).string(message.key);
+    }
+    if (!message.value.equals(Long.UZERO)) {
+      writer.uint32(16).uint64(message.value.toString());
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): BusStreamStats_DroppedEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const previousRecursionDepth = (reader as any).__tsProtoDecodeDepth ?? 0;
+    if (previousRecursionDepth >= 100) {
+      throw new globalThis.Error("protobuf decode recursion limit exceeded");
+    }
+    (reader as any).__tsProtoDecodeDepth = previousRecursionDepth + 1;
+    try {
+      const end = length === undefined ? reader.len : reader.pos + length;
+      const message = createBaseBusStreamStats_DroppedEntry();
+      while (reader.pos < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1: {
+            if (tag !== 10) {
+              break;
+            }
+
+            message.key = reader.string();
+            continue;
+          }
+          case 2: {
+            if (tag !== 16) {
+              break;
+            }
+
+            message.value = Long.fromString(reader.uint64().toString(), true);
+            continue;
+          }
+        }
+        if ((tag & 7) === 4 || tag === 0) {
+          break;
+        }
+        reader.skip(tag & 7);
+      }
+      return message;
+    } finally {
+      (reader as any).__tsProtoDecodeDepth = previousRecursionDepth;
+    }
+  },
+
+  fromJSON(object: any): BusStreamStats_DroppedEntry {
+    return {
+      key: isSet(object.key) ? globalThis.String(object.key) : "",
+      value: isSet(object.value) ? Long.fromValue(object.value) : Long.UZERO,
+    };
+  },
+
+  toJSON(message: BusStreamStats_DroppedEntry): unknown {
+    const obj: any = {};
+    if (message.key !== "") {
+      obj.key = message.key;
+    }
+    if (!message.value.equals(Long.UZERO)) {
+      obj.value = (message.value || Long.UZERO).toString();
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<BusStreamStats_DroppedEntry>, I>>(base?: I): BusStreamStats_DroppedEntry {
+    return BusStreamStats_DroppedEntry.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<BusStreamStats_DroppedEntry>, I>>(object: I): BusStreamStats_DroppedEntry {
+    const message = createBaseBusStreamStats_DroppedEntry();
+    message.key = object.key ?? "";
+    message.value = (object.value !== undefined && object.value !== null) ? Long.fromValue(object.value) : Long.UZERO;
+    return message;
+  },
+};
+
+function createBaseBusRecordBatch(): BusRecordBatch {
+  return { records: [], stats: undefined, evicted: Long.UZERO };
+}
+
+export const BusRecordBatch: MessageFns<BusRecordBatch> = {
+  encode(message: BusRecordBatch, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.records) {
+      BusRecord.encode(v!, writer.uint32(10).fork()).join();
+    }
+    if (message.stats !== undefined) {
+      BusStreamStats.encode(message.stats, writer.uint32(18).fork()).join();
+    }
+    if (!message.evicted.equals(Long.UZERO)) {
+      writer.uint32(24).uint64(message.evicted.toString());
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): BusRecordBatch {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const previousRecursionDepth = (reader as any).__tsProtoDecodeDepth ?? 0;
+    if (previousRecursionDepth >= 100) {
+      throw new globalThis.Error("protobuf decode recursion limit exceeded");
+    }
+    (reader as any).__tsProtoDecodeDepth = previousRecursionDepth + 1;
+    try {
+      const end = length === undefined ? reader.len : reader.pos + length;
+      const message = createBaseBusRecordBatch();
+      while (reader.pos < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1: {
+            if (tag !== 10) {
+              break;
+            }
+
+            message.records.push(BusRecord.decode(reader, reader.uint32()));
+            continue;
+          }
+          case 2: {
+            if (tag !== 18) {
+              break;
+            }
+
+            message.stats = BusStreamStats.decode(reader, reader.uint32());
+            continue;
+          }
+          case 3: {
+            if (tag !== 24) {
+              break;
+            }
+
+            message.evicted = Long.fromString(reader.uint64().toString(), true);
+            continue;
+          }
+        }
+        if ((tag & 7) === 4 || tag === 0) {
+          break;
+        }
+        reader.skip(tag & 7);
+      }
+      return message;
+    } finally {
+      (reader as any).__tsProtoDecodeDepth = previousRecursionDepth;
+    }
+  },
+
+  fromJSON(object: any): BusRecordBatch {
+    return {
+      records: globalThis.Array.isArray(object?.records) ? object.records.map((e: any) => BusRecord.fromJSON(e)) : [],
+      stats: isSet(object.stats) ? BusStreamStats.fromJSON(object.stats) : undefined,
+      evicted: isSet(object.evicted) ? Long.fromValue(object.evicted) : Long.UZERO,
+    };
+  },
+
+  toJSON(message: BusRecordBatch): unknown {
+    const obj: any = {};
+    if (message.records?.length) {
+      obj.records = message.records.map((e) => BusRecord.toJSON(e));
+    }
+    if (message.stats !== undefined) {
+      obj.stats = BusStreamStats.toJSON(message.stats);
+    }
+    if (!message.evicted.equals(Long.UZERO)) {
+      obj.evicted = (message.evicted || Long.UZERO).toString();
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<BusRecordBatch>, I>>(base?: I): BusRecordBatch {
+    return BusRecordBatch.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<BusRecordBatch>, I>>(object: I): BusRecordBatch {
+    const message = createBaseBusRecordBatch();
+    message.records = object.records?.map((e) => BusRecord.fromPartial(e)) || [];
+    message.stats = (object.stats !== undefined && object.stats !== null)
+      ? BusStreamStats.fromPartial(object.stats)
+      : undefined;
+    message.evicted = (object.evicted !== undefined && object.evicted !== null)
+      ? Long.fromValue(object.evicted)
+      : Long.UZERO;
+    return message;
+  },
+};
+
+function createBaseBusStreamConnected(): BusStreamConnected {
+  return { streams: [] };
+}
+
+export const BusStreamConnected: MessageFns<BusStreamConnected> = {
+  encode(message: BusStreamConnected, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.streams) {
+      writer.uint32(10).string(v!);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): BusStreamConnected {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const previousRecursionDepth = (reader as any).__tsProtoDecodeDepth ?? 0;
+    if (previousRecursionDepth >= 100) {
+      throw new globalThis.Error("protobuf decode recursion limit exceeded");
+    }
+    (reader as any).__tsProtoDecodeDepth = previousRecursionDepth + 1;
+    try {
+      const end = length === undefined ? reader.len : reader.pos + length;
+      const message = createBaseBusStreamConnected();
+      while (reader.pos < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1: {
+            if (tag !== 10) {
+              break;
+            }
+
+            message.streams.push(reader.string());
+            continue;
+          }
+        }
+        if ((tag & 7) === 4 || tag === 0) {
+          break;
+        }
+        reader.skip(tag & 7);
+      }
+      return message;
+    } finally {
+      (reader as any).__tsProtoDecodeDepth = previousRecursionDepth;
+    }
+  },
+
+  fromJSON(object: any): BusStreamConnected {
+    return {
+      streams: globalThis.Array.isArray(object?.streams) ? object.streams.map((e: any) => globalThis.String(e)) : [],
+    };
+  },
+
+  toJSON(message: BusStreamConnected): unknown {
+    const obj: any = {};
+    if (message.streams?.length) {
+      obj.streams = message.streams;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<BusStreamConnected>, I>>(base?: I): BusStreamConnected {
+    return BusStreamConnected.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<BusStreamConnected>, I>>(object: I): BusStreamConnected {
+    const message = createBaseBusStreamConnected();
+    message.streams = object.streams?.map((e) => e) || [];
+    return message;
+  },
+};
+
+function createBaseBusStreamMessage(): BusStreamMessage {
+  return { connected: undefined, batch: undefined };
+}
+
+export const BusStreamMessage: MessageFns<BusStreamMessage> = {
+  encode(message: BusStreamMessage, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.connected !== undefined) {
+      BusStreamConnected.encode(message.connected, writer.uint32(10).fork()).join();
+    }
+    if (message.batch !== undefined) {
+      BusRecordBatch.encode(message.batch, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): BusStreamMessage {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const previousRecursionDepth = (reader as any).__tsProtoDecodeDepth ?? 0;
+    if (previousRecursionDepth >= 100) {
+      throw new globalThis.Error("protobuf decode recursion limit exceeded");
+    }
+    (reader as any).__tsProtoDecodeDepth = previousRecursionDepth + 1;
+    try {
+      const end = length === undefined ? reader.len : reader.pos + length;
+      const message = createBaseBusStreamMessage();
+      while (reader.pos < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1: {
+            if (tag !== 10) {
+              break;
+            }
+
+            message.connected = BusStreamConnected.decode(reader, reader.uint32());
+            continue;
+          }
+          case 2: {
+            if (tag !== 18) {
+              break;
+            }
+
+            message.batch = BusRecordBatch.decode(reader, reader.uint32());
+            continue;
+          }
+        }
+        if ((tag & 7) === 4 || tag === 0) {
+          break;
+        }
+        reader.skip(tag & 7);
+      }
+      return message;
+    } finally {
+      (reader as any).__tsProtoDecodeDepth = previousRecursionDepth;
+    }
+  },
+
+  fromJSON(object: any): BusStreamMessage {
+    return {
+      connected: isSet(object.connected) ? BusStreamConnected.fromJSON(object.connected) : undefined,
+      batch: isSet(object.batch) ? BusRecordBatch.fromJSON(object.batch) : undefined,
+    };
+  },
+
+  toJSON(message: BusStreamMessage): unknown {
+    const obj: any = {};
+    if (message.connected !== undefined) {
+      obj.connected = BusStreamConnected.toJSON(message.connected);
+    }
+    if (message.batch !== undefined) {
+      obj.batch = BusRecordBatch.toJSON(message.batch);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<BusStreamMessage>, I>>(base?: I): BusStreamMessage {
+    return BusStreamMessage.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<BusStreamMessage>, I>>(object: I): BusStreamMessage {
+    const message = createBaseBusStreamMessage();
+    message.connected = (object.connected !== undefined && object.connected !== null)
+      ? BusStreamConnected.fromPartial(object.connected)
+      : undefined;
+    message.batch = (object.batch !== undefined && object.batch !== null)
+      ? BusRecordBatch.fromPartial(object.batch)
+      : undefined;
+    return message;
+  },
+};
+
 function bytesFromBase64(b64: string): Uint8Array {
   if ((globalThis as any).Buffer) {
     return Uint8Array.from((globalThis as any).Buffer.from(b64, "base64"));
@@ -518,6 +2229,10 @@ type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+
+function isObject(value: any): boolean {
+  return typeof value === "object" && value !== null;
+}
 
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;

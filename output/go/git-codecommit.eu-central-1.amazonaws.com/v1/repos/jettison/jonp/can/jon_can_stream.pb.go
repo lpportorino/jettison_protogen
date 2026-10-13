@@ -80,6 +80,65 @@ func (CANDirection) EnumDescriptor() ([]byte, []int) {
 	return file_jon_can_stream_proto_rawDescGZIP(), []int{0}
 }
 
+// Who first put a module-bus record into a datagram: the envelope's origin byte
+// (JONCAN_ENV_ORIGIN_* in the superproject's inc/util/joncan/joncan_envelope.h)
+// plus one, so that the zero value can mean "the stream entry named no origin
+// the envelope defines" rather than silently reading as the bus.
+type BusOrigin int32
+
+const (
+	BusOrigin_BUS_ORIGIN_UNSPECIFIED BusOrigin = 0 // the entry carried no origin, or one past JONCAN_ENV_ORIGIN_MAX
+	BusOrigin_BUS_ORIGIN_BUS         BusOrigin = 1 // JONCAN_ENV_ORIGIN_BUS: read off the CAN bus (or vcan0)
+	BusOrigin_BUS_ORIGIN_ORIN        BusOrigin = 2 // JONCAN_ENV_ORIGIN_ORIN: the hub sent it
+	BusOrigin_BUS_ORIGIN_CARAMBOLA   BusOrigin = 3 // JONCAN_ENV_ORIGIN_CARAMBOLA: Carambola sent it
+	BusOrigin_BUS_ORIGIN_LOCAL       BusOrigin = 4 // JONCAN_ENV_ORIGIN_LOCAL: a guest hosted beside the bridge
+)
+
+// Enum value maps for BusOrigin.
+var (
+	BusOrigin_name = map[int32]string{
+		0: "BUS_ORIGIN_UNSPECIFIED",
+		1: "BUS_ORIGIN_BUS",
+		2: "BUS_ORIGIN_ORIN",
+		3: "BUS_ORIGIN_CARAMBOLA",
+		4: "BUS_ORIGIN_LOCAL",
+	}
+	BusOrigin_value = map[string]int32{
+		"BUS_ORIGIN_UNSPECIFIED": 0,
+		"BUS_ORIGIN_BUS":         1,
+		"BUS_ORIGIN_ORIN":        2,
+		"BUS_ORIGIN_CARAMBOLA":   3,
+		"BUS_ORIGIN_LOCAL":       4,
+	}
+)
+
+func (x BusOrigin) Enum() *BusOrigin {
+	p := new(BusOrigin)
+	*p = x
+	return p
+}
+
+func (x BusOrigin) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (BusOrigin) Descriptor() protoreflect.EnumDescriptor {
+	return file_jon_can_stream_proto_enumTypes[1].Descriptor()
+}
+
+func (BusOrigin) Type() protoreflect.EnumType {
+	return &file_jon_can_stream_proto_enumTypes[1]
+}
+
+func (x BusOrigin) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use BusOrigin.Descriptor instead.
+func (BusOrigin) EnumDescriptor() ([]byte, []int) {
+	return file_jon_can_stream_proto_rawDescGZIP(), []int{1}
+}
+
 // Single CAN/CAN-FD frame
 type CANFrame struct {
 	state       protoimpl.MessageState `protogen:"open.v1"`
@@ -292,6 +351,706 @@ func (x *CANStreamConnected) GetStreams() []string {
 	return nil
 }
 
+// Why the module-bus decoder could not make a message of a record.
+type BusRefusal struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The decoder's refusal code (the joncandec Code* constants, e.g. "proto",
+	// "orphan_fragment", "unknown_topic").
+	Code string `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
+	// The decoder's explanation, free text.
+	Detail        string `protobuf:"bytes,2,opt,name=detail,proto3" json:"detail,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BusRefusal) Reset() {
+	*x = BusRefusal{}
+	mi := &file_jon_can_stream_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BusRefusal) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BusRefusal) ProtoMessage() {}
+
+func (x *BusRefusal) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_can_stream_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BusRefusal.ProtoReflect.Descriptor instead.
+func (*BusRefusal) Descriptor() ([]byte, []int) {
+	return file_jon_can_stream_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *BusRefusal) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+func (x *BusRefusal) GetDetail() string {
+	if x != nil {
+		return x.Detail
+	}
+	return ""
+}
+
+// One module-bus message as the CAN stream relay decoded it from the
+// `logs:bus:0x<id>` Redis streams: the decoded payload, the joncan header facts
+// and the record facts of the frame that completed it. Decoding happens once,
+// on the relay; a client renders these fields and never parses the wire.
+type BusRecord struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Arrival number: 1 for the first message the relay decoded since it started.
+	N uint64 `protobuf:"varint,1,opt,name=n,proto3" json:"n,omitempty"`
+	// The row's title: the decode-table family name, the command root member that
+	// was set, or "refused: <code>".
+	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	// What the message is (joncandec Kind*): "family", "health", "announce",
+	// "command", "debug", "log" or "unknown".
+	Kind string `protobuf:"bytes,3,opt,name=kind,proto3" json:"kind,omitempty"`
+	// "cmd" (hub to node) or "state" (node to hub); empty when the CAN id was
+	// wider than the joncan id map.
+	Dir string `protobuf:"bytes,4,opt,name=dir,proto3" json:"dir,omitempty"`
+	// The CAN id's node field and the module that node is (a command's
+	// DESTINATION node); module is empty when no decode-table entry names the node.
+	Node   uint32 `protobuf:"varint,5,opt,name=node,proto3" json:"node,omitempty"`
+	Module string `protobuf:"bytes,6,opt,name=module,proto3" json:"module,omitempty"`
+	// The CAN id's topic field.
+	Topic uint32 `protobuf:"varint,7,opt,name=topic,proto3" json:"topic,omitempty"`
+	// The decode-table row name (empty for a command) and the command root
+	// member that was set (empty unless a command).
+	Family  string `protobuf:"bytes,8,opt,name=family,proto3" json:"family,omitempty"`
+	Command string `protobuf:"bytes,9,opt,name=command,proto3" json:"command,omitempty"`
+	// The full name of the proto message the body decoded as; empty for an
+	// announce, a debug or a log message.
+	Message string `protobuf:"bytes,10,opt,name=message,proto3" json:"message,omitempty"`
+	// The decoded payload as JSON: proto3 JSON with proto field names, sorted
+	// keys, every owned field present. "null" when nothing was decoded.
+	DecodedJson string `protobuf:"bytes,11,opt,name=decoded_json,json=decodedJson,proto3" json:"decoded_json,omitempty"`
+	// Set when the decoder refused the record; the raw bytes are in `data`.
+	Refusal *BusRefusal `protobuf:"bytes,12,opt,name=refusal,proto3" json:"refusal,omitempty"`
+	// The record facts. ts_ns: when the frame was seen, ns, on the producer's
+	// clock (0 = the producer did not know).
+	TsNs   uint64    `protobuf:"varint,13,opt,name=ts_ns,json=tsNs,proto3" json:"ts_ns,omitempty"`
+	Origin BusOrigin `protobuf:"varint,14,opt,name=origin,proto3,enum=jon.can.BusOrigin" json:"origin,omitempty"`
+	// The datagram's hop sequence and the node id of the datagram's sender (the
+	// envelope header); absent when the stream entry did not carry them.
+	HopSeq *uint32 `protobuf:"varint,15,opt,name=hop_seq,json=hopSeq,proto3,oneof" json:"hop_seq,omitempty"`
+	Sender *uint32 `protobuf:"varint,16,opt,name=sender,proto3,oneof" json:"sender,omitempty"`
+	// The sender's module, from the decode table; empty when no entry names it.
+	SenderModule string `protobuf:"bytes,17,opt,name=sender_module,json=senderModule,proto3" json:"sender_module,omitempty"`
+	// The frame's 11-bit CAN id.
+	CanId uint32 `protobuf:"varint,18,opt,name=can_id,json=canId,proto3" json:"can_id,omitempty"`
+	// The record's frame flags (JONCAN_ENV_FRAME_*) and their names, lowest bit
+	// first ("FD BRS"); a bit no flag names reads as hex.
+	Fflags     uint32 `protobuf:"varint,19,opt,name=fflags,proto3" json:"fflags,omitempty"`
+	FrameFlags string `protobuf:"bytes,20,opt,name=frame_flags,json=frameFlags,proto3" json:"frame_flags,omitempty"`
+	// The completing record's 70-byte blob: frame type, CAN id (little-endian),
+	// length, 64 data bytes. For a message carried in several frames this is the
+	// LAST frame's record.
+	Data []byte `protobuf:"bytes,21,opt,name=data,proto3" json:"data,omitempty"`
+	// The message body, reassembled across fragments.
+	Payload []byte `protobuf:"bytes,22,opt,name=payload,proto3" json:"payload,omitempty"`
+	// The joncan header: the CAN id's priority, the message type, the message
+	// counter, the fragments the message was carried in, the sender's transmit
+	// time (ns) and whether that time was valid.
+	Prio      uint32 `protobuf:"varint,23,opt,name=prio,proto3" json:"prio,omitempty"`
+	Type      uint32 `protobuf:"varint,24,opt,name=type,proto3" json:"type,omitempty"`
+	Seq       uint32 `protobuf:"varint,25,opt,name=seq,proto3" json:"seq,omitempty"`
+	FragTotal uint32 `protobuf:"varint,26,opt,name=frag_total,json=fragTotal,proto3" json:"frag_total,omitempty"`
+	TxTimeNs  uint64 `protobuf:"varint,27,opt,name=tx_time_ns,json=txTimeNs,proto3" json:"tx_time_ns,omitempty"`
+	TsValid   bool   `protobuf:"varint,28,opt,name=ts_valid,json=tsValid,proto3" json:"ts_valid,omitempty"`
+	// The Redis stream key (logs:bus:0x<id>), the entry id, and the entry id's
+	// millisecond (the Redis server's wall clock when the entry was appended).
+	Stream        string `protobuf:"bytes,29,opt,name=stream,proto3" json:"stream,omitempty"`
+	EntryId       string `protobuf:"bytes,30,opt,name=entry_id,json=entryId,proto3" json:"entry_id,omitempty"`
+	TimeMs        int64  `protobuf:"varint,31,opt,name=time_ms,json=timeMs,proto3" json:"time_ms,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BusRecord) Reset() {
+	*x = BusRecord{}
+	mi := &file_jon_can_stream_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BusRecord) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BusRecord) ProtoMessage() {}
+
+func (x *BusRecord) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_can_stream_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BusRecord.ProtoReflect.Descriptor instead.
+func (*BusRecord) Descriptor() ([]byte, []int) {
+	return file_jon_can_stream_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *BusRecord) GetN() uint64 {
+	if x != nil {
+		return x.N
+	}
+	return 0
+}
+
+func (x *BusRecord) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *BusRecord) GetKind() string {
+	if x != nil {
+		return x.Kind
+	}
+	return ""
+}
+
+func (x *BusRecord) GetDir() string {
+	if x != nil {
+		return x.Dir
+	}
+	return ""
+}
+
+func (x *BusRecord) GetNode() uint32 {
+	if x != nil {
+		return x.Node
+	}
+	return 0
+}
+
+func (x *BusRecord) GetModule() string {
+	if x != nil {
+		return x.Module
+	}
+	return ""
+}
+
+func (x *BusRecord) GetTopic() uint32 {
+	if x != nil {
+		return x.Topic
+	}
+	return 0
+}
+
+func (x *BusRecord) GetFamily() string {
+	if x != nil {
+		return x.Family
+	}
+	return ""
+}
+
+func (x *BusRecord) GetCommand() string {
+	if x != nil {
+		return x.Command
+	}
+	return ""
+}
+
+func (x *BusRecord) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *BusRecord) GetDecodedJson() string {
+	if x != nil {
+		return x.DecodedJson
+	}
+	return ""
+}
+
+func (x *BusRecord) GetRefusal() *BusRefusal {
+	if x != nil {
+		return x.Refusal
+	}
+	return nil
+}
+
+func (x *BusRecord) GetTsNs() uint64 {
+	if x != nil {
+		return x.TsNs
+	}
+	return 0
+}
+
+func (x *BusRecord) GetOrigin() BusOrigin {
+	if x != nil {
+		return x.Origin
+	}
+	return BusOrigin_BUS_ORIGIN_UNSPECIFIED
+}
+
+func (x *BusRecord) GetHopSeq() uint32 {
+	if x != nil && x.HopSeq != nil {
+		return *x.HopSeq
+	}
+	return 0
+}
+
+func (x *BusRecord) GetSender() uint32 {
+	if x != nil && x.Sender != nil {
+		return *x.Sender
+	}
+	return 0
+}
+
+func (x *BusRecord) GetSenderModule() string {
+	if x != nil {
+		return x.SenderModule
+	}
+	return ""
+}
+
+func (x *BusRecord) GetCanId() uint32 {
+	if x != nil {
+		return x.CanId
+	}
+	return 0
+}
+
+func (x *BusRecord) GetFflags() uint32 {
+	if x != nil {
+		return x.Fflags
+	}
+	return 0
+}
+
+func (x *BusRecord) GetFrameFlags() string {
+	if x != nil {
+		return x.FrameFlags
+	}
+	return ""
+}
+
+func (x *BusRecord) GetData() []byte {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *BusRecord) GetPayload() []byte {
+	if x != nil {
+		return x.Payload
+	}
+	return nil
+}
+
+func (x *BusRecord) GetPrio() uint32 {
+	if x != nil {
+		return x.Prio
+	}
+	return 0
+}
+
+func (x *BusRecord) GetType() uint32 {
+	if x != nil {
+		return x.Type
+	}
+	return 0
+}
+
+func (x *BusRecord) GetSeq() uint32 {
+	if x != nil {
+		return x.Seq
+	}
+	return 0
+}
+
+func (x *BusRecord) GetFragTotal() uint32 {
+	if x != nil {
+		return x.FragTotal
+	}
+	return 0
+}
+
+func (x *BusRecord) GetTxTimeNs() uint64 {
+	if x != nil {
+		return x.TxTimeNs
+	}
+	return 0
+}
+
+func (x *BusRecord) GetTsValid() bool {
+	if x != nil {
+		return x.TsValid
+	}
+	return false
+}
+
+func (x *BusRecord) GetStream() string {
+	if x != nil {
+		return x.Stream
+	}
+	return ""
+}
+
+func (x *BusRecord) GetEntryId() string {
+	if x != nil {
+		return x.EntryId
+	}
+	return ""
+}
+
+func (x *BusRecord) GetTimeMs() int64 {
+	if x != nil {
+		return x.TimeMs
+	}
+	return 0
+}
+
+// The relay's module-bus accounting since it started.
+type BusStreamStats struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Stream records fed to the decoder.
+	Records uint64 `protobuf:"varint,1,opt,name=records,proto3" json:"records,omitempty"`
+	// Messages the records produced (decoded messages plus refusals).
+	Messages uint64 `protobuf:"varint,2,opt,name=messages,proto3" json:"messages,omitempty"`
+	// Messages carrying a refusal, and their count per refusal code.
+	Refused   uint64            `protobuf:"varint,3,opt,name=refused,proto3" json:"refused,omitempty"`
+	RefusedBy map[string]uint64 `protobuf:"bytes,4,rep,name=refused_by,json=refusedBy,proto3" json:"refused_by,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`
+	// Records absorbed as fragments of a message still open, or as retransmits.
+	Absorbed uint64 `protobuf:"varint,5,opt,name=absorbed,proto3" json:"absorbed,omitempty"`
+	// Open multi-frame messages the decoder dropped, by reason ("expired",
+	// "restarted").
+	Dropped map[string]uint64 `protobuf:"bytes,6,rep,name=dropped,proto3" json:"dropped,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`
+	// Per-sender hop-sequence discontinuities, judged only once every stream
+	// that can hold an earlier record was known and read to its tip: datagrams
+	// lost between the bridge and the stream, datagrams the collector refused,
+	// or a sender restart.
+	HopGaps uint64 `protobuf:"varint,7,opt,name=hop_gaps,json=hopGaps,proto3" json:"hop_gaps,omitempty"`
+	// Distinct datagram senders seen, and logs:bus:* streams discovered.
+	Senders uint32 `protobuf:"varint,8,opt,name=senders,proto3" json:"senders,omitempty"`
+	Streams uint32 `protobuf:"varint,9,opt,name=streams,proto3" json:"streams,omitempty"`
+	// Whether the logs Redis was reachable at the last read.
+	SourceConnected bool `protobuf:"varint,10,opt,name=source_connected,json=sourceConnected,proto3" json:"source_connected,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *BusStreamStats) Reset() {
+	*x = BusStreamStats{}
+	mi := &file_jon_can_stream_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BusStreamStats) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BusStreamStats) ProtoMessage() {}
+
+func (x *BusStreamStats) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_can_stream_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BusStreamStats.ProtoReflect.Descriptor instead.
+func (*BusStreamStats) Descriptor() ([]byte, []int) {
+	return file_jon_can_stream_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *BusStreamStats) GetRecords() uint64 {
+	if x != nil {
+		return x.Records
+	}
+	return 0
+}
+
+func (x *BusStreamStats) GetMessages() uint64 {
+	if x != nil {
+		return x.Messages
+	}
+	return 0
+}
+
+func (x *BusStreamStats) GetRefused() uint64 {
+	if x != nil {
+		return x.Refused
+	}
+	return 0
+}
+
+func (x *BusStreamStats) GetRefusedBy() map[string]uint64 {
+	if x != nil {
+		return x.RefusedBy
+	}
+	return nil
+}
+
+func (x *BusStreamStats) GetAbsorbed() uint64 {
+	if x != nil {
+		return x.Absorbed
+	}
+	return 0
+}
+
+func (x *BusStreamStats) GetDropped() map[string]uint64 {
+	if x != nil {
+		return x.Dropped
+	}
+	return nil
+}
+
+func (x *BusStreamStats) GetHopGaps() uint64 {
+	if x != nil {
+		return x.HopGaps
+	}
+	return 0
+}
+
+func (x *BusStreamStats) GetSenders() uint32 {
+	if x != nil {
+		return x.Senders
+	}
+	return 0
+}
+
+func (x *BusStreamStats) GetStreams() uint32 {
+	if x != nil {
+		return x.Streams
+	}
+	return 0
+}
+
+func (x *BusStreamStats) GetSourceConnected() bool {
+	if x != nil {
+		return x.SourceConnected
+	}
+	return false
+}
+
+// Batch of module-bus messages, oldest first, with the accounting at the read.
+type BusRecordBatch struct {
+	state   protoimpl.MessageState `protogen:"open.v1"`
+	Records []*BusRecord           `protobuf:"bytes,1,rep,name=records,proto3" json:"records,omitempty"`
+	Stats   *BusStreamStats        `protobuf:"bytes,2,opt,name=stats,proto3" json:"stats,omitempty"`
+	// Messages decoded since the previous batch to this client that it was
+	// never sent because it fell behind the relay's buffer.
+	Evicted       uint64 `protobuf:"varint,3,opt,name=evicted,proto3" json:"evicted,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BusRecordBatch) Reset() {
+	*x = BusRecordBatch{}
+	mi := &file_jon_can_stream_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BusRecordBatch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BusRecordBatch) ProtoMessage() {}
+
+func (x *BusRecordBatch) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_can_stream_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BusRecordBatch.ProtoReflect.Descriptor instead.
+func (*BusRecordBatch) Descriptor() ([]byte, []int) {
+	return file_jon_can_stream_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *BusRecordBatch) GetRecords() []*BusRecord {
+	if x != nil {
+		return x.Records
+	}
+	return nil
+}
+
+func (x *BusRecordBatch) GetStats() *BusStreamStats {
+	if x != nil {
+		return x.Stats
+	}
+	return nil
+}
+
+func (x *BusRecordBatch) GetEvicted() uint64 {
+	if x != nil {
+		return x.Evicted
+	}
+	return 0
+}
+
+// Sent once when a module-bus WebSocket connects.
+type BusStreamConnected struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Discovered module-bus stream ids (the `0x<id>` of each logs:bus:0x<id>).
+	Streams       []string `protobuf:"bytes,1,rep,name=streams,proto3" json:"streams,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BusStreamConnected) Reset() {
+	*x = BusStreamConnected{}
+	mi := &file_jon_can_stream_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BusStreamConnected) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BusStreamConnected) ProtoMessage() {}
+
+func (x *BusStreamConnected) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_can_stream_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BusStreamConnected.ProtoReflect.Descriptor instead.
+func (*BusStreamConnected) Descriptor() ([]byte, []int) {
+	return file_jon_can_stream_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *BusStreamConnected) GetStreams() []string {
+	if x != nil {
+		return x.Streams
+	}
+	return nil
+}
+
+// Every message the module-bus WebSocket sends: exactly one member is set, so a
+// client decodes one type and never guesses which message a frame holds.
+type BusStreamMessage struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Message:
+	//
+	//	*BusStreamMessage_Connected
+	//	*BusStreamMessage_Batch
+	Message       isBusStreamMessage_Message `protobuf_oneof:"message"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BusStreamMessage) Reset() {
+	*x = BusStreamMessage{}
+	mi := &file_jon_can_stream_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BusStreamMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BusStreamMessage) ProtoMessage() {}
+
+func (x *BusStreamMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_can_stream_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BusStreamMessage.ProtoReflect.Descriptor instead.
+func (*BusStreamMessage) Descriptor() ([]byte, []int) {
+	return file_jon_can_stream_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *BusStreamMessage) GetMessage() isBusStreamMessage_Message {
+	if x != nil {
+		return x.Message
+	}
+	return nil
+}
+
+func (x *BusStreamMessage) GetConnected() *BusStreamConnected {
+	if x != nil {
+		if x, ok := x.Message.(*BusStreamMessage_Connected); ok {
+			return x.Connected
+		}
+	}
+	return nil
+}
+
+func (x *BusStreamMessage) GetBatch() *BusRecordBatch {
+	if x != nil {
+		if x, ok := x.Message.(*BusStreamMessage_Batch); ok {
+			return x.Batch
+		}
+	}
+	return nil
+}
+
+type isBusStreamMessage_Message interface {
+	isBusStreamMessage_Message()
+}
+
+type BusStreamMessage_Connected struct {
+	Connected *BusStreamConnected `protobuf:"bytes,1,opt,name=connected,proto3,oneof"`
+}
+
+type BusStreamMessage_Batch struct {
+	Batch *BusRecordBatch `protobuf:"bytes,2,opt,name=batch,proto3,oneof"`
+}
+
+func (*BusStreamMessage_Connected) isBusStreamMessage_Message() {}
+
+func (*BusStreamMessage_Batch) isBusStreamMessage_Message() {}
+
 var File_jon_can_stream_proto protoreflect.FileDescriptor
 
 const file_jon_can_stream_proto_rawDesc = "" +
@@ -310,12 +1069,90 @@ const file_jon_can_stream_proto_rawDesc = "" +
 	"\rCANFrameBatch\x12)\n" +
 	"\x06frames\x18\x01 \x03(\v2\x11.jon.can.CANFrameR\x06frames\"4\n" +
 	"\x12CANStreamConnected\x12\x18\n" +
-	"\astreams\x18\x01 \x03(\tR\astreamsJ\x04\b\x02\x10\x03*t\n" +
+	"\astreams\x18\x01 \x03(\tR\astreamsJ\x04\b\x02\x10\x03\"A\n" +
+	"\n" +
+	"BusRefusal\x12\x1b\n" +
+	"\x04code\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x04code\x12\x16\n" +
+	"\x06detail\x18\x02 \x01(\tR\x06detail\"\xdb\a\n" +
+	"\tBusRecord\x12\x15\n" +
+	"\x01n\x18\x01 \x01(\x04B\a\xbaH\x042\x02(\x01R\x01n\x12\x14\n" +
+	"\x05title\x18\x02 \x01(\tR\x05title\x12\x1b\n" +
+	"\x04kind\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x04kind\x12\x10\n" +
+	"\x03dir\x18\x04 \x01(\tR\x03dir\x12\x1c\n" +
+	"\x04node\x18\x05 \x01(\rB\b\xbaH\x05*\x03\x18\xff\x01R\x04node\x12\x16\n" +
+	"\x06module\x18\x06 \x01(\tR\x06module\x12\x1e\n" +
+	"\x05topic\x18\a \x01(\rB\b\xbaH\x05*\x03\x18\xff\x01R\x05topic\x12\x16\n" +
+	"\x06family\x18\b \x01(\tR\x06family\x12\x18\n" +
+	"\acommand\x18\t \x01(\tR\acommand\x12\x18\n" +
+	"\amessage\x18\n" +
+	" \x01(\tR\amessage\x12*\n" +
+	"\fdecoded_json\x18\v \x01(\tB\a\xbaH\x04r\x02\x10\x01R\vdecodedJson\x12-\n" +
+	"\arefusal\x18\f \x01(\v2\x13.jon.can.BusRefusalR\arefusal\x12\x13\n" +
+	"\x05ts_ns\x18\r \x01(\x04R\x04tsNs\x12*\n" +
+	"\x06origin\x18\x0e \x01(\x0e2\x12.jon.can.BusOriginR\x06origin\x12'\n" +
+	"\ahop_seq\x18\x0f \x01(\rB\t\xbaH\x06*\x04\x18\xff\xff\x03H\x00R\x06hopSeq\x88\x01\x01\x12%\n" +
+	"\x06sender\x18\x10 \x01(\rB\b\xbaH\x05*\x03\x18\xff\x01H\x01R\x06sender\x88\x01\x01\x12#\n" +
+	"\rsender_module\x18\x11 \x01(\tR\fsenderModule\x12\x1f\n" +
+	"\x06can_id\x18\x12 \x01(\rB\b\xbaH\x05*\x03\x18\xff\x0fR\x05canId\x12 \n" +
+	"\x06fflags\x18\x13 \x01(\rB\b\xbaH\x05*\x03\x18\xff\x01R\x06fflags\x12\x1f\n" +
+	"\vframe_flags\x18\x14 \x01(\tR\n" +
+	"frameFlags\x12\x1b\n" +
+	"\x04data\x18\x15 \x01(\fB\a\xbaH\x04z\x02\x18FR\x04data\x12\"\n" +
+	"\apayload\x18\x16 \x01(\fB\b\xbaH\x05z\x03\x18\x80\x04R\apayload\x12\x1b\n" +
+	"\x04prio\x18\x17 \x01(\rB\a\xbaH\x04*\x02\x18\x03R\x04prio\x12\x1c\n" +
+	"\x04type\x18\x18 \x01(\rB\b\xbaH\x05*\x03\x18\xff\x01R\x04type\x12\x1a\n" +
+	"\x03seq\x18\x19 \x01(\rB\b\xbaH\x05*\x03\x18\xff\x01R\x03seq\x12'\n" +
+	"\n" +
+	"frag_total\x18\x1a \x01(\rB\b\xbaH\x05*\x03\x18\xff\x01R\tfragTotal\x12\x1c\n" +
+	"\n" +
+	"tx_time_ns\x18\x1b \x01(\x04R\btxTimeNs\x12\x19\n" +
+	"\bts_valid\x18\x1c \x01(\bR\atsValid\x12\x16\n" +
+	"\x06stream\x18\x1d \x01(\tR\x06stream\x12\x19\n" +
+	"\bentry_id\x18\x1e \x01(\tR\aentryId\x12\x17\n" +
+	"\atime_ms\x18\x1f \x01(\x03R\x06timeMsB\n" +
+	"\n" +
+	"\b_hop_seqB\t\n" +
+	"\a_sender\"\xf7\x03\n" +
+	"\x0eBusStreamStats\x12\x18\n" +
+	"\arecords\x18\x01 \x01(\x04R\arecords\x12\x1a\n" +
+	"\bmessages\x18\x02 \x01(\x04R\bmessages\x12\x18\n" +
+	"\arefused\x18\x03 \x01(\x04R\arefused\x12E\n" +
+	"\n" +
+	"refused_by\x18\x04 \x03(\v2&.jon.can.BusStreamStats.RefusedByEntryR\trefusedBy\x12\x1a\n" +
+	"\babsorbed\x18\x05 \x01(\x04R\babsorbed\x12>\n" +
+	"\adropped\x18\x06 \x03(\v2$.jon.can.BusStreamStats.DroppedEntryR\adropped\x12\x19\n" +
+	"\bhop_gaps\x18\a \x01(\x04R\ahopGaps\x12\x18\n" +
+	"\asenders\x18\b \x01(\rR\asenders\x12\x18\n" +
+	"\astreams\x18\t \x01(\rR\astreams\x12)\n" +
+	"\x10source_connected\x18\n" +
+	" \x01(\bR\x0fsourceConnected\x1a<\n" +
+	"\x0eRefusedByEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\x04R\x05value:\x028\x01\x1a:\n" +
+	"\fDroppedEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\x04R\x05value:\x028\x01\"\x87\x01\n" +
+	"\x0eBusRecordBatch\x12,\n" +
+	"\arecords\x18\x01 \x03(\v2\x12.jon.can.BusRecordR\arecords\x12-\n" +
+	"\x05stats\x18\x02 \x01(\v2\x17.jon.can.BusStreamStatsR\x05stats\x12\x18\n" +
+	"\aevicted\x18\x03 \x01(\x04R\aevicted\".\n" +
+	"\x12BusStreamConnected\x12\x18\n" +
+	"\astreams\x18\x01 \x03(\tR\astreams\"\x92\x01\n" +
+	"\x10BusStreamMessage\x12;\n" +
+	"\tconnected\x18\x01 \x01(\v2\x1b.jon.can.BusStreamConnectedH\x00R\tconnected\x12/\n" +
+	"\x05batch\x18\x02 \x01(\v2\x17.jon.can.BusRecordBatchH\x00R\x05batchB\x10\n" +
+	"\amessage\x12\x05\xbaH\x02\b\x01*t\n" +
 	"\fCANDirection\x12\x1d\n" +
 	"\x19CAN_DIRECTION_UNSPECIFIED\x10\x00\x12\x14\n" +
 	"\x10CAN_DIRECTION_TX\x10\x01\x12\x14\n" +
 	"\x10CAN_DIRECTION_RX\x10\x02\x12\x19\n" +
-	"\x15CAN_DIRECTION_UNKNOWN\x10\x03B\xa3\x01\n" +
+	"\x15CAN_DIRECTION_UNKNOWN\x10\x03*\x80\x01\n" +
+	"\tBusOrigin\x12\x1a\n" +
+	"\x16BUS_ORIGIN_UNSPECIFIED\x10\x00\x12\x12\n" +
+	"\x0eBUS_ORIGIN_BUS\x10\x01\x12\x13\n" +
+	"\x0fBUS_ORIGIN_ORIN\x10\x02\x12\x18\n" +
+	"\x14BUS_ORIGIN_CARAMBOLA\x10\x03\x12\x14\n" +
+	"\x10BUS_ORIGIN_LOCAL\x10\x04B\xa3\x01\n" +
 	"\vcom.jon.canB\x11JonCanStreamProtoP\x01ZDgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/can\xa2\x02\x03JCX\xaa\x02\aJon.Can\xca\x02\aJon\\Can\xe2\x02\x13Jon\\Can\\GPBMetadata\xea\x02\bJon::Canb\x06proto3"
 
 var (
@@ -330,22 +1167,39 @@ func file_jon_can_stream_proto_rawDescGZIP() []byte {
 	return file_jon_can_stream_proto_rawDescData
 }
 
-var file_jon_can_stream_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_jon_can_stream_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_jon_can_stream_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_jon_can_stream_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_jon_can_stream_proto_goTypes = []any{
 	(CANDirection)(0),          // 0: jon.can.CANDirection
-	(*CANFrame)(nil),           // 1: jon.can.CANFrame
-	(*CANFrameBatch)(nil),      // 2: jon.can.CANFrameBatch
-	(*CANStreamConnected)(nil), // 3: jon.can.CANStreamConnected
+	(BusOrigin)(0),             // 1: jon.can.BusOrigin
+	(*CANFrame)(nil),           // 2: jon.can.CANFrame
+	(*CANFrameBatch)(nil),      // 3: jon.can.CANFrameBatch
+	(*CANStreamConnected)(nil), // 4: jon.can.CANStreamConnected
+	(*BusRefusal)(nil),         // 5: jon.can.BusRefusal
+	(*BusRecord)(nil),          // 6: jon.can.BusRecord
+	(*BusStreamStats)(nil),     // 7: jon.can.BusStreamStats
+	(*BusRecordBatch)(nil),     // 8: jon.can.BusRecordBatch
+	(*BusStreamConnected)(nil), // 9: jon.can.BusStreamConnected
+	(*BusStreamMessage)(nil),   // 10: jon.can.BusStreamMessage
+	nil,                        // 11: jon.can.BusStreamStats.RefusedByEntry
+	nil,                        // 12: jon.can.BusStreamStats.DroppedEntry
 }
 var file_jon_can_stream_proto_depIdxs = []int32{
-	0, // 0: jon.can.CANFrame.dir:type_name -> jon.can.CANDirection
-	1, // 1: jon.can.CANFrameBatch.frames:type_name -> jon.can.CANFrame
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	0,  // 0: jon.can.CANFrame.dir:type_name -> jon.can.CANDirection
+	2,  // 1: jon.can.CANFrameBatch.frames:type_name -> jon.can.CANFrame
+	5,  // 2: jon.can.BusRecord.refusal:type_name -> jon.can.BusRefusal
+	1,  // 3: jon.can.BusRecord.origin:type_name -> jon.can.BusOrigin
+	11, // 4: jon.can.BusStreamStats.refused_by:type_name -> jon.can.BusStreamStats.RefusedByEntry
+	12, // 5: jon.can.BusStreamStats.dropped:type_name -> jon.can.BusStreamStats.DroppedEntry
+	6,  // 6: jon.can.BusRecordBatch.records:type_name -> jon.can.BusRecord
+	7,  // 7: jon.can.BusRecordBatch.stats:type_name -> jon.can.BusStreamStats
+	9,  // 8: jon.can.BusStreamMessage.connected:type_name -> jon.can.BusStreamConnected
+	8,  // 9: jon.can.BusStreamMessage.batch:type_name -> jon.can.BusRecordBatch
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_jon_can_stream_proto_init() }
@@ -353,13 +1207,18 @@ func file_jon_can_stream_proto_init() {
 	if File_jon_can_stream_proto != nil {
 		return
 	}
+	file_jon_can_stream_proto_msgTypes[4].OneofWrappers = []any{}
+	file_jon_can_stream_proto_msgTypes[8].OneofWrappers = []any{
+		(*BusStreamMessage_Connected)(nil),
+		(*BusStreamMessage_Batch)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_can_stream_proto_rawDesc), len(file_jon_can_stream_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   3,
+			NumEnums:      2,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

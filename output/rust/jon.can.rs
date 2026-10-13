@@ -50,6 +50,192 @@ pub struct CanStreamConnected {
     #[prost(string, repeated, tag = "1")]
     pub streams: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
+/// Why the module-bus decoder could not make a message of a record.
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
+pub struct BusRefusal {
+    /// The decoder's refusal code (the joncandec Code* constants, e.g. "proto",
+    /// "orphan_fragment", "unknown_topic").
+    #[prost(string, tag = "1")]
+    pub code: ::prost::alloc::string::String,
+    /// The decoder's explanation, free text.
+    #[prost(string, tag = "2")]
+    pub detail: ::prost::alloc::string::String,
+}
+/// One module-bus message as the CAN stream relay decoded it from the
+/// `logs:bus:0x<id>` Redis streams: the decoded payload, the joncan header facts
+/// and the record facts of the frame that completed it. Decoding happens once,
+/// on the relay; a client renders these fields and never parses the wire.
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
+pub struct BusRecord {
+    /// Arrival number: 1 for the first message the relay decoded since it started.
+    #[prost(uint64, tag = "1")]
+    pub n: u64,
+    /// The row's title: the decode-table family name, the command root member that
+    /// was set, or "refused: <code>".
+    #[prost(string, tag = "2")]
+    pub title: ::prost::alloc::string::String,
+    /// What the message is (joncandec Kind*): "family", "health", "announce",
+    /// "command", "debug", "log" or "unknown".
+    #[prost(string, tag = "3")]
+    pub kind: ::prost::alloc::string::String,
+    /// "cmd" (hub to node) or "state" (node to hub); empty when the CAN id was
+    /// wider than the joncan id map.
+    #[prost(string, tag = "4")]
+    pub dir: ::prost::alloc::string::String,
+    /// The CAN id's node field and the module that node is (a command's
+    /// DESTINATION node); module is empty when no decode-table entry names the node.
+    #[prost(uint32, tag = "5")]
+    pub node: u32,
+    #[prost(string, tag = "6")]
+    pub module: ::prost::alloc::string::String,
+    /// The CAN id's topic field.
+    #[prost(uint32, tag = "7")]
+    pub topic: u32,
+    /// The decode-table row name (empty for a command) and the command root
+    /// member that was set (empty unless a command).
+    #[prost(string, tag = "8")]
+    pub family: ::prost::alloc::string::String,
+    #[prost(string, tag = "9")]
+    pub command: ::prost::alloc::string::String,
+    /// The full name of the proto message the body decoded as; empty for an
+    /// announce, a debug or a log message.
+    #[prost(string, tag = "10")]
+    pub message: ::prost::alloc::string::String,
+    /// The decoded payload as JSON: proto3 JSON with proto field names, sorted
+    /// keys, every owned field present. "null" when nothing was decoded.
+    #[prost(string, tag = "11")]
+    pub decoded_json: ::prost::alloc::string::String,
+    /// Set when the decoder refused the record; the raw bytes are in `data`.
+    #[prost(message, optional, tag = "12")]
+    pub refusal: ::core::option::Option<BusRefusal>,
+    /// The record facts. ts_ns: when the frame was seen, ns, on the producer's
+    /// clock (0 = the producer did not know).
+    #[prost(uint64, tag = "13")]
+    pub ts_ns: u64,
+    #[prost(enumeration = "BusOrigin", tag = "14")]
+    pub origin: i32,
+    /// The datagram's hop sequence and the node id of the datagram's sender (the
+    /// envelope header); absent when the stream entry did not carry them.
+    #[prost(uint32, optional, tag = "15")]
+    pub hop_seq: ::core::option::Option<u32>,
+    #[prost(uint32, optional, tag = "16")]
+    pub sender: ::core::option::Option<u32>,
+    /// The sender's module, from the decode table; empty when no entry names it.
+    #[prost(string, tag = "17")]
+    pub sender_module: ::prost::alloc::string::String,
+    /// The frame's 11-bit CAN id.
+    #[prost(uint32, tag = "18")]
+    pub can_id: u32,
+    /// The record's frame flags (JONCAN_ENV_FRAME_*) and their names, lowest bit
+    /// first ("FD BRS"); a bit no flag names reads as hex.
+    #[prost(uint32, tag = "19")]
+    pub fflags: u32,
+    #[prost(string, tag = "20")]
+    pub frame_flags: ::prost::alloc::string::String,
+    /// The completing record's 70-byte blob: frame type, CAN id (little-endian),
+    /// length, 64 data bytes. For a message carried in several frames this is the
+    /// LAST frame's record.
+    #[prost(bytes = "vec", tag = "21")]
+    pub data: ::prost::alloc::vec::Vec<u8>,
+    /// The message body, reassembled across fragments.
+    #[prost(bytes = "vec", tag = "22")]
+    pub payload: ::prost::alloc::vec::Vec<u8>,
+    /// The joncan header: the CAN id's priority, the message type, the message
+    /// counter, the fragments the message was carried in, the sender's transmit
+    /// time (ns) and whether that time was valid.
+    #[prost(uint32, tag = "23")]
+    pub prio: u32,
+    #[prost(uint32, tag = "24")]
+    pub r#type: u32,
+    #[prost(uint32, tag = "25")]
+    pub seq: u32,
+    #[prost(uint32, tag = "26")]
+    pub frag_total: u32,
+    #[prost(uint64, tag = "27")]
+    pub tx_time_ns: u64,
+    #[prost(bool, tag = "28")]
+    pub ts_valid: bool,
+    /// The Redis stream key (logs:bus:0x<id>), the entry id, and the entry id's
+    /// millisecond (the Redis server's wall clock when the entry was appended).
+    #[prost(string, tag = "29")]
+    pub stream: ::prost::alloc::string::String,
+    #[prost(string, tag = "30")]
+    pub entry_id: ::prost::alloc::string::String,
+    #[prost(int64, tag = "31")]
+    pub time_ms: i64,
+}
+/// The relay's module-bus accounting since it started.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BusStreamStats {
+    /// Stream records fed to the decoder.
+    #[prost(uint64, tag = "1")]
+    pub records: u64,
+    /// Messages the records produced (decoded messages plus refusals).
+    #[prost(uint64, tag = "2")]
+    pub messages: u64,
+    /// Messages carrying a refusal, and their count per refusal code.
+    #[prost(uint64, tag = "3")]
+    pub refused: u64,
+    #[prost(map = "string, uint64", tag = "4")]
+    pub refused_by: ::std::collections::HashMap<::prost::alloc::string::String, u64>,
+    /// Records absorbed as fragments of a message still open, or as retransmits.
+    #[prost(uint64, tag = "5")]
+    pub absorbed: u64,
+    /// Open multi-frame messages the decoder dropped, by reason ("expired",
+    /// "restarted").
+    #[prost(map = "string, uint64", tag = "6")]
+    pub dropped: ::std::collections::HashMap<::prost::alloc::string::String, u64>,
+    /// Per-sender hop-sequence discontinuities, judged only once every stream
+    /// that can hold an earlier record was known and read to its tip: datagrams
+    /// lost between the bridge and the stream, datagrams the collector refused,
+    /// or a sender restart.
+    #[prost(uint64, tag = "7")]
+    pub hop_gaps: u64,
+    /// Distinct datagram senders seen, and logs:bus:* streams discovered.
+    #[prost(uint32, tag = "8")]
+    pub senders: u32,
+    #[prost(uint32, tag = "9")]
+    pub streams: u32,
+    /// Whether the logs Redis was reachable at the last read.
+    #[prost(bool, tag = "10")]
+    pub source_connected: bool,
+}
+/// Batch of module-bus messages, oldest first, with the accounting at the read.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BusRecordBatch {
+    #[prost(message, repeated, tag = "1")]
+    pub records: ::prost::alloc::vec::Vec<BusRecord>,
+    #[prost(message, optional, tag = "2")]
+    pub stats: ::core::option::Option<BusStreamStats>,
+    /// Messages decoded since the previous batch to this client that it was
+    /// never sent because it fell behind the relay's buffer.
+    #[prost(uint64, tag = "3")]
+    pub evicted: u64,
+}
+/// Sent once when a module-bus WebSocket connects.
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
+pub struct BusStreamConnected {
+    /// Discovered module-bus stream ids (the `0x<id>` of each logs:bus:0x<id>).
+    #[prost(string, repeated, tag = "1")]
+    pub streams: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Every message the module-bus WebSocket sends: exactly one member is set, so a
+/// client decodes one type and never guesses which message a frame holds.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BusStreamMessage {
+    #[prost(oneof = "bus_stream_message::Message", tags = "1, 2")]
+    pub message: ::core::option::Option<bus_stream_message::Message>,
+}
+/// Nested message and enum types in `BusStreamMessage`.
+pub mod bus_stream_message {
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum Message {
+        #[prost(message, tag = "1")]
+        Connected(super::BusStreamConnected),
+        #[prost(message, tag = "2")]
+        Batch(super::BusRecordBatch),
+    }
+}
 /// Authoritative CAN frame direction, set by the producer (lighthouse) from its
 /// CAN-ID map. Supersedes CANFrame.is_rx (which consumers re-derived from a
 /// fragile ID bitmask). UNSPECIFIED = the field is absent (frame emitted by a
@@ -88,6 +274,50 @@ impl CanDirection {
             "CAN_DIRECTION_TX" => Some(Self::Tx),
             "CAN_DIRECTION_RX" => Some(Self::Rx),
             "CAN_DIRECTION_UNKNOWN" => Some(Self::Unknown),
+            _ => None,
+        }
+    }
+}
+/// Who first put a module-bus record into a datagram: the envelope's origin byte
+/// (JONCAN_ENV_ORIGIN_* in the superproject's inc/util/joncan/joncan_envelope.h)
+/// plus one, so that the zero value can mean "the stream entry named no origin
+/// the envelope defines" rather than silently reading as the bus.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum BusOrigin {
+    /// the entry carried no origin, or one past JONCAN_ENV_ORIGIN_MAX
+    Unspecified = 0,
+    /// JONCAN_ENV_ORIGIN_BUS: read off the CAN bus (or vcan0)
+    Bus = 1,
+    /// JONCAN_ENV_ORIGIN_ORIN: the hub sent it
+    Orin = 2,
+    /// JONCAN_ENV_ORIGIN_CARAMBOLA: Carambola sent it
+    Carambola = 3,
+    /// JONCAN_ENV_ORIGIN_LOCAL: a guest hosted beside the bridge
+    Local = 4,
+}
+impl BusOrigin {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Unspecified => "BUS_ORIGIN_UNSPECIFIED",
+            Self::Bus => "BUS_ORIGIN_BUS",
+            Self::Orin => "BUS_ORIGIN_ORIN",
+            Self::Carambola => "BUS_ORIGIN_CARAMBOLA",
+            Self::Local => "BUS_ORIGIN_LOCAL",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "BUS_ORIGIN_UNSPECIFIED" => Some(Self::Unspecified),
+            "BUS_ORIGIN_BUS" => Some(Self::Bus),
+            "BUS_ORIGIN_ORIN" => Some(Self::Orin),
+            "BUS_ORIGIN_CARAMBOLA" => Some(Self::Carambola),
+            "BUS_ORIGIN_LOCAL" => Some(Self::Local),
             _ => None,
         }
     }

@@ -29,6 +29,10 @@
 #include "google/protobuf/message_lite.h"
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
+#include "google/protobuf/map.h"  // IWYU pragma: export
+#include "google/protobuf/map_type_handler.h"  // IWYU pragma: export
+#include "google/protobuf/map_entry.h"
+#include "google/protobuf/map_field.h"
 #include "google/protobuf/generated_enum_reflection.h"
 #include "google/protobuf/unknown_field_set.h"
 #include "buf/validate/validate.pb.h"
@@ -48,8 +52,74 @@ extern const ::google::protobuf::internal::DescriptorTable descriptor_table_jon_
 }  // extern "C"
 namespace jon {
 namespace can {
+enum BusOrigin : int;
+extern const uint32_t BusOrigin_internal_data_[];
 enum CANDirection : int;
 extern const uint32_t CANDirection_internal_data_[];
+class BusRecord;
+struct BusRecordGlobalsTypeInternal;
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+extern BusRecordGlobalsTypeInternal BusRecord_globals_;
+extern const ::google::protobuf::internal::ClassDataFull BusRecord_class_data_;
+#else
+extern const BusRecordGlobalsTypeInternal BusRecord_globals_;
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+class BusRecordBatch;
+struct BusRecordBatchGlobalsTypeInternal;
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+extern BusRecordBatchGlobalsTypeInternal BusRecordBatch_globals_;
+extern const ::google::protobuf::internal::ClassDataFull BusRecordBatch_class_data_;
+#else
+extern const BusRecordBatchGlobalsTypeInternal BusRecordBatch_globals_;
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+class BusRefusal;
+struct BusRefusalGlobalsTypeInternal;
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+extern BusRefusalGlobalsTypeInternal BusRefusal_globals_;
+extern const ::google::protobuf::internal::ClassDataFull BusRefusal_class_data_;
+#else
+extern const BusRefusalGlobalsTypeInternal BusRefusal_globals_;
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+class BusStreamConnected;
+struct BusStreamConnectedGlobalsTypeInternal;
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+extern BusStreamConnectedGlobalsTypeInternal BusStreamConnected_globals_;
+extern const ::google::protobuf::internal::ClassDataFull BusStreamConnected_class_data_;
+#else
+extern const BusStreamConnectedGlobalsTypeInternal BusStreamConnected_globals_;
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+class BusStreamMessage;
+struct BusStreamMessageGlobalsTypeInternal;
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+extern BusStreamMessageGlobalsTypeInternal BusStreamMessage_globals_;
+extern const ::google::protobuf::internal::ClassDataFull BusStreamMessage_class_data_;
+#else
+extern const BusStreamMessageGlobalsTypeInternal BusStreamMessage_globals_;
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+class BusStreamStats;
+struct BusStreamStatsGlobalsTypeInternal;
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+extern BusStreamStatsGlobalsTypeInternal BusStreamStats_globals_;
+extern const ::google::protobuf::internal::ClassDataFull BusStreamStats_class_data_;
+#else
+extern const BusStreamStatsGlobalsTypeInternal BusStreamStats_globals_;
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+class BusStreamStats_DroppedEntry_DoNotUse;
+struct BusStreamStats_DroppedEntry_DoNotUseGlobalsTypeInternal;
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+extern BusStreamStats_DroppedEntry_DoNotUseGlobalsTypeInternal BusStreamStats_DroppedEntry_DoNotUse_globals_;
+extern const ::google::protobuf::internal::ClassDataFull BusStreamStats_DroppedEntry_DoNotUse_class_data_;
+#else
+extern const BusStreamStats_DroppedEntry_DoNotUseGlobalsTypeInternal BusStreamStats_DroppedEntry_DoNotUse_globals_;
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+class BusStreamStats_RefusedByEntry_DoNotUse;
+struct BusStreamStats_RefusedByEntry_DoNotUseGlobalsTypeInternal;
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+extern BusStreamStats_RefusedByEntry_DoNotUseGlobalsTypeInternal BusStreamStats_RefusedByEntry_DoNotUse_globals_;
+extern const ::google::protobuf::internal::ClassDataFull BusStreamStats_RefusedByEntry_DoNotUse_class_data_;
+#else
+extern const BusStreamStats_RefusedByEntry_DoNotUseGlobalsTypeInternal BusStreamStats_RefusedByEntry_DoNotUse_globals_;
+#endif  // PROTOBUF_MESSAGE_GLOBALS
 class CANFrame;
 struct CANFrameGlobalsTypeInternal;
 #ifndef PROTOBUF_MESSAGE_GLOBALS
@@ -78,6 +148,9 @@ extern const CANStreamConnectedGlobalsTypeInternal CANStreamConnected_globals_;
 }  // namespace jon
 namespace google {
 namespace protobuf {
+template <>
+internal::EnumTraitsT<::jon::can::BusOrigin_internal_data_>
+    internal::EnumTraitsImpl::value<::jon::can::BusOrigin>;
 template <>
 internal::EnumTraitsT<::jon::can::CANDirection_internal_data_>
     internal::EnumTraitsImpl::value<::jon::can::CANDirection>;
@@ -126,6 +199,49 @@ template <>
 [[nodiscard]] inline bool CANDirection_Parse(
     ::absl::string_view name, CANDirection* PROTOBUF_NONNULL value) {
   return ::google::protobuf::internal::ParseNamedEnum<CANDirection>(CANDirection_descriptor(), name,
+                                           value);
+}
+enum BusOrigin : int {
+  BUS_ORIGIN_UNSPECIFIED = 0,
+  BUS_ORIGIN_BUS = 1,
+  BUS_ORIGIN_ORIN = 2,
+  BUS_ORIGIN_CARAMBOLA = 3,
+  BUS_ORIGIN_LOCAL = 4,
+  BusOrigin_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      ::std::numeric_limits<::int32_t>::min(),
+  BusOrigin_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      ::std::numeric_limits<::int32_t>::max(),
+};
+
+extern const uint32_t BusOrigin_internal_data_[];
+inline constexpr BusOrigin BusOrigin_MIN =
+    static_cast<BusOrigin>(0);
+inline constexpr BusOrigin BusOrigin_MAX =
+    static_cast<BusOrigin>(4);
+[[nodiscard]] inline bool BusOrigin_IsValid(int value) {
+  return 0 <= value && value <= 4;
+}
+inline constexpr int BusOrigin_ARRAYSIZE = 4 + 1;
+[[nodiscard]] const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL
+BusOrigin_descriptor();
+[[nodiscard]] inline auto ProtobufInternalGetEnumDescriptor(BusOrigin) {
+  return BusOrigin_descriptor();
+}
+template <typename T>
+[[nodiscard]] const ::std::string& BusOrigin_Name(T value) {
+  static_assert(::std::is_same<T, BusOrigin>::value ||
+                    ::std::is_integral<T>::value,
+                "Incorrect type passed to BusOrigin_Name().");
+  return BusOrigin_Name(static_cast<BusOrigin>(value));
+}
+template <>
+[[nodiscard]] inline const ::std::string& BusOrigin_Name(BusOrigin value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<BusOrigin_descriptor, 0, 4>(
+      static_cast<int>(value));
+}
+[[nodiscard]] inline bool BusOrigin_Parse(
+    ::absl::string_view name, BusOrigin* PROTOBUF_NONNULL value) {
+  return ::google::protobuf::internal::ParseNamedEnum<BusOrigin>(BusOrigin_descriptor(), name,
                                            value);
 }
 using ::google::protobuf::internal::generated_enum::AbslParseFlag;
@@ -655,6 +771,546 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED CANFrame final : public ::google::p
 };
 // -------------------------------------------------------------------
 
+class PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED BusStreamStats_RefusedByEntry_DoNotUse final
+    : public ::google::protobuf::internal::MapEntry<::std::string, ::uint64_t,
+                             ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+                             ::google::protobuf::internal::WireFormatLite::TYPE_UINT64> {
+  using Super_ =
+      ::google::protobuf::internal::MapEntry<::std::string, ::uint64_t,
+                      ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+                      ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>;
+
+ public:
+  BusStreamStats_RefusedByEntry_DoNotUse();
+  template <typename = void>
+  explicit constexpr BusStreamStats_RefusedByEntry_DoNotUse(::google::protobuf::internal::ConstantInitialized,
+                           const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+                               class_data);
+  explicit BusStreamStats_RefusedByEntry_DoNotUse(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr const void* PROTOBUF_NONNULL internal_message_globals() {
+    return &BusStreamStats_RefusedByEntry_DoNotUse_globals_;
+  }
+
+
+  static constexpr auto InternalGenerateClassData_(
+      const ::google::protobuf::MessageLite& prototype,
+      const ::google::protobuf::internal::TcParseTableBase* PROTOBUF_NULLABLE tc_table = nullptr);
+
+ private:
+  friend class ::google::protobuf::MessageLite;
+  friend struct ::TableStruct_jon_5fcan_5fstream_2eproto;
+  friend ::google::protobuf::internal::PrivateAccess;
+  friend BusStreamStats_RefusedByEntry_DoNotUseGlobalsTypeInternal;
+
+  using ParseTableT_ =
+      ::google::protobuf::internal::TcParseTable<1, 2,
+                          0, 49,
+                          2>;
+  static constexpr ParseTableT_ InternalGenerateParseTable_(
+      const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL class_data);
+  friend class ::google::protobuf::internal::TcParser;
+  #ifndef PROTOBUF_MESSAGE_GLOBALS
+  static const ParseTableT_ _table_;
+  #endif
+
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+};
+// -------------------------------------------------------------------
+
+class PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED BusStreamStats_DroppedEntry_DoNotUse final
+    : public ::google::protobuf::internal::MapEntry<::std::string, ::uint64_t,
+                             ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+                             ::google::protobuf::internal::WireFormatLite::TYPE_UINT64> {
+  using Super_ =
+      ::google::protobuf::internal::MapEntry<::std::string, ::uint64_t,
+                      ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+                      ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>;
+
+ public:
+  BusStreamStats_DroppedEntry_DoNotUse();
+  template <typename = void>
+  explicit constexpr BusStreamStats_DroppedEntry_DoNotUse(::google::protobuf::internal::ConstantInitialized,
+                           const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+                               class_data);
+  explicit BusStreamStats_DroppedEntry_DoNotUse(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr const void* PROTOBUF_NONNULL internal_message_globals() {
+    return &BusStreamStats_DroppedEntry_DoNotUse_globals_;
+  }
+
+
+  static constexpr auto InternalGenerateClassData_(
+      const ::google::protobuf::MessageLite& prototype,
+      const ::google::protobuf::internal::TcParseTableBase* PROTOBUF_NULLABLE tc_table = nullptr);
+
+ private:
+  friend class ::google::protobuf::MessageLite;
+  friend struct ::TableStruct_jon_5fcan_5fstream_2eproto;
+  friend ::google::protobuf::internal::PrivateAccess;
+  friend BusStreamStats_DroppedEntry_DoNotUseGlobalsTypeInternal;
+
+  using ParseTableT_ =
+      ::google::protobuf::internal::TcParseTable<1, 2,
+                          0, 47,
+                          2>;
+  static constexpr ParseTableT_ InternalGenerateParseTable_(
+      const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL class_data);
+  friend class ::google::protobuf::internal::TcParser;
+  #ifndef PROTOBUF_MESSAGE_GLOBALS
+  static const ParseTableT_ _table_;
+  #endif
+
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+};
+// -------------------------------------------------------------------
+
+class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED BusStreamConnected final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:jon.can.BusStreamConnected) */ {
+  using Super_ = ::google::protobuf::Message;
+
+ public:
+  inline BusStreamConnected() : BusStreamConnected(nullptr) {}
+  ~BusStreamConnected() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(BusStreamConnected* PROTOBUF_NONNULL msg, ::std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(BusStreamConnected));
+  }
+#endif
+
+  template <typename = void>
+  explicit constexpr BusStreamConnected(::google::protobuf::internal::ConstantInitialized,
+                           const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+                               class_data);
+
+  inline BusStreamConnected(const BusStreamConnected& from) : BusStreamConnected(nullptr, from) {}
+  inline BusStreamConnected(BusStreamConnected&& from) noexcept : BusStreamConnected(nullptr, ::std::move(from)) {}
+  inline BusStreamConnected& operator=(const BusStreamConnected& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline BusStreamConnected& operator=(BusStreamConnected&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  [[nodiscard]] inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  [[nodiscard]] inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL
+  mutable_unknown_fields() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  [[nodiscard]] static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  [[nodiscard]] static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL
+  GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  [[nodiscard]] static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  [[nodiscard]] static const BusStreamConnected& default_instance() {
+    return *::google::protobuf::internal::MessageGlobalsBase::ToDefaultInstance<BusStreamConnected>(&BusStreamConnected_globals_);
+  }
+  static constexpr int kIndexInFileMessages = 9;
+  friend void swap(BusStreamConnected& a, BusStreamConnected& b) { a.Swap(&b); }
+  inline void Swap(BusStreamConnected* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(BusStreamConnected* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  [[nodiscard]] BusStreamConnected* PROTOBUF_NONNULL
+  New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return Super_::DefaultConstruct<BusStreamConnected>(arena);
+  }
+  using Super_::CopyFrom;
+  void CopyFrom(const BusStreamConnected& from);
+  using Super_::MergeFrom;
+  void MergeFrom(const BusStreamConnected& from) { BusStreamConnected::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  [[nodiscard]] bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  [[nodiscard]] static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  [[nodiscard]] static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  [[nodiscard]] ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  [[nodiscard]] ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  [[nodiscard]] ::size_t ByteSizeLong() const final;
+  [[nodiscard]] ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  [[nodiscard]] int GetCachedSize() const {
+    return _impl_._cached_size_.Get();
+  }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(BusStreamConnected* PROTOBUF_NONNULL other);
+ private:
+  static ::absl::string_view FullMessageName() { return "jon.can.BusStreamConnected"; }
+
+  explicit BusStreamConnected(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  BusStreamConnected(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const BusStreamConnected& from);
+  BusStreamConnected(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, BusStreamConnected&& from) noexcept
+      : BusStreamConnected(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_(
+      const MessageLite& prototype,
+      const ::google::protobuf::internal::TcParseTableBase* PROTOBUF_NULLABLE tc_table = nullptr);
+
+  [[nodiscard]] ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kStreamsFieldNumber = 1,
+  };
+  // repeated string streams = 1;
+  [[nodiscard]] int streams_size() const;
+  private:
+  int _internal_streams_size() const;
+
+  public:
+  void clear_streams() ;
+  [[nodiscard]] const ::std::string& streams(int index) const;
+  ::std::string* PROTOBUF_NONNULL mutable_streams(int index);
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_streams(int index, Arg_&& value, Args_... args);
+  ::std::string* PROTOBUF_NONNULL add_streams();
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void add_streams(Arg_&& value, Args_... args);
+  [[nodiscard]] const
+      ::google::protobuf::RepeatedPtrField<::std::string>&
+      streams() const;
+  [[nodiscard]] ::google::protobuf::RepeatedPtrField<::std::string>*
+      PROTOBUF_NONNULL
+      mutable_streams();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::std::string>& _internal_streams() const;
+  ::google::protobuf::RepeatedPtrField<::std::string>* PROTOBUF_NONNULL _internal_mutable_streams();
+
+  public:
+  // @@protoc_insertion_point(class_scope:jon.can.BusStreamConnected)
+ private:
+  class _Internal;
+  using ParseTableT_ =
+      ::google::protobuf::internal::TcParseTable<0, 1,
+                          0, 42,
+                          2>;
+  static constexpr ParseTableT_ InternalGenerateParseTable_(
+      const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL class_data);
+  friend class ::google::protobuf::internal::TcParser;
+  #ifndef PROTOBUF_MESSAGE_GLOBALS
+  static const ParseTableT_ _table_;
+  #endif
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  friend ::google::protobuf::internal::PrivateAccess;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                                    ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const BusStreamConnected& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::RepeatedPtrField<::std::string> streams_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fcan_5fstream_2eproto;
+};
+// -------------------------------------------------------------------
+
+class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED BusRefusal final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:jon.can.BusRefusal) */ {
+  using Super_ = ::google::protobuf::Message;
+
+ public:
+  inline BusRefusal() : BusRefusal(nullptr) {}
+  ~BusRefusal() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(BusRefusal* PROTOBUF_NONNULL msg, ::std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(BusRefusal));
+  }
+#endif
+
+  template <typename = void>
+  explicit constexpr BusRefusal(::google::protobuf::internal::ConstantInitialized,
+                           const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+                               class_data);
+
+  inline BusRefusal(const BusRefusal& from) : BusRefusal(nullptr, from) {}
+  inline BusRefusal(BusRefusal&& from) noexcept : BusRefusal(nullptr, ::std::move(from)) {}
+  inline BusRefusal& operator=(const BusRefusal& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline BusRefusal& operator=(BusRefusal&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  [[nodiscard]] inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  [[nodiscard]] inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL
+  mutable_unknown_fields() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  [[nodiscard]] static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  [[nodiscard]] static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL
+  GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  [[nodiscard]] static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  [[nodiscard]] static const BusRefusal& default_instance() {
+    return *::google::protobuf::internal::MessageGlobalsBase::ToDefaultInstance<BusRefusal>(&BusRefusal_globals_);
+  }
+  static constexpr int kIndexInFileMessages = 3;
+  friend void swap(BusRefusal& a, BusRefusal& b) { a.Swap(&b); }
+  inline void Swap(BusRefusal* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(BusRefusal* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  [[nodiscard]] BusRefusal* PROTOBUF_NONNULL
+  New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return Super_::DefaultConstruct<BusRefusal>(arena);
+  }
+  using Super_::CopyFrom;
+  void CopyFrom(const BusRefusal& from);
+  using Super_::MergeFrom;
+  void MergeFrom(const BusRefusal& from) { BusRefusal::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  [[nodiscard]] bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  [[nodiscard]] static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  [[nodiscard]] static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  [[nodiscard]] ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  [[nodiscard]] ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  [[nodiscard]] ::size_t ByteSizeLong() const final;
+  [[nodiscard]] ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  [[nodiscard]] int GetCachedSize() const {
+    return _impl_._cached_size_.Get();
+  }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(BusRefusal* PROTOBUF_NONNULL other);
+ private:
+  static ::absl::string_view FullMessageName() { return "jon.can.BusRefusal"; }
+
+  explicit BusRefusal(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  BusRefusal(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const BusRefusal& from);
+  BusRefusal(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, BusRefusal&& from) noexcept
+      : BusRefusal(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_(
+      const MessageLite& prototype,
+      const ::google::protobuf::internal::TcParseTableBase* PROTOBUF_NULLABLE tc_table = nullptr);
+
+  [[nodiscard]] ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kCodeFieldNumber = 1,
+    kDetailFieldNumber = 2,
+  };
+  // string code = 1 [(.buf.validate.field) = {
+  void clear_code() ;
+  [[nodiscard]] const ::std::string& code() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_code(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_code();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_code();
+  void set_allocated_code(::std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const ::std::string& _internal_code() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_code(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_code();
+
+  public:
+  // string detail = 2;
+  void clear_detail() ;
+  [[nodiscard]] const ::std::string& detail() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_detail(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_detail();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_detail();
+  void set_allocated_detail(::std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const ::std::string& _internal_detail() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_detail(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_detail();
+
+  public:
+  // @@protoc_insertion_point(class_scope:jon.can.BusRefusal)
+ private:
+  class _Internal;
+  using ParseTableT_ =
+      ::google::protobuf::internal::TcParseTable<1, 2,
+                          0, 37,
+                          2>;
+  static constexpr ParseTableT_ InternalGenerateParseTable_(
+      const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL class_data);
+  friend class ::google::protobuf::internal::TcParser;
+  #ifndef PROTOBUF_MESSAGE_GLOBALS
+  static const ParseTableT_ _table_;
+  #endif
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  friend ::google::protobuf::internal::PrivateAccess;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                                    ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const BusRefusal& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr code_;
+    ::google::protobuf::internal::ArenaStringPtr detail_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fcan_5fstream_2eproto;
+};
+// -------------------------------------------------------------------
+
 class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED CANFrameBatch final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:jon.can.CANFrameBatch) */ {
   using Super_ = ::google::protobuf::Message;
@@ -859,6 +1515,1449 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED CANFrameBatch final : public ::goog
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::RepeatedPtrField< ::jon::can::CANFrame > frames_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fcan_5fstream_2eproto;
+};
+// -------------------------------------------------------------------
+
+class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED BusStreamStats final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:jon.can.BusStreamStats) */ {
+  using Super_ = ::google::protobuf::Message;
+
+ public:
+  inline BusStreamStats() : BusStreamStats(nullptr) {}
+  ~BusStreamStats() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(BusStreamStats* PROTOBUF_NONNULL msg, ::std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(BusStreamStats));
+  }
+#endif
+
+  template <typename = void>
+  explicit constexpr BusStreamStats(::google::protobuf::internal::ConstantInitialized,
+                           const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+                               class_data);
+
+  inline BusStreamStats(const BusStreamStats& from) : BusStreamStats(nullptr, from) {}
+  inline BusStreamStats(BusStreamStats&& from) noexcept : BusStreamStats(nullptr, ::std::move(from)) {}
+  inline BusStreamStats& operator=(const BusStreamStats& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline BusStreamStats& operator=(BusStreamStats&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  [[nodiscard]] inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  [[nodiscard]] inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL
+  mutable_unknown_fields() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  [[nodiscard]] static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  [[nodiscard]] static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL
+  GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  [[nodiscard]] static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  [[nodiscard]] static const BusStreamStats& default_instance() {
+    return *::google::protobuf::internal::MessageGlobalsBase::ToDefaultInstance<BusStreamStats>(&BusStreamStats_globals_);
+  }
+  static constexpr int kIndexInFileMessages = 7;
+  friend void swap(BusStreamStats& a, BusStreamStats& b) { a.Swap(&b); }
+  inline void Swap(BusStreamStats* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(BusStreamStats* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  [[nodiscard]] BusStreamStats* PROTOBUF_NONNULL
+  New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return Super_::DefaultConstruct<BusStreamStats>(arena);
+  }
+  using Super_::CopyFrom;
+  void CopyFrom(const BusStreamStats& from);
+  using Super_::MergeFrom;
+  void MergeFrom(const BusStreamStats& from) { BusStreamStats::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  [[nodiscard]] bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  [[nodiscard]] static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  [[nodiscard]] static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  [[nodiscard]] ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  [[nodiscard]] ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  [[nodiscard]] ::size_t ByteSizeLong() const final;
+  [[nodiscard]] ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  [[nodiscard]] int GetCachedSize() const {
+    return _impl_._cached_size_.Get();
+  }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(BusStreamStats* PROTOBUF_NONNULL other);
+ private:
+  static ::absl::string_view FullMessageName() { return "jon.can.BusStreamStats"; }
+
+  explicit BusStreamStats(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  BusStreamStats(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const BusStreamStats& from);
+  BusStreamStats(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, BusStreamStats&& from) noexcept
+      : BusStreamStats(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_(
+      const MessageLite& prototype,
+      const ::google::protobuf::internal::TcParseTableBase* PROTOBUF_NULLABLE tc_table = nullptr);
+
+  [[nodiscard]] ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kRecordsFieldNumber = 1,
+    kMessagesFieldNumber = 2,
+    kRefusedFieldNumber = 3,
+    kAbsorbedFieldNumber = 5,
+    kHopGapsFieldNumber = 7,
+    kSendersFieldNumber = 8,
+    kStreamsFieldNumber = 9,
+    kSourceConnectedFieldNumber = 10,
+    kRefusedByFieldNumber = 4,
+    kDroppedFieldNumber = 6,
+  };
+  // uint64 records = 1;
+  void clear_records() ;
+  [[nodiscard]] ::uint64_t records() const;
+  void set_records(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_records() const;
+  void _internal_set_records(::uint64_t value);
+
+  public:
+  // uint64 messages = 2;
+  void clear_messages() ;
+  [[nodiscard]] ::uint64_t messages() const;
+  void set_messages(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_messages() const;
+  void _internal_set_messages(::uint64_t value);
+
+  public:
+  // uint64 refused = 3;
+  void clear_refused() ;
+  [[nodiscard]] ::uint64_t refused() const;
+  void set_refused(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_refused() const;
+  void _internal_set_refused(::uint64_t value);
+
+  public:
+  // uint64 absorbed = 5;
+  void clear_absorbed() ;
+  [[nodiscard]] ::uint64_t absorbed() const;
+  void set_absorbed(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_absorbed() const;
+  void _internal_set_absorbed(::uint64_t value);
+
+  public:
+  // uint64 hop_gaps = 7;
+  void clear_hop_gaps() ;
+  [[nodiscard]] ::uint64_t hop_gaps() const;
+  void set_hop_gaps(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_hop_gaps() const;
+  void _internal_set_hop_gaps(::uint64_t value);
+
+  public:
+  // uint32 senders = 8;
+  void clear_senders() ;
+  [[nodiscard]] ::uint32_t senders() const;
+  void set_senders(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_senders() const;
+  void _internal_set_senders(::uint32_t value);
+
+  public:
+  // uint32 streams = 9;
+  void clear_streams() ;
+  [[nodiscard]] ::uint32_t streams() const;
+  void set_streams(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_streams() const;
+  void _internal_set_streams(::uint32_t value);
+
+  public:
+  // bool source_connected = 10;
+  void clear_source_connected() ;
+  [[nodiscard]] bool source_connected() const;
+  void set_source_connected(bool value);
+
+  private:
+  bool _internal_source_connected() const;
+  void _internal_set_source_connected(bool value);
+
+  public:
+  // map<string, uint64> refused_by = 4;
+  [[nodiscard]] int refused_by_size() const;
+  private:
+  int _internal_refused_by_size() const;
+
+  public:
+  void clear_refused_by() ;
+  [[nodiscard]] const ::google::protobuf::Map<::std::string, ::uint64_t>& refused_by() const;
+  [[nodiscard]] ::google::protobuf::Map<::std::string, ::uint64_t>* PROTOBUF_NONNULL mutable_refused_by();
+
+  private:
+  const ::google::protobuf::Map<::std::string, ::uint64_t>& _internal_refused_by() const;
+  ::google::protobuf::Map<::std::string, ::uint64_t>* PROTOBUF_NONNULL _internal_mutable_refused_by();
+
+  public:
+  // map<string, uint64> dropped = 6;
+  [[nodiscard]] int dropped_size() const;
+  private:
+  int _internal_dropped_size() const;
+
+  public:
+  void clear_dropped() ;
+  [[nodiscard]] const ::google::protobuf::Map<::std::string, ::uint64_t>& dropped() const;
+  [[nodiscard]] ::google::protobuf::Map<::std::string, ::uint64_t>* PROTOBUF_NONNULL mutable_dropped();
+
+  private:
+  const ::google::protobuf::Map<::std::string, ::uint64_t>& _internal_dropped() const;
+  ::google::protobuf::Map<::std::string, ::uint64_t>* PROTOBUF_NONNULL _internal_mutable_dropped();
+
+  public:
+  // @@protoc_insertion_point(class_scope:jon.can.BusStreamStats)
+ private:
+  class _Internal;
+  using ParseTableT_ =
+      ::google::protobuf::internal::TcParseTable<4, 10,
+                          2, 56,
+                          2>;
+  static constexpr ParseTableT_ InternalGenerateParseTable_(
+      const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL class_data);
+  friend class ::google::protobuf::internal::TcParser;
+  #ifndef PROTOBUF_MESSAGE_GLOBALS
+  static const ParseTableT_ _table_;
+  #endif
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  friend ::google::protobuf::internal::PrivateAccess;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                                    ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const BusStreamStats& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::uint64_t records_;
+    ::uint64_t messages_;
+    ::uint64_t refused_;
+    ::uint64_t absorbed_;
+    ::uint64_t hop_gaps_;
+    ::uint32_t senders_;
+    ::uint32_t streams_;
+    bool source_connected_;
+    ::google::protobuf::internal::MapField<BusStreamStats_RefusedByEntry_DoNotUse, ::std::string, ::uint64_t> refused_by_;
+    ::google::protobuf::internal::MapField<BusStreamStats_DroppedEntry_DoNotUse, ::std::string, ::uint64_t> dropped_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fcan_5fstream_2eproto;
+};
+// -------------------------------------------------------------------
+
+class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED BusRecord final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:jon.can.BusRecord) */ {
+  using Super_ = ::google::protobuf::Message;
+
+ public:
+  inline BusRecord() : BusRecord(nullptr) {}
+  ~BusRecord() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(BusRecord* PROTOBUF_NONNULL msg, ::std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(BusRecord));
+  }
+#endif
+
+  template <typename = void>
+  explicit constexpr BusRecord(::google::protobuf::internal::ConstantInitialized,
+                           const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+                               class_data);
+
+  inline BusRecord(const BusRecord& from) : BusRecord(nullptr, from) {}
+  inline BusRecord(BusRecord&& from) noexcept : BusRecord(nullptr, ::std::move(from)) {}
+  inline BusRecord& operator=(const BusRecord& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline BusRecord& operator=(BusRecord&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  [[nodiscard]] inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  [[nodiscard]] inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL
+  mutable_unknown_fields() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  [[nodiscard]] static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  [[nodiscard]] static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL
+  GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  [[nodiscard]] static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  [[nodiscard]] static const BusRecord& default_instance() {
+    return *::google::protobuf::internal::MessageGlobalsBase::ToDefaultInstance<BusRecord>(&BusRecord_globals_);
+  }
+  static constexpr int kIndexInFileMessages = 4;
+  friend void swap(BusRecord& a, BusRecord& b) { a.Swap(&b); }
+  inline void Swap(BusRecord* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(BusRecord* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  [[nodiscard]] BusRecord* PROTOBUF_NONNULL
+  New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return Super_::DefaultConstruct<BusRecord>(arena);
+  }
+  using Super_::CopyFrom;
+  void CopyFrom(const BusRecord& from);
+  using Super_::MergeFrom;
+  void MergeFrom(const BusRecord& from) { BusRecord::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  [[nodiscard]] bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  [[nodiscard]] static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  [[nodiscard]] static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  [[nodiscard]] ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  [[nodiscard]] ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  [[nodiscard]] ::size_t ByteSizeLong() const final;
+  [[nodiscard]] ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  [[nodiscard]] int GetCachedSize() const {
+    return _impl_._cached_size_.Get();
+  }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(BusRecord* PROTOBUF_NONNULL other);
+ private:
+  static ::absl::string_view FullMessageName() { return "jon.can.BusRecord"; }
+
+  explicit BusRecord(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  BusRecord(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const BusRecord& from);
+  BusRecord(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, BusRecord&& from) noexcept
+      : BusRecord(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_(
+      const MessageLite& prototype,
+      const ::google::protobuf::internal::TcParseTableBase* PROTOBUF_NULLABLE tc_table = nullptr);
+
+  [[nodiscard]] ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kTitleFieldNumber = 2,
+    kKindFieldNumber = 3,
+    kDirFieldNumber = 4,
+    kModuleFieldNumber = 6,
+    kFamilyFieldNumber = 8,
+    kCommandFieldNumber = 9,
+    kMessageFieldNumber = 10,
+    kDecodedJsonFieldNumber = 11,
+    kSenderModuleFieldNumber = 17,
+    kFrameFlagsFieldNumber = 20,
+    kDataFieldNumber = 21,
+    kPayloadFieldNumber = 22,
+    kStreamFieldNumber = 29,
+    kEntryIdFieldNumber = 30,
+    kRefusalFieldNumber = 12,
+    kNFieldNumber = 1,
+    kNodeFieldNumber = 5,
+    kTopicFieldNumber = 7,
+    kTsNsFieldNumber = 13,
+    kOriginFieldNumber = 14,
+    kHopSeqFieldNumber = 15,
+    kSenderFieldNumber = 16,
+    kCanIdFieldNumber = 18,
+    kFflagsFieldNumber = 19,
+    kPrioFieldNumber = 23,
+    kTypeFieldNumber = 24,
+    kSeqFieldNumber = 25,
+    kTxTimeNsFieldNumber = 27,
+    kFragTotalFieldNumber = 26,
+    kTsValidFieldNumber = 28,
+    kTimeMsFieldNumber = 31,
+  };
+  // string title = 2;
+  void clear_title() ;
+  [[nodiscard]] const ::std::string& title() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_title(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_title();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_title();
+  void set_allocated_title(::std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const ::std::string& _internal_title() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_title(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_title();
+
+  public:
+  // string kind = 3 [(.buf.validate.field) = {
+  void clear_kind() ;
+  [[nodiscard]] const ::std::string& kind() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_kind(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_kind();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_kind();
+  void set_allocated_kind(::std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const ::std::string& _internal_kind() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_kind(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_kind();
+
+  public:
+  // string dir = 4;
+  void clear_dir() ;
+  [[nodiscard]] const ::std::string& dir() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_dir(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_dir();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_dir();
+  void set_allocated_dir(::std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const ::std::string& _internal_dir() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_dir(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_dir();
+
+  public:
+  // string module = 6;
+  void clear_module() ;
+  [[nodiscard]] const ::std::string& module() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_module(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_module();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_module();
+  void set_allocated_module(::std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const ::std::string& _internal_module() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_module(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_module();
+
+  public:
+  // string family = 8;
+  void clear_family() ;
+  [[nodiscard]] const ::std::string& family() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_family(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_family();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_family();
+  void set_allocated_family(::std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const ::std::string& _internal_family() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_family(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_family();
+
+  public:
+  // string command = 9;
+  void clear_command() ;
+  [[nodiscard]] const ::std::string& command() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_command(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_command();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_command();
+  void set_allocated_command(::std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const ::std::string& _internal_command() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_command(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_command();
+
+  public:
+  // string message = 10;
+  void clear_message() ;
+  [[nodiscard]] const ::std::string& message() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_message(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_message();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_message();
+  void set_allocated_message(::std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const ::std::string& _internal_message() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_message(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_message();
+
+  public:
+  // string decoded_json = 11 [(.buf.validate.field) = {
+  void clear_decoded_json() ;
+  [[nodiscard]] const ::std::string& decoded_json() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_decoded_json(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_decoded_json();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_decoded_json();
+  void set_allocated_decoded_json(::std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const ::std::string& _internal_decoded_json() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_decoded_json(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_decoded_json();
+
+  public:
+  // string sender_module = 17;
+  void clear_sender_module() ;
+  [[nodiscard]] const ::std::string& sender_module() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_sender_module(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_sender_module();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_sender_module();
+  void set_allocated_sender_module(::std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const ::std::string& _internal_sender_module() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_sender_module(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_sender_module();
+
+  public:
+  // string frame_flags = 20;
+  void clear_frame_flags() ;
+  [[nodiscard]] const ::std::string& frame_flags() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_frame_flags(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_frame_flags();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_frame_flags();
+  void set_allocated_frame_flags(::std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const ::std::string& _internal_frame_flags() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_frame_flags(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_frame_flags();
+
+  public:
+  // bytes data = 21 [(.buf.validate.field) = {
+  void clear_data() ;
+  [[nodiscard]] const ::std::string& data() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_data(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_data();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_data();
+  void set_allocated_data(::std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const ::std::string& _internal_data() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_data(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_data();
+
+  public:
+  // bytes payload = 22 [(.buf.validate.field) = {
+  void clear_payload() ;
+  [[nodiscard]] const ::std::string& payload() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_payload(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_payload();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_payload();
+  void set_allocated_payload(::std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const ::std::string& _internal_payload() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_payload(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_payload();
+
+  public:
+  // string stream = 29;
+  void clear_stream() ;
+  [[nodiscard]] const ::std::string& stream() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_stream(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_stream();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_stream();
+  void set_allocated_stream(::std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const ::std::string& _internal_stream() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_stream(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_stream();
+
+  public:
+  // string entry_id = 30;
+  void clear_entry_id() ;
+  [[nodiscard]] const ::std::string& entry_id() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_entry_id(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_entry_id();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_entry_id();
+  void set_allocated_entry_id(::std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const ::std::string& _internal_entry_id() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_entry_id(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_entry_id();
+
+  public:
+  // .jon.can.BusRefusal refusal = 12;
+  [[nodiscard]] bool has_refusal() const;
+  void clear_refusal() ;
+  [[nodiscard]] const ::jon::can::BusRefusal& refusal() const;
+  [[nodiscard]] ::jon::can::BusRefusal* PROTOBUF_NULLABLE release_refusal();
+  ::jon::can::BusRefusal* PROTOBUF_NONNULL mutable_refusal();
+  void set_allocated_refusal(::jon::can::BusRefusal* PROTOBUF_NULLABLE value);
+  void unsafe_arena_set_allocated_refusal(::jon::can::BusRefusal* PROTOBUF_NULLABLE value);
+  ::jon::can::BusRefusal* PROTOBUF_NULLABLE unsafe_arena_release_refusal();
+
+  private:
+  const ::jon::can::BusRefusal& _internal_refusal() const;
+  ::jon::can::BusRefusal* PROTOBUF_NONNULL _internal_mutable_refusal();
+
+  public:
+  // uint64 n = 1 [(.buf.validate.field) = {
+  void clear_n() ;
+  [[nodiscard]] ::uint64_t n() const;
+  void set_n(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_n() const;
+  void _internal_set_n(::uint64_t value);
+
+  public:
+  // uint32 node = 5 [(.buf.validate.field) = {
+  void clear_node() ;
+  [[nodiscard]] ::uint32_t node() const;
+  void set_node(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_node() const;
+  void _internal_set_node(::uint32_t value);
+
+  public:
+  // uint32 topic = 7 [(.buf.validate.field) = {
+  void clear_topic() ;
+  [[nodiscard]] ::uint32_t topic() const;
+  void set_topic(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_topic() const;
+  void _internal_set_topic(::uint32_t value);
+
+  public:
+  // uint64 ts_ns = 13;
+  void clear_ts_ns() ;
+  [[nodiscard]] ::uint64_t ts_ns() const;
+  void set_ts_ns(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_ts_ns() const;
+  void _internal_set_ts_ns(::uint64_t value);
+
+  public:
+  // .jon.can.BusOrigin origin = 14;
+  void clear_origin() ;
+  [[nodiscard]] ::jon::can::BusOrigin origin() const;
+  void set_origin(::jon::can::BusOrigin value);
+
+  private:
+  ::jon::can::BusOrigin _internal_origin() const;
+  void _internal_set_origin(::jon::can::BusOrigin value);
+
+  public:
+  // optional uint32 hop_seq = 15 [(.buf.validate.field) = {
+  [[nodiscard]] bool has_hop_seq() const;
+  void clear_hop_seq() ;
+  [[nodiscard]] ::uint32_t hop_seq() const;
+  void set_hop_seq(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_hop_seq() const;
+  void _internal_set_hop_seq(::uint32_t value);
+
+  public:
+  // optional uint32 sender = 16 [(.buf.validate.field) = {
+  [[nodiscard]] bool has_sender() const;
+  void clear_sender() ;
+  [[nodiscard]] ::uint32_t sender() const;
+  void set_sender(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_sender() const;
+  void _internal_set_sender(::uint32_t value);
+
+  public:
+  // uint32 can_id = 18 [(.buf.validate.field) = {
+  void clear_can_id() ;
+  [[nodiscard]] ::uint32_t can_id() const;
+  void set_can_id(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_can_id() const;
+  void _internal_set_can_id(::uint32_t value);
+
+  public:
+  // uint32 fflags = 19 [(.buf.validate.field) = {
+  void clear_fflags() ;
+  [[nodiscard]] ::uint32_t fflags() const;
+  void set_fflags(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_fflags() const;
+  void _internal_set_fflags(::uint32_t value);
+
+  public:
+  // uint32 prio = 23 [(.buf.validate.field) = {
+  void clear_prio() ;
+  [[nodiscard]] ::uint32_t prio() const;
+  void set_prio(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_prio() const;
+  void _internal_set_prio(::uint32_t value);
+
+  public:
+  // uint32 type = 24 [(.buf.validate.field) = {
+  void clear_type() ;
+  [[nodiscard]] ::uint32_t type() const;
+  void set_type(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_type() const;
+  void _internal_set_type(::uint32_t value);
+
+  public:
+  // uint32 seq = 25 [(.buf.validate.field) = {
+  void clear_seq() ;
+  [[nodiscard]] ::uint32_t seq() const;
+  void set_seq(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_seq() const;
+  void _internal_set_seq(::uint32_t value);
+
+  public:
+  // uint64 tx_time_ns = 27;
+  void clear_tx_time_ns() ;
+  [[nodiscard]] ::uint64_t tx_time_ns() const;
+  void set_tx_time_ns(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_tx_time_ns() const;
+  void _internal_set_tx_time_ns(::uint64_t value);
+
+  public:
+  // uint32 frag_total = 26 [(.buf.validate.field) = {
+  void clear_frag_total() ;
+  [[nodiscard]] ::uint32_t frag_total() const;
+  void set_frag_total(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_frag_total() const;
+  void _internal_set_frag_total(::uint32_t value);
+
+  public:
+  // bool ts_valid = 28;
+  void clear_ts_valid() ;
+  [[nodiscard]] bool ts_valid() const;
+  void set_ts_valid(bool value);
+
+  private:
+  bool _internal_ts_valid() const;
+  void _internal_set_ts_valid(bool value);
+
+  public:
+  // int64 time_ms = 31;
+  void clear_time_ms() ;
+  [[nodiscard]] ::int64_t time_ms() const;
+  void set_time_ms(::int64_t value);
+
+  private:
+  ::int64_t _internal_time_ms() const;
+  void _internal_set_time_ms(::int64_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:jon.can.BusRecord)
+ private:
+  class _Internal;
+  using ParseTableT_ =
+      ::google::protobuf::internal::TcParseTable<5, 31,
+                          1, 138,
+                          2>;
+  static constexpr ParseTableT_ InternalGenerateParseTable_(
+      const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL class_data);
+  friend class ::google::protobuf::internal::TcParser;
+  #ifndef PROTOBUF_MESSAGE_GLOBALS
+  static const ParseTableT_ _table_;
+  #endif
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  friend ::google::protobuf::internal::PrivateAccess;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                                    ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const BusRecord& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr title_;
+    ::google::protobuf::internal::ArenaStringPtr kind_;
+    ::google::protobuf::internal::ArenaStringPtr dir_;
+    ::google::protobuf::internal::ArenaStringPtr module_;
+    ::google::protobuf::internal::ArenaStringPtr family_;
+    ::google::protobuf::internal::ArenaStringPtr command_;
+    ::google::protobuf::internal::ArenaStringPtr message_;
+    ::google::protobuf::internal::ArenaStringPtr decoded_json_;
+    ::google::protobuf::internal::ArenaStringPtr sender_module_;
+    ::google::protobuf::internal::ArenaStringPtr frame_flags_;
+    ::google::protobuf::internal::ArenaStringPtr data_;
+    ::google::protobuf::internal::ArenaStringPtr payload_;
+    ::google::protobuf::internal::ArenaStringPtr stream_;
+    ::google::protobuf::internal::ArenaStringPtr entry_id_;
+    ::jon::can::BusRefusal* PROTOBUF_NULLABLE refusal_;
+    ::uint64_t n_;
+    ::uint32_t node_;
+    ::uint32_t topic_;
+    ::uint64_t ts_ns_;
+    int origin_;
+    ::uint32_t hop_seq_;
+    ::uint32_t sender_;
+    ::uint32_t can_id_;
+    ::uint32_t fflags_;
+    ::uint32_t prio_;
+    ::uint32_t type_;
+    ::uint32_t seq_;
+    ::uint64_t tx_time_ns_;
+    ::uint32_t frag_total_;
+    bool ts_valid_;
+    ::int64_t time_ms_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fcan_5fstream_2eproto;
+};
+// -------------------------------------------------------------------
+
+class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED BusRecordBatch final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:jon.can.BusRecordBatch) */ {
+  using Super_ = ::google::protobuf::Message;
+
+ public:
+  inline BusRecordBatch() : BusRecordBatch(nullptr) {}
+  ~BusRecordBatch() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(BusRecordBatch* PROTOBUF_NONNULL msg, ::std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(BusRecordBatch));
+  }
+#endif
+
+  template <typename = void>
+  explicit constexpr BusRecordBatch(::google::protobuf::internal::ConstantInitialized,
+                           const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+                               class_data);
+
+  inline BusRecordBatch(const BusRecordBatch& from) : BusRecordBatch(nullptr, from) {}
+  inline BusRecordBatch(BusRecordBatch&& from) noexcept : BusRecordBatch(nullptr, ::std::move(from)) {}
+  inline BusRecordBatch& operator=(const BusRecordBatch& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline BusRecordBatch& operator=(BusRecordBatch&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  [[nodiscard]] inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  [[nodiscard]] inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL
+  mutable_unknown_fields() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  [[nodiscard]] static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  [[nodiscard]] static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL
+  GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  [[nodiscard]] static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  [[nodiscard]] static const BusRecordBatch& default_instance() {
+    return *::google::protobuf::internal::MessageGlobalsBase::ToDefaultInstance<BusRecordBatch>(&BusRecordBatch_globals_);
+  }
+  static constexpr int kIndexInFileMessages = 8;
+  friend void swap(BusRecordBatch& a, BusRecordBatch& b) { a.Swap(&b); }
+  inline void Swap(BusRecordBatch* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(BusRecordBatch* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  [[nodiscard]] BusRecordBatch* PROTOBUF_NONNULL
+  New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return Super_::DefaultConstruct<BusRecordBatch>(arena);
+  }
+  using Super_::CopyFrom;
+  void CopyFrom(const BusRecordBatch& from);
+  using Super_::MergeFrom;
+  void MergeFrom(const BusRecordBatch& from) { BusRecordBatch::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  [[nodiscard]] bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  [[nodiscard]] static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  [[nodiscard]] static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  [[nodiscard]] ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  [[nodiscard]] ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  [[nodiscard]] ::size_t ByteSizeLong() const final;
+  [[nodiscard]] ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  [[nodiscard]] int GetCachedSize() const {
+    return _impl_._cached_size_.Get();
+  }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(BusRecordBatch* PROTOBUF_NONNULL other);
+ private:
+  static ::absl::string_view FullMessageName() { return "jon.can.BusRecordBatch"; }
+
+  explicit BusRecordBatch(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  BusRecordBatch(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const BusRecordBatch& from);
+  BusRecordBatch(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, BusRecordBatch&& from) noexcept
+      : BusRecordBatch(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_(
+      const MessageLite& prototype,
+      const ::google::protobuf::internal::TcParseTableBase* PROTOBUF_NULLABLE tc_table = nullptr);
+
+  [[nodiscard]] ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kRecordsFieldNumber = 1,
+    kStatsFieldNumber = 2,
+    kEvictedFieldNumber = 3,
+  };
+  // repeated .jon.can.BusRecord records = 1;
+  [[nodiscard]] int records_size() const;
+  private:
+  int _internal_records_size() const;
+
+  public:
+  void clear_records() ;
+  [[nodiscard]] const ::jon::can::BusRecord& records(int index) const;
+  [[nodiscard]] ::jon::can::BusRecord* PROTOBUF_NONNULL mutable_records(int index);
+  ::jon::can::BusRecord* PROTOBUF_NONNULL add_records();
+  [[nodiscard]] const ::google::protobuf::RepeatedPtrField<::jon::can::BusRecord>&
+  records() const;
+  [[nodiscard]] ::google::protobuf::RepeatedPtrField<::jon::can::BusRecord>* PROTOBUF_NONNULL
+  mutable_records();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::jon::can::BusRecord>& _internal_records() const;
+  ::google::protobuf::RepeatedPtrField<::jon::can::BusRecord>* PROTOBUF_NONNULL _internal_mutable_records();
+
+  public:
+  // .jon.can.BusStreamStats stats = 2;
+  [[nodiscard]] bool has_stats() const;
+  void clear_stats() ;
+  [[nodiscard]] const ::jon::can::BusStreamStats& stats() const;
+  [[nodiscard]] ::jon::can::BusStreamStats* PROTOBUF_NULLABLE release_stats();
+  ::jon::can::BusStreamStats* PROTOBUF_NONNULL mutable_stats();
+  void set_allocated_stats(::jon::can::BusStreamStats* PROTOBUF_NULLABLE value);
+  void unsafe_arena_set_allocated_stats(::jon::can::BusStreamStats* PROTOBUF_NULLABLE value);
+  ::jon::can::BusStreamStats* PROTOBUF_NULLABLE unsafe_arena_release_stats();
+
+  private:
+  const ::jon::can::BusStreamStats& _internal_stats() const;
+  ::jon::can::BusStreamStats* PROTOBUF_NONNULL _internal_mutable_stats();
+
+  public:
+  // uint64 evicted = 3;
+  void clear_evicted() ;
+  [[nodiscard]] ::uint64_t evicted() const;
+  void set_evicted(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_evicted() const;
+  void _internal_set_evicted(::uint64_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:jon.can.BusRecordBatch)
+ private:
+  class _Internal;
+  using ParseTableT_ =
+      ::google::protobuf::internal::TcParseTable<2, 3,
+                          2, 0,
+                          2>;
+  static constexpr ParseTableT_ InternalGenerateParseTable_(
+      const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL class_data);
+  friend class ::google::protobuf::internal::TcParser;
+  #ifndef PROTOBUF_MESSAGE_GLOBALS
+  static const ParseTableT_ _table_;
+  #endif
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  friend ::google::protobuf::internal::PrivateAccess;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                                    ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const BusRecordBatch& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::RepeatedPtrField< ::jon::can::BusRecord > records_;
+    ::jon::can::BusStreamStats* PROTOBUF_NULLABLE stats_;
+    ::uint64_t evicted_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fcan_5fstream_2eproto;
+};
+// -------------------------------------------------------------------
+
+class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED BusStreamMessage final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:jon.can.BusStreamMessage) */ {
+  using Super_ = ::google::protobuf::Message;
+
+ public:
+  inline BusStreamMessage() : BusStreamMessage(nullptr) {}
+  ~BusStreamMessage() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(BusStreamMessage* PROTOBUF_NONNULL msg, ::std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(BusStreamMessage));
+  }
+#endif
+
+  template <typename = void>
+  explicit constexpr BusStreamMessage(::google::protobuf::internal::ConstantInitialized,
+                           const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+                               class_data);
+
+  inline BusStreamMessage(const BusStreamMessage& from) : BusStreamMessage(nullptr, from) {}
+  inline BusStreamMessage(BusStreamMessage&& from) noexcept : BusStreamMessage(nullptr, ::std::move(from)) {}
+  inline BusStreamMessage& operator=(const BusStreamMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline BusStreamMessage& operator=(BusStreamMessage&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  [[nodiscard]] inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  [[nodiscard]] inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL
+  mutable_unknown_fields() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  [[nodiscard]] static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  [[nodiscard]] static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL
+  GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  [[nodiscard]] static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  [[nodiscard]] static const BusStreamMessage& default_instance() {
+    return *::google::protobuf::internal::MessageGlobalsBase::ToDefaultInstance<BusStreamMessage>(&BusStreamMessage_globals_);
+  }
+  enum MessageCase {
+    kConnected = 1,
+    kBatch = 2,
+    MESSAGE_NOT_SET = 0,
+  };
+  static constexpr int kIndexInFileMessages = 10;
+  friend void swap(BusStreamMessage& a, BusStreamMessage& b) { a.Swap(&b); }
+  inline void Swap(BusStreamMessage* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(BusStreamMessage* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  [[nodiscard]] BusStreamMessage* PROTOBUF_NONNULL
+  New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return Super_::DefaultConstruct<BusStreamMessage>(arena);
+  }
+  using Super_::CopyFrom;
+  void CopyFrom(const BusStreamMessage& from);
+  using Super_::MergeFrom;
+  void MergeFrom(const BusStreamMessage& from) { BusStreamMessage::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  [[nodiscard]] bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  [[nodiscard]] static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  [[nodiscard]] static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  [[nodiscard]] ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  [[nodiscard]] ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  [[nodiscard]] ::size_t ByteSizeLong() const final;
+  [[nodiscard]] ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  [[nodiscard]] int GetCachedSize() const {
+    return _impl_._cached_size_.Get();
+  }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(BusStreamMessage* PROTOBUF_NONNULL other);
+ private:
+  static ::absl::string_view FullMessageName() { return "jon.can.BusStreamMessage"; }
+
+  explicit BusStreamMessage(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  BusStreamMessage(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const BusStreamMessage& from);
+  BusStreamMessage(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, BusStreamMessage&& from) noexcept
+      : BusStreamMessage(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_(
+      const MessageLite& prototype,
+      const ::google::protobuf::internal::TcParseTableBase* PROTOBUF_NULLABLE tc_table = nullptr);
+
+  [[nodiscard]] ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kConnectedFieldNumber = 1,
+    kBatchFieldNumber = 2,
+  };
+  // .jon.can.BusStreamConnected connected = 1;
+  [[nodiscard]] bool has_connected() const;
+  private:
+  bool _internal_has_connected() const;
+
+  public:
+  void clear_connected() ;
+  [[nodiscard]] const ::jon::can::BusStreamConnected& connected() const;
+  [[nodiscard]] ::jon::can::BusStreamConnected* PROTOBUF_NULLABLE release_connected();
+  ::jon::can::BusStreamConnected* PROTOBUF_NONNULL mutable_connected();
+  void set_allocated_connected(::jon::can::BusStreamConnected* PROTOBUF_NULLABLE value);
+  void unsafe_arena_set_allocated_connected(::jon::can::BusStreamConnected* PROTOBUF_NULLABLE value);
+  ::jon::can::BusStreamConnected* PROTOBUF_NULLABLE unsafe_arena_release_connected();
+
+  private:
+  const ::jon::can::BusStreamConnected& _internal_connected() const;
+  ::jon::can::BusStreamConnected* PROTOBUF_NONNULL _internal_mutable_connected();
+
+  public:
+  // .jon.can.BusRecordBatch batch = 2;
+  [[nodiscard]] bool has_batch() const;
+  private:
+  bool _internal_has_batch() const;
+
+  public:
+  void clear_batch() ;
+  [[nodiscard]] const ::jon::can::BusRecordBatch& batch() const;
+  [[nodiscard]] ::jon::can::BusRecordBatch* PROTOBUF_NULLABLE release_batch();
+  ::jon::can::BusRecordBatch* PROTOBUF_NONNULL mutable_batch();
+  void set_allocated_batch(::jon::can::BusRecordBatch* PROTOBUF_NULLABLE value);
+  void unsafe_arena_set_allocated_batch(::jon::can::BusRecordBatch* PROTOBUF_NULLABLE value);
+  ::jon::can::BusRecordBatch* PROTOBUF_NULLABLE unsafe_arena_release_batch();
+
+  private:
+  const ::jon::can::BusRecordBatch& _internal_batch() const;
+  ::jon::can::BusRecordBatch* PROTOBUF_NONNULL _internal_mutable_batch();
+
+  public:
+  void clear_message();
+  MessageCase message_case() const;
+  // @@protoc_insertion_point(class_scope:jon.can.BusStreamMessage)
+ private:
+  class _Internal;
+  void set_has_connected();
+  void set_has_batch();
+  [[nodiscard]] inline bool has_message() const;
+  inline void clear_has_message();
+  using ParseTableT_ =
+      ::google::protobuf::internal::TcParseTable<0, 2,
+                          2, 0,
+                          2>;
+  static constexpr ParseTableT_ InternalGenerateParseTable_(
+      const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL class_data);
+  friend class ::google::protobuf::internal::TcParser;
+  #ifndef PROTOBUF_MESSAGE_GLOBALS
+  static const ParseTableT_ _table_;
+  #endif
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  friend ::google::protobuf::internal::PrivateAccess;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                                    ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const BusStreamMessage& from_msg);
+    union MessageUnion {
+      constexpr MessageUnion() : _constinit_{} {}
+      ::google::protobuf::internal::ConstantInitialized _constinit_;
+      ::jon::can::BusStreamConnected* PROTOBUF_NULLABLE connected_;
+      ::jon::can::BusRecordBatch* PROTOBUF_NULLABLE batch_;
+    } message_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::uint32_t _oneof_case_[1];
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -1272,6 +3371,2222 @@ CANStreamConnected::_internal_mutable_streams() {
   return &_impl_.streams_;
 }
 
+// -------------------------------------------------------------------
+
+// BusRefusal
+
+// string code = 1 [(.buf.validate.field) = {
+inline void BusRefusal::clear_code() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.code_.ClearToEmpty();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
+}
+inline const ::std::string& BusRefusal::code() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusRefusal.code)
+  return _internal_code();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void BusRefusal::set_code(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  SetHasBit(_impl_._has_bits_[0], 0x00000001U);
+  _impl_.code_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.can.BusRefusal.code)
+}
+inline ::std::string* PROTOBUF_NONNULL BusRefusal::mutable_code()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000001U);
+  ::std::string* _s = _internal_mutable_code();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusRefusal.code)
+  return _s;
+}
+inline const ::std::string& BusRefusal::_internal_code() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.code_.Get();
+}
+inline void BusRefusal::_internal_set_code(const ::std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.code_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL BusRefusal::_internal_mutable_code() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.code_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE BusRefusal::release_code() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.can.BusRefusal.code)
+  if (!CheckHasBit(_impl_._has_bits_[0], 0x00000001U)) {
+    return nullptr;
+  }
+  ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
+  auto* released = _impl_.code_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.code_.Set("", GetArena());
+  }
+  return released;
+}
+inline void BusRefusal::set_allocated_code(::std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00000001U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
+  }
+  _impl_.code_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.code_.IsDefault()) {
+    _impl_.code_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusRefusal.code)
+}
+
+// string detail = 2;
+inline void BusRefusal::clear_detail() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.detail_.ClearToEmpty();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+}
+inline const ::std::string& BusRefusal::detail() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusRefusal.detail)
+  return _internal_detail();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void BusRefusal::set_detail(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  SetHasBit(_impl_._has_bits_[0], 0x00000002U);
+  _impl_.detail_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.can.BusRefusal.detail)
+}
+inline ::std::string* PROTOBUF_NONNULL BusRefusal::mutable_detail()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000002U);
+  ::std::string* _s = _internal_mutable_detail();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusRefusal.detail)
+  return _s;
+}
+inline const ::std::string& BusRefusal::_internal_detail() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.detail_.Get();
+}
+inline void BusRefusal::_internal_set_detail(const ::std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.detail_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL BusRefusal::_internal_mutable_detail() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.detail_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE BusRefusal::release_detail() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.can.BusRefusal.detail)
+  if (!CheckHasBit(_impl_._has_bits_[0], 0x00000002U)) {
+    return nullptr;
+  }
+  ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+  auto* released = _impl_.detail_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.detail_.Set("", GetArena());
+  }
+  return released;
+}
+inline void BusRefusal::set_allocated_detail(::std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00000002U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+  }
+  _impl_.detail_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.detail_.IsDefault()) {
+    _impl_.detail_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusRefusal.detail)
+}
+
+// -------------------------------------------------------------------
+
+// BusRecord
+
+// uint64 n = 1 [(.buf.validate.field) = {
+inline void BusRecord::clear_n() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.n_ = ::uint64_t{0u};
+  ClearHasBit(_impl_._has_bits_[0], 0x00008000U);
+}
+inline ::uint64_t BusRecord::n() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.n)
+  return _internal_n();
+}
+inline void BusRecord::set_n(::uint64_t value) {
+  _internal_set_n(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00008000U);
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.n)
+}
+inline ::uint64_t BusRecord::_internal_n() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.n_;
+}
+inline void BusRecord::_internal_set_n(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.n_ = value;
+}
+
+// string title = 2;
+inline void BusRecord::clear_title() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.ClearToEmpty();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
+}
+inline const ::std::string& BusRecord::title() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.title)
+  return _internal_title();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void BusRecord::set_title(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  SetHasBit(_impl_._has_bits_[0], 0x00000001U);
+  _impl_.title_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.title)
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::mutable_title()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000001U);
+  ::std::string* _s = _internal_mutable_title();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusRecord.title)
+  return _s;
+}
+inline const ::std::string& BusRecord::_internal_title() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.title_.Get();
+}
+inline void BusRecord::_internal_set_title(const ::std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::_internal_mutable_title() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.title_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE BusRecord::release_title() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.can.BusRecord.title)
+  if (!CheckHasBit(_impl_._has_bits_[0], 0x00000001U)) {
+    return nullptr;
+  }
+  ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
+  auto* released = _impl_.title_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.title_.Set("", GetArena());
+  }
+  return released;
+}
+inline void BusRecord::set_allocated_title(::std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00000001U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
+  }
+  _impl_.title_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.title_.IsDefault()) {
+    _impl_.title_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusRecord.title)
+}
+
+// string kind = 3 [(.buf.validate.field) = {
+inline void BusRecord::clear_kind() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.kind_.ClearToEmpty();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+}
+inline const ::std::string& BusRecord::kind() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.kind)
+  return _internal_kind();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void BusRecord::set_kind(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  SetHasBit(_impl_._has_bits_[0], 0x00000002U);
+  _impl_.kind_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.kind)
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::mutable_kind()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000002U);
+  ::std::string* _s = _internal_mutable_kind();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusRecord.kind)
+  return _s;
+}
+inline const ::std::string& BusRecord::_internal_kind() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.kind_.Get();
+}
+inline void BusRecord::_internal_set_kind(const ::std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.kind_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::_internal_mutable_kind() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.kind_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE BusRecord::release_kind() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.can.BusRecord.kind)
+  if (!CheckHasBit(_impl_._has_bits_[0], 0x00000002U)) {
+    return nullptr;
+  }
+  ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+  auto* released = _impl_.kind_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.kind_.Set("", GetArena());
+  }
+  return released;
+}
+inline void BusRecord::set_allocated_kind(::std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00000002U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+  }
+  _impl_.kind_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.kind_.IsDefault()) {
+    _impl_.kind_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusRecord.kind)
+}
+
+// string dir = 4;
+inline void BusRecord::clear_dir() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.dir_.ClearToEmpty();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000004U);
+}
+inline const ::std::string& BusRecord::dir() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.dir)
+  return _internal_dir();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void BusRecord::set_dir(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  SetHasBit(_impl_._has_bits_[0], 0x00000004U);
+  _impl_.dir_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.dir)
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::mutable_dir()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000004U);
+  ::std::string* _s = _internal_mutable_dir();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusRecord.dir)
+  return _s;
+}
+inline const ::std::string& BusRecord::_internal_dir() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.dir_.Get();
+}
+inline void BusRecord::_internal_set_dir(const ::std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.dir_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::_internal_mutable_dir() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.dir_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE BusRecord::release_dir() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.can.BusRecord.dir)
+  if (!CheckHasBit(_impl_._has_bits_[0], 0x00000004U)) {
+    return nullptr;
+  }
+  ClearHasBit(_impl_._has_bits_[0], 0x00000004U);
+  auto* released = _impl_.dir_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.dir_.Set("", GetArena());
+  }
+  return released;
+}
+inline void BusRecord::set_allocated_dir(::std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00000004U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000004U);
+  }
+  _impl_.dir_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.dir_.IsDefault()) {
+    _impl_.dir_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusRecord.dir)
+}
+
+// uint32 node = 5 [(.buf.validate.field) = {
+inline void BusRecord::clear_node() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.node_ = 0u;
+  ClearHasBit(_impl_._has_bits_[0], 0x00010000U);
+}
+inline ::uint32_t BusRecord::node() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.node)
+  return _internal_node();
+}
+inline void BusRecord::set_node(::uint32_t value) {
+  _internal_set_node(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00010000U);
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.node)
+}
+inline ::uint32_t BusRecord::_internal_node() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.node_;
+}
+inline void BusRecord::_internal_set_node(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.node_ = value;
+}
+
+// string module = 6;
+inline void BusRecord::clear_module() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.module_.ClearToEmpty();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000008U);
+}
+inline const ::std::string& BusRecord::module() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.module)
+  return _internal_module();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void BusRecord::set_module(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  SetHasBit(_impl_._has_bits_[0], 0x00000008U);
+  _impl_.module_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.module)
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::mutable_module()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000008U);
+  ::std::string* _s = _internal_mutable_module();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusRecord.module)
+  return _s;
+}
+inline const ::std::string& BusRecord::_internal_module() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.module_.Get();
+}
+inline void BusRecord::_internal_set_module(const ::std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.module_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::_internal_mutable_module() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.module_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE BusRecord::release_module() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.can.BusRecord.module)
+  if (!CheckHasBit(_impl_._has_bits_[0], 0x00000008U)) {
+    return nullptr;
+  }
+  ClearHasBit(_impl_._has_bits_[0], 0x00000008U);
+  auto* released = _impl_.module_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.module_.Set("", GetArena());
+  }
+  return released;
+}
+inline void BusRecord::set_allocated_module(::std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00000008U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000008U);
+  }
+  _impl_.module_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.module_.IsDefault()) {
+    _impl_.module_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusRecord.module)
+}
+
+// uint32 topic = 7 [(.buf.validate.field) = {
+inline void BusRecord::clear_topic() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.topic_ = 0u;
+  ClearHasBit(_impl_._has_bits_[0], 0x00020000U);
+}
+inline ::uint32_t BusRecord::topic() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.topic)
+  return _internal_topic();
+}
+inline void BusRecord::set_topic(::uint32_t value) {
+  _internal_set_topic(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00020000U);
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.topic)
+}
+inline ::uint32_t BusRecord::_internal_topic() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.topic_;
+}
+inline void BusRecord::_internal_set_topic(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.topic_ = value;
+}
+
+// string family = 8;
+inline void BusRecord::clear_family() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.family_.ClearToEmpty();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000010U);
+}
+inline const ::std::string& BusRecord::family() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.family)
+  return _internal_family();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void BusRecord::set_family(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  SetHasBit(_impl_._has_bits_[0], 0x00000010U);
+  _impl_.family_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.family)
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::mutable_family()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000010U);
+  ::std::string* _s = _internal_mutable_family();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusRecord.family)
+  return _s;
+}
+inline const ::std::string& BusRecord::_internal_family() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.family_.Get();
+}
+inline void BusRecord::_internal_set_family(const ::std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.family_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::_internal_mutable_family() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.family_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE BusRecord::release_family() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.can.BusRecord.family)
+  if (!CheckHasBit(_impl_._has_bits_[0], 0x00000010U)) {
+    return nullptr;
+  }
+  ClearHasBit(_impl_._has_bits_[0], 0x00000010U);
+  auto* released = _impl_.family_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.family_.Set("", GetArena());
+  }
+  return released;
+}
+inline void BusRecord::set_allocated_family(::std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00000010U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000010U);
+  }
+  _impl_.family_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.family_.IsDefault()) {
+    _impl_.family_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusRecord.family)
+}
+
+// string command = 9;
+inline void BusRecord::clear_command() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.command_.ClearToEmpty();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000020U);
+}
+inline const ::std::string& BusRecord::command() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.command)
+  return _internal_command();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void BusRecord::set_command(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  SetHasBit(_impl_._has_bits_[0], 0x00000020U);
+  _impl_.command_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.command)
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::mutable_command()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000020U);
+  ::std::string* _s = _internal_mutable_command();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusRecord.command)
+  return _s;
+}
+inline const ::std::string& BusRecord::_internal_command() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.command_.Get();
+}
+inline void BusRecord::_internal_set_command(const ::std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.command_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::_internal_mutable_command() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.command_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE BusRecord::release_command() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.can.BusRecord.command)
+  if (!CheckHasBit(_impl_._has_bits_[0], 0x00000020U)) {
+    return nullptr;
+  }
+  ClearHasBit(_impl_._has_bits_[0], 0x00000020U);
+  auto* released = _impl_.command_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.command_.Set("", GetArena());
+  }
+  return released;
+}
+inline void BusRecord::set_allocated_command(::std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00000020U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000020U);
+  }
+  _impl_.command_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.command_.IsDefault()) {
+    _impl_.command_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusRecord.command)
+}
+
+// string message = 10;
+inline void BusRecord::clear_message() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.message_.ClearToEmpty();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000040U);
+}
+inline const ::std::string& BusRecord::message() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.message)
+  return _internal_message();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void BusRecord::set_message(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  SetHasBit(_impl_._has_bits_[0], 0x00000040U);
+  _impl_.message_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.message)
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::mutable_message()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000040U);
+  ::std::string* _s = _internal_mutable_message();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusRecord.message)
+  return _s;
+}
+inline const ::std::string& BusRecord::_internal_message() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.message_.Get();
+}
+inline void BusRecord::_internal_set_message(const ::std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.message_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::_internal_mutable_message() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.message_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE BusRecord::release_message() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.can.BusRecord.message)
+  if (!CheckHasBit(_impl_._has_bits_[0], 0x00000040U)) {
+    return nullptr;
+  }
+  ClearHasBit(_impl_._has_bits_[0], 0x00000040U);
+  auto* released = _impl_.message_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.message_.Set("", GetArena());
+  }
+  return released;
+}
+inline void BusRecord::set_allocated_message(::std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00000040U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000040U);
+  }
+  _impl_.message_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.message_.IsDefault()) {
+    _impl_.message_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusRecord.message)
+}
+
+// string decoded_json = 11 [(.buf.validate.field) = {
+inline void BusRecord::clear_decoded_json() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.decoded_json_.ClearToEmpty();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000080U);
+}
+inline const ::std::string& BusRecord::decoded_json() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.decoded_json)
+  return _internal_decoded_json();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void BusRecord::set_decoded_json(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  SetHasBit(_impl_._has_bits_[0], 0x00000080U);
+  _impl_.decoded_json_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.decoded_json)
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::mutable_decoded_json()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000080U);
+  ::std::string* _s = _internal_mutable_decoded_json();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusRecord.decoded_json)
+  return _s;
+}
+inline const ::std::string& BusRecord::_internal_decoded_json() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.decoded_json_.Get();
+}
+inline void BusRecord::_internal_set_decoded_json(const ::std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.decoded_json_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::_internal_mutable_decoded_json() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.decoded_json_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE BusRecord::release_decoded_json() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.can.BusRecord.decoded_json)
+  if (!CheckHasBit(_impl_._has_bits_[0], 0x00000080U)) {
+    return nullptr;
+  }
+  ClearHasBit(_impl_._has_bits_[0], 0x00000080U);
+  auto* released = _impl_.decoded_json_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.decoded_json_.Set("", GetArena());
+  }
+  return released;
+}
+inline void BusRecord::set_allocated_decoded_json(::std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00000080U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000080U);
+  }
+  _impl_.decoded_json_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.decoded_json_.IsDefault()) {
+    _impl_.decoded_json_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusRecord.decoded_json)
+}
+
+// .jon.can.BusRefusal refusal = 12;
+inline bool BusRecord::has_refusal() const {
+  bool value = CheckHasBit(_impl_._has_bits_[0], 0x00004000U);
+  PROTOBUF_ASSUME(!value || _impl_.refusal_ != nullptr);
+  return value;
+}
+inline void BusRecord::clear_refusal() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.refusal_ != nullptr) _impl_.refusal_->Clear();
+  ClearHasBit(_impl_._has_bits_[0], 0x00004000U);
+}
+inline const ::jon::can::BusRefusal& BusRecord::_internal_refusal() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::jon::can::BusRefusal* p = _impl_.refusal_;
+  return p != nullptr ? *p : *::google::protobuf::internal::MessageGlobalsBase::ToDefaultInstance<::jon::can::BusRefusal>(&::jon::can::BusRefusal_globals_);
+}
+inline const ::jon::can::BusRefusal& BusRecord::refusal() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.refusal)
+  return _internal_refusal();
+}
+inline void BusRecord::unsafe_arena_set_allocated_refusal(
+    ::jon::can::BusRefusal* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.refusal_);
+  }
+  _impl_.refusal_ = reinterpret_cast<::jon::can::BusRefusal*>(value);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00004000U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00004000U);
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:jon.can.BusRecord.refusal)
+}
+inline ::jon::can::BusRefusal* PROTOBUF_NULLABLE BusRecord::release_refusal() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  ClearHasBit(_impl_._has_bits_[0], 0x00004000U);
+  ::jon::can::BusRefusal* released = _impl_.refusal_;
+  _impl_.refusal_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::jon::can::BusRefusal* PROTOBUF_NULLABLE BusRecord::unsafe_arena_release_refusal() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.can.BusRecord.refusal)
+
+  ClearHasBit(_impl_._has_bits_[0], 0x00004000U);
+  ::jon::can::BusRefusal* temp = _impl_.refusal_;
+  _impl_.refusal_ = nullptr;
+  return temp;
+}
+inline ::jon::can::BusRefusal* PROTOBUF_NONNULL BusRecord::_internal_mutable_refusal() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.refusal_ == nullptr) {
+    auto* p = Super_::DefaultConstruct<::jon::can::BusRefusal>(GetArena());
+    _impl_.refusal_ = reinterpret_cast<::jon::can::BusRefusal*>(p);
+  }
+  return _impl_.refusal_;
+}
+inline ::jon::can::BusRefusal* PROTOBUF_NONNULL BusRecord::mutable_refusal()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00004000U);
+  ::jon::can::BusRefusal* _msg = _internal_mutable_refusal();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusRecord.refusal)
+  return _msg;
+}
+inline void BusRecord::set_allocated_refusal(::jon::can::BusRefusal* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.refusal_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = value->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    SetHasBit(_impl_._has_bits_[0], 0x00004000U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00004000U);
+  }
+
+  _impl_.refusal_ = reinterpret_cast<::jon::can::BusRefusal*>(value);
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusRecord.refusal)
+}
+
+// uint64 ts_ns = 13;
+inline void BusRecord::clear_ts_ns() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ts_ns_ = ::uint64_t{0u};
+  ClearHasBit(_impl_._has_bits_[0], 0x00040000U);
+}
+inline ::uint64_t BusRecord::ts_ns() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.ts_ns)
+  return _internal_ts_ns();
+}
+inline void BusRecord::set_ts_ns(::uint64_t value) {
+  _internal_set_ts_ns(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00040000U);
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.ts_ns)
+}
+inline ::uint64_t BusRecord::_internal_ts_ns() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.ts_ns_;
+}
+inline void BusRecord::_internal_set_ts_ns(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ts_ns_ = value;
+}
+
+// .jon.can.BusOrigin origin = 14;
+inline void BusRecord::clear_origin() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.origin_ = 0;
+  ClearHasBit(_impl_._has_bits_[0], 0x00080000U);
+}
+inline ::jon::can::BusOrigin BusRecord::origin() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.origin)
+  return _internal_origin();
+}
+inline void BusRecord::set_origin(::jon::can::BusOrigin value) {
+  _internal_set_origin(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00080000U);
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.origin)
+}
+inline ::jon::can::BusOrigin BusRecord::_internal_origin() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::jon::can::BusOrigin>(_impl_.origin_);
+}
+inline void BusRecord::_internal_set_origin(::jon::can::BusOrigin value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.origin_ = value;
+}
+
+// optional uint32 hop_seq = 15 [(.buf.validate.field) = {
+inline bool BusRecord::has_hop_seq() const {
+  bool value = CheckHasBit(_impl_._has_bits_[0], 0x00100000U);
+  return value;
+}
+inline void BusRecord::clear_hop_seq() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.hop_seq_ = 0u;
+  ClearHasBit(_impl_._has_bits_[0], 0x00100000U);
+}
+inline ::uint32_t BusRecord::hop_seq() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.hop_seq)
+  return _internal_hop_seq();
+}
+inline void BusRecord::set_hop_seq(::uint32_t value) {
+  _internal_set_hop_seq(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00100000U);
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.hop_seq)
+}
+inline ::uint32_t BusRecord::_internal_hop_seq() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.hop_seq_;
+}
+inline void BusRecord::_internal_set_hop_seq(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.hop_seq_ = value;
+}
+
+// optional uint32 sender = 16 [(.buf.validate.field) = {
+inline bool BusRecord::has_sender() const {
+  bool value = CheckHasBit(_impl_._has_bits_[0], 0x00200000U);
+  return value;
+}
+inline void BusRecord::clear_sender() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.sender_ = 0u;
+  ClearHasBit(_impl_._has_bits_[0], 0x00200000U);
+}
+inline ::uint32_t BusRecord::sender() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.sender)
+  return _internal_sender();
+}
+inline void BusRecord::set_sender(::uint32_t value) {
+  _internal_set_sender(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00200000U);
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.sender)
+}
+inline ::uint32_t BusRecord::_internal_sender() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.sender_;
+}
+inline void BusRecord::_internal_set_sender(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.sender_ = value;
+}
+
+// string sender_module = 17;
+inline void BusRecord::clear_sender_module() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.sender_module_.ClearToEmpty();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000100U);
+}
+inline const ::std::string& BusRecord::sender_module() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.sender_module)
+  return _internal_sender_module();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void BusRecord::set_sender_module(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  SetHasBit(_impl_._has_bits_[0], 0x00000100U);
+  _impl_.sender_module_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.sender_module)
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::mutable_sender_module()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000100U);
+  ::std::string* _s = _internal_mutable_sender_module();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusRecord.sender_module)
+  return _s;
+}
+inline const ::std::string& BusRecord::_internal_sender_module() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.sender_module_.Get();
+}
+inline void BusRecord::_internal_set_sender_module(const ::std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.sender_module_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::_internal_mutable_sender_module() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.sender_module_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE BusRecord::release_sender_module() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.can.BusRecord.sender_module)
+  if (!CheckHasBit(_impl_._has_bits_[0], 0x00000100U)) {
+    return nullptr;
+  }
+  ClearHasBit(_impl_._has_bits_[0], 0x00000100U);
+  auto* released = _impl_.sender_module_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.sender_module_.Set("", GetArena());
+  }
+  return released;
+}
+inline void BusRecord::set_allocated_sender_module(::std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00000100U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000100U);
+  }
+  _impl_.sender_module_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.sender_module_.IsDefault()) {
+    _impl_.sender_module_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusRecord.sender_module)
+}
+
+// uint32 can_id = 18 [(.buf.validate.field) = {
+inline void BusRecord::clear_can_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.can_id_ = 0u;
+  ClearHasBit(_impl_._has_bits_[0], 0x00400000U);
+}
+inline ::uint32_t BusRecord::can_id() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.can_id)
+  return _internal_can_id();
+}
+inline void BusRecord::set_can_id(::uint32_t value) {
+  _internal_set_can_id(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00400000U);
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.can_id)
+}
+inline ::uint32_t BusRecord::_internal_can_id() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.can_id_;
+}
+inline void BusRecord::_internal_set_can_id(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.can_id_ = value;
+}
+
+// uint32 fflags = 19 [(.buf.validate.field) = {
+inline void BusRecord::clear_fflags() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.fflags_ = 0u;
+  ClearHasBit(_impl_._has_bits_[0], 0x00800000U);
+}
+inline ::uint32_t BusRecord::fflags() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.fflags)
+  return _internal_fflags();
+}
+inline void BusRecord::set_fflags(::uint32_t value) {
+  _internal_set_fflags(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00800000U);
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.fflags)
+}
+inline ::uint32_t BusRecord::_internal_fflags() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.fflags_;
+}
+inline void BusRecord::_internal_set_fflags(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.fflags_ = value;
+}
+
+// string frame_flags = 20;
+inline void BusRecord::clear_frame_flags() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_flags_.ClearToEmpty();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000200U);
+}
+inline const ::std::string& BusRecord::frame_flags() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.frame_flags)
+  return _internal_frame_flags();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void BusRecord::set_frame_flags(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  SetHasBit(_impl_._has_bits_[0], 0x00000200U);
+  _impl_.frame_flags_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.frame_flags)
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::mutable_frame_flags()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000200U);
+  ::std::string* _s = _internal_mutable_frame_flags();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusRecord.frame_flags)
+  return _s;
+}
+inline const ::std::string& BusRecord::_internal_frame_flags() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.frame_flags_.Get();
+}
+inline void BusRecord::_internal_set_frame_flags(const ::std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_flags_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::_internal_mutable_frame_flags() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.frame_flags_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE BusRecord::release_frame_flags() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.can.BusRecord.frame_flags)
+  if (!CheckHasBit(_impl_._has_bits_[0], 0x00000200U)) {
+    return nullptr;
+  }
+  ClearHasBit(_impl_._has_bits_[0], 0x00000200U);
+  auto* released = _impl_.frame_flags_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.frame_flags_.Set("", GetArena());
+  }
+  return released;
+}
+inline void BusRecord::set_allocated_frame_flags(::std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00000200U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000200U);
+  }
+  _impl_.frame_flags_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.frame_flags_.IsDefault()) {
+    _impl_.frame_flags_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusRecord.frame_flags)
+}
+
+// bytes data = 21 [(.buf.validate.field) = {
+inline void BusRecord::clear_data() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.data_.ClearToEmpty();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000400U);
+}
+inline const ::std::string& BusRecord::data() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.data)
+  return _internal_data();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void BusRecord::set_data(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  SetHasBit(_impl_._has_bits_[0], 0x00000400U);
+  _impl_.data_.SetBytes(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.data)
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::mutable_data()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000400U);
+  ::std::string* _s = _internal_mutable_data();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusRecord.data)
+  return _s;
+}
+inline const ::std::string& BusRecord::_internal_data() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.data_.Get();
+}
+inline void BusRecord::_internal_set_data(const ::std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.data_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::_internal_mutable_data() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.data_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE BusRecord::release_data() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.can.BusRecord.data)
+  if (!CheckHasBit(_impl_._has_bits_[0], 0x00000400U)) {
+    return nullptr;
+  }
+  ClearHasBit(_impl_._has_bits_[0], 0x00000400U);
+  auto* released = _impl_.data_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.data_.Set("", GetArena());
+  }
+  return released;
+}
+inline void BusRecord::set_allocated_data(::std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00000400U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000400U);
+  }
+  _impl_.data_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.data_.IsDefault()) {
+    _impl_.data_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusRecord.data)
+}
+
+// bytes payload = 22 [(.buf.validate.field) = {
+inline void BusRecord::clear_payload() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.payload_.ClearToEmpty();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000800U);
+}
+inline const ::std::string& BusRecord::payload() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.payload)
+  return _internal_payload();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void BusRecord::set_payload(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  SetHasBit(_impl_._has_bits_[0], 0x00000800U);
+  _impl_.payload_.SetBytes(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.payload)
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::mutable_payload()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000800U);
+  ::std::string* _s = _internal_mutable_payload();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusRecord.payload)
+  return _s;
+}
+inline const ::std::string& BusRecord::_internal_payload() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.payload_.Get();
+}
+inline void BusRecord::_internal_set_payload(const ::std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.payload_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::_internal_mutable_payload() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.payload_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE BusRecord::release_payload() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.can.BusRecord.payload)
+  if (!CheckHasBit(_impl_._has_bits_[0], 0x00000800U)) {
+    return nullptr;
+  }
+  ClearHasBit(_impl_._has_bits_[0], 0x00000800U);
+  auto* released = _impl_.payload_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.payload_.Set("", GetArena());
+  }
+  return released;
+}
+inline void BusRecord::set_allocated_payload(::std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00000800U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000800U);
+  }
+  _impl_.payload_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.payload_.IsDefault()) {
+    _impl_.payload_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusRecord.payload)
+}
+
+// uint32 prio = 23 [(.buf.validate.field) = {
+inline void BusRecord::clear_prio() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.prio_ = 0u;
+  ClearHasBit(_impl_._has_bits_[0], 0x01000000U);
+}
+inline ::uint32_t BusRecord::prio() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.prio)
+  return _internal_prio();
+}
+inline void BusRecord::set_prio(::uint32_t value) {
+  _internal_set_prio(value);
+  SetHasBit(_impl_._has_bits_[0], 0x01000000U);
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.prio)
+}
+inline ::uint32_t BusRecord::_internal_prio() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.prio_;
+}
+inline void BusRecord::_internal_set_prio(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.prio_ = value;
+}
+
+// uint32 type = 24 [(.buf.validate.field) = {
+inline void BusRecord::clear_type() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.type_ = 0u;
+  ClearHasBit(_impl_._has_bits_[0], 0x02000000U);
+}
+inline ::uint32_t BusRecord::type() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.type)
+  return _internal_type();
+}
+inline void BusRecord::set_type(::uint32_t value) {
+  _internal_set_type(value);
+  SetHasBit(_impl_._has_bits_[0], 0x02000000U);
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.type)
+}
+inline ::uint32_t BusRecord::_internal_type() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.type_;
+}
+inline void BusRecord::_internal_set_type(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.type_ = value;
+}
+
+// uint32 seq = 25 [(.buf.validate.field) = {
+inline void BusRecord::clear_seq() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.seq_ = 0u;
+  ClearHasBit(_impl_._has_bits_[0], 0x04000000U);
+}
+inline ::uint32_t BusRecord::seq() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.seq)
+  return _internal_seq();
+}
+inline void BusRecord::set_seq(::uint32_t value) {
+  _internal_set_seq(value);
+  SetHasBit(_impl_._has_bits_[0], 0x04000000U);
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.seq)
+}
+inline ::uint32_t BusRecord::_internal_seq() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.seq_;
+}
+inline void BusRecord::_internal_set_seq(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.seq_ = value;
+}
+
+// uint32 frag_total = 26 [(.buf.validate.field) = {
+inline void BusRecord::clear_frag_total() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frag_total_ = 0u;
+  ClearHasBit(_impl_._has_bits_[0], 0x10000000U);
+}
+inline ::uint32_t BusRecord::frag_total() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.frag_total)
+  return _internal_frag_total();
+}
+inline void BusRecord::set_frag_total(::uint32_t value) {
+  _internal_set_frag_total(value);
+  SetHasBit(_impl_._has_bits_[0], 0x10000000U);
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.frag_total)
+}
+inline ::uint32_t BusRecord::_internal_frag_total() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.frag_total_;
+}
+inline void BusRecord::_internal_set_frag_total(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frag_total_ = value;
+}
+
+// uint64 tx_time_ns = 27;
+inline void BusRecord::clear_tx_time_ns() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.tx_time_ns_ = ::uint64_t{0u};
+  ClearHasBit(_impl_._has_bits_[0], 0x08000000U);
+}
+inline ::uint64_t BusRecord::tx_time_ns() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.tx_time_ns)
+  return _internal_tx_time_ns();
+}
+inline void BusRecord::set_tx_time_ns(::uint64_t value) {
+  _internal_set_tx_time_ns(value);
+  SetHasBit(_impl_._has_bits_[0], 0x08000000U);
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.tx_time_ns)
+}
+inline ::uint64_t BusRecord::_internal_tx_time_ns() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.tx_time_ns_;
+}
+inline void BusRecord::_internal_set_tx_time_ns(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.tx_time_ns_ = value;
+}
+
+// bool ts_valid = 28;
+inline void BusRecord::clear_ts_valid() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ts_valid_ = false;
+  ClearHasBit(_impl_._has_bits_[0], 0x20000000U);
+}
+inline bool BusRecord::ts_valid() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.ts_valid)
+  return _internal_ts_valid();
+}
+inline void BusRecord::set_ts_valid(bool value) {
+  _internal_set_ts_valid(value);
+  SetHasBit(_impl_._has_bits_[0], 0x20000000U);
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.ts_valid)
+}
+inline bool BusRecord::_internal_ts_valid() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.ts_valid_;
+}
+inline void BusRecord::_internal_set_ts_valid(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ts_valid_ = value;
+}
+
+// string stream = 29;
+inline void BusRecord::clear_stream() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.stream_.ClearToEmpty();
+  ClearHasBit(_impl_._has_bits_[0], 0x00001000U);
+}
+inline const ::std::string& BusRecord::stream() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.stream)
+  return _internal_stream();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void BusRecord::set_stream(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  SetHasBit(_impl_._has_bits_[0], 0x00001000U);
+  _impl_.stream_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.stream)
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::mutable_stream()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00001000U);
+  ::std::string* _s = _internal_mutable_stream();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusRecord.stream)
+  return _s;
+}
+inline const ::std::string& BusRecord::_internal_stream() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.stream_.Get();
+}
+inline void BusRecord::_internal_set_stream(const ::std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.stream_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::_internal_mutable_stream() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.stream_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE BusRecord::release_stream() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.can.BusRecord.stream)
+  if (!CheckHasBit(_impl_._has_bits_[0], 0x00001000U)) {
+    return nullptr;
+  }
+  ClearHasBit(_impl_._has_bits_[0], 0x00001000U);
+  auto* released = _impl_.stream_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.stream_.Set("", GetArena());
+  }
+  return released;
+}
+inline void BusRecord::set_allocated_stream(::std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00001000U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00001000U);
+  }
+  _impl_.stream_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.stream_.IsDefault()) {
+    _impl_.stream_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusRecord.stream)
+}
+
+// string entry_id = 30;
+inline void BusRecord::clear_entry_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.entry_id_.ClearToEmpty();
+  ClearHasBit(_impl_._has_bits_[0], 0x00002000U);
+}
+inline const ::std::string& BusRecord::entry_id() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.entry_id)
+  return _internal_entry_id();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void BusRecord::set_entry_id(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  SetHasBit(_impl_._has_bits_[0], 0x00002000U);
+  _impl_.entry_id_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.entry_id)
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::mutable_entry_id()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00002000U);
+  ::std::string* _s = _internal_mutable_entry_id();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusRecord.entry_id)
+  return _s;
+}
+inline const ::std::string& BusRecord::_internal_entry_id() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.entry_id_.Get();
+}
+inline void BusRecord::_internal_set_entry_id(const ::std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.entry_id_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL BusRecord::_internal_mutable_entry_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.entry_id_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE BusRecord::release_entry_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.can.BusRecord.entry_id)
+  if (!CheckHasBit(_impl_._has_bits_[0], 0x00002000U)) {
+    return nullptr;
+  }
+  ClearHasBit(_impl_._has_bits_[0], 0x00002000U);
+  auto* released = _impl_.entry_id_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.entry_id_.Set("", GetArena());
+  }
+  return released;
+}
+inline void BusRecord::set_allocated_entry_id(::std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00002000U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00002000U);
+  }
+  _impl_.entry_id_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.entry_id_.IsDefault()) {
+    _impl_.entry_id_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusRecord.entry_id)
+}
+
+// int64 time_ms = 31;
+inline void BusRecord::clear_time_ms() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.time_ms_ = ::int64_t{0};
+  ClearHasBit(_impl_._has_bits_[0], 0x40000000U);
+}
+inline ::int64_t BusRecord::time_ms() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecord.time_ms)
+  return _internal_time_ms();
+}
+inline void BusRecord::set_time_ms(::int64_t value) {
+  _internal_set_time_ms(value);
+  SetHasBit(_impl_._has_bits_[0], 0x40000000U);
+  // @@protoc_insertion_point(field_set:jon.can.BusRecord.time_ms)
+}
+inline ::int64_t BusRecord::_internal_time_ms() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.time_ms_;
+}
+inline void BusRecord::_internal_set_time_ms(::int64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.time_ms_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// BusStreamStats
+
+// uint64 records = 1;
+inline void BusStreamStats::clear_records() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.records_ = ::uint64_t{0u};
+  ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
+}
+inline ::uint64_t BusStreamStats::records() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusStreamStats.records)
+  return _internal_records();
+}
+inline void BusStreamStats::set_records(::uint64_t value) {
+  _internal_set_records(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00000001U);
+  // @@protoc_insertion_point(field_set:jon.can.BusStreamStats.records)
+}
+inline ::uint64_t BusStreamStats::_internal_records() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.records_;
+}
+inline void BusStreamStats::_internal_set_records(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.records_ = value;
+}
+
+// uint64 messages = 2;
+inline void BusStreamStats::clear_messages() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.messages_ = ::uint64_t{0u};
+  ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+}
+inline ::uint64_t BusStreamStats::messages() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusStreamStats.messages)
+  return _internal_messages();
+}
+inline void BusStreamStats::set_messages(::uint64_t value) {
+  _internal_set_messages(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00000002U);
+  // @@protoc_insertion_point(field_set:jon.can.BusStreamStats.messages)
+}
+inline ::uint64_t BusStreamStats::_internal_messages() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.messages_;
+}
+inline void BusStreamStats::_internal_set_messages(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.messages_ = value;
+}
+
+// uint64 refused = 3;
+inline void BusStreamStats::clear_refused() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.refused_ = ::uint64_t{0u};
+  ClearHasBit(_impl_._has_bits_[0], 0x00000004U);
+}
+inline ::uint64_t BusStreamStats::refused() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusStreamStats.refused)
+  return _internal_refused();
+}
+inline void BusStreamStats::set_refused(::uint64_t value) {
+  _internal_set_refused(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00000004U);
+  // @@protoc_insertion_point(field_set:jon.can.BusStreamStats.refused)
+}
+inline ::uint64_t BusStreamStats::_internal_refused() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.refused_;
+}
+inline void BusStreamStats::_internal_set_refused(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.refused_ = value;
+}
+
+// map<string, uint64> refused_by = 4;
+inline int BusStreamStats::_internal_refused_by_size() const {
+  return _internal_refused_by().size();
+}
+inline int BusStreamStats::refused_by_size() const {
+  return _internal_refused_by_size();
+}
+inline void BusStreamStats::clear_refused_by() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.refused_by_.Clear();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000100U);
+}
+inline const ::google::protobuf::Map<::std::string, ::uint64_t>& BusStreamStats::_internal_refused_by() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.refused_by_.GetMap();
+}
+inline const ::google::protobuf::Map<::std::string, ::uint64_t>& BusStreamStats::refused_by() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_map:jon.can.BusStreamStats.refused_by)
+  return _internal_refused_by();
+}
+inline ::google::protobuf::Map<::std::string, ::uint64_t>* PROTOBUF_NONNULL BusStreamStats::_internal_mutable_refused_by() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.refused_by_.MutableMap();
+}
+inline ::google::protobuf::Map<::std::string, ::uint64_t>* PROTOBUF_NONNULL BusStreamStats::mutable_refused_by()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000100U);
+  // @@protoc_insertion_point(field_mutable_map:jon.can.BusStreamStats.refused_by)
+  return _internal_mutable_refused_by();
+}
+
+// uint64 absorbed = 5;
+inline void BusStreamStats::clear_absorbed() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.absorbed_ = ::uint64_t{0u};
+  ClearHasBit(_impl_._has_bits_[0], 0x00000008U);
+}
+inline ::uint64_t BusStreamStats::absorbed() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusStreamStats.absorbed)
+  return _internal_absorbed();
+}
+inline void BusStreamStats::set_absorbed(::uint64_t value) {
+  _internal_set_absorbed(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00000008U);
+  // @@protoc_insertion_point(field_set:jon.can.BusStreamStats.absorbed)
+}
+inline ::uint64_t BusStreamStats::_internal_absorbed() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.absorbed_;
+}
+inline void BusStreamStats::_internal_set_absorbed(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.absorbed_ = value;
+}
+
+// map<string, uint64> dropped = 6;
+inline int BusStreamStats::_internal_dropped_size() const {
+  return _internal_dropped().size();
+}
+inline int BusStreamStats::dropped_size() const {
+  return _internal_dropped_size();
+}
+inline void BusStreamStats::clear_dropped() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.dropped_.Clear();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000200U);
+}
+inline const ::google::protobuf::Map<::std::string, ::uint64_t>& BusStreamStats::_internal_dropped() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.dropped_.GetMap();
+}
+inline const ::google::protobuf::Map<::std::string, ::uint64_t>& BusStreamStats::dropped() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_map:jon.can.BusStreamStats.dropped)
+  return _internal_dropped();
+}
+inline ::google::protobuf::Map<::std::string, ::uint64_t>* PROTOBUF_NONNULL BusStreamStats::_internal_mutable_dropped() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.dropped_.MutableMap();
+}
+inline ::google::protobuf::Map<::std::string, ::uint64_t>* PROTOBUF_NONNULL BusStreamStats::mutable_dropped()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000200U);
+  // @@protoc_insertion_point(field_mutable_map:jon.can.BusStreamStats.dropped)
+  return _internal_mutable_dropped();
+}
+
+// uint64 hop_gaps = 7;
+inline void BusStreamStats::clear_hop_gaps() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.hop_gaps_ = ::uint64_t{0u};
+  ClearHasBit(_impl_._has_bits_[0], 0x00000010U);
+}
+inline ::uint64_t BusStreamStats::hop_gaps() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusStreamStats.hop_gaps)
+  return _internal_hop_gaps();
+}
+inline void BusStreamStats::set_hop_gaps(::uint64_t value) {
+  _internal_set_hop_gaps(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00000010U);
+  // @@protoc_insertion_point(field_set:jon.can.BusStreamStats.hop_gaps)
+}
+inline ::uint64_t BusStreamStats::_internal_hop_gaps() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.hop_gaps_;
+}
+inline void BusStreamStats::_internal_set_hop_gaps(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.hop_gaps_ = value;
+}
+
+// uint32 senders = 8;
+inline void BusStreamStats::clear_senders() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.senders_ = 0u;
+  ClearHasBit(_impl_._has_bits_[0], 0x00000020U);
+}
+inline ::uint32_t BusStreamStats::senders() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusStreamStats.senders)
+  return _internal_senders();
+}
+inline void BusStreamStats::set_senders(::uint32_t value) {
+  _internal_set_senders(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00000020U);
+  // @@protoc_insertion_point(field_set:jon.can.BusStreamStats.senders)
+}
+inline ::uint32_t BusStreamStats::_internal_senders() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.senders_;
+}
+inline void BusStreamStats::_internal_set_senders(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.senders_ = value;
+}
+
+// uint32 streams = 9;
+inline void BusStreamStats::clear_streams() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.streams_ = 0u;
+  ClearHasBit(_impl_._has_bits_[0], 0x00000040U);
+}
+inline ::uint32_t BusStreamStats::streams() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusStreamStats.streams)
+  return _internal_streams();
+}
+inline void BusStreamStats::set_streams(::uint32_t value) {
+  _internal_set_streams(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00000040U);
+  // @@protoc_insertion_point(field_set:jon.can.BusStreamStats.streams)
+}
+inline ::uint32_t BusStreamStats::_internal_streams() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.streams_;
+}
+inline void BusStreamStats::_internal_set_streams(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.streams_ = value;
+}
+
+// bool source_connected = 10;
+inline void BusStreamStats::clear_source_connected() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.source_connected_ = false;
+  ClearHasBit(_impl_._has_bits_[0], 0x00000080U);
+}
+inline bool BusStreamStats::source_connected() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusStreamStats.source_connected)
+  return _internal_source_connected();
+}
+inline void BusStreamStats::set_source_connected(bool value) {
+  _internal_set_source_connected(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00000080U);
+  // @@protoc_insertion_point(field_set:jon.can.BusStreamStats.source_connected)
+}
+inline bool BusStreamStats::_internal_source_connected() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.source_connected_;
+}
+inline void BusStreamStats::_internal_set_source_connected(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.source_connected_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// BusRecordBatch
+
+// repeated .jon.can.BusRecord records = 1;
+inline int BusRecordBatch::_internal_records_size() const {
+  return _internal_records().size();
+}
+inline int BusRecordBatch::records_size() const {
+  return _internal_records_size();
+}
+inline void BusRecordBatch::clear_records() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.records_.Clear();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
+}
+inline const ::jon::can::BusRecord& BusRecordBatch::records(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecordBatch.records)
+  return _internal_records().Get(index);
+}
+inline ::jon::can::BusRecord* PROTOBUF_NONNULL BusRecordBatch::mutable_records(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:jon.can.BusRecordBatch.records)
+  return _internal_mutable_records()->Mutable(index);
+}
+inline ::jon::can::BusRecord* PROTOBUF_NONNULL BusRecordBatch::add_records()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::jon::can::BusRecord* _add =
+      _internal_mutable_records()->InternalAddWithArena(
+          ::google::protobuf::MessageLite::internal_visibility(), GetArena());
+  SetHasBit(_impl_._has_bits_[0], 0x00000001U);
+  // @@protoc_insertion_point(field_add:jon.can.BusRecordBatch.records)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::jon::can::BusRecord>& BusRecordBatch::records() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:jon.can.BusRecordBatch.records)
+  return _internal_records();
+}
+inline ::google::protobuf::RepeatedPtrField<::jon::can::BusRecord>* PROTOBUF_NONNULL
+BusRecordBatch::mutable_records() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000001U);
+  // @@protoc_insertion_point(field_mutable_list:jon.can.BusRecordBatch.records)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_records();
+}
+inline const ::google::protobuf::RepeatedPtrField<::jon::can::BusRecord>&
+BusRecordBatch::_internal_records() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.records_;
+}
+inline ::google::protobuf::RepeatedPtrField<::jon::can::BusRecord>* PROTOBUF_NONNULL
+BusRecordBatch::_internal_mutable_records() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.records_;
+}
+
+// .jon.can.BusStreamStats stats = 2;
+inline bool BusRecordBatch::has_stats() const {
+  bool value = CheckHasBit(_impl_._has_bits_[0], 0x00000002U);
+  PROTOBUF_ASSUME(!value || _impl_.stats_ != nullptr);
+  return value;
+}
+inline void BusRecordBatch::clear_stats() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.stats_ != nullptr) _impl_.stats_->Clear();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+}
+inline const ::jon::can::BusStreamStats& BusRecordBatch::_internal_stats() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::jon::can::BusStreamStats* p = _impl_.stats_;
+  return p != nullptr ? *p : *::google::protobuf::internal::MessageGlobalsBase::ToDefaultInstance<::jon::can::BusStreamStats>(&::jon::can::BusStreamStats_globals_);
+}
+inline const ::jon::can::BusStreamStats& BusRecordBatch::stats() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecordBatch.stats)
+  return _internal_stats();
+}
+inline void BusRecordBatch::unsafe_arena_set_allocated_stats(
+    ::jon::can::BusStreamStats* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.stats_);
+  }
+  _impl_.stats_ = reinterpret_cast<::jon::can::BusStreamStats*>(value);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00000002U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:jon.can.BusRecordBatch.stats)
+}
+inline ::jon::can::BusStreamStats* PROTOBUF_NULLABLE BusRecordBatch::release_stats() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+  ::jon::can::BusStreamStats* released = _impl_.stats_;
+  _impl_.stats_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::jon::can::BusStreamStats* PROTOBUF_NULLABLE BusRecordBatch::unsafe_arena_release_stats() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.can.BusRecordBatch.stats)
+
+  ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+  ::jon::can::BusStreamStats* temp = _impl_.stats_;
+  _impl_.stats_ = nullptr;
+  return temp;
+}
+inline ::jon::can::BusStreamStats* PROTOBUF_NONNULL BusRecordBatch::_internal_mutable_stats() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.stats_ == nullptr) {
+    auto* p = Super_::DefaultConstruct<::jon::can::BusStreamStats>(GetArena());
+    _impl_.stats_ = reinterpret_cast<::jon::can::BusStreamStats*>(p);
+  }
+  return _impl_.stats_;
+}
+inline ::jon::can::BusStreamStats* PROTOBUF_NONNULL BusRecordBatch::mutable_stats()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000002U);
+  ::jon::can::BusStreamStats* _msg = _internal_mutable_stats();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusRecordBatch.stats)
+  return _msg;
+}
+inline void BusRecordBatch::set_allocated_stats(::jon::can::BusStreamStats* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.stats_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = value->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    SetHasBit(_impl_._has_bits_[0], 0x00000002U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+  }
+
+  _impl_.stats_ = reinterpret_cast<::jon::can::BusStreamStats*>(value);
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusRecordBatch.stats)
+}
+
+// uint64 evicted = 3;
+inline void BusRecordBatch::clear_evicted() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.evicted_ = ::uint64_t{0u};
+  ClearHasBit(_impl_._has_bits_[0], 0x00000004U);
+}
+inline ::uint64_t BusRecordBatch::evicted() const {
+  // @@protoc_insertion_point(field_get:jon.can.BusRecordBatch.evicted)
+  return _internal_evicted();
+}
+inline void BusRecordBatch::set_evicted(::uint64_t value) {
+  _internal_set_evicted(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00000004U);
+  // @@protoc_insertion_point(field_set:jon.can.BusRecordBatch.evicted)
+}
+inline ::uint64_t BusRecordBatch::_internal_evicted() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.evicted_;
+}
+inline void BusRecordBatch::_internal_set_evicted(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.evicted_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// BusStreamConnected
+
+// repeated string streams = 1;
+inline int BusStreamConnected::_internal_streams_size() const {
+  return _internal_streams().size();
+}
+inline int BusStreamConnected::streams_size() const {
+  return _internal_streams_size();
+}
+inline void BusStreamConnected::clear_streams() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.streams_.Clear();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
+}
+inline ::std::string* PROTOBUF_NONNULL BusStreamConnected::add_streams()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::std::string* _s =
+      _internal_mutable_streams()->InternalAddWithArena(
+          ::google::protobuf::MessageLite::internal_visibility(), GetArena());
+  SetHasBit(_impl_._has_bits_[0], 0x00000001U);
+  // @@protoc_insertion_point(field_add_mutable:jon.can.BusStreamConnected.streams)
+  return _s;
+}
+inline const ::std::string& BusStreamConnected::streams(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusStreamConnected.streams)
+  return _internal_streams().Get(index);
+}
+inline ::std::string* PROTOBUF_NONNULL BusStreamConnected::mutable_streams(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:jon.can.BusStreamConnected.streams)
+  return _internal_mutable_streams()->Mutable(index);
+}
+template <typename Arg_, typename... Args_>
+inline void BusStreamConnected::set_streams(int index, Arg_&& value, Args_... args) {
+  ::google::protobuf::internal::AssignToString(
+      *_internal_mutable_streams()->Mutable(index),
+      ::std::forward<Arg_>(value), args... );
+  // @@protoc_insertion_point(field_set:jon.can.BusStreamConnected.streams)
+}
+template <typename Arg_, typename... Args_>
+inline void BusStreamConnected::add_streams(Arg_&& value, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::google::protobuf::internal::AddToRepeatedPtrField(
+      ::google::protobuf::MessageLite::internal_visibility(), GetArena(),
+      *_internal_mutable_streams(), ::std::forward<Arg_>(value),
+      args... );
+  SetHasBit(_impl_._has_bits_[0], 0x00000001U);
+  // @@protoc_insertion_point(field_add:jon.can.BusStreamConnected.streams)
+}
+inline const ::google::protobuf::RepeatedPtrField<::std::string>& BusStreamConnected::streams()
+    const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:jon.can.BusStreamConnected.streams)
+  return _internal_streams();
+}
+inline ::google::protobuf::RepeatedPtrField<::std::string>* PROTOBUF_NONNULL
+BusStreamConnected::mutable_streams() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000001U);
+  // @@protoc_insertion_point(field_mutable_list:jon.can.BusStreamConnected.streams)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_streams();
+}
+inline const ::google::protobuf::RepeatedPtrField<::std::string>&
+BusStreamConnected::_internal_streams() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.streams_;
+}
+inline ::google::protobuf::RepeatedPtrField<::std::string>* PROTOBUF_NONNULL
+BusStreamConnected::_internal_mutable_streams() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.streams_;
+}
+
+// -------------------------------------------------------------------
+
+// BusStreamMessage
+
+// .jon.can.BusStreamConnected connected = 1;
+inline bool BusStreamMessage::has_connected() const {
+  return message_case() == kConnected;
+}
+inline bool BusStreamMessage::_internal_has_connected() const {
+  return message_case() == kConnected;
+}
+inline void BusStreamMessage::set_has_connected() {
+  _impl_._oneof_case_[0] = kConnected;
+}
+inline void BusStreamMessage::clear_connected() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_case() == kConnected) {
+    if (GetArena() == nullptr) {
+      delete _impl_.message_.connected_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.message_.connected_);
+    }
+    clear_has_message();
+  }
+}
+inline ::jon::can::BusStreamConnected* PROTOBUF_NULLABLE BusStreamMessage::release_connected() {
+  // @@protoc_insertion_point(field_release:jon.can.BusStreamMessage.connected)
+  if (message_case() == kConnected) {
+    clear_has_message();
+    auto* temp = _impl_.message_.connected_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.message_.connected_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::jon::can::BusStreamConnected& BusStreamMessage::_internal_connected() const {
+  return message_case() == kConnected ? static_cast<const ::jon::can::BusStreamConnected&>(*_impl_.message_.connected_)
+                     : *::google::protobuf::internal::MessageGlobalsBase::ToDefaultInstance<::jon::can::BusStreamConnected>(&::jon::can::BusStreamConnected_globals_);
+}
+inline const ::jon::can::BusStreamConnected& BusStreamMessage::connected() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusStreamMessage.connected)
+  return _internal_connected();
+}
+inline ::jon::can::BusStreamConnected* PROTOBUF_NULLABLE BusStreamMessage::unsafe_arena_release_connected() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:jon.can.BusStreamMessage.connected)
+  if (message_case() == kConnected) {
+    clear_has_message();
+    auto* temp = _impl_.message_.connected_;
+    _impl_.message_.connected_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void BusStreamMessage::unsafe_arena_set_allocated_connected(
+    ::jon::can::BusStreamConnected* PROTOBUF_NULLABLE value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_message();
+  if (value) {
+    set_has_connected();
+    _impl_.message_.connected_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:jon.can.BusStreamMessage.connected)
+}
+inline ::jon::can::BusStreamConnected* PROTOBUF_NONNULL BusStreamMessage::_internal_mutable_connected() {
+  if (message_case() != kConnected) {
+    clear_message();
+    set_has_connected();
+    _impl_.message_.connected_ = Super_::DefaultConstruct<::jon::can::BusStreamConnected>(GetArena());
+  }
+  return _impl_.message_.connected_;
+}
+inline ::jon::can::BusStreamConnected* PROTOBUF_NONNULL BusStreamMessage::mutable_connected()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::jon::can::BusStreamConnected* _msg = _internal_mutable_connected();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusStreamMessage.connected)
+  return _msg;
+}
+
+// .jon.can.BusRecordBatch batch = 2;
+inline bool BusStreamMessage::has_batch() const {
+  return message_case() == kBatch;
+}
+inline bool BusStreamMessage::_internal_has_batch() const {
+  return message_case() == kBatch;
+}
+inline void BusStreamMessage::set_has_batch() {
+  _impl_._oneof_case_[0] = kBatch;
+}
+inline void BusStreamMessage::clear_batch() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_case() == kBatch) {
+    if (GetArena() == nullptr) {
+      delete _impl_.message_.batch_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.message_.batch_);
+    }
+    clear_has_message();
+  }
+}
+inline ::jon::can::BusRecordBatch* PROTOBUF_NULLABLE BusStreamMessage::release_batch() {
+  // @@protoc_insertion_point(field_release:jon.can.BusStreamMessage.batch)
+  if (message_case() == kBatch) {
+    clear_has_message();
+    auto* temp = _impl_.message_.batch_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.message_.batch_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::jon::can::BusRecordBatch& BusStreamMessage::_internal_batch() const {
+  return message_case() == kBatch ? static_cast<const ::jon::can::BusRecordBatch&>(*_impl_.message_.batch_)
+                     : *::google::protobuf::internal::MessageGlobalsBase::ToDefaultInstance<::jon::can::BusRecordBatch>(&::jon::can::BusRecordBatch_globals_);
+}
+inline const ::jon::can::BusRecordBatch& BusStreamMessage::batch() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.BusStreamMessage.batch)
+  return _internal_batch();
+}
+inline ::jon::can::BusRecordBatch* PROTOBUF_NULLABLE BusStreamMessage::unsafe_arena_release_batch() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:jon.can.BusStreamMessage.batch)
+  if (message_case() == kBatch) {
+    clear_has_message();
+    auto* temp = _impl_.message_.batch_;
+    _impl_.message_.batch_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void BusStreamMessage::unsafe_arena_set_allocated_batch(
+    ::jon::can::BusRecordBatch* PROTOBUF_NULLABLE value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_message();
+  if (value) {
+    set_has_batch();
+    _impl_.message_.batch_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:jon.can.BusStreamMessage.batch)
+}
+inline ::jon::can::BusRecordBatch* PROTOBUF_NONNULL BusStreamMessage::_internal_mutable_batch() {
+  if (message_case() != kBatch) {
+    clear_message();
+    set_has_batch();
+    _impl_.message_.batch_ = Super_::DefaultConstruct<::jon::can::BusRecordBatch>(GetArena());
+  }
+  return _impl_.message_.batch_;
+}
+inline ::jon::can::BusRecordBatch* PROTOBUF_NONNULL BusStreamMessage::mutable_batch()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::jon::can::BusRecordBatch* _msg = _internal_mutable_batch();
+  // @@protoc_insertion_point(field_mutable:jon.can.BusStreamMessage.batch)
+  return _msg;
+}
+
+inline bool BusStreamMessage::has_message() const {
+  return message_case() != MESSAGE_NOT_SET;
+}
+inline void BusStreamMessage::clear_has_message() {
+  _impl_._oneof_case_[0] = MESSAGE_NOT_SET;
+}
+inline BusStreamMessage::MessageCase BusStreamMessage::message_case() const {
+  return BusStreamMessage::MessageCase(_impl_._oneof_case_[0]);
+}
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
 #endif  // __GNUC__
@@ -1289,6 +5604,12 @@ struct is_proto_enum<::jon::can::CANDirection> : std::true_type {};
 template <>
 inline const EnumDescriptor* PROTOBUF_NONNULL GetEnumDescriptor<::jon::can::CANDirection>() {
   return ::jon::can::CANDirection_descriptor();
+}
+template <>
+struct is_proto_enum<::jon::can::BusOrigin> : std::true_type {};
+template <>
+inline const EnumDescriptor* PROTOBUF_NONNULL GetEnumDescriptor<::jon::can::BusOrigin>() {
+  return ::jon::can::BusOrigin_descriptor();
 }
 
 }  // namespace protobuf

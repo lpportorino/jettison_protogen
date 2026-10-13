@@ -202,6 +202,197 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
     // @@protoc_insertion_point(enum_scope:jon.can.CANDirection)
   }
 
+  /**
+   * <pre>
+   * Who first put a module-bus record into a datagram: the envelope's origin byte
+   * (JONCAN_ENV_ORIGIN_* in the superproject's inc/util/joncan/joncan_envelope.h)
+   * plus one, so that the zero value can mean "the stream entry named no origin
+   * the envelope defines" rather than silently reading as the bus.
+   * </pre>
+   *
+   * Protobuf enum {@code jon.can.BusOrigin}
+   */
+  public enum BusOrigin
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <pre>
+     * the entry carried no origin, or one past JONCAN_ENV_ORIGIN_MAX
+     * </pre>
+     *
+     * <code>BUS_ORIGIN_UNSPECIFIED = 0;</code>
+     */
+    BUS_ORIGIN_UNSPECIFIED(0),
+    /**
+     * <pre>
+     * JONCAN_ENV_ORIGIN_BUS: read off the CAN bus (or vcan0)
+     * </pre>
+     *
+     * <code>BUS_ORIGIN_BUS = 1;</code>
+     */
+    BUS_ORIGIN_BUS(1),
+    /**
+     * <pre>
+     * JONCAN_ENV_ORIGIN_ORIN: the hub sent it
+     * </pre>
+     *
+     * <code>BUS_ORIGIN_ORIN = 2;</code>
+     */
+    BUS_ORIGIN_ORIN(2),
+    /**
+     * <pre>
+     * JONCAN_ENV_ORIGIN_CARAMBOLA: Carambola sent it
+     * </pre>
+     *
+     * <code>BUS_ORIGIN_CARAMBOLA = 3;</code>
+     */
+    BUS_ORIGIN_CARAMBOLA(3),
+    /**
+     * <pre>
+     * JONCAN_ENV_ORIGIN_LOCAL: a guest hosted beside the bridge
+     * </pre>
+     *
+     * <code>BUS_ORIGIN_LOCAL = 4;</code>
+     */
+    BUS_ORIGIN_LOCAL(4),
+    UNRECOGNIZED(-1),
+    ;
+
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 36,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        "BusOrigin");
+    }
+    /**
+     * <pre>
+     * the entry carried no origin, or one past JONCAN_ENV_ORIGIN_MAX
+     * </pre>
+     *
+     * <code>BUS_ORIGIN_UNSPECIFIED = 0;</code>
+     */
+    public static final int BUS_ORIGIN_UNSPECIFIED_VALUE = 0;
+    /**
+     * <pre>
+     * JONCAN_ENV_ORIGIN_BUS: read off the CAN bus (or vcan0)
+     * </pre>
+     *
+     * <code>BUS_ORIGIN_BUS = 1;</code>
+     */
+    public static final int BUS_ORIGIN_BUS_VALUE = 1;
+    /**
+     * <pre>
+     * JONCAN_ENV_ORIGIN_ORIN: the hub sent it
+     * </pre>
+     *
+     * <code>BUS_ORIGIN_ORIN = 2;</code>
+     */
+    public static final int BUS_ORIGIN_ORIN_VALUE = 2;
+    /**
+     * <pre>
+     * JONCAN_ENV_ORIGIN_CARAMBOLA: Carambola sent it
+     * </pre>
+     *
+     * <code>BUS_ORIGIN_CARAMBOLA = 3;</code>
+     */
+    public static final int BUS_ORIGIN_CARAMBOLA_VALUE = 3;
+    /**
+     * <pre>
+     * JONCAN_ENV_ORIGIN_LOCAL: a guest hosted beside the bridge
+     * </pre>
+     *
+     * <code>BUS_ORIGIN_LOCAL = 4;</code>
+     */
+    public static final int BUS_ORIGIN_LOCAL_VALUE = 4;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static BusOrigin valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static BusOrigin forNumber(int value) {
+      switch (value) {
+        case 0: return BUS_ORIGIN_UNSPECIFIED;
+        case 1: return BUS_ORIGIN_BUS;
+        case 2: return BUS_ORIGIN_ORIN;
+        case 3: return BUS_ORIGIN_CARAMBOLA;
+        case 4: return BUS_ORIGIN_LOCAL;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<BusOrigin>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        BusOrigin> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<BusOrigin>() {
+            public BusOrigin findValueByNumber(int number) {
+              return BusOrigin.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValue(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return jon.can.JonCanStream.getDescriptor().getEnumType(1);
+    }
+
+    private static final BusOrigin[] VALUES = values();
+
+    public static BusOrigin valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private BusOrigin(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:jon.can.BusOrigin)
+  }
+
   public interface CANFrameOrBuilder extends
       // @@protoc_insertion_point(interface_extends:jon.can.CANFrame)
       com.google.protobuf.MessageOrBuilder {
@@ -2917,6 +3108,9575 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
 
   }
 
+  public interface BusRefusalOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:jon.can.BusRefusal)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * The decoder's refusal code (the joncandec Code* constants, e.g. "proto",
+     * "orphan_fragment", "unknown_topic").
+     * </pre>
+     *
+     * <code>string code = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The code.
+     */
+    java.lang.String getCode();
+    /**
+     * <pre>
+     * The decoder's refusal code (the joncandec Code* constants, e.g. "proto",
+     * "orphan_fragment", "unknown_topic").
+     * </pre>
+     *
+     * <code>string code = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for code.
+     */
+    com.google.protobuf.ByteString
+        getCodeBytes();
+
+    /**
+     * <pre>
+     * The decoder's explanation, free text.
+     * </pre>
+     *
+     * <code>string detail = 2;</code>
+     * @return The detail.
+     */
+    java.lang.String getDetail();
+    /**
+     * <pre>
+     * The decoder's explanation, free text.
+     * </pre>
+     *
+     * <code>string detail = 2;</code>
+     * @return The bytes for detail.
+     */
+    com.google.protobuf.ByteString
+        getDetailBytes();
+  }
+  /**
+   * <pre>
+   * Why the module-bus decoder could not make a message of a record.
+   * </pre>
+   *
+   * Protobuf type {@code jon.can.BusRefusal}
+   */
+  public static final class BusRefusal extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:jon.can.BusRefusal)
+      BusRefusalOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 36,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        "BusRefusal");
+    }
+    // Use BusRefusal.newBuilder() to construct.
+    private BusRefusal(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private BusRefusal() {
+      code_ = "";
+      detail_ = "";
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return jon.can.JonCanStream.internal_static_jon_can_BusRefusal_descriptor;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      return jon.can.JonCanStream.internal_static_jon_can_BusRefusal_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return jon.can.JonCanStream.internal_static_jon_can_BusRefusal_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              jon.can.JonCanStream.BusRefusal.class, jon.can.JonCanStream.BusRefusal.Builder.class);
+    }
+
+    public static final int CODE_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object code_ = "";
+    /**
+     * <pre>
+     * The decoder's refusal code (the joncandec Code* constants, e.g. "proto",
+     * "orphan_fragment", "unknown_topic").
+     * </pre>
+     *
+     * <code>string code = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The code.
+     */
+    @java.lang.Override
+    public java.lang.String getCode() {
+      java.lang.Object ref = code_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        code_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * The decoder's refusal code (the joncandec Code* constants, e.g. "proto",
+     * "orphan_fragment", "unknown_topic").
+     * </pre>
+     *
+     * <code>string code = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for code.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getCodeBytes() {
+      java.lang.Object ref = code_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        code_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DETAIL_FIELD_NUMBER = 2;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object detail_ = "";
+    /**
+     * <pre>
+     * The decoder's explanation, free text.
+     * </pre>
+     *
+     * <code>string detail = 2;</code>
+     * @return The detail.
+     */
+    @java.lang.Override
+    public java.lang.String getDetail() {
+      java.lang.Object ref = detail_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        detail_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * The decoder's explanation, free text.
+     * </pre>
+     *
+     * <code>string detail = 2;</code>
+     * @return The bytes for detail.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getDetailBytes() {
+      java.lang.Object ref = detail_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        detail_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(code_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, code_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(detail_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 2, detail_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+    private int computeSerializedSize_0() {
+      int size = 0;
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(code_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, code_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(detail_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(2, detail_);
+      }
+      return size;
+    }
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += computeSerializedSize_0();
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof jon.can.JonCanStream.BusRefusal)) {
+        return super.equals(obj);
+      }
+      jon.can.JonCanStream.BusRefusal other = (jon.can.JonCanStream.BusRefusal) obj;
+
+      if (!getCode()
+          .equals(other.getCode())) return false;
+      if (!getDetail()
+          .equals(other.getDetail())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + CODE_FIELD_NUMBER;
+      hash = (53 * hash) + getCode().hashCode();
+      hash = (37 * hash) + DETAIL_FIELD_NUMBER;
+      hash = (53 * hash) + getDetail().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static jon.can.JonCanStream.BusRefusal parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.BusRefusal parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusRefusal parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.BusRefusal parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusRefusal parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.BusRefusal parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusRefusal parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static jon.can.JonCanStream.BusRefusal parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static jon.can.JonCanStream.BusRefusal parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static jon.can.JonCanStream.BusRefusal parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusRefusal parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static jon.can.JonCanStream.BusRefusal parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(jon.can.JonCanStream.BusRefusal prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Why the module-bus decoder could not make a message of a record.
+     * </pre>
+     *
+     * Protobuf type {@code jon.can.BusRefusal}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:jon.can.BusRefusal)
+        jon.can.JonCanStream.BusRefusalOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return jon.can.JonCanStream.internal_static_jon_can_BusRefusal_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return jon.can.JonCanStream.internal_static_jon_can_BusRefusal_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                jon.can.JonCanStream.BusRefusal.class, jon.can.JonCanStream.BusRefusal.Builder.class);
+      }
+
+      // Construct using jon.can.JonCanStream.BusRefusal.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        code_ = "";
+        detail_ = "";
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return jon.can.JonCanStream.internal_static_jon_can_BusRefusal_descriptor;
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.BusRefusal getDefaultInstanceForType() {
+        return jon.can.JonCanStream.BusRefusal.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.BusRefusal build() {
+        jon.can.JonCanStream.BusRefusal result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.BusRefusal buildPartial() {
+        jon.can.JonCanStream.BusRefusal result = new jon.can.JonCanStream.BusRefusal(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(jon.can.JonCanStream.BusRefusal result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.code_ = code_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.detail_ = detail_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof jon.can.JonCanStream.BusRefusal) {
+          return mergeFrom((jon.can.JonCanStream.BusRefusal)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(jon.can.JonCanStream.BusRefusal other) {
+        if (other == jon.can.JonCanStream.BusRefusal.getDefaultInstance()) return this;
+        if (!other.getCode().isEmpty()) {
+          code_ = other.code_;
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
+        if (!other.getDetail().isEmpty()) {
+          detail_ = other.detail_;
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        java.util.Objects.requireNonNull(extensionRegistry);
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                code_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              case 18: {
+                detail_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object code_ = "";
+      /**
+       * <pre>
+       * The decoder's refusal code (the joncandec Code* constants, e.g. "proto",
+       * "orphan_fragment", "unknown_topic").
+       * </pre>
+       *
+       * <code>string code = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The code.
+       */
+      public java.lang.String getCode() {
+        java.lang.Object ref = code_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          code_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The decoder's refusal code (the joncandec Code* constants, e.g. "proto",
+       * "orphan_fragment", "unknown_topic").
+       * </pre>
+       *
+       * <code>string code = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The bytes for code.
+       */
+      public com.google.protobuf.ByteString
+          getCodeBytes() {
+        java.lang.Object ref = code_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          code_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The decoder's refusal code (the joncandec Code* constants, e.g. "proto",
+       * "orphan_fragment", "unknown_topic").
+       * </pre>
+       *
+       * <code>string code = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The code to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCode(
+          java.lang.String value) {
+        java.util.Objects.requireNonNull(value);
+        code_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The decoder's refusal code (the joncandec Code* constants, e.g. "proto",
+       * "orphan_fragment", "unknown_topic").
+       * </pre>
+       *
+       * <code>string code = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCode() {
+        code_ = getDefaultInstance().getCode();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The decoder's refusal code (the joncandec Code* constants, e.g. "proto",
+       * "orphan_fragment", "unknown_topic").
+       * </pre>
+       *
+       * <code>string code = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The bytes for code to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCodeBytes(
+          com.google.protobuf.ByteString value) {
+        java.util.Objects.requireNonNull(value);
+        checkByteStringIsUtf8(value);
+        code_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object detail_ = "";
+      /**
+       * <pre>
+       * The decoder's explanation, free text.
+       * </pre>
+       *
+       * <code>string detail = 2;</code>
+       * @return The detail.
+       */
+      public java.lang.String getDetail() {
+        java.lang.Object ref = detail_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          detail_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The decoder's explanation, free text.
+       * </pre>
+       *
+       * <code>string detail = 2;</code>
+       * @return The bytes for detail.
+       */
+      public com.google.protobuf.ByteString
+          getDetailBytes() {
+        java.lang.Object ref = detail_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          detail_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The decoder's explanation, free text.
+       * </pre>
+       *
+       * <code>string detail = 2;</code>
+       * @param value The detail to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDetail(
+          java.lang.String value) {
+        java.util.Objects.requireNonNull(value);
+        detail_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The decoder's explanation, free text.
+       * </pre>
+       *
+       * <code>string detail = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDetail() {
+        detail_ = getDefaultInstance().getDetail();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The decoder's explanation, free text.
+       * </pre>
+       *
+       * <code>string detail = 2;</code>
+       * @param value The bytes for detail to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDetailBytes(
+          com.google.protobuf.ByteString value) {
+        java.util.Objects.requireNonNull(value);
+        checkByteStringIsUtf8(value);
+        detail_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:jon.can.BusRefusal)
+    }
+
+    // @@protoc_insertion_point(class_scope:jon.can.BusRefusal)
+    private static final jon.can.JonCanStream.BusRefusal DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new jon.can.JonCanStream.BusRefusal();
+    }
+
+    public static jon.can.JonCanStream.BusRefusal getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<BusRefusal>
+        PARSER = new com.google.protobuf.AbstractParser<BusRefusal>() {
+      @java.lang.Override
+      public BusRefusal parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<BusRefusal> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BusRefusal> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public jon.can.JonCanStream.BusRefusal getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface BusRecordOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:jon.can.BusRecord)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Arrival number: 1 for the first message the relay decoded since it started.
+     * </pre>
+     *
+     * <code>uint64 n = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The n.
+     */
+    long getN();
+
+    /**
+     * <pre>
+     * The row's title: the decode-table family name, the command root member that
+     * was set, or "refused: &lt;code&gt;".
+     * </pre>
+     *
+     * <code>string title = 2;</code>
+     * @return The title.
+     */
+    java.lang.String getTitle();
+    /**
+     * <pre>
+     * The row's title: the decode-table family name, the command root member that
+     * was set, or "refused: &lt;code&gt;".
+     * </pre>
+     *
+     * <code>string title = 2;</code>
+     * @return The bytes for title.
+     */
+    com.google.protobuf.ByteString
+        getTitleBytes();
+
+    /**
+     * <pre>
+     * What the message is (joncandec Kind*): "family", "health", "announce",
+     * "command", "debug", "log" or "unknown".
+     * </pre>
+     *
+     * <code>string kind = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The kind.
+     */
+    java.lang.String getKind();
+    /**
+     * <pre>
+     * What the message is (joncandec Kind*): "family", "health", "announce",
+     * "command", "debug", "log" or "unknown".
+     * </pre>
+     *
+     * <code>string kind = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for kind.
+     */
+    com.google.protobuf.ByteString
+        getKindBytes();
+
+    /**
+     * <pre>
+     * "cmd" (hub to node) or "state" (node to hub); empty when the CAN id was
+     * wider than the joncan id map.
+     * </pre>
+     *
+     * <code>string dir = 4;</code>
+     * @return The dir.
+     */
+    java.lang.String getDir();
+    /**
+     * <pre>
+     * "cmd" (hub to node) or "state" (node to hub); empty when the CAN id was
+     * wider than the joncan id map.
+     * </pre>
+     *
+     * <code>string dir = 4;</code>
+     * @return The bytes for dir.
+     */
+    com.google.protobuf.ByteString
+        getDirBytes();
+
+    /**
+     * <pre>
+     * The CAN id's node field and the module that node is (a command's
+     * DESTINATION node); module is empty when no decode-table entry names the node.
+     * </pre>
+     *
+     * <code>uint32 node = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The node.
+     */
+    int getNode();
+
+    /**
+     * <code>string module = 6;</code>
+     * @return The module.
+     */
+    java.lang.String getModule();
+    /**
+     * <code>string module = 6;</code>
+     * @return The bytes for module.
+     */
+    com.google.protobuf.ByteString
+        getModuleBytes();
+
+    /**
+     * <pre>
+     * The CAN id's topic field.
+     * </pre>
+     *
+     * <code>uint32 topic = 7 [(.buf.validate.field) = { ... }</code>
+     * @return The topic.
+     */
+    int getTopic();
+
+    /**
+     * <pre>
+     * The decode-table row name (empty for a command) and the command root
+     * member that was set (empty unless a command).
+     * </pre>
+     *
+     * <code>string family = 8;</code>
+     * @return The family.
+     */
+    java.lang.String getFamily();
+    /**
+     * <pre>
+     * The decode-table row name (empty for a command) and the command root
+     * member that was set (empty unless a command).
+     * </pre>
+     *
+     * <code>string family = 8;</code>
+     * @return The bytes for family.
+     */
+    com.google.protobuf.ByteString
+        getFamilyBytes();
+
+    /**
+     * <code>string command = 9;</code>
+     * @return The command.
+     */
+    java.lang.String getCommand();
+    /**
+     * <code>string command = 9;</code>
+     * @return The bytes for command.
+     */
+    com.google.protobuf.ByteString
+        getCommandBytes();
+
+    /**
+     * <pre>
+     * The full name of the proto message the body decoded as; empty for an
+     * announce, a debug or a log message.
+     * </pre>
+     *
+     * <code>string message = 10;</code>
+     * @return The message.
+     */
+    java.lang.String getMessage();
+    /**
+     * <pre>
+     * The full name of the proto message the body decoded as; empty for an
+     * announce, a debug or a log message.
+     * </pre>
+     *
+     * <code>string message = 10;</code>
+     * @return The bytes for message.
+     */
+    com.google.protobuf.ByteString
+        getMessageBytes();
+
+    /**
+     * <pre>
+     * The decoded payload as JSON: proto3 JSON with proto field names, sorted
+     * keys, every owned field present. "null" when nothing was decoded.
+     * </pre>
+     *
+     * <code>string decoded_json = 11 [(.buf.validate.field) = { ... }</code>
+     * @return The decodedJson.
+     */
+    java.lang.String getDecodedJson();
+    /**
+     * <pre>
+     * The decoded payload as JSON: proto3 JSON with proto field names, sorted
+     * keys, every owned field present. "null" when nothing was decoded.
+     * </pre>
+     *
+     * <code>string decoded_json = 11 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for decodedJson.
+     */
+    com.google.protobuf.ByteString
+        getDecodedJsonBytes();
+
+    /**
+     * <pre>
+     * Set when the decoder refused the record; the raw bytes are in `data`.
+     * </pre>
+     *
+     * <code>.jon.can.BusRefusal refusal = 12;</code>
+     * @return Whether the refusal field is set.
+     */
+    boolean hasRefusal();
+    /**
+     * <pre>
+     * Set when the decoder refused the record; the raw bytes are in `data`.
+     * </pre>
+     *
+     * <code>.jon.can.BusRefusal refusal = 12;</code>
+     * @return The refusal.
+     */
+    jon.can.JonCanStream.BusRefusal getRefusal();
+    /**
+     * <pre>
+     * Set when the decoder refused the record; the raw bytes are in `data`.
+     * </pre>
+     *
+     * <code>.jon.can.BusRefusal refusal = 12;</code>
+     */
+    jon.can.JonCanStream.BusRefusalOrBuilder getRefusalOrBuilder();
+
+    /**
+     * <pre>
+     * The record facts. ts_ns: when the frame was seen, ns, on the producer's
+     * clock (0 = the producer did not know).
+     * </pre>
+     *
+     * <code>uint64 ts_ns = 13;</code>
+     * @return The tsNs.
+     */
+    long getTsNs();
+
+    /**
+     * <code>.jon.can.BusOrigin origin = 14;</code>
+     * @return The enum numeric value on the wire for origin.
+     */
+    int getOriginValue();
+    /**
+     * <code>.jon.can.BusOrigin origin = 14;</code>
+     * @return The origin.
+     */
+    jon.can.JonCanStream.BusOrigin getOrigin();
+
+    /**
+     * <pre>
+     * The datagram's hop sequence and the node id of the datagram's sender (the
+     * envelope header); absent when the stream entry did not carry them.
+     * </pre>
+     *
+     * <code>optional uint32 hop_seq = 15 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the hopSeq field is set.
+     */
+    boolean hasHopSeq();
+    /**
+     * <pre>
+     * The datagram's hop sequence and the node id of the datagram's sender (the
+     * envelope header); absent when the stream entry did not carry them.
+     * </pre>
+     *
+     * <code>optional uint32 hop_seq = 15 [(.buf.validate.field) = { ... }</code>
+     * @return The hopSeq.
+     */
+    int getHopSeq();
+
+    /**
+     * <code>optional uint32 sender = 16 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the sender field is set.
+     */
+    boolean hasSender();
+    /**
+     * <code>optional uint32 sender = 16 [(.buf.validate.field) = { ... }</code>
+     * @return The sender.
+     */
+    int getSender();
+
+    /**
+     * <pre>
+     * The sender's module, from the decode table; empty when no entry names it.
+     * </pre>
+     *
+     * <code>string sender_module = 17;</code>
+     * @return The senderModule.
+     */
+    java.lang.String getSenderModule();
+    /**
+     * <pre>
+     * The sender's module, from the decode table; empty when no entry names it.
+     * </pre>
+     *
+     * <code>string sender_module = 17;</code>
+     * @return The bytes for senderModule.
+     */
+    com.google.protobuf.ByteString
+        getSenderModuleBytes();
+
+    /**
+     * <pre>
+     * The frame's 11-bit CAN id.
+     * </pre>
+     *
+     * <code>uint32 can_id = 18 [(.buf.validate.field) = { ... }</code>
+     * @return The canId.
+     */
+    int getCanId();
+
+    /**
+     * <pre>
+     * The record's frame flags (JONCAN_ENV_FRAME_*) and their names, lowest bit
+     * first ("FD BRS"); a bit no flag names reads as hex.
+     * </pre>
+     *
+     * <code>uint32 fflags = 19 [(.buf.validate.field) = { ... }</code>
+     * @return The fflags.
+     */
+    int getFflags();
+
+    /**
+     * <code>string frame_flags = 20;</code>
+     * @return The frameFlags.
+     */
+    java.lang.String getFrameFlags();
+    /**
+     * <code>string frame_flags = 20;</code>
+     * @return The bytes for frameFlags.
+     */
+    com.google.protobuf.ByteString
+        getFrameFlagsBytes();
+
+    /**
+     * <pre>
+     * The completing record's 70-byte blob: frame type, CAN id (little-endian),
+     * length, 64 data bytes. For a message carried in several frames this is the
+     * LAST frame's record.
+     * </pre>
+     *
+     * <code>bytes data = 21 [(.buf.validate.field) = { ... }</code>
+     * @return The data.
+     */
+    com.google.protobuf.ByteString getData();
+
+    /**
+     * <pre>
+     * The message body, reassembled across fragments.
+     * </pre>
+     *
+     * <code>bytes payload = 22 [(.buf.validate.field) = { ... }</code>
+     * @return The payload.
+     */
+    com.google.protobuf.ByteString getPayload();
+
+    /**
+     * <pre>
+     * The joncan header: the CAN id's priority, the message type, the message
+     * counter, the fragments the message was carried in, the sender's transmit
+     * time (ns) and whether that time was valid.
+     * </pre>
+     *
+     * <code>uint32 prio = 23 [(.buf.validate.field) = { ... }</code>
+     * @return The prio.
+     */
+    int getPrio();
+
+    /**
+     * <code>uint32 type = 24 [(.buf.validate.field) = { ... }</code>
+     * @return The type.
+     */
+    int getType();
+
+    /**
+     * <code>uint32 seq = 25 [(.buf.validate.field) = { ... }</code>
+     * @return The seq.
+     */
+    int getSeq();
+
+    /**
+     * <code>uint32 frag_total = 26 [(.buf.validate.field) = { ... }</code>
+     * @return The fragTotal.
+     */
+    int getFragTotal();
+
+    /**
+     * <code>uint64 tx_time_ns = 27;</code>
+     * @return The txTimeNs.
+     */
+    long getTxTimeNs();
+
+    /**
+     * <code>bool ts_valid = 28;</code>
+     * @return The tsValid.
+     */
+    boolean getTsValid();
+
+    /**
+     * <pre>
+     * The Redis stream key (logs:bus:0x&lt;id&gt;), the entry id, and the entry id's
+     * millisecond (the Redis server's wall clock when the entry was appended).
+     * </pre>
+     *
+     * <code>string stream = 29;</code>
+     * @return The stream.
+     */
+    java.lang.String getStream();
+    /**
+     * <pre>
+     * The Redis stream key (logs:bus:0x&lt;id&gt;), the entry id, and the entry id's
+     * millisecond (the Redis server's wall clock when the entry was appended).
+     * </pre>
+     *
+     * <code>string stream = 29;</code>
+     * @return The bytes for stream.
+     */
+    com.google.protobuf.ByteString
+        getStreamBytes();
+
+    /**
+     * <code>string entry_id = 30;</code>
+     * @return The entryId.
+     */
+    java.lang.String getEntryId();
+    /**
+     * <code>string entry_id = 30;</code>
+     * @return The bytes for entryId.
+     */
+    com.google.protobuf.ByteString
+        getEntryIdBytes();
+
+    /**
+     * <code>int64 time_ms = 31;</code>
+     * @return The timeMs.
+     */
+    long getTimeMs();
+  }
+  /**
+   * <pre>
+   * One module-bus message as the CAN stream relay decoded it from the
+   * `logs:bus:0x&lt;id&gt;` Redis streams: the decoded payload, the joncan header facts
+   * and the record facts of the frame that completed it. Decoding happens once,
+   * on the relay; a client renders these fields and never parses the wire.
+   * </pre>
+   *
+   * Protobuf type {@code jon.can.BusRecord}
+   */
+  public static final class BusRecord extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:jon.can.BusRecord)
+      BusRecordOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 36,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        "BusRecord");
+    }
+    // Use BusRecord.newBuilder() to construct.
+    private BusRecord(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private BusRecord() {
+      title_ = "";
+      kind_ = "";
+      dir_ = "";
+      module_ = "";
+      family_ = "";
+      command_ = "";
+      message_ = "";
+      decodedJson_ = "";
+      origin_ = 0;
+      senderModule_ = "";
+      frameFlags_ = "";
+      data_ = com.google.protobuf.ByteString.EMPTY;
+      payload_ = com.google.protobuf.ByteString.EMPTY;
+      stream_ = "";
+      entryId_ = "";
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return jon.can.JonCanStream.internal_static_jon_can_BusRecord_descriptor;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      return jon.can.JonCanStream.internal_static_jon_can_BusRecord_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return jon.can.JonCanStream.internal_static_jon_can_BusRecord_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              jon.can.JonCanStream.BusRecord.class, jon.can.JonCanStream.BusRecord.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int N_FIELD_NUMBER = 1;
+    private long n_ = 0L;
+    /**
+     * <pre>
+     * Arrival number: 1 for the first message the relay decoded since it started.
+     * </pre>
+     *
+     * <code>uint64 n = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The n.
+     */
+    @java.lang.Override
+    public long getN() {
+      return n_;
+    }
+
+    public static final int TITLE_FIELD_NUMBER = 2;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object title_ = "";
+    /**
+     * <pre>
+     * The row's title: the decode-table family name, the command root member that
+     * was set, or "refused: &lt;code&gt;".
+     * </pre>
+     *
+     * <code>string title = 2;</code>
+     * @return The title.
+     */
+    @java.lang.Override
+    public java.lang.String getTitle() {
+      java.lang.Object ref = title_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        title_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * The row's title: the decode-table family name, the command root member that
+     * was set, or "refused: &lt;code&gt;".
+     * </pre>
+     *
+     * <code>string title = 2;</code>
+     * @return The bytes for title.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTitleBytes() {
+      java.lang.Object ref = title_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        title_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int KIND_FIELD_NUMBER = 3;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object kind_ = "";
+    /**
+     * <pre>
+     * What the message is (joncandec Kind*): "family", "health", "announce",
+     * "command", "debug", "log" or "unknown".
+     * </pre>
+     *
+     * <code>string kind = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The kind.
+     */
+    @java.lang.Override
+    public java.lang.String getKind() {
+      java.lang.Object ref = kind_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        kind_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * What the message is (joncandec Kind*): "family", "health", "announce",
+     * "command", "debug", "log" or "unknown".
+     * </pre>
+     *
+     * <code>string kind = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for kind.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getKindBytes() {
+      java.lang.Object ref = kind_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        kind_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DIR_FIELD_NUMBER = 4;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object dir_ = "";
+    /**
+     * <pre>
+     * "cmd" (hub to node) or "state" (node to hub); empty when the CAN id was
+     * wider than the joncan id map.
+     * </pre>
+     *
+     * <code>string dir = 4;</code>
+     * @return The dir.
+     */
+    @java.lang.Override
+    public java.lang.String getDir() {
+      java.lang.Object ref = dir_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        dir_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * "cmd" (hub to node) or "state" (node to hub); empty when the CAN id was
+     * wider than the joncan id map.
+     * </pre>
+     *
+     * <code>string dir = 4;</code>
+     * @return The bytes for dir.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getDirBytes() {
+      java.lang.Object ref = dir_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        dir_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int NODE_FIELD_NUMBER = 5;
+    private int node_ = 0;
+    /**
+     * <pre>
+     * The CAN id's node field and the module that node is (a command's
+     * DESTINATION node); module is empty when no decode-table entry names the node.
+     * </pre>
+     *
+     * <code>uint32 node = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The node.
+     */
+    @java.lang.Override
+    public int getNode() {
+      return node_;
+    }
+
+    public static final int MODULE_FIELD_NUMBER = 6;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object module_ = "";
+    /**
+     * <code>string module = 6;</code>
+     * @return The module.
+     */
+    @java.lang.Override
+    public java.lang.String getModule() {
+      java.lang.Object ref = module_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        module_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string module = 6;</code>
+     * @return The bytes for module.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getModuleBytes() {
+      java.lang.Object ref = module_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        module_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TOPIC_FIELD_NUMBER = 7;
+    private int topic_ = 0;
+    /**
+     * <pre>
+     * The CAN id's topic field.
+     * </pre>
+     *
+     * <code>uint32 topic = 7 [(.buf.validate.field) = { ... }</code>
+     * @return The topic.
+     */
+    @java.lang.Override
+    public int getTopic() {
+      return topic_;
+    }
+
+    public static final int FAMILY_FIELD_NUMBER = 8;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object family_ = "";
+    /**
+     * <pre>
+     * The decode-table row name (empty for a command) and the command root
+     * member that was set (empty unless a command).
+     * </pre>
+     *
+     * <code>string family = 8;</code>
+     * @return The family.
+     */
+    @java.lang.Override
+    public java.lang.String getFamily() {
+      java.lang.Object ref = family_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        family_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * The decode-table row name (empty for a command) and the command root
+     * member that was set (empty unless a command).
+     * </pre>
+     *
+     * <code>string family = 8;</code>
+     * @return The bytes for family.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getFamilyBytes() {
+      java.lang.Object ref = family_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        family_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int COMMAND_FIELD_NUMBER = 9;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object command_ = "";
+    /**
+     * <code>string command = 9;</code>
+     * @return The command.
+     */
+    @java.lang.Override
+    public java.lang.String getCommand() {
+      java.lang.Object ref = command_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        command_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string command = 9;</code>
+     * @return The bytes for command.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getCommandBytes() {
+      java.lang.Object ref = command_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        command_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int MESSAGE_FIELD_NUMBER = 10;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object message_ = "";
+    /**
+     * <pre>
+     * The full name of the proto message the body decoded as; empty for an
+     * announce, a debug or a log message.
+     * </pre>
+     *
+     * <code>string message = 10;</code>
+     * @return The message.
+     */
+    @java.lang.Override
+    public java.lang.String getMessage() {
+      java.lang.Object ref = message_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        message_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * The full name of the proto message the body decoded as; empty for an
+     * announce, a debug or a log message.
+     * </pre>
+     *
+     * <code>string message = 10;</code>
+     * @return The bytes for message.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getMessageBytes() {
+      java.lang.Object ref = message_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        message_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DECODED_JSON_FIELD_NUMBER = 11;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object decodedJson_ = "";
+    /**
+     * <pre>
+     * The decoded payload as JSON: proto3 JSON with proto field names, sorted
+     * keys, every owned field present. "null" when nothing was decoded.
+     * </pre>
+     *
+     * <code>string decoded_json = 11 [(.buf.validate.field) = { ... }</code>
+     * @return The decodedJson.
+     */
+    @java.lang.Override
+    public java.lang.String getDecodedJson() {
+      java.lang.Object ref = decodedJson_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        decodedJson_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * The decoded payload as JSON: proto3 JSON with proto field names, sorted
+     * keys, every owned field present. "null" when nothing was decoded.
+     * </pre>
+     *
+     * <code>string decoded_json = 11 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for decodedJson.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getDecodedJsonBytes() {
+      java.lang.Object ref = decodedJson_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        decodedJson_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int REFUSAL_FIELD_NUMBER = 12;
+    private jon.can.JonCanStream.BusRefusal refusal_;
+    /**
+     * <pre>
+     * Set when the decoder refused the record; the raw bytes are in `data`.
+     * </pre>
+     *
+     * <code>.jon.can.BusRefusal refusal = 12;</code>
+     * @return Whether the refusal field is set.
+     */
+    @java.lang.Override
+    public boolean hasRefusal() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <pre>
+     * Set when the decoder refused the record; the raw bytes are in `data`.
+     * </pre>
+     *
+     * <code>.jon.can.BusRefusal refusal = 12;</code>
+     * @return The refusal.
+     */
+    @java.lang.Override
+    public jon.can.JonCanStream.BusRefusal getRefusal() {
+      return refusal_ == null ? jon.can.JonCanStream.BusRefusal.getDefaultInstance() : refusal_;
+    }
+    /**
+     * <pre>
+     * Set when the decoder refused the record; the raw bytes are in `data`.
+     * </pre>
+     *
+     * <code>.jon.can.BusRefusal refusal = 12;</code>
+     */
+    @java.lang.Override
+    public jon.can.JonCanStream.BusRefusalOrBuilder getRefusalOrBuilder() {
+      return refusal_ == null ? jon.can.JonCanStream.BusRefusal.getDefaultInstance() : refusal_;
+    }
+
+    public static final int TS_NS_FIELD_NUMBER = 13;
+    private long tsNs_ = 0L;
+    /**
+     * <pre>
+     * The record facts. ts_ns: when the frame was seen, ns, on the producer's
+     * clock (0 = the producer did not know).
+     * </pre>
+     *
+     * <code>uint64 ts_ns = 13;</code>
+     * @return The tsNs.
+     */
+    @java.lang.Override
+    public long getTsNs() {
+      return tsNs_;
+    }
+
+    public static final int ORIGIN_FIELD_NUMBER = 14;
+    private int origin_ = 0;
+    /**
+     * <code>.jon.can.BusOrigin origin = 14;</code>
+     * @return The enum numeric value on the wire for origin.
+     */
+    @java.lang.Override public int getOriginValue() {
+      return origin_;
+    }
+    /**
+     * <code>.jon.can.BusOrigin origin = 14;</code>
+     * @return The origin.
+     */
+    @java.lang.Override public jon.can.JonCanStream.BusOrigin getOrigin() {
+      jon.can.JonCanStream.BusOrigin result = jon.can.JonCanStream.BusOrigin.forNumber(origin_);
+      return result == null ? jon.can.JonCanStream.BusOrigin.UNRECOGNIZED : result;
+    }
+
+    public static final int HOP_SEQ_FIELD_NUMBER = 15;
+    private int hopSeq_ = 0;
+    /**
+     * <pre>
+     * The datagram's hop sequence and the node id of the datagram's sender (the
+     * envelope header); absent when the stream entry did not carry them.
+     * </pre>
+     *
+     * <code>optional uint32 hop_seq = 15 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the hopSeq field is set.
+     */
+    @java.lang.Override
+    public boolean hasHopSeq() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <pre>
+     * The datagram's hop sequence and the node id of the datagram's sender (the
+     * envelope header); absent when the stream entry did not carry them.
+     * </pre>
+     *
+     * <code>optional uint32 hop_seq = 15 [(.buf.validate.field) = { ... }</code>
+     * @return The hopSeq.
+     */
+    @java.lang.Override
+    public int getHopSeq() {
+      return hopSeq_;
+    }
+
+    public static final int SENDER_FIELD_NUMBER = 16;
+    private int sender_ = 0;
+    /**
+     * <code>optional uint32 sender = 16 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the sender field is set.
+     */
+    @java.lang.Override
+    public boolean hasSender() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>optional uint32 sender = 16 [(.buf.validate.field) = { ... }</code>
+     * @return The sender.
+     */
+    @java.lang.Override
+    public int getSender() {
+      return sender_;
+    }
+
+    public static final int SENDER_MODULE_FIELD_NUMBER = 17;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object senderModule_ = "";
+    /**
+     * <pre>
+     * The sender's module, from the decode table; empty when no entry names it.
+     * </pre>
+     *
+     * <code>string sender_module = 17;</code>
+     * @return The senderModule.
+     */
+    @java.lang.Override
+    public java.lang.String getSenderModule() {
+      java.lang.Object ref = senderModule_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        senderModule_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * The sender's module, from the decode table; empty when no entry names it.
+     * </pre>
+     *
+     * <code>string sender_module = 17;</code>
+     * @return The bytes for senderModule.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getSenderModuleBytes() {
+      java.lang.Object ref = senderModule_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        senderModule_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CAN_ID_FIELD_NUMBER = 18;
+    private int canId_ = 0;
+    /**
+     * <pre>
+     * The frame's 11-bit CAN id.
+     * </pre>
+     *
+     * <code>uint32 can_id = 18 [(.buf.validate.field) = { ... }</code>
+     * @return The canId.
+     */
+    @java.lang.Override
+    public int getCanId() {
+      return canId_;
+    }
+
+    public static final int FFLAGS_FIELD_NUMBER = 19;
+    private int fflags_ = 0;
+    /**
+     * <pre>
+     * The record's frame flags (JONCAN_ENV_FRAME_*) and their names, lowest bit
+     * first ("FD BRS"); a bit no flag names reads as hex.
+     * </pre>
+     *
+     * <code>uint32 fflags = 19 [(.buf.validate.field) = { ... }</code>
+     * @return The fflags.
+     */
+    @java.lang.Override
+    public int getFflags() {
+      return fflags_;
+    }
+
+    public static final int FRAME_FLAGS_FIELD_NUMBER = 20;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object frameFlags_ = "";
+    /**
+     * <code>string frame_flags = 20;</code>
+     * @return The frameFlags.
+     */
+    @java.lang.Override
+    public java.lang.String getFrameFlags() {
+      java.lang.Object ref = frameFlags_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        frameFlags_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string frame_flags = 20;</code>
+     * @return The bytes for frameFlags.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getFrameFlagsBytes() {
+      java.lang.Object ref = frameFlags_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        frameFlags_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DATA_FIELD_NUMBER = 21;
+    private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
+    /**
+     * <pre>
+     * The completing record's 70-byte blob: frame type, CAN id (little-endian),
+     * length, 64 data bytes. For a message carried in several frames this is the
+     * LAST frame's record.
+     * </pre>
+     *
+     * <code>bytes data = 21 [(.buf.validate.field) = { ... }</code>
+     * @return The data.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getData() {
+      return data_;
+    }
+
+    public static final int PAYLOAD_FIELD_NUMBER = 22;
+    private com.google.protobuf.ByteString payload_ = com.google.protobuf.ByteString.EMPTY;
+    /**
+     * <pre>
+     * The message body, reassembled across fragments.
+     * </pre>
+     *
+     * <code>bytes payload = 22 [(.buf.validate.field) = { ... }</code>
+     * @return The payload.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getPayload() {
+      return payload_;
+    }
+
+    public static final int PRIO_FIELD_NUMBER = 23;
+    private int prio_ = 0;
+    /**
+     * <pre>
+     * The joncan header: the CAN id's priority, the message type, the message
+     * counter, the fragments the message was carried in, the sender's transmit
+     * time (ns) and whether that time was valid.
+     * </pre>
+     *
+     * <code>uint32 prio = 23 [(.buf.validate.field) = { ... }</code>
+     * @return The prio.
+     */
+    @java.lang.Override
+    public int getPrio() {
+      return prio_;
+    }
+
+    public static final int TYPE_FIELD_NUMBER = 24;
+    private int type_ = 0;
+    /**
+     * <code>uint32 type = 24 [(.buf.validate.field) = { ... }</code>
+     * @return The type.
+     */
+    @java.lang.Override
+    public int getType() {
+      return type_;
+    }
+
+    public static final int SEQ_FIELD_NUMBER = 25;
+    private int seq_ = 0;
+    /**
+     * <code>uint32 seq = 25 [(.buf.validate.field) = { ... }</code>
+     * @return The seq.
+     */
+    @java.lang.Override
+    public int getSeq() {
+      return seq_;
+    }
+
+    public static final int FRAG_TOTAL_FIELD_NUMBER = 26;
+    private int fragTotal_ = 0;
+    /**
+     * <code>uint32 frag_total = 26 [(.buf.validate.field) = { ... }</code>
+     * @return The fragTotal.
+     */
+    @java.lang.Override
+    public int getFragTotal() {
+      return fragTotal_;
+    }
+
+    public static final int TX_TIME_NS_FIELD_NUMBER = 27;
+    private long txTimeNs_ = 0L;
+    /**
+     * <code>uint64 tx_time_ns = 27;</code>
+     * @return The txTimeNs.
+     */
+    @java.lang.Override
+    public long getTxTimeNs() {
+      return txTimeNs_;
+    }
+
+    public static final int TS_VALID_FIELD_NUMBER = 28;
+    private boolean tsValid_ = false;
+    /**
+     * <code>bool ts_valid = 28;</code>
+     * @return The tsValid.
+     */
+    @java.lang.Override
+    public boolean getTsValid() {
+      return tsValid_;
+    }
+
+    public static final int STREAM_FIELD_NUMBER = 29;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object stream_ = "";
+    /**
+     * <pre>
+     * The Redis stream key (logs:bus:0x&lt;id&gt;), the entry id, and the entry id's
+     * millisecond (the Redis server's wall clock when the entry was appended).
+     * </pre>
+     *
+     * <code>string stream = 29;</code>
+     * @return The stream.
+     */
+    @java.lang.Override
+    public java.lang.String getStream() {
+      java.lang.Object ref = stream_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        stream_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * The Redis stream key (logs:bus:0x&lt;id&gt;), the entry id, and the entry id's
+     * millisecond (the Redis server's wall clock when the entry was appended).
+     * </pre>
+     *
+     * <code>string stream = 29;</code>
+     * @return The bytes for stream.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getStreamBytes() {
+      java.lang.Object ref = stream_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        stream_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ENTRY_ID_FIELD_NUMBER = 30;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object entryId_ = "";
+    /**
+     * <code>string entry_id = 30;</code>
+     * @return The entryId.
+     */
+    @java.lang.Override
+    public java.lang.String getEntryId() {
+      java.lang.Object ref = entryId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        entryId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string entry_id = 30;</code>
+     * @return The bytes for entryId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getEntryIdBytes() {
+      java.lang.Object ref = entryId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        entryId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TIME_MS_FIELD_NUMBER = 31;
+    private long timeMs_ = 0L;
+    /**
+     * <code>int64 time_ms = 31;</code>
+     * @return The timeMs.
+     */
+    @java.lang.Override
+    public long getTimeMs() {
+      return timeMs_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (n_ != 0L) {
+        output.writeUInt64(1, n_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(title_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 2, title_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(kind_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 3, kind_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(dir_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 4, dir_);
+      }
+      if (node_ != 0) {
+        output.writeUInt32(5, node_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(module_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 6, module_);
+      }
+      if (topic_ != 0) {
+        output.writeUInt32(7, topic_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(family_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 8, family_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(command_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 9, command_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(message_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 10, message_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(decodedJson_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 11, decodedJson_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(12, getRefusal());
+      }
+      if (tsNs_ != 0L) {
+        output.writeUInt64(13, tsNs_);
+      }
+      if (origin_ != jon.can.JonCanStream.BusOrigin.BUS_ORIGIN_UNSPECIFIED.getNumber()) {
+        output.writeEnum(14, origin_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeUInt32(15, hopSeq_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeUInt32(16, sender_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(senderModule_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 17, senderModule_);
+      }
+      if (canId_ != 0) {
+        output.writeUInt32(18, canId_);
+      }
+      if (fflags_ != 0) {
+        output.writeUInt32(19, fflags_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(frameFlags_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 20, frameFlags_);
+      }
+      if (!data_.isEmpty()) {
+        output.writeBytes(21, data_);
+      }
+      if (!payload_.isEmpty()) {
+        output.writeBytes(22, payload_);
+      }
+      if (prio_ != 0) {
+        output.writeUInt32(23, prio_);
+      }
+      if (type_ != 0) {
+        output.writeUInt32(24, type_);
+      }
+      if (seq_ != 0) {
+        output.writeUInt32(25, seq_);
+      }
+      if (fragTotal_ != 0) {
+        output.writeUInt32(26, fragTotal_);
+      }
+      if (txTimeNs_ != 0L) {
+        output.writeUInt64(27, txTimeNs_);
+      }
+      if (tsValid_ != false) {
+        output.writeBool(28, tsValid_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(stream_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 29, stream_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(entryId_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 30, entryId_);
+      }
+      if (timeMs_ != 0L) {
+        output.writeInt64(31, timeMs_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+    private int computeSerializedSize_0() {
+      int size = 0;
+      if (n_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(1, n_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(title_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(2, title_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(kind_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(3, kind_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(dir_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(4, dir_);
+      }
+      if (node_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(5, node_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(module_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(6, module_);
+      }
+      if (topic_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(7, topic_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(family_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(8, family_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(command_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(9, command_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(message_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(10, message_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(decodedJson_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(11, decodedJson_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(12, getRefusal());
+      }
+      if (tsNs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(13, tsNs_);
+      }
+      if (origin_ != jon.can.JonCanStream.BusOrigin.BUS_ORIGIN_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(14, origin_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(15, hopSeq_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(16, sender_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(senderModule_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(17, senderModule_);
+      }
+      if (canId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(18, canId_);
+      }
+      if (fflags_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(19, fflags_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(frameFlags_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(20, frameFlags_);
+      }
+      if (!data_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(21, data_);
+      }
+      if (!payload_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(22, payload_);
+      }
+      if (prio_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(23, prio_);
+      }
+      if (type_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(24, type_);
+      }
+      if (seq_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(25, seq_);
+      }
+      if (fragTotal_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(26, fragTotal_);
+      }
+      if (txTimeNs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(27, txTimeNs_);
+      }
+      if (tsValid_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(28, tsValid_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(stream_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(29, stream_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(entryId_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(30, entryId_);
+      }
+      if (timeMs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(31, timeMs_);
+      }
+      return size;
+    }
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += computeSerializedSize_0();
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof jon.can.JonCanStream.BusRecord)) {
+        return super.equals(obj);
+      }
+      jon.can.JonCanStream.BusRecord other = (jon.can.JonCanStream.BusRecord) obj;
+
+      if (getN()
+          != other.getN()) return false;
+      if (!getTitle()
+          .equals(other.getTitle())) return false;
+      if (!getKind()
+          .equals(other.getKind())) return false;
+      if (!getDir()
+          .equals(other.getDir())) return false;
+      if (getNode()
+          != other.getNode()) return false;
+      if (!getModule()
+          .equals(other.getModule())) return false;
+      if (getTopic()
+          != other.getTopic()) return false;
+      if (!getFamily()
+          .equals(other.getFamily())) return false;
+      if (!getCommand()
+          .equals(other.getCommand())) return false;
+      if (!getMessage()
+          .equals(other.getMessage())) return false;
+      if (!getDecodedJson()
+          .equals(other.getDecodedJson())) return false;
+      if (hasRefusal() != other.hasRefusal()) return false;
+      if (hasRefusal()) {
+        if (!getRefusal()
+            .equals(other.getRefusal())) return false;
+      }
+      if (getTsNs()
+          != other.getTsNs()) return false;
+      if (origin_ != other.origin_) return false;
+      if (hasHopSeq() != other.hasHopSeq()) return false;
+      if (hasHopSeq()) {
+        if (getHopSeq()
+            != other.getHopSeq()) return false;
+      }
+      if (hasSender() != other.hasSender()) return false;
+      if (hasSender()) {
+        if (getSender()
+            != other.getSender()) return false;
+      }
+      if (!getSenderModule()
+          .equals(other.getSenderModule())) return false;
+      if (getCanId()
+          != other.getCanId()) return false;
+      if (getFflags()
+          != other.getFflags()) return false;
+      if (!getFrameFlags()
+          .equals(other.getFrameFlags())) return false;
+      if (!getData()
+          .equals(other.getData())) return false;
+      if (!getPayload()
+          .equals(other.getPayload())) return false;
+      if (getPrio()
+          != other.getPrio()) return false;
+      if (getType()
+          != other.getType()) return false;
+      if (getSeq()
+          != other.getSeq()) return false;
+      if (getFragTotal()
+          != other.getFragTotal()) return false;
+      if (getTxTimeNs()
+          != other.getTxTimeNs()) return false;
+      if (getTsValid()
+          != other.getTsValid()) return false;
+      if (!getStream()
+          .equals(other.getStream())) return false;
+      if (!getEntryId()
+          .equals(other.getEntryId())) return false;
+      if (getTimeMs()
+          != other.getTimeMs()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + N_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getN());
+      hash = (37 * hash) + TITLE_FIELD_NUMBER;
+      hash = (53 * hash) + getTitle().hashCode();
+      hash = (37 * hash) + KIND_FIELD_NUMBER;
+      hash = (53 * hash) + getKind().hashCode();
+      hash = (37 * hash) + DIR_FIELD_NUMBER;
+      hash = (53 * hash) + getDir().hashCode();
+      hash = (37 * hash) + NODE_FIELD_NUMBER;
+      hash = (53 * hash) + getNode();
+      hash = (37 * hash) + MODULE_FIELD_NUMBER;
+      hash = (53 * hash) + getModule().hashCode();
+      hash = (37 * hash) + TOPIC_FIELD_NUMBER;
+      hash = (53 * hash) + getTopic();
+      hash = (37 * hash) + FAMILY_FIELD_NUMBER;
+      hash = (53 * hash) + getFamily().hashCode();
+      hash = (37 * hash) + COMMAND_FIELD_NUMBER;
+      hash = (53 * hash) + getCommand().hashCode();
+      hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
+      hash = (53 * hash) + getMessage().hashCode();
+      hash = (37 * hash) + DECODED_JSON_FIELD_NUMBER;
+      hash = (53 * hash) + getDecodedJson().hashCode();
+      if (hasRefusal()) {
+        hash = (37 * hash) + REFUSAL_FIELD_NUMBER;
+        hash = (53 * hash) + getRefusal().hashCode();
+      }
+      hash = (37 * hash) + TS_NS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTsNs());
+      hash = (37 * hash) + ORIGIN_FIELD_NUMBER;
+      hash = (53 * hash) + origin_;
+      if (hasHopSeq()) {
+        hash = (37 * hash) + HOP_SEQ_FIELD_NUMBER;
+        hash = (53 * hash) + getHopSeq();
+      }
+      if (hasSender()) {
+        hash = (37 * hash) + SENDER_FIELD_NUMBER;
+        hash = (53 * hash) + getSender();
+      }
+      hash = (37 * hash) + SENDER_MODULE_FIELD_NUMBER;
+      hash = (53 * hash) + getSenderModule().hashCode();
+      hash = (37 * hash) + CAN_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getCanId();
+      hash = (37 * hash) + FFLAGS_FIELD_NUMBER;
+      hash = (53 * hash) + getFflags();
+      hash = (37 * hash) + FRAME_FLAGS_FIELD_NUMBER;
+      hash = (53 * hash) + getFrameFlags().hashCode();
+      hash = (37 * hash) + DATA_FIELD_NUMBER;
+      hash = (53 * hash) + getData().hashCode();
+      hash = (37 * hash) + PAYLOAD_FIELD_NUMBER;
+      hash = (53 * hash) + getPayload().hashCode();
+      hash = (37 * hash) + PRIO_FIELD_NUMBER;
+      hash = (53 * hash) + getPrio();
+      hash = (37 * hash) + TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getType();
+      hash = (37 * hash) + SEQ_FIELD_NUMBER;
+      hash = (53 * hash) + getSeq();
+      hash = (37 * hash) + FRAG_TOTAL_FIELD_NUMBER;
+      hash = (53 * hash) + getFragTotal();
+      hash = (37 * hash) + TX_TIME_NS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTxTimeNs());
+      hash = (37 * hash) + TS_VALID_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getTsValid());
+      hash = (37 * hash) + STREAM_FIELD_NUMBER;
+      hash = (53 * hash) + getStream().hashCode();
+      hash = (37 * hash) + ENTRY_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getEntryId().hashCode();
+      hash = (37 * hash) + TIME_MS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTimeMs());
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static jon.can.JonCanStream.BusRecord parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.BusRecord parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusRecord parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.BusRecord parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusRecord parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.BusRecord parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusRecord parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static jon.can.JonCanStream.BusRecord parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static jon.can.JonCanStream.BusRecord parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static jon.can.JonCanStream.BusRecord parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusRecord parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static jon.can.JonCanStream.BusRecord parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(jon.can.JonCanStream.BusRecord prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * One module-bus message as the CAN stream relay decoded it from the
+     * `logs:bus:0x&lt;id&gt;` Redis streams: the decoded payload, the joncan header facts
+     * and the record facts of the frame that completed it. Decoding happens once,
+     * on the relay; a client renders these fields and never parses the wire.
+     * </pre>
+     *
+     * Protobuf type {@code jon.can.BusRecord}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:jon.can.BusRecord)
+        jon.can.JonCanStream.BusRecordOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return jon.can.JonCanStream.internal_static_jon_can_BusRecord_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return jon.can.JonCanStream.internal_static_jon_can_BusRecord_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                jon.can.JonCanStream.BusRecord.class, jon.can.JonCanStream.BusRecord.Builder.class);
+      }
+
+      // Construct using jon.can.JonCanStream.BusRecord.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          internalGetRefusalFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        n_ = 0L;
+        title_ = "";
+        kind_ = "";
+        dir_ = "";
+        node_ = 0;
+        module_ = "";
+        topic_ = 0;
+        family_ = "";
+        command_ = "";
+        message_ = "";
+        decodedJson_ = "";
+        refusal_ = null;
+        if (refusalBuilder_ != null) {
+          refusalBuilder_.dispose();
+          refusalBuilder_ = null;
+        }
+        tsNs_ = 0L;
+        origin_ = 0;
+        hopSeq_ = 0;
+        sender_ = 0;
+        senderModule_ = "";
+        canId_ = 0;
+        fflags_ = 0;
+        frameFlags_ = "";
+        data_ = com.google.protobuf.ByteString.EMPTY;
+        payload_ = com.google.protobuf.ByteString.EMPTY;
+        prio_ = 0;
+        type_ = 0;
+        seq_ = 0;
+        fragTotal_ = 0;
+        txTimeNs_ = 0L;
+        tsValid_ = false;
+        stream_ = "";
+        entryId_ = "";
+        timeMs_ = 0L;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return jon.can.JonCanStream.internal_static_jon_can_BusRecord_descriptor;
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.BusRecord getDefaultInstanceForType() {
+        return jon.can.JonCanStream.BusRecord.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.BusRecord build() {
+        jon.can.JonCanStream.BusRecord result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.BusRecord buildPartial() {
+        jon.can.JonCanStream.BusRecord result = new jon.can.JonCanStream.BusRecord(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(jon.can.JonCanStream.BusRecord result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.n_ = n_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.title_ = title_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.kind_ = kind_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.dir_ = dir_;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.node_ = node_;
+        }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.module_ = module_;
+        }
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.topic_ = topic_;
+        }
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          result.family_ = family_;
+        }
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          result.command_ = command_;
+        }
+        if (((from_bitField0_ & 0x00000200) != 0)) {
+          result.message_ = message_;
+        }
+        if (((from_bitField0_ & 0x00000400) != 0)) {
+          result.decodedJson_ = decodedJson_;
+        }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000800) != 0)) {
+          result.refusal_ = refusalBuilder_ == null
+              ? refusal_
+              : refusalBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        if (((from_bitField0_ & 0x00001000) != 0)) {
+          result.tsNs_ = tsNs_;
+        }
+        if (((from_bitField0_ & 0x00002000) != 0)) {
+          result.origin_ = origin_;
+        }
+        if (((from_bitField0_ & 0x00004000) != 0)) {
+          result.hopSeq_ = hopSeq_;
+          to_bitField0_ |= 0x00000002;
+        }
+        if (((from_bitField0_ & 0x00008000) != 0)) {
+          result.sender_ = sender_;
+          to_bitField0_ |= 0x00000004;
+        }
+        if (((from_bitField0_ & 0x00010000) != 0)) {
+          result.senderModule_ = senderModule_;
+        }
+        if (((from_bitField0_ & 0x00020000) != 0)) {
+          result.canId_ = canId_;
+        }
+        if (((from_bitField0_ & 0x00040000) != 0)) {
+          result.fflags_ = fflags_;
+        }
+        if (((from_bitField0_ & 0x00080000) != 0)) {
+          result.frameFlags_ = frameFlags_;
+        }
+        if (((from_bitField0_ & 0x00100000) != 0)) {
+          result.data_ = data_;
+        }
+        if (((from_bitField0_ & 0x00200000) != 0)) {
+          result.payload_ = payload_;
+        }
+        if (((from_bitField0_ & 0x00400000) != 0)) {
+          result.prio_ = prio_;
+        }
+        if (((from_bitField0_ & 0x00800000) != 0)) {
+          result.type_ = type_;
+        }
+        if (((from_bitField0_ & 0x01000000) != 0)) {
+          result.seq_ = seq_;
+        }
+        if (((from_bitField0_ & 0x02000000) != 0)) {
+          result.fragTotal_ = fragTotal_;
+        }
+        if (((from_bitField0_ & 0x04000000) != 0)) {
+          result.txTimeNs_ = txTimeNs_;
+        }
+        if (((from_bitField0_ & 0x08000000) != 0)) {
+          result.tsValid_ = tsValid_;
+        }
+        if (((from_bitField0_ & 0x10000000) != 0)) {
+          result.stream_ = stream_;
+        }
+        if (((from_bitField0_ & 0x20000000) != 0)) {
+          result.entryId_ = entryId_;
+        }
+        if (((from_bitField0_ & 0x40000000) != 0)) {
+          result.timeMs_ = timeMs_;
+        }
+        result.bitField0_ |= to_bitField0_;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof jon.can.JonCanStream.BusRecord) {
+          return mergeFrom((jon.can.JonCanStream.BusRecord)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(jon.can.JonCanStream.BusRecord other) {
+        if (other == jon.can.JonCanStream.BusRecord.getDefaultInstance()) return this;
+        if (other.getN() != 0L) {
+          setN(other.getN());
+        }
+        if (!other.getTitle().isEmpty()) {
+          title_ = other.title_;
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
+        if (!other.getKind().isEmpty()) {
+          kind_ = other.kind_;
+          bitField0_ |= 0x00000004;
+          onChanged();
+        }
+        if (!other.getDir().isEmpty()) {
+          dir_ = other.dir_;
+          bitField0_ |= 0x00000008;
+          onChanged();
+        }
+        if (other.getNode() != 0) {
+          setNode(other.getNode());
+        }
+        if (!other.getModule().isEmpty()) {
+          module_ = other.module_;
+          bitField0_ |= 0x00000020;
+          onChanged();
+        }
+        if (other.getTopic() != 0) {
+          setTopic(other.getTopic());
+        }
+        if (!other.getFamily().isEmpty()) {
+          family_ = other.family_;
+          bitField0_ |= 0x00000080;
+          onChanged();
+        }
+        if (!other.getCommand().isEmpty()) {
+          command_ = other.command_;
+          bitField0_ |= 0x00000100;
+          onChanged();
+        }
+        if (!other.getMessage().isEmpty()) {
+          message_ = other.message_;
+          bitField0_ |= 0x00000200;
+          onChanged();
+        }
+        if (!other.getDecodedJson().isEmpty()) {
+          decodedJson_ = other.decodedJson_;
+          bitField0_ |= 0x00000400;
+          onChanged();
+        }
+        if (other.hasRefusal()) {
+          mergeRefusal(other.getRefusal());
+        }
+        if (other.getTsNs() != 0L) {
+          setTsNs(other.getTsNs());
+        }
+        if (other.origin_ != 0) {
+          setOriginValue(other.getOriginValue());
+        }
+        if (other.hasHopSeq()) {
+          setHopSeq(other.getHopSeq());
+        }
+        if (other.hasSender()) {
+          setSender(other.getSender());
+        }
+        if (!other.getSenderModule().isEmpty()) {
+          senderModule_ = other.senderModule_;
+          bitField0_ |= 0x00010000;
+          onChanged();
+        }
+        if (other.getCanId() != 0) {
+          setCanId(other.getCanId());
+        }
+        if (other.getFflags() != 0) {
+          setFflags(other.getFflags());
+        }
+        if (!other.getFrameFlags().isEmpty()) {
+          frameFlags_ = other.frameFlags_;
+          bitField0_ |= 0x00080000;
+          onChanged();
+        }
+        if (!other.getData().isEmpty()) {
+          setData(other.getData());
+        }
+        if (!other.getPayload().isEmpty()) {
+          setPayload(other.getPayload());
+        }
+        if (other.getPrio() != 0) {
+          setPrio(other.getPrio());
+        }
+        if (other.getType() != 0) {
+          setType(other.getType());
+        }
+        if (other.getSeq() != 0) {
+          setSeq(other.getSeq());
+        }
+        if (other.getFragTotal() != 0) {
+          setFragTotal(other.getFragTotal());
+        }
+        if (other.getTxTimeNs() != 0L) {
+          setTxTimeNs(other.getTxTimeNs());
+        }
+        if (other.getTsValid() != false) {
+          setTsValid(other.getTsValid());
+        }
+        if (!other.getStream().isEmpty()) {
+          stream_ = other.stream_;
+          bitField0_ |= 0x10000000;
+          onChanged();
+        }
+        if (!other.getEntryId().isEmpty()) {
+          entryId_ = other.entryId_;
+          bitField0_ |= 0x20000000;
+          onChanged();
+        }
+        if (other.getTimeMs() != 0L) {
+          setTimeMs(other.getTimeMs());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        java.util.Objects.requireNonNull(extensionRegistry);
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                n_ = input.readUInt64();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 18: {
+                title_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              case 26: {
+                kind_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 26
+              case 34: {
+                dir_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 34
+              case 40: {
+                node_ = input.readUInt32();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 40
+              case 50: {
+                module_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 50
+              case 56: {
+                topic_ = input.readUInt32();
+                bitField0_ |= 0x00000040;
+                break;
+              } // case 56
+              case 66: {
+                family_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000080;
+                break;
+              } // case 66
+              case 74: {
+                command_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000100;
+                break;
+              } // case 74
+              case 82: {
+                message_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000200;
+                break;
+              } // case 82
+              case 90: {
+                decodedJson_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000400;
+                break;
+              } // case 90
+              case 98: {
+                input.readMessage(
+                    internalGetRefusalFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000800;
+                break;
+              } // case 98
+              case 104: {
+                tsNs_ = input.readUInt64();
+                bitField0_ |= 0x00001000;
+                break;
+              } // case 104
+              case 112: {
+                origin_ = input.readEnum();
+                bitField0_ |= 0x00002000;
+                break;
+              } // case 112
+              case 120: {
+                hopSeq_ = input.readUInt32();
+                bitField0_ |= 0x00004000;
+                break;
+              } // case 120
+              case 128: {
+                sender_ = input.readUInt32();
+                bitField0_ |= 0x00008000;
+                break;
+              } // case 128
+              case 138: {
+                senderModule_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00010000;
+                break;
+              } // case 138
+              case 144: {
+                canId_ = input.readUInt32();
+                bitField0_ |= 0x00020000;
+                break;
+              } // case 144
+              case 152: {
+                fflags_ = input.readUInt32();
+                bitField0_ |= 0x00040000;
+                break;
+              } // case 152
+              case 162: {
+                frameFlags_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00080000;
+                break;
+              } // case 162
+              case 170: {
+                data_ = input.readBytes();
+                bitField0_ |= 0x00100000;
+                break;
+              } // case 170
+              case 178: {
+                payload_ = input.readBytes();
+                bitField0_ |= 0x00200000;
+                break;
+              } // case 178
+              case 184: {
+                prio_ = input.readUInt32();
+                bitField0_ |= 0x00400000;
+                break;
+              } // case 184
+              case 192: {
+                type_ = input.readUInt32();
+                bitField0_ |= 0x00800000;
+                break;
+              } // case 192
+              case 200: {
+                seq_ = input.readUInt32();
+                bitField0_ |= 0x01000000;
+                break;
+              } // case 200
+              case 208: {
+                fragTotal_ = input.readUInt32();
+                bitField0_ |= 0x02000000;
+                break;
+              } // case 208
+              case 216: {
+                txTimeNs_ = input.readUInt64();
+                bitField0_ |= 0x04000000;
+                break;
+              } // case 216
+              case 224: {
+                tsValid_ = input.readBool();
+                bitField0_ |= 0x08000000;
+                break;
+              } // case 224
+              case 234: {
+                stream_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x10000000;
+                break;
+              } // case 234
+              case 242: {
+                entryId_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x20000000;
+                break;
+              } // case 242
+              case 248: {
+                timeMs_ = input.readInt64();
+                bitField0_ |= 0x40000000;
+                break;
+              } // case 248
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private long n_ ;
+      /**
+       * <pre>
+       * Arrival number: 1 for the first message the relay decoded since it started.
+       * </pre>
+       *
+       * <code>uint64 n = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The n.
+       */
+      @java.lang.Override
+      public long getN() {
+        return n_;
+      }
+      /**
+       * <pre>
+       * Arrival number: 1 for the first message the relay decoded since it started.
+       * </pre>
+       *
+       * <code>uint64 n = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The n to set.
+       * @return This builder for chaining.
+       */
+      public Builder setN(long value) {
+
+        n_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Arrival number: 1 for the first message the relay decoded since it started.
+       * </pre>
+       *
+       * <code>uint64 n = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearN() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        n_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object title_ = "";
+      /**
+       * <pre>
+       * The row's title: the decode-table family name, the command root member that
+       * was set, or "refused: &lt;code&gt;".
+       * </pre>
+       *
+       * <code>string title = 2;</code>
+       * @return The title.
+       */
+      public java.lang.String getTitle() {
+        java.lang.Object ref = title_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          title_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The row's title: the decode-table family name, the command root member that
+       * was set, or "refused: &lt;code&gt;".
+       * </pre>
+       *
+       * <code>string title = 2;</code>
+       * @return The bytes for title.
+       */
+      public com.google.protobuf.ByteString
+          getTitleBytes() {
+        java.lang.Object ref = title_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          title_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The row's title: the decode-table family name, the command root member that
+       * was set, or "refused: &lt;code&gt;".
+       * </pre>
+       *
+       * <code>string title = 2;</code>
+       * @param value The title to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTitle(
+          java.lang.String value) {
+        java.util.Objects.requireNonNull(value);
+        title_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The row's title: the decode-table family name, the command root member that
+       * was set, or "refused: &lt;code&gt;".
+       * </pre>
+       *
+       * <code>string title = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTitle() {
+        title_ = getDefaultInstance().getTitle();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The row's title: the decode-table family name, the command root member that
+       * was set, or "refused: &lt;code&gt;".
+       * </pre>
+       *
+       * <code>string title = 2;</code>
+       * @param value The bytes for title to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTitleBytes(
+          com.google.protobuf.ByteString value) {
+        java.util.Objects.requireNonNull(value);
+        checkByteStringIsUtf8(value);
+        title_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object kind_ = "";
+      /**
+       * <pre>
+       * What the message is (joncandec Kind*): "family", "health", "announce",
+       * "command", "debug", "log" or "unknown".
+       * </pre>
+       *
+       * <code>string kind = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The kind.
+       */
+      public java.lang.String getKind() {
+        java.lang.Object ref = kind_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          kind_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * What the message is (joncandec Kind*): "family", "health", "announce",
+       * "command", "debug", "log" or "unknown".
+       * </pre>
+       *
+       * <code>string kind = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The bytes for kind.
+       */
+      public com.google.protobuf.ByteString
+          getKindBytes() {
+        java.lang.Object ref = kind_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          kind_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * What the message is (joncandec Kind*): "family", "health", "announce",
+       * "command", "debug", "log" or "unknown".
+       * </pre>
+       *
+       * <code>string kind = 3 [(.buf.validate.field) = { ... }</code>
+       * @param value The kind to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKind(
+          java.lang.String value) {
+        java.util.Objects.requireNonNull(value);
+        kind_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * What the message is (joncandec Kind*): "family", "health", "announce",
+       * "command", "debug", "log" or "unknown".
+       * </pre>
+       *
+       * <code>string kind = 3 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKind() {
+        kind_ = getDefaultInstance().getKind();
+        bitField0_ = (bitField0_ & ~0x00000004);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * What the message is (joncandec Kind*): "family", "health", "announce",
+       * "command", "debug", "log" or "unknown".
+       * </pre>
+       *
+       * <code>string kind = 3 [(.buf.validate.field) = { ... }</code>
+       * @param value The bytes for kind to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKindBytes(
+          com.google.protobuf.ByteString value) {
+        java.util.Objects.requireNonNull(value);
+        checkByteStringIsUtf8(value);
+        kind_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object dir_ = "";
+      /**
+       * <pre>
+       * "cmd" (hub to node) or "state" (node to hub); empty when the CAN id was
+       * wider than the joncan id map.
+       * </pre>
+       *
+       * <code>string dir = 4;</code>
+       * @return The dir.
+       */
+      public java.lang.String getDir() {
+        java.lang.Object ref = dir_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          dir_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * "cmd" (hub to node) or "state" (node to hub); empty when the CAN id was
+       * wider than the joncan id map.
+       * </pre>
+       *
+       * <code>string dir = 4;</code>
+       * @return The bytes for dir.
+       */
+      public com.google.protobuf.ByteString
+          getDirBytes() {
+        java.lang.Object ref = dir_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          dir_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * "cmd" (hub to node) or "state" (node to hub); empty when the CAN id was
+       * wider than the joncan id map.
+       * </pre>
+       *
+       * <code>string dir = 4;</code>
+       * @param value The dir to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDir(
+          java.lang.String value) {
+        java.util.Objects.requireNonNull(value);
+        dir_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * "cmd" (hub to node) or "state" (node to hub); empty when the CAN id was
+       * wider than the joncan id map.
+       * </pre>
+       *
+       * <code>string dir = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDir() {
+        dir_ = getDefaultInstance().getDir();
+        bitField0_ = (bitField0_ & ~0x00000008);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * "cmd" (hub to node) or "state" (node to hub); empty when the CAN id was
+       * wider than the joncan id map.
+       * </pre>
+       *
+       * <code>string dir = 4;</code>
+       * @param value The bytes for dir to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDirBytes(
+          com.google.protobuf.ByteString value) {
+        java.util.Objects.requireNonNull(value);
+        checkByteStringIsUtf8(value);
+        dir_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+
+      private int node_ ;
+      /**
+       * <pre>
+       * The CAN id's node field and the module that node is (a command's
+       * DESTINATION node); module is empty when no decode-table entry names the node.
+       * </pre>
+       *
+       * <code>uint32 node = 5 [(.buf.validate.field) = { ... }</code>
+       * @return The node.
+       */
+      @java.lang.Override
+      public int getNode() {
+        return node_;
+      }
+      /**
+       * <pre>
+       * The CAN id's node field and the module that node is (a command's
+       * DESTINATION node); module is empty when no decode-table entry names the node.
+       * </pre>
+       *
+       * <code>uint32 node = 5 [(.buf.validate.field) = { ... }</code>
+       * @param value The node to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNode(int value) {
+
+        node_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The CAN id's node field and the module that node is (a command's
+       * DESTINATION node); module is empty when no decode-table entry names the node.
+       * </pre>
+       *
+       * <code>uint32 node = 5 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNode() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        node_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object module_ = "";
+      /**
+       * <code>string module = 6;</code>
+       * @return The module.
+       */
+      public java.lang.String getModule() {
+        java.lang.Object ref = module_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          module_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string module = 6;</code>
+       * @return The bytes for module.
+       */
+      public com.google.protobuf.ByteString
+          getModuleBytes() {
+        java.lang.Object ref = module_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          module_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string module = 6;</code>
+       * @param value The module to set.
+       * @return This builder for chaining.
+       */
+      public Builder setModule(
+          java.lang.String value) {
+        java.util.Objects.requireNonNull(value);
+        module_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string module = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearModule() {
+        module_ = getDefaultInstance().getModule();
+        bitField0_ = (bitField0_ & ~0x00000020);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string module = 6;</code>
+       * @param value The bytes for module to set.
+       * @return This builder for chaining.
+       */
+      public Builder setModuleBytes(
+          com.google.protobuf.ByteString value) {
+        java.util.Objects.requireNonNull(value);
+        checkByteStringIsUtf8(value);
+        module_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+
+      private int topic_ ;
+      /**
+       * <pre>
+       * The CAN id's topic field.
+       * </pre>
+       *
+       * <code>uint32 topic = 7 [(.buf.validate.field) = { ... }</code>
+       * @return The topic.
+       */
+      @java.lang.Override
+      public int getTopic() {
+        return topic_;
+      }
+      /**
+       * <pre>
+       * The CAN id's topic field.
+       * </pre>
+       *
+       * <code>uint32 topic = 7 [(.buf.validate.field) = { ... }</code>
+       * @param value The topic to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTopic(int value) {
+
+        topic_ = value;
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The CAN id's topic field.
+       * </pre>
+       *
+       * <code>uint32 topic = 7 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTopic() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        topic_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object family_ = "";
+      /**
+       * <pre>
+       * The decode-table row name (empty for a command) and the command root
+       * member that was set (empty unless a command).
+       * </pre>
+       *
+       * <code>string family = 8;</code>
+       * @return The family.
+       */
+      public java.lang.String getFamily() {
+        java.lang.Object ref = family_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          family_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The decode-table row name (empty for a command) and the command root
+       * member that was set (empty unless a command).
+       * </pre>
+       *
+       * <code>string family = 8;</code>
+       * @return The bytes for family.
+       */
+      public com.google.protobuf.ByteString
+          getFamilyBytes() {
+        java.lang.Object ref = family_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          family_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The decode-table row name (empty for a command) and the command root
+       * member that was set (empty unless a command).
+       * </pre>
+       *
+       * <code>string family = 8;</code>
+       * @param value The family to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFamily(
+          java.lang.String value) {
+        java.util.Objects.requireNonNull(value);
+        family_ = value;
+        bitField0_ |= 0x00000080;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The decode-table row name (empty for a command) and the command root
+       * member that was set (empty unless a command).
+       * </pre>
+       *
+       * <code>string family = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFamily() {
+        family_ = getDefaultInstance().getFamily();
+        bitField0_ = (bitField0_ & ~0x00000080);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The decode-table row name (empty for a command) and the command root
+       * member that was set (empty unless a command).
+       * </pre>
+       *
+       * <code>string family = 8;</code>
+       * @param value The bytes for family to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFamilyBytes(
+          com.google.protobuf.ByteString value) {
+        java.util.Objects.requireNonNull(value);
+        checkByteStringIsUtf8(value);
+        family_ = value;
+        bitField0_ |= 0x00000080;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object command_ = "";
+      /**
+       * <code>string command = 9;</code>
+       * @return The command.
+       */
+      public java.lang.String getCommand() {
+        java.lang.Object ref = command_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          command_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string command = 9;</code>
+       * @return The bytes for command.
+       */
+      public com.google.protobuf.ByteString
+          getCommandBytes() {
+        java.lang.Object ref = command_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          command_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string command = 9;</code>
+       * @param value The command to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCommand(
+          java.lang.String value) {
+        java.util.Objects.requireNonNull(value);
+        command_ = value;
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string command = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCommand() {
+        command_ = getDefaultInstance().getCommand();
+        bitField0_ = (bitField0_ & ~0x00000100);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string command = 9;</code>
+       * @param value The bytes for command to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCommandBytes(
+          com.google.protobuf.ByteString value) {
+        java.util.Objects.requireNonNull(value);
+        checkByteStringIsUtf8(value);
+        command_ = value;
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object message_ = "";
+      /**
+       * <pre>
+       * The full name of the proto message the body decoded as; empty for an
+       * announce, a debug or a log message.
+       * </pre>
+       *
+       * <code>string message = 10;</code>
+       * @return The message.
+       */
+      public java.lang.String getMessage() {
+        java.lang.Object ref = message_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          message_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The full name of the proto message the body decoded as; empty for an
+       * announce, a debug or a log message.
+       * </pre>
+       *
+       * <code>string message = 10;</code>
+       * @return The bytes for message.
+       */
+      public com.google.protobuf.ByteString
+          getMessageBytes() {
+        java.lang.Object ref = message_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          message_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The full name of the proto message the body decoded as; empty for an
+       * announce, a debug or a log message.
+       * </pre>
+       *
+       * <code>string message = 10;</code>
+       * @param value The message to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMessage(
+          java.lang.String value) {
+        java.util.Objects.requireNonNull(value);
+        message_ = value;
+        bitField0_ |= 0x00000200;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The full name of the proto message the body decoded as; empty for an
+       * announce, a debug or a log message.
+       * </pre>
+       *
+       * <code>string message = 10;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMessage() {
+        message_ = getDefaultInstance().getMessage();
+        bitField0_ = (bitField0_ & ~0x00000200);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The full name of the proto message the body decoded as; empty for an
+       * announce, a debug or a log message.
+       * </pre>
+       *
+       * <code>string message = 10;</code>
+       * @param value The bytes for message to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMessageBytes(
+          com.google.protobuf.ByteString value) {
+        java.util.Objects.requireNonNull(value);
+        checkByteStringIsUtf8(value);
+        message_ = value;
+        bitField0_ |= 0x00000200;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object decodedJson_ = "";
+      /**
+       * <pre>
+       * The decoded payload as JSON: proto3 JSON with proto field names, sorted
+       * keys, every owned field present. "null" when nothing was decoded.
+       * </pre>
+       *
+       * <code>string decoded_json = 11 [(.buf.validate.field) = { ... }</code>
+       * @return The decodedJson.
+       */
+      public java.lang.String getDecodedJson() {
+        java.lang.Object ref = decodedJson_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          decodedJson_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The decoded payload as JSON: proto3 JSON with proto field names, sorted
+       * keys, every owned field present. "null" when nothing was decoded.
+       * </pre>
+       *
+       * <code>string decoded_json = 11 [(.buf.validate.field) = { ... }</code>
+       * @return The bytes for decodedJson.
+       */
+      public com.google.protobuf.ByteString
+          getDecodedJsonBytes() {
+        java.lang.Object ref = decodedJson_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          decodedJson_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The decoded payload as JSON: proto3 JSON with proto field names, sorted
+       * keys, every owned field present. "null" when nothing was decoded.
+       * </pre>
+       *
+       * <code>string decoded_json = 11 [(.buf.validate.field) = { ... }</code>
+       * @param value The decodedJson to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDecodedJson(
+          java.lang.String value) {
+        java.util.Objects.requireNonNull(value);
+        decodedJson_ = value;
+        bitField0_ |= 0x00000400;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The decoded payload as JSON: proto3 JSON with proto field names, sorted
+       * keys, every owned field present. "null" when nothing was decoded.
+       * </pre>
+       *
+       * <code>string decoded_json = 11 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDecodedJson() {
+        decodedJson_ = getDefaultInstance().getDecodedJson();
+        bitField0_ = (bitField0_ & ~0x00000400);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The decoded payload as JSON: proto3 JSON with proto field names, sorted
+       * keys, every owned field present. "null" when nothing was decoded.
+       * </pre>
+       *
+       * <code>string decoded_json = 11 [(.buf.validate.field) = { ... }</code>
+       * @param value The bytes for decodedJson to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDecodedJsonBytes(
+          com.google.protobuf.ByteString value) {
+        java.util.Objects.requireNonNull(value);
+        checkByteStringIsUtf8(value);
+        decodedJson_ = value;
+        bitField0_ |= 0x00000400;
+        onChanged();
+        return this;
+      }
+
+      private jon.can.JonCanStream.BusRefusal refusal_;
+      private com.google.protobuf.SingleFieldBuilder<
+          jon.can.JonCanStream.BusRefusal, jon.can.JonCanStream.BusRefusal.Builder, jon.can.JonCanStream.BusRefusalOrBuilder> refusalBuilder_;
+      /**
+       * <pre>
+       * Set when the decoder refused the record; the raw bytes are in `data`.
+       * </pre>
+       *
+       * <code>.jon.can.BusRefusal refusal = 12;</code>
+       * @return Whether the refusal field is set.
+       */
+      public boolean hasRefusal() {
+        return ((bitField0_ & 0x00000800) != 0);
+      }
+      /**
+       * <pre>
+       * Set when the decoder refused the record; the raw bytes are in `data`.
+       * </pre>
+       *
+       * <code>.jon.can.BusRefusal refusal = 12;</code>
+       * @return The refusal.
+       */
+      public jon.can.JonCanStream.BusRefusal getRefusal() {
+        if (refusalBuilder_ == null) {
+          return refusal_ == null ? jon.can.JonCanStream.BusRefusal.getDefaultInstance() : refusal_;
+        } else {
+          return refusalBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Set when the decoder refused the record; the raw bytes are in `data`.
+       * </pre>
+       *
+       * <code>.jon.can.BusRefusal refusal = 12;</code>
+       */
+      public Builder setRefusal(jon.can.JonCanStream.BusRefusal value) {
+        if (refusalBuilder_ == null) {
+          java.util.Objects.requireNonNull(value);
+          refusal_ = value;
+        } else {
+          refusalBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000800;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Set when the decoder refused the record; the raw bytes are in `data`.
+       * </pre>
+       *
+       * <code>.jon.can.BusRefusal refusal = 12;</code>
+       */
+      public Builder setRefusal(
+          jon.can.JonCanStream.BusRefusal.Builder builderForValue) {
+        if (refusalBuilder_ == null) {
+          refusal_ = builderForValue.build();
+        } else {
+          refusalBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000800;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Set when the decoder refused the record; the raw bytes are in `data`.
+       * </pre>
+       *
+       * <code>.jon.can.BusRefusal refusal = 12;</code>
+       */
+      public Builder mergeRefusal(jon.can.JonCanStream.BusRefusal value) {
+        if (refusalBuilder_ == null) {
+          if (((bitField0_ & 0x00000800) != 0) &&
+            refusal_ != null &&
+            refusal_ != jon.can.JonCanStream.BusRefusal.getDefaultInstance()) {
+            getRefusalBuilder().mergeFrom(value);
+          } else {
+            refusal_ = value;
+          }
+        } else {
+          refusalBuilder_.mergeFrom(value);
+        }
+        if (refusal_ != null) {
+          bitField0_ |= 0x00000800;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Set when the decoder refused the record; the raw bytes are in `data`.
+       * </pre>
+       *
+       * <code>.jon.can.BusRefusal refusal = 12;</code>
+       */
+      public Builder clearRefusal() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        refusal_ = null;
+        if (refusalBuilder_ != null) {
+          refusalBuilder_.dispose();
+          refusalBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Set when the decoder refused the record; the raw bytes are in `data`.
+       * </pre>
+       *
+       * <code>.jon.can.BusRefusal refusal = 12;</code>
+       */
+      public jon.can.JonCanStream.BusRefusal.Builder getRefusalBuilder() {
+        bitField0_ |= 0x00000800;
+        onChanged();
+        return internalGetRefusalFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Set when the decoder refused the record; the raw bytes are in `data`.
+       * </pre>
+       *
+       * <code>.jon.can.BusRefusal refusal = 12;</code>
+       */
+      public jon.can.JonCanStream.BusRefusalOrBuilder getRefusalOrBuilder() {
+        if (refusalBuilder_ != null) {
+          return refusalBuilder_.getMessageOrBuilder();
+        } else {
+          return refusal_ == null ?
+              jon.can.JonCanStream.BusRefusal.getDefaultInstance() : refusal_;
+        }
+      }
+      /**
+       * <pre>
+       * Set when the decoder refused the record; the raw bytes are in `data`.
+       * </pre>
+       *
+       * <code>.jon.can.BusRefusal refusal = 12;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          jon.can.JonCanStream.BusRefusal, jon.can.JonCanStream.BusRefusal.Builder, jon.can.JonCanStream.BusRefusalOrBuilder> 
+          internalGetRefusalFieldBuilder() {
+        if (refusalBuilder_ == null) {
+          refusalBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              jon.can.JonCanStream.BusRefusal, jon.can.JonCanStream.BusRefusal.Builder, jon.can.JonCanStream.BusRefusalOrBuilder>(
+                  getRefusal(),
+                  getParentForChildren(),
+                  isClean());
+          refusal_ = null;
+        }
+        return refusalBuilder_;
+      }
+
+      private long tsNs_ ;
+      /**
+       * <pre>
+       * The record facts. ts_ns: when the frame was seen, ns, on the producer's
+       * clock (0 = the producer did not know).
+       * </pre>
+       *
+       * <code>uint64 ts_ns = 13;</code>
+       * @return The tsNs.
+       */
+      @java.lang.Override
+      public long getTsNs() {
+        return tsNs_;
+      }
+      /**
+       * <pre>
+       * The record facts. ts_ns: when the frame was seen, ns, on the producer's
+       * clock (0 = the producer did not know).
+       * </pre>
+       *
+       * <code>uint64 ts_ns = 13;</code>
+       * @param value The tsNs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTsNs(long value) {
+
+        tsNs_ = value;
+        bitField0_ |= 0x00001000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The record facts. ts_ns: when the frame was seen, ns, on the producer's
+       * clock (0 = the producer did not know).
+       * </pre>
+       *
+       * <code>uint64 ts_ns = 13;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTsNs() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        tsNs_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private int origin_ = 0;
+      /**
+       * <code>.jon.can.BusOrigin origin = 14;</code>
+       * @return The enum numeric value on the wire for origin.
+       */
+      @java.lang.Override public int getOriginValue() {
+        return origin_;
+      }
+      /**
+       * <code>.jon.can.BusOrigin origin = 14;</code>
+       * @param value The enum numeric value on the wire for origin to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOriginValue(int value) {
+        origin_ = value;
+        bitField0_ |= 0x00002000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.jon.can.BusOrigin origin = 14;</code>
+       * @return The origin.
+       */
+      @java.lang.Override
+      public jon.can.JonCanStream.BusOrigin getOrigin() {
+        jon.can.JonCanStream.BusOrigin result = jon.can.JonCanStream.BusOrigin.forNumber(origin_);
+        return result == null ? jon.can.JonCanStream.BusOrigin.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.jon.can.BusOrigin origin = 14;</code>
+       * @param value The origin to set.
+       * @throws IllegalArgumentException if UNRECOGNIZED is provided.
+       * @return This builder for chaining.
+       */
+      public Builder setOrigin(jon.can.JonCanStream.BusOrigin value) {
+        java.util.Objects.requireNonNull(value);
+        bitField0_ |= 0x00002000;
+        origin_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.jon.can.BusOrigin origin = 14;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOrigin() {
+        bitField0_ = (bitField0_ & ~0x00002000);
+        origin_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int hopSeq_ ;
+      /**
+       * <pre>
+       * The datagram's hop sequence and the node id of the datagram's sender (the
+       * envelope header); absent when the stream entry did not carry them.
+       * </pre>
+       *
+       * <code>optional uint32 hop_seq = 15 [(.buf.validate.field) = { ... }</code>
+       * @return Whether the hopSeq field is set.
+       */
+      @java.lang.Override
+      public boolean hasHopSeq() {
+        return ((bitField0_ & 0x00004000) != 0);
+      }
+      /**
+       * <pre>
+       * The datagram's hop sequence and the node id of the datagram's sender (the
+       * envelope header); absent when the stream entry did not carry them.
+       * </pre>
+       *
+       * <code>optional uint32 hop_seq = 15 [(.buf.validate.field) = { ... }</code>
+       * @return The hopSeq.
+       */
+      @java.lang.Override
+      public int getHopSeq() {
+        return hopSeq_;
+      }
+      /**
+       * <pre>
+       * The datagram's hop sequence and the node id of the datagram's sender (the
+       * envelope header); absent when the stream entry did not carry them.
+       * </pre>
+       *
+       * <code>optional uint32 hop_seq = 15 [(.buf.validate.field) = { ... }</code>
+       * @param value The hopSeq to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHopSeq(int value) {
+
+        hopSeq_ = value;
+        bitField0_ |= 0x00004000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The datagram's hop sequence and the node id of the datagram's sender (the
+       * envelope header); absent when the stream entry did not carry them.
+       * </pre>
+       *
+       * <code>optional uint32 hop_seq = 15 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHopSeq() {
+        bitField0_ = (bitField0_ & ~0x00004000);
+        hopSeq_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int sender_ ;
+      /**
+       * <code>optional uint32 sender = 16 [(.buf.validate.field) = { ... }</code>
+       * @return Whether the sender field is set.
+       */
+      @java.lang.Override
+      public boolean hasSender() {
+        return ((bitField0_ & 0x00008000) != 0);
+      }
+      /**
+       * <code>optional uint32 sender = 16 [(.buf.validate.field) = { ... }</code>
+       * @return The sender.
+       */
+      @java.lang.Override
+      public int getSender() {
+        return sender_;
+      }
+      /**
+       * <code>optional uint32 sender = 16 [(.buf.validate.field) = { ... }</code>
+       * @param value The sender to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSender(int value) {
+
+        sender_ = value;
+        bitField0_ |= 0x00008000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 sender = 16 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSender() {
+        bitField0_ = (bitField0_ & ~0x00008000);
+        sender_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object senderModule_ = "";
+      /**
+       * <pre>
+       * The sender's module, from the decode table; empty when no entry names it.
+       * </pre>
+       *
+       * <code>string sender_module = 17;</code>
+       * @return The senderModule.
+       */
+      public java.lang.String getSenderModule() {
+        java.lang.Object ref = senderModule_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          senderModule_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The sender's module, from the decode table; empty when no entry names it.
+       * </pre>
+       *
+       * <code>string sender_module = 17;</code>
+       * @return The bytes for senderModule.
+       */
+      public com.google.protobuf.ByteString
+          getSenderModuleBytes() {
+        java.lang.Object ref = senderModule_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          senderModule_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The sender's module, from the decode table; empty when no entry names it.
+       * </pre>
+       *
+       * <code>string sender_module = 17;</code>
+       * @param value The senderModule to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSenderModule(
+          java.lang.String value) {
+        java.util.Objects.requireNonNull(value);
+        senderModule_ = value;
+        bitField0_ |= 0x00010000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The sender's module, from the decode table; empty when no entry names it.
+       * </pre>
+       *
+       * <code>string sender_module = 17;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSenderModule() {
+        senderModule_ = getDefaultInstance().getSenderModule();
+        bitField0_ = (bitField0_ & ~0x00010000);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The sender's module, from the decode table; empty when no entry names it.
+       * </pre>
+       *
+       * <code>string sender_module = 17;</code>
+       * @param value The bytes for senderModule to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSenderModuleBytes(
+          com.google.protobuf.ByteString value) {
+        java.util.Objects.requireNonNull(value);
+        checkByteStringIsUtf8(value);
+        senderModule_ = value;
+        bitField0_ |= 0x00010000;
+        onChanged();
+        return this;
+      }
+
+      private int canId_ ;
+      /**
+       * <pre>
+       * The frame's 11-bit CAN id.
+       * </pre>
+       *
+       * <code>uint32 can_id = 18 [(.buf.validate.field) = { ... }</code>
+       * @return The canId.
+       */
+      @java.lang.Override
+      public int getCanId() {
+        return canId_;
+      }
+      /**
+       * <pre>
+       * The frame's 11-bit CAN id.
+       * </pre>
+       *
+       * <code>uint32 can_id = 18 [(.buf.validate.field) = { ... }</code>
+       * @param value The canId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCanId(int value) {
+
+        canId_ = value;
+        bitField0_ |= 0x00020000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The frame's 11-bit CAN id.
+       * </pre>
+       *
+       * <code>uint32 can_id = 18 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCanId() {
+        bitField0_ = (bitField0_ & ~0x00020000);
+        canId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int fflags_ ;
+      /**
+       * <pre>
+       * The record's frame flags (JONCAN_ENV_FRAME_*) and their names, lowest bit
+       * first ("FD BRS"); a bit no flag names reads as hex.
+       * </pre>
+       *
+       * <code>uint32 fflags = 19 [(.buf.validate.field) = { ... }</code>
+       * @return The fflags.
+       */
+      @java.lang.Override
+      public int getFflags() {
+        return fflags_;
+      }
+      /**
+       * <pre>
+       * The record's frame flags (JONCAN_ENV_FRAME_*) and their names, lowest bit
+       * first ("FD BRS"); a bit no flag names reads as hex.
+       * </pre>
+       *
+       * <code>uint32 fflags = 19 [(.buf.validate.field) = { ... }</code>
+       * @param value The fflags to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFflags(int value) {
+
+        fflags_ = value;
+        bitField0_ |= 0x00040000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The record's frame flags (JONCAN_ENV_FRAME_*) and their names, lowest bit
+       * first ("FD BRS"); a bit no flag names reads as hex.
+       * </pre>
+       *
+       * <code>uint32 fflags = 19 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFflags() {
+        bitField0_ = (bitField0_ & ~0x00040000);
+        fflags_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object frameFlags_ = "";
+      /**
+       * <code>string frame_flags = 20;</code>
+       * @return The frameFlags.
+       */
+      public java.lang.String getFrameFlags() {
+        java.lang.Object ref = frameFlags_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          frameFlags_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string frame_flags = 20;</code>
+       * @return The bytes for frameFlags.
+       */
+      public com.google.protobuf.ByteString
+          getFrameFlagsBytes() {
+        java.lang.Object ref = frameFlags_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          frameFlags_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string frame_flags = 20;</code>
+       * @param value The frameFlags to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFrameFlags(
+          java.lang.String value) {
+        java.util.Objects.requireNonNull(value);
+        frameFlags_ = value;
+        bitField0_ |= 0x00080000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string frame_flags = 20;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFrameFlags() {
+        frameFlags_ = getDefaultInstance().getFrameFlags();
+        bitField0_ = (bitField0_ & ~0x00080000);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string frame_flags = 20;</code>
+       * @param value The bytes for frameFlags to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFrameFlagsBytes(
+          com.google.protobuf.ByteString value) {
+        java.util.Objects.requireNonNull(value);
+        checkByteStringIsUtf8(value);
+        frameFlags_ = value;
+        bitField0_ |= 0x00080000;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <pre>
+       * The completing record's 70-byte blob: frame type, CAN id (little-endian),
+       * length, 64 data bytes. For a message carried in several frames this is the
+       * LAST frame's record.
+       * </pre>
+       *
+       * <code>bytes data = 21 [(.buf.validate.field) = { ... }</code>
+       * @return The data.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getData() {
+        return data_;
+      }
+      /**
+       * <pre>
+       * The completing record's 70-byte blob: frame type, CAN id (little-endian),
+       * length, 64 data bytes. For a message carried in several frames this is the
+       * LAST frame's record.
+       * </pre>
+       *
+       * <code>bytes data = 21 [(.buf.validate.field) = { ... }</code>
+       * @param value The data to set.
+       * @return This builder for chaining.
+       */
+      public Builder setData(com.google.protobuf.ByteString value) {
+        java.util.Objects.requireNonNull(value);
+        data_ = value;
+        bitField0_ |= 0x00100000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The completing record's 70-byte blob: frame type, CAN id (little-endian),
+       * length, 64 data bytes. For a message carried in several frames this is the
+       * LAST frame's record.
+       * </pre>
+       *
+       * <code>bytes data = 21 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearData() {
+        bitField0_ = (bitField0_ & ~0x00100000);
+        data_ = getDefaultInstance().getData();
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString payload_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <pre>
+       * The message body, reassembled across fragments.
+       * </pre>
+       *
+       * <code>bytes payload = 22 [(.buf.validate.field) = { ... }</code>
+       * @return The payload.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getPayload() {
+        return payload_;
+      }
+      /**
+       * <pre>
+       * The message body, reassembled across fragments.
+       * </pre>
+       *
+       * <code>bytes payload = 22 [(.buf.validate.field) = { ... }</code>
+       * @param value The payload to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPayload(com.google.protobuf.ByteString value) {
+        java.util.Objects.requireNonNull(value);
+        payload_ = value;
+        bitField0_ |= 0x00200000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The message body, reassembled across fragments.
+       * </pre>
+       *
+       * <code>bytes payload = 22 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPayload() {
+        bitField0_ = (bitField0_ & ~0x00200000);
+        payload_ = getDefaultInstance().getPayload();
+        onChanged();
+        return this;
+      }
+
+      private int prio_ ;
+      /**
+       * <pre>
+       * The joncan header: the CAN id's priority, the message type, the message
+       * counter, the fragments the message was carried in, the sender's transmit
+       * time (ns) and whether that time was valid.
+       * </pre>
+       *
+       * <code>uint32 prio = 23 [(.buf.validate.field) = { ... }</code>
+       * @return The prio.
+       */
+      @java.lang.Override
+      public int getPrio() {
+        return prio_;
+      }
+      /**
+       * <pre>
+       * The joncan header: the CAN id's priority, the message type, the message
+       * counter, the fragments the message was carried in, the sender's transmit
+       * time (ns) and whether that time was valid.
+       * </pre>
+       *
+       * <code>uint32 prio = 23 [(.buf.validate.field) = { ... }</code>
+       * @param value The prio to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPrio(int value) {
+
+        prio_ = value;
+        bitField0_ |= 0x00400000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The joncan header: the CAN id's priority, the message type, the message
+       * counter, the fragments the message was carried in, the sender's transmit
+       * time (ns) and whether that time was valid.
+       * </pre>
+       *
+       * <code>uint32 prio = 23 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPrio() {
+        bitField0_ = (bitField0_ & ~0x00400000);
+        prio_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int type_ ;
+      /**
+       * <code>uint32 type = 24 [(.buf.validate.field) = { ... }</code>
+       * @return The type.
+       */
+      @java.lang.Override
+      public int getType() {
+        return type_;
+      }
+      /**
+       * <code>uint32 type = 24 [(.buf.validate.field) = { ... }</code>
+       * @param value The type to set.
+       * @return This builder for chaining.
+       */
+      public Builder setType(int value) {
+
+        type_ = value;
+        bitField0_ |= 0x00800000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 type = 24 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00800000);
+        type_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int seq_ ;
+      /**
+       * <code>uint32 seq = 25 [(.buf.validate.field) = { ... }</code>
+       * @return The seq.
+       */
+      @java.lang.Override
+      public int getSeq() {
+        return seq_;
+      }
+      /**
+       * <code>uint32 seq = 25 [(.buf.validate.field) = { ... }</code>
+       * @param value The seq to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSeq(int value) {
+
+        seq_ = value;
+        bitField0_ |= 0x01000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 seq = 25 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSeq() {
+        bitField0_ = (bitField0_ & ~0x01000000);
+        seq_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int fragTotal_ ;
+      /**
+       * <code>uint32 frag_total = 26 [(.buf.validate.field) = { ... }</code>
+       * @return The fragTotal.
+       */
+      @java.lang.Override
+      public int getFragTotal() {
+        return fragTotal_;
+      }
+      /**
+       * <code>uint32 frag_total = 26 [(.buf.validate.field) = { ... }</code>
+       * @param value The fragTotal to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFragTotal(int value) {
+
+        fragTotal_ = value;
+        bitField0_ |= 0x02000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 frag_total = 26 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFragTotal() {
+        bitField0_ = (bitField0_ & ~0x02000000);
+        fragTotal_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long txTimeNs_ ;
+      /**
+       * <code>uint64 tx_time_ns = 27;</code>
+       * @return The txTimeNs.
+       */
+      @java.lang.Override
+      public long getTxTimeNs() {
+        return txTimeNs_;
+      }
+      /**
+       * <code>uint64 tx_time_ns = 27;</code>
+       * @param value The txTimeNs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTxTimeNs(long value) {
+
+        txTimeNs_ = value;
+        bitField0_ |= 0x04000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 tx_time_ns = 27;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTxTimeNs() {
+        bitField0_ = (bitField0_ & ~0x04000000);
+        txTimeNs_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private boolean tsValid_ ;
+      /**
+       * <code>bool ts_valid = 28;</code>
+       * @return The tsValid.
+       */
+      @java.lang.Override
+      public boolean getTsValid() {
+        return tsValid_;
+      }
+      /**
+       * <code>bool ts_valid = 28;</code>
+       * @param value The tsValid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTsValid(boolean value) {
+
+        tsValid_ = value;
+        bitField0_ |= 0x08000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool ts_valid = 28;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTsValid() {
+        bitField0_ = (bitField0_ & ~0x08000000);
+        tsValid_ = false;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object stream_ = "";
+      /**
+       * <pre>
+       * The Redis stream key (logs:bus:0x&lt;id&gt;), the entry id, and the entry id's
+       * millisecond (the Redis server's wall clock when the entry was appended).
+       * </pre>
+       *
+       * <code>string stream = 29;</code>
+       * @return The stream.
+       */
+      public java.lang.String getStream() {
+        java.lang.Object ref = stream_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          stream_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The Redis stream key (logs:bus:0x&lt;id&gt;), the entry id, and the entry id's
+       * millisecond (the Redis server's wall clock when the entry was appended).
+       * </pre>
+       *
+       * <code>string stream = 29;</code>
+       * @return The bytes for stream.
+       */
+      public com.google.protobuf.ByteString
+          getStreamBytes() {
+        java.lang.Object ref = stream_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          stream_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The Redis stream key (logs:bus:0x&lt;id&gt;), the entry id, and the entry id's
+       * millisecond (the Redis server's wall clock when the entry was appended).
+       * </pre>
+       *
+       * <code>string stream = 29;</code>
+       * @param value The stream to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStream(
+          java.lang.String value) {
+        java.util.Objects.requireNonNull(value);
+        stream_ = value;
+        bitField0_ |= 0x10000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The Redis stream key (logs:bus:0x&lt;id&gt;), the entry id, and the entry id's
+       * millisecond (the Redis server's wall clock when the entry was appended).
+       * </pre>
+       *
+       * <code>string stream = 29;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStream() {
+        stream_ = getDefaultInstance().getStream();
+        bitField0_ = (bitField0_ & ~0x10000000);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The Redis stream key (logs:bus:0x&lt;id&gt;), the entry id, and the entry id's
+       * millisecond (the Redis server's wall clock when the entry was appended).
+       * </pre>
+       *
+       * <code>string stream = 29;</code>
+       * @param value The bytes for stream to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStreamBytes(
+          com.google.protobuf.ByteString value) {
+        java.util.Objects.requireNonNull(value);
+        checkByteStringIsUtf8(value);
+        stream_ = value;
+        bitField0_ |= 0x10000000;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object entryId_ = "";
+      /**
+       * <code>string entry_id = 30;</code>
+       * @return The entryId.
+       */
+      public java.lang.String getEntryId() {
+        java.lang.Object ref = entryId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          entryId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string entry_id = 30;</code>
+       * @return The bytes for entryId.
+       */
+      public com.google.protobuf.ByteString
+          getEntryIdBytes() {
+        java.lang.Object ref = entryId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          entryId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string entry_id = 30;</code>
+       * @param value The entryId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEntryId(
+          java.lang.String value) {
+        java.util.Objects.requireNonNull(value);
+        entryId_ = value;
+        bitField0_ |= 0x20000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string entry_id = 30;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEntryId() {
+        entryId_ = getDefaultInstance().getEntryId();
+        bitField0_ = (bitField0_ & ~0x20000000);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string entry_id = 30;</code>
+       * @param value The bytes for entryId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEntryIdBytes(
+          com.google.protobuf.ByteString value) {
+        java.util.Objects.requireNonNull(value);
+        checkByteStringIsUtf8(value);
+        entryId_ = value;
+        bitField0_ |= 0x20000000;
+        onChanged();
+        return this;
+      }
+
+      private long timeMs_ ;
+      /**
+       * <code>int64 time_ms = 31;</code>
+       * @return The timeMs.
+       */
+      @java.lang.Override
+      public long getTimeMs() {
+        return timeMs_;
+      }
+      /**
+       * <code>int64 time_ms = 31;</code>
+       * @param value The timeMs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTimeMs(long value) {
+
+        timeMs_ = value;
+        bitField0_ |= 0x40000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 time_ms = 31;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTimeMs() {
+        bitField0_ = (bitField0_ & ~0x40000000);
+        timeMs_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:jon.can.BusRecord)
+    }
+
+    // @@protoc_insertion_point(class_scope:jon.can.BusRecord)
+    private static final jon.can.JonCanStream.BusRecord DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new jon.can.JonCanStream.BusRecord();
+    }
+
+    public static jon.can.JonCanStream.BusRecord getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<BusRecord>
+        PARSER = new com.google.protobuf.AbstractParser<BusRecord>() {
+      @java.lang.Override
+      public BusRecord parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<BusRecord> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BusRecord> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public jon.can.JonCanStream.BusRecord getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface BusStreamStatsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:jon.can.BusStreamStats)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Stream records fed to the decoder.
+     * </pre>
+     *
+     * <code>uint64 records = 1;</code>
+     * @return The records.
+     */
+    long getRecords();
+
+    /**
+     * <pre>
+     * Messages the records produced (decoded messages plus refusals).
+     * </pre>
+     *
+     * <code>uint64 messages = 2;</code>
+     * @return The messages.
+     */
+    long getMessages();
+
+    /**
+     * <pre>
+     * Messages carrying a refusal, and their count per refusal code.
+     * </pre>
+     *
+     * <code>uint64 refused = 3;</code>
+     * @return The refused.
+     */
+    long getRefused();
+
+    /**
+     * <code>map&lt;string, uint64&gt; refused_by = 4;</code>
+     */
+    int getRefusedByCount();
+    /**
+     * <code>map&lt;string, uint64&gt; refused_by = 4;</code>
+     */
+    boolean containsRefusedBy(
+        java.lang.String key);
+    /**
+     * Use {@link #getRefusedByMap()} instead.
+     */
+    @java.lang.Deprecated
+    java.util.Map<java.lang.String, java.lang.Long>
+    getRefusedBy();
+    /**
+     * <code>map&lt;string, uint64&gt; refused_by = 4;</code>
+     */
+    java.util.Map<java.lang.String, java.lang.Long>
+    getRefusedByMap();
+    /**
+     * <code>map&lt;string, uint64&gt; refused_by = 4;</code>
+     */
+    long getRefusedByOrDefault(
+        java.lang.String key,
+        long defaultValue);
+    /**
+     * <code>map&lt;string, uint64&gt; refused_by = 4;</code>
+     */
+    long getRefusedByOrThrow(
+        java.lang.String key);
+
+    /**
+     * <pre>
+     * Records absorbed as fragments of a message still open, or as retransmits.
+     * </pre>
+     *
+     * <code>uint64 absorbed = 5;</code>
+     * @return The absorbed.
+     */
+    long getAbsorbed();
+
+    /**
+     * <pre>
+     * Open multi-frame messages the decoder dropped, by reason ("expired",
+     * "restarted").
+     * </pre>
+     *
+     * <code>map&lt;string, uint64&gt; dropped = 6;</code>
+     */
+    int getDroppedCount();
+    /**
+     * <pre>
+     * Open multi-frame messages the decoder dropped, by reason ("expired",
+     * "restarted").
+     * </pre>
+     *
+     * <code>map&lt;string, uint64&gt; dropped = 6;</code>
+     */
+    boolean containsDropped(
+        java.lang.String key);
+    /**
+     * Use {@link #getDroppedMap()} instead.
+     */
+    @java.lang.Deprecated
+    java.util.Map<java.lang.String, java.lang.Long>
+    getDropped();
+    /**
+     * <pre>
+     * Open multi-frame messages the decoder dropped, by reason ("expired",
+     * "restarted").
+     * </pre>
+     *
+     * <code>map&lt;string, uint64&gt; dropped = 6;</code>
+     */
+    java.util.Map<java.lang.String, java.lang.Long>
+    getDroppedMap();
+    /**
+     * <pre>
+     * Open multi-frame messages the decoder dropped, by reason ("expired",
+     * "restarted").
+     * </pre>
+     *
+     * <code>map&lt;string, uint64&gt; dropped = 6;</code>
+     */
+    long getDroppedOrDefault(
+        java.lang.String key,
+        long defaultValue);
+    /**
+     * <pre>
+     * Open multi-frame messages the decoder dropped, by reason ("expired",
+     * "restarted").
+     * </pre>
+     *
+     * <code>map&lt;string, uint64&gt; dropped = 6;</code>
+     */
+    long getDroppedOrThrow(
+        java.lang.String key);
+
+    /**
+     * <pre>
+     * Per-sender hop-sequence discontinuities, judged only once every stream
+     * that can hold an earlier record was known and read to its tip: datagrams
+     * lost between the bridge and the stream, datagrams the collector refused,
+     * or a sender restart.
+     * </pre>
+     *
+     * <code>uint64 hop_gaps = 7;</code>
+     * @return The hopGaps.
+     */
+    long getHopGaps();
+
+    /**
+     * <pre>
+     * Distinct datagram senders seen, and logs:bus:* streams discovered.
+     * </pre>
+     *
+     * <code>uint32 senders = 8;</code>
+     * @return The senders.
+     */
+    int getSenders();
+
+    /**
+     * <code>uint32 streams = 9;</code>
+     * @return The streams.
+     */
+    int getStreams();
+
+    /**
+     * <pre>
+     * Whether the logs Redis was reachable at the last read.
+     * </pre>
+     *
+     * <code>bool source_connected = 10;</code>
+     * @return The sourceConnected.
+     */
+    boolean getSourceConnected();
+  }
+  /**
+   * <pre>
+   * The relay's module-bus accounting since it started.
+   * </pre>
+   *
+   * Protobuf type {@code jon.can.BusStreamStats}
+   */
+  public static final class BusStreamStats extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:jon.can.BusStreamStats)
+      BusStreamStatsOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 36,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        "BusStreamStats");
+    }
+    // Use BusStreamStats.newBuilder() to construct.
+    private BusStreamStats(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private BusStreamStats() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return jon.can.JonCanStream.internal_static_jon_can_BusStreamStats_descriptor;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      return jon.can.JonCanStream.internal_static_jon_can_BusStreamStats_descriptor;
+    }
+
+    @SuppressWarnings({"rawtypes"})
+    @java.lang.Override
+    protected com.google.protobuf.MapFieldReflectionAccessor internalGetMapFieldReflection(
+        int number) {
+      switch (number) {
+        case 4:
+          return internalGetRefusedBy();
+        case 6:
+          return internalGetDropped();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return jon.can.JonCanStream.internal_static_jon_can_BusStreamStats_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              jon.can.JonCanStream.BusStreamStats.class, jon.can.JonCanStream.BusStreamStats.Builder.class);
+    }
+
+    public static final int RECORDS_FIELD_NUMBER = 1;
+    private long records_ = 0L;
+    /**
+     * <pre>
+     * Stream records fed to the decoder.
+     * </pre>
+     *
+     * <code>uint64 records = 1;</code>
+     * @return The records.
+     */
+    @java.lang.Override
+    public long getRecords() {
+      return records_;
+    }
+
+    public static final int MESSAGES_FIELD_NUMBER = 2;
+    private long messages_ = 0L;
+    /**
+     * <pre>
+     * Messages the records produced (decoded messages plus refusals).
+     * </pre>
+     *
+     * <code>uint64 messages = 2;</code>
+     * @return The messages.
+     */
+    @java.lang.Override
+    public long getMessages() {
+      return messages_;
+    }
+
+    public static final int REFUSED_FIELD_NUMBER = 3;
+    private long refused_ = 0L;
+    /**
+     * <pre>
+     * Messages carrying a refusal, and their count per refusal code.
+     * </pre>
+     *
+     * <code>uint64 refused = 3;</code>
+     * @return The refused.
+     */
+    @java.lang.Override
+    public long getRefused() {
+      return refused_;
+    }
+
+    public static final int REFUSED_BY_FIELD_NUMBER = 4;
+    private static final class RefusedByDefaultEntryHolder {
+      static final com.google.protobuf.MapEntry<
+          java.lang.String, java.lang.Long> defaultEntry =
+              com.google.protobuf.MapEntry
+              .<java.lang.String, java.lang.Long>newDefaultInstance(
+                  jon.can.JonCanStream.internal_static_jon_can_BusStreamStats_RefusedByEntry_descriptor, 
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "",
+                  com.google.protobuf.WireFormat.FieldType.UINT64,
+                  0L);
+    }
+    @SuppressWarnings("serial")
+    private com.google.protobuf.MapField<
+        java.lang.String, java.lang.Long> refusedBy_;
+    private com.google.protobuf.MapField<java.lang.String, java.lang.Long>
+    internalGetRefusedBy() {
+      if (refusedBy_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            RefusedByDefaultEntryHolder.defaultEntry);
+      }
+      return refusedBy_;
+    }
+    public int getRefusedByCount() {
+      return internalGetRefusedBy().getMap().size();
+    }
+    /**
+     * <code>map&lt;string, uint64&gt; refused_by = 4;</code>
+     */
+    @java.lang.Override
+    public boolean containsRefusedBy(
+        java.lang.String key) {
+      java.util.Objects.requireNonNull(key, "map key");
+      return internalGetRefusedBy().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getRefusedByMap()} instead.
+     */
+    @java.lang.Override
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, java.lang.Long> getRefusedBy() {
+      return getRefusedByMap();
+    }
+    /**
+     * <code>map&lt;string, uint64&gt; refused_by = 4;</code>
+     */
+    @java.lang.Override
+    public java.util.Map<java.lang.String, java.lang.Long> getRefusedByMap() {
+      return internalGetRefusedBy().getMap();
+    }
+    /**
+     * <code>map&lt;string, uint64&gt; refused_by = 4;</code>
+     */
+    @java.lang.Override
+    public long getRefusedByOrDefault(
+        java.lang.String key,
+        long defaultValue) {
+      java.util.Objects.requireNonNull(key, "map key");
+      java.util.Map<java.lang.String, java.lang.Long> map =
+          internalGetRefusedBy().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <code>map&lt;string, uint64&gt; refused_by = 4;</code>
+     */
+    @java.lang.Override
+    public long getRefusedByOrThrow(
+        java.lang.String key) {
+      java.util.Objects.requireNonNull(key, "map key");
+      java.util.Map<java.lang.String, java.lang.Long> map =
+          internalGetRefusedBy().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
+    public static final int ABSORBED_FIELD_NUMBER = 5;
+    private long absorbed_ = 0L;
+    /**
+     * <pre>
+     * Records absorbed as fragments of a message still open, or as retransmits.
+     * </pre>
+     *
+     * <code>uint64 absorbed = 5;</code>
+     * @return The absorbed.
+     */
+    @java.lang.Override
+    public long getAbsorbed() {
+      return absorbed_;
+    }
+
+    public static final int DROPPED_FIELD_NUMBER = 6;
+    private static final class DroppedDefaultEntryHolder {
+      static final com.google.protobuf.MapEntry<
+          java.lang.String, java.lang.Long> defaultEntry =
+              com.google.protobuf.MapEntry
+              .<java.lang.String, java.lang.Long>newDefaultInstance(
+                  jon.can.JonCanStream.internal_static_jon_can_BusStreamStats_DroppedEntry_descriptor, 
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "",
+                  com.google.protobuf.WireFormat.FieldType.UINT64,
+                  0L);
+    }
+    @SuppressWarnings("serial")
+    private com.google.protobuf.MapField<
+        java.lang.String, java.lang.Long> dropped_;
+    private com.google.protobuf.MapField<java.lang.String, java.lang.Long>
+    internalGetDropped() {
+      if (dropped_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            DroppedDefaultEntryHolder.defaultEntry);
+      }
+      return dropped_;
+    }
+    public int getDroppedCount() {
+      return internalGetDropped().getMap().size();
+    }
+    /**
+     * <pre>
+     * Open multi-frame messages the decoder dropped, by reason ("expired",
+     * "restarted").
+     * </pre>
+     *
+     * <code>map&lt;string, uint64&gt; dropped = 6;</code>
+     */
+    @java.lang.Override
+    public boolean containsDropped(
+        java.lang.String key) {
+      java.util.Objects.requireNonNull(key, "map key");
+      return internalGetDropped().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getDroppedMap()} instead.
+     */
+    @java.lang.Override
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, java.lang.Long> getDropped() {
+      return getDroppedMap();
+    }
+    /**
+     * <pre>
+     * Open multi-frame messages the decoder dropped, by reason ("expired",
+     * "restarted").
+     * </pre>
+     *
+     * <code>map&lt;string, uint64&gt; dropped = 6;</code>
+     */
+    @java.lang.Override
+    public java.util.Map<java.lang.String, java.lang.Long> getDroppedMap() {
+      return internalGetDropped().getMap();
+    }
+    /**
+     * <pre>
+     * Open multi-frame messages the decoder dropped, by reason ("expired",
+     * "restarted").
+     * </pre>
+     *
+     * <code>map&lt;string, uint64&gt; dropped = 6;</code>
+     */
+    @java.lang.Override
+    public long getDroppedOrDefault(
+        java.lang.String key,
+        long defaultValue) {
+      java.util.Objects.requireNonNull(key, "map key");
+      java.util.Map<java.lang.String, java.lang.Long> map =
+          internalGetDropped().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <pre>
+     * Open multi-frame messages the decoder dropped, by reason ("expired",
+     * "restarted").
+     * </pre>
+     *
+     * <code>map&lt;string, uint64&gt; dropped = 6;</code>
+     */
+    @java.lang.Override
+    public long getDroppedOrThrow(
+        java.lang.String key) {
+      java.util.Objects.requireNonNull(key, "map key");
+      java.util.Map<java.lang.String, java.lang.Long> map =
+          internalGetDropped().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
+    public static final int HOP_GAPS_FIELD_NUMBER = 7;
+    private long hopGaps_ = 0L;
+    /**
+     * <pre>
+     * Per-sender hop-sequence discontinuities, judged only once every stream
+     * that can hold an earlier record was known and read to its tip: datagrams
+     * lost between the bridge and the stream, datagrams the collector refused,
+     * or a sender restart.
+     * </pre>
+     *
+     * <code>uint64 hop_gaps = 7;</code>
+     * @return The hopGaps.
+     */
+    @java.lang.Override
+    public long getHopGaps() {
+      return hopGaps_;
+    }
+
+    public static final int SENDERS_FIELD_NUMBER = 8;
+    private int senders_ = 0;
+    /**
+     * <pre>
+     * Distinct datagram senders seen, and logs:bus:* streams discovered.
+     * </pre>
+     *
+     * <code>uint32 senders = 8;</code>
+     * @return The senders.
+     */
+    @java.lang.Override
+    public int getSenders() {
+      return senders_;
+    }
+
+    public static final int STREAMS_FIELD_NUMBER = 9;
+    private int streams_ = 0;
+    /**
+     * <code>uint32 streams = 9;</code>
+     * @return The streams.
+     */
+    @java.lang.Override
+    public int getStreams() {
+      return streams_;
+    }
+
+    public static final int SOURCE_CONNECTED_FIELD_NUMBER = 10;
+    private boolean sourceConnected_ = false;
+    /**
+     * <pre>
+     * Whether the logs Redis was reachable at the last read.
+     * </pre>
+     *
+     * <code>bool source_connected = 10;</code>
+     * @return The sourceConnected.
+     */
+    @java.lang.Override
+    public boolean getSourceConnected() {
+      return sourceConnected_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (records_ != 0L) {
+        output.writeUInt64(1, records_);
+      }
+      if (messages_ != 0L) {
+        output.writeUInt64(2, messages_);
+      }
+      if (refused_ != 0L) {
+        output.writeUInt64(3, refused_);
+      }
+      com.google.protobuf.GeneratedMessage
+        .serializeStringMapTo(
+          output,
+          internalGetRefusedBy(),
+          RefusedByDefaultEntryHolder.defaultEntry,
+          4);
+      if (absorbed_ != 0L) {
+        output.writeUInt64(5, absorbed_);
+      }
+      com.google.protobuf.GeneratedMessage
+        .serializeStringMapTo(
+          output,
+          internalGetDropped(),
+          DroppedDefaultEntryHolder.defaultEntry,
+          6);
+      if (hopGaps_ != 0L) {
+        output.writeUInt64(7, hopGaps_);
+      }
+      if (senders_ != 0) {
+        output.writeUInt32(8, senders_);
+      }
+      if (streams_ != 0) {
+        output.writeUInt32(9, streams_);
+      }
+      if (sourceConnected_ != false) {
+        output.writeBool(10, sourceConnected_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+    private int computeSerializedSize_0() {
+      int size = 0;
+      if (records_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(1, records_);
+      }
+      if (messages_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(2, messages_);
+      }
+      if (refused_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(3, refused_);
+      }
+      for (java.util.Map.Entry<java.lang.String, java.lang.Long> entry
+           : internalGetRefusedBy().getMap().entrySet()) {
+        com.google.protobuf.MapEntry<java.lang.String, java.lang.Long>
+        refusedBy__ = RefusedByDefaultEntryHolder.defaultEntry.newBuilderForType()
+            .setKey(entry.getKey())
+            .setValue(entry.getValue())
+            .buildPartial();
+        size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(4, refusedBy__);
+      }
+      if (absorbed_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(5, absorbed_);
+      }
+      for (java.util.Map.Entry<java.lang.String, java.lang.Long> entry
+           : internalGetDropped().getMap().entrySet()) {
+        com.google.protobuf.MapEntry<java.lang.String, java.lang.Long>
+        dropped__ = DroppedDefaultEntryHolder.defaultEntry.newBuilderForType()
+            .setKey(entry.getKey())
+            .setValue(entry.getValue())
+            .buildPartial();
+        size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(6, dropped__);
+      }
+      if (hopGaps_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(7, hopGaps_);
+      }
+      if (senders_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(8, senders_);
+      }
+      if (streams_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(9, streams_);
+      }
+      if (sourceConnected_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(10, sourceConnected_);
+      }
+      return size;
+    }
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += computeSerializedSize_0();
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof jon.can.JonCanStream.BusStreamStats)) {
+        return super.equals(obj);
+      }
+      jon.can.JonCanStream.BusStreamStats other = (jon.can.JonCanStream.BusStreamStats) obj;
+
+      if (getRecords()
+          != other.getRecords()) return false;
+      if (getMessages()
+          != other.getMessages()) return false;
+      if (getRefused()
+          != other.getRefused()) return false;
+      if (!internalGetRefusedBy().equals(
+          other.internalGetRefusedBy())) return false;
+      if (getAbsorbed()
+          != other.getAbsorbed()) return false;
+      if (!internalGetDropped().equals(
+          other.internalGetDropped())) return false;
+      if (getHopGaps()
+          != other.getHopGaps()) return false;
+      if (getSenders()
+          != other.getSenders()) return false;
+      if (getStreams()
+          != other.getStreams()) return false;
+      if (getSourceConnected()
+          != other.getSourceConnected()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + RECORDS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getRecords());
+      hash = (37 * hash) + MESSAGES_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getMessages());
+      hash = (37 * hash) + REFUSED_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getRefused());
+      if (!internalGetRefusedBy().getMap().isEmpty()) {
+        hash = (37 * hash) + REFUSED_BY_FIELD_NUMBER;
+        hash = (53 * hash) + internalGetRefusedBy().hashCode();
+      }
+      hash = (37 * hash) + ABSORBED_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getAbsorbed());
+      if (!internalGetDropped().getMap().isEmpty()) {
+        hash = (37 * hash) + DROPPED_FIELD_NUMBER;
+        hash = (53 * hash) + internalGetDropped().hashCode();
+      }
+      hash = (37 * hash) + HOP_GAPS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getHopGaps());
+      hash = (37 * hash) + SENDERS_FIELD_NUMBER;
+      hash = (53 * hash) + getSenders();
+      hash = (37 * hash) + STREAMS_FIELD_NUMBER;
+      hash = (53 * hash) + getStreams();
+      hash = (37 * hash) + SOURCE_CONNECTED_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getSourceConnected());
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static jon.can.JonCanStream.BusStreamStats parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.BusStreamStats parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusStreamStats parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.BusStreamStats parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusStreamStats parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.BusStreamStats parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusStreamStats parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static jon.can.JonCanStream.BusStreamStats parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static jon.can.JonCanStream.BusStreamStats parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static jon.can.JonCanStream.BusStreamStats parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusStreamStats parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static jon.can.JonCanStream.BusStreamStats parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(jon.can.JonCanStream.BusStreamStats prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * The relay's module-bus accounting since it started.
+     * </pre>
+     *
+     * Protobuf type {@code jon.can.BusStreamStats}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:jon.can.BusStreamStats)
+        jon.can.JonCanStream.BusStreamStatsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return jon.can.JonCanStream.internal_static_jon_can_BusStreamStats_descriptor;
+      }
+
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapFieldReflectionAccessor internalGetMapFieldReflection(
+          int number) {
+        switch (number) {
+          case 4:
+            return internalGetRefusedBy();
+          case 6:
+            return internalGetDropped();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapFieldReflectionAccessor internalGetMutableMapFieldReflection(
+          int number) {
+        switch (number) {
+          case 4:
+            return internalGetMutableRefusedBy();
+          case 6:
+            return internalGetMutableDropped();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return jon.can.JonCanStream.internal_static_jon_can_BusStreamStats_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                jon.can.JonCanStream.BusStreamStats.class, jon.can.JonCanStream.BusStreamStats.Builder.class);
+      }
+
+      // Construct using jon.can.JonCanStream.BusStreamStats.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        records_ = 0L;
+        messages_ = 0L;
+        refused_ = 0L;
+        internalGetMutableRefusedBy().clear();
+        absorbed_ = 0L;
+        internalGetMutableDropped().clear();
+        hopGaps_ = 0L;
+        senders_ = 0;
+        streams_ = 0;
+        sourceConnected_ = false;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return jon.can.JonCanStream.internal_static_jon_can_BusStreamStats_descriptor;
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.BusStreamStats getDefaultInstanceForType() {
+        return jon.can.JonCanStream.BusStreamStats.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.BusStreamStats build() {
+        jon.can.JonCanStream.BusStreamStats result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.BusStreamStats buildPartial() {
+        jon.can.JonCanStream.BusStreamStats result = new jon.can.JonCanStream.BusStreamStats(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(jon.can.JonCanStream.BusStreamStats result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.records_ = records_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.messages_ = messages_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.refused_ = refused_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.refusedBy_ = internalGetRefusedBy();
+          result.refusedBy_.makeImmutable();
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.absorbed_ = absorbed_;
+        }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.dropped_ = internalGetDropped();
+          result.dropped_.makeImmutable();
+        }
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.hopGaps_ = hopGaps_;
+        }
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          result.senders_ = senders_;
+        }
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          result.streams_ = streams_;
+        }
+        if (((from_bitField0_ & 0x00000200) != 0)) {
+          result.sourceConnected_ = sourceConnected_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof jon.can.JonCanStream.BusStreamStats) {
+          return mergeFrom((jon.can.JonCanStream.BusStreamStats)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(jon.can.JonCanStream.BusStreamStats other) {
+        if (other == jon.can.JonCanStream.BusStreamStats.getDefaultInstance()) return this;
+        if (other.getRecords() != 0L) {
+          setRecords(other.getRecords());
+        }
+        if (other.getMessages() != 0L) {
+          setMessages(other.getMessages());
+        }
+        if (other.getRefused() != 0L) {
+          setRefused(other.getRefused());
+        }
+        internalGetMutableRefusedBy().mergeFrom(
+            other.internalGetRefusedBy());
+        bitField0_ |= 0x00000008;
+        if (other.getAbsorbed() != 0L) {
+          setAbsorbed(other.getAbsorbed());
+        }
+        internalGetMutableDropped().mergeFrom(
+            other.internalGetDropped());
+        bitField0_ |= 0x00000020;
+        if (other.getHopGaps() != 0L) {
+          setHopGaps(other.getHopGaps());
+        }
+        if (other.getSenders() != 0) {
+          setSenders(other.getSenders());
+        }
+        if (other.getStreams() != 0) {
+          setStreams(other.getStreams());
+        }
+        if (other.getSourceConnected() != false) {
+          setSourceConnected(other.getSourceConnected());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        java.util.Objects.requireNonNull(extensionRegistry);
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                records_ = input.readUInt64();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 16: {
+                messages_ = input.readUInt64();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              case 24: {
+                refused_ = input.readUInt64();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 24
+              case 34: {
+                com.google.protobuf.MapEntry<java.lang.String, java.lang.Long>
+                refusedBy__ = input.readMessage(
+                    RefusedByDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+                internalGetMutableRefusedBy().getMutableMap().put(
+                    refusedBy__.getKey(), refusedBy__.getValue());
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 34
+              case 40: {
+                absorbed_ = input.readUInt64();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 40
+              case 50: {
+                com.google.protobuf.MapEntry<java.lang.String, java.lang.Long>
+                dropped__ = input.readMessage(
+                    DroppedDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+                internalGetMutableDropped().getMutableMap().put(
+                    dropped__.getKey(), dropped__.getValue());
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 50
+              case 56: {
+                hopGaps_ = input.readUInt64();
+                bitField0_ |= 0x00000040;
+                break;
+              } // case 56
+              case 64: {
+                senders_ = input.readUInt32();
+                bitField0_ |= 0x00000080;
+                break;
+              } // case 64
+              case 72: {
+                streams_ = input.readUInt32();
+                bitField0_ |= 0x00000100;
+                break;
+              } // case 72
+              case 80: {
+                sourceConnected_ = input.readBool();
+                bitField0_ |= 0x00000200;
+                break;
+              } // case 80
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private long records_ ;
+      /**
+       * <pre>
+       * Stream records fed to the decoder.
+       * </pre>
+       *
+       * <code>uint64 records = 1;</code>
+       * @return The records.
+       */
+      @java.lang.Override
+      public long getRecords() {
+        return records_;
+      }
+      /**
+       * <pre>
+       * Stream records fed to the decoder.
+       * </pre>
+       *
+       * <code>uint64 records = 1;</code>
+       * @param value The records to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRecords(long value) {
+
+        records_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Stream records fed to the decoder.
+       * </pre>
+       *
+       * <code>uint64 records = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRecords() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        records_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long messages_ ;
+      /**
+       * <pre>
+       * Messages the records produced (decoded messages plus refusals).
+       * </pre>
+       *
+       * <code>uint64 messages = 2;</code>
+       * @return The messages.
+       */
+      @java.lang.Override
+      public long getMessages() {
+        return messages_;
+      }
+      /**
+       * <pre>
+       * Messages the records produced (decoded messages plus refusals).
+       * </pre>
+       *
+       * <code>uint64 messages = 2;</code>
+       * @param value The messages to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMessages(long value) {
+
+        messages_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Messages the records produced (decoded messages plus refusals).
+       * </pre>
+       *
+       * <code>uint64 messages = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMessages() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        messages_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long refused_ ;
+      /**
+       * <pre>
+       * Messages carrying a refusal, and their count per refusal code.
+       * </pre>
+       *
+       * <code>uint64 refused = 3;</code>
+       * @return The refused.
+       */
+      @java.lang.Override
+      public long getRefused() {
+        return refused_;
+      }
+      /**
+       * <pre>
+       * Messages carrying a refusal, and their count per refusal code.
+       * </pre>
+       *
+       * <code>uint64 refused = 3;</code>
+       * @param value The refused to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRefused(long value) {
+
+        refused_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Messages carrying a refusal, and their count per refusal code.
+       * </pre>
+       *
+       * <code>uint64 refused = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRefused() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        refused_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.MapField<
+          java.lang.String, java.lang.Long> refusedBy_;
+      private com.google.protobuf.MapField<java.lang.String, java.lang.Long>
+          internalGetRefusedBy() {
+        if (refusedBy_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              RefusedByDefaultEntryHolder.defaultEntry);
+        }
+        return refusedBy_;
+      }
+      private com.google.protobuf.MapField<java.lang.String, java.lang.Long>
+          internalGetMutableRefusedBy() {
+        if (refusedBy_ == null) {
+          refusedBy_ = com.google.protobuf.MapField.newMapField(
+              RefusedByDefaultEntryHolder.defaultEntry);
+        }
+        if (!refusedBy_.isMutable()) {
+          refusedBy_ = refusedBy_.copy();
+        }
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return refusedBy_;
+      }
+      public int getRefusedByCount() {
+        return internalGetRefusedBy().getMap().size();
+      }
+      /**
+       * <code>map&lt;string, uint64&gt; refused_by = 4;</code>
+       */
+      @java.lang.Override
+      public boolean containsRefusedBy(
+          java.lang.String key) {
+        java.util.Objects.requireNonNull(key, "map key");
+        return internalGetRefusedBy().getMap().containsKey(key);
+      }
+      /**
+       * Use {@link #getRefusedByMap()} instead.
+       */
+      @java.lang.Override
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.Long> getRefusedBy() {
+        return getRefusedByMap();
+      }
+      /**
+       * <code>map&lt;string, uint64&gt; refused_by = 4;</code>
+       */
+      @java.lang.Override
+      public java.util.Map<java.lang.String, java.lang.Long> getRefusedByMap() {
+        return internalGetRefusedBy().getMap();
+      }
+      /**
+       * <code>map&lt;string, uint64&gt; refused_by = 4;</code>
+       */
+      @java.lang.Override
+      public long getRefusedByOrDefault(
+          java.lang.String key,
+          long defaultValue) {
+        java.util.Objects.requireNonNull(key, "map key");
+        java.util.Map<java.lang.String, java.lang.Long> map =
+            internalGetRefusedBy().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <code>map&lt;string, uint64&gt; refused_by = 4;</code>
+       */
+      @java.lang.Override
+      public long getRefusedByOrThrow(
+          java.lang.String key) {
+        java.util.Objects.requireNonNull(key, "map key");
+        java.util.Map<java.lang.String, java.lang.Long> map =
+            internalGetRefusedBy().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
+      }
+      public Builder clearRefusedBy() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        internalGetMutableRefusedBy().getMutableMap()
+            .clear();
+        return this;
+      }
+      /**
+       * <code>map&lt;string, uint64&gt; refused_by = 4;</code>
+       */
+      public Builder removeRefusedBy(
+          java.lang.String key) {
+        java.util.Objects.requireNonNull(key, "map key");
+        internalGetMutableRefusedBy().getMutableMap()
+            .remove(key);
+        return this;
+      }
+      /**
+       * Use alternate mutation accessors instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.Long>
+          getMutableRefusedBy() {
+        bitField0_ |= 0x00000008;
+        return internalGetMutableRefusedBy().getMutableMap();
+      }
+      /**
+       * <code>map&lt;string, uint64&gt; refused_by = 4;</code>
+       */
+      public Builder putRefusedBy(
+          java.lang.String key,
+          long value) {
+        java.util.Objects.requireNonNull(key, "map key");
+
+        internalGetMutableRefusedBy().getMutableMap()
+            .put(key, value);
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>map&lt;string, uint64&gt; refused_by = 4;</code>
+       */
+      public Builder putAllRefusedBy(
+          java.util.Map<java.lang.String, java.lang.Long> values) {
+        internalGetMutableRefusedBy().getMutableMap()
+            .putAll(values);
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+
+      private long absorbed_ ;
+      /**
+       * <pre>
+       * Records absorbed as fragments of a message still open, or as retransmits.
+       * </pre>
+       *
+       * <code>uint64 absorbed = 5;</code>
+       * @return The absorbed.
+       */
+      @java.lang.Override
+      public long getAbsorbed() {
+        return absorbed_;
+      }
+      /**
+       * <pre>
+       * Records absorbed as fragments of a message still open, or as retransmits.
+       * </pre>
+       *
+       * <code>uint64 absorbed = 5;</code>
+       * @param value The absorbed to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAbsorbed(long value) {
+
+        absorbed_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Records absorbed as fragments of a message still open, or as retransmits.
+       * </pre>
+       *
+       * <code>uint64 absorbed = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAbsorbed() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        absorbed_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.MapField<
+          java.lang.String, java.lang.Long> dropped_;
+      private com.google.protobuf.MapField<java.lang.String, java.lang.Long>
+          internalGetDropped() {
+        if (dropped_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              DroppedDefaultEntryHolder.defaultEntry);
+        }
+        return dropped_;
+      }
+      private com.google.protobuf.MapField<java.lang.String, java.lang.Long>
+          internalGetMutableDropped() {
+        if (dropped_ == null) {
+          dropped_ = com.google.protobuf.MapField.newMapField(
+              DroppedDefaultEntryHolder.defaultEntry);
+        }
+        if (!dropped_.isMutable()) {
+          dropped_ = dropped_.copy();
+        }
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return dropped_;
+      }
+      public int getDroppedCount() {
+        return internalGetDropped().getMap().size();
+      }
+      /**
+       * <pre>
+       * Open multi-frame messages the decoder dropped, by reason ("expired",
+       * "restarted").
+       * </pre>
+       *
+       * <code>map&lt;string, uint64&gt; dropped = 6;</code>
+       */
+      @java.lang.Override
+      public boolean containsDropped(
+          java.lang.String key) {
+        java.util.Objects.requireNonNull(key, "map key");
+        return internalGetDropped().getMap().containsKey(key);
+      }
+      /**
+       * Use {@link #getDroppedMap()} instead.
+       */
+      @java.lang.Override
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.Long> getDropped() {
+        return getDroppedMap();
+      }
+      /**
+       * <pre>
+       * Open multi-frame messages the decoder dropped, by reason ("expired",
+       * "restarted").
+       * </pre>
+       *
+       * <code>map&lt;string, uint64&gt; dropped = 6;</code>
+       */
+      @java.lang.Override
+      public java.util.Map<java.lang.String, java.lang.Long> getDroppedMap() {
+        return internalGetDropped().getMap();
+      }
+      /**
+       * <pre>
+       * Open multi-frame messages the decoder dropped, by reason ("expired",
+       * "restarted").
+       * </pre>
+       *
+       * <code>map&lt;string, uint64&gt; dropped = 6;</code>
+       */
+      @java.lang.Override
+      public long getDroppedOrDefault(
+          java.lang.String key,
+          long defaultValue) {
+        java.util.Objects.requireNonNull(key, "map key");
+        java.util.Map<java.lang.String, java.lang.Long> map =
+            internalGetDropped().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <pre>
+       * Open multi-frame messages the decoder dropped, by reason ("expired",
+       * "restarted").
+       * </pre>
+       *
+       * <code>map&lt;string, uint64&gt; dropped = 6;</code>
+       */
+      @java.lang.Override
+      public long getDroppedOrThrow(
+          java.lang.String key) {
+        java.util.Objects.requireNonNull(key, "map key");
+        java.util.Map<java.lang.String, java.lang.Long> map =
+            internalGetDropped().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
+      }
+      public Builder clearDropped() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        internalGetMutableDropped().getMutableMap()
+            .clear();
+        return this;
+      }
+      /**
+       * <pre>
+       * Open multi-frame messages the decoder dropped, by reason ("expired",
+       * "restarted").
+       * </pre>
+       *
+       * <code>map&lt;string, uint64&gt; dropped = 6;</code>
+       */
+      public Builder removeDropped(
+          java.lang.String key) {
+        java.util.Objects.requireNonNull(key, "map key");
+        internalGetMutableDropped().getMutableMap()
+            .remove(key);
+        return this;
+      }
+      /**
+       * Use alternate mutation accessors instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.Long>
+          getMutableDropped() {
+        bitField0_ |= 0x00000020;
+        return internalGetMutableDropped().getMutableMap();
+      }
+      /**
+       * <pre>
+       * Open multi-frame messages the decoder dropped, by reason ("expired",
+       * "restarted").
+       * </pre>
+       *
+       * <code>map&lt;string, uint64&gt; dropped = 6;</code>
+       */
+      public Builder putDropped(
+          java.lang.String key,
+          long value) {
+        java.util.Objects.requireNonNull(key, "map key");
+
+        internalGetMutableDropped().getMutableMap()
+            .put(key, value);
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <pre>
+       * Open multi-frame messages the decoder dropped, by reason ("expired",
+       * "restarted").
+       * </pre>
+       *
+       * <code>map&lt;string, uint64&gt; dropped = 6;</code>
+       */
+      public Builder putAllDropped(
+          java.util.Map<java.lang.String, java.lang.Long> values) {
+        internalGetMutableDropped().getMutableMap()
+            .putAll(values);
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+
+      private long hopGaps_ ;
+      /**
+       * <pre>
+       * Per-sender hop-sequence discontinuities, judged only once every stream
+       * that can hold an earlier record was known and read to its tip: datagrams
+       * lost between the bridge and the stream, datagrams the collector refused,
+       * or a sender restart.
+       * </pre>
+       *
+       * <code>uint64 hop_gaps = 7;</code>
+       * @return The hopGaps.
+       */
+      @java.lang.Override
+      public long getHopGaps() {
+        return hopGaps_;
+      }
+      /**
+       * <pre>
+       * Per-sender hop-sequence discontinuities, judged only once every stream
+       * that can hold an earlier record was known and read to its tip: datagrams
+       * lost between the bridge and the stream, datagrams the collector refused,
+       * or a sender restart.
+       * </pre>
+       *
+       * <code>uint64 hop_gaps = 7;</code>
+       * @param value The hopGaps to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHopGaps(long value) {
+
+        hopGaps_ = value;
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Per-sender hop-sequence discontinuities, judged only once every stream
+       * that can hold an earlier record was known and read to its tip: datagrams
+       * lost between the bridge and the stream, datagrams the collector refused,
+       * or a sender restart.
+       * </pre>
+       *
+       * <code>uint64 hop_gaps = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHopGaps() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        hopGaps_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private int senders_ ;
+      /**
+       * <pre>
+       * Distinct datagram senders seen, and logs:bus:* streams discovered.
+       * </pre>
+       *
+       * <code>uint32 senders = 8;</code>
+       * @return The senders.
+       */
+      @java.lang.Override
+      public int getSenders() {
+        return senders_;
+      }
+      /**
+       * <pre>
+       * Distinct datagram senders seen, and logs:bus:* streams discovered.
+       * </pre>
+       *
+       * <code>uint32 senders = 8;</code>
+       * @param value The senders to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSenders(int value) {
+
+        senders_ = value;
+        bitField0_ |= 0x00000080;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Distinct datagram senders seen, and logs:bus:* streams discovered.
+       * </pre>
+       *
+       * <code>uint32 senders = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSenders() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        senders_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int streams_ ;
+      /**
+       * <code>uint32 streams = 9;</code>
+       * @return The streams.
+       */
+      @java.lang.Override
+      public int getStreams() {
+        return streams_;
+      }
+      /**
+       * <code>uint32 streams = 9;</code>
+       * @param value The streams to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStreams(int value) {
+
+        streams_ = value;
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 streams = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStreams() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        streams_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private boolean sourceConnected_ ;
+      /**
+       * <pre>
+       * Whether the logs Redis was reachable at the last read.
+       * </pre>
+       *
+       * <code>bool source_connected = 10;</code>
+       * @return The sourceConnected.
+       */
+      @java.lang.Override
+      public boolean getSourceConnected() {
+        return sourceConnected_;
+      }
+      /**
+       * <pre>
+       * Whether the logs Redis was reachable at the last read.
+       * </pre>
+       *
+       * <code>bool source_connected = 10;</code>
+       * @param value The sourceConnected to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSourceConnected(boolean value) {
+
+        sourceConnected_ = value;
+        bitField0_ |= 0x00000200;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Whether the logs Redis was reachable at the last read.
+       * </pre>
+       *
+       * <code>bool source_connected = 10;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSourceConnected() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        sourceConnected_ = false;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:jon.can.BusStreamStats)
+    }
+
+    // @@protoc_insertion_point(class_scope:jon.can.BusStreamStats)
+    private static final jon.can.JonCanStream.BusStreamStats DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new jon.can.JonCanStream.BusStreamStats();
+    }
+
+    public static jon.can.JonCanStream.BusStreamStats getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<BusStreamStats>
+        PARSER = new com.google.protobuf.AbstractParser<BusStreamStats>() {
+      @java.lang.Override
+      public BusStreamStats parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<BusStreamStats> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BusStreamStats> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public jon.can.JonCanStream.BusStreamStats getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface BusRecordBatchOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:jon.can.BusRecordBatch)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .jon.can.BusRecord records = 1;</code>
+     */
+    java.util.List<jon.can.JonCanStream.BusRecord> 
+        getRecordsList();
+    /**
+     * <code>repeated .jon.can.BusRecord records = 1;</code>
+     */
+    jon.can.JonCanStream.BusRecord getRecords(int index);
+    /**
+     * <code>repeated .jon.can.BusRecord records = 1;</code>
+     */
+    int getRecordsCount();
+    /**
+     * <code>repeated .jon.can.BusRecord records = 1;</code>
+     */
+    java.util.List<? extends jon.can.JonCanStream.BusRecordOrBuilder> 
+        getRecordsOrBuilderList();
+    /**
+     * <code>repeated .jon.can.BusRecord records = 1;</code>
+     */
+    jon.can.JonCanStream.BusRecordOrBuilder getRecordsOrBuilder(
+        int index);
+
+    /**
+     * <code>.jon.can.BusStreamStats stats = 2;</code>
+     * @return Whether the stats field is set.
+     */
+    boolean hasStats();
+    /**
+     * <code>.jon.can.BusStreamStats stats = 2;</code>
+     * @return The stats.
+     */
+    jon.can.JonCanStream.BusStreamStats getStats();
+    /**
+     * <code>.jon.can.BusStreamStats stats = 2;</code>
+     */
+    jon.can.JonCanStream.BusStreamStatsOrBuilder getStatsOrBuilder();
+
+    /**
+     * <pre>
+     * Messages decoded since the previous batch to this client that it was
+     * never sent because it fell behind the relay's buffer.
+     * </pre>
+     *
+     * <code>uint64 evicted = 3;</code>
+     * @return The evicted.
+     */
+    long getEvicted();
+  }
+  /**
+   * <pre>
+   * Batch of module-bus messages, oldest first, with the accounting at the read.
+   * </pre>
+   *
+   * Protobuf type {@code jon.can.BusRecordBatch}
+   */
+  public static final class BusRecordBatch extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:jon.can.BusRecordBatch)
+      BusRecordBatchOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 36,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        "BusRecordBatch");
+    }
+    // Use BusRecordBatch.newBuilder() to construct.
+    private BusRecordBatch(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private BusRecordBatch() {
+      records_ = java.util.Collections.emptyList();
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return jon.can.JonCanStream.internal_static_jon_can_BusRecordBatch_descriptor;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      return jon.can.JonCanStream.internal_static_jon_can_BusRecordBatch_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return jon.can.JonCanStream.internal_static_jon_can_BusRecordBatch_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              jon.can.JonCanStream.BusRecordBatch.class, jon.can.JonCanStream.BusRecordBatch.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int RECORDS_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
+    private java.util.List<jon.can.JonCanStream.BusRecord> records_;
+    /**
+     * <code>repeated .jon.can.BusRecord records = 1;</code>
+     */
+    @java.lang.Override
+    public java.util.List<jon.can.JonCanStream.BusRecord> getRecordsList() {
+      return records_;
+    }
+    /**
+     * <code>repeated .jon.can.BusRecord records = 1;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends jon.can.JonCanStream.BusRecordOrBuilder> 
+        getRecordsOrBuilderList() {
+      return records_;
+    }
+    /**
+     * <code>repeated .jon.can.BusRecord records = 1;</code>
+     */
+    @java.lang.Override
+    public int getRecordsCount() {
+      return records_.size();
+    }
+    /**
+     * <code>repeated .jon.can.BusRecord records = 1;</code>
+     */
+    @java.lang.Override
+    public jon.can.JonCanStream.BusRecord getRecords(int index) {
+      return records_.get(index);
+    }
+    /**
+     * <code>repeated .jon.can.BusRecord records = 1;</code>
+     */
+    @java.lang.Override
+    public jon.can.JonCanStream.BusRecordOrBuilder getRecordsOrBuilder(
+        int index) {
+      return records_.get(index);
+    }
+
+    public static final int STATS_FIELD_NUMBER = 2;
+    private jon.can.JonCanStream.BusStreamStats stats_;
+    /**
+     * <code>.jon.can.BusStreamStats stats = 2;</code>
+     * @return Whether the stats field is set.
+     */
+    @java.lang.Override
+    public boolean hasStats() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.jon.can.BusStreamStats stats = 2;</code>
+     * @return The stats.
+     */
+    @java.lang.Override
+    public jon.can.JonCanStream.BusStreamStats getStats() {
+      return stats_ == null ? jon.can.JonCanStream.BusStreamStats.getDefaultInstance() : stats_;
+    }
+    /**
+     * <code>.jon.can.BusStreamStats stats = 2;</code>
+     */
+    @java.lang.Override
+    public jon.can.JonCanStream.BusStreamStatsOrBuilder getStatsOrBuilder() {
+      return stats_ == null ? jon.can.JonCanStream.BusStreamStats.getDefaultInstance() : stats_;
+    }
+
+    public static final int EVICTED_FIELD_NUMBER = 3;
+    private long evicted_ = 0L;
+    /**
+     * <pre>
+     * Messages decoded since the previous batch to this client that it was
+     * never sent because it fell behind the relay's buffer.
+     * </pre>
+     *
+     * <code>uint64 evicted = 3;</code>
+     * @return The evicted.
+     */
+    @java.lang.Override
+    public long getEvicted() {
+      return evicted_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < records_.size(); i++) {
+        output.writeMessage(1, records_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(2, getStats());
+      }
+      if (evicted_ != 0L) {
+        output.writeUInt64(3, evicted_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+    private int computeSerializedSize_0() {
+      int size = 0;
+
+          {
+            final int count = records_.size();
+            for (int i = 0; i < count; i++) {
+              size += com.google.protobuf.CodedOutputStream
+                .computeMessageSizeNoTag(records_.get(i));
+            }
+            size += 1 * count;
+          }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getStats());
+      }
+      if (evicted_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(3, evicted_);
+      }
+      return size;
+    }
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += computeSerializedSize_0();
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof jon.can.JonCanStream.BusRecordBatch)) {
+        return super.equals(obj);
+      }
+      jon.can.JonCanStream.BusRecordBatch other = (jon.can.JonCanStream.BusRecordBatch) obj;
+
+      if (!getRecordsList()
+          .equals(other.getRecordsList())) return false;
+      if (hasStats() != other.hasStats()) return false;
+      if (hasStats()) {
+        if (!getStats()
+            .equals(other.getStats())) return false;
+      }
+      if (getEvicted()
+          != other.getEvicted()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getRecordsCount() > 0) {
+        hash = (37 * hash) + RECORDS_FIELD_NUMBER;
+        hash = (53 * hash) + getRecordsList().hashCode();
+      }
+      if (hasStats()) {
+        hash = (37 * hash) + STATS_FIELD_NUMBER;
+        hash = (53 * hash) + getStats().hashCode();
+      }
+      hash = (37 * hash) + EVICTED_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getEvicted());
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static jon.can.JonCanStream.BusRecordBatch parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.BusRecordBatch parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusRecordBatch parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.BusRecordBatch parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusRecordBatch parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.BusRecordBatch parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusRecordBatch parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static jon.can.JonCanStream.BusRecordBatch parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static jon.can.JonCanStream.BusRecordBatch parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static jon.can.JonCanStream.BusRecordBatch parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusRecordBatch parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static jon.can.JonCanStream.BusRecordBatch parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(jon.can.JonCanStream.BusRecordBatch prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Batch of module-bus messages, oldest first, with the accounting at the read.
+     * </pre>
+     *
+     * Protobuf type {@code jon.can.BusRecordBatch}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:jon.can.BusRecordBatch)
+        jon.can.JonCanStream.BusRecordBatchOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return jon.can.JonCanStream.internal_static_jon_can_BusRecordBatch_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return jon.can.JonCanStream.internal_static_jon_can_BusRecordBatch_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                jon.can.JonCanStream.BusRecordBatch.class, jon.can.JonCanStream.BusRecordBatch.Builder.class);
+      }
+
+      // Construct using jon.can.JonCanStream.BusRecordBatch.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          internalGetRecordsFieldBuilder();
+          internalGetStatsFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        if (recordsBuilder_ == null) {
+          records_ = java.util.Collections.emptyList();
+        } else {
+          records_ = null;
+          recordsBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        stats_ = null;
+        if (statsBuilder_ != null) {
+          statsBuilder_.dispose();
+          statsBuilder_ = null;
+        }
+        evicted_ = 0L;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return jon.can.JonCanStream.internal_static_jon_can_BusRecordBatch_descriptor;
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.BusRecordBatch getDefaultInstanceForType() {
+        return jon.can.JonCanStream.BusRecordBatch.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.BusRecordBatch build() {
+        jon.can.JonCanStream.BusRecordBatch result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.BusRecordBatch buildPartial() {
+        jon.can.JonCanStream.BusRecordBatch result = new jon.can.JonCanStream.BusRecordBatch(this);
+        buildPartialRepeatedFields(result);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartialRepeatedFields(jon.can.JonCanStream.BusRecordBatch result) {
+        if (recordsBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            records_ = java.util.Collections.unmodifiableList(records_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.records_ = records_;
+        } else {
+          result.records_ = recordsBuilder_.build();
+        }
+      }
+
+      private void buildPartial0(jon.can.JonCanStream.BusRecordBatch result) {
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.stats_ = statsBuilder_ == null
+              ? stats_
+              : statsBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.evicted_ = evicted_;
+        }
+        result.bitField0_ |= to_bitField0_;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof jon.can.JonCanStream.BusRecordBatch) {
+          return mergeFrom((jon.can.JonCanStream.BusRecordBatch)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(jon.can.JonCanStream.BusRecordBatch other) {
+        if (other == jon.can.JonCanStream.BusRecordBatch.getDefaultInstance()) return this;
+        if (recordsBuilder_ == null) {
+          if (!other.records_.isEmpty()) {
+            if (records_.isEmpty()) {
+              records_ = other.records_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureRecordsIsMutable();
+              records_.addAll(other.records_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.records_.isEmpty()) {
+            if (recordsBuilder_.isEmpty()) {
+              recordsBuilder_.dispose();
+              recordsBuilder_ = null;
+              records_ = other.records_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              recordsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   internalGetRecordsFieldBuilder() : null;
+            } else {
+              recordsBuilder_.addAllMessages(other.records_);
+            }
+          }
+        }
+        if (other.hasStats()) {
+          mergeStats(other.getStats());
+        }
+        if (other.getEvicted() != 0L) {
+          setEvicted(other.getEvicted());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        java.util.Objects.requireNonNull(extensionRegistry);
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                jon.can.JonCanStream.BusRecord m =
+                    input.readMessage(
+                        jon.can.JonCanStream.BusRecord.parser(),
+                        extensionRegistry);
+                if (recordsBuilder_ == null) {
+                  ensureRecordsIsMutable();
+                  records_.add(m);
+                } else {
+                  recordsBuilder_.addMessage(m);
+                }
+                break;
+              } // case 10
+              case 18: {
+                input.readMessage(
+                    internalGetStatsFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              case 24: {
+                evicted_ = input.readUInt64();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 24
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<jon.can.JonCanStream.BusRecord> records_ =
+        java.util.Collections.emptyList();
+      private void ensureRecordsIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          records_ = new java.util.ArrayList<jon.can.JonCanStream.BusRecord>(records_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          jon.can.JonCanStream.BusRecord, jon.can.JonCanStream.BusRecord.Builder, jon.can.JonCanStream.BusRecordOrBuilder> recordsBuilder_;
+
+      /**
+       * <code>repeated .jon.can.BusRecord records = 1;</code>
+       */
+      public java.util.List<jon.can.JonCanStream.BusRecord> getRecordsList() {
+        if (recordsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(records_);
+        } else {
+          return recordsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .jon.can.BusRecord records = 1;</code>
+       */
+      public int getRecordsCount() {
+        if (recordsBuilder_ == null) {
+          return records_.size();
+        } else {
+          return recordsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .jon.can.BusRecord records = 1;</code>
+       */
+      public jon.can.JonCanStream.BusRecord getRecords(int index) {
+        if (recordsBuilder_ == null) {
+          return records_.get(index);
+        } else {
+          return recordsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .jon.can.BusRecord records = 1;</code>
+       */
+      public Builder setRecords(
+          int index, jon.can.JonCanStream.BusRecord value) {
+        if (recordsBuilder_ == null) {
+          java.util.Objects.requireNonNull(value);
+          ensureRecordsIsMutable();
+          records_.set(index, value);
+          onChanged();
+        } else {
+          recordsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .jon.can.BusRecord records = 1;</code>
+       */
+      public Builder setRecords(
+          int index, jon.can.JonCanStream.BusRecord.Builder builderForValue) {
+        if (recordsBuilder_ == null) {
+          ensureRecordsIsMutable();
+          records_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          recordsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .jon.can.BusRecord records = 1;</code>
+       */
+      public Builder addRecords(jon.can.JonCanStream.BusRecord value) {
+        if (recordsBuilder_ == null) {
+          java.util.Objects.requireNonNull(value);
+          ensureRecordsIsMutable();
+          records_.add(value);
+          onChanged();
+        } else {
+          recordsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .jon.can.BusRecord records = 1;</code>
+       */
+      public Builder addRecords(
+          int index, jon.can.JonCanStream.BusRecord value) {
+        if (recordsBuilder_ == null) {
+          java.util.Objects.requireNonNull(value);
+          ensureRecordsIsMutable();
+          records_.add(index, value);
+          onChanged();
+        } else {
+          recordsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .jon.can.BusRecord records = 1;</code>
+       */
+      public Builder addRecords(
+          jon.can.JonCanStream.BusRecord.Builder builderForValue) {
+        if (recordsBuilder_ == null) {
+          ensureRecordsIsMutable();
+          records_.add(builderForValue.build());
+          onChanged();
+        } else {
+          recordsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .jon.can.BusRecord records = 1;</code>
+       */
+      public Builder addRecords(
+          int index, jon.can.JonCanStream.BusRecord.Builder builderForValue) {
+        if (recordsBuilder_ == null) {
+          ensureRecordsIsMutable();
+          records_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          recordsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .jon.can.BusRecord records = 1;</code>
+       */
+      public Builder addAllRecords(
+          java.lang.Iterable<? extends jon.can.JonCanStream.BusRecord> values) {
+        if (recordsBuilder_ == null) {
+          ensureRecordsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, records_);
+          onChanged();
+        } else {
+          recordsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .jon.can.BusRecord records = 1;</code>
+       */
+      public Builder clearRecords() {
+        if (recordsBuilder_ == null) {
+          records_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          recordsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .jon.can.BusRecord records = 1;</code>
+       */
+      public Builder removeRecords(int index) {
+        if (recordsBuilder_ == null) {
+          ensureRecordsIsMutable();
+          records_.remove(index);
+          onChanged();
+        } else {
+          recordsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .jon.can.BusRecord records = 1;</code>
+       */
+      public jon.can.JonCanStream.BusRecord.Builder getRecordsBuilder(
+          int index) {
+        return internalGetRecordsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .jon.can.BusRecord records = 1;</code>
+       */
+      public jon.can.JonCanStream.BusRecordOrBuilder getRecordsOrBuilder(
+          int index) {
+        if (recordsBuilder_ == null) {
+          return records_.get(index);  } else {
+          return recordsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .jon.can.BusRecord records = 1;</code>
+       */
+      public java.util.List<? extends jon.can.JonCanStream.BusRecordOrBuilder> 
+           getRecordsOrBuilderList() {
+        if (recordsBuilder_ != null) {
+          return recordsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(records_);
+        }
+      }
+      /**
+       * <code>repeated .jon.can.BusRecord records = 1;</code>
+       */
+      public jon.can.JonCanStream.BusRecord.Builder addRecordsBuilder() {
+        return internalGetRecordsFieldBuilder().addBuilder(
+            jon.can.JonCanStream.BusRecord.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .jon.can.BusRecord records = 1;</code>
+       */
+      public jon.can.JonCanStream.BusRecord.Builder addRecordsBuilder(
+          int index) {
+        return internalGetRecordsFieldBuilder().addBuilder(
+            index, jon.can.JonCanStream.BusRecord.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .jon.can.BusRecord records = 1;</code>
+       */
+      public java.util.List<jon.can.JonCanStream.BusRecord.Builder> 
+           getRecordsBuilderList() {
+        return internalGetRecordsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          jon.can.JonCanStream.BusRecord, jon.can.JonCanStream.BusRecord.Builder, jon.can.JonCanStream.BusRecordOrBuilder> 
+          internalGetRecordsFieldBuilder() {
+        if (recordsBuilder_ == null) {
+          recordsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              jon.can.JonCanStream.BusRecord, jon.can.JonCanStream.BusRecord.Builder, jon.can.JonCanStream.BusRecordOrBuilder>(
+                  records_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          records_ = null;
+        }
+        return recordsBuilder_;
+      }
+
+      private jon.can.JonCanStream.BusStreamStats stats_;
+      private com.google.protobuf.SingleFieldBuilder<
+          jon.can.JonCanStream.BusStreamStats, jon.can.JonCanStream.BusStreamStats.Builder, jon.can.JonCanStream.BusStreamStatsOrBuilder> statsBuilder_;
+      /**
+       * <code>.jon.can.BusStreamStats stats = 2;</code>
+       * @return Whether the stats field is set.
+       */
+      public boolean hasStats() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <code>.jon.can.BusStreamStats stats = 2;</code>
+       * @return The stats.
+       */
+      public jon.can.JonCanStream.BusStreamStats getStats() {
+        if (statsBuilder_ == null) {
+          return stats_ == null ? jon.can.JonCanStream.BusStreamStats.getDefaultInstance() : stats_;
+        } else {
+          return statsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.jon.can.BusStreamStats stats = 2;</code>
+       */
+      public Builder setStats(jon.can.JonCanStream.BusStreamStats value) {
+        if (statsBuilder_ == null) {
+          java.util.Objects.requireNonNull(value);
+          stats_ = value;
+        } else {
+          statsBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.jon.can.BusStreamStats stats = 2;</code>
+       */
+      public Builder setStats(
+          jon.can.JonCanStream.BusStreamStats.Builder builderForValue) {
+        if (statsBuilder_ == null) {
+          stats_ = builderForValue.build();
+        } else {
+          statsBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.jon.can.BusStreamStats stats = 2;</code>
+       */
+      public Builder mergeStats(jon.can.JonCanStream.BusStreamStats value) {
+        if (statsBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) != 0) &&
+            stats_ != null &&
+            stats_ != jon.can.JonCanStream.BusStreamStats.getDefaultInstance()) {
+            getStatsBuilder().mergeFrom(value);
+          } else {
+            stats_ = value;
+          }
+        } else {
+          statsBuilder_.mergeFrom(value);
+        }
+        if (stats_ != null) {
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.jon.can.BusStreamStats stats = 2;</code>
+       */
+      public Builder clearStats() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        stats_ = null;
+        if (statsBuilder_ != null) {
+          statsBuilder_.dispose();
+          statsBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.jon.can.BusStreamStats stats = 2;</code>
+       */
+      public jon.can.JonCanStream.BusStreamStats.Builder getStatsBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return internalGetStatsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.jon.can.BusStreamStats stats = 2;</code>
+       */
+      public jon.can.JonCanStream.BusStreamStatsOrBuilder getStatsOrBuilder() {
+        if (statsBuilder_ != null) {
+          return statsBuilder_.getMessageOrBuilder();
+        } else {
+          return stats_ == null ?
+              jon.can.JonCanStream.BusStreamStats.getDefaultInstance() : stats_;
+        }
+      }
+      /**
+       * <code>.jon.can.BusStreamStats stats = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          jon.can.JonCanStream.BusStreamStats, jon.can.JonCanStream.BusStreamStats.Builder, jon.can.JonCanStream.BusStreamStatsOrBuilder> 
+          internalGetStatsFieldBuilder() {
+        if (statsBuilder_ == null) {
+          statsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              jon.can.JonCanStream.BusStreamStats, jon.can.JonCanStream.BusStreamStats.Builder, jon.can.JonCanStream.BusStreamStatsOrBuilder>(
+                  getStats(),
+                  getParentForChildren(),
+                  isClean());
+          stats_ = null;
+        }
+        return statsBuilder_;
+      }
+
+      private long evicted_ ;
+      /**
+       * <pre>
+       * Messages decoded since the previous batch to this client that it was
+       * never sent because it fell behind the relay's buffer.
+       * </pre>
+       *
+       * <code>uint64 evicted = 3;</code>
+       * @return The evicted.
+       */
+      @java.lang.Override
+      public long getEvicted() {
+        return evicted_;
+      }
+      /**
+       * <pre>
+       * Messages decoded since the previous batch to this client that it was
+       * never sent because it fell behind the relay's buffer.
+       * </pre>
+       *
+       * <code>uint64 evicted = 3;</code>
+       * @param value The evicted to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEvicted(long value) {
+
+        evicted_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Messages decoded since the previous batch to this client that it was
+       * never sent because it fell behind the relay's buffer.
+       * </pre>
+       *
+       * <code>uint64 evicted = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEvicted() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        evicted_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:jon.can.BusRecordBatch)
+    }
+
+    // @@protoc_insertion_point(class_scope:jon.can.BusRecordBatch)
+    private static final jon.can.JonCanStream.BusRecordBatch DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new jon.can.JonCanStream.BusRecordBatch();
+    }
+
+    public static jon.can.JonCanStream.BusRecordBatch getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<BusRecordBatch>
+        PARSER = new com.google.protobuf.AbstractParser<BusRecordBatch>() {
+      @java.lang.Override
+      public BusRecordBatch parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<BusRecordBatch> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BusRecordBatch> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public jon.can.JonCanStream.BusRecordBatch getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface BusStreamConnectedOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:jon.can.BusStreamConnected)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+     * </pre>
+     *
+     * <code>repeated string streams = 1;</code>
+     * @return A list containing the streams.
+     */
+    java.util.List<java.lang.String>
+        getStreamsList();
+    /**
+     * <pre>
+     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+     * </pre>
+     *
+     * <code>repeated string streams = 1;</code>
+     * @return The count of streams.
+     */
+    int getStreamsCount();
+    /**
+     * <pre>
+     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+     * </pre>
+     *
+     * <code>repeated string streams = 1;</code>
+     * @param index The index of the element to return.
+     * @return The streams at the given index.
+     */
+    java.lang.String getStreams(int index);
+    /**
+     * <pre>
+     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+     * </pre>
+     *
+     * <code>repeated string streams = 1;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the streams at the given index.
+     */
+    com.google.protobuf.ByteString
+        getStreamsBytes(int index);
+  }
+  /**
+   * <pre>
+   * Sent once when a module-bus WebSocket connects.
+   * </pre>
+   *
+   * Protobuf type {@code jon.can.BusStreamConnected}
+   */
+  public static final class BusStreamConnected extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:jon.can.BusStreamConnected)
+      BusStreamConnectedOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 36,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        "BusStreamConnected");
+    }
+    // Use BusStreamConnected.newBuilder() to construct.
+    private BusStreamConnected(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private BusStreamConnected() {
+      streams_ =
+          com.google.protobuf.LazyStringArrayList.emptyList();
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return jon.can.JonCanStream.internal_static_jon_can_BusStreamConnected_descriptor;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      return jon.can.JonCanStream.internal_static_jon_can_BusStreamConnected_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return jon.can.JonCanStream.internal_static_jon_can_BusStreamConnected_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              jon.can.JonCanStream.BusStreamConnected.class, jon.can.JonCanStream.BusStreamConnected.Builder.class);
+    }
+
+    public static final int STREAMS_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
+    private com.google.protobuf.LazyStringArrayList streams_ =
+        com.google.protobuf.LazyStringArrayList.emptyList();
+    /**
+     * <pre>
+     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+     * </pre>
+     *
+     * <code>repeated string streams = 1;</code>
+     * @return A list containing the streams.
+     */
+    public com.google.protobuf.ProtocolStringList
+        getStreamsList() {
+      return streams_;
+    }
+    /**
+     * <pre>
+     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+     * </pre>
+     *
+     * <code>repeated string streams = 1;</code>
+     * @return The count of streams.
+     */
+    public int getStreamsCount() {
+      return streams_.size();
+    }
+    /**
+     * <pre>
+     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+     * </pre>
+     *
+     * <code>repeated string streams = 1;</code>
+     * @param index The index of the element to return.
+     * @return The streams at the given index.
+     */
+    public java.lang.String getStreams(int index) {
+      return streams_.get(index);
+    }
+    /**
+     * <pre>
+     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+     * </pre>
+     *
+     * <code>repeated string streams = 1;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the streams at the given index.
+     */
+    public com.google.protobuf.ByteString
+        getStreamsBytes(int index) {
+      return streams_.getByteString(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < streams_.size(); i++) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, streams_.getRaw(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+    private int computeSerializedSize_0() {
+      int size = 0;
+      {
+        int dataSize = 0;
+        for (int i = 0; i < streams_.size(); i++) {
+          dataSize += computeStringSizeNoTag(streams_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getStreamsList().size();
+      }
+      return size;
+    }
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += computeSerializedSize_0();
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof jon.can.JonCanStream.BusStreamConnected)) {
+        return super.equals(obj);
+      }
+      jon.can.JonCanStream.BusStreamConnected other = (jon.can.JonCanStream.BusStreamConnected) obj;
+
+      if (!getStreamsList()
+          .equals(other.getStreamsList())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getStreamsCount() > 0) {
+        hash = (37 * hash) + STREAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getStreamsList().hashCode();
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static jon.can.JonCanStream.BusStreamConnected parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.BusStreamConnected parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusStreamConnected parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.BusStreamConnected parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusStreamConnected parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.BusStreamConnected parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusStreamConnected parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static jon.can.JonCanStream.BusStreamConnected parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static jon.can.JonCanStream.BusStreamConnected parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static jon.can.JonCanStream.BusStreamConnected parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusStreamConnected parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static jon.can.JonCanStream.BusStreamConnected parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(jon.can.JonCanStream.BusStreamConnected prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Sent once when a module-bus WebSocket connects.
+     * </pre>
+     *
+     * Protobuf type {@code jon.can.BusStreamConnected}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:jon.can.BusStreamConnected)
+        jon.can.JonCanStream.BusStreamConnectedOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return jon.can.JonCanStream.internal_static_jon_can_BusStreamConnected_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return jon.can.JonCanStream.internal_static_jon_can_BusStreamConnected_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                jon.can.JonCanStream.BusStreamConnected.class, jon.can.JonCanStream.BusStreamConnected.Builder.class);
+      }
+
+      // Construct using jon.can.JonCanStream.BusStreamConnected.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        streams_ =
+            com.google.protobuf.LazyStringArrayList.emptyList();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return jon.can.JonCanStream.internal_static_jon_can_BusStreamConnected_descriptor;
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.BusStreamConnected getDefaultInstanceForType() {
+        return jon.can.JonCanStream.BusStreamConnected.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.BusStreamConnected build() {
+        jon.can.JonCanStream.BusStreamConnected result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.BusStreamConnected buildPartial() {
+        jon.can.JonCanStream.BusStreamConnected result = new jon.can.JonCanStream.BusStreamConnected(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(jon.can.JonCanStream.BusStreamConnected result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          streams_.makeImmutable();
+          result.streams_ = streams_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof jon.can.JonCanStream.BusStreamConnected) {
+          return mergeFrom((jon.can.JonCanStream.BusStreamConnected)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(jon.can.JonCanStream.BusStreamConnected other) {
+        if (other == jon.can.JonCanStream.BusStreamConnected.getDefaultInstance()) return this;
+        if (!other.streams_.isEmpty()) {
+          if (streams_.isEmpty()) {
+            streams_ = other.streams_;
+            bitField0_ |= 0x00000001;
+          } else {
+            ensureStreamsIsMutable();
+            streams_.addAll(other.streams_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        java.util.Objects.requireNonNull(extensionRegistry);
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                ensureStreamsIsMutable();
+                streams_.add(input.readStringRequireUtf8());
+                break;
+              } // case 10
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.LazyStringArrayList streams_ =
+          com.google.protobuf.LazyStringArrayList.emptyList();
+      private void ensureStreamsIsMutable() {
+        if (!streams_.isModifiable()) {
+          streams_ = new com.google.protobuf.LazyStringArrayList(streams_);
+        }
+        bitField0_ |= 0x00000001;
+      }
+      /**
+       * <pre>
+       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+       * </pre>
+       *
+       * <code>repeated string streams = 1;</code>
+       * @return A list containing the streams.
+       */
+      public com.google.protobuf.ProtocolStringList
+          getStreamsList() {
+        streams_.makeImmutable();
+        return streams_;
+      }
+      /**
+       * <pre>
+       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+       * </pre>
+       *
+       * <code>repeated string streams = 1;</code>
+       * @return The count of streams.
+       */
+      public int getStreamsCount() {
+        return streams_.size();
+      }
+      /**
+       * <pre>
+       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+       * </pre>
+       *
+       * <code>repeated string streams = 1;</code>
+       * @param index The index of the element to return.
+       * @return The streams at the given index.
+       */
+      public java.lang.String getStreams(int index) {
+        return streams_.get(index);
+      }
+      /**
+       * <pre>
+       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+       * </pre>
+       *
+       * <code>repeated string streams = 1;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the streams at the given index.
+       */
+      public com.google.protobuf.ByteString
+          getStreamsBytes(int index) {
+        return streams_.getByteString(index);
+      }
+      /**
+       * <pre>
+       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+       * </pre>
+       *
+       * <code>repeated string streams = 1;</code>
+       * @param index The index to set the value at.
+       * @param value The streams to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStreams(
+          int index, java.lang.String value) {
+        java.util.Objects.requireNonNull(value);
+        ensureStreamsIsMutable();
+        streams_.set(index, value);
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+       * </pre>
+       *
+       * <code>repeated string streams = 1;</code>
+       * @param value The streams to add.
+       * @return This builder for chaining.
+       */
+      public Builder addStreams(
+          java.lang.String value) {
+        java.util.Objects.requireNonNull(value);
+        ensureStreamsIsMutable();
+        streams_.add(value);
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+       * </pre>
+       *
+       * <code>repeated string streams = 1;</code>
+       * @param values The streams to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllStreams(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureStreamsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, streams_);
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+       * </pre>
+       *
+       * <code>repeated string streams = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStreams() {
+        streams_ =
+          com.google.protobuf.LazyStringArrayList.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000001);;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+       * </pre>
+       *
+       * <code>repeated string streams = 1;</code>
+       * @param value The bytes of the streams to add.
+       * @return This builder for chaining.
+       */
+      public Builder addStreamsBytes(
+          com.google.protobuf.ByteString value) {
+        java.util.Objects.requireNonNull(value);
+        checkByteStringIsUtf8(value);
+        ensureStreamsIsMutable();
+        streams_.add(value);
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:jon.can.BusStreamConnected)
+    }
+
+    // @@protoc_insertion_point(class_scope:jon.can.BusStreamConnected)
+    private static final jon.can.JonCanStream.BusStreamConnected DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new jon.can.JonCanStream.BusStreamConnected();
+    }
+
+    public static jon.can.JonCanStream.BusStreamConnected getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<BusStreamConnected>
+        PARSER = new com.google.protobuf.AbstractParser<BusStreamConnected>() {
+      @java.lang.Override
+      public BusStreamConnected parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<BusStreamConnected> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BusStreamConnected> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public jon.can.JonCanStream.BusStreamConnected getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface BusStreamMessageOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:jon.can.BusStreamMessage)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.jon.can.BusStreamConnected connected = 1;</code>
+     * @return Whether the connected field is set.
+     */
+    boolean hasConnected();
+    /**
+     * <code>.jon.can.BusStreamConnected connected = 1;</code>
+     * @return The connected.
+     */
+    jon.can.JonCanStream.BusStreamConnected getConnected();
+    /**
+     * <code>.jon.can.BusStreamConnected connected = 1;</code>
+     */
+    jon.can.JonCanStream.BusStreamConnectedOrBuilder getConnectedOrBuilder();
+
+    /**
+     * <code>.jon.can.BusRecordBatch batch = 2;</code>
+     * @return Whether the batch field is set.
+     */
+    boolean hasBatch();
+    /**
+     * <code>.jon.can.BusRecordBatch batch = 2;</code>
+     * @return The batch.
+     */
+    jon.can.JonCanStream.BusRecordBatch getBatch();
+    /**
+     * <code>.jon.can.BusRecordBatch batch = 2;</code>
+     */
+    jon.can.JonCanStream.BusRecordBatchOrBuilder getBatchOrBuilder();
+
+    jon.can.JonCanStream.BusStreamMessage.MessageCase getMessageCase();
+  }
+  /**
+   * <pre>
+   * Every message the module-bus WebSocket sends: exactly one member is set, so a
+   * client decodes one type and never guesses which message a frame holds.
+   * </pre>
+   *
+   * Protobuf type {@code jon.can.BusStreamMessage}
+   */
+  public static final class BusStreamMessage extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:jon.can.BusStreamMessage)
+      BusStreamMessageOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 36,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        "BusStreamMessage");
+    }
+    // Use BusStreamMessage.newBuilder() to construct.
+    private BusStreamMessage(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private BusStreamMessage() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return jon.can.JonCanStream.internal_static_jon_can_BusStreamMessage_descriptor;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+      return jon.can.JonCanStream.internal_static_jon_can_BusStreamMessage_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return jon.can.JonCanStream.internal_static_jon_can_BusStreamMessage_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              jon.can.JonCanStream.BusStreamMessage.class, jon.can.JonCanStream.BusStreamMessage.Builder.class);
+    }
+
+    private int messageCase_ = 0;
+    @SuppressWarnings("serial")
+    private java.lang.Object message_;
+    public enum MessageCase
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
+      CONNECTED(1),
+      BATCH(2),
+      MESSAGE_NOT_SET(0);
+      private final int value;
+      private MessageCase(int value) {
+        this.value = value;
+      }
+      /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static MessageCase valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static MessageCase forNumber(int value) {
+        switch (value) {
+          case 1: return CONNECTED;
+          case 2: return BATCH;
+          case 0: return MESSAGE_NOT_SET;
+          default: return null;
+        }
+      }
+      public int getNumber() {
+        return this.value;
+      }
+    };
+
+    public MessageCase
+    getMessageCase() {
+      return MessageCase.forNumber(
+          messageCase_);
+    }
+
+    public static final int CONNECTED_FIELD_NUMBER = 1;
+    /**
+     * <code>.jon.can.BusStreamConnected connected = 1;</code>
+     * @return Whether the connected field is set.
+     */
+    @java.lang.Override
+    public boolean hasConnected() {
+      return messageCase_ == 1;
+    }
+    /**
+     * <code>.jon.can.BusStreamConnected connected = 1;</code>
+     * @return The connected.
+     */
+    @java.lang.Override
+    public jon.can.JonCanStream.BusStreamConnected getConnected() {
+      if (messageCase_ == 1) {
+         return (jon.can.JonCanStream.BusStreamConnected) message_;
+      }
+      return jon.can.JonCanStream.BusStreamConnected.getDefaultInstance();
+    }
+    /**
+     * <code>.jon.can.BusStreamConnected connected = 1;</code>
+     */
+    @java.lang.Override
+    public jon.can.JonCanStream.BusStreamConnectedOrBuilder getConnectedOrBuilder() {
+      if (messageCase_ == 1) {
+         return (jon.can.JonCanStream.BusStreamConnected) message_;
+      }
+      return jon.can.JonCanStream.BusStreamConnected.getDefaultInstance();
+    }
+
+    public static final int BATCH_FIELD_NUMBER = 2;
+    /**
+     * <code>.jon.can.BusRecordBatch batch = 2;</code>
+     * @return Whether the batch field is set.
+     */
+    @java.lang.Override
+    public boolean hasBatch() {
+      return messageCase_ == 2;
+    }
+    /**
+     * <code>.jon.can.BusRecordBatch batch = 2;</code>
+     * @return The batch.
+     */
+    @java.lang.Override
+    public jon.can.JonCanStream.BusRecordBatch getBatch() {
+      if (messageCase_ == 2) {
+         return (jon.can.JonCanStream.BusRecordBatch) message_;
+      }
+      return jon.can.JonCanStream.BusRecordBatch.getDefaultInstance();
+    }
+    /**
+     * <code>.jon.can.BusRecordBatch batch = 2;</code>
+     */
+    @java.lang.Override
+    public jon.can.JonCanStream.BusRecordBatchOrBuilder getBatchOrBuilder() {
+      if (messageCase_ == 2) {
+         return (jon.can.JonCanStream.BusRecordBatch) message_;
+      }
+      return jon.can.JonCanStream.BusRecordBatch.getDefaultInstance();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (messageCase_ == 1) {
+        output.writeMessage(1, (jon.can.JonCanStream.BusStreamConnected) message_);
+      }
+      if (messageCase_ == 2) {
+        output.writeMessage(2, (jon.can.JonCanStream.BusRecordBatch) message_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+    private int computeSerializedSize_0() {
+      int size = 0;
+      if (messageCase_ == 1) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, (jon.can.JonCanStream.BusStreamConnected) message_);
+      }
+      if (messageCase_ == 2) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, (jon.can.JonCanStream.BusRecordBatch) message_);
+      }
+      return size;
+    }
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += computeSerializedSize_0();
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof jon.can.JonCanStream.BusStreamMessage)) {
+        return super.equals(obj);
+      }
+      jon.can.JonCanStream.BusStreamMessage other = (jon.can.JonCanStream.BusStreamMessage) obj;
+
+      if (!getMessageCase().equals(other.getMessageCase())) return false;
+      switch (messageCase_) {
+        case 1:
+          if (!getConnected()
+              .equals(other.getConnected())) return false;
+          break;
+        case 2:
+          if (!getBatch()
+              .equals(other.getBatch())) return false;
+          break;
+        case 0:
+        default:
+      }
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      switch (messageCase_) {
+        case 1:
+          hash = (37 * hash) + CONNECTED_FIELD_NUMBER;
+          hash = (53 * hash) + getConnected().hashCode();
+          break;
+        case 2:
+          hash = (37 * hash) + BATCH_FIELD_NUMBER;
+          hash = (53 * hash) + getBatch().hashCode();
+          break;
+        case 0:
+        default:
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static jon.can.JonCanStream.BusStreamMessage parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.BusStreamMessage parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusStreamMessage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.BusStreamMessage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusStreamMessage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.BusStreamMessage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusStreamMessage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static jon.can.JonCanStream.BusStreamMessage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static jon.can.JonCanStream.BusStreamMessage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static jon.can.JonCanStream.BusStreamMessage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.BusStreamMessage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static jon.can.JonCanStream.BusStreamMessage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(jon.can.JonCanStream.BusStreamMessage prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Every message the module-bus WebSocket sends: exactly one member is set, so a
+     * client decodes one type and never guesses which message a frame holds.
+     * </pre>
+     *
+     * Protobuf type {@code jon.can.BusStreamMessage}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:jon.can.BusStreamMessage)
+        jon.can.JonCanStream.BusStreamMessageOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return jon.can.JonCanStream.internal_static_jon_can_BusStreamMessage_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return jon.can.JonCanStream.internal_static_jon_can_BusStreamMessage_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                jon.can.JonCanStream.BusStreamMessage.class, jon.can.JonCanStream.BusStreamMessage.Builder.class);
+      }
+
+      // Construct using jon.can.JonCanStream.BusStreamMessage.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        if (connectedBuilder_ != null) {
+          connectedBuilder_.clear();
+        }
+        if (batchBuilder_ != null) {
+          batchBuilder_.clear();
+        }
+        messageCase_ = 0;
+        message_ = null;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return jon.can.JonCanStream.internal_static_jon_can_BusStreamMessage_descriptor;
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.BusStreamMessage getDefaultInstanceForType() {
+        return jon.can.JonCanStream.BusStreamMessage.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.BusStreamMessage build() {
+        jon.can.JonCanStream.BusStreamMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.BusStreamMessage buildPartial() {
+        jon.can.JonCanStream.BusStreamMessage result = new jon.can.JonCanStream.BusStreamMessage(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        buildPartialOneofs(result);
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(jon.can.JonCanStream.BusStreamMessage result) {
+        int from_bitField0_ = bitField0_;
+      }
+
+      private void buildPartialOneofs(jon.can.JonCanStream.BusStreamMessage result) {
+        result.messageCase_ = messageCase_;
+        result.message_ = this.message_;
+        if (messageCase_ == 1 &&
+            connectedBuilder_ != null) {
+          result.message_ = connectedBuilder_.build();
+        }
+        if (messageCase_ == 2 &&
+            batchBuilder_ != null) {
+          result.message_ = batchBuilder_.build();
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof jon.can.JonCanStream.BusStreamMessage) {
+          return mergeFrom((jon.can.JonCanStream.BusStreamMessage)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(jon.can.JonCanStream.BusStreamMessage other) {
+        if (other == jon.can.JonCanStream.BusStreamMessage.getDefaultInstance()) return this;
+        switch (other.getMessageCase()) {
+          case CONNECTED: {
+            mergeConnected(other.getConnected());
+            break;
+          }
+          case BATCH: {
+            mergeBatch(other.getBatch());
+            break;
+          }
+          case MESSAGE_NOT_SET: {
+            break;
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        java.util.Objects.requireNonNull(extensionRegistry);
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                input.readMessage(
+                    internalGetConnectedFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                messageCase_ = 1;
+                break;
+              } // case 10
+              case 18: {
+                input.readMessage(
+                    internalGetBatchFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                messageCase_ = 2;
+                break;
+              } // case 18
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int messageCase_ = 0;
+      private java.lang.Object message_;
+      public MessageCase
+          getMessageCase() {
+        return MessageCase.forNumber(
+            messageCase_);
+      }
+
+      public Builder clearMessage() {
+        messageCase_ = 0;
+        message_ = null;
+        onChanged();
+        return this;
+      }
+
+      private int bitField0_;
+
+      private com.google.protobuf.SingleFieldBuilder<
+          jon.can.JonCanStream.BusStreamConnected, jon.can.JonCanStream.BusStreamConnected.Builder, jon.can.JonCanStream.BusStreamConnectedOrBuilder> connectedBuilder_;
+      /**
+       * <code>.jon.can.BusStreamConnected connected = 1;</code>
+       * @return Whether the connected field is set.
+       */
+      @java.lang.Override
+      public boolean hasConnected() {
+        return messageCase_ == 1;
+      }
+      /**
+       * <code>.jon.can.BusStreamConnected connected = 1;</code>
+       * @return The connected.
+       */
+      @java.lang.Override
+      public jon.can.JonCanStream.BusStreamConnected getConnected() {
+        if (connectedBuilder_ == null) {
+          if (messageCase_ == 1) {
+            return (jon.can.JonCanStream.BusStreamConnected) message_;
+          }
+          return jon.can.JonCanStream.BusStreamConnected.getDefaultInstance();
+        } else {
+          if (messageCase_ == 1) {
+            return connectedBuilder_.getMessage();
+          }
+          return jon.can.JonCanStream.BusStreamConnected.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.jon.can.BusStreamConnected connected = 1;</code>
+       */
+      public Builder setConnected(jon.can.JonCanStream.BusStreamConnected value) {
+        if (connectedBuilder_ == null) {
+          java.util.Objects.requireNonNull(value);
+          message_ = value;
+          onChanged();
+        } else {
+          connectedBuilder_.setMessage(value);
+        }
+        messageCase_ = 1;
+        return this;
+      }
+      /**
+       * <code>.jon.can.BusStreamConnected connected = 1;</code>
+       */
+      public Builder setConnected(
+          jon.can.JonCanStream.BusStreamConnected.Builder builderForValue) {
+        if (connectedBuilder_ == null) {
+          message_ = builderForValue.build();
+          onChanged();
+        } else {
+          connectedBuilder_.setMessage(builderForValue.build());
+        }
+        messageCase_ = 1;
+        return this;
+      }
+      /**
+       * <code>.jon.can.BusStreamConnected connected = 1;</code>
+       */
+      public Builder mergeConnected(jon.can.JonCanStream.BusStreamConnected value) {
+        if (connectedBuilder_ == null) {
+          if (messageCase_ == 1 &&
+              message_ != jon.can.JonCanStream.BusStreamConnected.getDefaultInstance()) {
+            message_ = jon.can.JonCanStream.BusStreamConnected.newBuilder((jon.can.JonCanStream.BusStreamConnected) message_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            message_ = value;
+          }
+          onChanged();
+        } else {
+          if (messageCase_ == 1) {
+            connectedBuilder_.mergeFrom(value);
+          } else {
+            connectedBuilder_.setMessage(value);
+          }
+        }
+        messageCase_ = 1;
+        return this;
+      }
+      /**
+       * <code>.jon.can.BusStreamConnected connected = 1;</code>
+       */
+      public Builder clearConnected() {
+        if (connectedBuilder_ == null) {
+          if (messageCase_ == 1) {
+            messageCase_ = 0;
+            message_ = null;
+            onChanged();
+          }
+        } else {
+          if (messageCase_ == 1) {
+            messageCase_ = 0;
+            message_ = null;
+          }
+          connectedBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.jon.can.BusStreamConnected connected = 1;</code>
+       */
+      public jon.can.JonCanStream.BusStreamConnected.Builder getConnectedBuilder() {
+        return internalGetConnectedFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.jon.can.BusStreamConnected connected = 1;</code>
+       */
+      @java.lang.Override
+      public jon.can.JonCanStream.BusStreamConnectedOrBuilder getConnectedOrBuilder() {
+        if ((messageCase_ == 1) && (connectedBuilder_ != null)) {
+          return connectedBuilder_.getMessageOrBuilder();
+        } else {
+          if (messageCase_ == 1) {
+            return (jon.can.JonCanStream.BusStreamConnected) message_;
+          }
+          return jon.can.JonCanStream.BusStreamConnected.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.jon.can.BusStreamConnected connected = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          jon.can.JonCanStream.BusStreamConnected, jon.can.JonCanStream.BusStreamConnected.Builder, jon.can.JonCanStream.BusStreamConnectedOrBuilder> 
+          internalGetConnectedFieldBuilder() {
+        if (connectedBuilder_ == null) {
+          if (!(messageCase_ == 1)) {
+            message_ = jon.can.JonCanStream.BusStreamConnected.getDefaultInstance();
+          }
+          connectedBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              jon.can.JonCanStream.BusStreamConnected, jon.can.JonCanStream.BusStreamConnected.Builder, jon.can.JonCanStream.BusStreamConnectedOrBuilder>(
+                  (jon.can.JonCanStream.BusStreamConnected) message_,
+                  getParentForChildren(),
+                  isClean());
+          message_ = null;
+        }
+        messageCase_ = 1;
+        onChanged();
+        return connectedBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          jon.can.JonCanStream.BusRecordBatch, jon.can.JonCanStream.BusRecordBatch.Builder, jon.can.JonCanStream.BusRecordBatchOrBuilder> batchBuilder_;
+      /**
+       * <code>.jon.can.BusRecordBatch batch = 2;</code>
+       * @return Whether the batch field is set.
+       */
+      @java.lang.Override
+      public boolean hasBatch() {
+        return messageCase_ == 2;
+      }
+      /**
+       * <code>.jon.can.BusRecordBatch batch = 2;</code>
+       * @return The batch.
+       */
+      @java.lang.Override
+      public jon.can.JonCanStream.BusRecordBatch getBatch() {
+        if (batchBuilder_ == null) {
+          if (messageCase_ == 2) {
+            return (jon.can.JonCanStream.BusRecordBatch) message_;
+          }
+          return jon.can.JonCanStream.BusRecordBatch.getDefaultInstance();
+        } else {
+          if (messageCase_ == 2) {
+            return batchBuilder_.getMessage();
+          }
+          return jon.can.JonCanStream.BusRecordBatch.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.jon.can.BusRecordBatch batch = 2;</code>
+       */
+      public Builder setBatch(jon.can.JonCanStream.BusRecordBatch value) {
+        if (batchBuilder_ == null) {
+          java.util.Objects.requireNonNull(value);
+          message_ = value;
+          onChanged();
+        } else {
+          batchBuilder_.setMessage(value);
+        }
+        messageCase_ = 2;
+        return this;
+      }
+      /**
+       * <code>.jon.can.BusRecordBatch batch = 2;</code>
+       */
+      public Builder setBatch(
+          jon.can.JonCanStream.BusRecordBatch.Builder builderForValue) {
+        if (batchBuilder_ == null) {
+          message_ = builderForValue.build();
+          onChanged();
+        } else {
+          batchBuilder_.setMessage(builderForValue.build());
+        }
+        messageCase_ = 2;
+        return this;
+      }
+      /**
+       * <code>.jon.can.BusRecordBatch batch = 2;</code>
+       */
+      public Builder mergeBatch(jon.can.JonCanStream.BusRecordBatch value) {
+        if (batchBuilder_ == null) {
+          if (messageCase_ == 2 &&
+              message_ != jon.can.JonCanStream.BusRecordBatch.getDefaultInstance()) {
+            message_ = jon.can.JonCanStream.BusRecordBatch.newBuilder((jon.can.JonCanStream.BusRecordBatch) message_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            message_ = value;
+          }
+          onChanged();
+        } else {
+          if (messageCase_ == 2) {
+            batchBuilder_.mergeFrom(value);
+          } else {
+            batchBuilder_.setMessage(value);
+          }
+        }
+        messageCase_ = 2;
+        return this;
+      }
+      /**
+       * <code>.jon.can.BusRecordBatch batch = 2;</code>
+       */
+      public Builder clearBatch() {
+        if (batchBuilder_ == null) {
+          if (messageCase_ == 2) {
+            messageCase_ = 0;
+            message_ = null;
+            onChanged();
+          }
+        } else {
+          if (messageCase_ == 2) {
+            messageCase_ = 0;
+            message_ = null;
+          }
+          batchBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.jon.can.BusRecordBatch batch = 2;</code>
+       */
+      public jon.can.JonCanStream.BusRecordBatch.Builder getBatchBuilder() {
+        return internalGetBatchFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.jon.can.BusRecordBatch batch = 2;</code>
+       */
+      @java.lang.Override
+      public jon.can.JonCanStream.BusRecordBatchOrBuilder getBatchOrBuilder() {
+        if ((messageCase_ == 2) && (batchBuilder_ != null)) {
+          return batchBuilder_.getMessageOrBuilder();
+        } else {
+          if (messageCase_ == 2) {
+            return (jon.can.JonCanStream.BusRecordBatch) message_;
+          }
+          return jon.can.JonCanStream.BusRecordBatch.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.jon.can.BusRecordBatch batch = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          jon.can.JonCanStream.BusRecordBatch, jon.can.JonCanStream.BusRecordBatch.Builder, jon.can.JonCanStream.BusRecordBatchOrBuilder> 
+          internalGetBatchFieldBuilder() {
+        if (batchBuilder_ == null) {
+          if (!(messageCase_ == 2)) {
+            message_ = jon.can.JonCanStream.BusRecordBatch.getDefaultInstance();
+          }
+          batchBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              jon.can.JonCanStream.BusRecordBatch, jon.can.JonCanStream.BusRecordBatch.Builder, jon.can.JonCanStream.BusRecordBatchOrBuilder>(
+                  (jon.can.JonCanStream.BusRecordBatch) message_,
+                  getParentForChildren(),
+                  isClean());
+          message_ = null;
+        }
+        messageCase_ = 2;
+        onChanged();
+        return batchBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:jon.can.BusStreamMessage)
+    }
+
+    // @@protoc_insertion_point(class_scope:jon.can.BusStreamMessage)
+    private static final jon.can.JonCanStream.BusStreamMessage DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new jon.can.JonCanStream.BusStreamMessage();
+    }
+
+    public static jon.can.JonCanStream.BusStreamMessage getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<BusStreamMessage>
+        PARSER = new com.google.protobuf.AbstractParser<BusStreamMessage>() {
+      @java.lang.Override
+      public BusStreamMessage parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<BusStreamMessage> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BusStreamMessage> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public jon.can.JonCanStream.BusStreamMessage getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_jon_can_CANFrame_descriptor;
   private static final 
@@ -2932,6 +12692,46 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_jon_can_CANStreamConnected_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_jon_can_BusRefusal_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_jon_can_BusRefusal_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_jon_can_BusRecord_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_jon_can_BusRecord_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_jon_can_BusStreamStats_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_jon_can_BusStreamStats_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_jon_can_BusStreamStats_RefusedByEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_jon_can_BusStreamStats_RefusedByEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_jon_can_BusStreamStats_DroppedEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_jon_can_BusStreamStats_DroppedEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_jon_can_BusRecordBatch_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_jon_can_BusRecordBatch_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_jon_can_BusStreamConnected_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_jon_can_BusStreamConnected_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_jon_can_BusStreamMessage_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_jon_can_BusStreamMessage_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2949,12 +12749,52 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       "NDirection\022\021\n\tkernel_ns\030\007 \001(\004\022\r\n\005seq64\030\010" +
       " \001(\004\022\r\n\005drops\030\t \001(\004\"2\n\rCANFrameBatch\022!\n\006" +
       "frames\030\001 \003(\0132\021.jon.can.CANFrame\"+\n\022CANSt" +
-      "reamConnected\022\017\n\007streams\030\001 \003(\tJ\004\010\002\020\003*t\n\014" +
-      "CANDirection\022\035\n\031CAN_DIRECTION_UNSPECIFIE" +
-      "D\020\000\022\024\n\020CAN_DIRECTION_TX\020\001\022\024\n\020CAN_DIRECTI" +
-      "ON_RX\020\002\022\031\n\025CAN_DIRECTION_UNKNOWN\020\003BFZDgi" +
-      "t-codecommit.eu-central-1.amazonaws.com/" +
-      "v1/repos/jettison/jonp/canb\006proto3"
+      "reamConnected\022\017\n\007streams\030\001 \003(\tJ\004\010\002\020\003\"3\n\n" +
+      "BusRefusal\022\025\n\004code\030\001 \001(\tB\007\272H\004r\002\020\001\022\016\n\006det" +
+      "ail\030\002 \001(\t\"\343\005\n\tBusRecord\022\022\n\001n\030\001 \001(\004B\007\272H\0042" +
+      "\002(\001\022\r\n\005title\030\002 \001(\t\022\025\n\004kind\030\003 \001(\tB\007\272H\004r\002\020" +
+      "\001\022\013\n\003dir\030\004 \001(\t\022\026\n\004node\030\005 \001(\rB\010\272H\005*\003\030\377\001\022\016" +
+      "\n\006module\030\006 \001(\t\022\027\n\005topic\030\007 \001(\rB\010\272H\005*\003\030\377\001\022" +
+      "\016\n\006family\030\010 \001(\t\022\017\n\007command\030\t \001(\t\022\017\n\007mess" +
+      "age\030\n \001(\t\022\035\n\014decoded_json\030\013 \001(\tB\007\272H\004r\002\020\001" +
+      "\022$\n\007refusal\030\014 \001(\0132\023.jon.can.BusRefusal\022\r" +
+      "\n\005ts_ns\030\r \001(\004\022\"\n\006origin\030\016 \001(\0162\022.jon.can." +
+      "BusOrigin\022\037\n\007hop_seq\030\017 \001(\rB\t\272H\006*\004\030\377\377\003H\000\210" +
+      "\001\001\022\035\n\006sender\030\020 \001(\rB\010\272H\005*\003\030\377\001H\001\210\001\001\022\025\n\rsen" +
+      "der_module\030\021 \001(\t\022\030\n\006can_id\030\022 \001(\rB\010\272H\005*\003\030" +
+      "\377\017\022\030\n\006fflags\030\023 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\013frame_fl" +
+      "ags\030\024 \001(\t\022\025\n\004data\030\025 \001(\014B\007\272H\004z\002\030F\022\031\n\007payl" +
+      "oad\030\026 \001(\014B\010\272H\005z\003\030\200\004\022\025\n\004prio\030\027 \001(\rB\007\272H\004*\002" +
+      "\030\003\022\026\n\004type\030\030 \001(\rB\010\272H\005*\003\030\377\001\022\025\n\003seq\030\031 \001(\rB" +
+      "\010\272H\005*\003\030\377\001\022\034\n\nfrag_total\030\032 \001(\rB\010\272H\005*\003\030\377\001\022" +
+      "\022\n\ntx_time_ns\030\033 \001(\004\022\020\n\010ts_valid\030\034 \001(\010\022\016\n" +
+      "\006stream\030\035 \001(\t\022\020\n\010entry_id\030\036 \001(\t\022\017\n\007time_" +
+      "ms\030\037 \001(\003B\n\n\010_hop_seqB\t\n\007_sender\"\371\002\n\016BusS" +
+      "treamStats\022\017\n\007records\030\001 \001(\004\022\020\n\010messages\030" +
+      "\002 \001(\004\022\017\n\007refused\030\003 \001(\004\022:\n\nrefused_by\030\004 \003" +
+      "(\0132&.jon.can.BusStreamStats.RefusedByEnt" +
+      "ry\022\020\n\010absorbed\030\005 \001(\004\0225\n\007dropped\030\006 \003(\0132$." +
+      "jon.can.BusStreamStats.DroppedEntry\022\020\n\010h" +
+      "op_gaps\030\007 \001(\004\022\017\n\007senders\030\010 \001(\r\022\017\n\007stream" +
+      "s\030\t \001(\r\022\030\n\020source_connected\030\n \001(\010\0320\n\016Ref" +
+      "usedByEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\004:" +
+      "\0028\001\032.\n\014DroppedEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005valu" +
+      "e\030\002 \001(\004:\0028\001\"n\n\016BusRecordBatch\022#\n\007records" +
+      "\030\001 \003(\0132\022.jon.can.BusRecord\022&\n\005stats\030\002 \001(" +
+      "\0132\027.jon.can.BusStreamStats\022\017\n\007evicted\030\003 " +
+      "\001(\004\"%\n\022BusStreamConnected\022\017\n\007streams\030\001 \003" +
+      "(\t\"\200\001\n\020BusStreamMessage\0220\n\tconnected\030\001 \001" +
+      "(\0132\033.jon.can.BusStreamConnectedH\000\022(\n\005bat" +
+      "ch\030\002 \001(\0132\027.jon.can.BusRecordBatchH\000B\020\n\007m" +
+      "essage\022\005\272H\002\010\001*t\n\014CANDirection\022\035\n\031CAN_DIR" +
+      "ECTION_UNSPECIFIED\020\000\022\024\n\020CAN_DIRECTION_TX" +
+      "\020\001\022\024\n\020CAN_DIRECTION_RX\020\002\022\031\n\025CAN_DIRECTIO" +
+      "N_UNKNOWN\020\003*\200\001\n\tBusOrigin\022\032\n\026BUS_ORIGIN_" +
+      "UNSPECIFIED\020\000\022\022\n\016BUS_ORIGIN_BUS\020\001\022\023\n\017BUS" +
+      "_ORIGIN_ORIN\020\002\022\030\n\024BUS_ORIGIN_CARAMBOLA\020\003" +
+      "\022\024\n\020BUS_ORIGIN_LOCAL\020\004BFZDgit-codecommit" +
+      ".eu-central-1.amazonaws.com/v1/repos/jet" +
+      "tison/jonp/canb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2979,11 +12819,60 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_jon_can_CANStreamConnected_descriptor,
         new java.lang.String[] { "Streams", });
+    internal_static_jon_can_BusRefusal_descriptor =
+      getDescriptor().getMessageType(3);
+    internal_static_jon_can_BusRefusal_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_jon_can_BusRefusal_descriptor,
+        new java.lang.String[] { "Code", "Detail", });
+    internal_static_jon_can_BusRecord_descriptor =
+      getDescriptor().getMessageType(4);
+    internal_static_jon_can_BusRecord_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_jon_can_BusRecord_descriptor,
+        new java.lang.String[] { "N", "Title", "Kind", "Dir", "Node", "Module", "Topic", "Family", "Command", "Message", "DecodedJson", "Refusal", "TsNs", "Origin", "HopSeq", "Sender", "SenderModule", "CanId", "Fflags", "FrameFlags", "Data", "Payload", "Prio", "Type", "Seq", "FragTotal", "TxTimeNs", "TsValid", "Stream", "EntryId", "TimeMs", });
+    internal_static_jon_can_BusStreamStats_descriptor =
+      getDescriptor().getMessageType(5);
+    internal_static_jon_can_BusStreamStats_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_jon_can_BusStreamStats_descriptor,
+        new java.lang.String[] { "Records", "Messages", "Refused", "RefusedBy", "Absorbed", "Dropped", "HopGaps", "Senders", "Streams", "SourceConnected", });
+    internal_static_jon_can_BusStreamStats_RefusedByEntry_descriptor =
+      internal_static_jon_can_BusStreamStats_descriptor.getNestedType(0);
+    internal_static_jon_can_BusStreamStats_RefusedByEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_jon_can_BusStreamStats_RefusedByEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_jon_can_BusStreamStats_DroppedEntry_descriptor =
+      internal_static_jon_can_BusStreamStats_descriptor.getNestedType(1);
+    internal_static_jon_can_BusStreamStats_DroppedEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_jon_can_BusStreamStats_DroppedEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_jon_can_BusRecordBatch_descriptor =
+      getDescriptor().getMessageType(6);
+    internal_static_jon_can_BusRecordBatch_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_jon_can_BusRecordBatch_descriptor,
+        new java.lang.String[] { "Records", "Stats", "Evicted", });
+    internal_static_jon_can_BusStreamConnected_descriptor =
+      getDescriptor().getMessageType(7);
+    internal_static_jon_can_BusStreamConnected_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_jon_can_BusStreamConnected_descriptor,
+        new java.lang.String[] { "Streams", });
+    internal_static_jon_can_BusStreamMessage_descriptor =
+      getDescriptor().getMessageType(8);
+    internal_static_jon_can_BusStreamMessage_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_jon_can_BusStreamMessage_descriptor,
+        new java.lang.String[] { "Connected", "Batch", "Message", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();
     registry.add(build.buf.validate.ValidateProto.field);
+    registry.add(build.buf.validate.ValidateProto.oneof);
     com.google.protobuf.Descriptors.FileDescriptor
         .internalUpdateFileDescriptor(descriptor, registry);
   }

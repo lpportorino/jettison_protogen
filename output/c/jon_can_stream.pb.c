@@ -15,6 +15,32 @@ PB_BIND(jon_can_CANFrameBatch, jon_can_CANFrameBatch, AUTO)
 PB_BIND(jon_can_CANStreamConnected, jon_can_CANStreamConnected, AUTO)
 
 
+PB_BIND(jon_can_BusRefusal, jon_can_BusRefusal, AUTO)
+
+
+PB_BIND(jon_can_BusRecord, jon_can_BusRecord, 2)
+
+
+PB_BIND(jon_can_BusStreamStats, jon_can_BusStreamStats, AUTO)
+
+
+PB_BIND(jon_can_BusStreamStats_RefusedByEntry, jon_can_BusStreamStats_RefusedByEntry, AUTO)
+
+
+PB_BIND(jon_can_BusStreamStats_DroppedEntry, jon_can_BusStreamStats_DroppedEntry, AUTO)
+
+
+PB_BIND(jon_can_BusRecordBatch, jon_can_BusRecordBatch, AUTO)
+
+
+PB_BIND(jon_can_BusStreamConnected, jon_can_BusStreamConnected, AUTO)
+
+
+PB_BIND(jon_can_BusStreamMessage, jon_can_BusStreamMessage, AUTO)
+
+
+
+
 
 
 
