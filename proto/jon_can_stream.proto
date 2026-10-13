@@ -76,3 +76,174 @@ message CANStreamConnected {
   // the peers built since.
   reserved 2;
 }
+
+// Who first put a module-bus record into a datagram: the envelope's origin byte
+// (JONCAN_ENV_ORIGIN_* in the superproject's inc/util/joncan/joncan_envelope.h)
+// plus one, so that the zero value can mean "the stream entry named no origin
+// the envelope defines" rather than silently reading as the bus.
+enum BusOrigin {
+  BUS_ORIGIN_UNSPECIFIED = 0;  // the entry carried no origin, or one past JONCAN_ENV_ORIGIN_MAX
+  BUS_ORIGIN_BUS = 1;          // JONCAN_ENV_ORIGIN_BUS: read off the CAN bus (or vcan0)
+  BUS_ORIGIN_ORIN = 2;         // JONCAN_ENV_ORIGIN_ORIN: the hub sent it
+  BUS_ORIGIN_CARAMBOLA = 3;    // JONCAN_ENV_ORIGIN_CARAMBOLA: Carambola sent it
+  BUS_ORIGIN_LOCAL = 4;        // JONCAN_ENV_ORIGIN_LOCAL: a guest hosted beside the bridge
+}
+
+// Why the module-bus decoder could not make a message of a record.
+message BusRefusal {
+  // The decoder's refusal code (the joncandec Code* constants, e.g. "proto",
+  // "orphan_fragment", "unknown_topic").
+  string code = 1 [(buf.validate.field).string.min_len = 1];
+
+  // The decoder's explanation, free text.
+  string detail = 2;
+}
+
+// One module-bus message as the CAN stream relay decoded it from the
+// `logs:bus:0x<id>` Redis streams: the decoded payload, the joncan header facts
+// and the record facts of the frame that completed it. Decoding happens once,
+// on the relay; a client renders these fields and never parses the wire.
+message BusRecord {
+  // Arrival number: 1 for the first message the relay decoded since it started.
+  uint64 n = 1 [(buf.validate.field).uint64.gte = 1];
+
+  // The row's title: the decode-table family name, the command root member that
+  // was set, or "refused: <code>".
+  string title = 2;
+
+  // What the message is (joncandec Kind*): "family", "health", "announce",
+  // "command", "debug", "log" or "unknown".
+  string kind = 3 [(buf.validate.field).string.min_len = 1];
+
+  // "cmd" (hub to node) or "state" (node to hub); empty when the CAN id was
+  // wider than the joncan id map.
+  string dir = 4;
+
+  // The CAN id's node field and the module that node is (a command's
+  // DESTINATION node); module is empty when no decode-table entry names the node.
+  uint32 node = 5 [(buf.validate.field).uint32.lte = 255];
+  string module = 6;
+
+  // The CAN id's topic field.
+  uint32 topic = 7 [(buf.validate.field).uint32.lte = 255];
+
+  // The decode-table row name (empty for a command) and the command root
+  // member that was set (empty unless a command).
+  string family = 8;
+  string command = 9;
+
+  // The full name of the proto message the body decoded as; empty for an
+  // announce, a debug or a log message.
+  string message = 10;
+
+  // The decoded payload as JSON: proto3 JSON with proto field names, sorted
+  // keys, every owned field present. "null" when nothing was decoded.
+  string decoded_json = 11 [(buf.validate.field).string.min_len = 1];
+
+  // Set when the decoder refused the record; the raw bytes are in `data`.
+  BusRefusal refusal = 12;
+
+  // The record facts. ts_ns: when the frame was seen, ns, on the producer's
+  // clock (0 = the producer did not know).
+  uint64 ts_ns = 13;
+  BusOrigin origin = 14;
+
+  // The datagram's hop sequence and the node id of the datagram's sender (the
+  // envelope header); absent when the stream entry did not carry them.
+  optional uint32 hop_seq = 15 [(buf.validate.field).uint32.lte = 65535];
+  optional uint32 sender = 16 [(buf.validate.field).uint32.lte = 255];
+
+  // The sender's module, from the decode table; empty when no entry names it.
+  string sender_module = 17;
+
+  // The frame's 11-bit CAN id.
+  uint32 can_id = 18 [(buf.validate.field).uint32.lte = 2047];
+
+  // The record's frame flags (JONCAN_ENV_FRAME_*) and their names, lowest bit
+  // first ("FD BRS"); a bit no flag names reads as hex.
+  uint32 fflags = 19 [(buf.validate.field).uint32.lte = 255];
+  string frame_flags = 20;
+
+  // The completing record's 70-byte blob: frame type, CAN id (little-endian),
+  // length, 64 data bytes. For a message carried in several frames this is the
+  // LAST frame's record.
+  bytes data = 21 [(buf.validate.field).bytes.max_len = 70];
+
+  // The message body, reassembled across fragments.
+  bytes payload = 22 [(buf.validate.field).bytes.max_len = 512];
+
+  // The joncan header: the CAN id's priority, the message type, the message
+  // counter, the fragments the message was carried in, the sender's transmit
+  // time (ns) and whether that time was valid.
+  uint32 prio = 23 [(buf.validate.field).uint32.lte = 3];
+  uint32 type = 24 [(buf.validate.field).uint32.lte = 255];
+  uint32 seq = 25 [(buf.validate.field).uint32.lte = 255];
+  uint32 frag_total = 26 [(buf.validate.field).uint32.lte = 255];
+  uint64 tx_time_ns = 27;
+  bool ts_valid = 28;
+
+  // The Redis stream key (logs:bus:0x<id>), the entry id, and the entry id's
+  // millisecond (the Redis server's wall clock when the entry was appended).
+  string stream = 29;
+  string entry_id = 30;
+  int64 time_ms = 31;
+}
+
+// The relay's module-bus accounting since it started.
+message BusStreamStats {
+  // Stream records fed to the decoder.
+  uint64 records = 1;
+
+  // Messages the records produced (decoded messages plus refusals).
+  uint64 messages = 2;
+
+  // Messages carrying a refusal, and their count per refusal code.
+  uint64 refused = 3;
+  map<string, uint64> refused_by = 4;
+
+  // Records absorbed as fragments of a message still open, or as retransmits.
+  uint64 absorbed = 5;
+
+  // Open multi-frame messages the decoder dropped, by reason ("expired",
+  // "restarted").
+  map<string, uint64> dropped = 6;
+
+  // Per-sender hop-sequence discontinuities, judged only once every stream
+  // that can hold an earlier record was known and read to its tip: datagrams
+  // lost between the bridge and the stream, datagrams the collector refused,
+  // or a sender restart.
+  uint64 hop_gaps = 7;
+
+  // Distinct datagram senders seen, and logs:bus:* streams discovered.
+  uint32 senders = 8;
+  uint32 streams = 9;
+
+  // Whether the logs Redis was reachable at the last read.
+  bool source_connected = 10;
+}
+
+// Batch of module-bus messages, oldest first, with the accounting at the read.
+message BusRecordBatch {
+  repeated BusRecord records = 1;
+  BusStreamStats stats = 2;
+
+  // Messages decoded since the previous batch to this client that it was
+  // never sent because it fell behind the relay's buffer.
+  uint64 evicted = 3;
+}
+
+// Sent once when a module-bus WebSocket connects.
+message BusStreamConnected {
+  // Discovered module-bus stream ids (the `0x<id>` of each logs:bus:0x<id>).
+  repeated string streams = 1;
+}
+
+// Every message the module-bus WebSocket sends: exactly one member is set, so a
+// client decodes one type and never guesses which message a frame holds.
+message BusStreamMessage {
+  oneof message {
+    option (buf.validate.oneof).required = true;
+    BusStreamConnected connected = 1;
+    BusRecordBatch batch = 2;
+  }
+}

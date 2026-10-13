@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14jon_can_stream.proto\x12\x07jon.can\"\xb1\x01\n\x08\x43\x41NFrame\x12\x14\n\x0ctimestamp_us\x18\x01 \x01(\x04\x12\x0e\n\x06\x63\x61n_id\x18\x02 \x01(\r\x12\r\n\x05is_rx\x18\x03 \x01(\x08\x12\r\n\x05is_fd\x18\x04 \x01(\x08\x12\x0c\n\x04\x64\x61ta\x18\x05 \x01(\x0c\x12\"\n\x03\x64ir\x18\x06 \x01(\x0e\x32\x15.jon.can.CANDirection\x12\x11\n\tkernel_ns\x18\x07 \x01(\x04\x12\r\n\x05seq64\x18\x08 \x01(\x04\x12\r\n\x05\x64rops\x18\t \x01(\x04\"2\n\rCANFrameBatch\x12!\n\x06\x66rames\x18\x01 \x03(\x0b\x32\x11.jon.can.CANFrame\"+\n\x12\x43\x41NStreamConnected\x12\x0f\n\x07streams\x18\x01 \x03(\tJ\x04\x08\x02\x10\x03*t\n\x0c\x43\x41NDirection\x12\x1d\n\x19\x43\x41N_DIRECTION_UNSPECIFIED\x10\x00\x12\x14\n\x10\x43\x41N_DIRECTION_TX\x10\x01\x12\x14\n\x10\x43\x41N_DIRECTION_RX\x10\x02\x12\x19\n\x15\x43\x41N_DIRECTION_UNKNOWN\x10\x03\x42\x46ZDgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/canb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14jon_can_stream.proto\x12\x07jon.can\"\xb1\x01\n\x08\x43\x41NFrame\x12\x14\n\x0ctimestamp_us\x18\x01 \x01(\x04\x12\x0e\n\x06\x63\x61n_id\x18\x02 \x01(\r\x12\r\n\x05is_rx\x18\x03 \x01(\x08\x12\r\n\x05is_fd\x18\x04 \x01(\x08\x12\x0c\n\x04\x64\x61ta\x18\x05 \x01(\x0c\x12\"\n\x03\x64ir\x18\x06 \x01(\x0e\x32\x15.jon.can.CANDirection\x12\x11\n\tkernel_ns\x18\x07 \x01(\x04\x12\r\n\x05seq64\x18\x08 \x01(\x04\x12\r\n\x05\x64rops\x18\t \x01(\x04\"2\n\rCANFrameBatch\x12!\n\x06\x66rames\x18\x01 \x03(\x0b\x32\x11.jon.can.CANFrame\"+\n\x12\x43\x41NStreamConnected\x12\x0f\n\x07streams\x18\x01 \x03(\tJ\x04\x08\x02\x10\x03\"*\n\nBusRefusal\x12\x0c\n\x04\x63ode\x18\x01 \x01(\t\x12\x0e\n\x06\x64\x65tail\x18\x02 \x01(\t\"\xd1\x04\n\tBusRecord\x12\t\n\x01n\x18\x01 \x01(\x04\x12\r\n\x05title\x18\x02 \x01(\t\x12\x0c\n\x04kind\x18\x03 \x01(\t\x12\x0b\n\x03\x64ir\x18\x04 \x01(\t\x12\x0c\n\x04node\x18\x05 \x01(\r\x12\x0e\n\x06module\x18\x06 \x01(\t\x12\r\n\x05topic\x18\x07 \x01(\r\x12\x0e\n\x06\x66\x61mily\x18\x08 \x01(\t\x12\x0f\n\x07\x63ommand\x18\t \x01(\t\x12\x0f\n\x07message\x18\n \x01(\t\x12\x14\n\x0c\x64\x65\x63oded_json\x18\x0b \x01(\t\x12$\n\x07refusal\x18\x0c \x01(\x0b\x32\x13.jon.can.BusRefusal\x12\r\n\x05ts_ns\x18\r \x01(\x04\x12\"\n\x06origin\x18\x0e \x01(\x0e\x32\x12.jon.can.BusOrigin\x12\x14\n\x07hop_seq\x18\x0f \x01(\rH\x00\x88\x01\x01\x12\x13\n\x06sender\x18\x10 \x01(\rH\x01\x88\x01\x01\x12\x15\n\rsender_module\x18\x11 \x01(\t\x12\x0e\n\x06\x63\x61n_id\x18\x12 \x01(\r\x12\x0e\n\x06\x66\x66lags\x18\x13 \x01(\r\x12\x13\n\x0b\x66rame_flags\x18\x14 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x15 \x01(\x0c\x12\x0f\n\x07payload\x18\x16 \x01(\x0c\x12\x0c\n\x04prio\x18\x17 \x01(\r\x12\x0c\n\x04type\x18\x18 \x01(\r\x12\x0b\n\x03seq\x18\x19 \x01(\r\x12\x12\n\nfrag_total\x18\x1a \x01(\r\x12\x12\n\ntx_time_ns\x18\x1b \x01(\x04\x12\x10\n\x08ts_valid\x18\x1c \x01(\x08\x12\x0e\n\x06stream\x18\x1d \x01(\t\x12\x10\n\x08\x65ntry_id\x18\x1e \x01(\t\x12\x0f\n\x07time_ms\x18\x1f \x01(\x03\x42\n\n\x08_hop_seqB\t\n\x07_sender\"\xf9\x02\n\x0e\x42usStreamStats\x12\x0f\n\x07records\x18\x01 \x01(\x04\x12\x10\n\x08messages\x18\x02 \x01(\x04\x12\x0f\n\x07refused\x18\x03 \x01(\x04\x12:\n\nrefused_by\x18\x04 \x03(\x0b\x32&.jon.can.BusStreamStats.RefusedByEntry\x12\x10\n\x08\x61\x62sorbed\x18\x05 \x01(\x04\x12\x35\n\x07\x64ropped\x18\x06 \x03(\x0b\x32$.jon.can.BusStreamStats.DroppedEntry\x12\x10\n\x08hop_gaps\x18\x07 \x01(\x04\x12\x0f\n\x07senders\x18\x08 \x01(\r\x12\x0f\n\x07streams\x18\t \x01(\r\x12\x18\n\x10source_connected\x18\n \x01(\x08\x1a\x30\n\x0eRefusedByEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x04:\x02\x38\x01\x1a.\n\x0c\x44roppedEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x04:\x02\x38\x01\"n\n\x0e\x42usRecordBatch\x12#\n\x07records\x18\x01 \x03(\x0b\x32\x12.jon.can.BusRecord\x12&\n\x05stats\x18\x02 \x01(\x0b\x32\x17.jon.can.BusStreamStats\x12\x0f\n\x07\x65victed\x18\x03 \x01(\x04\"%\n\x12\x42usStreamConnected\x12\x0f\n\x07streams\x18\x01 \x03(\t\"y\n\x10\x42usStreamMessage\x12\x30\n\tconnected\x18\x01 \x01(\x0b\x32\x1b.jon.can.BusStreamConnectedH\x00\x12(\n\x05\x62\x61tch\x18\x02 \x01(\x0b\x32\x17.jon.can.BusRecordBatchH\x00\x42\t\n\x07message*t\n\x0c\x43\x41NDirection\x12\x1d\n\x19\x43\x41N_DIRECTION_UNSPECIFIED\x10\x00\x12\x14\n\x10\x43\x41N_DIRECTION_TX\x10\x01\x12\x14\n\x10\x43\x41N_DIRECTION_RX\x10\x02\x12\x19\n\x15\x43\x41N_DIRECTION_UNKNOWN\x10\x03*\x80\x01\n\tBusOrigin\x12\x1a\n\x16\x42US_ORIGIN_UNSPECIFIED\x10\x00\x12\x12\n\x0e\x42US_ORIGIN_BUS\x10\x01\x12\x13\n\x0f\x42US_ORIGIN_ORIN\x10\x02\x12\x18\n\x14\x42US_ORIGIN_CARAMBOLA\x10\x03\x12\x14\n\x10\x42US_ORIGIN_LOCAL\x10\x04\x42\x46ZDgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/canb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,12 +32,34 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'jon_can_stream_pb2', _globa
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'ZDgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/can'
-  _globals['_CANDIRECTION']._serialized_start=310
-  _globals['_CANDIRECTION']._serialized_end=426
+  _globals['_BUSSTREAMSTATS_REFUSEDBYENTRY']._loaded_options = None
+  _globals['_BUSSTREAMSTATS_REFUSEDBYENTRY']._serialized_options = b'8\001'
+  _globals['_BUSSTREAMSTATS_DROPPEDENTRY']._loaded_options = None
+  _globals['_BUSSTREAMSTATS_DROPPEDENTRY']._serialized_options = b'8\001'
+  _globals['_CANDIRECTION']._serialized_start=1604
+  _globals['_CANDIRECTION']._serialized_end=1720
+  _globals['_BUSORIGIN']._serialized_start=1723
+  _globals['_BUSORIGIN']._serialized_end=1851
   _globals['_CANFRAME']._serialized_start=34
   _globals['_CANFRAME']._serialized_end=211
   _globals['_CANFRAMEBATCH']._serialized_start=213
   _globals['_CANFRAMEBATCH']._serialized_end=263
   _globals['_CANSTREAMCONNECTED']._serialized_start=265
   _globals['_CANSTREAMCONNECTED']._serialized_end=308
+  _globals['_BUSREFUSAL']._serialized_start=310
+  _globals['_BUSREFUSAL']._serialized_end=352
+  _globals['_BUSRECORD']._serialized_start=355
+  _globals['_BUSRECORD']._serialized_end=948
+  _globals['_BUSSTREAMSTATS']._serialized_start=951
+  _globals['_BUSSTREAMSTATS']._serialized_end=1328
+  _globals['_BUSSTREAMSTATS_REFUSEDBYENTRY']._serialized_start=1232
+  _globals['_BUSSTREAMSTATS_REFUSEDBYENTRY']._serialized_end=1280
+  _globals['_BUSSTREAMSTATS_DROPPEDENTRY']._serialized_start=1282
+  _globals['_BUSSTREAMSTATS_DROPPEDENTRY']._serialized_end=1328
+  _globals['_BUSRECORDBATCH']._serialized_start=1330
+  _globals['_BUSRECORDBATCH']._serialized_end=1440
+  _globals['_BUSSTREAMCONNECTED']._serialized_start=1442
+  _globals['_BUSSTREAMCONNECTED']._serialized_end=1479
+  _globals['_BUSSTREAMMESSAGE']._serialized_start=1481
+  _globals['_BUSSTREAMMESSAGE']._serialized_end=1602
 # @@protoc_insertion_point(module_scope)

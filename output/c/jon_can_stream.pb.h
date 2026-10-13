@@ -23,6 +23,18 @@ typedef enum _jon_can_CANDirection {
     jon_can_CANDirection_CAN_DIRECTION_UNKNOWN = 3 /* producer "unk" — unmapped ID, direction unknown */
 } jon_can_CANDirection;
 
+/* Who first put a module-bus record into a datagram: the envelope's origin byte
+ (JONCAN_ENV_ORIGIN_* in the superproject's inc/util/joncan/joncan_envelope.h)
+ plus one, so that the zero value can mean "the stream entry named no origin
+ the envelope defines" rather than silently reading as the bus. */
+typedef enum _jon_can_BusOrigin {
+    jon_can_BusOrigin_BUS_ORIGIN_UNSPECIFIED = 0, /* the entry carried no origin, or one past JONCAN_ENV_ORIGIN_MAX */
+    jon_can_BusOrigin_BUS_ORIGIN_BUS = 1, /* JONCAN_ENV_ORIGIN_BUS: read off the CAN bus (or vcan0) */
+    jon_can_BusOrigin_BUS_ORIGIN_ORIN = 2, /* JONCAN_ENV_ORIGIN_ORIN: the hub sent it */
+    jon_can_BusOrigin_BUS_ORIGIN_CARAMBOLA = 3, /* JONCAN_ENV_ORIGIN_CARAMBOLA: Carambola sent it */
+    jon_can_BusOrigin_BUS_ORIGIN_LOCAL = 4 /* JONCAN_ENV_ORIGIN_LOCAL: a guest hosted beside the bridge */
+} jon_can_BusOrigin;
+
 /* Struct definitions */
 /* Single CAN/CAN-FD frame */
 typedef struct _jon_can_CANFrame {
@@ -60,6 +72,152 @@ typedef struct _jon_can_CANStreamConnected {
     pb_callback_t streams; /* Discovered CAN stream IDs (e.g., "0x304", "0x510") */
 } jon_can_CANStreamConnected;
 
+/* Why the module-bus decoder could not make a message of a record. */
+typedef struct _jon_can_BusRefusal {
+    /* The decoder's refusal code (the joncandec Code* constants, e.g. "proto",
+ "orphan_fragment", "unknown_topic"). */
+    pb_callback_t code;
+    /* The decoder's explanation, free text. */
+    pb_callback_t detail;
+} jon_can_BusRefusal;
+
+/* One module-bus message as the CAN stream relay decoded it from the
+ `logs:bus:0x<id>` Redis streams: the decoded payload, the joncan header facts
+ and the record facts of the frame that completed it. Decoding happens once,
+ on the relay; a client renders these fields and never parses the wire. */
+typedef struct _jon_can_BusRecord {
+    /* Arrival number: 1 for the first message the relay decoded since it started. */
+    uint64_t n;
+    /* The row's title: the decode-table family name, the command root member that
+ was set, or "refused: <code>". */
+    pb_callback_t title;
+    /* What the message is (joncandec Kind*): "family", "health", "announce",
+ "command", "debug", "log" or "unknown". */
+    pb_callback_t kind;
+    /* "cmd" (hub to node) or "state" (node to hub); empty when the CAN id was
+ wider than the joncan id map. */
+    pb_callback_t dir;
+    /* The CAN id's node field and the module that node is (a command's
+ DESTINATION node); module is empty when no decode-table entry names the node. */
+    uint32_t node;
+    pb_callback_t module;
+    /* The CAN id's topic field. */
+    uint32_t topic;
+    /* The decode-table row name (empty for a command) and the command root
+ member that was set (empty unless a command). */
+    pb_callback_t family;
+    pb_callback_t command;
+    /* The full name of the proto message the body decoded as; empty for an
+ announce, a debug or a log message. */
+    pb_callback_t message;
+    /* The decoded payload as JSON: proto3 JSON with proto field names, sorted
+ keys, every owned field present. "null" when nothing was decoded. */
+    pb_callback_t decoded_json;
+    /* Set when the decoder refused the record; the raw bytes are in `data`. */
+    bool has_refusal;
+    jon_can_BusRefusal refusal;
+    /* The record facts. ts_ns: when the frame was seen, ns, on the producer's
+ clock (0 = the producer did not know). */
+    uint64_t ts_ns;
+    jon_can_BusOrigin origin;
+    /* The datagram's hop sequence and the node id of the datagram's sender (the
+ envelope header); absent when the stream entry did not carry them. */
+    bool has_hop_seq;
+    uint32_t hop_seq;
+    bool has_sender;
+    uint32_t sender;
+    /* The sender's module, from the decode table; empty when no entry names it. */
+    pb_callback_t sender_module;
+    /* The frame's 11-bit CAN id. */
+    uint32_t can_id;
+    /* The record's frame flags (JONCAN_ENV_FRAME_*) and their names, lowest bit
+ first ("FD BRS"); a bit no flag names reads as hex. */
+    uint32_t fflags;
+    pb_callback_t frame_flags;
+    /* The completing record's 70-byte blob: frame type, CAN id (little-endian),
+ length, 64 data bytes. For a message carried in several frames this is the
+ LAST frame's record. */
+    pb_callback_t data;
+    /* The message body, reassembled across fragments. */
+    pb_callback_t payload;
+    /* The joncan header: the CAN id's priority, the message type, the message
+ counter, the fragments the message was carried in, the sender's transmit
+ time (ns) and whether that time was valid. */
+    uint32_t prio;
+    uint32_t type;
+    uint32_t seq;
+    uint32_t frag_total;
+    uint64_t tx_time_ns;
+    bool ts_valid;
+    /* The Redis stream key (logs:bus:0x<id>), the entry id, and the entry id's
+ millisecond (the Redis server's wall clock when the entry was appended). */
+    pb_callback_t stream;
+    pb_callback_t entry_id;
+    int64_t time_ms;
+} jon_can_BusRecord;
+
+/* The relay's module-bus accounting since it started. */
+typedef struct _jon_can_BusStreamStats {
+    /* Stream records fed to the decoder. */
+    uint64_t records;
+    /* Messages the records produced (decoded messages plus refusals). */
+    uint64_t messages;
+    /* Messages carrying a refusal, and their count per refusal code. */
+    uint64_t refused;
+    pb_callback_t refused_by;
+    /* Records absorbed as fragments of a message still open, or as retransmits. */
+    uint64_t absorbed;
+    /* Open multi-frame messages the decoder dropped, by reason ("expired",
+ "restarted"). */
+    pb_callback_t dropped;
+    /* Per-sender hop-sequence discontinuities, judged only once every stream
+ that can hold an earlier record was known and read to its tip: datagrams
+ lost between the bridge and the stream, datagrams the collector refused,
+ or a sender restart. */
+    uint64_t hop_gaps;
+    /* Distinct datagram senders seen, and logs:bus:* streams discovered. */
+    uint32_t senders;
+    uint32_t streams;
+    /* Whether the logs Redis was reachable at the last read. */
+    bool source_connected;
+} jon_can_BusStreamStats;
+
+typedef struct _jon_can_BusStreamStats_RefusedByEntry {
+    pb_callback_t key;
+    uint64_t value;
+} jon_can_BusStreamStats_RefusedByEntry;
+
+typedef struct _jon_can_BusStreamStats_DroppedEntry {
+    pb_callback_t key;
+    uint64_t value;
+} jon_can_BusStreamStats_DroppedEntry;
+
+/* Batch of module-bus messages, oldest first, with the accounting at the read. */
+typedef struct _jon_can_BusRecordBatch {
+    pb_callback_t records;
+    bool has_stats;
+    jon_can_BusStreamStats stats;
+    /* Messages decoded since the previous batch to this client that it was
+ never sent because it fell behind the relay's buffer. */
+    uint64_t evicted;
+} jon_can_BusRecordBatch;
+
+/* Sent once when a module-bus WebSocket connects. */
+typedef struct _jon_can_BusStreamConnected {
+    /* Discovered module-bus stream ids (the `0x<id>` of each logs:bus:0x<id>). */
+    pb_callback_t streams;
+} jon_can_BusStreamConnected;
+
+/* Every message the module-bus WebSocket sends: exactly one member is set, so a
+ client decodes one type and never guesses which message a frame holds. */
+typedef struct _jon_can_BusStreamMessage {
+    pb_size_t which_message;
+    union {
+        jon_can_BusStreamConnected connected;
+        jon_can_BusRecordBatch batch;
+    } message;
+} jon_can_BusStreamMessage;
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -70,7 +228,20 @@ extern "C" {
 #define _jon_can_CANDirection_MAX jon_can_CANDirection_CAN_DIRECTION_UNKNOWN
 #define _jon_can_CANDirection_ARRAYSIZE ((jon_can_CANDirection)(jon_can_CANDirection_CAN_DIRECTION_UNKNOWN+1))
 
+#define _jon_can_BusOrigin_MIN jon_can_BusOrigin_BUS_ORIGIN_UNSPECIFIED
+#define _jon_can_BusOrigin_MAX jon_can_BusOrigin_BUS_ORIGIN_LOCAL
+#define _jon_can_BusOrigin_ARRAYSIZE ((jon_can_BusOrigin)(jon_can_BusOrigin_BUS_ORIGIN_LOCAL+1))
+
 #define jon_can_CANFrame_dir_ENUMTYPE jon_can_CANDirection
+
+
+
+
+#define jon_can_BusRecord_origin_ENUMTYPE jon_can_BusOrigin
+
+
+
+
 
 
 
@@ -79,9 +250,25 @@ extern "C" {
 #define jon_can_CANFrame_init_default            {0, 0, 0, 0, {{NULL}, NULL}, _jon_can_CANDirection_MIN, 0, 0, 0}
 #define jon_can_CANFrameBatch_init_default       {{{NULL}, NULL}}
 #define jon_can_CANStreamConnected_init_default  {{{NULL}, NULL}}
+#define jon_can_BusRefusal_init_default          {{{NULL}, NULL}, {{NULL}, NULL}}
+#define jon_can_BusRecord_init_default           {0, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, 0, {{NULL}, NULL}, 0, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, false, jon_can_BusRefusal_init_default, 0, _jon_can_BusOrigin_MIN, false, 0, false, 0, {{NULL}, NULL}, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0}
+#define jon_can_BusStreamStats_init_default      {0, 0, 0, {{NULL}, NULL}, 0, {{NULL}, NULL}, 0, 0, 0, 0}
+#define jon_can_BusStreamStats_RefusedByEntry_init_default {{{NULL}, NULL}, 0}
+#define jon_can_BusStreamStats_DroppedEntry_init_default {{{NULL}, NULL}, 0}
+#define jon_can_BusRecordBatch_init_default      {{{NULL}, NULL}, false, jon_can_BusStreamStats_init_default, 0}
+#define jon_can_BusStreamConnected_init_default  {{{NULL}, NULL}}
+#define jon_can_BusStreamMessage_init_default    {0, {jon_can_BusStreamConnected_init_default}}
 #define jon_can_CANFrame_init_zero               {0, 0, 0, 0, {{NULL}, NULL}, _jon_can_CANDirection_MIN, 0, 0, 0}
 #define jon_can_CANFrameBatch_init_zero          {{{NULL}, NULL}}
 #define jon_can_CANStreamConnected_init_zero     {{{NULL}, NULL}}
+#define jon_can_BusRefusal_init_zero             {{{NULL}, NULL}, {{NULL}, NULL}}
+#define jon_can_BusRecord_init_zero              {0, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, 0, {{NULL}, NULL}, 0, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, false, jon_can_BusRefusal_init_zero, 0, _jon_can_BusOrigin_MIN, false, 0, false, 0, {{NULL}, NULL}, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0}
+#define jon_can_BusStreamStats_init_zero         {0, 0, 0, {{NULL}, NULL}, 0, {{NULL}, NULL}, 0, 0, 0, 0}
+#define jon_can_BusStreamStats_RefusedByEntry_init_zero {{{NULL}, NULL}, 0}
+#define jon_can_BusStreamStats_DroppedEntry_init_zero {{{NULL}, NULL}, 0}
+#define jon_can_BusRecordBatch_init_zero         {{{NULL}, NULL}, false, jon_can_BusStreamStats_init_zero, 0}
+#define jon_can_BusStreamConnected_init_zero     {{{NULL}, NULL}}
+#define jon_can_BusStreamMessage_init_zero       {0, {jon_can_BusStreamConnected_init_zero}}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define jon_can_CANFrame_timestamp_us_tag        1
@@ -95,6 +282,59 @@ extern "C" {
 #define jon_can_CANFrame_drops_tag               9
 #define jon_can_CANFrameBatch_frames_tag         1
 #define jon_can_CANStreamConnected_streams_tag   1
+#define jon_can_BusRefusal_code_tag              1
+#define jon_can_BusRefusal_detail_tag            2
+#define jon_can_BusRecord_n_tag                  1
+#define jon_can_BusRecord_title_tag              2
+#define jon_can_BusRecord_kind_tag               3
+#define jon_can_BusRecord_dir_tag                4
+#define jon_can_BusRecord_node_tag               5
+#define jon_can_BusRecord_module_tag             6
+#define jon_can_BusRecord_topic_tag              7
+#define jon_can_BusRecord_family_tag             8
+#define jon_can_BusRecord_command_tag            9
+#define jon_can_BusRecord_message_tag            10
+#define jon_can_BusRecord_decoded_json_tag       11
+#define jon_can_BusRecord_refusal_tag            12
+#define jon_can_BusRecord_ts_ns_tag              13
+#define jon_can_BusRecord_origin_tag             14
+#define jon_can_BusRecord_hop_seq_tag            15
+#define jon_can_BusRecord_sender_tag             16
+#define jon_can_BusRecord_sender_module_tag      17
+#define jon_can_BusRecord_can_id_tag             18
+#define jon_can_BusRecord_fflags_tag             19
+#define jon_can_BusRecord_frame_flags_tag        20
+#define jon_can_BusRecord_data_tag               21
+#define jon_can_BusRecord_payload_tag            22
+#define jon_can_BusRecord_prio_tag               23
+#define jon_can_BusRecord_type_tag               24
+#define jon_can_BusRecord_seq_tag                25
+#define jon_can_BusRecord_frag_total_tag         26
+#define jon_can_BusRecord_tx_time_ns_tag         27
+#define jon_can_BusRecord_ts_valid_tag           28
+#define jon_can_BusRecord_stream_tag             29
+#define jon_can_BusRecord_entry_id_tag           30
+#define jon_can_BusRecord_time_ms_tag            31
+#define jon_can_BusStreamStats_records_tag       1
+#define jon_can_BusStreamStats_messages_tag      2
+#define jon_can_BusStreamStats_refused_tag       3
+#define jon_can_BusStreamStats_refused_by_tag    4
+#define jon_can_BusStreamStats_absorbed_tag      5
+#define jon_can_BusStreamStats_dropped_tag       6
+#define jon_can_BusStreamStats_hop_gaps_tag      7
+#define jon_can_BusStreamStats_senders_tag       8
+#define jon_can_BusStreamStats_streams_tag       9
+#define jon_can_BusStreamStats_source_connected_tag 10
+#define jon_can_BusStreamStats_RefusedByEntry_key_tag 1
+#define jon_can_BusStreamStats_RefusedByEntry_value_tag 2
+#define jon_can_BusStreamStats_DroppedEntry_key_tag 1
+#define jon_can_BusStreamStats_DroppedEntry_value_tag 2
+#define jon_can_BusRecordBatch_records_tag       1
+#define jon_can_BusRecordBatch_stats_tag         2
+#define jon_can_BusRecordBatch_evicted_tag       3
+#define jon_can_BusStreamConnected_streams_tag   1
+#define jon_can_BusStreamMessage_connected_tag   1
+#define jon_can_BusStreamMessage_batch_tag       2
 
 /* Struct field encoding specification for nanopb */
 #define jon_can_CANFrame_FIELDLIST(X, a) \
@@ -121,19 +361,135 @@ X(a, CALLBACK, REPEATED, STRING,   streams,           1)
 #define jon_can_CANStreamConnected_CALLBACK pb_default_field_callback
 #define jon_can_CANStreamConnected_DEFAULT NULL
 
+#define jon_can_BusRefusal_FIELDLIST(X, a) \
+X(a, CALLBACK, SINGULAR, STRING,   code,              1) \
+X(a, CALLBACK, SINGULAR, STRING,   detail,            2)
+#define jon_can_BusRefusal_CALLBACK pb_default_field_callback
+#define jon_can_BusRefusal_DEFAULT NULL
+
+#define jon_can_BusRecord_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UINT64,   n,                 1) \
+X(a, CALLBACK, SINGULAR, STRING,   title,             2) \
+X(a, CALLBACK, SINGULAR, STRING,   kind,              3) \
+X(a, CALLBACK, SINGULAR, STRING,   dir,               4) \
+X(a, STATIC,   SINGULAR, UINT32,   node,              5) \
+X(a, CALLBACK, SINGULAR, STRING,   module,            6) \
+X(a, STATIC,   SINGULAR, UINT32,   topic,             7) \
+X(a, CALLBACK, SINGULAR, STRING,   family,            8) \
+X(a, CALLBACK, SINGULAR, STRING,   command,           9) \
+X(a, CALLBACK, SINGULAR, STRING,   message,          10) \
+X(a, CALLBACK, SINGULAR, STRING,   decoded_json,     11) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  refusal,          12) \
+X(a, STATIC,   SINGULAR, UINT64,   ts_ns,            13) \
+X(a, STATIC,   SINGULAR, UENUM,    origin,           14) \
+X(a, STATIC,   OPTIONAL, UINT32,   hop_seq,          15) \
+X(a, STATIC,   OPTIONAL, UINT32,   sender,           16) \
+X(a, CALLBACK, SINGULAR, STRING,   sender_module,    17) \
+X(a, STATIC,   SINGULAR, UINT32,   can_id,           18) \
+X(a, STATIC,   SINGULAR, UINT32,   fflags,           19) \
+X(a, CALLBACK, SINGULAR, STRING,   frame_flags,      20) \
+X(a, CALLBACK, SINGULAR, BYTES,    data,             21) \
+X(a, CALLBACK, SINGULAR, BYTES,    payload,          22) \
+X(a, STATIC,   SINGULAR, UINT32,   prio,             23) \
+X(a, STATIC,   SINGULAR, UINT32,   type,             24) \
+X(a, STATIC,   SINGULAR, UINT32,   seq,              25) \
+X(a, STATIC,   SINGULAR, UINT32,   frag_total,       26) \
+X(a, STATIC,   SINGULAR, UINT64,   tx_time_ns,       27) \
+X(a, STATIC,   SINGULAR, BOOL,     ts_valid,         28) \
+X(a, CALLBACK, SINGULAR, STRING,   stream,           29) \
+X(a, CALLBACK, SINGULAR, STRING,   entry_id,         30) \
+X(a, STATIC,   SINGULAR, INT64,    time_ms,          31)
+#define jon_can_BusRecord_CALLBACK pb_default_field_callback
+#define jon_can_BusRecord_DEFAULT NULL
+#define jon_can_BusRecord_refusal_MSGTYPE jon_can_BusRefusal
+
+#define jon_can_BusStreamStats_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UINT64,   records,           1) \
+X(a, STATIC,   SINGULAR, UINT64,   messages,          2) \
+X(a, STATIC,   SINGULAR, UINT64,   refused,           3) \
+X(a, CALLBACK, REPEATED, MESSAGE,  refused_by,        4) \
+X(a, STATIC,   SINGULAR, UINT64,   absorbed,          5) \
+X(a, CALLBACK, REPEATED, MESSAGE,  dropped,           6) \
+X(a, STATIC,   SINGULAR, UINT64,   hop_gaps,          7) \
+X(a, STATIC,   SINGULAR, UINT32,   senders,           8) \
+X(a, STATIC,   SINGULAR, UINT32,   streams,           9) \
+X(a, STATIC,   SINGULAR, BOOL,     source_connected,  10)
+#define jon_can_BusStreamStats_CALLBACK pb_default_field_callback
+#define jon_can_BusStreamStats_DEFAULT NULL
+#define jon_can_BusStreamStats_refused_by_MSGTYPE jon_can_BusStreamStats_RefusedByEntry
+#define jon_can_BusStreamStats_dropped_MSGTYPE jon_can_BusStreamStats_DroppedEntry
+
+#define jon_can_BusStreamStats_RefusedByEntry_FIELDLIST(X, a) \
+X(a, CALLBACK, SINGULAR, STRING,   key,               1) \
+X(a, STATIC,   SINGULAR, UINT64,   value,             2)
+#define jon_can_BusStreamStats_RefusedByEntry_CALLBACK pb_default_field_callback
+#define jon_can_BusStreamStats_RefusedByEntry_DEFAULT NULL
+
+#define jon_can_BusStreamStats_DroppedEntry_FIELDLIST(X, a) \
+X(a, CALLBACK, SINGULAR, STRING,   key,               1) \
+X(a, STATIC,   SINGULAR, UINT64,   value,             2)
+#define jon_can_BusStreamStats_DroppedEntry_CALLBACK pb_default_field_callback
+#define jon_can_BusStreamStats_DroppedEntry_DEFAULT NULL
+
+#define jon_can_BusRecordBatch_FIELDLIST(X, a) \
+X(a, CALLBACK, REPEATED, MESSAGE,  records,           1) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  stats,             2) \
+X(a, STATIC,   SINGULAR, UINT64,   evicted,           3)
+#define jon_can_BusRecordBatch_CALLBACK pb_default_field_callback
+#define jon_can_BusRecordBatch_DEFAULT NULL
+#define jon_can_BusRecordBatch_records_MSGTYPE jon_can_BusRecord
+#define jon_can_BusRecordBatch_stats_MSGTYPE jon_can_BusStreamStats
+
+#define jon_can_BusStreamConnected_FIELDLIST(X, a) \
+X(a, CALLBACK, REPEATED, STRING,   streams,           1)
+#define jon_can_BusStreamConnected_CALLBACK pb_default_field_callback
+#define jon_can_BusStreamConnected_DEFAULT NULL
+
+#define jon_can_BusStreamMessage_FIELDLIST(X, a) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (message,connected,message.connected),   1) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (message,batch,message.batch),   2)
+#define jon_can_BusStreamMessage_CALLBACK NULL
+#define jon_can_BusStreamMessage_DEFAULT NULL
+#define jon_can_BusStreamMessage_message_connected_MSGTYPE jon_can_BusStreamConnected
+#define jon_can_BusStreamMessage_message_batch_MSGTYPE jon_can_BusRecordBatch
+
 extern const pb_msgdesc_t jon_can_CANFrame_msg;
 extern const pb_msgdesc_t jon_can_CANFrameBatch_msg;
 extern const pb_msgdesc_t jon_can_CANStreamConnected_msg;
+extern const pb_msgdesc_t jon_can_BusRefusal_msg;
+extern const pb_msgdesc_t jon_can_BusRecord_msg;
+extern const pb_msgdesc_t jon_can_BusStreamStats_msg;
+extern const pb_msgdesc_t jon_can_BusStreamStats_RefusedByEntry_msg;
+extern const pb_msgdesc_t jon_can_BusStreamStats_DroppedEntry_msg;
+extern const pb_msgdesc_t jon_can_BusRecordBatch_msg;
+extern const pb_msgdesc_t jon_can_BusStreamConnected_msg;
+extern const pb_msgdesc_t jon_can_BusStreamMessage_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define jon_can_CANFrame_fields &jon_can_CANFrame_msg
 #define jon_can_CANFrameBatch_fields &jon_can_CANFrameBatch_msg
 #define jon_can_CANStreamConnected_fields &jon_can_CANStreamConnected_msg
+#define jon_can_BusRefusal_fields &jon_can_BusRefusal_msg
+#define jon_can_BusRecord_fields &jon_can_BusRecord_msg
+#define jon_can_BusStreamStats_fields &jon_can_BusStreamStats_msg
+#define jon_can_BusStreamStats_RefusedByEntry_fields &jon_can_BusStreamStats_RefusedByEntry_msg
+#define jon_can_BusStreamStats_DroppedEntry_fields &jon_can_BusStreamStats_DroppedEntry_msg
+#define jon_can_BusRecordBatch_fields &jon_can_BusRecordBatch_msg
+#define jon_can_BusStreamConnected_fields &jon_can_BusStreamConnected_msg
+#define jon_can_BusStreamMessage_fields &jon_can_BusStreamMessage_msg
 
 /* Maximum encoded size of messages (where known) */
 /* jon_can_CANFrame_size depends on runtime parameters */
 /* jon_can_CANFrameBatch_size depends on runtime parameters */
 /* jon_can_CANStreamConnected_size depends on runtime parameters */
+/* jon_can_BusRefusal_size depends on runtime parameters */
+/* jon_can_BusRecord_size depends on runtime parameters */
+/* jon_can_BusStreamStats_size depends on runtime parameters */
+/* jon_can_BusStreamStats_RefusedByEntry_size depends on runtime parameters */
+/* jon_can_BusStreamStats_DroppedEntry_size depends on runtime parameters */
+/* jon_can_BusRecordBatch_size depends on runtime parameters */
+/* jon_can_BusStreamConnected_size depends on runtime parameters */
+/* jon_can_BusStreamMessage_size depends on runtime parameters */
 
 #ifdef __cplusplus
 } /* extern "C" */

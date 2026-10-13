@@ -35,6 +35,22 @@ PROTOBUF_CONSTINIT ::google::protobuf::internal::ReflectionData
         {&::_pbi::kDescriptorMethods, &::descriptor_table_jon_5fcan_5fstream_2eproto, /* tracker*/ nullptr,},
         // ::jon::can::CANStreamConnected
         {&::_pbi::kDescriptorMethods, &::descriptor_table_jon_5fcan_5fstream_2eproto, /* tracker*/ nullptr,},
+        // ::jon::can::BusRefusal
+        {&::_pbi::kDescriptorMethods, &::descriptor_table_jon_5fcan_5fstream_2eproto, /* tracker*/ nullptr,},
+        // ::jon::can::BusRecord
+        {&::_pbi::kDescriptorMethods, &::descriptor_table_jon_5fcan_5fstream_2eproto, /* tracker*/ nullptr,},
+        // ::jon::can::BusStreamStats_RefusedByEntry_DoNotUse
+        {&::_pbi::kDescriptorMethods, &::descriptor_table_jon_5fcan_5fstream_2eproto, /* tracker*/ nullptr,},
+        // ::jon::can::BusStreamStats_DroppedEntry_DoNotUse
+        {&::_pbi::kDescriptorMethods, &::descriptor_table_jon_5fcan_5fstream_2eproto, /* tracker*/ nullptr,},
+        // ::jon::can::BusStreamStats
+        {&::_pbi::kDescriptorMethods, &::descriptor_table_jon_5fcan_5fstream_2eproto, /* tracker*/ nullptr,},
+        // ::jon::can::BusRecordBatch
+        {&::_pbi::kDescriptorMethods, &::descriptor_table_jon_5fcan_5fstream_2eproto, /* tracker*/ nullptr,},
+        // ::jon::can::BusStreamConnected
+        {&::_pbi::kDescriptorMethods, &::descriptor_table_jon_5fcan_5fstream_2eproto, /* tracker*/ nullptr,},
+        // ::jon::can::BusStreamMessage
+        {&::_pbi::kDescriptorMethods, &::descriptor_table_jon_5fcan_5fstream_2eproto, /* tracker*/ nullptr,},
 };
 }  // namespace
 #endif
@@ -392,6 +408,578 @@ const ::_pbi::ClassData* CANFrame_get_class_data() {
 }
 }  // namespace
 #endif  // PROTOBUF_CUSTOM_VTABLE
+constexpr BusStreamStats_RefusedByEntry_DoNotUse::ParseTableT_ BusStreamStats_RefusedByEntry_DoNotUse::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
+  return ParseTableT_{
+    {
+      PROTOBUF_FIELD_OFFSET(BusStreamStats_RefusedByEntry_DoNotUse, _impl_._has_bits_),
+      0, // no _extensions_
+      2, 8,  // max_field_number, fast_idx_mask
+      offsetof(ParseTableT_, field_lookup_table),
+      4294967292,  // skipmap
+      offsetof(ParseTableT_, field_entries),
+      2,  // num_field_entries
+      0,  // num_aux_entries
+      offsetof(ParseTableT_, field_names),  // no aux_entries
+      class_data,
+      nullptr,  // post_loop_handler
+      ::_pbi::TcParser::DiscardEverythingFallback,  // fallback
+      #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+      ::_pbi::TcParser::GetTable<::jon::can::BusStreamStats_RefusedByEntry_DoNotUse>(),  // to_prefetch
+      #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+    }, {{
+      // uint64 value = 2;
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(BusStreamStats_RefusedByEntry_DoNotUse, _impl_.value_), 1>(),
+       {16, 1, 0,
+        PROTOBUF_FIELD_OFFSET(BusStreamStats_RefusedByEntry_DoNotUse, _impl_.value_)}},
+      // string key = 1;
+      {::_pbi::TcParser::FastUS1,
+       {10, 0, 0,
+        PROTOBUF_FIELD_OFFSET(BusStreamStats_RefusedByEntry_DoNotUse, _impl_.key_)}},
+    }}, {{
+      65535, 65535
+    }}, {{
+      // string key = 1;
+      {PROTOBUF_FIELD_OFFSET(BusStreamStats_RefusedByEntry_DoNotUse, _impl_.key_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // uint64 value = 2;
+      {PROTOBUF_FIELD_OFFSET(BusStreamStats_RefusedByEntry_DoNotUse, _impl_.value_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+    }},
+    // no aux_entries
+    {{
+      "\45\3\0\0\0\0\0\0"
+      "jon.can.BusStreamStats.RefusedByEntry"
+      "key"
+    }},
+  };
+}
+
+template <typename>
+constexpr BusStreamStats_RefusedByEntry_DoNotUse::BusStreamStats_RefusedByEntry_DoNotUse(::_pbi::ConstantInitialized,
+                       const ::_pbi::ClassData* PROTOBUF_NONNULL class_data)
+    : Super_(
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          class_data
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      ) {
+}
+inline void* PROTOBUF_NONNULL BusStreamStats_RefusedByEntry_DoNotUse::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) BusStreamStats_RefusedByEntry_DoNotUse(arena);
+}
+constexpr auto BusStreamStats_RefusedByEntry_DoNotUse::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(BusStreamStats_RefusedByEntry_DoNotUse), alignof(BusStreamStats_RefusedByEntry_DoNotUse));
+}
+constexpr auto BusStreamStats_RefusedByEntry_DoNotUse::InternalGenerateClassData_(
+    const MessageLite& prototype,
+    const ::google::protobuf::internal::TcParseTableBase* tc_table) {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &prototype,
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+          &_table_.header,
+#else
+          tc_table,
+#endif
+          nullptr,  // IsInitialized
+          &BusStreamStats_RefusedByEntry_DoNotUse::MergeImpl,
+          Super_::GetNewImpl<BusStreamStats_RefusedByEntry_DoNotUse>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &BusStreamStats_RefusedByEntry_DoNotUse::SharedDtor,
+          static_cast<void (::google::protobuf::MessageLite::*)()>(&BusStreamStats_RefusedByEntry_DoNotUse::ClearImpl),
+              Super_::ByteSizeLongImpl, Super_::_InternalSerializeImpl,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(BusStreamStats_RefusedByEntry_DoNotUse, _impl_._cached_size_),
+          false,
+      },
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+      &file_reflection_data[5],
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+      &::_pbi::kDescriptorMethods,
+      &descriptor_table_jon_5fcan_5fstream_2eproto,
+      nullptr,  // tracker
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  };
+}
+struct BusStreamStats_RefusedByEntry_DoNotUseGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
+  constexpr BusStreamStats_RefusedByEntry_DoNotUseGlobalsTypeInternal()
+      :
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+        _default(::_pbi::ConstantInitialized{},
+                 BusStreamStats_RefusedByEntry_DoNotUse_class_data_.base())
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+        MessageGlobalsBase(BusStreamStats_RefusedByEntry_DoNotUse::InternalGenerateClassData_(
+            _default, &BusStreamStats_RefusedByEntry_DoNotUse_globals_._table.header)),
+        _default(::_pbi::ConstantInitialized{}, GetClassData()),
+        _table(::_pbi::PrivateAccess::GenerateParseTable<BusStreamStats_RefusedByEntry_DoNotUse>(
+            GetClassData()))
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  {
+  }
+  ~BusStreamStats_RefusedByEntry_DoNotUseGlobalsTypeInternal() {}
+  union {
+    alignas(::_pbi::kMaxMessageAlignment) BusStreamStats_RefusedByEntry_DoNotUse _default;
+  };
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  decltype(::_pbi::PrivateAccess::GenerateParseTable<BusStreamStats_RefusedByEntry_DoNotUse>(
+      ::std::declval<const ::_pbi::ClassData*>())) _table;
+#endif
+};
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+static_assert(PROTOBUF_FIELD_OFFSET(BusStreamStats_RefusedByEntry_DoNotUseGlobalsTypeInternal, _default) ==
+              ::_pbi::MessageGlobalsBase::OffsetToDefault());
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST BusStreamStats_RefusedByEntry_DoNotUseGlobalsTypeInternal BusStreamStats_RefusedByEntry_DoNotUse_globals_
+        PROTOBUF_MESSAGE_GLOBALS_SECTION(.data.rel.ro);
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+namespace {
+const ::_pbi::ClassData* BusStreamStats_RefusedByEntry_DoNotUse_get_class_data() {
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  return BusStreamStats_RefusedByEntry_DoNotUse_globals_.GetClassData();
+#else
+  return BusStreamStats_RefusedByEntry_DoNotUse_class_data_.base();
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+}
+}  // namespace
+#endif  // PROTOBUF_CUSTOM_VTABLE
+constexpr BusStreamStats_DroppedEntry_DoNotUse::ParseTableT_ BusStreamStats_DroppedEntry_DoNotUse::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
+  return ParseTableT_{
+    {
+      PROTOBUF_FIELD_OFFSET(BusStreamStats_DroppedEntry_DoNotUse, _impl_._has_bits_),
+      0, // no _extensions_
+      2, 8,  // max_field_number, fast_idx_mask
+      offsetof(ParseTableT_, field_lookup_table),
+      4294967292,  // skipmap
+      offsetof(ParseTableT_, field_entries),
+      2,  // num_field_entries
+      0,  // num_aux_entries
+      offsetof(ParseTableT_, field_names),  // no aux_entries
+      class_data,
+      nullptr,  // post_loop_handler
+      ::_pbi::TcParser::DiscardEverythingFallback,  // fallback
+      #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+      ::_pbi::TcParser::GetTable<::jon::can::BusStreamStats_DroppedEntry_DoNotUse>(),  // to_prefetch
+      #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+    }, {{
+      // uint64 value = 2;
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(BusStreamStats_DroppedEntry_DoNotUse, _impl_.value_), 1>(),
+       {16, 1, 0,
+        PROTOBUF_FIELD_OFFSET(BusStreamStats_DroppedEntry_DoNotUse, _impl_.value_)}},
+      // string key = 1;
+      {::_pbi::TcParser::FastUS1,
+       {10, 0, 0,
+        PROTOBUF_FIELD_OFFSET(BusStreamStats_DroppedEntry_DoNotUse, _impl_.key_)}},
+    }}, {{
+      65535, 65535
+    }}, {{
+      // string key = 1;
+      {PROTOBUF_FIELD_OFFSET(BusStreamStats_DroppedEntry_DoNotUse, _impl_.key_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // uint64 value = 2;
+      {PROTOBUF_FIELD_OFFSET(BusStreamStats_DroppedEntry_DoNotUse, _impl_.value_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+    }},
+    // no aux_entries
+    {{
+      "\43\3\0\0\0\0\0\0"
+      "jon.can.BusStreamStats.DroppedEntry"
+      "key"
+    }},
+  };
+}
+
+template <typename>
+constexpr BusStreamStats_DroppedEntry_DoNotUse::BusStreamStats_DroppedEntry_DoNotUse(::_pbi::ConstantInitialized,
+                       const ::_pbi::ClassData* PROTOBUF_NONNULL class_data)
+    : Super_(
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          class_data
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      ) {
+}
+inline void* PROTOBUF_NONNULL BusStreamStats_DroppedEntry_DoNotUse::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) BusStreamStats_DroppedEntry_DoNotUse(arena);
+}
+constexpr auto BusStreamStats_DroppedEntry_DoNotUse::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(BusStreamStats_DroppedEntry_DoNotUse), alignof(BusStreamStats_DroppedEntry_DoNotUse));
+}
+constexpr auto BusStreamStats_DroppedEntry_DoNotUse::InternalGenerateClassData_(
+    const MessageLite& prototype,
+    const ::google::protobuf::internal::TcParseTableBase* tc_table) {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &prototype,
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+          &_table_.header,
+#else
+          tc_table,
+#endif
+          nullptr,  // IsInitialized
+          &BusStreamStats_DroppedEntry_DoNotUse::MergeImpl,
+          Super_::GetNewImpl<BusStreamStats_DroppedEntry_DoNotUse>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &BusStreamStats_DroppedEntry_DoNotUse::SharedDtor,
+          static_cast<void (::google::protobuf::MessageLite::*)()>(&BusStreamStats_DroppedEntry_DoNotUse::ClearImpl),
+              Super_::ByteSizeLongImpl, Super_::_InternalSerializeImpl,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(BusStreamStats_DroppedEntry_DoNotUse, _impl_._cached_size_),
+          false,
+      },
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+      &file_reflection_data[6],
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+      &::_pbi::kDescriptorMethods,
+      &descriptor_table_jon_5fcan_5fstream_2eproto,
+      nullptr,  // tracker
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  };
+}
+struct BusStreamStats_DroppedEntry_DoNotUseGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
+  constexpr BusStreamStats_DroppedEntry_DoNotUseGlobalsTypeInternal()
+      :
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+        _default(::_pbi::ConstantInitialized{},
+                 BusStreamStats_DroppedEntry_DoNotUse_class_data_.base())
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+        MessageGlobalsBase(BusStreamStats_DroppedEntry_DoNotUse::InternalGenerateClassData_(
+            _default, &BusStreamStats_DroppedEntry_DoNotUse_globals_._table.header)),
+        _default(::_pbi::ConstantInitialized{}, GetClassData()),
+        _table(::_pbi::PrivateAccess::GenerateParseTable<BusStreamStats_DroppedEntry_DoNotUse>(
+            GetClassData()))
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  {
+  }
+  ~BusStreamStats_DroppedEntry_DoNotUseGlobalsTypeInternal() {}
+  union {
+    alignas(::_pbi::kMaxMessageAlignment) BusStreamStats_DroppedEntry_DoNotUse _default;
+  };
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  decltype(::_pbi::PrivateAccess::GenerateParseTable<BusStreamStats_DroppedEntry_DoNotUse>(
+      ::std::declval<const ::_pbi::ClassData*>())) _table;
+#endif
+};
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+static_assert(PROTOBUF_FIELD_OFFSET(BusStreamStats_DroppedEntry_DoNotUseGlobalsTypeInternal, _default) ==
+              ::_pbi::MessageGlobalsBase::OffsetToDefault());
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST BusStreamStats_DroppedEntry_DoNotUseGlobalsTypeInternal BusStreamStats_DroppedEntry_DoNotUse_globals_
+        PROTOBUF_MESSAGE_GLOBALS_SECTION(.data.rel.ro);
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+namespace {
+const ::_pbi::ClassData* BusStreamStats_DroppedEntry_DoNotUse_get_class_data() {
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  return BusStreamStats_DroppedEntry_DoNotUse_globals_.GetClassData();
+#else
+  return BusStreamStats_DroppedEntry_DoNotUse_class_data_.base();
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+}
+}  // namespace
+#endif  // PROTOBUF_CUSTOM_VTABLE
+class BusStreamConnected::_Internal {
+ public:
+  using HasBits = decltype(::std::declval<BusStreamConnected>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(BusStreamConnected, _impl_._has_bits_);
+};
+
+constexpr BusStreamConnected::ParseTableT_ BusStreamConnected::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
+  return ParseTableT_{
+    {
+      PROTOBUF_FIELD_OFFSET(BusStreamConnected, _impl_._has_bits_),
+      0, // no _extensions_
+      1, 0,  // max_field_number, fast_idx_mask
+      offsetof(ParseTableT_, field_lookup_table),
+      4294967294,  // skipmap
+      offsetof(ParseTableT_, field_entries),
+      1,  // num_field_entries
+      0,  // num_aux_entries
+      offsetof(ParseTableT_, field_names),  // no aux_entries
+      class_data,
+      nullptr,  // post_loop_handler
+      ::_pbi::TcParser::MpUnknownFields,  // fallback
+      #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+      ::_pbi::TcParser::GetTable<::jon::can::BusStreamConnected>(),  // to_prefetch
+      #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+    }, {{
+      // repeated string streams = 1;
+      {::_pbi::TcParser::FastUR1,
+       {10, 0, 0,
+        PROTOBUF_FIELD_OFFSET(BusStreamConnected, _impl_.streams_)}},
+    }}, {{
+      65535, 65535
+    }}, {{
+      // repeated string streams = 1;
+      {PROTOBUF_FIELD_OFFSET(BusStreamConnected, _impl_.streams_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcRepeated | ::_fl::kUtf8String | ::_fl::kRepSString)},
+    }},
+    // no aux_entries
+    {{
+      "\32\7\0\0\0\0\0\0"
+      "jon.can.BusStreamConnected"
+      "streams"
+    }},
+  };
+}
+
+
+inline constexpr BusStreamConnected::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    ::_pbi::ConstantInitialized) noexcept
+      : streams_ { visibility, ::_pbi::InternalMetadataOffset::Build<
+            ::jon::can::BusStreamConnected,
+            PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamConnected, _impl_.streams_)>()
+         }
+     {}
+
+template <typename>
+constexpr BusStreamConnected::BusStreamConnected(::_pbi::ConstantInitialized,
+                       const ::_pbi::ClassData* PROTOBUF_NONNULL class_data)
+    : Super_(
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          class_data
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          ),
+      _impl_(internal_visibility(), ::_pbi::ConstantInitialized()) {
+}
+inline void* PROTOBUF_NONNULL BusStreamConnected::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) BusStreamConnected(arena);
+}
+constexpr auto BusStreamConnected::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(BusStreamConnected), alignof(BusStreamConnected));
+}
+constexpr auto BusStreamConnected::InternalGenerateClassData_(
+    const MessageLite& prototype,
+    const ::google::protobuf::internal::TcParseTableBase* tc_table) {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &prototype,
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+          &_table_.header,
+#else
+          tc_table,
+#endif
+          nullptr,  // IsInitialized
+          &BusStreamConnected::MergeImpl,
+          Super_::GetNewImpl<BusStreamConnected>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &BusStreamConnected::SharedDtor,
+          Super_::GetClearImpl<BusStreamConnected>(), &BusStreamConnected::ByteSizeLong,
+              &BusStreamConnected::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(BusStreamConnected, _impl_._cached_size_),
+          false,
+      },
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+      &file_reflection_data[9],
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+      &::_pbi::kDescriptorMethods,
+      &descriptor_table_jon_5fcan_5fstream_2eproto,
+      nullptr,  // tracker
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  };
+}
+struct BusStreamConnectedGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
+  constexpr BusStreamConnectedGlobalsTypeInternal()
+      :
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+        _default(::_pbi::ConstantInitialized{},
+                 BusStreamConnected_class_data_.base())
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+        MessageGlobalsBase(BusStreamConnected::InternalGenerateClassData_(
+            _default, &BusStreamConnected_globals_._table.header)),
+        _default(::_pbi::ConstantInitialized{}, GetClassData()),
+        _table(::_pbi::PrivateAccess::GenerateParseTable<BusStreamConnected>(
+            GetClassData()))
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  {
+  }
+  ~BusStreamConnectedGlobalsTypeInternal() {}
+  union {
+    alignas(::_pbi::kMaxMessageAlignment) BusStreamConnected _default;
+  };
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  decltype(::_pbi::PrivateAccess::GenerateParseTable<BusStreamConnected>(
+      ::std::declval<const ::_pbi::ClassData*>())) _table;
+#endif
+};
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+static_assert(PROTOBUF_FIELD_OFFSET(BusStreamConnectedGlobalsTypeInternal, _default) ==
+              ::_pbi::MessageGlobalsBase::OffsetToDefault());
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST BusStreamConnectedGlobalsTypeInternal BusStreamConnected_globals_
+        PROTOBUF_MESSAGE_GLOBALS_SECTION(.data.rel.ro);
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+namespace {
+const ::_pbi::ClassData* BusStreamConnected_get_class_data() {
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  return BusStreamConnected_globals_.GetClassData();
+#else
+  return BusStreamConnected_class_data_.base();
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+}
+}  // namespace
+#endif  // PROTOBUF_CUSTOM_VTABLE
+class BusRefusal::_Internal {
+ public:
+  using HasBits = decltype(::std::declval<BusRefusal>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(BusRefusal, _impl_._has_bits_);
+};
+
+constexpr BusRefusal::ParseTableT_ BusRefusal::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
+  return ParseTableT_{
+    {
+      PROTOBUF_FIELD_OFFSET(BusRefusal, _impl_._has_bits_),
+      0, // no _extensions_
+      2, 8,  // max_field_number, fast_idx_mask
+      offsetof(ParseTableT_, field_lookup_table),
+      4294967292,  // skipmap
+      offsetof(ParseTableT_, field_entries),
+      2,  // num_field_entries
+      0,  // num_aux_entries
+      offsetof(ParseTableT_, field_names),  // no aux_entries
+      class_data,
+      nullptr,  // post_loop_handler
+      ::_pbi::TcParser::MpUnknownFields,  // fallback
+      #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+      ::_pbi::TcParser::GetTable<::jon::can::BusRefusal>(),  // to_prefetch
+      #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+    }, {{
+      // string detail = 2;
+      {::_pbi::TcParser::FastUS1,
+       {18, 1, 0,
+        PROTOBUF_FIELD_OFFSET(BusRefusal, _impl_.detail_)}},
+      // string code = 1 [(.buf.validate.field) = {
+      {::_pbi::TcParser::FastUS1,
+       {10, 0, 0,
+        PROTOBUF_FIELD_OFFSET(BusRefusal, _impl_.code_)}},
+    }}, {{
+      65535, 65535
+    }}, {{
+      // string code = 1 [(.buf.validate.field) = {
+      {PROTOBUF_FIELD_OFFSET(BusRefusal, _impl_.code_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // string detail = 2;
+      {PROTOBUF_FIELD_OFFSET(BusRefusal, _impl_.detail_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    }},
+    // no aux_entries
+    {{
+      "\22\4\6\0\0\0\0\0"
+      "jon.can.BusRefusal"
+      "code"
+      "detail"
+    }},
+  };
+}
+
+
+inline constexpr BusRefusal::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    ::_pbi::ConstantInitialized) noexcept
+      : code_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        detail_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()) {}
+
+template <typename>
+constexpr BusRefusal::BusRefusal(::_pbi::ConstantInitialized,
+                       const ::_pbi::ClassData* PROTOBUF_NONNULL class_data)
+    : Super_(
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          class_data
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          ),
+      _impl_(internal_visibility(), ::_pbi::ConstantInitialized()) {
+}
+inline void* PROTOBUF_NONNULL BusRefusal::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) BusRefusal(arena);
+}
+constexpr auto BusRefusal::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(BusRefusal), alignof(BusRefusal));
+}
+constexpr auto BusRefusal::InternalGenerateClassData_(
+    const MessageLite& prototype,
+    const ::google::protobuf::internal::TcParseTableBase* tc_table) {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &prototype,
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+          &_table_.header,
+#else
+          tc_table,
+#endif
+          nullptr,  // IsInitialized
+          &BusRefusal::MergeImpl,
+          Super_::GetNewImpl<BusRefusal>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &BusRefusal::SharedDtor,
+          Super_::GetClearImpl<BusRefusal>(), &BusRefusal::ByteSizeLong,
+              &BusRefusal::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(BusRefusal, _impl_._cached_size_),
+          false,
+      },
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+      &file_reflection_data[3],
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+      &::_pbi::kDescriptorMethods,
+      &descriptor_table_jon_5fcan_5fstream_2eproto,
+      nullptr,  // tracker
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  };
+}
+struct BusRefusalGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
+  constexpr BusRefusalGlobalsTypeInternal()
+      :
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+        _default(::_pbi::ConstantInitialized{},
+                 BusRefusal_class_data_.base())
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+        MessageGlobalsBase(BusRefusal::InternalGenerateClassData_(
+            _default, &BusRefusal_globals_._table.header)),
+        _default(::_pbi::ConstantInitialized{}, GetClassData()),
+        _table(::_pbi::PrivateAccess::GenerateParseTable<BusRefusal>(
+            GetClassData()))
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  {
+  }
+  ~BusRefusalGlobalsTypeInternal() {}
+  union {
+    alignas(::_pbi::kMaxMessageAlignment) BusRefusal _default;
+  };
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  decltype(::_pbi::PrivateAccess::GenerateParseTable<BusRefusal>(
+      ::std::declval<const ::_pbi::ClassData*>())) _table;
+#endif
+};
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+static_assert(PROTOBUF_FIELD_OFFSET(BusRefusalGlobalsTypeInternal, _default) ==
+              ::_pbi::MessageGlobalsBase::OffsetToDefault());
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST BusRefusalGlobalsTypeInternal BusRefusal_globals_
+        PROTOBUF_MESSAGE_GLOBALS_SECTION(.data.rel.ro);
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+namespace {
+const ::_pbi::ClassData* BusRefusal_get_class_data() {
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  return BusRefusal_globals_.GetClassData();
+#else
+  return BusRefusal_class_data_.base();
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+}
+}  // namespace
+#endif  // PROTOBUF_CUSTOM_VTABLE
 class CANFrameBatch::_Internal {
  public:
   using HasBits = decltype(::std::declval<CANFrameBatch>()._impl_._has_bits_);
@@ -542,10 +1130,965 @@ const ::_pbi::ClassData* CANFrameBatch_get_class_data() {
 }
 }  // namespace
 #endif  // PROTOBUF_CUSTOM_VTABLE
+class BusStreamStats::_Internal {
+ public:
+  using HasBits = decltype(::std::declval<BusStreamStats>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_._has_bits_);
+};
+
+constexpr BusStreamStats::ParseTableT_ BusStreamStats::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
+  return ParseTableT_{
+    {
+      PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_._has_bits_),
+      0, // no _extensions_
+      10, 120,  // max_field_number, fast_idx_mask
+      offsetof(ParseTableT_, field_lookup_table),
+      4294966272,  // skipmap
+      offsetof(ParseTableT_, field_entries),
+      10,  // num_field_entries
+      2,  // num_aux_entries
+      offsetof(ParseTableT_, aux_entries),
+      class_data,
+      nullptr,  // post_loop_handler
+      ::_pbi::TcParser::MpUnknownFields,  // fallback
+      #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+      ::_pbi::TcParser::GetTable<::jon::can::BusStreamStats>(),  // to_prefetch
+      #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+    }, {{
+      {::_pbi::TcParser::MiniParse, {}},
+      // uint64 records = 1;
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(BusStreamStats, _impl_.records_), 0>(),
+       {8, 0, 0,
+        PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.records_)}},
+      // uint64 messages = 2;
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(BusStreamStats, _impl_.messages_), 1>(),
+       {16, 1, 0,
+        PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.messages_)}},
+      // uint64 refused = 3;
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(BusStreamStats, _impl_.refused_), 2>(),
+       {24, 2, 0,
+        PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.refused_)}},
+      // map<string, uint64> refused_by = 4;
+      {::_pbi::TcParser::FastMiniParse1,
+       {34, ::uint8_t{7},
+        ::uint32_t{
+            PROTOBUF_FIELD_OFFSET(ParseTableT_, field_entries) +
+            sizeof(_pbi::TcParseTableBase::FieldEntry) * 3}}},
+      // uint64 absorbed = 5;
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(BusStreamStats, _impl_.absorbed_), 3>(),
+       {40, 3, 0,
+        PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.absorbed_)}},
+      // map<string, uint64> dropped = 6;
+      {::_pbi::TcParser::FastMiniParse1,
+       {50, ::uint8_t{7},
+        ::uint32_t{
+            PROTOBUF_FIELD_OFFSET(ParseTableT_, field_entries) +
+            sizeof(_pbi::TcParseTableBase::FieldEntry) * 5}}},
+      // uint64 hop_gaps = 7;
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(BusStreamStats, _impl_.hop_gaps_), 4>(),
+       {56, 4, 0,
+        PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.hop_gaps_)}},
+      // uint32 senders = 8;
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(BusStreamStats, _impl_.senders_), 5>(),
+       {64, 5, 0,
+        PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.senders_)}},
+      // uint32 streams = 9;
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(BusStreamStats, _impl_.streams_), 6>(),
+       {72, 6, 0,
+        PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.streams_)}},
+      // bool source_connected = 10;
+      {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(BusStreamStats, _impl_.source_connected_), 7>(),
+       {80, 7, 0,
+        PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.source_connected_)}},
+      {::_pbi::TcParser::MiniParse, {}},
+      {::_pbi::TcParser::MiniParse, {}},
+      {::_pbi::TcParser::MiniParse, {}},
+      {::_pbi::TcParser::MiniParse, {}},
+      {::_pbi::TcParser::MiniParse, {}},
+    }}, {{
+      65535, 65535
+    }}, {{
+      // uint64 records = 1;
+      {PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.records_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+      // uint64 messages = 2;
+      {PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.messages_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+      // uint64 refused = 3;
+      {PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.refused_), _Internal::kHasBitsOffset + 2, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+      // map<string, uint64> refused_by = 4;
+      {PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.refused_by_), _Internal::kHasBitsOffset + 8, 0, (0 | ::_fl::kFcRepeated | ::_fl::kMap)},
+      // uint64 absorbed = 5;
+      {PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.absorbed_), _Internal::kHasBitsOffset + 3, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+      // map<string, uint64> dropped = 6;
+      {PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.dropped_), _Internal::kHasBitsOffset + 9, 1, (0 | ::_fl::kFcRepeated | ::_fl::kMap)},
+      // uint64 hop_gaps = 7;
+      {PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.hop_gaps_), _Internal::kHasBitsOffset + 4, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+      // uint32 senders = 8;
+      {PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.senders_), _Internal::kHasBitsOffset + 5, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
+      // uint32 streams = 9;
+      {PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.streams_), _Internal::kHasBitsOffset + 6, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
+      // bool source_connected = 10;
+      {PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.source_connected_), _Internal::kHasBitsOffset + 7, 0, (0 | ::_fl::kFcOptional | ::_fl::kBool)},
+    }},
+    {{
+        {::_pbi::TcParser::GetMapAuxInfo(
+            1, 0, 9, 4, 0)},
+        {::_pbi::TcParser::GetMapAuxInfo(
+            1, 0, 9, 4, 0)},
+    }},
+    {{
+      "\26\0\0\0\12\0\7\0\0\0\0\0\0\0\0\0"
+      "jon.can.BusStreamStats"
+      "refused_by"
+      "dropped"
+    }},
+  };
+}
+
+
+inline constexpr BusStreamStats::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    ::_pbi::ConstantInitialized) noexcept
+      : records_{::uint64_t{0u}},
+        messages_{::uint64_t{0u}},
+        refused_{::uint64_t{0u}},
+        absorbed_{::uint64_t{0u}},
+        hop_gaps_{::uint64_t{0u}},
+        senders_{0u},
+        streams_{0u},
+        source_connected_{false},
+        refused_by_ { visibility, ::_pbi::InternalMetadataOffset::Build<
+            ::jon::can::BusStreamStats,
+            PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats, _impl_.refused_by_)>()
+         }
+        ,
+        dropped_ { visibility, ::_pbi::InternalMetadataOffset::Build<
+            ::jon::can::BusStreamStats,
+            PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats, _impl_.dropped_)>()
+         }
+     {}
+
+template <typename>
+constexpr BusStreamStats::BusStreamStats(::_pbi::ConstantInitialized,
+                       const ::_pbi::ClassData* PROTOBUF_NONNULL class_data)
+    : Super_(
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          class_data
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          ),
+      _impl_(internal_visibility(), ::_pbi::ConstantInitialized()) {
+}
+inline void* PROTOBUF_NONNULL BusStreamStats::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) BusStreamStats(arena);
+}
+constexpr auto BusStreamStats::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(BusStreamStats), alignof(BusStreamStats));
+}
+constexpr auto BusStreamStats::InternalGenerateClassData_(
+    const MessageLite& prototype,
+    const ::google::protobuf::internal::TcParseTableBase* tc_table) {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &prototype,
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+          &_table_.header,
+#else
+          tc_table,
+#endif
+          nullptr,  // IsInitialized
+          &BusStreamStats::MergeImpl,
+          Super_::GetNewImpl<BusStreamStats>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &BusStreamStats::SharedDtor,
+          Super_::GetClearImpl<BusStreamStats>(), &BusStreamStats::ByteSizeLong,
+              &BusStreamStats::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_._cached_size_),
+          false,
+      },
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+      &file_reflection_data[7],
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+      &::_pbi::kDescriptorMethods,
+      &descriptor_table_jon_5fcan_5fstream_2eproto,
+      nullptr,  // tracker
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  };
+}
+struct BusStreamStatsGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
+  constexpr BusStreamStatsGlobalsTypeInternal()
+      :
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+        _default(::_pbi::ConstantInitialized{},
+                 BusStreamStats_class_data_.base())
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+        MessageGlobalsBase(BusStreamStats::InternalGenerateClassData_(
+            _default, &BusStreamStats_globals_._table.header)),
+        _default(::_pbi::ConstantInitialized{}, GetClassData()),
+        _table(::_pbi::PrivateAccess::GenerateParseTable<BusStreamStats>(
+            GetClassData()))
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  {
+  }
+  ~BusStreamStatsGlobalsTypeInternal() {}
+  union {
+    alignas(::_pbi::kMaxMessageAlignment) BusStreamStats _default;
+  };
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  decltype(::_pbi::PrivateAccess::GenerateParseTable<BusStreamStats>(
+      ::std::declval<const ::_pbi::ClassData*>())) _table;
+#endif
+};
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+static_assert(PROTOBUF_FIELD_OFFSET(BusStreamStatsGlobalsTypeInternal, _default) ==
+              ::_pbi::MessageGlobalsBase::OffsetToDefault());
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST BusStreamStatsGlobalsTypeInternal BusStreamStats_globals_
+        PROTOBUF_MESSAGE_GLOBALS_SECTION(.data.rel.ro);
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+namespace {
+const ::_pbi::ClassData* BusStreamStats_get_class_data() {
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  return BusStreamStats_globals_.GetClassData();
+#else
+  return BusStreamStats_class_data_.base();
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+}
+}  // namespace
+#endif  // PROTOBUF_CUSTOM_VTABLE
+class BusRecord::_Internal {
+ public:
+  using HasBits = decltype(::std::declval<BusRecord>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(BusRecord, _impl_._has_bits_);
+};
+
+constexpr BusRecord::ParseTableT_ BusRecord::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
+  return ParseTableT_{
+    {
+      PROTOBUF_FIELD_OFFSET(BusRecord, _impl_._has_bits_),
+      0, // no _extensions_
+      31, 248,  // max_field_number, fast_idx_mask
+      offsetof(ParseTableT_, field_lookup_table),
+      2147483648,  // skipmap
+      offsetof(ParseTableT_, field_entries),
+      31,  // num_field_entries
+      1,  // num_aux_entries
+      offsetof(ParseTableT_, aux_entries),
+      class_data,
+      nullptr,  // post_loop_handler
+      ::_pbi::TcParser::MpUnknownFields,  // fallback
+      #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+      ::_pbi::TcParser::GetTable<::jon::can::BusRecord>(),  // to_prefetch
+      #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+    }, {{
+      {::_pbi::TcParser::MiniParse, {}},
+      // uint64 n = 1 [(.buf.validate.field) = {
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(BusRecord, _impl_.n_), 15>(),
+       {8, 15, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.n_)}},
+      // string title = 2;
+      {::_pbi::TcParser::FastUS1,
+       {18, 0, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.title_)}},
+      // string kind = 3 [(.buf.validate.field) = {
+      {::_pbi::TcParser::FastUS1,
+       {26, 1, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.kind_)}},
+      // string dir = 4;
+      {::_pbi::TcParser::FastUS1,
+       {34, 2, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.dir_)}},
+      // uint32 node = 5 [(.buf.validate.field) = {
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(BusRecord, _impl_.node_), 16>(),
+       {40, 16, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.node_)}},
+      // string module = 6;
+      {::_pbi::TcParser::FastUS1,
+       {50, 3, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.module_)}},
+      // uint32 topic = 7 [(.buf.validate.field) = {
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(BusRecord, _impl_.topic_), 17>(),
+       {56, 17, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.topic_)}},
+      // string family = 8;
+      {::_pbi::TcParser::FastUS1,
+       {66, 4, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.family_)}},
+      // string command = 9;
+      {::_pbi::TcParser::FastUS1,
+       {74, 5, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.command_)}},
+      // string message = 10;
+      {::_pbi::TcParser::FastUS1,
+       {82, 6, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.message_)}},
+      // string decoded_json = 11 [(.buf.validate.field) = {
+      {::_pbi::TcParser::FastUS1,
+       {90, 7, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.decoded_json_)}},
+      // .jon.can.BusRefusal refusal = 12;
+      {::_pbi::TcParser::FastMtS1,
+       {98, 14, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.refusal_)}},
+      // uint64 ts_ns = 13;
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(BusRecord, _impl_.ts_ns_), 18>(),
+       {104, 18, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.ts_ns_)}},
+      // .jon.can.BusOrigin origin = 14;
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(BusRecord, _impl_.origin_), 19>(),
+       {112, 19, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.origin_)}},
+      // optional uint32 hop_seq = 15 [(.buf.validate.field) = {
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(BusRecord, _impl_.hop_seq_), 20>(),
+       {120, 20, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.hop_seq_)}},
+      // optional uint32 sender = 16 [(.buf.validate.field) = {
+      {::_pbi::TcParser::FastV32S2,
+       {384, 21, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.sender_)}},
+      // string sender_module = 17;
+      {::_pbi::TcParser::FastUS2,
+       {394, 8, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.sender_module_)}},
+      // uint32 can_id = 18 [(.buf.validate.field) = {
+      {::_pbi::TcParser::FastV32S2,
+       {400, 22, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.can_id_)}},
+      // uint32 fflags = 19 [(.buf.validate.field) = {
+      {::_pbi::TcParser::FastV32S2,
+       {408, 23, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.fflags_)}},
+      // string frame_flags = 20;
+      {::_pbi::TcParser::FastUS2,
+       {418, 9, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.frame_flags_)}},
+      // bytes data = 21 [(.buf.validate.field) = {
+      {::_pbi::TcParser::FastBS2,
+       {426, 10, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.data_)}},
+      // bytes payload = 22 [(.buf.validate.field) = {
+      {::_pbi::TcParser::FastBS2,
+       {434, 11, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.payload_)}},
+      // uint32 prio = 23 [(.buf.validate.field) = {
+      {::_pbi::TcParser::FastV32S2,
+       {440, 24, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.prio_)}},
+      // uint32 type = 24 [(.buf.validate.field) = {
+      {::_pbi::TcParser::FastV32S2,
+       {448, 25, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.type_)}},
+      // uint32 seq = 25 [(.buf.validate.field) = {
+      {::_pbi::TcParser::FastV32S2,
+       {456, 26, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.seq_)}},
+      // uint32 frag_total = 26 [(.buf.validate.field) = {
+      {::_pbi::TcParser::FastV32S2,
+       {464, 28, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.frag_total_)}},
+      // uint64 tx_time_ns = 27;
+      {::_pbi::TcParser::FastV64S2,
+       {472, 27, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.tx_time_ns_)}},
+      // bool ts_valid = 28;
+      {::_pbi::TcParser::FastV8S2,
+       {480, 29, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.ts_valid_)}},
+      // string stream = 29;
+      {::_pbi::TcParser::FastUS2,
+       {490, 12, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.stream_)}},
+      // string entry_id = 30;
+      {::_pbi::TcParser::FastUS2,
+       {498, 13, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.entry_id_)}},
+      // int64 time_ms = 31;
+      {::_pbi::TcParser::FastV64S2,
+       {504, 30, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.time_ms_)}},
+    }}, {{
+      65535, 65535
+    }}, {{
+      // uint64 n = 1 [(.buf.validate.field) = {
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.n_), _Internal::kHasBitsOffset + 15, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+      // string title = 2;
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.title_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // string kind = 3 [(.buf.validate.field) = {
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.kind_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // string dir = 4;
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.dir_), _Internal::kHasBitsOffset + 2, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // uint32 node = 5 [(.buf.validate.field) = {
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.node_), _Internal::kHasBitsOffset + 16, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
+      // string module = 6;
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.module_), _Internal::kHasBitsOffset + 3, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // uint32 topic = 7 [(.buf.validate.field) = {
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.topic_), _Internal::kHasBitsOffset + 17, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
+      // string family = 8;
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.family_), _Internal::kHasBitsOffset + 4, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // string command = 9;
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.command_), _Internal::kHasBitsOffset + 5, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // string message = 10;
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.message_), _Internal::kHasBitsOffset + 6, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // string decoded_json = 11 [(.buf.validate.field) = {
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.decoded_json_), _Internal::kHasBitsOffset + 7, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // .jon.can.BusRefusal refusal = 12;
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.refusal_), _Internal::kHasBitsOffset + 14, 0, (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+      // uint64 ts_ns = 13;
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.ts_ns_), _Internal::kHasBitsOffset + 18, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+      // .jon.can.BusOrigin origin = 14;
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.origin_), _Internal::kHasBitsOffset + 19, 0, (0 | ::_fl::kFcOptional | ::_fl::kOpenEnum)},
+      // optional uint32 hop_seq = 15 [(.buf.validate.field) = {
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.hop_seq_), _Internal::kHasBitsOffset + 20, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
+      // optional uint32 sender = 16 [(.buf.validate.field) = {
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.sender_), _Internal::kHasBitsOffset + 21, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
+      // string sender_module = 17;
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.sender_module_), _Internal::kHasBitsOffset + 8, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // uint32 can_id = 18 [(.buf.validate.field) = {
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.can_id_), _Internal::kHasBitsOffset + 22, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
+      // uint32 fflags = 19 [(.buf.validate.field) = {
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.fflags_), _Internal::kHasBitsOffset + 23, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
+      // string frame_flags = 20;
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.frame_flags_), _Internal::kHasBitsOffset + 9, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // bytes data = 21 [(.buf.validate.field) = {
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.data_), _Internal::kHasBitsOffset + 10, 0, (0 | ::_fl::kFcOptional | ::_fl::kBytes | ::_fl::kRepAString)},
+      // bytes payload = 22 [(.buf.validate.field) = {
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.payload_), _Internal::kHasBitsOffset + 11, 0, (0 | ::_fl::kFcOptional | ::_fl::kBytes | ::_fl::kRepAString)},
+      // uint32 prio = 23 [(.buf.validate.field) = {
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.prio_), _Internal::kHasBitsOffset + 24, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
+      // uint32 type = 24 [(.buf.validate.field) = {
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.type_), _Internal::kHasBitsOffset + 25, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
+      // uint32 seq = 25 [(.buf.validate.field) = {
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.seq_), _Internal::kHasBitsOffset + 26, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
+      // uint32 frag_total = 26 [(.buf.validate.field) = {
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.frag_total_), _Internal::kHasBitsOffset + 28, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
+      // uint64 tx_time_ns = 27;
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.tx_time_ns_), _Internal::kHasBitsOffset + 27, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+      // bool ts_valid = 28;
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.ts_valid_), _Internal::kHasBitsOffset + 29, 0, (0 | ::_fl::kFcOptional | ::_fl::kBool)},
+      // string stream = 29;
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.stream_), _Internal::kHasBitsOffset + 12, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // string entry_id = 30;
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.entry_id_), _Internal::kHasBitsOffset + 13, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+      // int64 time_ms = 31;
+      {PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.time_ms_), _Internal::kHasBitsOffset + 30, 0, (0 | ::_fl::kFcOptional | ::_fl::kInt64)},
+    }},
+    {{
+        #ifndef PROTOBUF_MESSAGE_GLOBALS
+        {::_pbi::TcParser::GetTable<::jon::can::BusRefusal>()},
+        #else
+        {::_pbi::FieldAuxMessageGlobals(), &::jon::can::BusRefusal_globals_},
+        #endif
+    }},
+    {{
+      "\21\0\5\4\3\0\6\0\6\7\7\14\0\0\0\0\0\15\0\0\13\0\0\0\0\0\0\0\0\6\10\0"
+      "jon.can.BusRecord"
+      "title"
+      "kind"
+      "dir"
+      "module"
+      "family"
+      "command"
+      "message"
+      "decoded_json"
+      "sender_module"
+      "frame_flags"
+      "stream"
+      "entry_id"
+    }},
+  };
+}
+
+
+inline constexpr BusRecord::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    ::_pbi::ConstantInitialized) noexcept
+      : title_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        kind_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        dir_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        module_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        family_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        command_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        message_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        decoded_json_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        sender_module_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        frame_flags_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        data_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        payload_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        stream_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        entry_id_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        refusal_{nullptr},
+        n_{::uint64_t{0u}},
+        node_{0u},
+        topic_{0u},
+        ts_ns_{::uint64_t{0u}},
+        origin_{static_cast< ::jon::can::BusOrigin >(0)},
+        hop_seq_{0u},
+        sender_{0u},
+        can_id_{0u},
+        fflags_{0u},
+        prio_{0u},
+        type_{0u},
+        seq_{0u},
+        tx_time_ns_{::uint64_t{0u}},
+        frag_total_{0u},
+        ts_valid_{false},
+        time_ms_{::int64_t{0}} {}
+
+template <typename>
+constexpr BusRecord::BusRecord(::_pbi::ConstantInitialized,
+                       const ::_pbi::ClassData* PROTOBUF_NONNULL class_data)
+    : Super_(
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          class_data
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          ),
+      _impl_(internal_visibility(), ::_pbi::ConstantInitialized()) {
+}
+inline void* PROTOBUF_NONNULL BusRecord::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) BusRecord(arena);
+}
+constexpr auto BusRecord::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(BusRecord), alignof(BusRecord));
+}
+constexpr auto BusRecord::InternalGenerateClassData_(
+    const MessageLite& prototype,
+    const ::google::protobuf::internal::TcParseTableBase* tc_table) {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &prototype,
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+          &_table_.header,
+#else
+          tc_table,
+#endif
+          nullptr,  // IsInitialized
+          &BusRecord::MergeImpl,
+          Super_::GetNewImpl<BusRecord>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &BusRecord::SharedDtor,
+          Super_::GetClearImpl<BusRecord>(), &BusRecord::ByteSizeLong,
+              &BusRecord::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(BusRecord, _impl_._cached_size_),
+          false,
+      },
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+      &file_reflection_data[4],
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+      &::_pbi::kDescriptorMethods,
+      &descriptor_table_jon_5fcan_5fstream_2eproto,
+      nullptr,  // tracker
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  };
+}
+struct BusRecordGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
+  constexpr BusRecordGlobalsTypeInternal()
+      :
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+        _default(::_pbi::ConstantInitialized{},
+                 BusRecord_class_data_.base())
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+        MessageGlobalsBase(BusRecord::InternalGenerateClassData_(
+            _default, &BusRecord_globals_._table.header)),
+        _default(::_pbi::ConstantInitialized{}, GetClassData()),
+        _table(::_pbi::PrivateAccess::GenerateParseTable<BusRecord>(
+            GetClassData()))
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  {
+  }
+  ~BusRecordGlobalsTypeInternal() {}
+  union {
+    alignas(::_pbi::kMaxMessageAlignment) BusRecord _default;
+  };
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  decltype(::_pbi::PrivateAccess::GenerateParseTable<BusRecord>(
+      ::std::declval<const ::_pbi::ClassData*>())) _table;
+#endif
+};
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+static_assert(PROTOBUF_FIELD_OFFSET(BusRecordGlobalsTypeInternal, _default) ==
+              ::_pbi::MessageGlobalsBase::OffsetToDefault());
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST BusRecordGlobalsTypeInternal BusRecord_globals_
+        PROTOBUF_MESSAGE_GLOBALS_SECTION(.data.rel.ro);
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+namespace {
+const ::_pbi::ClassData* BusRecord_get_class_data() {
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  return BusRecord_globals_.GetClassData();
+#else
+  return BusRecord_class_data_.base();
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+}
+}  // namespace
+#endif  // PROTOBUF_CUSTOM_VTABLE
+class BusRecordBatch::_Internal {
+ public:
+  using HasBits = decltype(::std::declval<BusRecordBatch>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(BusRecordBatch, _impl_._has_bits_);
+};
+
+constexpr BusRecordBatch::ParseTableT_ BusRecordBatch::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
+  return ParseTableT_{
+    {
+      PROTOBUF_FIELD_OFFSET(BusRecordBatch, _impl_._has_bits_),
+      0, // no _extensions_
+      3, 24,  // max_field_number, fast_idx_mask
+      offsetof(ParseTableT_, field_lookup_table),
+      4294967288,  // skipmap
+      offsetof(ParseTableT_, field_entries),
+      3,  // num_field_entries
+      2,  // num_aux_entries
+      offsetof(ParseTableT_, aux_entries),
+      class_data,
+      nullptr,  // post_loop_handler
+      ::_pbi::TcParser::MpUnknownFields,  // fallback
+      #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+      ::_pbi::TcParser::GetTable<::jon::can::BusRecordBatch>(),  // to_prefetch
+      #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+    }, {{
+      {::_pbi::TcParser::MiniParse, {}},
+      // repeated .jon.can.BusRecord records = 1;
+      {::_pbi::TcParser::FastMtR1,
+       {10, 0, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecordBatch, _impl_.records_)}},
+      // .jon.can.BusStreamStats stats = 2;
+      {::_pbi::TcParser::FastMtS1,
+       {18, 1, 1,
+        PROTOBUF_FIELD_OFFSET(BusRecordBatch, _impl_.stats_)}},
+      // uint64 evicted = 3;
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(BusRecordBatch, _impl_.evicted_), 2>(),
+       {24, 2, 0,
+        PROTOBUF_FIELD_OFFSET(BusRecordBatch, _impl_.evicted_)}},
+    }}, {{
+      65535, 65535
+    }}, {{
+      // repeated .jon.can.BusRecord records = 1;
+      {PROTOBUF_FIELD_OFFSET(BusRecordBatch, _impl_.records_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
+      // .jon.can.BusStreamStats stats = 2;
+      {PROTOBUF_FIELD_OFFSET(BusRecordBatch, _impl_.stats_), _Internal::kHasBitsOffset + 1, 1, (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+      // uint64 evicted = 3;
+      {PROTOBUF_FIELD_OFFSET(BusRecordBatch, _impl_.evicted_), _Internal::kHasBitsOffset + 2, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+    }},
+    {{
+        #ifndef PROTOBUF_MESSAGE_GLOBALS
+        {::_pbi::TcParser::GetTable<::jon::can::BusRecord>()},
+        #else
+        {::_pbi::FieldAuxMessageGlobals(), &::jon::can::BusRecord_globals_},
+        #endif
+        #ifndef PROTOBUF_MESSAGE_GLOBALS
+        {::_pbi::TcParser::GetTable<::jon::can::BusStreamStats>()},
+        #else
+        {::_pbi::FieldAuxMessageGlobals(), &::jon::can::BusStreamStats_globals_},
+        #endif
+    }},
+    {{
+    }},
+  };
+}
+
+
+inline constexpr BusRecordBatch::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    ::_pbi::ConstantInitialized) noexcept
+      : records_ { visibility, ::_pbi::InternalMetadataOffset::Build<
+            ::jon::can::BusRecordBatch,
+            PROTOBUF_FIELD_OFFSET(::jon::can::BusRecordBatch, _impl_.records_)>()
+         }
+        ,
+        stats_{nullptr},
+        evicted_{::uint64_t{0u}} {}
+
+template <typename>
+constexpr BusRecordBatch::BusRecordBatch(::_pbi::ConstantInitialized,
+                       const ::_pbi::ClassData* PROTOBUF_NONNULL class_data)
+    : Super_(
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          class_data
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          ),
+      _impl_(internal_visibility(), ::_pbi::ConstantInitialized()) {
+}
+inline void* PROTOBUF_NONNULL BusRecordBatch::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) BusRecordBatch(arena);
+}
+constexpr auto BusRecordBatch::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(BusRecordBatch), alignof(BusRecordBatch));
+}
+constexpr auto BusRecordBatch::InternalGenerateClassData_(
+    const MessageLite& prototype,
+    const ::google::protobuf::internal::TcParseTableBase* tc_table) {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &prototype,
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+          &_table_.header,
+#else
+          tc_table,
+#endif
+          nullptr,  // IsInitialized
+          &BusRecordBatch::MergeImpl,
+          Super_::GetNewImpl<BusRecordBatch>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &BusRecordBatch::SharedDtor,
+          Super_::GetClearImpl<BusRecordBatch>(), &BusRecordBatch::ByteSizeLong,
+              &BusRecordBatch::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(BusRecordBatch, _impl_._cached_size_),
+          false,
+      },
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+      &file_reflection_data[8],
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+      &::_pbi::kDescriptorMethods,
+      &descriptor_table_jon_5fcan_5fstream_2eproto,
+      nullptr,  // tracker
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  };
+}
+struct BusRecordBatchGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
+  constexpr BusRecordBatchGlobalsTypeInternal()
+      :
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+        _default(::_pbi::ConstantInitialized{},
+                 BusRecordBatch_class_data_.base())
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+        MessageGlobalsBase(BusRecordBatch::InternalGenerateClassData_(
+            _default, &BusRecordBatch_globals_._table.header)),
+        _default(::_pbi::ConstantInitialized{}, GetClassData()),
+        _table(::_pbi::PrivateAccess::GenerateParseTable<BusRecordBatch>(
+            GetClassData()))
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  {
+  }
+  ~BusRecordBatchGlobalsTypeInternal() {}
+  union {
+    alignas(::_pbi::kMaxMessageAlignment) BusRecordBatch _default;
+  };
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  decltype(::_pbi::PrivateAccess::GenerateParseTable<BusRecordBatch>(
+      ::std::declval<const ::_pbi::ClassData*>())) _table;
+#endif
+};
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+static_assert(PROTOBUF_FIELD_OFFSET(BusRecordBatchGlobalsTypeInternal, _default) ==
+              ::_pbi::MessageGlobalsBase::OffsetToDefault());
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST BusRecordBatchGlobalsTypeInternal BusRecordBatch_globals_
+        PROTOBUF_MESSAGE_GLOBALS_SECTION(.data.rel.ro);
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+namespace {
+const ::_pbi::ClassData* BusRecordBatch_get_class_data() {
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  return BusRecordBatch_globals_.GetClassData();
+#else
+  return BusRecordBatch_class_data_.base();
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+}
+}  // namespace
+#endif  // PROTOBUF_CUSTOM_VTABLE
+class BusStreamMessage::_Internal {
+ public:
+  static constexpr ::int32_t kOneofCaseOffset =
+      PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamMessage, _impl_._oneof_case_);
+};
+
+constexpr BusStreamMessage::ParseTableT_ BusStreamMessage::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
+  return ParseTableT_{
+    {
+      PROTOBUF_FIELD_OFFSET(BusStreamMessage,
+                            _impl_._cached_size_),  // no hasbits
+      0, // no _extensions_
+      2, 0,  // max_field_number, fast_idx_mask
+      offsetof(ParseTableT_, field_lookup_table),
+      4294967292,  // skipmap
+      offsetof(ParseTableT_, field_entries),
+      2,  // num_field_entries
+      2,  // num_aux_entries
+      offsetof(ParseTableT_, aux_entries),
+      class_data,
+      nullptr,  // post_loop_handler
+      ::_pbi::TcParser::MpUnknownFields,  // fallback
+      #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+      ::_pbi::TcParser::GetTable<::jon::can::BusStreamMessage>(),  // to_prefetch
+      #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+    }, {{
+      // .jon.can.BusRecordBatch batch = 2;
+      {::_pbi::TcParser::FastMiniParse1,
+       {18, ::uint8_t{6},
+        ::uint32_t{
+            PROTOBUF_FIELD_OFFSET(ParseTableT_, field_entries) +
+            sizeof(_pbi::TcParseTableBase::FieldEntry) * 1}}},
+    }}, {{
+      65535, 65535
+    }}, {{
+      // .jon.can.BusStreamConnected connected = 1;
+      {PROTOBUF_FIELD_OFFSET(BusStreamMessage, _impl_.message_.connected_), _Internal::kOneofCaseOffset + 0, 0, (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+      // .jon.can.BusRecordBatch batch = 2;
+      {PROTOBUF_FIELD_OFFSET(BusStreamMessage, _impl_.message_.batch_), _Internal::kOneofCaseOffset + 0, 1, (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    }},
+    {{
+        #ifndef PROTOBUF_MESSAGE_GLOBALS
+        {::_pbi::TcParser::GetTable<::jon::can::BusStreamConnected>()},
+        #else
+        {::_pbi::FieldAuxMessageGlobals(), &::jon::can::BusStreamConnected_globals_},
+        #endif
+        #ifndef PROTOBUF_MESSAGE_GLOBALS
+        {::_pbi::TcParser::GetTable<::jon::can::BusRecordBatch>()},
+        #else
+        {::_pbi::FieldAuxMessageGlobals(), &::jon::can::BusRecordBatch_globals_},
+        #endif
+    }},
+    {{
+    }},
+  };
+}
+
+
+inline constexpr BusStreamMessage::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    ::_pbi::ConstantInitialized) noexcept
+      : message_{},
+        _oneof_case_{} {}
+
+template <typename>
+constexpr BusStreamMessage::BusStreamMessage(::_pbi::ConstantInitialized,
+                       const ::_pbi::ClassData* PROTOBUF_NONNULL class_data)
+    : Super_(
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          class_data
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          ),
+      _impl_(internal_visibility(), ::_pbi::ConstantInitialized()) {
+}
+inline void* PROTOBUF_NONNULL BusStreamMessage::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) BusStreamMessage(arena);
+}
+constexpr auto BusStreamMessage::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(BusStreamMessage), alignof(BusStreamMessage));
+}
+constexpr auto BusStreamMessage::InternalGenerateClassData_(
+    const MessageLite& prototype,
+    const ::google::protobuf::internal::TcParseTableBase* tc_table) {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &prototype,
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+          &_table_.header,
+#else
+          tc_table,
+#endif
+          nullptr,  // IsInitialized
+          &BusStreamMessage::MergeImpl,
+          Super_::GetNewImpl<BusStreamMessage>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &BusStreamMessage::SharedDtor,
+          Super_::GetClearImpl<BusStreamMessage>(), &BusStreamMessage::ByteSizeLong,
+              &BusStreamMessage::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(BusStreamMessage, _impl_._cached_size_),
+          false,
+      },
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+      &file_reflection_data[10],
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+      &::_pbi::kDescriptorMethods,
+      &descriptor_table_jon_5fcan_5fstream_2eproto,
+      nullptr,  // tracker
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  };
+}
+struct BusStreamMessageGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
+  constexpr BusStreamMessageGlobalsTypeInternal()
+      :
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+        _default(::_pbi::ConstantInitialized{},
+                 BusStreamMessage_class_data_.base())
+#else   // !PROTOBUF_MESSAGE_GLOBALS
+        MessageGlobalsBase(BusStreamMessage::InternalGenerateClassData_(
+            _default, &BusStreamMessage_globals_._table.header)),
+        _default(::_pbi::ConstantInitialized{}, GetClassData()),
+        _table(::_pbi::PrivateAccess::GenerateParseTable<BusStreamMessage>(
+            GetClassData()))
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+  {
+  }
+  ~BusStreamMessageGlobalsTypeInternal() {}
+  union {
+    alignas(::_pbi::kMaxMessageAlignment) BusStreamMessage _default;
+  };
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  decltype(::_pbi::PrivateAccess::GenerateParseTable<BusStreamMessage>(
+      ::std::declval<const ::_pbi::ClassData*>())) _table;
+#endif
+};
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+static_assert(PROTOBUF_FIELD_OFFSET(BusStreamMessageGlobalsTypeInternal, _default) ==
+              ::_pbi::MessageGlobalsBase::OffsetToDefault());
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST BusStreamMessageGlobalsTypeInternal BusStreamMessage_globals_
+        PROTOBUF_MESSAGE_GLOBALS_SECTION(.data.rel.ro);
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+namespace {
+const ::_pbi::ClassData* BusStreamMessage_get_class_data() {
+#ifdef PROTOBUF_MESSAGE_GLOBALS
+  return BusStreamMessage_globals_.GetClassData();
+#else
+  return BusStreamMessage_class_data_.base();
+#endif  // PROTOBUF_MESSAGE_GLOBALS
+}
+}  // namespace
+#endif  // PROTOBUF_CUSTOM_VTABLE
 }  // namespace can
 }  // namespace jon
 static const ::_pb::EnumDescriptor* PROTOBUF_NONNULL
-    file_level_enum_descriptors_jon_5fcan_5fstream_2eproto[1];
+    file_level_enum_descriptors_jon_5fcan_5fstream_2eproto[2];
 static constexpr const ::_pb::ServiceDescriptor* PROTOBUF_NONNULL* PROTOBUF_NULLABLE
     file_level_service_descriptors_jon_5fcan_5fstream_2eproto = nullptr;
 const ::uint32_t
@@ -582,6 +2125,134 @@ const ::uint32_t
         4, // hasbit index offset
         PROTOBUF_FIELD_OFFSET(::jon::can::CANStreamConnected, _impl_.streams_),
         0,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRefusal, _impl_._has_bits_),
+        5, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRefusal, _impl_.code_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRefusal, _impl_.detail_),
+        0,
+        1,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_._has_bits_),
+        34, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.n_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.title_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.kind_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.dir_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.node_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.module_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.topic_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.family_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.command_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.message_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.decoded_json_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.refusal_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.ts_ns_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.origin_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.hop_seq_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.sender_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.sender_module_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.can_id_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.fflags_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.frame_flags_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.data_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.payload_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.prio_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.type_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.seq_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.frag_total_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.tx_time_ns_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.ts_valid_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.stream_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.entry_id_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecord, _impl_.time_ms_),
+        15,
+        0,
+        1,
+        2,
+        16,
+        3,
+        17,
+        4,
+        5,
+        6,
+        7,
+        14,
+        18,
+        19,
+        20,
+        21,
+        8,
+        22,
+        23,
+        9,
+        10,
+        11,
+        24,
+        25,
+        26,
+        28,
+        27,
+        29,
+        12,
+        13,
+        30,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats_RefusedByEntry_DoNotUse, _impl_._has_bits_),
+        5, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats_RefusedByEntry_DoNotUse, _impl_.key_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats_RefusedByEntry_DoNotUse, _impl_.value_),
+        0,
+        1,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats_DroppedEntry_DoNotUse, _impl_._has_bits_),
+        5, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats_DroppedEntry_DoNotUse, _impl_.key_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats_DroppedEntry_DoNotUse, _impl_.value_),
+        0,
+        1,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats, _impl_._has_bits_),
+        13, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats, _impl_.records_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats, _impl_.messages_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats, _impl_.refused_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats, _impl_.refused_by_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats, _impl_.absorbed_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats, _impl_.dropped_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats, _impl_.hop_gaps_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats, _impl_.senders_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats, _impl_.streams_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats, _impl_.source_connected_),
+        0,
+        1,
+        2,
+        8,
+        3,
+        9,
+        4,
+        5,
+        6,
+        7,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecordBatch, _impl_._has_bits_),
+        6, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecordBatch, _impl_.records_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecordBatch, _impl_.stats_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusRecordBatch, _impl_.evicted_),
+        0,
+        1,
+        2,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamConnected, _impl_._has_bits_),
+        4, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamConnected, _impl_.streams_),
+        0,
+        0x004, // bitmap
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamMessage, _impl_._oneof_case_[0]),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamMessage, _impl_.message_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamMessage, _impl_.message_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamMessage, _impl_.message_),
 };
 
 static const ::_pbi::MigrationSchema
@@ -589,12 +2260,28 @@ static const ::_pbi::MigrationSchema
         {0, sizeof(::jon::can::CANFrame)},
         {21, sizeof(::jon::can::CANFrameBatch)},
         {26, sizeof(::jon::can::CANStreamConnected)},
+        {31, sizeof(::jon::can::BusRefusal)},
+        {38, sizeof(::jon::can::BusRecord)},
+        {103, sizeof(::jon::can::BusStreamStats_RefusedByEntry_DoNotUse)},
+        {110, sizeof(::jon::can::BusStreamStats_DroppedEntry_DoNotUse)},
+        {117, sizeof(::jon::can::BusStreamStats)},
+        {140, sizeof(::jon::can::BusRecordBatch)},
+        {149, sizeof(::jon::can::BusStreamConnected)},
+        {154, sizeof(::jon::can::BusStreamMessage)},
 };
 static const ::_pbi::MessageGlobalsBase* PROTOBUF_NONNULL const
     file_message_globals[] = {
         &::jon::can::CANFrame_globals_,
         &::jon::can::CANFrameBatch_globals_,
         &::jon::can::CANStreamConnected_globals_,
+        &::jon::can::BusRefusal_globals_,
+        &::jon::can::BusRecord_globals_,
+        &::jon::can::BusStreamStats_RefusedByEntry_DoNotUse_globals_,
+        &::jon::can::BusStreamStats_DroppedEntry_DoNotUse_globals_,
+        &::jon::can::BusStreamStats_globals_,
+        &::jon::can::BusRecordBatch_globals_,
+        &::jon::can::BusStreamConnected_globals_,
+        &::jon::can::BusStreamMessage_globals_,
 };
 const char descriptor_table_protodef_jon_5fcan_5fstream_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
@@ -606,12 +2293,52 @@ const char descriptor_table_protodef_jon_5fcan_5fstream_2eproto[] ABSL_ATTRIBUTE
     "NDirection\022\021\n\tkernel_ns\030\007 \001(\004\022\r\n\005seq64\030\010"
     " \001(\004\022\r\n\005drops\030\t \001(\004\"2\n\rCANFrameBatch\022!\n\006"
     "frames\030\001 \003(\0132\021.jon.can.CANFrame\"+\n\022CANSt"
-    "reamConnected\022\017\n\007streams\030\001 \003(\tJ\004\010\002\020\003*t\n\014"
-    "CANDirection\022\035\n\031CAN_DIRECTION_UNSPECIFIE"
-    "D\020\000\022\024\n\020CAN_DIRECTION_TX\020\001\022\024\n\020CAN_DIRECTI"
-    "ON_RX\020\002\022\031\n\025CAN_DIRECTION_UNKNOWN\020\003BFZDgi"
-    "t-codecommit.eu-central-1.amazonaws.com/"
-    "v1/repos/jettison/jonp/canb\006proto3"
+    "reamConnected\022\017\n\007streams\030\001 \003(\tJ\004\010\002\020\003\"3\n\n"
+    "BusRefusal\022\025\n\004code\030\001 \001(\tB\007\272H\004r\002\020\001\022\016\n\006det"
+    "ail\030\002 \001(\t\"\343\005\n\tBusRecord\022\022\n\001n\030\001 \001(\004B\007\272H\0042"
+    "\002(\001\022\r\n\005title\030\002 \001(\t\022\025\n\004kind\030\003 \001(\tB\007\272H\004r\002\020"
+    "\001\022\013\n\003dir\030\004 \001(\t\022\026\n\004node\030\005 \001(\rB\010\272H\005*\003\030\377\001\022\016"
+    "\n\006module\030\006 \001(\t\022\027\n\005topic\030\007 \001(\rB\010\272H\005*\003\030\377\001\022"
+    "\016\n\006family\030\010 \001(\t\022\017\n\007command\030\t \001(\t\022\017\n\007mess"
+    "age\030\n \001(\t\022\035\n\014decoded_json\030\013 \001(\tB\007\272H\004r\002\020\001"
+    "\022$\n\007refusal\030\014 \001(\0132\023.jon.can.BusRefusal\022\r"
+    "\n\005ts_ns\030\r \001(\004\022\"\n\006origin\030\016 \001(\0162\022.jon.can."
+    "BusOrigin\022\037\n\007hop_seq\030\017 \001(\rB\t\272H\006*\004\030\377\377\003H\000\210"
+    "\001\001\022\035\n\006sender\030\020 \001(\rB\010\272H\005*\003\030\377\001H\001\210\001\001\022\025\n\rsen"
+    "der_module\030\021 \001(\t\022\030\n\006can_id\030\022 \001(\rB\010\272H\005*\003\030"
+    "\377\017\022\030\n\006fflags\030\023 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\013frame_fl"
+    "ags\030\024 \001(\t\022\025\n\004data\030\025 \001(\014B\007\272H\004z\002\030F\022\031\n\007payl"
+    "oad\030\026 \001(\014B\010\272H\005z\003\030\200\004\022\025\n\004prio\030\027 \001(\rB\007\272H\004*\002"
+    "\030\003\022\026\n\004type\030\030 \001(\rB\010\272H\005*\003\030\377\001\022\025\n\003seq\030\031 \001(\rB"
+    "\010\272H\005*\003\030\377\001\022\034\n\nfrag_total\030\032 \001(\rB\010\272H\005*\003\030\377\001\022"
+    "\022\n\ntx_time_ns\030\033 \001(\004\022\020\n\010ts_valid\030\034 \001(\010\022\016\n"
+    "\006stream\030\035 \001(\t\022\020\n\010entry_id\030\036 \001(\t\022\017\n\007time_"
+    "ms\030\037 \001(\003B\n\n\010_hop_seqB\t\n\007_sender\"\371\002\n\016BusS"
+    "treamStats\022\017\n\007records\030\001 \001(\004\022\020\n\010messages\030"
+    "\002 \001(\004\022\017\n\007refused\030\003 \001(\004\022:\n\nrefused_by\030\004 \003"
+    "(\0132&.jon.can.BusStreamStats.RefusedByEnt"
+    "ry\022\020\n\010absorbed\030\005 \001(\004\0225\n\007dropped\030\006 \003(\0132$."
+    "jon.can.BusStreamStats.DroppedEntry\022\020\n\010h"
+    "op_gaps\030\007 \001(\004\022\017\n\007senders\030\010 \001(\r\022\017\n\007stream"
+    "s\030\t \001(\r\022\030\n\020source_connected\030\n \001(\010\0320\n\016Ref"
+    "usedByEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\004:"
+    "\0028\001\032.\n\014DroppedEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005valu"
+    "e\030\002 \001(\004:\0028\001\"n\n\016BusRecordBatch\022#\n\007records"
+    "\030\001 \003(\0132\022.jon.can.BusRecord\022&\n\005stats\030\002 \001("
+    "\0132\027.jon.can.BusStreamStats\022\017\n\007evicted\030\003 "
+    "\001(\004\"%\n\022BusStreamConnected\022\017\n\007streams\030\001 \003"
+    "(\t\"\200\001\n\020BusStreamMessage\0220\n\tconnected\030\001 \001"
+    "(\0132\033.jon.can.BusStreamConnectedH\000\022(\n\005bat"
+    "ch\030\002 \001(\0132\027.jon.can.BusRecordBatchH\000B\020\n\007m"
+    "essage\022\005\272H\002\010\001*t\n\014CANDirection\022\035\n\031CAN_DIR"
+    "ECTION_UNSPECIFIED\020\000\022\024\n\020CAN_DIRECTION_TX"
+    "\020\001\022\024\n\020CAN_DIRECTION_RX\020\002\022\031\n\025CAN_DIRECTIO"
+    "N_UNKNOWN\020\003*\200\001\n\tBusOrigin\022\032\n\026BUS_ORIGIN_"
+    "UNSPECIFIED\020\000\022\022\n\016BUS_ORIGIN_BUS\020\001\022\023\n\017BUS"
+    "_ORIGIN_ORIN\020\002\022\030\n\024BUS_ORIGIN_CARAMBOLA\020\003"
+    "\022\024\n\020BUS_ORIGIN_LOCAL\020\004BFZDgit-codecommit"
+    ".eu-central-1.amazonaws.com/v1/repos/jet"
+    "tison/jonp/canb\006proto3"
 };
 static const ::_pbi::DescriptorTable* PROTOBUF_NONNULL const
     descriptor_table_jon_5fcan_5fstream_2eproto_deps[1] = {
@@ -621,13 +2348,13 @@ static ::absl::once_flag descriptor_table_jon_5fcan_5fstream_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fcan_5fstream_2eproto = {
     false,
     false,
-    554,
+    2142,
     descriptor_table_protodef_jon_5fcan_5fstream_2eproto,
     "jon_can_stream.proto",
     &descriptor_table_jon_5fcan_5fstream_2eproto_once,
     descriptor_table_jon_5fcan_5fstream_2eproto_deps,
     1,
-    3,
+    11,
     schemas,
     file_message_globals,
     TableStruct_jon_5fcan_5fstream_2eproto::offsets,
@@ -643,6 +2370,13 @@ CANDirection_descriptor() {
 }
 PROTOBUF_CONSTINIT const uint32_t CANDirection_internal_data_[] = {
     262144u, 0u, };
+[[nodiscard]] const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL
+BusOrigin_descriptor() {
+  ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fcan_5fstream_2eproto);
+  return file_level_enum_descriptors_jon_5fcan_5fstream_2eproto[1];
+}
+PROTOBUF_CONSTINIT const uint32_t BusOrigin_internal_data_[] = {
+    327680u, 0u, };
 // ===================================================================
 
 CANFrame::CANFrame(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
@@ -1478,6 +3212,2665 @@ void CANStreamConnected::InternalSwap(CANStreamConnected* PROTOBUF_RESTRICT PROT
 }
 
 ::google::protobuf::Metadata CANStreamConnected::GetMetadata() const {
+  return Super_::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+BusRefusal::BusRefusal(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : Super_(arena, BusRefusal_get_class_data()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : Super_(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:jon.can.BusRefusal)
+}
+PROTOBUF_NDEBUG_INLINE BusRefusal::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    [[maybe_unused]] const ::jon::can::BusRefusal& from_msg)
+      : _has_bits_{from._has_bits_},
+        code_(arena, from.code_),
+        detail_(arena, from.detail_) {}
+
+BusRefusal::BusRefusal(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const BusRefusal& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : Super_(arena, BusRefusal_get_class_data()) {
+
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : Super_(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  BusRefusal* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+
+  // @@protoc_insertion_point(copy_constructor:jon.can.BusRefusal)
+}
+PROTOBUF_NDEBUG_INLINE BusRefusal::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : code_(arena),
+        detail_(arena) {}
+
+inline void BusRefusal::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+}
+BusRefusal::~BusRefusal() {
+  // @@protoc_insertion_point(destructor:jon.can.BusRefusal)
+  SharedDtor(*this);
+}
+inline void BusRefusal::SharedDtor(MessageLite& self) {
+  BusRefusal& this_ = static_cast<BusRefusal&>(self);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.code_.Destroy();
+  this_._impl_.detail_.Destroy();
+  this_._impl_.~Impl_();
+}
+
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull BusRefusal_class_data_ =
+        BusRefusal::InternalGenerateClassData_(BusRefusal_globals_._default);
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+BusRefusal::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&BusRefusal_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(BusRefusal_class_data_.tc_table);
+  return BusRefusal_class_data_.base();
+}
+#else
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+BusRefusal::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&BusRefusal_globals_);
+  ::google::protobuf::internal::PrefetchToLocalCache(
+      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&BusRefusal_globals_));
+  return BusRefusal_globals_.GetClassData();
+}
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const BusRefusal::ParseTableT_
+    BusRefusal::_table_ =
+        BusRefusal::InternalGenerateParseTable_(BusRefusal_class_data_.base());
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_NOINLINE void BusRefusal::Clear() {
+  auto& this_ [[maybe_unused]] = *this;
+  // @@protoc_insertion_point(message_clear_start:jon.can.BusRefusal)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits [[maybe_unused]] = 0;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      this_._impl_.code_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      this_._impl_.detail_.ClearNonDefaultToEmpty();
+    }
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL BusRefusal::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const BusRefusal& this_ = static_cast<const BusRefusal&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL BusRefusal::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const BusRefusal& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(serialize_to_array_start:jon.can.BusRefusal)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // string code = 1 [(.buf.validate.field) = {
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    if (!this_._internal_code().empty()) {
+      const ::std::string& _s = this_._internal_code();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.can.BusRefusal.code");
+      target = stream->WriteStringMaybeAliased(1, _s, target);
+    }
+  }
+
+  // string detail = 2;
+  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+    if (!this_._internal_detail().empty()) {
+      const ::std::string& _s = this_._internal_detail();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.can.BusRefusal.detail");
+      target = stream->WriteStringMaybeAliased(2, _s, target);
+    }
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:jon.can.BusRefusal)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t BusRefusal::ByteSizeLong(const MessageLite& base) {
+  const BusRefusal& this_ = static_cast<const BusRefusal&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t BusRefusal::ByteSizeLong() const {
+  const BusRefusal& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:jon.can.BusRefusal)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits [[maybe_unused]] = 0;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
+    // string code = 1 [(.buf.validate.field) = {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!this_._internal_code().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_code());
+      }
+    }
+    // string detail = 2;
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (!this_._internal_detail().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_detail());
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void BusRefusal::MergeImpl(::google::protobuf::MessageLite& to_msg,
+                      const ::google::protobuf::MessageLite& from_msg) {
+   auto* const _this = static_cast<BusRefusal*>(&to_msg);
+  auto& from = static_cast<const BusRefusal&>(from_msg);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    from.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(class_specific_merge_from_start:jon.can.BusRefusal)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!from._internal_code().empty()) {
+        _this->_internal_set_code(from._internal_code());
+      } else {
+        if (_this->_impl_.code_.IsDefault()) {
+          _this->_internal_set_code("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (!from._internal_detail().empty()) {
+        _this->_internal_set_detail(from._internal_detail());
+      } else {
+        if (_this->_impl_.detail_.IsDefault()) {
+          _this->_internal_set_detail("");
+        }
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+
+void BusRefusal::CopyFrom(const BusRefusal& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:jon.can.BusRefusal)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void BusRefusal::InternalSwap(BusRefusal* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.code_, &other->_impl_.code_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.detail_, &other->_impl_.detail_, arena);
+}
+
+::google::protobuf::Metadata BusRefusal::GetMetadata() const {
+  return Super_::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+BusRecord::BusRecord(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : Super_(arena, BusRecord_get_class_data()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : Super_(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:jon.can.BusRecord)
+}
+PROTOBUF_NDEBUG_INLINE BusRecord::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    [[maybe_unused]] const ::jon::can::BusRecord& from_msg)
+      : _has_bits_{from._has_bits_},
+        title_(arena, from.title_),
+        kind_(arena, from.kind_),
+        dir_(arena, from.dir_),
+        module_(arena, from.module_),
+        family_(arena, from.family_),
+        command_(arena, from.command_),
+        message_(arena, from.message_),
+        decoded_json_(arena, from.decoded_json_),
+        sender_module_(arena, from.sender_module_),
+        frame_flags_(arena, from.frame_flags_),
+        data_(arena, from.data_),
+        payload_(arena, from.payload_),
+        stream_(arena, from.stream_),
+        entry_id_(arena, from.entry_id_) {}
+
+BusRecord::BusRecord(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const BusRecord& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : Super_(arena, BusRecord_get_class_data()) {
+
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : Super_(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  BusRecord* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.refusal_ = (CheckHasBit(cached_has_bits, 0x00004000U))
+                 ? Super_::CopyConstruct(arena, *from._impl_.refusal_)
+                 : nullptr;
+  ::memcpy(reinterpret_cast<char*>(&_impl_) +
+               offsetof(Impl_, n_),
+           reinterpret_cast<const char*>(&from._impl_) +
+               offsetof(Impl_, n_),
+           offsetof(Impl_, time_ms_) -
+               offsetof(Impl_, n_) +
+               sizeof(Impl_::time_ms_));
+
+  // @@protoc_insertion_point(copy_constructor:jon.can.BusRecord)
+}
+PROTOBUF_NDEBUG_INLINE BusRecord::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : title_(arena),
+        kind_(arena),
+        dir_(arena),
+        module_(arena),
+        family_(arena),
+        command_(arena),
+        message_(arena),
+        decoded_json_(arena),
+        sender_module_(arena),
+        frame_flags_(arena),
+        data_(arena),
+        payload_(arena),
+        stream_(arena),
+        entry_id_(arena) {}
+
+inline void BusRecord::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char*>(&_impl_) +
+               offsetof(Impl_, refusal_),
+           0,
+           offsetof(Impl_, time_ms_) -
+               offsetof(Impl_, refusal_) +
+               sizeof(Impl_::time_ms_));
+}
+BusRecord::~BusRecord() {
+  // @@protoc_insertion_point(destructor:jon.can.BusRecord)
+  SharedDtor(*this);
+}
+inline void BusRecord::SharedDtor(MessageLite& self) {
+  BusRecord& this_ = static_cast<BusRecord&>(self);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.title_.Destroy();
+  this_._impl_.kind_.Destroy();
+  this_._impl_.dir_.Destroy();
+  this_._impl_.module_.Destroy();
+  this_._impl_.family_.Destroy();
+  this_._impl_.command_.Destroy();
+  this_._impl_.message_.Destroy();
+  this_._impl_.decoded_json_.Destroy();
+  this_._impl_.sender_module_.Destroy();
+  this_._impl_.frame_flags_.Destroy();
+  this_._impl_.data_.Destroy();
+  this_._impl_.payload_.Destroy();
+  this_._impl_.stream_.Destroy();
+  this_._impl_.entry_id_.Destroy();
+  delete this_._impl_.refusal_;
+  this_._impl_.~Impl_();
+}
+
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull BusRecord_class_data_ =
+        BusRecord::InternalGenerateClassData_(BusRecord_globals_._default);
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+BusRecord::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&BusRecord_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(BusRecord_class_data_.tc_table);
+  return BusRecord_class_data_.base();
+}
+#else
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+BusRecord::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&BusRecord_globals_);
+  ::google::protobuf::internal::PrefetchToLocalCache(
+      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&BusRecord_globals_));
+  return BusRecord_globals_.GetClassData();
+}
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const BusRecord::ParseTableT_
+    BusRecord::_table_ =
+        BusRecord::InternalGenerateParseTable_(BusRecord_class_data_.base());
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_NOINLINE void BusRecord::Clear() {
+  auto& this_ [[maybe_unused]] = *this;
+  // @@protoc_insertion_point(message_clear_start:jon.can.BusRecord)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits [[maybe_unused]] = 0;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x000000ffU)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      this_._impl_.title_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      this_._impl_.kind_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      this_._impl_.dir_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+      this_._impl_.module_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000010U)) {
+      this_._impl_.family_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000020U)) {
+      this_._impl_.command_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000040U)) {
+      this_._impl_.message_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000080U)) {
+      this_._impl_.decoded_json_.ClearNonDefaultToEmpty();
+    }
+  }
+  if (BatchCheckHasBit(cached_has_bits, 0x00007f00U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000100U)) {
+      this_._impl_.sender_module_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000200U)) {
+      this_._impl_.frame_flags_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000400U)) {
+      this_._impl_.data_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000800U)) {
+      this_._impl_.payload_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00001000U)) {
+      this_._impl_.stream_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00002000U)) {
+      this_._impl_.entry_id_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00004000U)) {
+      ABSL_DCHECK(this_._impl_.refusal_ != nullptr);
+      this_._impl_.refusal_->Clear();
+    }
+  }
+  this_._impl_.n_ = ::uint64_t{0u};
+  if (BatchCheckHasBit(cached_has_bits, 0x00ff0000U)) {
+    ::memset(&this_._impl_.node_, 0,
+             static_cast<::size_t>(
+                 reinterpret_cast<char*>(&this_._impl_.fflags_) -
+                 reinterpret_cast<char*>(&this_._impl_.node_)) +
+                 sizeof(_impl_.fflags_));
+  }
+  if (BatchCheckHasBit(cached_has_bits, 0x7f000000U)) {
+    ::memset(&this_._impl_.prio_, 0,
+             static_cast<::size_t>(
+                 reinterpret_cast<char*>(&this_._impl_.time_ms_) -
+                 reinterpret_cast<char*>(&this_._impl_.prio_)) +
+                 sizeof(_impl_.time_ms_));
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL BusRecord::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const BusRecord& this_ = static_cast<const BusRecord&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL BusRecord::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const BusRecord& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(serialize_to_array_start:jon.can.BusRecord)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // uint64 n = 1 [(.buf.validate.field) = {
+  if (CheckHasBit(cached_has_bits, 0x00008000U)) {
+    if (this_._internal_n() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+          1, this_._internal_n(), target);
+    }
+  }
+
+  // string title = 2;
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    if (!this_._internal_title().empty()) {
+      const ::std::string& _s = this_._internal_title();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.can.BusRecord.title");
+      target = stream->WriteStringMaybeAliased(2, _s, target);
+    }
+  }
+
+  // string kind = 3 [(.buf.validate.field) = {
+  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+    if (!this_._internal_kind().empty()) {
+      const ::std::string& _s = this_._internal_kind();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.can.BusRecord.kind");
+      target = stream->WriteStringMaybeAliased(3, _s, target);
+    }
+  }
+
+  // string dir = 4;
+  if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+    if (!this_._internal_dir().empty()) {
+      const ::std::string& _s = this_._internal_dir();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.can.BusRecord.dir");
+      target = stream->WriteStringMaybeAliased(4, _s, target);
+    }
+  }
+
+  // uint32 node = 5 [(.buf.validate.field) = {
+  if (CheckHasBit(cached_has_bits, 0x00010000U)) {
+    if (this_._internal_node() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+          5, this_._internal_node(), target);
+    }
+  }
+
+  // string module = 6;
+  if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+    if (!this_._internal_module().empty()) {
+      const ::std::string& _s = this_._internal_module();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.can.BusRecord.module");
+      target = stream->WriteStringMaybeAliased(6, _s, target);
+    }
+  }
+
+  // uint32 topic = 7 [(.buf.validate.field) = {
+  if (CheckHasBit(cached_has_bits, 0x00020000U)) {
+    if (this_._internal_topic() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+          7, this_._internal_topic(), target);
+    }
+  }
+
+  // string family = 8;
+  if (CheckHasBit(cached_has_bits, 0x00000010U)) {
+    if (!this_._internal_family().empty()) {
+      const ::std::string& _s = this_._internal_family();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.can.BusRecord.family");
+      target = stream->WriteStringMaybeAliased(8, _s, target);
+    }
+  }
+
+  // string command = 9;
+  if (CheckHasBit(cached_has_bits, 0x00000020U)) {
+    if (!this_._internal_command().empty()) {
+      const ::std::string& _s = this_._internal_command();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.can.BusRecord.command");
+      target = stream->WriteStringMaybeAliased(9, _s, target);
+    }
+  }
+
+  // string message = 10;
+  if (CheckHasBit(cached_has_bits, 0x00000040U)) {
+    if (!this_._internal_message().empty()) {
+      const ::std::string& _s = this_._internal_message();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.can.BusRecord.message");
+      target = stream->WriteStringMaybeAliased(10, _s, target);
+    }
+  }
+
+  // string decoded_json = 11 [(.buf.validate.field) = {
+  if (CheckHasBit(cached_has_bits, 0x00000080U)) {
+    if (!this_._internal_decoded_json().empty()) {
+      const ::std::string& _s = this_._internal_decoded_json();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.can.BusRecord.decoded_json");
+      target = stream->WriteStringMaybeAliased(11, _s, target);
+    }
+  }
+
+  // .jon.can.BusRefusal refusal = 12;
+  if (CheckHasBit(cached_has_bits, 0x00004000U)) {
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        12, *this_._impl_.refusal_, this_._impl_.refusal_->GetCachedSize(), target,
+        stream);
+  }
+
+  // uint64 ts_ns = 13;
+  if (CheckHasBit(cached_has_bits, 0x00040000U)) {
+    if (this_._internal_ts_ns() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+          13, this_._internal_ts_ns(), target);
+    }
+  }
+
+  // .jon.can.BusOrigin origin = 14;
+  if (CheckHasBit(cached_has_bits, 0x00080000U)) {
+    if (this_._internal_origin() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteEnumToArray(
+          14, this_._internal_origin(), target);
+    }
+  }
+
+  // optional uint32 hop_seq = 15 [(.buf.validate.field) = {
+  if (CheckHasBit(cached_has_bits, 0x00100000U)) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+        15, this_._internal_hop_seq(), target);
+  }
+
+  // optional uint32 sender = 16 [(.buf.validate.field) = {
+  if (CheckHasBit(cached_has_bits, 0x00200000U)) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+        16, this_._internal_sender(), target);
+  }
+
+  // string sender_module = 17;
+  if (CheckHasBit(cached_has_bits, 0x00000100U)) {
+    if (!this_._internal_sender_module().empty()) {
+      const ::std::string& _s = this_._internal_sender_module();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.can.BusRecord.sender_module");
+      target = stream->WriteStringMaybeAliased(17, _s, target);
+    }
+  }
+
+  // uint32 can_id = 18 [(.buf.validate.field) = {
+  if (CheckHasBit(cached_has_bits, 0x00400000U)) {
+    if (this_._internal_can_id() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+          18, this_._internal_can_id(), target);
+    }
+  }
+
+  // uint32 fflags = 19 [(.buf.validate.field) = {
+  if (CheckHasBit(cached_has_bits, 0x00800000U)) {
+    if (this_._internal_fflags() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+          19, this_._internal_fflags(), target);
+    }
+  }
+
+  // string frame_flags = 20;
+  if (CheckHasBit(cached_has_bits, 0x00000200U)) {
+    if (!this_._internal_frame_flags().empty()) {
+      const ::std::string& _s = this_._internal_frame_flags();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.can.BusRecord.frame_flags");
+      target = stream->WriteStringMaybeAliased(20, _s, target);
+    }
+  }
+
+  // bytes data = 21 [(.buf.validate.field) = {
+  if (CheckHasBit(cached_has_bits, 0x00000400U)) {
+    if (!this_._internal_data().empty()) {
+      const ::std::string& _s = this_._internal_data();
+      target = stream->WriteBytesMaybeAliased(21, _s, target);
+    }
+  }
+
+  // bytes payload = 22 [(.buf.validate.field) = {
+  if (CheckHasBit(cached_has_bits, 0x00000800U)) {
+    if (!this_._internal_payload().empty()) {
+      const ::std::string& _s = this_._internal_payload();
+      target = stream->WriteBytesMaybeAliased(22, _s, target);
+    }
+  }
+
+  // uint32 prio = 23 [(.buf.validate.field) = {
+  if (CheckHasBit(cached_has_bits, 0x01000000U)) {
+    if (this_._internal_prio() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+          23, this_._internal_prio(), target);
+    }
+  }
+
+  // uint32 type = 24 [(.buf.validate.field) = {
+  if (CheckHasBit(cached_has_bits, 0x02000000U)) {
+    if (this_._internal_type() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+          24, this_._internal_type(), target);
+    }
+  }
+
+  // uint32 seq = 25 [(.buf.validate.field) = {
+  if (CheckHasBit(cached_has_bits, 0x04000000U)) {
+    if (this_._internal_seq() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+          25, this_._internal_seq(), target);
+    }
+  }
+
+  // uint32 frag_total = 26 [(.buf.validate.field) = {
+  if (CheckHasBit(cached_has_bits, 0x10000000U)) {
+    if (this_._internal_frag_total() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+          26, this_._internal_frag_total(), target);
+    }
+  }
+
+  // uint64 tx_time_ns = 27;
+  if (CheckHasBit(cached_has_bits, 0x08000000U)) {
+    if (this_._internal_tx_time_ns() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+          27, this_._internal_tx_time_ns(), target);
+    }
+  }
+
+  // bool ts_valid = 28;
+  if (CheckHasBit(cached_has_bits, 0x20000000U)) {
+    if (this_._internal_ts_valid() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteBoolToArray(
+          28, this_._internal_ts_valid(), target);
+    }
+  }
+
+  // string stream = 29;
+  if (CheckHasBit(cached_has_bits, 0x00001000U)) {
+    if (!this_._internal_stream().empty()) {
+      const ::std::string& _s = this_._internal_stream();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.can.BusRecord.stream");
+      target = stream->WriteStringMaybeAliased(29, _s, target);
+    }
+  }
+
+  // string entry_id = 30;
+  if (CheckHasBit(cached_has_bits, 0x00002000U)) {
+    if (!this_._internal_entry_id().empty()) {
+      const ::std::string& _s = this_._internal_entry_id();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.can.BusRecord.entry_id");
+      target = stream->WriteStringMaybeAliased(30, _s, target);
+    }
+  }
+
+  // int64 time_ms = 31;
+  if (CheckHasBit(cached_has_bits, 0x40000000U)) {
+    if (this_._internal_time_ms() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteInt64ToArray(
+          31, this_._internal_time_ms(), target);
+    }
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:jon.can.BusRecord)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t BusRecord::ByteSizeLong(const MessageLite& base) {
+  const BusRecord& this_ = static_cast<const BusRecord&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t BusRecord::ByteSizeLong() const {
+  const BusRecord& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:jon.can.BusRecord)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits [[maybe_unused]] = 0;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x000000ffU)) {
+    // string title = 2;
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!this_._internal_title().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_title());
+      }
+    }
+    // string kind = 3 [(.buf.validate.field) = {
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (!this_._internal_kind().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_kind());
+      }
+    }
+    // string dir = 4;
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (!this_._internal_dir().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_dir());
+      }
+    }
+    // string module = 6;
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+      if (!this_._internal_module().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_module());
+      }
+    }
+    // string family = 8;
+    if (CheckHasBit(cached_has_bits, 0x00000010U)) {
+      if (!this_._internal_family().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_family());
+      }
+    }
+    // string command = 9;
+    if (CheckHasBit(cached_has_bits, 0x00000020U)) {
+      if (!this_._internal_command().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_command());
+      }
+    }
+    // string message = 10;
+    if (CheckHasBit(cached_has_bits, 0x00000040U)) {
+      if (!this_._internal_message().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_message());
+      }
+    }
+    // string decoded_json = 11 [(.buf.validate.field) = {
+    if (CheckHasBit(cached_has_bits, 0x00000080U)) {
+      if (!this_._internal_decoded_json().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_decoded_json());
+      }
+    }
+  }
+  if (BatchCheckHasBit(cached_has_bits, 0x0000ff00U)) {
+    // string sender_module = 17;
+    if (CheckHasBit(cached_has_bits, 0x00000100U)) {
+      if (!this_._internal_sender_module().empty()) {
+        total_size += 2 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_sender_module());
+      }
+    }
+    // string frame_flags = 20;
+    if (CheckHasBit(cached_has_bits, 0x00000200U)) {
+      if (!this_._internal_frame_flags().empty()) {
+        total_size += 2 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_frame_flags());
+      }
+    }
+    // bytes data = 21 [(.buf.validate.field) = {
+    if (CheckHasBit(cached_has_bits, 0x00000400U)) {
+      if (!this_._internal_data().empty()) {
+        total_size += 2 + ::google::protobuf::internal::WireFormatLite::BytesSize(
+                                        this_._internal_data());
+      }
+    }
+    // bytes payload = 22 [(.buf.validate.field) = {
+    if (CheckHasBit(cached_has_bits, 0x00000800U)) {
+      if (!this_._internal_payload().empty()) {
+        total_size += 2 + ::google::protobuf::internal::WireFormatLite::BytesSize(
+                                        this_._internal_payload());
+      }
+    }
+    // string stream = 29;
+    if (CheckHasBit(cached_has_bits, 0x00001000U)) {
+      if (!this_._internal_stream().empty()) {
+        total_size += 2 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_stream());
+      }
+    }
+    // string entry_id = 30;
+    if (CheckHasBit(cached_has_bits, 0x00002000U)) {
+      if (!this_._internal_entry_id().empty()) {
+        total_size += 2 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_entry_id());
+      }
+    }
+    // .jon.can.BusRefusal refusal = 12;
+    if (CheckHasBit(cached_has_bits, 0x00004000U)) {
+      total_size += 1 +
+                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.refusal_);
+    }
+    // uint64 n = 1 [(.buf.validate.field) = {
+    if (CheckHasBit(cached_has_bits, 0x00008000U)) {
+      if (this_._internal_n() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+            this_._internal_n());
+      }
+    }
+  }
+  if (BatchCheckHasBit(cached_has_bits, 0x00ff0000U)) {
+    // uint32 node = 5 [(.buf.validate.field) = {
+    if (CheckHasBit(cached_has_bits, 0x00010000U)) {
+      if (this_._internal_node() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+            this_._internal_node());
+      }
+    }
+    // uint32 topic = 7 [(.buf.validate.field) = {
+    if (CheckHasBit(cached_has_bits, 0x00020000U)) {
+      if (this_._internal_topic() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+            this_._internal_topic());
+      }
+    }
+    // uint64 ts_ns = 13;
+    if (CheckHasBit(cached_has_bits, 0x00040000U)) {
+      if (this_._internal_ts_ns() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+            this_._internal_ts_ns());
+      }
+    }
+    // .jon.can.BusOrigin origin = 14;
+    if (CheckHasBit(cached_has_bits, 0x00080000U)) {
+      if (this_._internal_origin() != 0) {
+        total_size += 1 +
+                      ::_pbi::WireFormatLite::EnumSize(this_._internal_origin());
+      }
+    }
+    // optional uint32 hop_seq = 15 [(.buf.validate.field) = {
+    if (CheckHasBit(cached_has_bits, 0x00100000U)) {
+      total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+          this_._internal_hop_seq());
+    }
+    // optional uint32 sender = 16 [(.buf.validate.field) = {
+    if (CheckHasBit(cached_has_bits, 0x00200000U)) {
+      total_size += 2 + ::_pbi::WireFormatLite::UInt32Size(
+                                      this_._internal_sender());
+    }
+    // uint32 can_id = 18 [(.buf.validate.field) = {
+    if (CheckHasBit(cached_has_bits, 0x00400000U)) {
+      if (this_._internal_can_id() != 0) {
+        total_size += 2 + ::_pbi::WireFormatLite::UInt32Size(
+                                        this_._internal_can_id());
+      }
+    }
+    // uint32 fflags = 19 [(.buf.validate.field) = {
+    if (CheckHasBit(cached_has_bits, 0x00800000U)) {
+      if (this_._internal_fflags() != 0) {
+        total_size += 2 + ::_pbi::WireFormatLite::UInt32Size(
+                                        this_._internal_fflags());
+      }
+    }
+  }
+  if (BatchCheckHasBit(cached_has_bits, 0x7f000000U)) {
+    // uint32 prio = 23 [(.buf.validate.field) = {
+    if (CheckHasBit(cached_has_bits, 0x01000000U)) {
+      if (this_._internal_prio() != 0) {
+        total_size += 2 + ::_pbi::WireFormatLite::UInt32Size(
+                                        this_._internal_prio());
+      }
+    }
+    // uint32 type = 24 [(.buf.validate.field) = {
+    if (CheckHasBit(cached_has_bits, 0x02000000U)) {
+      if (this_._internal_type() != 0) {
+        total_size += 2 + ::_pbi::WireFormatLite::UInt32Size(
+                                        this_._internal_type());
+      }
+    }
+    // uint32 seq = 25 [(.buf.validate.field) = {
+    if (CheckHasBit(cached_has_bits, 0x04000000U)) {
+      if (this_._internal_seq() != 0) {
+        total_size += 2 + ::_pbi::WireFormatLite::UInt32Size(
+                                        this_._internal_seq());
+      }
+    }
+    // uint64 tx_time_ns = 27;
+    if (CheckHasBit(cached_has_bits, 0x08000000U)) {
+      if (this_._internal_tx_time_ns() != 0) {
+        total_size += 2 + ::_pbi::WireFormatLite::UInt64Size(
+                                        this_._internal_tx_time_ns());
+      }
+    }
+    // uint32 frag_total = 26 [(.buf.validate.field) = {
+    if (CheckHasBit(cached_has_bits, 0x10000000U)) {
+      if (this_._internal_frag_total() != 0) {
+        total_size += 2 + ::_pbi::WireFormatLite::UInt32Size(
+                                        this_._internal_frag_total());
+      }
+    }
+    // bool ts_valid = 28;
+    if (CheckHasBit(cached_has_bits, 0x20000000U)) {
+      if (this_._internal_ts_valid() != 0) {
+        total_size += 3;
+      }
+    }
+    // int64 time_ms = 31;
+    if (CheckHasBit(cached_has_bits, 0x40000000U)) {
+      if (this_._internal_time_ms() != 0) {
+        total_size += 2 + ::_pbi::WireFormatLite::Int64Size(
+                                        this_._internal_time_ms());
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void BusRecord::MergeImpl(::google::protobuf::MessageLite& to_msg,
+                      const ::google::protobuf::MessageLite& from_msg) {
+   auto* const _this = static_cast<BusRecord*>(&to_msg);
+  auto& from = static_cast<const BusRecord&>(from_msg);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    from.CheckHasBitConsistency();
+  }
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:jon.can.BusRecord)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x000000ffU)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!from._internal_title().empty()) {
+        _this->_internal_set_title(from._internal_title());
+      } else {
+        if (_this->_impl_.title_.IsDefault()) {
+          _this->_internal_set_title("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (!from._internal_kind().empty()) {
+        _this->_internal_set_kind(from._internal_kind());
+      } else {
+        if (_this->_impl_.kind_.IsDefault()) {
+          _this->_internal_set_kind("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (!from._internal_dir().empty()) {
+        _this->_internal_set_dir(from._internal_dir());
+      } else {
+        if (_this->_impl_.dir_.IsDefault()) {
+          _this->_internal_set_dir("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+      if (!from._internal_module().empty()) {
+        _this->_internal_set_module(from._internal_module());
+      } else {
+        if (_this->_impl_.module_.IsDefault()) {
+          _this->_internal_set_module("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000010U)) {
+      if (!from._internal_family().empty()) {
+        _this->_internal_set_family(from._internal_family());
+      } else {
+        if (_this->_impl_.family_.IsDefault()) {
+          _this->_internal_set_family("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000020U)) {
+      if (!from._internal_command().empty()) {
+        _this->_internal_set_command(from._internal_command());
+      } else {
+        if (_this->_impl_.command_.IsDefault()) {
+          _this->_internal_set_command("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000040U)) {
+      if (!from._internal_message().empty()) {
+        _this->_internal_set_message(from._internal_message());
+      } else {
+        if (_this->_impl_.message_.IsDefault()) {
+          _this->_internal_set_message("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000080U)) {
+      if (!from._internal_decoded_json().empty()) {
+        _this->_internal_set_decoded_json(from._internal_decoded_json());
+      } else {
+        if (_this->_impl_.decoded_json_.IsDefault()) {
+          _this->_internal_set_decoded_json("");
+        }
+      }
+    }
+  }
+  if (BatchCheckHasBit(cached_has_bits, 0x0000ff00U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000100U)) {
+      if (!from._internal_sender_module().empty()) {
+        _this->_internal_set_sender_module(from._internal_sender_module());
+      } else {
+        if (_this->_impl_.sender_module_.IsDefault()) {
+          _this->_internal_set_sender_module("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000200U)) {
+      if (!from._internal_frame_flags().empty()) {
+        _this->_internal_set_frame_flags(from._internal_frame_flags());
+      } else {
+        if (_this->_impl_.frame_flags_.IsDefault()) {
+          _this->_internal_set_frame_flags("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000400U)) {
+      if (!from._internal_data().empty()) {
+        _this->_internal_set_data(from._internal_data());
+      } else {
+        if (_this->_impl_.data_.IsDefault()) {
+          _this->_internal_set_data("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000800U)) {
+      if (!from._internal_payload().empty()) {
+        _this->_internal_set_payload(from._internal_payload());
+      } else {
+        if (_this->_impl_.payload_.IsDefault()) {
+          _this->_internal_set_payload("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00001000U)) {
+      if (!from._internal_stream().empty()) {
+        _this->_internal_set_stream(from._internal_stream());
+      } else {
+        if (_this->_impl_.stream_.IsDefault()) {
+          _this->_internal_set_stream("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00002000U)) {
+      if (!from._internal_entry_id().empty()) {
+        _this->_internal_set_entry_id(from._internal_entry_id());
+      } else {
+        if (_this->_impl_.entry_id_.IsDefault()) {
+          _this->_internal_set_entry_id("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00004000U)) {
+      ABSL_DCHECK(from._impl_.refusal_ != nullptr);
+      if (_this->_impl_.refusal_ == nullptr) {
+        _this->_impl_.refusal_ = Super_::CopyConstruct(arena, *from._impl_.refusal_);
+      } else {
+        _this->_impl_.refusal_->MergeFrom(*from._impl_.refusal_);
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00008000U)) {
+      if (from._internal_n() != 0) {
+        _this->_impl_.n_ = from._impl_.n_;
+      }
+    }
+  }
+  if (BatchCheckHasBit(cached_has_bits, 0x00ff0000U)) {
+    if (CheckHasBit(cached_has_bits, 0x00010000U)) {
+      if (from._internal_node() != 0) {
+        _this->_impl_.node_ = from._impl_.node_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00020000U)) {
+      if (from._internal_topic() != 0) {
+        _this->_impl_.topic_ = from._impl_.topic_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00040000U)) {
+      if (from._internal_ts_ns() != 0) {
+        _this->_impl_.ts_ns_ = from._impl_.ts_ns_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00080000U)) {
+      if (from._internal_origin() != 0) {
+        _this->_impl_.origin_ = from._impl_.origin_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00100000U)) {
+      _this->_impl_.hop_seq_ = from._impl_.hop_seq_;
+    }
+    if (CheckHasBit(cached_has_bits, 0x00200000U)) {
+      _this->_impl_.sender_ = from._impl_.sender_;
+    }
+    if (CheckHasBit(cached_has_bits, 0x00400000U)) {
+      if (from._internal_can_id() != 0) {
+        _this->_impl_.can_id_ = from._impl_.can_id_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00800000U)) {
+      if (from._internal_fflags() != 0) {
+        _this->_impl_.fflags_ = from._impl_.fflags_;
+      }
+    }
+  }
+  if (BatchCheckHasBit(cached_has_bits, 0x7f000000U)) {
+    if (CheckHasBit(cached_has_bits, 0x01000000U)) {
+      if (from._internal_prio() != 0) {
+        _this->_impl_.prio_ = from._impl_.prio_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x02000000U)) {
+      if (from._internal_type() != 0) {
+        _this->_impl_.type_ = from._impl_.type_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x04000000U)) {
+      if (from._internal_seq() != 0) {
+        _this->_impl_.seq_ = from._impl_.seq_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x08000000U)) {
+      if (from._internal_tx_time_ns() != 0) {
+        _this->_impl_.tx_time_ns_ = from._impl_.tx_time_ns_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x10000000U)) {
+      if (from._internal_frag_total() != 0) {
+        _this->_impl_.frag_total_ = from._impl_.frag_total_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x20000000U)) {
+      if (from._internal_ts_valid() != 0) {
+        _this->_impl_.ts_valid_ = from._impl_.ts_valid_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x40000000U)) {
+      if (from._internal_time_ms() != 0) {
+        _this->_impl_.time_ms_ = from._impl_.time_ms_;
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+
+void BusRecord::CopyFrom(const BusRecord& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:jon.can.BusRecord)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void BusRecord::InternalSwap(BusRecord* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.title_, &other->_impl_.title_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.kind_, &other->_impl_.kind_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.dir_, &other->_impl_.dir_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.module_, &other->_impl_.module_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.family_, &other->_impl_.family_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.command_, &other->_impl_.command_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.message_, &other->_impl_.message_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.decoded_json_, &other->_impl_.decoded_json_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.sender_module_, &other->_impl_.sender_module_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.frame_flags_, &other->_impl_.frame_flags_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.data_, &other->_impl_.data_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.payload_, &other->_impl_.payload_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.stream_, &other->_impl_.stream_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.entry_id_, &other->_impl_.entry_id_, arena);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.time_ms_)
+      + sizeof(BusRecord::_impl_.time_ms_)
+      - PROTOBUF_FIELD_OFFSET(BusRecord, _impl_.refusal_)>(
+          reinterpret_cast<char*>(&_impl_.refusal_),
+          reinterpret_cast<char*>(&other->_impl_.refusal_));
+}
+
+::google::protobuf::Metadata BusRecord::GetMetadata() const {
+  return Super_::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+BusStreamStats_RefusedByEntry_DoNotUse::BusStreamStats_RefusedByEntry_DoNotUse() : Super_(BusStreamStats_RefusedByEntry_DoNotUse_get_class_data()) {}
+BusStreamStats_RefusedByEntry_DoNotUse::BusStreamStats_RefusedByEntry_DoNotUse(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+    : Super_(arena, BusStreamStats_RefusedByEntry_DoNotUse_get_class_data()) {}
+#else   // PROTOBUF_CUSTOM_VTABLE
+BusStreamStats_RefusedByEntry_DoNotUse::BusStreamStats_RefusedByEntry_DoNotUse() : Super_() {}
+BusStreamStats_RefusedByEntry_DoNotUse::BusStreamStats_RefusedByEntry_DoNotUse(::google::protobuf::Arena* PROTOBUF_NULLABLE arena) : Super_(arena) {}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull BusStreamStats_RefusedByEntry_DoNotUse_class_data_ =
+        BusStreamStats_RefusedByEntry_DoNotUse::InternalGenerateClassData_(BusStreamStats_RefusedByEntry_DoNotUse_globals_._default);
+
+// including ~ all the vtables and everything they use become part
+// of the same ~ SCC.
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+BusStreamStats_RefusedByEntry_DoNotUse::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&BusStreamStats_RefusedByEntry_DoNotUse_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(BusStreamStats_RefusedByEntry_DoNotUse_class_data_.tc_table);
+  return BusStreamStats_RefusedByEntry_DoNotUse_class_data_.base();
+}
+#else
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+BusStreamStats_RefusedByEntry_DoNotUse::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&BusStreamStats_RefusedByEntry_DoNotUse_globals_);
+  ::google::protobuf::internal::PrefetchToLocalCache(
+      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&BusStreamStats_RefusedByEntry_DoNotUse_globals_));
+  return BusStreamStats_RefusedByEntry_DoNotUse_globals_.GetClassData();
+}
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const BusStreamStats_RefusedByEntry_DoNotUse::ParseTableT_
+    BusStreamStats_RefusedByEntry_DoNotUse::_table_ =
+        BusStreamStats_RefusedByEntry_DoNotUse::InternalGenerateParseTable_(BusStreamStats_RefusedByEntry_DoNotUse_class_data_.base());
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+// ===================================================================
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+BusStreamStats_DroppedEntry_DoNotUse::BusStreamStats_DroppedEntry_DoNotUse() : Super_(BusStreamStats_DroppedEntry_DoNotUse_get_class_data()) {}
+BusStreamStats_DroppedEntry_DoNotUse::BusStreamStats_DroppedEntry_DoNotUse(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+    : Super_(arena, BusStreamStats_DroppedEntry_DoNotUse_get_class_data()) {}
+#else   // PROTOBUF_CUSTOM_VTABLE
+BusStreamStats_DroppedEntry_DoNotUse::BusStreamStats_DroppedEntry_DoNotUse() : Super_() {}
+BusStreamStats_DroppedEntry_DoNotUse::BusStreamStats_DroppedEntry_DoNotUse(::google::protobuf::Arena* PROTOBUF_NULLABLE arena) : Super_(arena) {}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull BusStreamStats_DroppedEntry_DoNotUse_class_data_ =
+        BusStreamStats_DroppedEntry_DoNotUse::InternalGenerateClassData_(BusStreamStats_DroppedEntry_DoNotUse_globals_._default);
+
+// including ~ all the vtables and everything they use become part
+// of the same ~ SCC.
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+BusStreamStats_DroppedEntry_DoNotUse::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&BusStreamStats_DroppedEntry_DoNotUse_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(BusStreamStats_DroppedEntry_DoNotUse_class_data_.tc_table);
+  return BusStreamStats_DroppedEntry_DoNotUse_class_data_.base();
+}
+#else
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+BusStreamStats_DroppedEntry_DoNotUse::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&BusStreamStats_DroppedEntry_DoNotUse_globals_);
+  ::google::protobuf::internal::PrefetchToLocalCache(
+      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&BusStreamStats_DroppedEntry_DoNotUse_globals_));
+  return BusStreamStats_DroppedEntry_DoNotUse_globals_.GetClassData();
+}
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const BusStreamStats_DroppedEntry_DoNotUse::ParseTableT_
+    BusStreamStats_DroppedEntry_DoNotUse::_table_ =
+        BusStreamStats_DroppedEntry_DoNotUse::InternalGenerateParseTable_(BusStreamStats_DroppedEntry_DoNotUse_class_data_.base());
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+// ===================================================================
+
+BusStreamStats::BusStreamStats(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : Super_(arena, BusStreamStats_get_class_data()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : Super_(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:jon.can.BusStreamStats)
+}
+PROTOBUF_NDEBUG_INLINE BusStreamStats::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    [[maybe_unused]] const ::jon::can::BusStreamStats& from_msg)
+      : _has_bits_{from._has_bits_},
+        refused_by_ {
+          visibility, ::_pbi::InternalMetadataOffset::Build<
+              ::jon::can::BusStreamStats,
+              PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats, _impl_.refused_by_)>()
+          , arena, from.refused_by_
+        }
+        ,
+        dropped_ {
+          visibility, ::_pbi::InternalMetadataOffset::Build<
+              ::jon::can::BusStreamStats,
+              PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats, _impl_.dropped_)>()
+          , arena, from.dropped_
+        }
+     {}
+
+BusStreamStats::BusStreamStats(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const BusStreamStats& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : Super_(arena, BusStreamStats_get_class_data()) {
+
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : Super_(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  BusStreamStats* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::memcpy(reinterpret_cast<char*>(&_impl_) +
+               offsetof(Impl_, records_),
+           reinterpret_cast<const char*>(&from._impl_) +
+               offsetof(Impl_, records_),
+           offsetof(Impl_, source_connected_) -
+               offsetof(Impl_, records_) +
+               sizeof(Impl_::source_connected_));
+
+  // @@protoc_insertion_point(copy_constructor:jon.can.BusStreamStats)
+}
+PROTOBUF_NDEBUG_INLINE BusStreamStats::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : refused_by_ { visibility, ::_pbi::InternalMetadataOffset::Build<
+            ::jon::can::BusStreamStats,
+            PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats, _impl_.refused_by_)>()
+         }
+        ,
+        dropped_ { visibility, ::_pbi::InternalMetadataOffset::Build<
+            ::jon::can::BusStreamStats,
+            PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamStats, _impl_.dropped_)>()
+         }
+     {}
+
+inline void BusStreamStats::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char*>(&_impl_) +
+               offsetof(Impl_, records_),
+           0,
+           offsetof(Impl_, source_connected_) -
+               offsetof(Impl_, records_) +
+               sizeof(Impl_::source_connected_));
+}
+BusStreamStats::~BusStreamStats() {
+  // @@protoc_insertion_point(destructor:jon.can.BusStreamStats)
+  SharedDtor(*this);
+}
+inline void BusStreamStats::SharedDtor(MessageLite& self) {
+  BusStreamStats& this_ = static_cast<BusStreamStats&>(self);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull BusStreamStats_class_data_ =
+        BusStreamStats::InternalGenerateClassData_(BusStreamStats_globals_._default);
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+BusStreamStats::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&BusStreamStats_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(BusStreamStats_class_data_.tc_table);
+  return BusStreamStats_class_data_.base();
+}
+#else
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+BusStreamStats::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&BusStreamStats_globals_);
+  ::google::protobuf::internal::PrefetchToLocalCache(
+      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&BusStreamStats_globals_));
+  return BusStreamStats_globals_.GetClassData();
+}
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const BusStreamStats::ParseTableT_
+    BusStreamStats::_table_ =
+        BusStreamStats::InternalGenerateParseTable_(BusStreamStats_class_data_.base());
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_NOINLINE void BusStreamStats::Clear() {
+  auto& this_ [[maybe_unused]] = *this;
+  // @@protoc_insertion_point(message_clear_start:jon.can.BusStreamStats)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits [[maybe_unused]] = 0;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x000000ffU)) {
+    ::memset(&this_._impl_.records_, 0,
+             static_cast<::size_t>(
+                 reinterpret_cast<char*>(&this_._impl_.source_connected_) -
+                 reinterpret_cast<char*>(&this_._impl_.records_)) +
+                 sizeof(_impl_.source_connected_));
+  }
+  if (BatchCheckHasBit(cached_has_bits, 0x00000300U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000100U)) {
+      _impl_.refused_by_.Clear();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000200U)) {
+      _impl_.dropped_.Clear();
+    }
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL BusStreamStats::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const BusStreamStats& this_ = static_cast<const BusStreamStats&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL BusStreamStats::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const BusStreamStats& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(serialize_to_array_start:jon.can.BusStreamStats)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // uint64 records = 1;
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    if (this_._internal_records() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+          1, this_._internal_records(), target);
+    }
+  }
+
+  // uint64 messages = 2;
+  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+    if (this_._internal_messages() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+          2, this_._internal_messages(), target);
+    }
+  }
+
+  // uint64 refused = 3;
+  if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+    if (this_._internal_refused() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+          3, this_._internal_refused(), target);
+    }
+  }
+
+  // map<string, uint64> refused_by = 4;
+  if (CheckHasBit(cached_has_bits, 0x00000100U)) {
+    if (!this_._internal_refused_by().empty()) {
+      using MapType = ::google::protobuf::Map<::std::string, ::uint64_t>;
+      using WireHelper = _pbi::MapEntryFuncs<::std::string, ::uint64_t,
+                                     _pbi::WireFormatLite::TYPE_STRING,
+                                     _pbi::WireFormatLite::TYPE_UINT64>;
+      const auto& field = this_._internal_refused_by();
+
+      if (stream->IsSerializationDeterministic() && field.size() > 1) {
+        for (const auto& entry : ::google::protobuf::internal::MapSorterPtr<MapType>(field)) {
+          target = WireHelper::InternalSerialize(
+              4, entry.first, entry.second, target, stream);
+          ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+              entry.first.data(), static_cast<int>(entry.first.length()),
+ ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.can.BusStreamStats.refused_by");
+        }
+      } else {
+        for (const auto& entry : field) {
+          target = WireHelper::InternalSerialize(
+              4, entry.first, entry.second, target, stream);
+          ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+              entry.first.data(), static_cast<int>(entry.first.length()),
+ ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.can.BusStreamStats.refused_by");
+        }
+      }
+    }
+  }
+
+  // uint64 absorbed = 5;
+  if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+    if (this_._internal_absorbed() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+          5, this_._internal_absorbed(), target);
+    }
+  }
+
+  // map<string, uint64> dropped = 6;
+  if (CheckHasBit(cached_has_bits, 0x00000200U)) {
+    if (!this_._internal_dropped().empty()) {
+      using MapType = ::google::protobuf::Map<::std::string, ::uint64_t>;
+      using WireHelper = _pbi::MapEntryFuncs<::std::string, ::uint64_t,
+                                     _pbi::WireFormatLite::TYPE_STRING,
+                                     _pbi::WireFormatLite::TYPE_UINT64>;
+      const auto& field = this_._internal_dropped();
+
+      if (stream->IsSerializationDeterministic() && field.size() > 1) {
+        for (const auto& entry : ::google::protobuf::internal::MapSorterPtr<MapType>(field)) {
+          target = WireHelper::InternalSerialize(
+              6, entry.first, entry.second, target, stream);
+          ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+              entry.first.data(), static_cast<int>(entry.first.length()),
+ ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.can.BusStreamStats.dropped");
+        }
+      } else {
+        for (const auto& entry : field) {
+          target = WireHelper::InternalSerialize(
+              6, entry.first, entry.second, target, stream);
+          ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+              entry.first.data(), static_cast<int>(entry.first.length()),
+ ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.can.BusStreamStats.dropped");
+        }
+      }
+    }
+  }
+
+  // uint64 hop_gaps = 7;
+  if (CheckHasBit(cached_has_bits, 0x00000010U)) {
+    if (this_._internal_hop_gaps() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+          7, this_._internal_hop_gaps(), target);
+    }
+  }
+
+  // uint32 senders = 8;
+  if (CheckHasBit(cached_has_bits, 0x00000020U)) {
+    if (this_._internal_senders() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+          8, this_._internal_senders(), target);
+    }
+  }
+
+  // uint32 streams = 9;
+  if (CheckHasBit(cached_has_bits, 0x00000040U)) {
+    if (this_._internal_streams() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+          9, this_._internal_streams(), target);
+    }
+  }
+
+  // bool source_connected = 10;
+  if (CheckHasBit(cached_has_bits, 0x00000080U)) {
+    if (this_._internal_source_connected() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteBoolToArray(
+          10, this_._internal_source_connected(), target);
+    }
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:jon.can.BusStreamStats)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t BusStreamStats::ByteSizeLong(const MessageLite& base) {
+  const BusStreamStats& this_ = static_cast<const BusStreamStats&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t BusStreamStats::ByteSizeLong() const {
+  const BusStreamStats& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:jon.can.BusStreamStats)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits [[maybe_unused]] = 0;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x000000ffU)) {
+    // uint64 records = 1;
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (this_._internal_records() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+            this_._internal_records());
+      }
+    }
+    // uint64 messages = 2;
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (this_._internal_messages() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+            this_._internal_messages());
+      }
+    }
+    // uint64 refused = 3;
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (this_._internal_refused() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+            this_._internal_refused());
+      }
+    }
+    // uint64 absorbed = 5;
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+      if (this_._internal_absorbed() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+            this_._internal_absorbed());
+      }
+    }
+    // uint64 hop_gaps = 7;
+    if (CheckHasBit(cached_has_bits, 0x00000010U)) {
+      if (this_._internal_hop_gaps() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+            this_._internal_hop_gaps());
+      }
+    }
+    // uint32 senders = 8;
+    if (CheckHasBit(cached_has_bits, 0x00000020U)) {
+      if (this_._internal_senders() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+            this_._internal_senders());
+      }
+    }
+    // uint32 streams = 9;
+    if (CheckHasBit(cached_has_bits, 0x00000040U)) {
+      if (this_._internal_streams() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+            this_._internal_streams());
+      }
+    }
+    // bool source_connected = 10;
+    if (CheckHasBit(cached_has_bits, 0x00000080U)) {
+      if (this_._internal_source_connected() != 0) {
+        total_size += 2;
+      }
+    }
+  }
+  if (BatchCheckHasBit(cached_has_bits, 0x00000300U)) {
+    // map<string, uint64> refused_by = 4;
+    if (CheckHasBit(cached_has_bits, 0x00000100U)) {
+      total_size +=
+          1 * ::google::protobuf::internal::FromIntSize(this_._internal_refused_by_size());
+      for (const auto& entry : this_._internal_refused_by()) {
+        total_size += _pbi::MapEntryFuncs<::std::string, ::uint64_t,
+                                       _pbi::WireFormatLite::TYPE_STRING,
+                                       _pbi::WireFormatLite::TYPE_UINT64>::ByteSizeLong(entry.first, entry.second);
+      }
+    }
+    // map<string, uint64> dropped = 6;
+    if (CheckHasBit(cached_has_bits, 0x00000200U)) {
+      total_size +=
+          1 * ::google::protobuf::internal::FromIntSize(this_._internal_dropped_size());
+      for (const auto& entry : this_._internal_dropped()) {
+        total_size += _pbi::MapEntryFuncs<::std::string, ::uint64_t,
+                                       _pbi::WireFormatLite::TYPE_STRING,
+                                       _pbi::WireFormatLite::TYPE_UINT64>::ByteSizeLong(entry.first, entry.second);
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void BusStreamStats::MergeImpl(::google::protobuf::MessageLite& to_msg,
+                      const ::google::protobuf::MessageLite& from_msg) {
+   auto* const _this = static_cast<BusStreamStats*>(&to_msg);
+  auto& from = static_cast<const BusStreamStats&>(from_msg);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    from.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(class_specific_merge_from_start:jon.can.BusStreamStats)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x000000ffU)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (from._internal_records() != 0) {
+        _this->_impl_.records_ = from._impl_.records_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (from._internal_messages() != 0) {
+        _this->_impl_.messages_ = from._impl_.messages_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (from._internal_refused() != 0) {
+        _this->_impl_.refused_ = from._impl_.refused_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+      if (from._internal_absorbed() != 0) {
+        _this->_impl_.absorbed_ = from._impl_.absorbed_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000010U)) {
+      if (from._internal_hop_gaps() != 0) {
+        _this->_impl_.hop_gaps_ = from._impl_.hop_gaps_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000020U)) {
+      if (from._internal_senders() != 0) {
+        _this->_impl_.senders_ = from._impl_.senders_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000040U)) {
+      if (from._internal_streams() != 0) {
+        _this->_impl_.streams_ = from._impl_.streams_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000080U)) {
+      if (from._internal_source_connected() != 0) {
+        _this->_impl_.source_connected_ = from._impl_.source_connected_;
+      }
+    }
+  }
+  if (BatchCheckHasBit(cached_has_bits, 0x00000300U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000100U)) {
+      _this->_impl_.refused_by_.MergeFrom(from._impl_.refused_by_);
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000200U)) {
+      _this->_impl_.dropped_.MergeFrom(from._impl_.dropped_);
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+
+void BusStreamStats::CopyFrom(const BusStreamStats& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:jon.can.BusStreamStats)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void BusStreamStats::InternalSwap(BusStreamStats* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.source_connected_)
+      + sizeof(BusStreamStats::_impl_.source_connected_)
+      - PROTOBUF_FIELD_OFFSET(BusStreamStats, _impl_.records_)>(
+          reinterpret_cast<char*>(&_impl_.records_),
+          reinterpret_cast<char*>(&other->_impl_.records_));
+  _impl_.refused_by_.InternalSwap(&other->_impl_.refused_by_);
+  _impl_.dropped_.InternalSwap(&other->_impl_.dropped_);
+}
+
+::google::protobuf::Metadata BusStreamStats::GetMetadata() const {
+  return Super_::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+BusRecordBatch::BusRecordBatch(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : Super_(arena, BusRecordBatch_get_class_data()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : Super_(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:jon.can.BusRecordBatch)
+}
+PROTOBUF_NDEBUG_INLINE BusRecordBatch::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    [[maybe_unused]] const ::jon::can::BusRecordBatch& from_msg)
+      : _has_bits_{from._has_bits_},
+        records_ {
+          visibility, ::_pbi::InternalMetadataOffset::Build<
+              ::jon::can::BusRecordBatch,
+              PROTOBUF_FIELD_OFFSET(::jon::can::BusRecordBatch, _impl_.records_)>()
+          , arena, from.records_
+        }
+     {}
+
+BusRecordBatch::BusRecordBatch(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const BusRecordBatch& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : Super_(arena, BusRecordBatch_get_class_data()) {
+
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : Super_(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  BusRecordBatch* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.stats_ = (CheckHasBit(cached_has_bits, 0x00000002U))
+                 ? Super_::CopyConstruct(arena, *from._impl_.stats_)
+                 : nullptr;
+  _impl_.evicted_ = from._impl_.evicted_;
+
+  // @@protoc_insertion_point(copy_constructor:jon.can.BusRecordBatch)
+}
+PROTOBUF_NDEBUG_INLINE BusRecordBatch::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : records_ { visibility, ::_pbi::InternalMetadataOffset::Build<
+            ::jon::can::BusRecordBatch,
+            PROTOBUF_FIELD_OFFSET(::jon::can::BusRecordBatch, _impl_.records_)>()
+         }
+     {}
+
+inline void BusRecordBatch::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char*>(&_impl_) +
+               offsetof(Impl_, stats_),
+           0,
+           offsetof(Impl_, evicted_) -
+               offsetof(Impl_, stats_) +
+               sizeof(Impl_::evicted_));
+}
+BusRecordBatch::~BusRecordBatch() {
+  // @@protoc_insertion_point(destructor:jon.can.BusRecordBatch)
+  SharedDtor(*this);
+}
+inline void BusRecordBatch::SharedDtor(MessageLite& self) {
+  BusRecordBatch& this_ = static_cast<BusRecordBatch&>(self);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  delete this_._impl_.stats_;
+  this_._impl_.~Impl_();
+}
+
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull BusRecordBatch_class_data_ =
+        BusRecordBatch::InternalGenerateClassData_(BusRecordBatch_globals_._default);
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+BusRecordBatch::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&BusRecordBatch_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(BusRecordBatch_class_data_.tc_table);
+  return BusRecordBatch_class_data_.base();
+}
+#else
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+BusRecordBatch::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&BusRecordBatch_globals_);
+  ::google::protobuf::internal::PrefetchToLocalCache(
+      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&BusRecordBatch_globals_));
+  return BusRecordBatch_globals_.GetClassData();
+}
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const BusRecordBatch::ParseTableT_
+    BusRecordBatch::_table_ =
+        BusRecordBatch::InternalGenerateParseTable_(BusRecordBatch_class_data_.base());
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_NOINLINE void BusRecordBatch::Clear() {
+  auto& this_ [[maybe_unused]] = *this;
+  // @@protoc_insertion_point(message_clear_start:jon.can.BusRecordBatch)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits [[maybe_unused]] = 0;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      _impl_.records_.Clear();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      ABSL_DCHECK(this_._impl_.stats_ != nullptr);
+      this_._impl_.stats_->Clear();
+    }
+  }
+  this_._impl_.evicted_ = ::uint64_t{0u};
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL BusRecordBatch::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const BusRecordBatch& this_ = static_cast<const BusRecordBatch&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL BusRecordBatch::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const BusRecordBatch& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(serialize_to_array_start:jon.can.BusRecordBatch)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // repeated .jon.can.BusRecord records = 1;
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    for (unsigned i = 0, n = static_cast<unsigned>(
+                             this_._internal_records_size());
+         i < n; i++) {
+      const auto& repfield = this_._internal_records().Get(i);
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          1, repfield, repfield.GetCachedSize(), target,
+          stream);
+    }
+  }
+
+  // .jon.can.BusStreamStats stats = 2;
+  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        2, *this_._impl_.stats_, this_._impl_.stats_->GetCachedSize(), target,
+        stream);
+  }
+
+  // uint64 evicted = 3;
+  if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+    if (this_._internal_evicted() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+          3, this_._internal_evicted(), target);
+    }
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:jon.can.BusRecordBatch)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t BusRecordBatch::ByteSizeLong(const MessageLite& base) {
+  const BusRecordBatch& this_ = static_cast<const BusRecordBatch&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t BusRecordBatch::ByteSizeLong() const {
+  const BusRecordBatch& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:jon.can.BusRecordBatch)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits [[maybe_unused]] = 0;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
+    // repeated .jon.can.BusRecord records = 1;
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      total_size += 1UL * this_._internal_records_size();
+      for (const auto& msg : this_._internal_records()) {
+        total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
+      }
+    }
+    // .jon.can.BusStreamStats stats = 2;
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      total_size += 1 +
+                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.stats_);
+    }
+    // uint64 evicted = 3;
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (this_._internal_evicted() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+            this_._internal_evicted());
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void BusRecordBatch::MergeImpl(::google::protobuf::MessageLite& to_msg,
+                      const ::google::protobuf::MessageLite& from_msg) {
+   auto* const _this = static_cast<BusRecordBatch*>(&to_msg);
+  auto& from = static_cast<const BusRecordBatch&>(from_msg);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    from.CheckHasBitConsistency();
+  }
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:jon.can.BusRecordBatch)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      _this->_internal_mutable_records()->InternalMergeFromWithArena(
+          ::google::protobuf::MessageLite::internal_visibility(), arena,
+          from._internal_records());
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      ABSL_DCHECK(from._impl_.stats_ != nullptr);
+      if (_this->_impl_.stats_ == nullptr) {
+        _this->_impl_.stats_ = Super_::CopyConstruct(arena, *from._impl_.stats_);
+      } else {
+        _this->_impl_.stats_->MergeFrom(*from._impl_.stats_);
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (from._internal_evicted() != 0) {
+        _this->_impl_.evicted_ = from._impl_.evicted_;
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+
+void BusRecordBatch::CopyFrom(const BusRecordBatch& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:jon.can.BusRecordBatch)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void BusRecordBatch::InternalSwap(BusRecordBatch* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  _impl_.records_.InternalSwap(&other->_impl_.records_);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(BusRecordBatch, _impl_.evicted_)
+      + sizeof(BusRecordBatch::_impl_.evicted_)
+      - PROTOBUF_FIELD_OFFSET(BusRecordBatch, _impl_.stats_)>(
+          reinterpret_cast<char*>(&_impl_.stats_),
+          reinterpret_cast<char*>(&other->_impl_.stats_));
+}
+
+::google::protobuf::Metadata BusRecordBatch::GetMetadata() const {
+  return Super_::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+BusStreamConnected::BusStreamConnected(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : Super_(arena, BusStreamConnected_get_class_data()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : Super_(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:jon.can.BusStreamConnected)
+}
+PROTOBUF_NDEBUG_INLINE BusStreamConnected::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    [[maybe_unused]] const ::jon::can::BusStreamConnected& from_msg)
+      : _has_bits_{from._has_bits_},
+        streams_ {
+          visibility, ::_pbi::InternalMetadataOffset::Build<
+              ::jon::can::BusStreamConnected,
+              PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamConnected, _impl_.streams_)>()
+          , arena, from.streams_
+        }
+     {}
+
+BusStreamConnected::BusStreamConnected(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const BusStreamConnected& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : Super_(arena, BusStreamConnected_get_class_data()) {
+
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : Super_(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  BusStreamConnected* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+
+  // @@protoc_insertion_point(copy_constructor:jon.can.BusStreamConnected)
+}
+PROTOBUF_NDEBUG_INLINE BusStreamConnected::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : streams_ { visibility, ::_pbi::InternalMetadataOffset::Build<
+            ::jon::can::BusStreamConnected,
+            PROTOBUF_FIELD_OFFSET(::jon::can::BusStreamConnected, _impl_.streams_)>()
+         }
+     {}
+
+inline void BusStreamConnected::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+}
+BusStreamConnected::~BusStreamConnected() {
+  // @@protoc_insertion_point(destructor:jon.can.BusStreamConnected)
+  SharedDtor(*this);
+}
+inline void BusStreamConnected::SharedDtor(MessageLite& self) {
+  BusStreamConnected& this_ = static_cast<BusStreamConnected&>(self);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull BusStreamConnected_class_data_ =
+        BusStreamConnected::InternalGenerateClassData_(BusStreamConnected_globals_._default);
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+BusStreamConnected::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&BusStreamConnected_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(BusStreamConnected_class_data_.tc_table);
+  return BusStreamConnected_class_data_.base();
+}
+#else
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+BusStreamConnected::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&BusStreamConnected_globals_);
+  ::google::protobuf::internal::PrefetchToLocalCache(
+      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&BusStreamConnected_globals_));
+  return BusStreamConnected_globals_.GetClassData();
+}
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const BusStreamConnected::ParseTableT_
+    BusStreamConnected::_table_ =
+        BusStreamConnected::InternalGenerateParseTable_(BusStreamConnected_class_data_.base());
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_NOINLINE void BusStreamConnected::Clear() {
+  auto& this_ [[maybe_unused]] = *this;
+  // @@protoc_insertion_point(message_clear_start:jon.can.BusStreamConnected)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits [[maybe_unused]] = 0;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    _impl_.streams_.Clear();
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL BusStreamConnected::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const BusStreamConnected& this_ = static_cast<const BusStreamConnected&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL BusStreamConnected::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const BusStreamConnected& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(serialize_to_array_start:jon.can.BusStreamConnected)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // repeated string streams = 1;
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    for (int i = 0, n = this_._internal_streams_size(); i < n; ++i) {
+      const auto& s = this_._internal_streams().Get(i);
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          s.data(), static_cast<int>(s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.can.BusStreamConnected.streams");
+      target = stream->WriteString(1, s, target);
+    }
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:jon.can.BusStreamConnected)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t BusStreamConnected::ByteSizeLong(const MessageLite& base) {
+  const BusStreamConnected& this_ = static_cast<const BusStreamConnected&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t BusStreamConnected::ByteSizeLong() const {
+  const BusStreamConnected& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:jon.can.BusStreamConnected)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits [[maybe_unused]] = 0;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+   {
+    // repeated string streams = 1;
+    cached_has_bits = this_._impl_._has_bits_[0];
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      total_size +=
+          1 * ::google::protobuf::internal::FromIntSize(this_._internal_streams().size());
+      for (int i = 0, n = this_._internal_streams().size(); i < n; ++i) {
+        total_size += ::google::protobuf::internal::WireFormatLite::StringSize(
+            this_._internal_streams().Get(i));
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void BusStreamConnected::MergeImpl(::google::protobuf::MessageLite& to_msg,
+                      const ::google::protobuf::MessageLite& from_msg) {
+   auto* const _this = static_cast<BusStreamConnected*>(&to_msg);
+  auto& from = static_cast<const BusStreamConnected&>(from_msg);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    from.CheckHasBitConsistency();
+  }
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:jon.can.BusStreamConnected)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    _this->_internal_mutable_streams()->InternalMergeFromWithArena(
+        ::google::protobuf::MessageLite::internal_visibility(), arena,
+        from._internal_streams());
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+
+void BusStreamConnected::CopyFrom(const BusStreamConnected& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:jon.can.BusStreamConnected)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void BusStreamConnected::InternalSwap(BusStreamConnected* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  _impl_.streams_.InternalSwap(&other->_impl_.streams_);
+}
+
+::google::protobuf::Metadata BusStreamConnected::GetMetadata() const {
+  return Super_::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+void BusStreamMessage::set_allocated_connected(::jon::can::BusStreamConnected* PROTOBUF_NULLABLE connected) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_message();
+  if (connected) {
+    ::google::protobuf::Arena* submessage_arena = connected->GetArena();
+    if (message_arena != submessage_arena) {
+      connected = ::google::protobuf::internal::GetOwnedMessage(message_arena, connected, submessage_arena);
+    }
+    set_has_connected();
+    _impl_.message_.connected_ = connected;
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusStreamMessage.connected)
+}
+void BusStreamMessage::set_allocated_batch(::jon::can::BusRecordBatch* PROTOBUF_NULLABLE batch) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_message();
+  if (batch) {
+    ::google::protobuf::Arena* submessage_arena = batch->GetArena();
+    if (message_arena != submessage_arena) {
+      batch = ::google::protobuf::internal::GetOwnedMessage(message_arena, batch, submessage_arena);
+    }
+    set_has_batch();
+    _impl_.message_.batch_ = batch;
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.can.BusStreamMessage.batch)
+}
+BusStreamMessage::BusStreamMessage(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : Super_(arena, BusStreamMessage_get_class_data()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : Super_(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:jon.can.BusStreamMessage)
+}
+PROTOBUF_NDEBUG_INLINE BusStreamMessage::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    [[maybe_unused]] const ::jon::can::BusStreamMessage& from_msg)
+      : message_{},
+        _oneof_case_{from._oneof_case_[0]} {}
+
+BusStreamMessage::BusStreamMessage(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const BusStreamMessage& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : Super_(arena, BusStreamMessage_get_class_data()) {
+
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : Super_(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  BusStreamMessage* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  switch (message_case()) {
+    case MESSAGE_NOT_SET:
+      break;
+      case kConnected:
+        _impl_.message_.connected_ = Super_::CopyConstruct(arena, *from._impl_.message_.connected_);
+        break;
+      case kBatch:
+        _impl_.message_.batch_ = Super_::CopyConstruct(arena, *from._impl_.message_.batch_);
+        break;
+  }
+
+  // @@protoc_insertion_point(copy_constructor:jon.can.BusStreamMessage)
+}
+PROTOBUF_NDEBUG_INLINE BusStreamMessage::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : message_{},
+        _oneof_case_{} {}
+
+inline void BusStreamMessage::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+}
+BusStreamMessage::~BusStreamMessage() {
+  // @@protoc_insertion_point(destructor:jon.can.BusStreamMessage)
+  SharedDtor(*this);
+}
+inline void BusStreamMessage::SharedDtor(MessageLite& self) {
+  BusStreamMessage& this_ = static_cast<BusStreamMessage&>(self);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  if (this_.has_message()) {
+    this_.clear_message();
+  }
+  this_._impl_.~Impl_();
+}
+
+void BusStreamMessage::clear_message() {
+// @@protoc_insertion_point(one_of_clear_start:jon.can.BusStreamMessage)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  switch (message_case()) {
+    case kConnected: {
+      if (GetArena() == nullptr) {
+        delete _impl_.message_.connected_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.message_.connected_);
+      }
+      break;
+    }
+    case kBatch: {
+      if (GetArena() == nullptr) {
+        delete _impl_.message_.batch_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.message_.batch_);
+      }
+      break;
+    }
+    case MESSAGE_NOT_SET: {
+      break;
+    }
+  }
+  _impl_._oneof_case_[0] = MESSAGE_NOT_SET;
+}
+
+
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull BusStreamMessage_class_data_ =
+        BusStreamMessage::InternalGenerateClassData_(BusStreamMessage_globals_._default);
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+BusStreamMessage::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&BusStreamMessage_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(BusStreamMessage_class_data_.tc_table);
+  return BusStreamMessage_class_data_.base();
+}
+#else
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+BusStreamMessage::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&BusStreamMessage_globals_);
+  ::google::protobuf::internal::PrefetchToLocalCache(
+      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&BusStreamMessage_globals_));
+  return BusStreamMessage_globals_.GetClassData();
+}
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+#ifndef PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const BusStreamMessage::ParseTableT_
+    BusStreamMessage::_table_ =
+        BusStreamMessage::InternalGenerateParseTable_(BusStreamMessage_class_data_.base());
+#endif  // !PROTOBUF_MESSAGE_GLOBALS
+PROTOBUF_NOINLINE void BusStreamMessage::Clear() {
+  auto& this_ [[maybe_unused]] = *this;
+  // @@protoc_insertion_point(message_clear_start:jon.can.BusStreamMessage)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits [[maybe_unused]] = 0;
+
+  clear_message();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL BusStreamMessage::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const BusStreamMessage& this_ = static_cast<const BusStreamMessage&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL BusStreamMessage::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const BusStreamMessage& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(serialize_to_array_start:jon.can.BusStreamMessage)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  switch (this_.message_case()) {
+    case kConnected: {
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          1, *this_._impl_.message_.connected_, this_._impl_.message_.connected_->GetCachedSize(), target,
+          stream);
+      break;
+    }
+    case kBatch: {
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          2, *this_._impl_.message_.batch_, this_._impl_.message_.batch_->GetCachedSize(), target,
+          stream);
+      break;
+    }
+    default:
+      break;
+  }
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:jon.can.BusStreamMessage)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t BusStreamMessage::ByteSizeLong(const MessageLite& base) {
+  const BusStreamMessage& this_ = static_cast<const BusStreamMessage&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t BusStreamMessage::ByteSizeLong() const {
+  const BusStreamMessage& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:jon.can.BusStreamMessage)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits [[maybe_unused]] = 0;
+
+  switch (this_.message_case()) {
+    // .jon.can.BusStreamConnected connected = 1;
+    case kConnected: {
+      total_size += 1 +
+                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.message_.connected_);
+      break;
+    }
+    // .jon.can.BusRecordBatch batch = 2;
+    case kBatch: {
+      total_size += 1 +
+                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.message_.batch_);
+      break;
+    }
+    case MESSAGE_NOT_SET: {
+      break;
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void BusStreamMessage::MergeImpl(::google::protobuf::MessageLite& to_msg,
+                      const ::google::protobuf::MessageLite& from_msg) {
+   auto* const _this = static_cast<BusStreamMessage*>(&to_msg);
+  auto& from = static_cast<const BusStreamMessage&>(from_msg);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    from.CheckHasBitConsistency();
+  }
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:jon.can.BusStreamMessage)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  if (const uint32_t oneof_from_case =
+          from._impl_._oneof_case_[0]) {
+    const uint32_t oneof_to_case = _this->_impl_._oneof_case_[0];
+    const bool oneof_needs_init = oneof_to_case != oneof_from_case;
+    if (oneof_needs_init) {
+      if (oneof_to_case != 0) {
+        _this->clear_message();
+      }
+      _this->_impl_._oneof_case_[0] = oneof_from_case;
+    }
+
+    switch (oneof_from_case) {
+      case kConnected: {
+        if (oneof_needs_init) {
+          _this->_impl_.message_.connected_ = Super_::CopyConstruct(arena, *from._impl_.message_.connected_);
+        } else {
+          _this->_impl_.message_.connected_->MergeFrom(*from._impl_.message_.connected_);
+        }
+        break;
+      }
+      case kBatch: {
+        if (oneof_needs_init) {
+          _this->_impl_.message_.batch_ = Super_::CopyConstruct(arena, *from._impl_.message_.batch_);
+        } else {
+          _this->_impl_.message_.batch_->MergeFrom(*from._impl_.message_.batch_);
+        }
+        break;
+      }
+      case MESSAGE_NOT_SET:
+        break;
+    }
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+
+void BusStreamMessage::CopyFrom(const BusStreamMessage& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:jon.can.BusStreamMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void BusStreamMessage::InternalSwap(BusStreamMessage* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.message_, other->_impl_.message_);
+  swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
+}
+
+::google::protobuf::Metadata BusStreamMessage::GetMetadata() const {
   return Super_::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

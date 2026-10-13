@@ -11,7 +11,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_can_stream.proto.
  */
 export const file_jon_can_stream: GenFile = /*@__PURE__*/
-  fileDesc("ChRqb25fY2FuX3N0cmVhbS5wcm90bxIHam9uLmNhbiLEAQoIQ0FORnJhbWUSFAoMdGltZXN0YW1wX3VzGAEgASgEEhgKBmNhbl9pZBgCIAEoDUIIukgFKgMY/w8SDQoFaXNfcngYAyABKAgSDQoFaXNfZmQYBCABKAgSFQoEZGF0YRgFIAEoDEIHukgEegIYQBIiCgNkaXIYBiABKA4yFS5qb24uY2FuLkNBTkRpcmVjdGlvbhIRCglrZXJuZWxfbnMYByABKAQSDQoFc2VxNjQYCCABKAQSDQoFZHJvcHMYCSABKAQiMgoNQ0FORnJhbWVCYXRjaBIhCgZmcmFtZXMYASADKAsyES5qb24uY2FuLkNBTkZyYW1lIisKEkNBTlN0cmVhbUNvbm5lY3RlZBIPCgdzdHJlYW1zGAEgAygJSgQIAhADKnQKDENBTkRpcmVjdGlvbhIdChlDQU5fRElSRUNUSU9OX1VOU1BFQ0lGSUVEEAASFAoQQ0FOX0RJUkVDVElPTl9UWBABEhQKEENBTl9ESVJFQ1RJT05fUlgQAhIZChVDQU5fRElSRUNUSU9OX1VOS05PV04QA0JGWkRnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2NhbmIGcHJvdG8z", [file_buf_validate_validate]);
+  fileDesc("ChRqb25fY2FuX3N0cmVhbS5wcm90bxIHam9uLmNhbiLEAQoIQ0FORnJhbWUSFAoMdGltZXN0YW1wX3VzGAEgASgEEhgKBmNhbl9pZBgCIAEoDUIIukgFKgMY/w8SDQoFaXNfcngYAyABKAgSDQoFaXNfZmQYBCABKAgSFQoEZGF0YRgFIAEoDEIHukgEegIYQBIiCgNkaXIYBiABKA4yFS5qb24uY2FuLkNBTkRpcmVjdGlvbhIRCglrZXJuZWxfbnMYByABKAQSDQoFc2VxNjQYCCABKAQSDQoFZHJvcHMYCSABKAQiMgoNQ0FORnJhbWVCYXRjaBIhCgZmcmFtZXMYASADKAsyES5qb24uY2FuLkNBTkZyYW1lIisKEkNBTlN0cmVhbUNvbm5lY3RlZBIPCgdzdHJlYW1zGAEgAygJSgQIAhADIjMKCkJ1c1JlZnVzYWwSFQoEY29kZRgBIAEoCUIHukgEcgIQARIOCgZkZXRhaWwYAiABKAki4wUKCUJ1c1JlY29yZBISCgFuGAEgASgEQge6SAQyAigBEg0KBXRpdGxlGAIgASgJEhUKBGtpbmQYAyABKAlCB7pIBHICEAESCwoDZGlyGAQgASgJEhYKBG5vZGUYBSABKA1CCLpIBSoDGP8BEg4KBm1vZHVsZRgGIAEoCRIXCgV0b3BpYxgHIAEoDUIIukgFKgMY/wESDgoGZmFtaWx5GAggASgJEg8KB2NvbW1hbmQYCSABKAkSDwoHbWVzc2FnZRgKIAEoCRIdCgxkZWNvZGVkX2pzb24YCyABKAlCB7pIBHICEAESJAoHcmVmdXNhbBgMIAEoCzITLmpvbi5jYW4uQnVzUmVmdXNhbBINCgV0c19ucxgNIAEoBBIiCgZvcmlnaW4YDiABKA4yEi5qb24uY2FuLkJ1c09yaWdpbhIfCgdob3Bfc2VxGA8gASgNQgm6SAYqBBj//wNIAIgBARIdCgZzZW5kZXIYECABKA1CCLpIBSoDGP8BSAGIAQESFQoNc2VuZGVyX21vZHVsZRgRIAEoCRIYCgZjYW5faWQYEiABKA1CCLpIBSoDGP8PEhgKBmZmbGFncxgTIAEoDUIIukgFKgMY/wESEwoLZnJhbWVfZmxhZ3MYFCABKAkSFQoEZGF0YRgVIAEoDEIHukgEegIYRhIZCgdwYXlsb2FkGBYgASgMQgi6SAV6AxiABBIVCgRwcmlvGBcgASgNQge6SAQqAhgDEhYKBHR5cGUYGCABKA1CCLpIBSoDGP8BEhUKA3NlcRgZIAEoDUIIukgFKgMY/wESHAoKZnJhZ190b3RhbBgaIAEoDUIIukgFKgMY/wESEgoKdHhfdGltZV9ucxgbIAEoBBIQCgh0c192YWxpZBgcIAEoCBIOCgZzdHJlYW0YHSABKAkSEAoIZW50cnlfaWQYHiABKAkSDwoHdGltZV9tcxgfIAEoA0IKCghfaG9wX3NlcUIJCgdfc2VuZGVyIvkCCg5CdXNTdHJlYW1TdGF0cxIPCgdyZWNvcmRzGAEgASgEEhAKCG1lc3NhZ2VzGAIgASgEEg8KB3JlZnVzZWQYAyABKAQSOgoKcmVmdXNlZF9ieRgEIAMoCzImLmpvbi5jYW4uQnVzU3RyZWFtU3RhdHMuUmVmdXNlZEJ5RW50cnkSEAoIYWJzb3JiZWQYBSABKAQSNQoHZHJvcHBlZBgGIAMoCzIkLmpvbi5jYW4uQnVzU3RyZWFtU3RhdHMuRHJvcHBlZEVudHJ5EhAKCGhvcF9nYXBzGAcgASgEEg8KB3NlbmRlcnMYCCABKA0SDwoHc3RyZWFtcxgJIAEoDRIYChBzb3VyY2VfY29ubmVjdGVkGAogASgIGjAKDlJlZnVzZWRCeUVudHJ5EgsKA2tleRgBIAEoCRINCgV2YWx1ZRgCIAEoBDoCOAEaLgoMRHJvcHBlZEVudHJ5EgsKA2tleRgBIAEoCRINCgV2YWx1ZRgCIAEoBDoCOAEibgoOQnVzUmVjb3JkQmF0Y2gSIwoHcmVjb3JkcxgBIAMoCzISLmpvbi5jYW4uQnVzUmVjb3JkEiYKBXN0YXRzGAIgASgLMhcuam9uLmNhbi5CdXNTdHJlYW1TdGF0cxIPCgdldmljdGVkGAMgASgEIiUKEkJ1c1N0cmVhbUNvbm5lY3RlZBIPCgdzdHJlYW1zGAEgAygJIoABChBCdXNTdHJlYW1NZXNzYWdlEjAKCWNvbm5lY3RlZBgBIAEoCzIbLmpvbi5jYW4uQnVzU3RyZWFtQ29ubmVjdGVkSAASKAoFYmF0Y2gYAiABKAsyFy5qb24uY2FuLkJ1c1JlY29yZEJhdGNoSABCEAoHbWVzc2FnZRIFukgCCAEqdAoMQ0FORGlyZWN0aW9uEh0KGUNBTl9ESVJFQ1RJT05fVU5TUEVDSUZJRUQQABIUChBDQU5fRElSRUNUSU9OX1RYEAESFAoQQ0FOX0RJUkVDVElPTl9SWBACEhkKFUNBTl9ESVJFQ1RJT05fVU5LTk9XThADKoABCglCdXNPcmlnaW4SGgoWQlVTX09SSUdJTl9VTlNQRUNJRklFRBAAEhIKDkJVU19PUklHSU5fQlVTEAESEwoPQlVTX09SSUdJTl9PUklOEAISGAoUQlVTX09SSUdJTl9DQVJBTUJPTEEQAxIUChBCVVNfT1JJR0lOX0xPQ0FMEARCRlpEZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC9jYW5iBnByb3RvMw", [file_buf_validate_validate]);
 
 /**
  * Single CAN/CAN-FD frame
@@ -138,6 +138,429 @@ export const CANStreamConnectedSchema: GenMessage<CANStreamConnected> = /*@__PUR
   messageDesc(file_jon_can_stream, 2);
 
 /**
+ * Why the module-bus decoder could not make a message of a record.
+ *
+ * @generated from message jon.can.BusRefusal
+ */
+export type BusRefusal = Message<"jon.can.BusRefusal"> & {
+  /**
+   * The decoder's refusal code (the joncandec Code* constants, e.g. "proto",
+   * "orphan_fragment", "unknown_topic").
+   *
+   * @generated from field: string code = 1;
+   */
+  code: string;
+
+  /**
+   * The decoder's explanation, free text.
+   *
+   * @generated from field: string detail = 2;
+   */
+  detail: string;
+};
+
+/**
+ * Describes the message jon.can.BusRefusal.
+ * Use `create(BusRefusalSchema)` to create a new message.
+ */
+export const BusRefusalSchema: GenMessage<BusRefusal> = /*@__PURE__*/
+  messageDesc(file_jon_can_stream, 3);
+
+/**
+ * One module-bus message as the CAN stream relay decoded it from the
+ * `logs:bus:0x<id>` Redis streams: the decoded payload, the joncan header facts
+ * and the record facts of the frame that completed it. Decoding happens once,
+ * on the relay; a client renders these fields and never parses the wire.
+ *
+ * @generated from message jon.can.BusRecord
+ */
+export type BusRecord = Message<"jon.can.BusRecord"> & {
+  /**
+   * Arrival number: 1 for the first message the relay decoded since it started.
+   *
+   * @generated from field: uint64 n = 1;
+   */
+  n: bigint;
+
+  /**
+   * The row's title: the decode-table family name, the command root member that
+   * was set, or "refused: <code>".
+   *
+   * @generated from field: string title = 2;
+   */
+  title: string;
+
+  /**
+   * What the message is (joncandec Kind*): "family", "health", "announce",
+   * "command", "debug", "log" or "unknown".
+   *
+   * @generated from field: string kind = 3;
+   */
+  kind: string;
+
+  /**
+   * "cmd" (hub to node) or "state" (node to hub); empty when the CAN id was
+   * wider than the joncan id map.
+   *
+   * @generated from field: string dir = 4;
+   */
+  dir: string;
+
+  /**
+   * The CAN id's node field and the module that node is (a command's
+   * DESTINATION node); module is empty when no decode-table entry names the node.
+   *
+   * @generated from field: uint32 node = 5;
+   */
+  node: number;
+
+  /**
+   * @generated from field: string module = 6;
+   */
+  module: string;
+
+  /**
+   * The CAN id's topic field.
+   *
+   * @generated from field: uint32 topic = 7;
+   */
+  topic: number;
+
+  /**
+   * The decode-table row name (empty for a command) and the command root
+   * member that was set (empty unless a command).
+   *
+   * @generated from field: string family = 8;
+   */
+  family: string;
+
+  /**
+   * @generated from field: string command = 9;
+   */
+  command: string;
+
+  /**
+   * The full name of the proto message the body decoded as; empty for an
+   * announce, a debug or a log message.
+   *
+   * @generated from field: string message = 10;
+   */
+  message: string;
+
+  /**
+   * The decoded payload as JSON: proto3 JSON with proto field names, sorted
+   * keys, every owned field present. "null" when nothing was decoded.
+   *
+   * @generated from field: string decoded_json = 11;
+   */
+  decodedJson: string;
+
+  /**
+   * Set when the decoder refused the record; the raw bytes are in `data`.
+   *
+   * @generated from field: jon.can.BusRefusal refusal = 12;
+   */
+  refusal?: BusRefusal | undefined;
+
+  /**
+   * The record facts. ts_ns: when the frame was seen, ns, on the producer's
+   * clock (0 = the producer did not know).
+   *
+   * @generated from field: uint64 ts_ns = 13;
+   */
+  tsNs: bigint;
+
+  /**
+   * @generated from field: jon.can.BusOrigin origin = 14;
+   */
+  origin: BusOrigin;
+
+  /**
+   * The datagram's hop sequence and the node id of the datagram's sender (the
+   * envelope header); absent when the stream entry did not carry them.
+   *
+   * @generated from field: optional uint32 hop_seq = 15;
+   */
+  hopSeq?: number | undefined;
+
+  /**
+   * @generated from field: optional uint32 sender = 16;
+   */
+  sender?: number | undefined;
+
+  /**
+   * The sender's module, from the decode table; empty when no entry names it.
+   *
+   * @generated from field: string sender_module = 17;
+   */
+  senderModule: string;
+
+  /**
+   * The frame's 11-bit CAN id.
+   *
+   * @generated from field: uint32 can_id = 18;
+   */
+  canId: number;
+
+  /**
+   * The record's frame flags (JONCAN_ENV_FRAME_*) and their names, lowest bit
+   * first ("FD BRS"); a bit no flag names reads as hex.
+   *
+   * @generated from field: uint32 fflags = 19;
+   */
+  fflags: number;
+
+  /**
+   * @generated from field: string frame_flags = 20;
+   */
+  frameFlags: string;
+
+  /**
+   * The completing record's 70-byte blob: frame type, CAN id (little-endian),
+   * length, 64 data bytes. For a message carried in several frames this is the
+   * LAST frame's record.
+   *
+   * @generated from field: bytes data = 21;
+   */
+  data: Uint8Array;
+
+  /**
+   * The message body, reassembled across fragments.
+   *
+   * @generated from field: bytes payload = 22;
+   */
+  payload: Uint8Array;
+
+  /**
+   * The joncan header: the CAN id's priority, the message type, the message
+   * counter, the fragments the message was carried in, the sender's transmit
+   * time (ns) and whether that time was valid.
+   *
+   * @generated from field: uint32 prio = 23;
+   */
+  prio: number;
+
+  /**
+   * @generated from field: uint32 type = 24;
+   */
+  type: number;
+
+  /**
+   * @generated from field: uint32 seq = 25;
+   */
+  seq: number;
+
+  /**
+   * @generated from field: uint32 frag_total = 26;
+   */
+  fragTotal: number;
+
+  /**
+   * @generated from field: uint64 tx_time_ns = 27;
+   */
+  txTimeNs: bigint;
+
+  /**
+   * @generated from field: bool ts_valid = 28;
+   */
+  tsValid: boolean;
+
+  /**
+   * The Redis stream key (logs:bus:0x<id>), the entry id, and the entry id's
+   * millisecond (the Redis server's wall clock when the entry was appended).
+   *
+   * @generated from field: string stream = 29;
+   */
+  stream: string;
+
+  /**
+   * @generated from field: string entry_id = 30;
+   */
+  entryId: string;
+
+  /**
+   * @generated from field: int64 time_ms = 31;
+   */
+  timeMs: bigint;
+};
+
+/**
+ * Describes the message jon.can.BusRecord.
+ * Use `create(BusRecordSchema)` to create a new message.
+ */
+export const BusRecordSchema: GenMessage<BusRecord> = /*@__PURE__*/
+  messageDesc(file_jon_can_stream, 4);
+
+/**
+ * The relay's module-bus accounting since it started.
+ *
+ * @generated from message jon.can.BusStreamStats
+ */
+export type BusStreamStats = Message<"jon.can.BusStreamStats"> & {
+  /**
+   * Stream records fed to the decoder.
+   *
+   * @generated from field: uint64 records = 1;
+   */
+  records: bigint;
+
+  /**
+   * Messages the records produced (decoded messages plus refusals).
+   *
+   * @generated from field: uint64 messages = 2;
+   */
+  messages: bigint;
+
+  /**
+   * Messages carrying a refusal, and their count per refusal code.
+   *
+   * @generated from field: uint64 refused = 3;
+   */
+  refused: bigint;
+
+  /**
+   * @generated from field: map<string, uint64> refused_by = 4;
+   */
+  refusedBy: { [key: string]: bigint };
+
+  /**
+   * Records absorbed as fragments of a message still open, or as retransmits.
+   *
+   * @generated from field: uint64 absorbed = 5;
+   */
+  absorbed: bigint;
+
+  /**
+   * Open multi-frame messages the decoder dropped, by reason ("expired",
+   * "restarted").
+   *
+   * @generated from field: map<string, uint64> dropped = 6;
+   */
+  dropped: { [key: string]: bigint };
+
+  /**
+   * Per-sender hop-sequence discontinuities, judged only once every stream
+   * that can hold an earlier record was known and read to its tip: datagrams
+   * lost between the bridge and the stream, datagrams the collector refused,
+   * or a sender restart.
+   *
+   * @generated from field: uint64 hop_gaps = 7;
+   */
+  hopGaps: bigint;
+
+  /**
+   * Distinct datagram senders seen, and logs:bus:* streams discovered.
+   *
+   * @generated from field: uint32 senders = 8;
+   */
+  senders: number;
+
+  /**
+   * @generated from field: uint32 streams = 9;
+   */
+  streams: number;
+
+  /**
+   * Whether the logs Redis was reachable at the last read.
+   *
+   * @generated from field: bool source_connected = 10;
+   */
+  sourceConnected: boolean;
+};
+
+/**
+ * Describes the message jon.can.BusStreamStats.
+ * Use `create(BusStreamStatsSchema)` to create a new message.
+ */
+export const BusStreamStatsSchema: GenMessage<BusStreamStats> = /*@__PURE__*/
+  messageDesc(file_jon_can_stream, 5);
+
+/**
+ * Batch of module-bus messages, oldest first, with the accounting at the read.
+ *
+ * @generated from message jon.can.BusRecordBatch
+ */
+export type BusRecordBatch = Message<"jon.can.BusRecordBatch"> & {
+  /**
+   * @generated from field: repeated jon.can.BusRecord records = 1;
+   */
+  records: BusRecord[];
+
+  /**
+   * @generated from field: jon.can.BusStreamStats stats = 2;
+   */
+  stats?: BusStreamStats | undefined;
+
+  /**
+   * Messages decoded since the previous batch to this client that it was
+   * never sent because it fell behind the relay's buffer.
+   *
+   * @generated from field: uint64 evicted = 3;
+   */
+  evicted: bigint;
+};
+
+/**
+ * Describes the message jon.can.BusRecordBatch.
+ * Use `create(BusRecordBatchSchema)` to create a new message.
+ */
+export const BusRecordBatchSchema: GenMessage<BusRecordBatch> = /*@__PURE__*/
+  messageDesc(file_jon_can_stream, 6);
+
+/**
+ * Sent once when a module-bus WebSocket connects.
+ *
+ * @generated from message jon.can.BusStreamConnected
+ */
+export type BusStreamConnected = Message<"jon.can.BusStreamConnected"> & {
+  /**
+   * Discovered module-bus stream ids (the `0x<id>` of each logs:bus:0x<id>).
+   *
+   * @generated from field: repeated string streams = 1;
+   */
+  streams: string[];
+};
+
+/**
+ * Describes the message jon.can.BusStreamConnected.
+ * Use `create(BusStreamConnectedSchema)` to create a new message.
+ */
+export const BusStreamConnectedSchema: GenMessage<BusStreamConnected> = /*@__PURE__*/
+  messageDesc(file_jon_can_stream, 7);
+
+/**
+ * Every message the module-bus WebSocket sends: exactly one member is set, so a
+ * client decodes one type and never guesses which message a frame holds.
+ *
+ * @generated from message jon.can.BusStreamMessage
+ */
+export type BusStreamMessage = Message<"jon.can.BusStreamMessage"> & {
+  /**
+   * @generated from oneof jon.can.BusStreamMessage.message
+   */
+  message: {
+    /**
+     * @generated from field: jon.can.BusStreamConnected connected = 1;
+     */
+    value: BusStreamConnected;
+    case: "connected";
+  } | {
+    /**
+     * @generated from field: jon.can.BusRecordBatch batch = 2;
+     */
+    value: BusRecordBatch;
+    case: "batch";
+  } | { case: undefined; value?: undefined };
+};
+
+/**
+ * Describes the message jon.can.BusStreamMessage.
+ * Use `create(BusStreamMessageSchema)` to create a new message.
+ */
+export const BusStreamMessageSchema: GenMessage<BusStreamMessage> = /*@__PURE__*/
+  messageDesc(file_jon_can_stream, 8);
+
+/**
  * Authoritative CAN frame direction, set by the producer (lighthouse) from its
  * CAN-ID map. Supersedes CANFrame.is_rx (which consumers re-derived from a
  * fragile ID bitmask). UNSPECIFIED = the field is absent (frame emitted by a
@@ -182,4 +605,55 @@ export enum CANDirection {
  */
 export const CANDirectionSchema: GenEnum<CANDirection> = /*@__PURE__*/
   enumDesc(file_jon_can_stream, 0);
+
+/**
+ * Who first put a module-bus record into a datagram: the envelope's origin byte
+ * (JONCAN_ENV_ORIGIN_* in the superproject's inc/util/joncan/joncan_envelope.h)
+ * plus one, so that the zero value can mean "the stream entry named no origin
+ * the envelope defines" rather than silently reading as the bus.
+ *
+ * @generated from enum jon.can.BusOrigin
+ */
+export enum BusOrigin {
+  /**
+   * the entry carried no origin, or one past JONCAN_ENV_ORIGIN_MAX
+   *
+   * @generated from enum value: BUS_ORIGIN_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * JONCAN_ENV_ORIGIN_BUS: read off the CAN bus (or vcan0)
+   *
+   * @generated from enum value: BUS_ORIGIN_BUS = 1;
+   */
+  BUS = 1,
+
+  /**
+   * JONCAN_ENV_ORIGIN_ORIN: the hub sent it
+   *
+   * @generated from enum value: BUS_ORIGIN_ORIN = 2;
+   */
+  ORIN = 2,
+
+  /**
+   * JONCAN_ENV_ORIGIN_CARAMBOLA: Carambola sent it
+   *
+   * @generated from enum value: BUS_ORIGIN_CARAMBOLA = 3;
+   */
+  CARAMBOLA = 3,
+
+  /**
+   * JONCAN_ENV_ORIGIN_LOCAL: a guest hosted beside the bridge
+   *
+   * @generated from enum value: BUS_ORIGIN_LOCAL = 4;
+   */
+  LOCAL = 4,
+}
+
+/**
+ * Describes the enum jon.can.BusOrigin.
+ */
+export const BusOriginSchema: GenEnum<BusOrigin> = /*@__PURE__*/
+  enumDesc(file_jon_can_stream, 1);
 
