@@ -673,7 +673,7 @@
         groups (partition-by letter sorted)]
     (into [:div.section {:id "glossary"}
            [:h2 "Appendix A — glossary"]
-           [:p.lead "Every term of art in this document, in plain words, in alphabetical order."]]
+           [:p.lead "Terms linked from this document, in plain words, in alphabetical order."]]
           (mapcat (fn [g]
                     [[:p.keep-next [:b (letter (first g))]]
                      (into [:dl.gloss]
