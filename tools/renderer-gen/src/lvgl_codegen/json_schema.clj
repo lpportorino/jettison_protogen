@@ -1,9 +1,7 @@
 (ns lvgl-codegen.json-schema
   "Malli → JSON Schema export for the proto-IR `Screen` schema — the deep-
-   validation contract `tools/ptool validate` embeds. The conversion
-   chokepoint pattern is lifted from jettison's hephaestus MCP surface
-   (`heph.tools.envelope/malli->json-schema`): ONE conversion site, a typed
-   failure class, deterministic pretty JSON.
+   validation contract `tools/ptool validate` embeds. ONE conversion site, a
+   typed failure class, deterministic pretty JSON.
 
    The exported keys and enum members are snake_case proto names — by
    construction they match ptool's decode contract (protojson
