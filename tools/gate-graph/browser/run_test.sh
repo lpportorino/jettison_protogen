@@ -26,10 +26,10 @@ cat >"$work/bin/docker" <<'EOF'
 args="$*"
 case "$args" in *"npm ci"*) exit 0 ;; esac
 out=""; prev=""
-for a in "$@"; do [ "$prev" = acceptance.mjs ] && fix="$a"; [ -n "${fix:-}" ] && [ "$prev" = "$fix" ] && out="$a"; prev="$a"; done
+for a in "$@"; do [[ "$prev" = acceptance.mjs || "$prev" = extensions.mjs ]] && { fix="$a"; fix_script="$prev"; }; [ -n "${fix:-}" ] && [ "$prev" = "$fix" ] && out="$a"; prev="$a"; done
 host_out="${STUB_ROOT}/${out#/w/}"
 case "$STUB_MODE" in
-  green) mkdir -p "$host_out"; printf '{"completed": true, "failure": null}\n' >"$host_out/manifest.json"; exit 0 ;;
+  green) mkdir -p "$host_out"; printf '%s\n' "${fix_script:-}" >"$host_out/script.txt"; printf '{"completed": true, "failure": null}\n' >"$host_out/manifest.json"; exit 0 ;;
   fail)  mkdir -p "$host_out"; printf '{"completed": false, "failure": {"kind": "FAIL"}}\n' >"$host_out/manifest.json"; exit 1 ;;
   crash) echo "SyntaxError: Unexpected token" >&2; exit 1 ;;
   error) mkdir -p "$host_out"; printf '{"completed": false, "failure": {"kind": "ERROR"}}\n' >"$host_out/manifest.json"; exit 2 ;;
@@ -50,6 +50,17 @@ case_run fail 1 "an assertion failure recorded in the manifest is FAIL"
 case_run crash 2 "node exiting 1 with NO manifest (a crash) is ERROR, never FAIL"
 case_run error 2 "a recorded harness ERROR is ERROR"
 case_run compact 1 "a FAIL in COMPACT JSON is still FAIL (the verdict is parsed, not grepped)"
+
+mkdir -p "$work/fixtures/extensions"
+printf '<html></html>' >"$work/fixtures/extensions/extensions.html"
+rc=0
+STUB_ROOT="$root" PATH="$work/bin:$PATH" STUB_MODE=green bash "$subject" "$work/ev-extensions" --fixtures "$work/fixtures" --extensions >/dev/null 2>&1 || rc=$?
+if [ "$rc" -eq 0 ]; then ok "extension profile reaches both browser workers"; else bad "extension profile expected 0, got $rc"; fi
+scripts="$(cat "$work"/ev-extensions/*/script.txt 2>/dev/null | sort -u | tr '\n' ' ')"
+if [ "$scripts" = "extensions.mjs " ]; then ok "extension profile runs extensions.mjs in every worker"; else bad "extension profile ran '$scripts', expected only extensions.mjs"; fi
+rm -rf "$work/fixtures-noext"; mkdir -p "$work/fixtures-noext"
+rc=0; STUB_ROOT="$root" PATH="$work/bin:$PATH" STUB_MODE=green bash "$subject" "$work/ev-noext" --fixtures "$work/fixtures-noext" --extensions >/dev/null 2>&1 || rc=$?
+if [ "$rc" -eq 3 ]; then ok "a missing paired fixture is CANNOT RUN (exit 3)"; else bad "missing paired fixture expected exit 3, got $rc"; fi
 
 echo "== run.sh preconditions (CANNOT RUN = 3)"
 rc=0; PATH="$work/bin:$PATH" bash "$subject" "$work/ev-noarg" --fixtures >/dev/null 2>&1 || rc=$?

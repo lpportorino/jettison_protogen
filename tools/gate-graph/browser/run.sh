@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 # run.sh — the ONE entry point for the offline viewer's browser acceptance.
 #
-#   tools/gate-graph/browser/run.sh EVIDENCE_DIR [--fixtures DIR]
+#   tools/gate-graph/browser/run.sh EVIDENCE_DIR [--fixtures DIR] [--extensions]
 #
 # Builds the public synthetic fixtures (unless --fixtures names prebuilt ones),
-# installs the lockfile-pinned Playwright, then runs acceptance.mjs in the
+# installs the lockfile-pinned Playwright, then runs acceptance.mjs (or, with
+# --extensions, extensions.mjs over a paired core-plus-sidecar fixture) in the
 # digest-pinned Playwright image with the network REMOVED: Chromium with
 # rotation, and WebKit in --fixed-viewports mode (its rotation is not accepted,
 # see README.md). EVIDENCE_DIR receives one directory per engine, each with
@@ -28,13 +29,15 @@ cannot_run() { printf '\033[31m[gate-viewer-acceptance] CANNOT RUN\033[0m — %s
 
 evidence="${1:-}"; shift || true
 fixtures=""
+profile="viewer"
 while [ $# -gt 0 ]; do
   case "$1" in
+    --extensions) profile="extensions"; shift ;;
     --fixtures) [ $# -ge 2 ] || cannot_run "--fixtures needs a directory"; fixtures="$2"; shift 2 ;;
-    *) cannot_run "unknown argument $1 (usage: run.sh EVIDENCE_DIR [--fixtures DIR])" ;;
+    *) cannot_run "unknown argument $1 (usage: run.sh EVIDENCE_DIR [--fixtures DIR] [--extensions])" ;;
   esac
 done
-[ -n "$evidence" ] || cannot_run "usage: run.sh EVIDENCE_DIR [--fixtures DIR]"
+[ -n "$evidence" ] || cannot_run "usage: run.sh EVIDENCE_DIR [--fixtures DIR] [--extensions]"
 command -v docker >/dev/null 2>&1 || cannot_run "docker is not on PATH (this lane runs browsers in the pinned Playwright image)"
 command -v python3 >/dev/null 2>&1 || cannot_run "python3 is not on PATH (it reads each run's manifest to tell FAIL from ERROR)"
 [ -e "$evidence" ] && cannot_run "$evidence already exists; evidence directories are never overwritten"
@@ -44,13 +47,21 @@ case "$evidence" in "$root"/*) ;; *) cannot_run "$evidence must sit inside the c
 if [ -z "$fixtures" ]; then
   fixtures="$evidence/fixtures"
   rel="${fixtures#"$root"/}"
-  "$root/tools/uber.sh" "cd tools/gate-graph && clojure -Sdeps '{:aliases {:fx {:extra-paths [\"test\"]}}}' -M:fx -m gate.view.fixtures '/workspace/$rel'" \
+  fixture_main="gate.view.fixtures"
+  [ "$profile" = extensions ] && fixture_main="gate.extension-browser"
+  "$root/tools/uber.sh" "cd tools/gate-graph && clojure -Sdeps '{:aliases {:fx {:extra-paths [\"test\"]}}}' -M:fx -m $fixture_main '/workspace/$rel'" \
     || { printf '[gate-viewer-acceptance] ERROR — fixture build failed\n' >&2; exit 2; }
 fi
 fixtures=$(cd -- "$fixtures" && pwd -P)
-for f in branch dense signals incomplete malformed leaf open-signals; do
-  [ -s "$fixtures/$f/index.html" ] || cannot_run "fixture $f/index.html missing under $fixtures"
-done
+if [ "$profile" = extensions ]; then
+  [ -s "$fixtures/extensions/extensions.html" ] || cannot_run "paired extension fixture missing"
+  acceptance_script="extensions.mjs"
+else
+  for f in branch dense signals incomplete malformed leaf open-signals; do
+    [ -s "$fixtures/$f/index.html" ] || cannot_run "fixture $f/index.html missing under $fixtures"
+  done
+  acceptance_script="acceptance.mjs"
+fi
 
 uid="$(id -u):$(id -g)"
 mount=(-v "$root:/w" -w /w/tools/gate-graph/browser --user "$uid" -e HOME=/tmp -e npm_config_cache=/tmp/.npm)
@@ -67,7 +78,7 @@ for engine in chromium "webkit --fixed-viewports"; do
   out="$evidence/$1"
   rc=0
   docker run --rm --network none "${mount[@]}" "$PLAYWRIGHT_IMAGE" \
-    node acceptance.mjs "$(in_container "$fixtures")" "$(in_container "$out")" "$@" || rc=$?
+    node "$acceptance_script" "$(in_container "$fixtures")" "$(in_container "$out")" "$@" || rc=$?
   # Node exits 1 on ANY uncaught exception — a syntax error, a crash before the
   # harness starts — which is also the harness's FAIL code. So a 1 is only a FAIL
   # when the manifest exists and records an assertion failure; otherwise ERROR.

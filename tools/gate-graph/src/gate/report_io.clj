@@ -25,7 +25,7 @@
   (throw (ex-info "Report file refused" {:code code})))
 (m/=> refuse! [:=> [:cat [:enum :report-policy :report-unreadable :report-byte-limit :report-utf8]] :nil])
 
-(defn- read-text!
+(defn read-text!
   "Read at most limit+1 bytes from a local regular file and decode strict UTF-8.
    File metadata is not the byte budget. Symlink leaves and nonregular files refuse;
    trusted parent directories are not a sandbox against concurrent replacement."

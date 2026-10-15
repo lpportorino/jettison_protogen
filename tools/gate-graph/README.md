@@ -1351,6 +1351,77 @@ source/log/counter audit. Current offline browser checks cover all four displaye
 archive states, hostile labels and graph/identity tampering. These scoped checks
 do not establish full CI coverage or consumer integration.
 
+## Typed report extensions beside a core archive
+
+`gate.extension` lets an independent producer attach typed observations to a
+core run archive without touching the core graph, coverage, provenance or
+verdict. A producer registers a closed, data-only Malli contract; the prepared
+context compiles it once against an immutable local registry; observations are
+admitted against that exact contract and persisted in a versioned sidecar
+(`extensions.edn`) whose identity binds the core archive digest. Core-only
+readers and the core archive bytes are unchanged.
+
+| API | Responsibility |
+| --- | --- |
+| `gate.extension/prepare` | Freeze a vector of registrations (`{:contract Contract :projector Binding?}`) into a sealed context: compiled validators, contract fingerprints and the finite keyword vocabulary. Repeated id/version pairs, unsafe schema forms, missing or cyclic refs and limit breaches refuse. |
+| `gate.extension/observe` | Admit one observation request against the prepared contract and the validated core archive (source and subject must exist in the core graph); run the optional trusted projector and validate its result against `Projection`. |
+| `gate.extension/create` | Normalize and seal a sidecar document from admitted observations, with the used contract manifest and a domain-separated digest. |
+| `gate.extension/pair` | Verify core and sidecar together — binding, manifest, every observation, identity — and return the sealed pair that every later entry point requires. |
+| `gate.extension/encode` / `decode` | Canonical EDN of a verified pair's sidecar; decoding uses only the prepared vocabulary, so untrusted text never interns a keyword. |
+| `gate.extension-io/publish!` | Create-only publication of `run.edn`, `index.html`, `extensions.html` and finally `extensions.edn`; an existing file or a failed install refuses, leaving partial files as failure evidence. |
+| `gate.extension-io/read-pair!` | Read both files with the bounded strict-UTF-8 reader and verify the pair; a missing sidecar is a refusal, never a core-only success. |
+| `gate.extension-io/render` | The offline core viewer plus an escaped static section listing every observation, its payload and any projection with its declared provenance. |
+| `gate.extension-view/page` | Bounded structural pages over a verified pair: byte/row/visit budgets and continuation cursors bound to both artifact digests and the selection. |
+
+The portable schema dialect (`gate.extension-schema`) admits `:nil`, `:boolean`,
+bounded `:int` and `:string`, `:=`, finite `:enum`, `:maybe`, `:tuple`, bounded
+`:vector`, closed `:map` with keyword fields, local `:ref`, tagged `:multi` with a
+literal discriminator in each closed-map arm, and the builtin
+`:gate.extension/natural` for exact decimal strings. Predicates, functions,
+symbols, regexes, schema objects, open maps, `:map-of`, untagged alternatives,
+recursive refs and default multi arms refuse. Portable values themselves are
+bounded by `gate.portable/require-bounded!` before any schema runs: only maps
+and vectors are counted, so an unbounded sequence is refused by shape without
+being realized. Every count and byte ceiling is read from
+`gate.extension-contract/limits` (registrations, definitions, keywords, schema
+nodes and depth, multi arms, observations, payload, sidecar and projection
+bytes), the schemas included, so raising one there moves every bound that
+reads it; there is no caller override, and `decode` lets a caller only lower
+the admission limits. The dialect's per-form bounds are fixed in
+`gate.extension-schema/check!` — 256 enum members, 128 tuple positions, 128
+map entries, non-negative `:int` ranges within the signed 32-bit range,
+`:string` up to 4096 characters, `:vector` up to 1,000,000 items — and the
+page budgets in `gate.extension-contract/Request`. A refusal carries one
+closed code from the module that refused: the extension codes in
+`gate.extension-contract/Code`; the portable codes `:portable-shape` and
+`:portable-limit`; the canonical `:encoded-byte-limit`; any admission code of
+`gate.admission` on the decoding entry points; the archive codes of
+`gate.archive-contract/Code` wherever a core archive is required (`observe`,
+`create`, `pair`, `decode`) and the `:archive-output-*` codes of
+`gate.archive-io` from `publish!`; and from `render` the report codes
+`:html-byte-limit` and `:invalid-viewer-bundle` of `gate.report` beside the
+report-file codes of `gate.report-io`.
+
+Three limits are structural and documented rather than enforced. The sealed
+context and pair refuse data that merely claims validation; in-process code
+that reaches the type constructor is trusted, as every callback is. The binding
+is one way: the sidecar commits to the core archive, the core archive does not
+commit to a sidecar, so a core-only read cannot show that no sidecar existed; a
+caller that expects one must ask for the pair. Projector functions are trusted
+in-process code: their declared implementation source must match a source in
+the core graph by id and full record, which binds the declaration to the
+evidence but proves nothing about the bytes the closure was compiled from.
+
+```sh
+cd tools/gate-graph && clojure -M:extension-test              # the module suite
+cd tools/gate-graph && clojure -M:test:extension-campaign .gate-reports/extension-mutations
+bash tools/gate-graph/browser/run.sh EVIDENCE_DIR --extensions # paired offline HTML in both browsers
+```
+
+The parity probe `gate.extension-parity` compares canonical bytes, identities,
+pages and refusal codes between the JVM (`clojure -M:extension-parity`) and the
+`extension-parity` shadow-cljs node build.
+
 ## Make targets as an archived battery
 
 `gate.make-battery` turns a list of Make targets into one observed battery and

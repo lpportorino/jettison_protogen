@@ -7,6 +7,7 @@
             [gate.contract :as c]
             [gate.graph :as graph]
             [gate.inspection-contract :as ic]
+            [gate.portable :as portable]
             [gate.repository-contract :as rc]
             [gate.repository-identity :as repository]
             [gate.run-contract :as r]
@@ -28,28 +29,26 @@
   ;; Traverse shipped schema data only. Input text never reaches keyword interning.
   (into {} (map (juxt str identity))
         (filter keyword? (tree-seq coll? seq [schema/registry r/registry]))))
-(def ^:private keyword-schema (into [:enum] (sort (vals keyword-table))))
 (def ^:private raw-value
-  "Internal parsing domain, not a public normalized record or extension mechanism."
-  [:schema
-   {:registry
-    {::raw [:or :nil :boolean [:int {:min 0 :max 2147483647}]
-            [:string {:max 4096}] keyword-schema
-            [:vector {:max 1000000} [:ref ::raw]]
-            [:map-of {:max 1000000} keyword-schema [:ref ::raw]]]}}
-   [:ref ::raw]])
+  "Parser subvalues; exact finite vocabulary is supplied by each explicit decoding context."
+  portable/Value)
+(def max-vocabulary
+  "Entries a decoding context's keyword vocabulary may hold; each key is at most 256 characters."
+  16384)
+(def Vocabulary [:map-of {:max max-vocabulary} [:string {:max 256}] :keyword])
 (def ^:private offset-schema [:int {:min 0 :max 134217728}])
 (def ^:private count-schema [:int {:min 0 :max 16777216}])
 (def ^:private context-schema
-  [:map {:closed true} [:text [:string {:max 134217728}]] [:limits c/AdmissionLimits]])
+  [:map {:closed true} [:text [:string {:max 134217728}]] [:limits c/AdmissionLimits]
+   [:keywords Vocabulary]])
 (def ^:private parsed-schema [:tuple offset-schema count-schema raw-value])
 (def ^:private frame-schema
   [:or
    [:map {:closed true} [:kind [:= :vector]] [:items [:vector {:max 1000000} raw-value]]]
    [:map {:closed true} [:kind [:= :map]]
-    [:entries [:map-of {:max 1000000} keyword-schema raw-value]] [:field [:maybe keyword-schema]]]])
+    [:entries [:map-of {:max 1000000} :keyword raw-value]] [:field [:maybe :keyword]]]])
 (def ^:private frame-header-schema
-  [:map {:closed true} [:kind [:enum :vector :map]] [:size count-schema] [:field [:maybe keyword-schema]]])
+  [:map {:closed true} [:kind [:enum :vector :map]] [:size count-schema] [:field [:maybe :keyword]]])
 (def ^:private target-schemas
   {:run-archive (m/schema ac/Document) :archive-metadata (m/schema ac/Metadata)
    :repository-observation (m/schema rc/Observation)
@@ -142,7 +141,7 @@
                 (= token "true") true
                 (= token "false") false
                 (= 58 (unit-at token 0))
-                (if (contains? keyword-table token) (get keyword-table token)
+                (if (contains? (:keywords context) token) (get (:keywords context) token)
                     (refuse! :unknown-keyword offset))
                 (re-matches #"(?:0|[1-9][0-9]*)" token)
                 (do (when (or (> (count token) 10)
@@ -261,7 +260,7 @@
   (try
     (admit-bytes! text (:bytes limits))
     (let [start (skip-space text 0)
-          [end _ value] (parse-form {:text text :limits limits} start)
+          [end _ value] (parse-form {:text text :limits limits :keywords keyword-table} start)
           trailing (skip-space text end)]
       (when (< trailing (count text)) (refuse! :trailing-input trailing))
       (when-not (m/validate (get target-schemas target) value) (refuse! :invalid-input-shape start))
@@ -275,3 +274,19 @@
                (ex-info (ex-message error) (assoc (ex-data error) :expected-kind target) error)
                error)))))
 (m/=> decode [:=> [:cat SourceText c/AdmissionTarget c/AdmissionLimits] [:or schema/Encodable r/Encodable]])
+
+(defn decode-portable
+  "Parse bounded data using a trusted finite vocabulary, without interning input keywords.
+   An explicit owner must validate the returned value against its prepared contract."
+  [text keywords limits]
+  (when-not (and (m/validate c/AdmissionLimits limits)
+                 (map? keywords) (<= (count keywords) max-vocabulary)
+                 (every? (fn [[text kw]] (and (keyword? kw) (= text (str kw))
+                                              (<= (count text) 256))) keywords))
+    (refuse! :invalid-input-shape 0))
+  (admit-bytes! text (:bytes limits))
+  (let [start (skip-space text 0)
+        [end _ value] (parse-form {:text text :limits limits :keywords keywords} start)]
+    (when (< (skip-space text end) (count text)) (refuse! :trailing-input end))
+    value))
+(m/=> decode-portable [:=> [:cat SourceText Vocabulary c/AdmissionLimits] portable/Value])

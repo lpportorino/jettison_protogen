@@ -5,7 +5,11 @@
         metosin/jsonista {:mvn/version "1.0.2"}
         hiccup/hiccup {:mvn/version "2.0.0"}}
  :aliases
- {:api-campaign {:main-opts ["-m" "gate.api-campaign"]}
+ {:extension-fixtures {:extra-paths ["test"]}
+  :extension-parity {:extra-paths ["test"] :main-opts ["-m" "gate.extension-parity"]}
+  :extension-test {:extra-paths ["test"] :main-opts ["-m" "gate.extension-test"]}
+  :extension-campaign {:main-opts ["-m" "gate.extension-campaign"]}
+  :api-campaign {:main-opts ["-m" "gate.api-campaign"]}
   :viewer-build {:main-opts ["-m" "gate.viewer-build"]}
   :viewer-campaign {:main-opts ["-m" "gate.viewer-campaign"]}
   :repository-campaign {:main-opts ["-m" "gate.repository-campaign"]}

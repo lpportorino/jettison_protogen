@@ -3,6 +3,7 @@
   (:require #?(:cljs [goog.crypt :as crypt])
             #?(:cljs [goog.crypt.Sha256])
             [gate.contract :as c]
+            [gate.portable :as portable]
             [gate.run-contract :as r]
             [gate.schema :as schema]
             [malli.core :as m])
@@ -51,11 +52,9 @@
        "\""))
 (m/=> quote-string [:=> [:cat [:string {:max 4096}]] [:string {:max 24578}]])
 
-(defn encode
-  "Encode a closed value; count each token before retaining it beyond the byte budget."
+(defn- write
+  "Emit the canonical token stream of an already admitted value within the byte budget."
   [value max-bytes]
-  (when-not (m/validate encodable-schema value)
-    (throw (ex-info "Value is outside the canonical contract" {:code :invalid-encoding-input})))
   (let [remaining (volatile! max-bytes) parts (volatile! [])]
     (letfn [(emit [token]
               (let [size (utf8-size token)]
@@ -82,6 +81,23 @@
                 :else (emit (str item))))]
       (write-value value)
       (apply str @parts))))
+(m/=> write [:=> [:cat [:or Encodable portable/Value] ByteLimit] Text])
+
+(defn encode-portable
+  "Encode bounded portable data for an explicit owner; this is not report admission.
+   Core callers use encode, and extension owners separately enforce their prepared schemas."
+  [value max-bytes]
+  (portable/require-bounded! value)
+  (write value max-bytes))
+(m/=> encode-portable [:=> [:cat portable/Input ByteLimit] Text])
+
+(defn encode
+  "Encode a closed core value. The core contract is the only admission here: the portable
+   bounds are an extension owner's and must not narrow what core records may carry."
+  [value max-bytes]
+  (when-not (m/validate encodable-schema value)
+    (throw (ex-info "Value is outside the canonical contract" {:code :invalid-encoding-input})))
+  (write value max-bytes))
 (m/=> encode [:=> [:cat Encodable ByteLimit] Text])
 
 (defn normalize-graph
