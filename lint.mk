@@ -442,7 +442,7 @@ lint:
 	   "$(CURDIR)/.gate-reports/lint/run-$$(date -u +%Y%m%dT%H%M%SZ)" $(NPROC) $(MAKE) lint.mk lint \
 	   "protogen lint lanes" $$lanes
 
-lint-lanes: kondo-regression lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths private-names-test prepush-scan-test lint-file-size-test lint-file-size lint-instruction-budget-test lint-instruction-budget ci-annotate-test gate-viewer-runner-test lint-cmd-no-any-bytes-test lint-cmd-no-any-bytes lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test uber-safe-directory-test uber-seed-test mutation-campaign-test leg-strictness-test wasm-provenance-test ts-validated-repro-test wire-contract-codec-test wire-contract-envelope-test fork-hazards protocol-gen-test protocol-gen-canary fmt-clj lint-clj fmt-c
+lint-lanes: kondo-regression lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths private-names-test prepush-scan-test lint-file-size-test lint-file-size lint-instruction-budget-test lint-instruction-budget ci-annotate-test gate-viewer-runner-test lint-cmd-no-any-bytes-test lint-cmd-no-any-bytes lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test uber-safe-directory-test uber-seed-test mutation-campaign-test perf-bench-test leg-strictness-test wasm-provenance-test ts-validated-repro-test wire-contract-codec-test wire-contract-envelope-test fork-hazards protocol-gen-test protocol-gen-canary fmt-clj lint-clj fmt-c
 
 ## lint-python / lint-python-test: pinned Ruff over the enrolled Python gate drivers
 # The bounded enrollment lives in tools/lint/python_check.sh; experiment and data
@@ -456,12 +456,19 @@ lint-lanes: kondo-regression lint-sh lint-ci lint-md-test lint-md lint-no-host-p
 # hook therefore runs it through tools/uber.sh in its docker-gated block, and
 # renderer.yml runs it inside the pinned image. The canary rides as the gate's
 # prerequisite, so it always runs first and needs exactly what the gate needs.
-.PHONY: lint-python lint-python-test
+.PHONY: lint-python lint-python-test perf-bench-test
 lint-python: lint-python-test
 	@bash tools/lint/python_check.sh
 
 lint-python-test:
 	@bash tools/lint/test/python_check_test.sh
+
+# The perf benchmark's deterministic contracts. It needs only bash, Python 3 and
+# awk — what the bare `lint` aggregate already needs — so it is a `lint-lanes`
+# member (the hook runs it) and a step of its own in lint.yml. The manual
+# mutation campaign (tools/perf/test_mutations.py) stays out of ordinary gates.
+perf-bench-test:
+	@python3 tools/perf/test_bench.py -v
 
 ## gate-trace-test: the gate-trace tool's suite, then its mutation fail canary
 # The suite drives the shipped shims with real children, real signals and a real

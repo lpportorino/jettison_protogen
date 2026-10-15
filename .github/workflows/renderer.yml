@@ -62,6 +62,10 @@ on:
     - "tools/lint/ruff.sh"
     - "tools/lint/python_check.sh"
     - "tools/lint/test/python_check_test.sh"
+    # The perf benchmark's enrolled Python (its helper and two test drivers, not
+    # the dump-buffer analysis scripts beside them) gets its Ruff verdict only from
+    # the lint-python step below; lint.yml runs the contract suite, not Ruff.
+    - "tools/perf/**"
     - "tools/press/**"
     - "tools/wire_contract_check.py"
     - "tools/renderer-gen/**"
@@ -130,6 +134,7 @@ on:
     - "tools/lint/ruff.sh"
     - "tools/lint/python_check.sh"
     - "tools/lint/test/python_check_test.sh"
+    - "tools/perf/**"
     - "tools/press/**"
     - "tools/wire_contract_check.py"
     - "tools/renderer-gen/**"

@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
-# Enrolled maintained Python gates: native renderer drivers, the manual mutation
-# campaign drivers, wire contracts, the gate-trace tool (its library, its test
-# suite and its fail canary), the viewer visual-review batch resolver, and the
-# mutation campaign driver, and the document press (tools/press: the tool package
-# and its selftest fixtures; judged as Python 3.10, the interpreter of its own
-# image — .ruff.toml per-file-target-version).
+# Enrolled maintained Python gates: native renderer drivers, the renderer's manual
+# mutation campaign drivers, wire contracts, the gate-trace tool (its library, its
+# test suite and its fail canary), the viewer visual-review batch resolver, the
+# tools/mutation campaign driver, the perf benchmark (tools/perf: its measurement
+# helper, contract suite and manual mutation driver — not the dump-buffer analysis
+# scripts beside them), and the document press
+# (tools/press: the tool package and its selftest fixtures; judged as Python
+# 3.10, the interpreter of its own image — .ruff.toml per-file-target-version).
 # Other experiment/data scripts are outside this deliberately bounded lane.
 set -euo pipefail
 root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd -P)
@@ -23,7 +25,7 @@ else
     printf 'Python gate: expected both native probe drivers; discovered %s.\n' "${#files[@]}" >&2
     exit 2
   }
-  files+=(tools/lint/kondo/rebuild.py renderer/tools/lvgl-reactive-mutations.py renderer/tools/renderer-gen-schema-mutations.py tools/wire_contract_check.py .claude/skills/viewer-visual-review/batch.py tools/mutation/campaign.py)
+  files+=(tools/lint/kondo/rebuild.py renderer/tools/lvgl-reactive-mutations.py renderer/tools/renderer-gen-schema-mutations.py tools/wire_contract_check.py .claude/skills/viewer-visual-review/batch.py tools/mutation/campaign.py tools/perf/measure.py tools/perf/test_bench.py tools/perf/test_mutations.py)
   # gate-trace: every module in its two directories, discovered as REGULAR files,
   # and each named module asserted to be AMONG what was discovered. An existence
   # test would follow a symlink that discovery skips, and pass while the module

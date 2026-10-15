@@ -1,9 +1,9 @@
 ---
 name: perf-investigation
-description: Find and fix performance problems in protogen builds, gates and tooling. Use when a lane/target/suite is slow, when asked to speed something up or parallelise it, or before/after any change intended to make something faster. Covers the busy-box measurement discipline (interleaved reruns, relative shares), the JVM tracers actually present in the pinned container, and the gate-specific traps that make a naive speedup silently wrong.
+description: Find and fix performance problems in protogen builds, gates and tooling. Use when a lane/target/suite is slow, when asked to speed something up or parallelise it, or before/after any change intended to make something faster. Covers the busy-box measurement discipline (interleaved reruns reported with their load), the JVM tracers actually present in the pinned container, and the gate-specific traps that make a naive speedup silently wrong.
 ---
 
-# Perf investigation — measure relative, interleave, then fix
+# Perf investigation — interleave, report the load, then fix
 
 Two things make performance work here different from the generic advice, and
 both are load-bearing:
@@ -24,37 +24,48 @@ both are load-bearing:
 
     tools/uber.sh 'tools/perf/bench.sh -n 3 -l <label> -- "<cmd A>" "<cmd B>" ...'
 
-It bakes in the three things that are otherwise forgotten:
+The runner retains fixed-order round-robin observations (A B C, A B C),
+command stdout/stderr, load context and a descriptive reduction. This can make
+slow shared drift easier to inspect than grouped repeats, but it does not
+subtract contention or remove order, cache, thermal or workload-specific effects.
 
-- **INTERLEAVE, never group.** It runs round-robin (A B C, A B C, A B C), not
-  (A A A, B B B, C C C). This is the whole point: on a box whose load drifts
-  during the run, grouped repeats CANNOT distinguish "B is slower" from "the box
-  got busier while B was running". Round-robin taxes every variant roughly
-  equally, so the comparison survives the drift. **Total box load affecting all
-  tasks equally is the goal, not a nuisance.**
-- **REPORT RELATIVE.** The headline is each variant SHARE of the round total.
-  Shares are stable when absolutes are not — measured: absolute medians moved
-  ~30% between two sessions while the ranking and the ~50% share of the top lane
-  did not move at all. Quote shares and ranks. Quote absolutes only as context,
-  and only with the loadavg they were taken under.
-- **SHOW THE SPREAD.** Median (not mean — one descheduled run must not move the
-  result), plus min..max, plus a `[noisy]` marker when the spread exceeds 30% of
-  the median. **Two variants whose spreads OVERLAP are not distinguished by that
-  run.** Raise `-n`, or quiesce the box, before claiming a difference.
+- **KEEP THE RAW TIMES.** The TSV header names its format version and units;
+  do not combine files of different versions. Python3 `time.monotonic_ns`
+  measures bash startup, the command and waiting for its exit; Python launcher
+  startup is excluded. Raw `elapsed_ns` and clock implementation/resolution are
+  retained. Nonpositive intervals invalidate the reduction. Every interval
+  carries bash startup, so batch short work inside the command until it
+  dominates. The clock does not remove scheduling delay.
+- **PAIR WITHIN ROUNDS.** Ratios use raw nanoseconds, not truncated milliseconds.
+  Each round supplies each variant's fraction of total
+  elapsed time and its elapsed-time ratio to variant 0. The report independently
+  takes the median of these quantities across rounds, and also reports absolute
+  median/min/max. Median shares need not sum to 100%. A ratio above 1 means
+  slower than variant 0. Neither quantity is a noise-free duration or a stable
+  ranking, and loadavg is context, never a normalization divisor.
+- **REFUSE INVALID COMPARISONS.** Any nonzero command exit, nonpositive interval,
+  missing or malformed observation suppresses the comparative reduction and
+  exits nonzero. Raw rows and command output remain for diagnosis. A faster
+  failed command is not an improvement.
+- **REPORT LIMITS.** Min..max ranges describe the observed sample; they are not
+  confidence intervals. Overlap alone does not prove equivalence or lack of a
+  difference, and disjoint ranges alone do not prove causality or significance.
+  Fixed AB order is still a confounder. No warmup or host isolation is supplied.
 
-`-n 3` is the floor. Use `-n 5` when spreads overlap or when the claimed win is
-under ~20%.
+Use at least three rounds for exploration; choose further repetitions and a
+counterbalanced or randomized experiment when the decision requires uncertainty
+estimation. Do not treat an arbitrary round count as statistical qualification.
 
-**Logs are gitignored.** Every run writes `.protogen/perf/<stamp>-<label>.tsv`
-(raw rows) and `.summary.md` (the reduction), under the repo-wide `.protogen/`
-ignore. That directory is invisible to a fresh clone and to all consumers — so a
-perf FACT that should outlive the session goes in a commit message or a rule,
-per `.claude/rules/` and the session-winddown skill. The TSV is for the next
-comparison; it is not a durable record.
+**Logs are gitignored.** Unique filenames preserve concurrent/repeated same-label
+runs in `.protogen/perf/`: raw `.tsv`, `.summary.md`, and `.runs/*.log` command
+output. They are invisible to fresh clones. Archive the exact artifacts and
+source/tool fingerprints when a performance claim must outlive the session.
 
-Always capture a BEFORE run and an AFTER run with the same label and `-n`, and
-put both summary paths in the commit message. A speedup claim with no before/
-after pair in the log directory is an assertion, not a measurement.
+Always capture BEFORE and AFTER under the same declared workload and protocol.
+Prefer both versions as matched variants within one experiment when possible;
+separate sessions do not establish same-round pairing. State the load, order,
+coverage and timing boundaries with a claim. Retain both artifact paths in the
+commit message; the paths alone are not proof of a speedup.
 
 ## What tracers actually exist here
 
@@ -91,12 +102,10 @@ Consequences worth knowing before you plan an investigation:
     jfr summary /tmp/p.jfr                    # what got recorded
     jfr print --events ExecutionSample /tmp/p.jfr | head -100
 
-**Check the lane is JVM-bound before reaching for JFR.** A refuted hypothesis
-from this repo, recorded so it is not re-run: eight battery lanes shell out to
-`clojure`, so repeated JVM startup looked like the obvious cost. Measured, a
-bare `clojure -M -e nil` in this image is ~0s. Startup was NOT the cost and no
-lane should be restructured around it. **Measure before profiling; profile
-before optimising.**
+**Check the lane is JVM-bound before reaching for JFR.** Measure the actual
+invocation — `bench.sh` over the lane beside `clojure -M -e nil` in the same
+run — before attributing a slow lane to JVM startup or excluding startup as a
+cause. **Measure before profiling; profile before optimising.**
 
 ## The traps that make a speedup wrong
 
@@ -170,12 +179,13 @@ be able to make, and cannot make from a green exit code alone.
 
 ### Report the speedup WITH the load it was measured under
 
-Measured here: the parallelised lane went 99.3s -> 69.5s median, a 1.43x win with
-non-overlapping spreads (95.0..112.0 vs 67.6..70.2), so the difference is real.
-But loadavg during that run was 101 -> 114 on 12 CPUs. **There were no free
-cores.** The honest statement is "1.43x at loadavg ~110", not "1.43x", because
-the mechanism (184 process spawns going concurrent) has far more headroom on an
-idle CI runner and the same change will measure very differently there.
+Measured here: the parallelised lane's median went 99.3s -> 69.5s in one run,
+with non-overlapping observed ranges (95.0..112.0 vs 67.6..70.2) — a description
+of that run, not a proof of cause. Loadavg during it was 101 -> 114 on 12 CPUs.
+**There were no free cores.** The honest statement is "99.3s -> 69.5s at loadavg
+~110", not a bare ratio, because the mechanism (184 process spawns going
+concurrent) has far more headroom on an idle CI runner and the same change will
+measure very differently there.
 
 A speedup number with no load figure beside it is not reproducible and should not
 go in a commit message alone. `bench.sh` records loadavg before and after for
@@ -193,8 +203,8 @@ truncation reads as "covered everything".
 ## The routine
 
 1. **Measure the whole first**, with `bench.sh -n 3`, all candidate lanes in one
-   interleaved run. Rank by SHARE. Do not optimise anything below the top two or
-   three — you cannot detect the win.
+   interleaved run. Use raw durations and descriptive shares to identify
+   candidate costs; confirm them with workload-specific evidence.
 2. **Find the hot path inside the top lane.** Prefer counting (invocations,
    spawns, cases) over profiling; reach for JFR when the lane is JVM-bound and
    counting was not enough.
@@ -204,8 +214,9 @@ truncation reads as "covered everything".
 4. **Fix correctness blockers BEFORE speed.** Undeclared deps and shell-counter
    verdicts are correctness bugs that happen to block parallelism. Landing them
    first means the speedup does not have to be trusted.
-5. **Re-measure with the same label and `-n`.** Compare SHARES and medians;
-   check the spreads still separate. Put both summary paths in the commit.
+5. **Re-measure under the same declared protocol.** Compare paired ratios,
+   absolute times and their spread without treating them as significance tests.
+   Put both summary paths and limitations in the commit.
 6. **Re-run the gate for its VERDICT, not just its clock.** A faster lane must
    still be red on the thing it was built to catch — run its canary, or mutate
    the defect and watch it fail. Never accept a green that only got quicker.
