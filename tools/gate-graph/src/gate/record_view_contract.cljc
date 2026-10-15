@@ -3,13 +3,14 @@
   (:require [gate.archive-contract :as archive]
             [gate.catalog-contract :as catalog]
             [gate.contract :as c]
+            [gate.paired-performance-contract :as paired]
             [gate.repository-contract :as repository]
             [gate.run-contract :as run]
             [malli.core :as m]))
 
 (def Kind catalog/ReportKind)
 (def payload-schemas
-  {:artifact-catalog catalog/Document :run-archive archive/Document :graph c/Graph :process-batch-report run/ProcessBatchReport
+  {:paired-performance paired/Document :artifact-catalog catalog/Document :run-archive archive/Document :graph c/Graph :process-batch-report run/ProcessBatchReport
    :test-batch-report run/TestBatchReport :gate-definitions run/Gates
    :coordinator-batch run/Batch :repository-observation repository/Observation})
 (def Payload (into [:or] (vals payload-schemas)))

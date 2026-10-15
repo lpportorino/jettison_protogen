@@ -7,6 +7,7 @@
             [gate.contract :as c]
             [gate.graph :as graph]
             [gate.inspection-contract :as ic]
+            [gate.paired-performance-contract :as paired]
             [gate.portable :as portable]
             [gate.repository-contract :as rc]
             [gate.repository-identity :as repository]
@@ -50,7 +51,7 @@
 (def ^:private frame-header-schema
   [:map {:closed true} [:kind [:enum :vector :map]] [:size count-schema] [:field [:maybe :keyword]]])
 (def ^:private target-schemas
-  {:run-archive (m/schema ac/Document) :archive-metadata (m/schema ac/Metadata)
+  {:paired-performance (m/schema paired/Document) :run-archive (m/schema ac/Document) :archive-metadata (m/schema ac/Metadata)
    :repository-observation (m/schema rc/Observation)
    :view-request (m/schema view/Request)
    :viewer-manifest (m/schema vc/Manifest)

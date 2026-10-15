@@ -14,7 +14,7 @@
    "report.edn" [:process-batch-report :test-batch-report]
    "definitions.edn" [:gate-definitions] "batch.edn" [:coordinator-batch]
    "repository-before.edn" [:repository-observation] "repository-after.edn" [:repository-observation]
-   "catalog.edn" [:artifact-catalog]})
+   "catalog.edn" [:artifact-catalog] "paired-performance.edn" [:paired-performance]})
 (defn- refuse!
   "Return a closed refusal without native messages, private paths or rejected names."
   [code]

@@ -9,6 +9,8 @@
   :extension-parity {:extra-paths ["test"] :main-opts ["-m" "gate.extension-parity"]}
   :extension-test {:extra-paths ["test"] :main-opts ["-m" "gate.extension-test"]}
   :extension-campaign {:main-opts ["-m" "gate.extension-campaign"]}
+  :paired-campaign {:main-opts ["-m" "gate.paired-performance-campaign"]}
+  :paired-simulation {:main-opts ["-m" "gate.paired-performance-simulation"]}
   :api-campaign {:main-opts ["-m" "gate.api-campaign"]}
   :viewer-build {:main-opts ["-m" "gate.viewer-build"]}
   :viewer-campaign {:main-opts ["-m" "gate.viewer-campaign"]}

@@ -2,7 +2,7 @@
   "Closed local directory inventories; unopened entries are metadata, never admitted report content."
   (:require [gate.contract :as c]))
 (def ReportKind [:enum :run-archive :graph :process-batch-report :test-batch-report
-                 :gate-definitions :coordinator-batch :repository-observation :artifact-catalog])
+                 :gate-definitions :coordinator-batch :repository-observation :artifact-catalog :paired-performance])
 (def Name [:and [:string {:min 1 :max 4096}] [:re #"^(?!\.{1,2}(?![\s\S]))[^/\u0000]+(?![\s\S])"]])
 (def Directory [:and [:string {:min 1 :max 4096}] [:re #"^/[^\u0000]*(?![\s\S])"]])
 (def Entry [:map {:closed true} [:name Name] [:path Directory]

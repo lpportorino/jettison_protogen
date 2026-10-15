@@ -1171,9 +1171,8 @@ node parent IDs and causal edges are different relationships, available through
 (lens/digest document {:top 5 :bytes 16384})
 ```
 
-The declared kinds are `:run-archive`, `:graph`, `:process-batch-report`,
-`:test-batch-report`, `:gate-definitions`, `:coordinator-batch`,
-`:repository-observation` and `:artifact-catalog`. Each uses its existing closed owner contract;
+The declared kinds are the members of `ReportKind` in
+`src/gate/catalog_contract.cljc`. Each uses its existing closed owner contract;
 applicable graph, archive and full repository invariants are verified. Batch and
 declaration schemas do not independently prove cross-file agreement or producer
 honesty. Unknown EDN and filename-based kind inference are refused. Use
@@ -1469,3 +1468,13 @@ The chronological offline viewer and its bounded presentation API are documented
 See [API identity and explicit adoption](docs/api.md) for the manifest algebra
 and [passive source observations](docs/api-source.md) for bounded declaration
 reading. [Combined acceptance](docs/integrated-viewer.md) records the integrated viewer.
+
+## Optional paired performance companion
+
+The [paired-performance profile](docs/paired-performance.md) provides exact
+candidate/reference fractions, local A/A controls, declared policies and
+explicit unavailable/refused/inconclusive/qualified outcomes. It is admitted
+as a separate `paired-performance.edn` record through catalog discovery and
+the existing bounded zipper. It never rewrites archive timing or invents CPU
+work. `clojure -M:test:paired-campaign <output-directory>` runs the targeted
+mutation campaign with full instrumented before/after module suites.

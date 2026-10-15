@@ -121,7 +121,7 @@
   [:enum :input-byte-limit :input-depth-limit :input-value-limit :input-collection-limit
    :input-token-limit :input-string-limit :input-integer-limit :invalid-input-unicode
    :invalid-edn :duplicate-map-key :unknown-keyword :trailing-input :invalid-input-shape])
-(def AdmissionTarget [:enum :view-request :run-archive :archive-metadata :repository-observation :graph :query-request :aggregate-request :diff-request :value :viewer-manifest
+(def AdmissionTarget [:enum :paired-performance :view-request :run-archive :archive-metadata :repository-observation :graph :query-request :aggregate-request :diff-request :value :viewer-manifest
                       :gate-definitions :cache-receipt :input-snapshot :coordinator-batch :attempt-observation :process-observation :clocked-process :process-capture :process-batch-report :test-batch-report :artifact-catalog :container-observation :output-publication :contained-observation :runtime-observation :test-observation :clocked-tests])
 (def AdmissionFailure
   "A refusal names WHERE (a UTF-16 offset), never echoing input. :expected-kind is
