@@ -11,13 +11,13 @@ type: message
 
 ## Description
 
-Sets the FX (image enhancement) mode for the thermal camera to a specific mode value. Accepts a JonGuiDataFxModeHeat enum value that controls the thermal image enhancement effects applied to the video stream for optimized viewing in different conditions.
+Sets the FX (image enhancement) mode for the thermal camera to a specific mode value. Accepts a JonGuiDataFxModeHeat enum value that controls the thermal image enhancement effects applied to the video stream for optimized viewing in different conditions. DEFAULT (0) is a real look and is accepted like any other defined mode — it is not an unset sentinel.
 
 ## Fields
 
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
-| 1 | mode | [[proto/ser.JonGuiDataFxModeHeat]] | defined enum value only, not in: 0 |
+| 1 | mode | [[proto/ser.JonGuiDataFxModeHeat]] | defined enum value only |
 
 
 

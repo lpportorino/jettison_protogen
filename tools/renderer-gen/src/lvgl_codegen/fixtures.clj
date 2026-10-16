@@ -742,7 +742,7 @@
    ;; R5a cmd-by-value :enum — an lv_slider (0..2) standing in for a dropdown
    ;; index (the C path only reads the widget int; driving a real lv_dropdown
    ;; via synthetic pointer is fragile). Value i relays the i-th SetFxMode
-   ;; option's FIXED template (value 0→mode A, 1→mode B, 2→mode C).
+   ;; option's FIXED template (value 0→mode DEFAULT, 1→mode A, 2→mode B).
     "vr_event_by_value_index" {:type :screen
                                :subjects {}
                                :events {:fx {:trigger :value-changed

@@ -11,13 +11,13 @@ type: message
 
 ## Description
 
-Sets the day camera's image processing FX mode to a specific preset (DAY_A for daytime, DAY_B for dusk, or DAY_C for fog conditions). Each mode applies predefined color and exposure settings optimized for different environmental lighting conditions to enhance video quality.
+Sets the day camera's image processing FX mode to a specific preset (DAY_A for daytime, DAY_B for dusk, or DAY_C for fog conditions). Each mode applies predefined color and exposure settings optimized for different environmental lighting conditions to enhance video quality. DEFAULT (0) is a real look and is accepted like any other defined mode — it is not an unset sentinel, so a client or an automatic scene controller can return the camera to it.
 
 ## Fields
 
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
-| 1 | mode | [[proto/ser.JonGuiDataFxModeDay]] | defined enum value only, not in: 0 |
+| 1 | mode | [[proto/ser.JonGuiDataFxModeDay]] | defined enum value only |
 
 
 

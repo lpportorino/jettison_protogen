@@ -2997,34 +2997,36 @@ mod controller_bindings {
     #[test]
     fn test_by_value_index_selects_enum_option_template() {
         // R5a :enum egress: a slider (0..2) index-selects the i-th SetFxMode
-        // option's FIXED template. The first 3 options are A(mode 1), B(mode 2),
-        // C(mode 3), so value 0/1/2 → mode 1/2/3.
+        // option's FIXED template. The first 3 options are DEFAULT(mode 0),
+        // A(mode 1), B(mode 2), so value 0/1/2 → mode 0/1/2. Index 0 is the
+        // enum's ZERO value, so this also proves a proto3 default rides the
+        // egress path as a real command rather than vanishing.
         let mut host = new_host();
         let _ = render(&mut host, "vr_event_by_value_index");
         let _ = host.take_host_commands();
-        // Default value is 1; drive to 0 (left) → option A (mode 1).
+        // Default value is 1; drive to 0 (left) → option DEFAULT (mode 0).
         press_slider_frac(&mut host, 0.05);
+        let d = host.take_host_commands();
+        assert!(
+            d.iter().any(|c| as_day_set_fx_mode(c) == Some(0)),
+            "slider index 0 must relay SetFxMode{{mode:0}}, got {} cmd(s)",
+            d.len()
+        );
+        // Center → 1 → option A (mode 1).
+        press_slider_frac(&mut host, 0.5);
         let a = host.take_host_commands();
         assert!(
             a.iter().any(|c| as_day_set_fx_mode(c) == Some(1)),
-            "slider index 0 must relay SetFxMode{{mode:1}}, got {} cmd(s)",
+            "slider index 1 must relay SetFxMode{{mode:1}}, got {} cmd(s)",
             a.len()
         );
-        // Center → 1 → option B (mode 2).
-        press_slider_frac(&mut host, 0.5);
+        // Right → 2 → option B (mode 2).
+        press_slider_frac(&mut host, 0.95);
         let b = host.take_host_commands();
         assert!(
-            b.iter().any(|c| as_day_set_fx_mode(c) == Some(2)),
-            "slider index 1 must relay SetFxMode{{mode:2}}, got {} cmd(s)",
+            b.iter().any(|cc| as_day_set_fx_mode(cc) == Some(2)),
+            "slider index 2 must relay SetFxMode{{mode:2}}, got {} cmd(s)",
             b.len()
-        );
-        // Right → 2 → option C (mode 3).
-        press_slider_frac(&mut host, 0.95);
-        let c = host.take_host_commands();
-        assert!(
-            c.iter().any(|cc| as_day_set_fx_mode(cc) == Some(3)),
-            "slider index 2 must relay SetFxMode{{mode:3}}, got {} cmd(s)",
-            c.len()
         );
     }
     #[test]
@@ -3036,12 +3038,12 @@ mod controller_bindings {
         let mut host = new_host();
         let _ = render(&mut host, "vr_event_by_value_oob");
         let _ = host.take_host_commands();
-        // In range: value 2 (frac 0.4 of 0..5) → index 2 → SetFxMode{mode:3}.
+        // In range: value 2 (frac 0.4 of 0..5) → index 2 → SetFxMode{mode:2}.
         press_slider_frac(&mut host, 0.4);
         let in_range = host.take_host_commands();
         assert!(
-            in_range.iter().any(|c| as_day_set_fx_mode(c) == Some(3)),
-            "in-range value 2 must relay SetFxMode{{mode:3}}, got {} cmd(s)",
+            in_range.iter().any(|c| as_day_set_fx_mode(c) == Some(2)),
+            "in-range value 2 must relay SetFxMode{{mode:2}}, got {} cmd(s)",
             in_range.len()
         );
         // Out of range: value 4 (frac 0.8) → index 4 ≥ count 3 → no emit.

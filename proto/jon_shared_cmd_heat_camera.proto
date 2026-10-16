@@ -50,8 +50,7 @@ message Root {
 
 message SetFxMode {
   ser.JonGuiDataFxModeHeat mode = 1 [(buf.validate.field).enum = {
-    defined_only: true,
-    not_in: [0]
+    defined_only: true
   }];
 }
 

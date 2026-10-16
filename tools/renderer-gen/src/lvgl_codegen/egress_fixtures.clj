@@ -53,7 +53,7 @@
                                :fixed {:channel ch}})]))
 
 (def fx-mode-by-value
-  "cmd.DayCamera.SetFxMode [A,B,C] FIXED templates — the first 3 enum options in
+  "cmd.DayCamera.SetFxMode [DEFAULT,A,B] FIXED templates — the first 3 enum options in
    dropdown-option order (res/enum-options is the single source), index-selected
    by a slider position (value i → option i's enum number) — the :enum egress."
   (let [cid "cmd.DayCamera.SetFxMode"

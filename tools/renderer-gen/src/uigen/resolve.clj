@@ -146,9 +146,9 @@
    `:name` + `:constraints`): the enum's values as prefix-stripped, HUMANIZED
    labels (humanize-label) paired with their numbers, MINUS the
    `_UNSPECIFIED`-by-name value AND any value the field's buf.validate `:not-in`
-   forbids. (E.g. `SetFxMode.mode` is `not-in:[0]`, so the DEFAULT=0 value — NOT
-   named `_UNSPECIFIED`, so it survives the name drop — must still be excluded,
-   or the command would offer a value cmd_server rejects.) The enum type resolves
+   forbids. (A field `not-in:[0]` over an enum whose zero is a real value NOT
+   named `_UNSPECIFIED` survives the name drop, so the `:not-in` drop is what
+   keeps the command from offering a value cmd_server rejects.) The enum type resolves
    from the FIELD's own `:type-ref` when the field map carries one (a proto-db
    flattened field — a nested/oneof arm scalar, whose owning message is NOT
    `cid`), else by field-name lookup on `cid` itself; an enum field that resolves

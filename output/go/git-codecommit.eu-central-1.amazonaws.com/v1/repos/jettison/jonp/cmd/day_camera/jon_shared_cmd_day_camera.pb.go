@@ -2555,10 +2555,9 @@ const file_jon_shared_cmd_day_camera_proto_rawDesc = "" +
 	"\n" +
 	"PrevFxMode\"\x0f\n" +
 	"\rRefreshFxMode\"\t\n" +
-	"\aHaltAll\"E\n" +
-	"\tSetFxMode\x128\n" +
-	"\x04mode\x18\x01 \x01(\x0e2\x18.ser.JonGuiDataFxModeDayB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x04mode\";\n" +
+	"\aHaltAll\"C\n" +
+	"\tSetFxMode\x126\n" +
+	"\x04mode\x18\x01 \x01(\x0e2\x18.ser.JonGuiDataFxModeDayB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04mode\";\n" +
 	"\x13SetDigitalZoomLevel\x12$\n" +
 	"\x05value\x18\x01 \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\xf0?R\x05value\"\xf7\x03\n" +
 	"\x05Focus\x126\n" +
