@@ -3879,7 +3879,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      * The row's title: the decode-table family name, the command root member that
-     * was set, or "refused: &lt;code&gt;".
+     * was set, or `"refused: &lt;code&gt;"`.
      * </pre>
      *
      * <code>string title = 2;</code>
@@ -3889,7 +3889,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      * The row's title: the decode-table family name, the command root member that
-     * was set, or "refused: &lt;code&gt;".
+     * was set, or `"refused: &lt;code&gt;"`.
      * </pre>
      *
      * <code>string title = 2;</code>
@@ -4253,7 +4253,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
 
     /**
      * <pre>
-     * The Redis stream key (logs:bus:0x&lt;id&gt;), the entry id, and the entry id's
+     * The Redis stream key (`logs:bus:0x&lt;id&gt;`), the entry id, and the entry id's
      * millisecond (the Redis server's wall clock when the entry was appended).
      * </pre>
      *
@@ -4263,7 +4263,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
     java.lang.String getStream();
     /**
      * <pre>
-     * The Redis stream key (logs:bus:0x&lt;id&gt;), the entry id, and the entry id's
+     * The Redis stream key (`logs:bus:0x&lt;id&gt;`), the entry id, and the entry id's
      * millisecond (the Redis server's wall clock when the entry was appended).
      * </pre>
      *
@@ -4377,7 +4377,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      * The row's title: the decode-table family name, the command root member that
-     * was set, or "refused: &lt;code&gt;".
+     * was set, or `"refused: &lt;code&gt;"`.
      * </pre>
      *
      * <code>string title = 2;</code>
@@ -4399,7 +4399,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
     /**
      * <pre>
      * The row's title: the decode-table family name, the command root member that
-     * was set, or "refused: &lt;code&gt;".
+     * was set, or `"refused: &lt;code&gt;"`.
      * </pre>
      *
      * <code>string title = 2;</code>
@@ -5120,7 +5120,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
     private volatile java.lang.Object stream_ = "";
     /**
      * <pre>
-     * The Redis stream key (logs:bus:0x&lt;id&gt;), the entry id, and the entry id's
+     * The Redis stream key (`logs:bus:0x&lt;id&gt;`), the entry id, and the entry id's
      * millisecond (the Redis server's wall clock when the entry was appended).
      * </pre>
      *
@@ -5142,7 +5142,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
     }
     /**
      * <pre>
-     * The Redis stream key (logs:bus:0x&lt;id&gt;), the entry id, and the entry id's
+     * The Redis stream key (`logs:bus:0x&lt;id&gt;`), the entry id, and the entry id's
      * millisecond (the Redis server's wall clock when the entry was appended).
      * </pre>
      *
@@ -6304,7 +6304,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        * The row's title: the decode-table family name, the command root member that
-       * was set, or "refused: &lt;code&gt;".
+       * was set, or `"refused: &lt;code&gt;"`.
        * </pre>
        *
        * <code>string title = 2;</code>
@@ -6325,7 +6325,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        * The row's title: the decode-table family name, the command root member that
-       * was set, or "refused: &lt;code&gt;".
+       * was set, or `"refused: &lt;code&gt;"`.
        * </pre>
        *
        * <code>string title = 2;</code>
@@ -6347,7 +6347,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        * The row's title: the decode-table family name, the command root member that
-       * was set, or "refused: &lt;code&gt;".
+       * was set, or `"refused: &lt;code&gt;"`.
        * </pre>
        *
        * <code>string title = 2;</code>
@@ -6365,7 +6365,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        * The row's title: the decode-table family name, the command root member that
-       * was set, or "refused: &lt;code&gt;".
+       * was set, or `"refused: &lt;code&gt;"`.
        * </pre>
        *
        * <code>string title = 2;</code>
@@ -6380,7 +6380,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       /**
        * <pre>
        * The row's title: the decode-table family name, the command root member that
-       * was set, or "refused: &lt;code&gt;".
+       * was set, or `"refused: &lt;code&gt;"`.
        * </pre>
        *
        * <code>string title = 2;</code>
@@ -8033,7 +8033,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       private java.lang.Object stream_ = "";
       /**
        * <pre>
-       * The Redis stream key (logs:bus:0x&lt;id&gt;), the entry id, and the entry id's
+       * The Redis stream key (`logs:bus:0x&lt;id&gt;`), the entry id, and the entry id's
        * millisecond (the Redis server's wall clock when the entry was appended).
        * </pre>
        *
@@ -8054,7 +8054,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       }
       /**
        * <pre>
-       * The Redis stream key (logs:bus:0x&lt;id&gt;), the entry id, and the entry id's
+       * The Redis stream key (`logs:bus:0x&lt;id&gt;`), the entry id, and the entry id's
        * millisecond (the Redis server's wall clock when the entry was appended).
        * </pre>
        *
@@ -8076,7 +8076,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       }
       /**
        * <pre>
-       * The Redis stream key (logs:bus:0x&lt;id&gt;), the entry id, and the entry id's
+       * The Redis stream key (`logs:bus:0x&lt;id&gt;`), the entry id, and the entry id's
        * millisecond (the Redis server's wall clock when the entry was appended).
        * </pre>
        *
@@ -8094,7 +8094,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       }
       /**
        * <pre>
-       * The Redis stream key (logs:bus:0x&lt;id&gt;), the entry id, and the entry id's
+       * The Redis stream key (`logs:bus:0x&lt;id&gt;`), the entry id, and the entry id's
        * millisecond (the Redis server's wall clock when the entry was appended).
        * </pre>
        *
@@ -8109,7 +8109,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       }
       /**
        * <pre>
-       * The Redis stream key (logs:bus:0x&lt;id&gt;), the entry id, and the entry id's
+       * The Redis stream key (`logs:bus:0x&lt;id&gt;`), the entry id, and the entry id's
        * millisecond (the Redis server's wall clock when the entry was appended).
        * </pre>
        *
@@ -11127,7 +11127,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
 
     /**
      * <pre>
-     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each `logs:bus:0x&lt;id&gt;`).
      * </pre>
      *
      * <code>repeated string streams = 1;</code>
@@ -11137,7 +11137,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
         getStreamsList();
     /**
      * <pre>
-     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each `logs:bus:0x&lt;id&gt;`).
      * </pre>
      *
      * <code>repeated string streams = 1;</code>
@@ -11146,7 +11146,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
     int getStreamsCount();
     /**
      * <pre>
-     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each `logs:bus:0x&lt;id&gt;`).
      * </pre>
      *
      * <code>repeated string streams = 1;</code>
@@ -11156,7 +11156,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
     java.lang.String getStreams(int index);
     /**
      * <pre>
-     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each `logs:bus:0x&lt;id&gt;`).
      * </pre>
      *
      * <code>repeated string streams = 1;</code>
@@ -11220,7 +11220,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
         com.google.protobuf.LazyStringArrayList.emptyList();
     /**
      * <pre>
-     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each `logs:bus:0x&lt;id&gt;`).
      * </pre>
      *
      * <code>repeated string streams = 1;</code>
@@ -11232,7 +11232,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
     }
     /**
      * <pre>
-     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each `logs:bus:0x&lt;id&gt;`).
      * </pre>
      *
      * <code>repeated string streams = 1;</code>
@@ -11243,7 +11243,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
     }
     /**
      * <pre>
-     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each `logs:bus:0x&lt;id&gt;`).
      * </pre>
      *
      * <code>repeated string streams = 1;</code>
@@ -11255,7 +11255,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
     }
     /**
      * <pre>
-     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+     * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each `logs:bus:0x&lt;id&gt;`).
      * </pre>
      *
      * <code>repeated string streams = 1;</code>
@@ -11591,7 +11591,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       }
       /**
        * <pre>
-       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each `logs:bus:0x&lt;id&gt;`).
        * </pre>
        *
        * <code>repeated string streams = 1;</code>
@@ -11604,7 +11604,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       }
       /**
        * <pre>
-       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each `logs:bus:0x&lt;id&gt;`).
        * </pre>
        *
        * <code>repeated string streams = 1;</code>
@@ -11615,7 +11615,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       }
       /**
        * <pre>
-       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each `logs:bus:0x&lt;id&gt;`).
        * </pre>
        *
        * <code>repeated string streams = 1;</code>
@@ -11627,7 +11627,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       }
       /**
        * <pre>
-       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each `logs:bus:0x&lt;id&gt;`).
        * </pre>
        *
        * <code>repeated string streams = 1;</code>
@@ -11640,7 +11640,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       }
       /**
        * <pre>
-       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each `logs:bus:0x&lt;id&gt;`).
        * </pre>
        *
        * <code>repeated string streams = 1;</code>
@@ -11659,7 +11659,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       }
       /**
        * <pre>
-       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each `logs:bus:0x&lt;id&gt;`).
        * </pre>
        *
        * <code>repeated string streams = 1;</code>
@@ -11677,7 +11677,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       }
       /**
        * <pre>
-       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each `logs:bus:0x&lt;id&gt;`).
        * </pre>
        *
        * <code>repeated string streams = 1;</code>
@@ -11695,7 +11695,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       }
       /**
        * <pre>
-       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each `logs:bus:0x&lt;id&gt;`).
        * </pre>
        *
        * <code>repeated string streams = 1;</code>
@@ -11710,7 +11710,7 @@ public final class JonCanStream extends com.google.protobuf.GeneratedFile {
       }
       /**
        * <pre>
-       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each logs:bus:0x&lt;id&gt;).
+       * Discovered module-bus stream ids (the `0x&lt;id&gt;` of each `logs:bus:0x&lt;id&gt;`).
        * </pre>
        *
        * <code>repeated string streams = 1;</code>

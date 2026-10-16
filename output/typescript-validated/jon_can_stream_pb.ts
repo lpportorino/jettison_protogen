@@ -184,7 +184,7 @@ export type BusRecord = Message<"jon.can.BusRecord"> & {
 
   /**
    * The row's title: the decode-table family name, the command root member that
-   * was set, or "refused: <code>".
+   * was set, or `"refused: <code>"`.
    *
    * @generated from field: string title = 2;
    */
@@ -366,7 +366,7 @@ export type BusRecord = Message<"jon.can.BusRecord"> & {
   tsValid: boolean;
 
   /**
-   * The Redis stream key (logs:bus:0x<id>), the entry id, and the entry id's
+   * The Redis stream key (`logs:bus:0x<id>`), the entry id, and the entry id's
    * millisecond (the Redis server's wall clock when the entry was appended).
    *
    * @generated from field: string stream = 29;
@@ -514,7 +514,7 @@ export const BusRecordBatchSchema: GenMessage<BusRecordBatch> = /*@__PURE__*/
  */
 export type BusStreamConnected = Message<"jon.can.BusStreamConnected"> & {
   /**
-   * Discovered module-bus stream ids (the `0x<id>` of each logs:bus:0x<id>).
+   * Discovered module-bus stream ids (the `0x<id>` of each `logs:bus:0x<id>`).
    *
    * @generated from field: repeated string streams = 1;
    */

@@ -71,7 +71,7 @@ pub struct BusRecord {
     #[prost(uint64, tag = "1")]
     pub n: u64,
     /// The row's title: the decode-table family name, the command root member that
-    /// was set, or "refused: <code>".
+    /// was set, or `"refused: <code>"`.
     #[prost(string, tag = "2")]
     pub title: ::prost::alloc::string::String,
     /// What the message is (joncandec Kind*): "family", "health", "announce",
@@ -155,7 +155,7 @@ pub struct BusRecord {
     pub tx_time_ns: u64,
     #[prost(bool, tag = "28")]
     pub ts_valid: bool,
-    /// The Redis stream key (logs:bus:0x<id>), the entry id, and the entry id's
+    /// The Redis stream key (`logs:bus:0x<id>`), the entry id, and the entry id's
     /// millisecond (the Redis server's wall clock when the entry was appended).
     #[prost(string, tag = "29")]
     pub stream: ::prost::alloc::string::String,
@@ -215,7 +215,7 @@ pub struct BusRecordBatch {
 /// Sent once when a module-bus WebSocket connects.
 #[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct BusStreamConnected {
-    /// Discovered module-bus stream ids (the `0x<id>` of each logs:bus:0x<id>).
+    /// Discovered module-bus stream ids (the `0x<id>` of each `logs:bus:0x<id>`).
     #[prost(string, repeated, tag = "1")]
     pub streams: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }

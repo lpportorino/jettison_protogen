@@ -416,7 +416,7 @@ type BusRecord struct {
 	// Arrival number: 1 for the first message the relay decoded since it started.
 	N uint64 `protobuf:"varint,1,opt,name=n,proto3" json:"n,omitempty"`
 	// The row's title: the decode-table family name, the command root member that
-	// was set, or "refused: <code>".
+	// was set, or `"refused: <code>"`.
 	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
 	// What the message is (joncandec Kind*): "family", "health", "announce",
 	// "command", "debug", "log" or "unknown".
@@ -473,7 +473,7 @@ type BusRecord struct {
 	FragTotal uint32 `protobuf:"varint,26,opt,name=frag_total,json=fragTotal,proto3" json:"frag_total,omitempty"`
 	TxTimeNs  uint64 `protobuf:"varint,27,opt,name=tx_time_ns,json=txTimeNs,proto3" json:"tx_time_ns,omitempty"`
 	TsValid   bool   `protobuf:"varint,28,opt,name=ts_valid,json=tsValid,proto3" json:"ts_valid,omitempty"`
-	// The Redis stream key (logs:bus:0x<id>), the entry id, and the entry id's
+	// The Redis stream key (`logs:bus:0x<id>`), the entry id, and the entry id's
 	// millisecond (the Redis server's wall clock when the entry was appended).
 	Stream        string `protobuf:"bytes,29,opt,name=stream,proto3" json:"stream,omitempty"`
 	EntryId       string `protobuf:"bytes,30,opt,name=entry_id,json=entryId,proto3" json:"entry_id,omitempty"`
@@ -924,7 +924,7 @@ func (x *BusRecordBatch) GetEvicted() uint64 {
 // Sent once when a module-bus WebSocket connects.
 type BusStreamConnected struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Discovered module-bus stream ids (the `0x<id>` of each logs:bus:0x<id>).
+	// Discovered module-bus stream ids (the `0x<id>` of each `logs:bus:0x<id>`).
 	Streams       []string `protobuf:"bytes,1,rep,name=streams,proto3" json:"streams,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

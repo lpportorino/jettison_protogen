@@ -89,7 +89,7 @@ typedef struct _jon_can_BusRecord {
     /* Arrival number: 1 for the first message the relay decoded since it started. */
     uint64_t n;
     /* The row's title: the decode-table family name, the command root member that
- was set, or "refused: <code>". */
+ was set, or `"refused: <code>"`. */
     pb_callback_t title;
     /* What the message is (joncandec Kind*): "family", "health", "announce",
  "command", "debug", "log" or "unknown". */
@@ -149,7 +149,7 @@ typedef struct _jon_can_BusRecord {
     uint32_t frag_total;
     uint64_t tx_time_ns;
     bool ts_valid;
-    /* The Redis stream key (logs:bus:0x<id>), the entry id, and the entry id's
+    /* The Redis stream key (`logs:bus:0x<id>`), the entry id, and the entry id's
  millisecond (the Redis server's wall clock when the entry was appended). */
     pb_callback_t stream;
     pb_callback_t entry_id;
@@ -204,7 +204,7 @@ typedef struct _jon_can_BusRecordBatch {
 
 /* Sent once when a module-bus WebSocket connects. */
 typedef struct _jon_can_BusStreamConnected {
-    /* Discovered module-bus stream ids (the `0x<id>` of each logs:bus:0x<id>). */
+    /* Discovered module-bus stream ids (the `0x<id>` of each `logs:bus:0x<id>`). */
     pb_callback_t streams;
 } jon_can_BusStreamConnected;
 

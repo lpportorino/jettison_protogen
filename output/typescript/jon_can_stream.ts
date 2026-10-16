@@ -197,7 +197,7 @@ export interface BusRecord {
   n: Long;
   /**
    * The row's title: the decode-table family name, the command root member that
-   * was set, or "refused: <code>".
+   * was set, or `"refused: <code>"`.
    */
   title: string;
   /**
@@ -282,7 +282,7 @@ export interface BusRecord {
   txTimeNs: Long;
   tsValid: boolean;
   /**
-   * The Redis stream key (logs:bus:0x<id>), the entry id, and the entry id's
+   * The Redis stream key (`logs:bus:0x<id>`), the entry id, and the entry id's
    * millisecond (the Redis server's wall clock when the entry was appended).
    */
   stream: string;
@@ -345,7 +345,7 @@ export interface BusRecordBatch {
 
 /** Sent once when a module-bus WebSocket connects. */
 export interface BusStreamConnected {
-  /** Discovered module-bus stream ids (the `0x<id>` of each logs:bus:0x<id>). */
+  /** Discovered module-bus stream ids (the `0x<id>` of each `logs:bus:0x<id>`). */
   streams: string[];
 }
 

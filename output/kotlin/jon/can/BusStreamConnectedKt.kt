@@ -41,7 +41,7 @@ public object BusStreamConnectedKt {
     public class StreamsProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
     /**
      * ```
-     * Discovered module-bus stream ids (the `0x<id>` of each logs:bus:0x<id>).
+     * Discovered module-bus stream ids (the `0x<id>` of each `logs:bus:0x<id>`).
      * ```
      *
      * `repeated string streams = 1;`
@@ -54,7 +54,7 @@ public object BusStreamConnectedKt {
       )
     /**
      * ```
-     * Discovered module-bus stream ids (the `0x<id>` of each logs:bus:0x<id>).
+     * Discovered module-bus stream ids (the `0x<id>` of each `logs:bus:0x<id>`).
      * ```
      *
      * `repeated string streams = 1;`
@@ -67,7 +67,7 @@ public object BusStreamConnectedKt {
     }
     /**
      * ```
-     * Discovered module-bus stream ids (the `0x<id>` of each logs:bus:0x<id>).
+     * Discovered module-bus stream ids (the `0x<id>` of each `logs:bus:0x<id>`).
      * ```
      *
      * `repeated string streams = 1;`
@@ -81,7 +81,7 @@ public object BusStreamConnectedKt {
     }
     /**
      * ```
-     * Discovered module-bus stream ids (the `0x<id>` of each logs:bus:0x<id>).
+     * Discovered module-bus stream ids (the `0x<id>` of each `logs:bus:0x<id>`).
      * ```
      *
      * `repeated string streams = 1;`
@@ -94,7 +94,7 @@ public object BusStreamConnectedKt {
     }
     /**
      * ```
-     * Discovered module-bus stream ids (the `0x<id>` of each logs:bus:0x<id>).
+     * Discovered module-bus stream ids (the `0x<id>` of each `logs:bus:0x<id>`).
      * ```
      *
      * `repeated string streams = 1;`
@@ -108,7 +108,7 @@ public object BusStreamConnectedKt {
     }
     /**
      * ```
-     * Discovered module-bus stream ids (the `0x<id>` of each logs:bus:0x<id>).
+     * Discovered module-bus stream ids (the `0x<id>` of each `logs:bus:0x<id>`).
      * ```
      *
      * `repeated string streams = 1;`
@@ -121,7 +121,7 @@ public object BusStreamConnectedKt {
       _builder.setStreams(index, value)
     }/**
      * ```
-     * Discovered module-bus stream ids (the `0x<id>` of each logs:bus:0x<id>).
+     * Discovered module-bus stream ids (the `0x<id>` of each `logs:bus:0x<id>`).
      * ```
      *
      * `repeated string streams = 1;`

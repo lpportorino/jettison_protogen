@@ -64,7 +64,7 @@ public object BusRecordKt {
     /**
      * ```
      * The row's title: the decode-table family name, the command root member that
-     * was set, or "refused: <code>".
+     * was set, or `"refused: <code>"`.
      * ```
      *
      * `string title = 2;`
@@ -79,7 +79,7 @@ public object BusRecordKt {
     /**
      * ```
      * The row's title: the decode-table family name, the command root member that
-     * was set, or "refused: <code>".
+     * was set, or `"refused: <code>"`.
      * ```
      *
      * `string title = 2;`
@@ -726,7 +726,7 @@ public object BusRecordKt {
 
     /**
      * ```
-     * The Redis stream key (logs:bus:0x<id>), the entry id, and the entry id's
+     * The Redis stream key (`logs:bus:0x<id>`), the entry id, and the entry id's
      * millisecond (the Redis server's wall clock when the entry was appended).
      * ```
      *
@@ -741,7 +741,7 @@ public object BusRecordKt {
       }
     /**
      * ```
-     * The Redis stream key (logs:bus:0x<id>), the entry id, and the entry id's
+     * The Redis stream key (`logs:bus:0x<id>`), the entry id, and the entry id's
      * millisecond (the Redis server's wall clock when the entry was appended).
      * ```
      *

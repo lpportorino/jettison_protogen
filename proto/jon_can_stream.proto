@@ -108,7 +108,7 @@ message BusRecord {
   uint64 n = 1 [(buf.validate.field).uint64.gte = 1];
 
   // The row's title: the decode-table family name, the command root member that
-  // was set, or "refused: <code>".
+  // was set, or `"refused: <code>"`.
   string title = 2;
 
   // What the message is (joncandec Kind*): "family", "health", "announce",
@@ -182,7 +182,7 @@ message BusRecord {
   uint64 tx_time_ns = 27;
   bool ts_valid = 28;
 
-  // The Redis stream key (logs:bus:0x<id>), the entry id, and the entry id's
+  // The Redis stream key (`logs:bus:0x<id>`), the entry id, and the entry id's
   // millisecond (the Redis server's wall clock when the entry was appended).
   string stream = 29;
   string entry_id = 30;
@@ -234,7 +234,7 @@ message BusRecordBatch {
 
 // Sent once when a module-bus WebSocket connects.
 message BusStreamConnected {
-  // Discovered module-bus stream ids (the `0x<id>` of each logs:bus:0x<id>).
+  // Discovered module-bus stream ids (the `0x<id>` of each `logs:bus:0x<id>`).
   repeated string streams = 1;
 }
 
